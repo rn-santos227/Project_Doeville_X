@@ -36,9 +36,13 @@ void InputHandler::helpToggle() {
 }
 
 void InputHandler::debugToggle() {
-    std::cout << "Debug mode toggled!" << std::endl;
+  std::cout << "Debug mode toggled!" << std::endl;
 }
 
 void InputHandler::freezeGame() {
 
+}
+
+void InputHandler::restartGame() {
+  std::cout << "Game restarted!" << std::endl;
 }

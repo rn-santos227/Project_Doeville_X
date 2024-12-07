@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I./src
-LDFLAGS = -mconsole 
+CXXFLAGS = -std=c++17 -Wall -I./src -I"C:/msys64/mingw64/include" -I"C:/msys64/mingw64/include/SDL2" 
+LDFLAGS = -mconsole -L"C:/msys64/mingw64/lib" -lSDL2 -lSDL2main 
 
 SRC_DIR = src
 BUILD_DIR = build
@@ -14,7 +14,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(OBJECTS) -o $@
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)  
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)

@@ -17,3 +17,5 @@ $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -c $< -o $@

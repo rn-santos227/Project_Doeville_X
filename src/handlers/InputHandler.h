@@ -14,9 +14,11 @@ enum class InputAction {
   ACTION_2,
   ESCAPE,
   ENTER,
-  DEBUG_TOGGLE,
-  IMMEDIATE_EXIT,
   HELP_TOGGLE,
+  DEBUG_TOGGLE,
+  PAUSE_GAME,
+  RESTART_GAME,
+  IMMEDIATE_EXIT,
 }
 
 #endif 

@@ -8,7 +8,12 @@ class GameEngine {
 public:
   GameEngine();
   ~GameEngine();
-  
+
+  void init();
+  void run();
+  void update();
+  void render();
+
 };
 
 #endif

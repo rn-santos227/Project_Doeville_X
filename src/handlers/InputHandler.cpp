@@ -35,6 +35,10 @@ void InputHandler::handleInput(SDL_Event& event) {
   }
 }
 
+bool InputHandler::isKeyPressed(SDL_Scancode key) const {
+  return std::find(keyPressed.begin(), keyPressed.end(), key) != keyPressed.end();
+}
+
 void InputHandler::helpToggle() {
   std::cout << "Help toggled!" << std::endl;
 }

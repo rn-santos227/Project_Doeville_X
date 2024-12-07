@@ -46,3 +46,9 @@ void InputHandler::freezeGame() {
 void InputHandler::restartGame() {
   std::cout << "Game restarted!" << std::endl;
 }
+
+void InputHandler::immediateExit() {
+  std::cout << "Exiting immediately!" << std::endl;
+  SDL_Quit();
+  exit(0);
+}

@@ -25,6 +25,12 @@ class InputHandler {
 public:
   InputHandler();
   ~InputHandler();
+
+  void handleInput(SDL_Event& event);
+
+  bool isKeyPressed(SDL_Scancode key) const;
+  bool isActionTriggered(InputAction action) const;
+
 }
 
 #endif 

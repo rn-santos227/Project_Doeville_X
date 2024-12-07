@@ -28,7 +28,11 @@ void InputHandler::bindFunctionKeys() {
 }
 
 void InputHandler::handleInput(SDL_Event& event) {
-
+  if (event.type == SDL_KEYDOWN) {
+    SDL_Scancode key = event.key.keysym.scancode;
+  } else if (event.type == SDL_KEYUP) {
+    SDL_Scancode key = event.key.keysym.scancode;
+  }
 }
 
 void InputHandler::helpToggle() {

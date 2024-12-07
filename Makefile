@@ -23,3 +23,6 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
+
+run: $(TARGET)
+	./$(TARGET)

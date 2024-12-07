@@ -8,7 +8,7 @@ BIN_DIR = bin
 SOURCES = $(SRC_DIR)/main.cpp
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
-TARGET = $(BIN_DIR)/$(notdir $(dir $(realpath $(lastword $(MAKEFILE_LIST))))))
+TARGET = $(BIN_DIR)/$(notdir $(CURDIR))
 
 all: $(TARGET)
 

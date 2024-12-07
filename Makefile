@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I./src -I"C:/msys64/mingw64/include" -I"C:/msys64/mingw64/include/SDL2" 
-LDFLAGS = -mconsole -L"C:/msys64/mingw64/lib" -lSDL2 -lSDL2main 
+CXXFLAGS = -std=c++17 -Wall -I./src $(shell pkg-config --cflags sdl2)
+LDFLAGS = $(shell pkg-config --libs sdl2)
 
 SRC_DIR = src
 BUILD_DIR = build

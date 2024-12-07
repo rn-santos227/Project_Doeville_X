@@ -3,3 +3,9 @@
 
 #include <iostream>
 #include <chrono>
+
+class GameEngine {
+
+};
+
+#endif

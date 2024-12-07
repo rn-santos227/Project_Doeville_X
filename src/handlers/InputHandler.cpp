@@ -48,6 +48,10 @@ void InputHandler::setKeyBinding(InputAction action, SDL_Scancode key) {
   keyBindings[action] = key;
 }
 
+void InputHandler::setKeyPressed(SDL_Scancode key) {
+  keyPressed.push_back(key);
+}
+
 void InputHandler::helpToggle() {
   std::cout << "Help toggled!" << std::endl;
 }

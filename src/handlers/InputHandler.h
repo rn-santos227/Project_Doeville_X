@@ -21,4 +21,10 @@ enum class InputAction {
   IMMEDIATE_EXIT,
 }
 
+class InputHandler {
+public:
+  InputHandler();
+  ~InputHandler();
+}
+
 #endif 

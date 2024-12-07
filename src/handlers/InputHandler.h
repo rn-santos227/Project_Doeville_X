@@ -27,10 +27,17 @@ public:
   ~InputHandler();
 
   void handleInput(SDL_Event& event);
-
   bool isKeyPressed(SDL_Scancode key) const;
   bool isActionTriggered(InputAction action) const;
 
+private:
+  std::vector<SDL_Scancode> keyPressed;
+  std::vector<SDL_Scancode> keyReleased;
+
+  InputAction currentAction;
+
+  void setKeyPressed(SDL_Scancode key);
+  void setKeyReleased(SDL_Scancode key);
 }
 
 #endif 

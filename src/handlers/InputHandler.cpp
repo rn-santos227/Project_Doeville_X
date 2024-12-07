@@ -44,6 +44,10 @@ bool InputHandler::isActionTriggered(InputAction action) const {
   return isKeyPressed(boundKey);
 }
 
+void InputHandler::setKeyBinding(InputAction action, SDL_Scancode key) {
+  keyBindings[action] = key;
+}
+
 void InputHandler::helpToggle() {
   std::cout << "Help toggled!" << std::endl;
 }

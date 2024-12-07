@@ -9,4 +9,7 @@ int main() {
     //temporary breaks the loop
     break;
   }
+
+  std::cout << "Exiting Game Engine." << std::endl;
+  return 0;
 }

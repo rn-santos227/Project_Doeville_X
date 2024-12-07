@@ -6,3 +6,7 @@
 InputHandler::InputHandler() : currentAction(InputAction::NONE) {}
 
 InputHandler::~InputHandler() {}
+
+void InputHandler::handleInput(SDL_Event& event) {
+
+}

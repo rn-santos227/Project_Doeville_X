@@ -1,11 +1,12 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I./src
+CXXFLAGS = -std=c++17 -Wall -I./src `sdl2-config --cflags`
+LDFLAGS = `sdl2-config --libs`
 
 SRC_DIR = src
 BUILD_DIR = build
 BIN_DIR = bin
 
-SOURCES = $(SRC_DIR)/main.cpp
+SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp)
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
 TARGET = $(BIN_DIR)/$(notdir $(CURDIR))

@@ -13,9 +13,19 @@ InputHandler::InputHandler() {
   keyBindings[InputAction::ENTER] = SDL_SCANCODE_RETURN;
   keyBindings[InputAction::ACTION_1] = SDL_SCANCODE_Z;
   keyBindings[InputAction::ACTION_2] = SDL_SCANCODE_Y;
+
+  bindFunctionKeys();
 }
 
 InputHandler::~InputHandler() {}
+
+void InputHandler::bindFunctionKeys() {
+  functionKeyActions[SDL_SCANCODE_F1] = [this]() { helpToggle(); };
+  functionKeyActions[SDL_SCANCODE_F2] = [this]() { debugToggle(); };
+  functionKeyActions[SDL_SCANCODE_F3] = [this]() { freezeGame(); }; 
+  functionKeyActions[SDL_SCANCODE_F4] = [this]() { restartGame(); };
+  functionKeyActions[SDL_SCANCODE_F5] = [this]() { immediateExit(); };
+}
 
 void InputHandler::handleInput(SDL_Event& event) {
 

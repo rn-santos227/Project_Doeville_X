@@ -14,6 +14,10 @@ public:
   void update();
   void render();
 
+private:
+  bool isRunning;
+  std::chrono::steady_clock::time_point lastTime;
+  int frameCount;
 };
 
 #endif

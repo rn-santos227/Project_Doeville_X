@@ -5,7 +5,10 @@
 #include <chrono>
 
 class GameEngine {
-
+public:
+  GameEngine();
+  ~GameEngine();
+  
 };
 
 #endif

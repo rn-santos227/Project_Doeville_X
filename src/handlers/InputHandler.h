@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <unordered_map>
+#include <vector>
 
 enum class InputAction {
   NONE,
@@ -16,7 +17,7 @@ enum class InputAction {
   ENTER,
   HELP_TOGGLE,
   DEBUG_TOGGLE,
-  PAUSE_GAME,
+  FREEZE_GAME,
   RESTART_GAME,
   IMMEDIATE_EXIT,
 }
@@ -29,8 +30,11 @@ public:
   void handleInput(SDL_Event& event);
   bool isKeyPressed(SDL_Scancode key) const;
   bool isActionTriggered(InputAction action) const;
+  void setKeyBinding(InputAction action, SDL_Scancode key);
 
 private:
+  std::unordered_map<InputAction, SDL_Scancode> keyBindings;
+  std::unordered_map<int, void(*)()> functionKeyActions;
   std::vector<SDL_Scancode> keyPressed;
   std::vector<SDL_Scancode> keyReleased;
 
@@ -38,6 +42,14 @@ private:
 
   void setKeyPressed(SDL_Scancode key);
   void setKeyReleased(SDL_Scancode key);
+
+  void bindFunctionKeys();
+
+  void helpToggle();
+  void debugToggle();
+  void freezeGame();
+  void restartGame();
+  void immediateExit();
 }
 
 #endif 

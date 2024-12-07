@@ -16,6 +16,7 @@ enum class InputAction {
   ENTER,
   DEBUG_TOGGLE,
   IMMEDIATE_EXIT,
+  HELP_TOGGLE,
 }
 
 #endif 

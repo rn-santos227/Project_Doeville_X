@@ -34,3 +34,7 @@ void InputHandler::handleInput(SDL_Event& event) {
 void InputHandler::helpToggle() {
   std::cout << "Help toggled!" << std::endl;
 }
+
+void InputHandler::freezeGame() {
+
+}

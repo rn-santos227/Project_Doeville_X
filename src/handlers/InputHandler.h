@@ -28,9 +28,10 @@ public:
   ~InputHandler();
 
   void handleInput(SDL_Event& event);
+  void setKeyBinding(InputAction action, SDL_Scancode key);
   bool isKeyPressed(SDL_Scancode key) const;
   bool isActionTriggered(InputAction action) const;
-  void setKeyBinding(InputAction action, SDL_Scancode key);
+
 
 private:
   std::unordered_map<InputAction, SDL_Scancode> keyBindings;

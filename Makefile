@@ -1,16 +1,14 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -I./src
+LDFLAGS = -mconsole 
 
 SRC_DIR = src
 BUILD_DIR = build
 BIN_DIR = bin
 
-SOURCES = $(SRC_DIR)/main.cpp
+SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(SRC_DIR)/main.cpp
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
-
-TARGET = $(BIN_DIR)/$(notdir $(CURDIR))
-
-CXXFLAGS += -mconsole
+TARGET = $(BIN_DIR)/project_doeville_x
 
 all: $(TARGET)
 

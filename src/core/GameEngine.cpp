@@ -1,5 +1,9 @@
 #include "GameEngine.h"
 
+GameEngine::GameEngine() : isRunning(false), frameCount(0) {
+  std::cout << "Game Engine Initialized!" << std::endl;
+}
+
 GameEngine::~GameEngine() {
   std::cout << "Game Engine Shut Down!" << std::endl;
 }
@@ -24,4 +28,11 @@ void GameEngine::update() {
 
 void GameEngine::render() {
   std::cout << "Rendering game objects..." << std::endl;
+}
+
+void GameEngine::run() {
+  while (isRunning) {
+    update();
+    render();
+  }
 }

@@ -20,6 +20,7 @@ InputHandler::InputHandler() {
 
   bindFunctionKeys();
   isFrozen = false;
+  isDebugMode = false;
 }
 
 InputHandler::~InputHandler() {}
@@ -73,7 +74,8 @@ void InputHandler::helpToggle() {
 }
 
 void InputHandler::debugToggle() {
-  std::cout << "Debug mode toggled!" << std::endl;
+  isDebugMode = !isDebugMode;
+  std::cout << (isFrozen ? "Debug Mode On!" : "Debug Mode Off") << std::endl;
 }
 
 void InputHandler::freezeGame() {

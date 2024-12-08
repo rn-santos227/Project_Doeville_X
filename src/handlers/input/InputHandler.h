@@ -30,9 +30,11 @@ public:
 
   void handleInput(SDL_Event& event);
   void setKeyBinding(InputAction action, SDL_Scancode key);
+  
   bool isKeyPressed(SDL_Scancode key) const;
   bool isActionTriggered(InputAction action) const;
   bool isGameFrozen() const { return isFrozen; }
+  bool isGameDebugMode() const { return isDebugMode; }
 
 private:
   std::unordered_map<InputAction, SDL_Scancode> keyBindings;
@@ -41,7 +43,9 @@ private:
   std::vector<SDL_Scancode> keyReleased;
 
   InputAction currentAction;
+  
   bool isFrozen; 
+  bool isDebugMode;
 
   void setKeyPressed(SDL_Scancode key);
   void setKeyReleased(SDL_Scancode key);

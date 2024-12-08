@@ -34,6 +34,8 @@ private:
   
   bool debugMode;
   bool running;
+
+  void renderFPS();
 };
 
 #endif

@@ -47,13 +47,16 @@ void ScreenHandler::clear() {
 
 void ScreenHandler::render() {
   if (renderer) {
-    //
+    if (inputHandler.isGameDebugMode()) {
+      
+    }
   } else {
     std::cerr << "Renderer is null!" << std::endl;
   }
 }
 
 void ScreenHandler::update() {
+  framesCounter.update();
   SDL_RenderPresent(renderer); 
 }
 
@@ -68,4 +71,8 @@ void ScreenHandler::handleEvents() {
 
 bool ScreenHandler::isRunning() const {
   return running;
+}
+
+void ScreenHandler::renderFPS() {
+
 }

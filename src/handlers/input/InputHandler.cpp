@@ -1,8 +1,12 @@
 #include "InputHandler.h"
-#include <SDL2/SDL.h>
-#include <unordered_map>
+
+#include <algorithm>
 #include <functional>
 #include <iostream>
+#include <unordered_map>
+#include <vector>
+
+#include <SDL2/SDL.h>
 
 InputHandler::InputHandler() {
   keyBindings[InputAction::UP] = SDL_SCANCODE_W;
@@ -15,6 +19,7 @@ InputHandler::InputHandler() {
   keyBindings[InputAction::ACTION_2] = SDL_SCANCODE_Y;
 
   bindFunctionKeys();
+  isFrozen = false;
 }
 
 InputHandler::~InputHandler() {}
@@ -30,8 +35,15 @@ void InputHandler::bindFunctionKeys() {
 void InputHandler::handleInput(SDL_Event& event) {
   if (event.type == SDL_KEYDOWN) {
     SDL_Scancode key = event.key.keysym.scancode;
+    setKeyPressed(key);
+
+    if (functionKeyActions.find(key) != functionKeyActions.end()) {
+      functionKeyActions[key]();
+    }
+
   } else if (event.type == SDL_KEYUP) {
     SDL_Scancode key = event.key.keysym.scancode;
+    setKeyReleased(key);
   }
 }
 
@@ -52,6 +64,10 @@ void InputHandler::setKeyPressed(SDL_Scancode key) {
   keyPressed.push_back(key);
 }
 
+void InputHandler::setKeyReleased(SDL_Scancode key) {
+  keyPressed.erase(std::remove(keyPressed.begin(), keyPressed.end(), key), keyPressed.end());
+}
+
 void InputHandler::helpToggle() {
   std::cout << "Help toggled!" << std::endl;
 }
@@ -61,7 +77,8 @@ void InputHandler::debugToggle() {
 }
 
 void InputHandler::freezeGame() {
-
+  isFrozen = !isFrozen;
+  std::cout << (isFrozen ? "Game frozen!" : "Game resumed!") << std::endl;
 }
 
 void InputHandler::restartGame() {

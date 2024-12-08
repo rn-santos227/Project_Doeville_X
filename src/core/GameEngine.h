@@ -2,7 +2,10 @@
 #define GAMEENGINE_H
 
 #include <iostream>
-#include <chrono>
+
+#include <SDL2/SDL.h>
+#include "handlers/input/InputHandler.h"
+#include "handlers/screen/ScreenHandler.h"
 
 class GameEngine {
 public:
@@ -11,13 +14,19 @@ public:
 
   void init();
   void run();
-  void update();
-  void render();
+  void clean();
 
 private:
+  SDL_Window* window;
+  SDL_Renderer* renderer;
   bool isRunning;
-  std::chrono::steady_clock::time_point lastTime;
-  int frameCount;
+
+  InputHandler inputHandler;
+  ScreenHandler screenHandler;
+
+  void handleEvents();
+  void update();
+  void render();
 };
 
 #endif

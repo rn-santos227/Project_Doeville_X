@@ -1,12 +1,12 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I./src $(shell pkg-config --cflags sdl2)
-LDFLAGS = $(shell pkg-config --libs sdl2)
+CXXFLAGS += `sdl2-config --cflags` -I src -I/usr/include/SDL2
+LDFLAGS += `sdl2-config --libs`-lSDL2_ttf
 
 SRC_DIR = src
 BUILD_DIR = build
 BIN_DIR = bin
 
-SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(SRC_DIR)/main.cpp
+SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/**/**/*.cpp) $(SRC_DIR)/main.cpp
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 TARGET = $(BIN_DIR)/project_doeville_x
 

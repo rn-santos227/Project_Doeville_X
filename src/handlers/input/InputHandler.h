@@ -2,7 +2,8 @@
 #define INPUT_HANDLER_H
 
 #include <SDL2/SDL.h>
-#include <unordered_map>
+#include <functional>
+#include <unordered_map> 
 #include <vector>
 
 enum class InputAction {
@@ -20,7 +21,7 @@ enum class InputAction {
   FREEZE_GAME,
   RESTART_GAME,
   IMMEDIATE_EXIT,
-}
+};
 
 class InputHandler {
 public:
@@ -31,15 +32,16 @@ public:
   void setKeyBinding(InputAction action, SDL_Scancode key);
   bool isKeyPressed(SDL_Scancode key) const;
   bool isActionTriggered(InputAction action) const;
-
+  bool isGameFrozen() const { return isFrozen; }
 
 private:
   std::unordered_map<InputAction, SDL_Scancode> keyBindings;
-  std::unordered_map<int, void(*)()> functionKeyActions;
+  std::unordered_map<int, std::function<void()>> functionKeyActions; 
   std::vector<SDL_Scancode> keyPressed;
   std::vector<SDL_Scancode> keyReleased;
 
   InputAction currentAction;
+  bool isFrozen; 
 
   void setKeyPressed(SDL_Scancode key);
   void setKeyReleased(SDL_Scancode key);
@@ -51,6 +53,6 @@ private:
   void freezeGame();
   void restartGame();
   void immediateExit();
-}
+};
 
-#endif 
+#endif

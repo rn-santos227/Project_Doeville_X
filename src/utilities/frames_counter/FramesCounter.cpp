@@ -5,8 +5,10 @@ FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequenc
 void FramesCounter::update() {
   frameCount++;
   Uint64 currentTime = SDL_GetPerformanceCounter();
+  
+  double elapsedTime = (currentTime - lastTime) / (double)frequency * 1000;
 
-  if (currentTime - lastTime >= 1000) {
+  if (elapsedTime >= 1000.0) {
     fps = frameCount;
     frameCount = 0;
     lastTime = currentTime;

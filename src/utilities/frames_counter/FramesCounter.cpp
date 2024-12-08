@@ -1,10 +1,10 @@
 #include "FramesCounter.h"
 
-FramesCounter::FramesCounter() : frameCount(0), lastTime(SDL_GetTicks()), fps(0) {}
+FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequency(SDL_GetPerformanceFrequency()), frameCount(0), fps(0) {}
 
 void FramesCounter::update() {
   frameCount++;
-  Uint32 currentTime = SDL_GetTicks();
+  Uint64 currentTime = SDL_GetPerformanceCounter();
 
   if (currentTime - lastTime >= 1000) {
     fps = frameCount;

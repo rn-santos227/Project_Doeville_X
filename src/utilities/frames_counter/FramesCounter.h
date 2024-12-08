@@ -13,8 +13,9 @@ public:
   int getFPS() const; 
 
 private:
+  Uint64 lastTime;
+  Uint64 frequency;
   int frameCount;
-  Uint32 lastTime;
   int fps;
 };
 

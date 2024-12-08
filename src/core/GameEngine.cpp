@@ -27,7 +27,8 @@ void GameEngine::run() {
     handleEvents();
     update();
     render();
-    SDL_Delay(16);
+
+
   }
   clean();
 }
@@ -51,6 +52,10 @@ void GameEngine::update() {
 void GameEngine::render() {
   screenHandler.render();
   screenHandler.update(); 
+}
+
+void GameEngine::handleFrameRate() {
+  //For Optimization
 }
 
 void GameEngine::clean() {

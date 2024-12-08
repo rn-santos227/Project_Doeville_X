@@ -10,6 +10,8 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 
+#include "utilities/frames_counter/FramesCounter.h"
+
 class GameEngine {
 public:
   GameEngine();
@@ -29,9 +31,13 @@ private:
   ResourcesHandler resourcesHandler;
   ScreenHandler screenHandler;
 
+  FramesCounter framesCounter; 
+
   void handleEvents();
   void update();
   void render();
+
+  void handleFrameRate();
 };
 
 #endif

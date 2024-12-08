@@ -10,6 +10,11 @@ void GameEngine::init() {
     return;
   }
 
+  if (!fontHandler.loadFont("doeville", "/resources/font/doeville.ttf", 24)) {
+    std::cerr << "Failed to load required font 'doeville'!" << std::endl;
+    return;
+  }
+
   inputHandler.setKeyBinding(InputAction::HELP_TOGGLE, SDL_SCANCODE_F1);
   isRunning = true;
 }

@@ -66,6 +66,7 @@ void ScreenHandler::handleEvents() {
     if (e.type == SDL_QUIT) {
       running = false;
     }
+    inputHandler.handleInput(e);
   }
 }
 
@@ -83,5 +84,11 @@ void ScreenHandler::renderFPS() {
   if (fpsTexture) {
     int textWidth, textHeight;
     SDL_QueryTexture(fpsTexture, nullptr, nullptr, &textWidth, &textHeight);
+
+    SDL_Rect destRect = {800 - textWidth - 10, 10, textWidth, textHeight};
+    SDL_RenderCopy(renderer, fpsTexture, nullptr, &destRect);
+    SDL_DestroyTexture(fpsTexture);
+  } else {
+    std::cerr << "Failed to render FPS text!" << std::endl;
   }
 }

@@ -56,7 +56,6 @@ void ScreenHandler::render() {
 }
 
 void ScreenHandler::update() {
-  framesCounter.update();
   SDL_RenderPresent(renderer); 
 }
 

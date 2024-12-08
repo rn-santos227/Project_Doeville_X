@@ -23,12 +23,27 @@ void GameEngine::init() {
 }
 
 void GameEngine::run() {
+  Uint32 lastTime = SDL_GetTicks();
+  Uint32 accumulator = 0;
+  const Uint32 msPerUpdate = 16;
+
   while (isRunning) {
+    Uint32 currentTime = SDL_GetTicks();
+    Uint32 deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+    accumulator += deltaTime;
+
     handleEvents();
-    update();
+
+    while (accumulator >= msPerUpdate) {
+      update();
+      accumulator -= msPerUpdate;
+    }
+
     render();
-
-
+    
+    framesCounter.update();
+    handleFrameRate();
   }
   clean();
 }

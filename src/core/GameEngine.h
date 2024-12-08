@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL.h>
 #include "handlers/input/InputHandler.h"
+#include "handlers/font/FontHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 
 class GameEngine {
@@ -22,6 +23,7 @@ private:
   bool isRunning;
 
   InputHandler inputHandler;
+  FontHandler fontHandler;
   ScreenHandler screenHandler;
 
   void handleEvents();

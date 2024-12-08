@@ -6,11 +6,13 @@
 #include <SDL2/SDL.h>
 
 #include "handlers/font/FontHandler.h"
+#include "handlers/input/InputHandler.h"
+
 #include "utilities/frames_counter/FramesCounter.h"
 
 class ScreenHandler {
 public:
-  ScreenHandler(FontHandler& fontHandler);
+  ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler);
   ~ScreenHandler();
 
   bool init();
@@ -26,7 +28,8 @@ private:
   SDL_Renderer* renderer;
 
   FontHandler& fontHandler;
-  
+  InputHandler& inputHandler;
+
   FramesCounter framesCounter;
   
   bool debugMode;

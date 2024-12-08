@@ -3,7 +3,8 @@
 
 #include "ScreenHandler.h"
 
-ScreenHandler::ScreenHandler() : window(nullptr), renderer(nullptr), running(false) {}
+ScreenHandler::ScreenHandler(FontHandler& fontHandler) 
+    : window(nullptr), renderer(nullptr), running(false), debugMode(false), fontHandler(fontHandler) {}
 
 ScreenHandler::~ScreenHandler() {
   SDL_DestroyRenderer(renderer);

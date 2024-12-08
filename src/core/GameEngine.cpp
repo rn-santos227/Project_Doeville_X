@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false) {}
+GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), screenHandler(fontHandler) {}
+
 GameEngine::~GameEngine() {}
 
 void GameEngine::init() {

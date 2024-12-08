@@ -5,11 +5,12 @@
 
 #include <SDL2/SDL.h>
 
+#include "handlers/font/FontHandler.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
 class ScreenHandler {
 public:
-  ScreenHandler();
+  ScreenHandler(FontHandler& fontHandler);
   ~ScreenHandler();
 
   bool init();
@@ -24,7 +25,10 @@ private:
   SDL_Window* window;
   SDL_Renderer* renderer;
 
+  FontHandler& fontHandler;
+  
   FramesCounter framesCounter;
+  
   bool debugMode;
   bool running;
 };

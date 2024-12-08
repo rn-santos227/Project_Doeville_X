@@ -4,8 +4,10 @@
 #include <iostream>
 
 #include <SDL2/SDL.h>
+
 #include "handlers/input/InputHandler.h"
 #include "handlers/font/FontHandler.h"
+#include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 
 class GameEngine {
@@ -24,6 +26,7 @@ private:
 
   InputHandler inputHandler;
   FontHandler fontHandler;
+  ResourcesHandler resourcesHandler;
   ScreenHandler screenHandler;
 
   void handleEvents();

@@ -12,7 +12,7 @@
 
 class ScreenHandler {
 public:
-  ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler);
+  ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, FramesCounter& frameCounter);
   ~ScreenHandler();
 
   bool init();
@@ -29,12 +29,9 @@ private:
 
   FontHandler& fontHandler;
   InputHandler& inputHandler;
-
-  FramesCounter framesCounter;
+  FramesCounter& framesCounter;
   
-  bool debugMode;
   bool running;
-
   void renderFPS();
 };
 

@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), inputHandler(), fontHandler(), screenHandler(fontHandler, inputHandler) {}
+GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), inputHandler(), fontHandler(), framesCounter(), screenHandler(fontHandler, inputHandler, framesCounter) {}
 
 GameEngine::~GameEngine() {}
 
@@ -23,27 +23,22 @@ void GameEngine::init() {
 }
 
 void GameEngine::run() {
-  Uint32 lastTime = SDL_GetTicks();
-  Uint32 accumulator = 0;
-  const Uint32 msPerUpdate = 16;
+  Uint32 frameStartTime;
 
   while (isRunning) {
-    Uint32 currentTime = SDL_GetTicks();
-    Uint32 deltaTime = currentTime - lastTime;
-    lastTime = currentTime;
-    accumulator += deltaTime;
+    frameStartTime = SDL_GetTicks();
 
     handleEvents();
+    update();
 
-    while (accumulator >= msPerUpdate) {
-      update();
-      accumulator -= msPerUpdate;
-    }
-
+    framesCounter.update();
+    
     render();
     
-    framesCounter.update();
-    handleFrameRate();
+    Uint32 frameDuration = SDL_GetTicks() - frameStartTime;
+    if (frameDuration < 16) {  
+      SDL_Delay(16 - frameDuration); 
+    }
   }
   clean();
 }

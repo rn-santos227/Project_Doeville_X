@@ -1,10 +1,8 @@
 #include "FontHandler.h"
 #include <iostream>
 
-FontHandler::FontHandler() {
-  if (TTF_Init() == -1) {
-    std::cerr << "Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
-  }
+FontHandler::FontHandler(LogsManager& logsManager) : logsManager("resources/log.txt") {
+  logsManager.checkAndLogError(TTF_Init() == -1, "Failed to initialize SDL_ttf: " + std::string(TTF_GetError()), false);
 }
 
 FontHandler::~FontHandler() {
@@ -14,8 +12,7 @@ FontHandler::~FontHandler() {
 
 bool FontHandler::loadFont(const std::string& fontId, const std::string& filePath, int fontSize) {
   TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
-  if(!font) {
-    std::cerr << "Failed to load font (" << filePath << "): " << TTF_GetError() << std::endl;
+  if(logsManager.checkAndLogError(!font,  "Failed to initialize SDL_ttf: "  + std::string(TTF_GetError()), false)) {
     return false;
   }
 
@@ -25,23 +22,21 @@ bool FontHandler::loadFont(const std::string& fontId, const std::string& filePat
 
 SDL_Texture* FontHandler::renderText(SDL_Renderer* renderer, const std::string& text, const std::string& fontId, SDL_Color color) {
   auto it = fonts.find(fontId);
-  if (it == fonts.end()) {
-    std::cerr << "Font ID \"" << fontId << "\" not found!" << std::endl;
+  if (logsManager.checkAndLogError(it == fonts.end(), "Font ID \"" + fontId + "\" not found!", nullptr)) {
     return nullptr;
   }
 
   TTF_Font* font = it->second;
   SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
-  if (!textSurface) {
-    std::cerr << "Failed to create text surface: " << TTF_GetError() << std::endl;
+
+  if (logsManager.checkAndLogError(!textSurface, "Failed to create text surface: " + std::string(TTF_GetError()), nullptr)) {
     return nullptr;
   }
 
   SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
   SDL_FreeSurface(textSurface);
-  if (!textTexture) {
-    std::cerr << "Failed to create texture from text: " << SDL_GetError() << std::endl;
-  }
+
+  logsManager.checkAndLogError(!textTexture, "Failed to create texture from text: " + std::string(SDL_GetError()), nullptr);
 
   return textTexture;
 }

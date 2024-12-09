@@ -6,9 +6,11 @@
 #include <string>
 #include <unordered_map>
 
+#include "utilities/logs_manager/LogsManager.h"
+
 class FontHandler {
 public:
-  FontHandler();
+  FontHandler(LogsManager& LogsManager);
   ~FontHandler();
 
   bool loadFont(const std::string& fontId, const std::string& path, int fontSize);
@@ -16,6 +18,8 @@ public:
   void cleanup();
 
 private:
+  LogsManager logsManager;
+  
   std::unordered_map<std::string, TTF_Font*> fonts;
 };
 

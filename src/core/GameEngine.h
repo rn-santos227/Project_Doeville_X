@@ -10,6 +10,7 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 
+#include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
 class GameEngine {
@@ -24,14 +25,16 @@ public:
 private:
   SDL_Window* window;
   SDL_Renderer* renderer;
-  bool isRunning;
 
   InputHandler inputHandler;
   FontHandler fontHandler;
   ResourcesHandler resourcesHandler;
   ScreenHandler screenHandler;
 
+  LogsManager logsManager;
   FramesCounter framesCounter; 
+
+  bool isRunning;
 
   void handleEvents();
   void update();

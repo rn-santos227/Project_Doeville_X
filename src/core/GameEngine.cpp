@@ -1,20 +1,18 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), inputHandler(), fontHandler(), framesCounter(), screenHandler(fontHandler, inputHandler, framesCounter) {}
+GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), inputHandler(), fontHandler(), framesCounter(), logsManager("resources/log.txt"), screenHandler(fontHandler, inputHandler, framesCounter) {}
 
 GameEngine::~GameEngine() {}
 
 void GameEngine::init() {
   std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/doeville.ttf");
   
-  if (!screenHandler.init()) {
-    std::cerr << "ScreenHandler initialization failed!" << std::endl;
+  if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!", false)) {
     isRunning = false;
     return;
   }
 
-  if (!fontHandler.loadFont("doeville", fontPath.c_str(), 24)) {
-    std::cerr << "Failed to load required font 'doeville'!" << std::endl;
+  if (logsManager.checkAndLogError(!fontHandler.loadFont("doeville", fontPath.c_str(), 24), "Failed to load required font 'doeville'!", false)) {
     return;
   }
 
@@ -49,7 +47,7 @@ void GameEngine::handleEvents() {
     inputHandler.handleInput(event); 
 
     if (event.type == SDL_QUIT) {
-      std::cout << "Quit event received" << std::endl;
+      logsManager.logMessage("Quit event received");
       isRunning = false;
     }
   }

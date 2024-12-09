@@ -19,6 +19,7 @@ public:
   template <typename T>
   T checkAndLogError(bool condition, const std::string& errorMsg, T returnValue) {
     if (condition) {
+      logError(errorMsg + " SDL_Error: " + SDL_GetError());
       return returnValue;
     }
   }

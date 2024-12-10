@@ -1,7 +1,8 @@
 #include "FontHandler.h"
+
 #include <iostream>
 
-FontHandler::FontHandler(LogsManager& logsManager) : logsManager("resources/log.txt") {
+FontHandler::FontHandler(LogsManager& logsManager) : logsManager() {
   logsManager.checkAndLogError(TTF_Init() == -1, "Failed to initialize SDL_ttf: " + std::string(TTF_GetError()), false);
 }
 

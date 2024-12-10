@@ -1,7 +1,9 @@
 #include "LogsManager.h"
 
-LogsManager::LogsManager(const std::string& logFilePath) : logFilePath(logFilePath) {
+LogsManager::LogsManager() {
+  std::string logFilePath = "resources/logs/log.txt";
   logFile.open(logFilePath, std::ios_base::app);
+  
   if (!logFile.is_open()) {
     logFile.open(logFilePath, std::ios_base::out);
     if (!logFile.is_open()) {

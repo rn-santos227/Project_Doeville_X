@@ -1,7 +1,7 @@
+#include "ScreenHandler.h"
+
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
-
-#include "ScreenHandler.h"
 
 ScreenHandler::ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, FramesCounter& framesCounter)
     : window(nullptr), renderer(nullptr), running(false), fontHandler(fontHandler), inputHandler(inputHandler), framesCounter(framesCounter) {}

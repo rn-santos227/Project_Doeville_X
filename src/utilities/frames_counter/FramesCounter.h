@@ -1,8 +1,9 @@
 #ifndef FRAME_COUNTER_H
 #define FRAME_COUNTER_H
 
-#include <SDL2/SDL.h>
 #include <iostream>
+
+#include <SDL2/SDL.h>
 
 class FramesCounter {
 public:

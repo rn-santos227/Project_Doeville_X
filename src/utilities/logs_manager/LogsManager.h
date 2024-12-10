@@ -10,7 +10,7 @@
 
 class LogsManager {
 public:
-  LogsManager(const std::string& logFilePath);
+  LogsManager();
   ~LogsManager();
 
   void logError(const std::string& message);
@@ -22,11 +22,11 @@ public:
       logError(errorMsg + " SDL_Error: " + SDL_GetError());
       return returnValue;
     }
+    return T();
   }
 
 private:
   std::ofstream logFile;
-  std::string logFilePath;
 
   std::string getCurrentTimestamp();
 };

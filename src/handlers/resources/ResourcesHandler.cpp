@@ -1,7 +1,9 @@
 #include "ResourcesHandler.h"
-#include <iostream>
-#include <SDL2/SDL.h>
+
 #include <cstdlib> 
+#include <iostream>
+
+#include <SDL2/SDL.h>
 
 std::string ResourcesHandler::getBasePath() {
   char* basePath = SDL_GetBasePath();

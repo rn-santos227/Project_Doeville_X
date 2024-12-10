@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), logsManager("resources/log.txt"), inputHandler(), fontHandler(logsManager), framesCounter(), screenHandler(fontHandler, inputHandler, framesCounter) {}
+GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), logsManager(), inputHandler(), fontHandler(logsManager), framesCounter(), screenHandler(fontHandler, inputHandler, framesCounter) {}
 
 GameEngine::~GameEngine() {}
 

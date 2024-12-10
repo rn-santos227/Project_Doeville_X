@@ -3,7 +3,7 @@
 #include <iostream>
 
 FontHandler::FontHandler(LogsManager& logsManager) : logsManager() {
-  logsManager.checkAndLogError(TTF_Init() == -1, "Failed to initialize SDL_ttf: " + std::string(TTF_GetError()), false);
+  logsManager.checkAndLogError(TTF_Init() == -1, "Failed to initialize SDL_ttf: " + std::string(TTF_GetError()));
 }
 
 FontHandler::~FontHandler() {
@@ -13,7 +13,7 @@ FontHandler::~FontHandler() {
 
 bool FontHandler::loadFont(const std::string& fontId, const std::string& filePath, int fontSize) {
   TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
-  if(logsManager.checkAndLogError(!font,  "Failed to initialize SDL_ttf: "  + std::string(TTF_GetError()), false)) {
+  if(logsManager.checkAndLogError(!font,  "Failed to initialize SDL_ttf: "  + std::string(TTF_GetError()))) {
     return false;
   }
 

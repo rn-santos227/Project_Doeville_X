@@ -34,7 +34,6 @@ private:
   LogsManager& logsManager;
   FramesCounter& framesCounter;
   
-  
   bool running;
   void renderFPS();
 };

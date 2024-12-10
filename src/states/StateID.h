@@ -1,5 +1,5 @@
-#ifndef STATEID_H
-#define STATEID_H
+#ifndef STATE_ID_H
+#define STATE_ID_H
 
 enum class StateID {
   StaticGameState,

@@ -39,7 +39,7 @@ void ScreenHandler::clear() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
   } else {
-    logsManager.logError("Renderer is null!");
+    logsManager.logError("Renderer is null.");
   }
 }
 
@@ -49,7 +49,7 @@ void ScreenHandler::render() {
       renderFPS();
     }
   } else {
-    logsManager.logError("Renderer is null!");
+    logsManager.logError("Renderer is null.");
   }
 }
 
@@ -86,6 +86,6 @@ void ScreenHandler::renderFPS() {
     SDL_RenderCopy(renderer, fpsTexture, nullptr, &destRect);
     SDL_DestroyTexture(fpsTexture);
   } else {
-    std::cerr << "Failed to render FPS text!" << std::endl;
+    logsManager.logError("Failed to render FPS text.");
   }
 }

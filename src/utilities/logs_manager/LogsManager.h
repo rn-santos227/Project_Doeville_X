@@ -15,6 +15,7 @@ public:
 
   bool checkAndLogError(bool condition, const std::string& errorMsg);
 
+  void flushLogs();
   void logError(const std::string& message);
   void logMessage(const std::string& message);
 

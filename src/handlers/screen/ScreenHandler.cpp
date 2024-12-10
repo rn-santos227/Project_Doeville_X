@@ -16,9 +16,11 @@ bool ScreenHandler::init() {
     std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
     return false;
   }
-  std::cout << "SDL Initialized successfully!" << std::endl;
+
+  logsManager.logMessage("SDL Initialized successfully.");
 
   window = SDL_CreateWindow("Project Doeville X", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+
   if (!window) {
     std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
     return false;

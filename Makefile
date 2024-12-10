@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS += `sdl2-config --cflags` -I src -I/usr/include/SDL2
-LDFLAGS += `sdl2-config --libs` -lSDL2_ttf
+CXXFLAGS += `sdl2-config --cflags` -I src -I/usr/include/SDL2 -I/mingw64/include
+LDFLAGS += `sdl2-config --libs` -lSDL2_ttf -llua
 
 SRC_DIR = src
 BUILD_DIR = build

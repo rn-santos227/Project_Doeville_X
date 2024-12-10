@@ -17,6 +17,7 @@ void GameEngine::init() {
   }
 
   inputHandler.setKeyBinding(InputAction::HELP_TOGGLE, SDL_SCANCODE_F1);
+  logsManager.logMessage("Game Engine has been initialized successfully.");
   isRunning = true;
 }
 

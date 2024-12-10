@@ -49,7 +49,7 @@ void ScreenHandler::render() {
       renderFPS();
     }
   } else {
-    std::cerr << "Renderer is null!" << std::endl;
+    logsManager.logError("Renderer is null!");
   }
 }
 

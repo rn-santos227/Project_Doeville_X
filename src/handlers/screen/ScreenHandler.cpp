@@ -15,19 +15,16 @@ bool ScreenHandler::init() {
   if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO) < 0, "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
     return false;
   }
-
   logsManager.logMessage("SDL Initialized successfully.");
 
   window = SDL_CreateWindow("Project Doeville X", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
-
   if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
     return false;
   }
   logsManager.logMessage("Window created successfully.");
 
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  if (!renderer) {
-    std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+  if (logsManager.checkAndLogError(!renderer,  "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
     return false;
   }
 

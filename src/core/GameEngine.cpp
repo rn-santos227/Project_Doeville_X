@@ -14,8 +14,8 @@ void GameEngine::init() {
   }
 
   if (logsManager.checkAndLogError(!fontHandler.loadFont("doeville", fontPath.c_str(), 24), "Failed to load required font 'doeville'!")) {
-    return;
     logsManager.flushLogs();
+    return;
   }
 
   inputHandler.setKeyBinding(InputAction::HELP_TOGGLE, SDL_SCANCODE_F1);

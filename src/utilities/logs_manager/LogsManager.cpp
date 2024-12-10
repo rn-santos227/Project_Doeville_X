@@ -50,6 +50,7 @@ void LogsManager::logMessage(const std::string& message) {
 void LogsManager::flushLogs() {
   if (logFile.is_open()) {
     logFile.flush();
+    logFile.clear();
   }
 }
 

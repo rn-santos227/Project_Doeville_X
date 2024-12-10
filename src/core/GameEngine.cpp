@@ -9,15 +9,19 @@ void GameEngine::init() {
   
   if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {
     isRunning = false;
+    logsManager.flushLogs();
     return;
   }
 
   if (logsManager.checkAndLogError(!fontHandler.loadFont("doeville", fontPath.c_str(), 24), "Failed to load required font 'doeville'!")) {
     return;
+    logsManager.flushLogs();
   }
 
   inputHandler.setKeyBinding(InputAction::HELP_TOGGLE, SDL_SCANCODE_F1);
   logsManager.logMessage("Game Engine has been initialized successfully.");
+  
+  logsManager.flushLogs();
   isRunning = true;
 }
 
@@ -49,6 +53,7 @@ void GameEngine::handleEvents() {
 
     if (event.type == SDL_QUIT) {
       logsManager.logMessage("Quit event received");
+      logsManager.flushLogs();
       isRunning = false;
     }
   }

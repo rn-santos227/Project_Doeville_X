@@ -13,17 +13,10 @@ public:
   LogsManager();
   ~LogsManager();
 
+  bool checkAndLogError(bool condition, const std::string& errorMsg);
+
   void logError(const std::string& message);
   void logMessage(const std::string& message);
-
-  template <typename T>
-  T checkAndLogError(bool condition, const std::string& errorMsg, T returnValue) {
-    if (condition) {
-      logError(errorMsg + " SDL_Error: " + SDL_GetError());
-      return returnValue;
-    }
-    return T();
-  }
 
 private:
   std::ofstream logFile;

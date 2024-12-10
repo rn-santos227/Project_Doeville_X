@@ -9,10 +9,11 @@
 #include "handlers/input/InputHandler.h"
 
 #include "utilities/frames_counter/FramesCounter.h"
+#include "utilities/logs_manager/LogsManager.h"
 
 class ScreenHandler {
 public:
-  ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, FramesCounter& frameCounter);
+  ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, LogsManager& logsManager, FramesCounter& frameCounter);
   ~ScreenHandler();
 
   bool init();
@@ -29,7 +30,10 @@ private:
 
   FontHandler& fontHandler;
   InputHandler& inputHandler;
+  
+  LogsManager& logsManager;
   FramesCounter& framesCounter;
+  
   
   bool running;
   void renderFPS();

@@ -6,6 +6,8 @@
 #include <unordered_map> 
 #include <vector>
 
+#include "utilities/logs_manager/LogsManager.h"
+
 enum class InputAction {
   NONE,
   UP, 
@@ -25,7 +27,7 @@ enum class InputAction {
 
 class InputHandler {
 public:
-  InputHandler();
+  InputHandler(LogsManager& logsManager);
   ~InputHandler();
 
   void handleInput(SDL_Event& event);
@@ -43,6 +45,7 @@ private:
   std::vector<SDL_Scancode> keyReleased;
 
   InputAction currentAction;
+  LogsManager& logsManager;
   
   bool isFrozen; 
   bool isDebugMode;

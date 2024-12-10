@@ -8,7 +8,7 @@
 
 #include <SDL2/SDL.h>
 
-InputHandler::InputHandler() {
+InputHandler::InputHandler(LogsManager& logsManager) : logsManager(logsManager) {
   keyBindings[InputAction::UP] = SDL_SCANCODE_W;
   keyBindings[InputAction::DOWN] = SDL_SCANCODE_S;
   keyBindings[InputAction::LEFT] = SDL_SCANCODE_A;
@@ -70,25 +70,26 @@ void InputHandler::setKeyReleased(SDL_Scancode key) {
 }
 
 void InputHandler::helpToggle() {
-  std::cout << "Help toggled!" << std::endl;
+  std::cout << "Help toggled." << std::endl;
 }
 
 void InputHandler::debugToggle() {
   isDebugMode = !isDebugMode;
-  std::cout << (isFrozen ? "Debug Mode On!" : "Debug Mode Off") << std::endl;
+  logsManager.logMessage(isDebugMode ? "Debug Mode On." : "Debug Mode Off.");
 }
 
 void InputHandler::freezeGame() {
   isFrozen = !isFrozen;
-  std::cout << (isFrozen ? "Game frozen!" : "Game resumed!") << std::endl;
+  logsManager.logMessage(isFrozen ? "Game paused." : "Game resumed.");
 }
 
 void InputHandler::restartGame() {
-  std::cout << "Game restarted!" << std::endl;
+  logsManager.logMessage("Game restarted.");
 }
 
 void InputHandler::immediateExit() {
-  std::cout << "Exiting immediately!" << std::endl;
+  logsManager.logMessage("Exiting immediately.");
+  logsManager.flushLogs();
   SDL_Quit();
   exit(0);
 }

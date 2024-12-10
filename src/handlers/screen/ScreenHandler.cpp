@@ -3,7 +3,7 @@
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 
-ScreenHandler::ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, LogsManager& logsManager,FramesCounter& framesCounter)
+ScreenHandler::ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, LogsManager& logsManager, FramesCounter& framesCounter)
     : window(nullptr), renderer(nullptr), running(false), fontHandler(fontHandler), inputHandler(inputHandler), logsManager(logsManager), framesCounter(framesCounter) {}
 
 ScreenHandler::~ScreenHandler() {

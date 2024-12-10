@@ -1,29 +1,14 @@
 #ifndef INPUT_HANDLER_H
 #define INPUT_HANDLER_H
 
+#include "InputAction.h"
+
 #include <SDL2/SDL.h>
 #include <functional>
 #include <unordered_map> 
 #include <vector>
 
 #include "utilities/logs_manager/LogsManager.h"
-
-enum class InputAction {
-  NONE,
-  UP, 
-  DOWN,
-  LEFT,
-  RIGHT,
-  ACTION_1,
-  ACTION_2,
-  ESCAPE,
-  ENTER,
-  HELP_TOGGLE,
-  DEBUG_TOGGLE,
-  FREEZE_GAME,
-  RESTART_GAME,
-  IMMEDIATE_EXIT,
-};
 
 class InputHandler {
 public:

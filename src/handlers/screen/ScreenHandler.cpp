@@ -23,7 +23,7 @@ bool ScreenHandler::init() {
   if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
     return false;
   }
-  std::cout << "Window created successfully!" << std::endl;
+  logsManager.logMessage("Window created successfully.");
 
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (!renderer) {
@@ -31,7 +31,7 @@ bool ScreenHandler::init() {
     return false;
   }
 
-  logsManager.logMessage( "Renderer created successfully.");
+  logsManager.logMessage("Renderer created successfully.");
 
   running = true;
   return true;

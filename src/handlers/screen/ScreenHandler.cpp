@@ -32,7 +32,8 @@ bool ScreenHandler::init() {
     std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
     return false;
   }
-  std::cout << "Renderer created successfully!" << std::endl;
+
+  logsManager.logMessage( "Renderer created successfully.");
 
   running = true;
   return true;

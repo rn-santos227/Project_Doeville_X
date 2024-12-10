@@ -47,6 +47,10 @@ void LogsManager::logMessage(const std::string& message) {
   }
 }
 
+void LogsManager::flushLogs() {
+
+}
+
 
 std::string LogsManager::getCurrentTimestamp() {
   std::time_t now = std::time(nullptr);

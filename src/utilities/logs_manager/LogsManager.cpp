@@ -1,7 +1,11 @@
 #include "LogsManager.h"
 
+#include <filesystem> 
+
 LogsManager::LogsManager() {
   std::string logFilePath = "resources/logs/logs.txt";
+  std::filesystem::create_directories("resources/logs");
+  
   logFile.open(logFilePath, std::ios_base::app);
   
   if (!logFile.is_open()) {

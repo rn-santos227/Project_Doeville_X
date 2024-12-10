@@ -20,8 +20,7 @@ bool ScreenHandler::init() {
 
   window = SDL_CreateWindow("Project Doeville X", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
 
-  if (!window) {
-    std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+  if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
     return false;
   }
   std::cout << "Window created successfully!" << std::endl;

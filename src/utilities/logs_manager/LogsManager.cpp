@@ -18,6 +18,14 @@ LogsManager::~LogsManager() {
   };
 }
 
+bool LogsManager::checkAndLogError(bool condition, const std::string& errorMsg) {
+  if(condition) {
+    logError(errorMsg + " SDL_Error: " + SDL_GetError());
+    return false;
+  }
+  return true;
+}
+
 void LogsManager::logError(const std::string& message) {
   std::string timestamp = getCurrentTimestamp();
   std::string logMessage = "[ERROR] " + timestamp + " - " + message + "\n";

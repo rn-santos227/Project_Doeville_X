@@ -7,12 +7,12 @@ GameEngine::~GameEngine() {}
 void GameEngine::init() {
   std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/doeville.ttf");
   
-  if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!", false)) {
+  if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {
     isRunning = false;
     return;
   }
 
-  if (logsManager.checkAndLogError(!fontHandler.loadFont("doeville", fontPath.c_str(), 24), "Failed to load required font 'doeville'!", false)) {
+  if (logsManager.checkAndLogError(!fontHandler.loadFont("doeville", fontPath.c_str(), 24), "Failed to load required font 'doeville'!")) {
     return;
   }
 

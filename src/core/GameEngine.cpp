@@ -5,7 +5,7 @@ GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false),
 GameEngine::~GameEngine() {}
 
 void GameEngine::init() {
-  std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/doeville.ttf");
+  std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
   
   if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {
     isRunning = false;

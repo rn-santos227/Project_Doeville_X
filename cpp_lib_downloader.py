@@ -20,3 +20,15 @@ def download_file(name, url, dest):
   
   print(f"{name} downloaded to {file_path}")
   return file_path
+
+def extract_file(file_path, dest):
+  print(f"Extracting {file_path} to {dest}...")
+  if file_path.endswith(".tar.gz") or file_path.endswith(".tgz"):
+    with tarfile.open(file_path, "r:gz") as tar:
+      tar.extractall(dest)
+  
+  elif file_path.endswith(".zip"):
+    with zipfile.ZipFile(file_path, "r") as zip_ref:
+      zip_ref.extractall(dest)
+  
+  print(f"Extraction complete: {dest}")

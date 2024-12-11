@@ -3,8 +3,8 @@
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 
-ScreenHandler::ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, LogsManager& logsManager, FramesCounter& framesCounter)
-    : window(nullptr), renderer(nullptr), running(false), fontHandler(fontHandler), inputHandler(inputHandler), logsManager(logsManager), framesCounter(framesCounter) {}
+ScreenHandler::ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, LogsManager& logsManager, FramesCounter& framesCounter)
+    : window(nullptr), renderer(nullptr), running(false), fontHandler(fontHandler), keyHandler(keyHandler), logsManager(logsManager), framesCounter(framesCounter) {}
 
 ScreenHandler::~ScreenHandler() {
   SDL_DestroyRenderer(renderer);
@@ -48,7 +48,7 @@ void ScreenHandler::clear() {
 
 void ScreenHandler::render() {
   if (renderer) {
-    if (inputHandler.isGameDebugMode()) {
+    if (keyHandler.isGameDebugMode()) {
       renderFPS();
     }
   } else {
@@ -66,7 +66,7 @@ void ScreenHandler::handleEvents() {
     if (e.type == SDL_QUIT) {
       running = false;
     }
-    inputHandler.handleInput(e);
+    keyHandler.handleInput(e);
   }
 }
 

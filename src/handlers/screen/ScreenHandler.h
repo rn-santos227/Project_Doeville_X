@@ -6,14 +6,14 @@
 #include <SDL.h>
 
 #include "handlers/font/FontHandler.h"
-#include "handlers/input/InputHandler.h"
+#include "handlers/input/KeyHandler.h"
 
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 class ScreenHandler {
 public:
-  ScreenHandler(FontHandler& fontHandler, InputHandler& inputHandler, LogsManager& logsManager, FramesCounter& frameCounter);
+  ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, LogsManager& logsManager, FramesCounter& frameCounter);
   ~ScreenHandler();
 
   bool init();
@@ -29,7 +29,7 @@ private:
   SDL_Renderer* renderer;
 
   FontHandler& fontHandler;
-  InputHandler& inputHandler;
+  KeyHandler& keyHandler;
   
   LogsManager& logsManager;
   FramesCounter& framesCounter;

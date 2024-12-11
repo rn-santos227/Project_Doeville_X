@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), logsManager(), inputHandler(logsManager), fontHandler(logsManager), framesCounter(), screenHandler(fontHandler, inputHandler, logsManager, framesCounter) {}
+GameEngine::GameEngine() : window(nullptr), renderer(nullptr), isRunning(false), logsManager(), keyHandler(logsManager), fontHandler(logsManager), framesCounter(), screenHandler(fontHandler, KeyHandler, logsManager, framesCounter) {}
 
 GameEngine::~GameEngine() {}
 
@@ -13,12 +13,12 @@ void GameEngine::init() {
     return;
   }
 
-  if (logsManager.checkAndLogError(!fontHandler.loadFont("doeville", fontPath.c_str(), 24), "Failed to load required font 'doeville'!")) {
+  if (logsManager.checkAndLogError(!fontHandler.loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
     logsManager.flushLogs();
     return;
   }
 
-  inputHandler.setKeyBinding(InputAction::HELP_TOGGLE, SDL_SCANCODE_F1);
+  keyHandler.setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
   logsManager.logMessage("Game Engine has been initialized successfully.");
   
   logsManager.flushLogs();
@@ -49,7 +49,7 @@ void GameEngine::run() {
 void GameEngine::handleEvents() {
   SDL_Event event;
   while (SDL_PollEvent(&event) != 0) {
-    inputHandler.handleInput(event); 
+    keyHandler.handleInput(event); 
 
     if (event.type == SDL_QUIT) {
       logsManager.logMessage("Quit event received");

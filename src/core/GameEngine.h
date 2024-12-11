@@ -1,11 +1,11 @@
-#ifndef GAMEENGINE_H
-#define GAMEENGINE_H
+#ifndef GAME_ENGINE_H
+#define GAME_ENGINE_H
 
 #include <iostream>
 
 #include <SDL.h>
 
-#include "handlers/input/InputHandler.h"
+#include "handlers/input/KeyHandler.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
@@ -26,8 +26,8 @@ private:
   SDL_Window* window;
   SDL_Renderer* renderer;
 
-  InputHandler inputHandler;
   FontHandler fontHandler;
+  KeyHandler keyHandler;
   ResourcesHandler resourcesHandler;
   ScreenHandler screenHandler;
 

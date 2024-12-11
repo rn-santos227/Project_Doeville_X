@@ -32,3 +32,14 @@ def extract_file(file_path, dest):
       zip_ref.extractall(dest)
   
   print(f"Extraction complete: {dest}")
+
+def setup_dependencies():
+  if not os.path.exists(LIB_DIR):
+    os.makedirs(LIB_DIR)
+
+  for name, url in dependencies.items():
+    dest = os.path.join(LIB_DIR, name)
+    if not os.path.exists(dest):
+      os.makedirs(dest)
+    file_path = download_file(name, url, dest)
+    extract_file(file_path, dest)

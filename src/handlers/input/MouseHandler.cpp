@@ -18,6 +18,12 @@ public:
   int getMouseX() const;
   int getMouseY() const;
   int getMouseWheelScroll() const;
+
+private:
+  std::unordered_map<Uint8, bool> buttonStates;
+  int mouseX;
+  int mouseY;
+  int mouseWheelScroll;
 };
 
 #endif

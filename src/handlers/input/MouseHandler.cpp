@@ -40,3 +40,7 @@ bool MouseHandler::isButtonUp(Uint8 button) const {
 int MouseHandler::getMouseX() const {
   return mouseX;
 }
+
+int MouseHandler::getMouseY() const {
+    return mouseY;
+}

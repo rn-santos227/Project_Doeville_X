@@ -43,3 +43,6 @@ def setup_dependencies():
       os.makedirs(dest)
     file_path = download_file(name, url, dest)
     extract_file(file_path, dest)
+
+if __name__ == "__main__":
+  setup_dependencies()

@@ -1,4 +1,4 @@
-#include "InputHandler.h"
+#include "KeyHandler.h"
 
 #include <algorithm>
 #include <functional>
@@ -8,24 +8,24 @@
 
 #include <SDL.h>
 
-InputHandler::InputHandler(LogsManager& logsManager) : logsManager(logsManager) {
-  keyBindings[InputAction::UP] = SDL_SCANCODE_W;
-  keyBindings[InputAction::DOWN] = SDL_SCANCODE_S;
-  keyBindings[InputAction::LEFT] = SDL_SCANCODE_A;
-  keyBindings[InputAction::RIGHT] = SDL_SCANCODE_D;
-  keyBindings[InputAction::ESCAPE] = SDL_SCANCODE_ESCAPE;
-  keyBindings[InputAction::ENTER] = SDL_SCANCODE_RETURN;
-  keyBindings[InputAction::ACTION_1] = SDL_SCANCODE_Z;
-  keyBindings[InputAction::ACTION_2] = SDL_SCANCODE_Y;
+KeyHandler::KeyHandler(LogsManager& logsManager) : logsManager(logsManager) {
+  keyBindings[KeyAction::UP] = SDL_SCANCODE_W;
+  keyBindings[KeyAction::DOWN] = SDL_SCANCODE_S;
+  keyBindings[KeyAction::LEFT] = SDL_SCANCODE_A;
+  keyBindings[KeyAction::RIGHT] = SDL_SCANCODE_D;
+  keyBindings[KeyAction::ESCAPE] = SDL_SCANCODE_ESCAPE;
+  keyBindings[KeyAction::ENTER] = SDL_SCANCODE_RETURN;
+  keyBindings[KeyAction::ACTION_1] = SDL_SCANCODE_Z;
+  keyBindings[KeyAction::ACTION_2] = SDL_SCANCODE_Y;
 
   bindFunctionKeys();
   isFrozen = false;
   isDebugMode = false;
 }
 
-InputHandler::~InputHandler() {}
+KeyHandler::~KeyHandler() {}
 
-void InputHandler::bindFunctionKeys() {
+void KeyHandler::bindFunctionKeys() {
   functionKeyActions[SDL_SCANCODE_F1] = [this]() { helpToggle(); };
   functionKeyActions[SDL_SCANCODE_F2] = [this]() { debugToggle(); };
   functionKeyActions[SDL_SCANCODE_F3] = [this]() { freezeGame(); }; 
@@ -33,7 +33,7 @@ void InputHandler::bindFunctionKeys() {
   functionKeyActions[SDL_SCANCODE_F5] = [this]() { immediateExit(); };
 }
 
-void InputHandler::handleInput(SDL_Event& event) {
+void KeyHandler::handleInput(SDL_Event& event) {
   if (event.type == SDL_KEYDOWN) {
     SDL_Scancode key = event.key.keysym.scancode;
     setKeyPressed(key);
@@ -48,46 +48,46 @@ void InputHandler::handleInput(SDL_Event& event) {
   }
 }
 
-bool InputHandler::isKeyPressed(SDL_Scancode key) const {
+bool KeyHandler::isKeyPressed(SDL_Scancode key) const {
   return std::find(keyPressed.begin(), keyPressed.end(), key) != keyPressed.end();
 }
 
-bool InputHandler::isActionTriggered(InputAction action) const {
+bool KeyHandler::isActionTriggered(KeyAction action) const {
   SDL_Scancode boundKey = keyBindings.at(action);
   return isKeyPressed(boundKey);
 }
 
-void InputHandler::setKeyBinding(InputAction action, SDL_Scancode key) {
+void KeyHandler::setKeyBinding(KeyAction action, SDL_Scancode key) {
   keyBindings[action] = key;
 }
 
-void InputHandler::setKeyPressed(SDL_Scancode key) {
+void KeyHandler::setKeyPressed(SDL_Scancode key) {
   keyPressed.push_back(key);
 }
 
-void InputHandler::setKeyReleased(SDL_Scancode key) {
+void KeyHandler::setKeyReleased(SDL_Scancode key) {
   keyPressed.erase(std::remove(keyPressed.begin(), keyPressed.end(), key), keyPressed.end());
 }
 
-void InputHandler::helpToggle() {
+void KeyHandler::helpToggle() {
   std::cout << "Help toggled." << std::endl;
 }
 
-void InputHandler::debugToggle() {
+void KeyHandler::debugToggle() {
   isDebugMode = !isDebugMode;
   logsManager.logMessage(isDebugMode ? "Debug Mode On." : "Debug Mode Off.");
 }
 
-void InputHandler::freezeGame() {
+void KeyHandler::freezeGame() {
   isFrozen = !isFrozen;
-  logsManager.logMessage(isFrozen ? "Game paused." : "Game resumed.");
+  logsManager.logMessage(isFrozen ? "Game Paused." : "Game Resumed.");
 }
 
-void InputHandler::restartGame() {
+void KeyHandler::restartGame() {
   logsManager.logMessage("Game restarted.");
 }
 
-void InputHandler::immediateExit() {
+void KeyHandler::immediateExit() {
   logsManager.logMessage("Exiting immediately.");
   logsManager.flushLogs();
   SDL_Quit();

@@ -1,7 +1,7 @@
 #ifndef INPUT_HANDLER_H
 #define INPUT_HANDLER_H
 
-#include "InputAction.h"
+#include "KeyAction.h"
 
 #include <SDL.h>
 #include <functional>
@@ -10,26 +10,26 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-class InputHandler {
+class KeyHandler {
 public:
-  InputHandler(LogsManager& logsManager);
-  ~InputHandler();
+  KeyHandler(LogsManager& logsManager);
+  ~KeyHandler();
 
   void handleInput(SDL_Event& event);
-  void setKeyBinding(InputAction action, SDL_Scancode key);
+  void setKeyBinding(KeyAction action, SDL_Scancode key);
   
   bool isKeyPressed(SDL_Scancode key) const;
-  bool isActionTriggered(InputAction action) const;
+  bool isActionTriggered(KeyAction action) const;
   bool isGameFrozen() const { return isFrozen; }
   bool isGameDebugMode() const { return isDebugMode; }
 
 private:
-  std::unordered_map<InputAction, SDL_Scancode> keyBindings;
+  std::unordered_map<KeyAction, SDL_Scancode> keyBindings;
   std::unordered_map<int, std::function<void()>> functionKeyActions; 
   std::vector<SDL_Scancode> keyPressed;
   std::vector<SDL_Scancode> keyReleased;
 
-  InputAction currentAction;
+  KeyAction currentAction;
   LogsManager& logsManager;
   
   bool isFrozen; 

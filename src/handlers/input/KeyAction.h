@@ -1,7 +1,7 @@
-#ifndef INPUT_ACTION_H
-#define INPUT_ACTION_H
+#ifndef KEY_ACTION_H
+#define KEY_ACTION_H
 
-enum class InputAction {
+enum class KeyAction {
   NONE,
   UP, 
   DOWN,

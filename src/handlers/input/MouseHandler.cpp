@@ -42,5 +42,9 @@ int MouseHandler::getMouseX() const {
 }
 
 int MouseHandler::getMouseY() const {
-    return mouseY;
+  return mouseY;
+}
+
+int MouseHandler::getMouseWheelScroll() const {
+  return mouseWheelScroll;
 }

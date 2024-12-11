@@ -36,3 +36,7 @@ bool MouseHandler::isButtonUp(Uint8 button) const {
   auto it = buttonStates.find(button);
   return it == buttonStates.end() || !it->second;
 }
+
+int MouseHandler::getMouseX() const {
+  return mouseX;
+}

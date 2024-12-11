@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/InputHandler.h"

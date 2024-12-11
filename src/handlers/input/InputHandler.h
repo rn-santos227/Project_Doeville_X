@@ -3,7 +3,7 @@
 
 #include "InputAction.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <functional>
 #include <unordered_map> 
 #include <vector>

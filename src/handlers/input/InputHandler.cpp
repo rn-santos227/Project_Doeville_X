@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 InputHandler::InputHandler(LogsManager& logsManager) : logsManager(logsManager) {
   keyBindings[InputAction::UP] = SDL_SCANCODE_W;

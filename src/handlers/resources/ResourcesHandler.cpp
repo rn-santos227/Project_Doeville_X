@@ -3,7 +3,7 @@
 #include <cstdlib> 
 #include <iostream>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 std::string ResourcesHandler::getBasePath() {
   char* basePath = SDL_GetBasePath();

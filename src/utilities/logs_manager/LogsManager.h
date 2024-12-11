@@ -1,7 +1,7 @@
 #ifndef LOGS_MANAGER_H
 #define LOGS_MANAGER_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <iostream>
 #include <fstream>
 #include <string>

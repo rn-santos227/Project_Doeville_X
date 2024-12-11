@@ -2,7 +2,12 @@
 #define SCRIPTING_SERVICE_H
 
 #include <string>
-#include <lua.hpp>
+
+extern "C" {
+  #include "lua.h"
+  #include "lauxlib.h"
+  #include "lualib.h"
+}
 
 #include "utilities/logs_manager/LogsManager.h"
 

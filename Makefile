@@ -1,6 +1,15 @@
+# Compiler and flags
 CXX = g++
-CXXFLAGS += `sdl2-config --cflags` -I src -Ilib/SDL2/include -Ilib/SDL2_ttf/include -Ilib/Lua/include
-LDFLAGS += `sdl2-config --libs` -Llib/SDL2/lib -Llib/SDL2_ttf/lib -Llib/Lua/lib -lSDL2 -lSDL2_ttf -llua
+CXXFLAGS += -Isrc \
+            -Ilib/SDL2/SDL2-2.26.5/include \
+            -Ilib/SDL2_ttf/SDL2_ttf-2.20.1 \
+            -Ilib/Lua/lua-5.4.6/src
+
+LDFLAGS += `sdl2-config --libs` \
+           -Llib/SDL2/SDL2-2.26.5/lib \
+           -Llib/SDL2_ttf/SDL2_ttf-2.20.1 \
+           -Llib/Lua/lua-5.4.6/src \
+           -lSDL2 -lSDL2_ttf -llua
 
 SRC_DIR = src
 BUILD_DIR = build
@@ -8,6 +17,7 @@ BIN_DIR = bin
 
 SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/**/**/*.cpp) $(SRC_DIR)/main.cpp
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+
 TARGET = $(BIN_DIR)/project_doeville_x
 
 all: $(TARGET)

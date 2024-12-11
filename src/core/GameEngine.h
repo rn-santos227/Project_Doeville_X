@@ -5,8 +5,9 @@
 
 #include <SDL.h>
 
-#include "handlers/input/KeyHandler.h"
 #include "handlers/font/FontHandler.h"
+#include "handlers/input/KeyHandler.h"
+#include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 
@@ -28,6 +29,7 @@ private:
 
   FontHandler fontHandler;
   KeyHandler keyHandler;
+  MouseHandler mouseHandler;
   ResourcesHandler resourcesHandler;
   ScreenHandler screenHandler;
 

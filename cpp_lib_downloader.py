@@ -32,6 +32,8 @@ def extract_file(file_path, dest):
       zip_ref.extractall(dest)
   
   print(f"Extraction complete: {dest}")
+  os.remove(file_path)
+  print(f"Removed compressed file: {file_path}")
 
 def setup_dependencies():
   if not os.path.exists(LIB_DIR):

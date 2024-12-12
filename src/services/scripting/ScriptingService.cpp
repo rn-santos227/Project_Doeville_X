@@ -11,6 +11,16 @@ namespace Project::Services {
       lua_close(luaState);
     }
   }
+  
+  bool ScriptingService::validateScript(const std::string& scriptPath) {
+    int result = luaL_loadfile(luaState, scriptPath.c_str());
+    if (result != LUA_OK) {
+      handleLuaError(result);
+      return false;
+    }
+    lua_pop(luaState, 1);
+    return true;
+  }
 
   bool ScriptingService::loadScript(const std::string& scriptPath) {
     int result = luaL_dofile(luaState, scriptPath.c_str());

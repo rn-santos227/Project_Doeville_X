@@ -29,5 +29,11 @@ namespace Project::States {
       stateStack.top()->onEnter();
     }
   }
+
+  void GameStateManager::popState() {
+    if (!stateStack.empty()) {
+
+    }
+  }
 }
 

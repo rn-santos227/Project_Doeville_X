@@ -9,22 +9,23 @@
 #include <sstream>
 
 #include <SDL.h>
+namespace Project::Utilities::LogsManager {
+  class LogsManager {
+  public:
+    LogsManager();
+    ~LogsManager();
 
-class LogsManager {
-public:
-  LogsManager();
-  ~LogsManager();
+    bool checkAndLogError(bool condition, const std::string& errorMsg);
 
-  bool checkAndLogError(bool condition, const std::string& errorMsg);
+    void flushLogs();
+    void logError(const std::string& message);
+    void logMessage(const std::string& message);
 
-  void flushLogs();
-  void logError(const std::string& message);
-  void logMessage(const std::string& message);
+  private:
+    std::ofstream logFile;
 
-private:
-  std::ofstream logFile;
-
-  std::string getCurrentTimestamp();
-};
+    std::string getCurrentTimestamp();
+  };
+}
 
 #endif

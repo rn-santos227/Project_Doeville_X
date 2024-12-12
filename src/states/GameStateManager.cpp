@@ -7,7 +7,8 @@ namespace Project::States {
 
   void GameStateManager::changeState(const std::string& name) {
     if (!stateStack.empty()) {
-
+      stateStack.top()->onExit();
+      stateStack.pop();
     }
   }
 }

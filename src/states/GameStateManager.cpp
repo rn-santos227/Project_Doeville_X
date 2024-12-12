@@ -17,5 +17,9 @@ namespace Project::States {
       stateStack.top()->onEnter();
     }
   }
+
+  void GameStateManager::pushState(const std::string& name) {
+    auto it = states.find(name);
+  }
 }
 

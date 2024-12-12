@@ -12,33 +12,35 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-class ScreenHandler {
-public:
-  ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& frameCounter);
-  ~ScreenHandler();
+namespace Project::Handlers {
+  class ScreenHandler {
+  public:
+    ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, Project::Utilities::LogsManager& logsManager, Project::Utilities::FramesCounter& frameCounter);
+    ~ScreenHandler();
 
-  bool init();
-  void clear();
-  void render();
-  void update();
-  void handleEvents();
+    bool init();
+    void clear();
+    void render();
+    void update();
+    void handleEvents();
 
-  bool isRunning() const;
+    bool isRunning() const;
 
-private:
-  SDL_Window* window;
-  SDL_Renderer* renderer;
+  private:
+    SDL_Window* window;
+    SDL_Renderer* renderer;
 
-  FontHandler& fontHandler;
-  KeyHandler& keyHandler;
-  MouseHandler& mouseHandler;
-  
-  LogsManager& logsManager;
-  FramesCounter& framesCounter;
-  
-  bool running;
-  void renderFPS();
-  void renderMousePosition();
-};
+    FontHandler& fontHandler;
+    KeyHandler& keyHandler;
+    MouseHandler& mouseHandler;
+    
+    Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::FramesCounter& framesCounter;
+    
+    bool running;
+    void renderFPS();
+    void renderMousePosition();
+  };
+}
 
 #endif

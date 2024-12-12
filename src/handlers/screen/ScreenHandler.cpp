@@ -1,7 +1,7 @@
 #include "ScreenHandler.h"
 
 namespace Project::Handlers {
-  ScreenHandler::ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& framesCounter)
+  ScreenHandler::ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, Project::Utilities::LogsManager& logsManager, Project::Utilities::FramesCounter& framesCounter)
       : window(nullptr), renderer(nullptr), running(false), 
       fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler),
       logsManager(logsManager), framesCounter(framesCounter) {}

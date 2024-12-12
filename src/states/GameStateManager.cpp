@@ -35,6 +35,10 @@ namespace Project::States {
       stateStack.top()->onExit();
       stateStack.pop();
     }
+
+    if (!stateStack.empty()) {
+
+    }
   }
 }
 

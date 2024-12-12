@@ -10,6 +10,11 @@ namespace Project::States {
       stateStack.top()->onExit();
       stateStack.pop();
     }
+
+    auto it = states.find(name);
+    if (it != states.end()) {
+
+    }
   }
 }
 

@@ -9,10 +9,10 @@
 #include "GameStateID.h"
 
 namespace Project::States {
-  class StateManager {
+  class GameStateManager {
   public:
-    StateManager() = default;
-    ~StateManager() = default;
+    GameStateManager() = default;
+    ~GameStateManager() = default;
 
     void addState(const std::string& name, std::unique_ptr<GameState> state);
     void changeState(const std::string& name);

@@ -14,35 +14,38 @@
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
-class GameEngine {
-public:
-  GameEngine();
-  ~GameEngine();
 
-  void init();
-  void run();
-  void clean();
+namespace Project::Core {
+  class GameEngine {
+  public:
+    GameEngine();
+    ~GameEngine();
 
-private:
-  SDL_Window* window;
-  SDL_Renderer* renderer;
+    void init();
+    void run();
+    void clean();
 
-  FontHandler fontHandler;
-  KeyHandler keyHandler;
-  MouseHandler mouseHandler;
-  ResourcesHandler resourcesHandler;
-  ScreenHandler screenHandler;
+  private:
+    SDL_Window* window;
+    SDL_Renderer* renderer;
 
-  LogsManager logsManager;
-  FramesCounter framesCounter; 
+    Project::Handlers::FontHandler fontHandler;
+    Project::Handlers::KeyHandler keyHandler;
+    Project::Handlers::MouseHandler mouseHandler;
+    Project::Handlers::ResourcesHandler resourcesHandler;
+    Project::Handlers::ScreenHandler screenHandler;
 
-  bool isRunning;
+    Project::Utilities::LogsManager logsManager;
+    Project::Utilities::FramesCounter framesCounter; 
 
-  void handleEvents();
-  void update();
-  void render();
+    bool isRunning;
 
-  void handleFrameRate();
-};
+    void handleEvents();
+    void update();
+    void render();
+
+    void handleFrameRate();
+  };
+}
 
 #endif

@@ -46,5 +46,9 @@ namespace Project::States {
       stateStack.top()->update(deltaTime);
     }
   }
+
+  void GameStateManager::render() {
+
+  }
 }
 

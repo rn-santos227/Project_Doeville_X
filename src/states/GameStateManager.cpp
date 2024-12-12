@@ -13,7 +13,8 @@ namespace Project::States {
 
     auto it = states.find(name);
     if (it != states.end()) {
-
+      stateStack.push(it->second.get());
+      stateStack.top()->onEnter();
     }
   }
 }

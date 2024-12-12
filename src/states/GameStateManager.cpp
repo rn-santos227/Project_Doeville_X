@@ -32,7 +32,7 @@ namespace Project::States {
 
   void GameStateManager::popState() {
     if (!stateStack.empty()) {
-
+      stateStack.top()->onExit();
     }
   }
 }

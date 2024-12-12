@@ -3,10 +3,13 @@
 
 #include "KeyAction.h"
 
-#include <SDL.h>
+#include <algorithm>
 #include <functional>
+#include <iostream>
 #include <unordered_map> 
 #include <vector>
+
+#include <SDL.h>
 
 #include "utilities/logs_manager/LogsManager.h"
 

@@ -12,12 +12,15 @@ public:
   MouseHandler(LogsManager& logsManager);
   ~MouseHandler();
 
-  void handleEvent(const SDL_Event& event);
-  bool isButtonDown(Uint8 button) const;
-  bool isButtonUp(Uint8 button) const;
   int getMouseX() const;
   int getMouseY() const;
   int getMouseWheelScroll() const;
+
+  bool isButtonDown(Uint8 button) const;
+  bool isButtonUp(Uint8 button) const;
+
+  void handleEvent(const SDL_Event& event);
+  void updateMousePosition();
 
 private:
   LogsManager& logsManager;

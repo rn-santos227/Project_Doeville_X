@@ -3,8 +3,10 @@
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 
-ScreenHandler::ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, LogsManager& logsManager, FramesCounter& framesCounter)
-    : window(nullptr), renderer(nullptr), running(false), fontHandler(fontHandler), keyHandler(keyHandler), logsManager(logsManager), framesCounter(framesCounter) {}
+ScreenHandler::ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& framesCounter)
+    : window(nullptr), renderer(nullptr), running(false), 
+    fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler),
+    logsManager(logsManager), framesCounter(framesCounter) {}
 
 ScreenHandler::~ScreenHandler() {
   SDL_DestroyRenderer(renderer);
@@ -50,6 +52,7 @@ void ScreenHandler::render() {
   if (renderer) {
     if (keyHandler.isGameDebugMode()) {
       renderFPS();
+      renderMousePosition();
     }
   } else {
     logsManager.logError("Renderer is null.");
@@ -79,7 +82,7 @@ void ScreenHandler::renderFPS() {
   std::string fpsText = "FPS: " + std::to_string(fps);
   
   SDL_Color color = {144, 238, 144, 255};
-  SDL_Texture* fpsTexture = fontHandler.renderText(renderer, fpsText, "doeville", color);
+  SDL_Texture* fpsTexture = fontHandler.renderText(renderer, fpsText, "system", color);
   
   if (fpsTexture) {
     int textWidth, textHeight;
@@ -90,5 +93,29 @@ void ScreenHandler::renderFPS() {
     SDL_DestroyTexture(fpsTexture);
   } else {
     logsManager.logError("Failed to render FPS text.");
+  }
+}
+
+void ScreenHandler::renderMousePosition() {
+  mouseHandler.updateMousePosition();
+  int mouseX = mouseHandler.getMouseX();
+  int mouseY = mouseHandler.getMouseY();
+
+  std::string mousePositionText = "Mouse: (" + std::to_string(mouseX) + ", " + std::to_string(mouseY) + ")";
+  SDL_Color color = {144, 238, 144, 255};
+  SDL_Texture* mouseTexture  = fontHandler.renderText(renderer, mousePositionText, "system", color);
+
+  if (mouseTexture) {
+    int textWidth, textHeight;
+    SDL_QueryTexture(mouseTexture, nullptr, nullptr, &textWidth, &textHeight);
+
+    int screenWidth, screenHeight;
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+    SDL_Rect destRect = {10, screenHeight - textHeight - 10, textWidth, textHeight};
+    SDL_RenderCopy(renderer, mouseTexture, nullptr, &destRect);
+    SDL_DestroyTexture(mouseTexture);
+  } else {
+    logsManager.logError("Failed to render mouse position.");
   }
 }

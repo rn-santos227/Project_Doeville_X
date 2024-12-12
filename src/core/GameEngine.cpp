@@ -4,7 +4,7 @@ GameEngine::GameEngine() :
   window(nullptr), renderer(nullptr), isRunning(false), logsManager(), 
   keyHandler(logsManager), mouseHandler(logsManager), 
   fontHandler(logsManager), framesCounter(), 
-  screenHandler(fontHandler, keyHandler, logsManager, framesCounter) {}
+  screenHandler(fontHandler, keyHandler, mouseHandler, logsManager, framesCounter) {}
 
 GameEngine::~GameEngine() {}
 

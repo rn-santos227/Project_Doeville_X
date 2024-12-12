@@ -5,8 +5,10 @@
 #include "core/GameEngine.h"
 
 int main(int argc, char* argv[]) { 
-  GameEngine engine;
-  engine.init();
+  Project::Core::GameEngine engine; engine;
+  
+  engine.init();  
   engine.run();  
+  
   return 0;
 }

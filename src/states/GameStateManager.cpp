@@ -37,7 +37,7 @@ namespace Project::States {
     }
 
     if (!stateStack.empty()) {
-
+      stateStack.top()->onEnter();
     }
   }
 }

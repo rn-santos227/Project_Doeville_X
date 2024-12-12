@@ -1,5 +1,5 @@
-#ifndef SCREENHANDLER_H
-#define SCREENHANDLER_H
+#ifndef SCREEN_HANDLER_H
+#define SCREEN_HANDLER_H
 
 #include <iostream>
 

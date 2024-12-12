@@ -1,10 +1,12 @@
 #ifndef FONT_HANDLER_H
 #define FONT_HANDLER_H
 
-#include <SDL_ttf.h>
-#include <SDL.h>
+#include <iostream>
 #include <string>
 #include <unordered_map>
+
+#include <SDL_ttf.h>
+#include <SDL.h>
 
 #include "utilities/logs_manager/LogsManager.h"
 

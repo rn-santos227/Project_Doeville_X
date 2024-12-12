@@ -12,6 +12,6 @@ namespace Project::Handlers {
   private:
     static std::string getBasePath();
   };
-
-  #endif
 }
+  
+#endif

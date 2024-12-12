@@ -65,12 +65,12 @@ namespace Project::Core {
   }
 
   void GameEngine::update() {
+    screenHandler.update(); 
     screenHandler.clear();
   }
 
   void GameEngine::render() {
     screenHandler.render();
-    screenHandler.update(); 
   }
 
   void GameEngine::handleFrameRate() {

@@ -24,6 +24,9 @@ namespace Project::States {
       if (!stateStack.empty()) {
         stateStack.top()->onExit();
       }
+
+      stateStack.push(it->second.get());
+      stateStack.top()->onEnter();
     }
   }
 }

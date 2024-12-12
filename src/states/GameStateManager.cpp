@@ -48,7 +48,9 @@ namespace Project::States {
   }
 
   void GameStateManager::render() {
-
+    if (!stateStack.empty()) {
+      stateStack.top()->render();
+    }
   }
 }
 

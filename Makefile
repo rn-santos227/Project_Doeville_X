@@ -1,4 +1,4 @@
-# Compiler and flags
+# Compiler and Flags
 CXX = g++
 CXXFLAGS += -Isrc \
             -Ilib/SDL2/SDL2-2.26.5/include \
@@ -28,8 +28,9 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
 	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
-    cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
@@ -37,3 +38,6 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	@echo "Cleaned build directories."
+
+.PHONY: all clean

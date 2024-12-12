@@ -3,30 +3,39 @@
 
 namespace Project::States {
   enum class StateID {
+   // Core States
     MainMenuState,
+    SettingsState,
+    PauseState,
+    LoadingState,
+    TransitionState,
+
+    // Gameplay States
     StaticGameState,
     DynamicGameState,
     CinematicState,
-    SettingsState,
-    PauseState,
-    VictoryState,
-    GameOverState,
-    LoadingState,
-    InventoryState,
-    MapState,
-    PuzzleState,    
-    BattleState,
-    ShopState,
-    DialogueState,
-    StoryState,
     FPSGameplayState,
     SideScrollerState,
     PuzzleGameplayState,
     VRGameplayState,
-    MainMenuState,
+
+    // Specialty States
+    BattleState,
+    DialogueState,
+    InventoryState,
+    MapState,
+    PuzzleState,
+    ShopState,
+    StoryState,
+
+    // End Game States
+    VictoryState,
+    GameOverState,
+
+    // Miscellaneous States
     CreditsState,
+    DebugState,
     EditorState,
-    TransitionState
   };
 }
 

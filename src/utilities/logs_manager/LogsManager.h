@@ -1,12 +1,14 @@
 #ifndef LOGS_MANAGER_H
 #define LOGS_MANAGER_H
 
-#include <SDL.h>
 #include <iostream>
+#include <filesystem> 
 #include <fstream>
 #include <string>
 #include <ctime>
 #include <sstream>
+
+#include <SDL.h>
 
 class LogsManager {
 public:

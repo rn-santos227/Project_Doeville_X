@@ -26,6 +26,7 @@ $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	cp -r resources $(BIN_DIR)/resources
+    cp -r resources $(BIN_DIR)/scripts
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)

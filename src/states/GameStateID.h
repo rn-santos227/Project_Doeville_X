@@ -3,9 +3,9 @@
 
 namespace Project::States {
   enum class StateID {
+    MainMenuState,
     StaticGameState,
     DynamicGameState,
-    MenuState,
     CinematicState,
     SettingsState,
     PauseState,

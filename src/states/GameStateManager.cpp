@@ -42,7 +42,9 @@ namespace Project::States {
   }
 
   void GameStateManager::update(float deltaTime) {
+    if (!stateStack.empty()) {
 
+    }
   }
 }
 

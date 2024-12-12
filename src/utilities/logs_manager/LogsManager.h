@@ -9,7 +9,7 @@
 #include <sstream>
 
 #include <SDL.h>
-namespace Project::Utilities::LogsManager {
+namespace Project::Utilities {
   class LogsManager {
   public:
     LogsManager();

@@ -1,6 +1,7 @@
 #ifndef SCRIPTING_SERVICE_H
 #define SCRIPTING_SERVICE_H
 
+#include <iostream>
 #include <string>
 
 extern "C" {
@@ -11,24 +12,27 @@ extern "C" {
 
 #include "utilities/logs_manager/LogsManager.h"
 
-class ScriptingService {
-public:
-  ScriptingService(LogsManager& logsManager);
-  ~ScriptingService();
+namespace Project::Services {
 
-  bool loadScript(const std::string& scriptPath);
-  bool validateScript(const std::string& scriptPath);
-  void onEnter();
-  void onExit();
-  void update();
-  void render();
+  class ScriptingService {
+  public:
+    ScriptingService(Project::Utilities::LogsManager& logsManager);
+    ~ScriptingService();
 
-private:
-  lua_State* luaState;
-  
-  LogsManager& logsManager;
-  
-  void handleLuaError(int errorCode);
-};
+    bool loadScript(const std::string& scriptPath);
+    bool validateScript(const std::string& scriptPath);
+    void onEnter();
+    void onExit();
+    void update();
+    void render();
+
+  private:
+    lua_State* luaState;
+    
+    Project::Utilities::LogsManager& logsManager;
+    
+    void handleLuaError(int errorCode);
+  };
+}
 
 #endif

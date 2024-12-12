@@ -1,6 +1,6 @@
 #include "FramesCounter.h"
 
-namespace Project::Utilities::FramesCounter {
+namespace Project::Utilities {
   FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequency(SDL_GetPerformanceFrequency()), frameCount(0), fps(0) {}
 
   void FramesCounter::update() {

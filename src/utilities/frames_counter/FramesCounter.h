@@ -5,7 +5,7 @@
 
 #include <SDL.h>
 
-namespace Project::Utilities::FramesCounter {
+namespace Project::Utilities {
   class FramesCounter {
   public:
     FramesCounter();

@@ -5,19 +5,21 @@
 
 #include <SDL.h>
 
-class FramesCounter {
-public:
-  FramesCounter();
-  ~FramesCounter() = default;
+namespace Project::Utilities::FramesCounter {
+  class FramesCounter {
+  public:
+    FramesCounter();
+    ~FramesCounter() = default;
 
-  void update();
-  int getFPS() const; 
+    void update();
+    int getFPS() const; 
 
-private:
-  Uint64 lastTime;
-  Uint64 frequency;
-  int frameCount;
-  int fps;
-};
+  private:
+    Uint64 lastTime;
+    Uint64 frequency;
+    int frameCount;
+    int fps;
+  };
+}
 
 #endif

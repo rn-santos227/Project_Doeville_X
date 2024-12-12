@@ -40,5 +40,9 @@ namespace Project::States {
       stateStack.top()->onEnter();
     }
   }
+
+  void GameStateManager::update(float deltaTime) {
+
+  }
 }
 

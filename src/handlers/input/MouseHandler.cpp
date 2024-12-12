@@ -1,7 +1,7 @@
 #include "MouseHandler.h"
 
-namespace Project::Handlers::Input {
-  MouseHandler::MouseHandler(LogsManager& logsManager) : mouseX(0), mouseY(0), mouseWheelScroll(0), logsManager(logsManager) {}
+namespace Project::Handlers {
+  MouseHandler::MouseHandler(Project::Utilities::LogsManager& logsManager) : mouseX(0), mouseY(0), mouseWheelScroll(0), logsManager(logsManager) {}
   MouseHandler::~MouseHandler() {}
 
   bool MouseHandler::isButtonDown(Uint8 button) const {

@@ -1,7 +1,7 @@
 #ifndef KEY_ACTION_H
 #define KEY_ACTION_H
 
-namespace Project::Handlers::Input {
+namespace Project::Handlers {
   enum class KeyAction {
     NONE,
     UP, 

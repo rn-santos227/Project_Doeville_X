@@ -1,6 +1,6 @@
 #include "MouseHandler.h"
 
-namespace Project::Handlers {
+namespace Project::Handlers::Input {
   MouseHandler::MouseHandler(LogsManager& logsManager) : mouseX(0), mouseY(0), mouseWheelScroll(0), logsManager(logsManager) {}
   MouseHandler::~MouseHandler() {}
 

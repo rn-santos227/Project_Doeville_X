@@ -7,28 +7,30 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-class MouseHandler {
-public:
-  MouseHandler(LogsManager& logsManager);
-  ~MouseHandler();
+namespace Project::Handlers::Input {
+  class MouseHandler {
+  public:
+    MouseHandler(LogsManager& logsManager);
+    ~MouseHandler();
 
-  int getMouseX() const;
-  int getMouseY() const;
-  int getMouseWheelScroll() const;
+    int getMouseX() const;
+    int getMouseY() const;
+    int getMouseWheelScroll() const;
 
-  bool isButtonDown(Uint8 button) const;
-  bool isButtonUp(Uint8 button) const;
+    bool isButtonDown(Uint8 button) const;
+    bool isButtonUp(Uint8 button) const;
 
-  void handleEvent(const SDL_Event& event);
-  void updateMousePosition();
+    void handleEvent(const SDL_Event& event);
+    void updateMousePosition();
 
-private:
-  LogsManager& logsManager;
-  
-  std::unordered_map<Uint8, bool> buttonStates;
-  int mouseX;
-  int mouseY;
-  int mouseWheelScroll;
-};
+  private:
+    LogsManager& logsManager;
+    
+    std::unordered_map<Uint8, bool> buttonStates;
+    int mouseX;
+    int mouseY;
+    int mouseWheelScroll;
+  };
+}
 
 #endif

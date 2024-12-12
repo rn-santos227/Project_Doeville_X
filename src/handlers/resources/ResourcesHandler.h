@@ -4,12 +4,14 @@
 #include <string>
 #include <SDL.h>
 
-class ResourcesHandler {
-public:
-  static std::string getResourcePath(const std::string& relativePath);
+namespace Project::Handlers {
+  class ResourcesHandler {
+  public:
+    static std::string getResourcePath(const std::string& relativePath);
 
-private:
-  static std::string getBasePath();
-};
+  private:
+    static std::string getBasePath();
+  };
 
-#endif
+  #endif
+}

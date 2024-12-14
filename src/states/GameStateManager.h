@@ -20,9 +20,11 @@ namespace Project::States {
     void popState();
     void update(float deltaTime);
     void render();
+    void cleanup();
 
   private:
     std::unordered_map<std::string, std::unique_ptr<GameState>> states;
+    std::unordered_map<std::string, std::unique_ptr<GameState>> stateCache;
     std::stack<GameState*> stateStack;
   };
 }

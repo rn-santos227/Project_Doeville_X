@@ -21,7 +21,7 @@ namespace Project::Services {
         const std::string scriptName  = entry.path().filename().string();
 
         ScriptCategory category = determineScriptType(scriptName);
-        if (category != ScriptCategory::Invalid) {
+        if (category != ScriptCategory::INVALID) {
           
           validateScript(scriptPath);
         } else {
@@ -52,23 +52,23 @@ namespace Project::Services {
 
   ScriptCategory ScriptingService::determineScriptType(const std::string& scriptName) {
     if (scriptName.find(".state.lua") != std::string::npos) {
-      return ScriptCategory::State;
+      return ScriptCategory::STATE;
     } 
     
     else if (scriptName.find(".entity.lua") != std::string::npos) {
-      return ScriptCategory::Entity;
+      return ScriptCategory::ENTITY;
     } 
     
     else if (scriptName.find(".map.lua") != std::string::npos) {
-      return ScriptCategory::Map;
+      return ScriptCategory::MAP;
     } 
     
     else if (scriptName.find(".animation.lua") != std::string::npos) {
-      return ScriptCategory::Animation;
+      return ScriptCategory::ANIMATION;
     } 
     
     else {
-      return ScriptCategory::Invalid;
+      return ScriptCategory::INVALID;
     }
   }
 

@@ -75,6 +75,9 @@ namespace Project::States {
       stateStack.top()->onExit();
       stateStack.pop();
     }
+
+    states.clear();
+    stateCache.clear();
   }
 }
 

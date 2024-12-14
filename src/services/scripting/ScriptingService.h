@@ -1,7 +1,11 @@
 #ifndef SCRIPTING_SERVICE_H
 #define SCRIPTING_SERVICE_H
 
+#include "ScriptingCategory.h"
+
 #include <iostream>
+#include <regex>
+#include <filesystem>
 #include <string>
 
 extern "C" {

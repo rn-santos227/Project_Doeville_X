@@ -10,7 +10,7 @@ namespace Project::Core {
   GameEngine::~GameEngine() {}
 
   void GameEngine::init() {
-    std::string fontPath = Project::Handlers::ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
+    std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
     
     if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {
       isRunning = false;
@@ -23,7 +23,7 @@ namespace Project::Core {
       return;
     }
 
-    keyHandler.setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
+    keyHandler.setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     logsManager.logMessage("Game Engine has been initialized successfully.");
     
     logsManager.flushLogs();

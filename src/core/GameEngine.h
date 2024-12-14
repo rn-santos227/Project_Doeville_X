@@ -14,6 +14,8 @@
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
+using namespace Project::Handlers;
+using namespace Project::Utilities;
 
 namespace Project::Core {
   class GameEngine {
@@ -29,14 +31,14 @@ namespace Project::Core {
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-    Project::Handlers::FontHandler fontHandler;
-    Project::Handlers::KeyHandler keyHandler;
-    Project::Handlers::MouseHandler mouseHandler;
-    Project::Handlers::ResourcesHandler resourcesHandler;
-    Project::Handlers::ScreenHandler screenHandler;
+    FontHandler fontHandler;
+    KeyHandler keyHandler;
+    MouseHandler mouseHandler;
+    ResourcesHandler resourcesHandler;
+    ScreenHandler screenHandler;
 
-    Project::Utilities::LogsManager logsManager;
-    Project::Utilities::FramesCounter framesCounter; 
+    LogsManager logsManager;
+    FramesCounter framesCounter; 
 
     bool isRunning;
 

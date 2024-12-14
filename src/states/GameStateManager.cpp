@@ -28,12 +28,17 @@ namespace Project::States {
   void GameStateManager::pushState(const std::string& name) {
     auto it = states.find(name);
     if (it != states.end()) {
-      if (!stateStack.empty()) {
+      if (!stateStack.empty() && stateStack.top() != it->second.get()) {
         stateStack.top()->onExit();
       }
 
       stateStack.push(it->second.get());
       stateStack.top()->onEnter();
+    } else {
+      auto stateIt = states.find(name);
+      if (stateIt != states.end()) {
+
+      }
     }
   }
 

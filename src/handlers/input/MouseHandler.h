@@ -7,10 +7,12 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Handlers {
   class MouseHandler {
   public:
-    MouseHandler(Project::Utilities::LogsManager& logsManager);
+    MouseHandler(LogsManager& logsManager);
     ~MouseHandler();
 
     int getMouseX() const;
@@ -24,7 +26,7 @@ namespace Project::Handlers {
     void updateMousePosition();
 
   private:
-    Project::Utilities::LogsManager& logsManager;
+    LogsManager& logsManager;
     
     std::unordered_map<Uint8, bool> buttonStates;
     int mouseX;

@@ -35,6 +35,21 @@ namespace Project::Handlers {
     CAMERA_ZOOM_IN,
     CAMERA_ZOOM_OUT,
 
+    // **Inventory and Interaction**
+    INTERACT,
+    INVENTORY_OPEN,
+    USE_ITEM,
+    ITEM_0,
+    ITEM_1,
+    ITEM_2,
+    ITEM_3,
+    ITEM_4,
+    ITEM_5,
+    ITEM_6,
+    ITEM_7,
+    ITEM_8,
+    ITEM_9,
+
     // **Menu and Navigation**
     MENU_OPEN,
     MENU_BACK,

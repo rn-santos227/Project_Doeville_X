@@ -16,11 +16,13 @@ extern "C" {
 
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Services {
 
   class ScriptingService {
   public:
-    explicit ScriptingService(Project::Utilities::LogsManager& logsManager);
+    explicit ScriptingService(LogsManager& logsManager);
     ~ScriptingService();
 
     bool loadScript(const std::string& scriptPath);
@@ -28,16 +30,11 @@ namespace Project::Services {
 
     void loadScriptsFromFolder(const std::string& folderPath);
     void registerEngineFunctions();
-    
-    void onEnter();
-    void onExit();
-    void update();
-    void render();
 
   private:
     lua_State* luaState;
     
-    Project::Utilities::LogsManager& logsManager;
+    LogsManager& logsManager;
     
     void handleLuaError(int errorCode);
   };

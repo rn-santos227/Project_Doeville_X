@@ -29,13 +29,15 @@ namespace Project::Services {
     bool validateScript(const std::string& scriptPath);
 
     void loadScriptsFromFolder(const std::string& folderPath);
-    void registerEngineFunctions();
 
   private:
     lua_State* luaState;
     
     LogsManager& logsManager;
     
+    ScriptCategory determineScriptType(const std::string& scriptName);
+    
+    void loadScriptByType(const std::string& scriptPath, ScriptCategory category);
     void handleLuaError(int errorCode);
   };
 }

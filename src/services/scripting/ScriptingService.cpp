@@ -22,7 +22,8 @@ namespace Project::Services {
 
         ScriptCategory category = determineScriptType(scriptName);
         if (category != ScriptCategory::Invalid) {
-
+          
+          validateScript(scriptPath);
         } else {
           logsManager.logError("Invalid script naming: " + scriptName);
         }

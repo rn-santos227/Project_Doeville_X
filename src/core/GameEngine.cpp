@@ -4,7 +4,9 @@ namespace Project::Core {
   GameEngine::GameEngine() : 
     window(nullptr), renderer(nullptr), isRunning(false), logsManager(), 
     keyHandler(logsManager), mouseHandler(logsManager), 
-    fontHandler(logsManager), framesCounter(), 
+    fontHandler(logsManager), 
+    gameStateManager(),
+    framesCounter(), 
     screenHandler(fontHandler, keyHandler, mouseHandler, logsManager, framesCounter) {}
 
   GameEngine::~GameEngine() {}
@@ -32,9 +34,14 @@ namespace Project::Core {
 
   void GameEngine::run() {
     Uint32 frameStartTime;
+    Uint32 previousTime = SDL_GetTicks();
+    float deltaTime = 0.0f;
 
     while (isRunning) {
       frameStartTime = SDL_GetTicks();
+
+      deltaTime = (frameStartTime - previousTime) / 1000.0f;
+      previousTime = frameStartTime;
 
       handleEvents();
       update();
@@ -65,7 +72,7 @@ namespace Project::Core {
   }
 
   void GameEngine::update() {
-    screenHandler.update(); 
+    screenHandler.update();
     screenHandler.clear();
   }
 

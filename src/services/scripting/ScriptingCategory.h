@@ -5,7 +5,14 @@
 #include <unordered_map>
 
 namespace Project::Services {
-
+  enum class ScriptCategory {
+    State,
+    Entity,
+    Map,
+    Animation,
+    Other,
+    Invalid
+  };
 }
 
 #endif

@@ -1,6 +1,6 @@
 #include "FontHandler.h"
 namespace Project::Handlers {
-  FontHandler::FontHandler(Project::Utilities::LogsManager& logsManager) : logsManager(logsManager) {
+  FontHandler::FontHandler(LogsManager& logsManager) : logsManager(logsManager) {
     logsManager.checkAndLogError(TTF_Init() == -1, "Failed to initialize SDL_ttf: " + std::string(TTF_GetError()));
   }
 

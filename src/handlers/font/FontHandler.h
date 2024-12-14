@@ -10,10 +10,12 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Handlers {
   class FontHandler {
   public:
-    FontHandler(Project::Utilities::LogsManager& LogsManager);
+    FontHandler(LogsManager& LogsManager);
     ~FontHandler();
 
     bool loadFont(const std::string& fontId, const std::string& path, int fontSize);
@@ -21,7 +23,7 @@ namespace Project::Handlers {
     void cleanup();
 
   private:
-    Project::Utilities::LogsManager& logsManager;
+    LogsManager& logsManager;
     
     std::unordered_map<std::string, TTF_Font*> fonts;
   };

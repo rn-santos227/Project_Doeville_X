@@ -11,6 +11,10 @@ namespace Project::Services {
       lua_close(luaState);
     }
   }
+
+  void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {
+
+  }
   
   bool ScriptingService::validateScript(const std::string& scriptPath) {
     int result = luaL_loadfile(luaState, scriptPath.c_str());

@@ -50,6 +50,13 @@ namespace Project::Handlers {
     ITEM_8,
     ITEM_9,
 
+    // **Combat**
+    ATTACK_PRIMARY,
+    ATTACK_SECONDARY,
+    BLOCK,
+    DODGE,
+    RELOAD,
+
     // **Menu and Navigation**
     MENU_OPEN,
     MENU_BACK,

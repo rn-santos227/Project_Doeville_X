@@ -15,6 +15,13 @@ namespace Project::States {
     if (it != states.end()) {
       stateStack.push(it->second.get());
       stateStack.top()->onEnter();
+    } else {
+      auto stateIt = states.find(name);
+      if (stateIt != states.end()) {
+        stateCache[name] = std::move(stateIt->second);
+        stateStack.push(stateCache[name].get());
+        stateStack.top()->onEnter();
+      }
     }
   }
 

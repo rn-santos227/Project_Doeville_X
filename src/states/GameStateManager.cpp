@@ -69,5 +69,12 @@ namespace Project::States {
       stateStack.top()->render();
     }
   }
+
+  void GameStateManager::cleanup() {
+   while (!stateStack.empty()) {
+      stateStack.top()->onExit();
+      stateStack.pop();
+    }
+  }
 }
 

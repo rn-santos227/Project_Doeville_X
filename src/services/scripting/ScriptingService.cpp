@@ -16,7 +16,10 @@ namespace Project::Services {
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {
     for (const auto& entry : fs::recursive_directory_iterator(folderPath)) {
-
+      if (entry.is_regular_file()) {
+        const std::string filePath = entry.path().string();
+        const std::string fileName = entry.path().filename().string();
+      }
     }
   }
   

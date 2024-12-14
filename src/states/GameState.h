@@ -10,6 +10,8 @@ namespace Project::States {
   public:
     virtual ~GameState() = default;
     
+    virtual void initialize() = 0;
+
     virtual void onEnter() = 0;
     
     virtual void onExit() = 0;

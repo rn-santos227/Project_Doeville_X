@@ -1,9 +1,10 @@
 #include "ScreenHandler.h"
 
 namespace Project::Handlers {
-  ScreenHandler::ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& framesCounter)
+  ScreenHandler::ScreenHandler(GameStateManager& gameStateManager, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& framesCounter)
       : window(nullptr), renderer(nullptr), running(false), 
       fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler),
+      gameStateManager(gameStateManager),
       logsManager(logsManager), framesCounter(framesCounter) {}
 
   ScreenHandler::~ScreenHandler() {
@@ -52,6 +53,8 @@ namespace Project::Handlers {
         renderFPS();
         renderMousePosition();
       }
+      
+      gameStateManager.render();
     } else {
       logsManager.logError("Renderer is null.");
     }

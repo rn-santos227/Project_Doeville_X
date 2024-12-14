@@ -14,6 +14,7 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::States;
 using namespace Project::Utilities;
 
 namespace Project::Handlers {

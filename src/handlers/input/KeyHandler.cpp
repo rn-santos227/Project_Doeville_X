@@ -1,7 +1,7 @@
 #include "KeyHandler.h"
 
 namespace Project::Handlers {
-  KeyHandler::KeyHandler(Project::Utilities::LogsManager& logsManager) : logsManager(logsManager) {
+  KeyHandler::KeyHandler(LogsManager& logsManager) : logsManager(logsManager) {
     keyBindings[KeyAction::UP] = SDL_SCANCODE_W;
     keyBindings[KeyAction::DOWN] = SDL_SCANCODE_S;
     keyBindings[KeyAction::LEFT] = SDL_SCANCODE_A;

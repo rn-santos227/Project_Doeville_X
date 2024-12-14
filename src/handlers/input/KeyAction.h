@@ -27,6 +27,14 @@ namespace Project::Handlers {
     RIGHT_ACTION_2,
     RIGHT_ACTION_3,
 
+    // **Camera Controls**
+    CAMERA_UP,
+    CAMERA_DOWN,
+    CAMERA_LEFT,
+    CAMERA_RIGHT,
+    CAMERA_ZOOM_IN,
+    CAMERA_ZOOM_OUT,
+
     // **Menu and Navigation**
     MENU_OPEN,
     MENU_BACK,

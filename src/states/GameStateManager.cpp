@@ -37,7 +37,12 @@ namespace Project::States {
     } else {
       auto stateIt = states.find(name);
       if (stateIt != states.end()) {
-
+        stateCache[name] = std::move(stateIt->second);
+        if (!stateStack.empty()) {
+          stateStack.top()->onExit();
+        }
+        stateStack.push(stateCache[name].get());
+        stateStack.top()->onEnter();
       }
     }
   }

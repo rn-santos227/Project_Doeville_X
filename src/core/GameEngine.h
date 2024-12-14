@@ -11,10 +11,13 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 
+#include "states/GameStateManager.h"
+
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
 using namespace Project::Handlers;
+using namespace Project::States;
 using namespace Project::Utilities;
 
 namespace Project::Core {
@@ -36,6 +39,8 @@ namespace Project::Core {
     MouseHandler mouseHandler;
     ResourcesHandler resourcesHandler;
     ScreenHandler screenHandler;
+
+    GameStateManager gameStateManager;
 
     LogsManager logsManager;
     FramesCounter framesCounter; 

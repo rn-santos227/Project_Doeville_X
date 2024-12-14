@@ -2,10 +2,10 @@
 
 namespace Project::Handlers {
   KeyHandler::KeyHandler(LogsManager& logsManager) : logsManager(logsManager) {
-    keyBindings[KeyAction::UP] = SDL_SCANCODE_W;
-    keyBindings[KeyAction::DOWN] = SDL_SCANCODE_S;
-    keyBindings[KeyAction::LEFT] = SDL_SCANCODE_A;
-    keyBindings[KeyAction::RIGHT] = SDL_SCANCODE_D;
+    keyBindings[KeyAction::MOVE_UP] = SDL_SCANCODE_W;
+    keyBindings[KeyAction::MOVE_DOWN] = SDL_SCANCODE_S;
+    keyBindings[KeyAction::MOVE_LEFT] = SDL_SCANCODE_A;
+    keyBindings[KeyAction::MOVE_RIGHT] = SDL_SCANCODE_D;
     keyBindings[KeyAction::ESCAPE] = SDL_SCANCODE_ESCAPE;
     keyBindings[KeyAction::ENTER] = SDL_SCANCODE_RETURN;
     keyBindings[KeyAction::ACTION_1] = SDL_SCANCODE_Z;

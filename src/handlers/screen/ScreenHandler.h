@@ -12,10 +12,12 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, Project::Utilities::LogsManager& logsManager, Project::Utilities::FramesCounter& frameCounter);
+    ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& frameCounter);
     ~ScreenHandler();
 
     bool init();
@@ -34,8 +36,8 @@ namespace Project::Handlers {
     KeyHandler& keyHandler;
     MouseHandler& mouseHandler;
     
-    Project::Utilities::LogsManager& logsManager;
-    Project::Utilities::FramesCounter& framesCounter;
+    LogsManager& logsManager;
+    FramesCounter& framesCounter;
     
     bool running;
     void renderFPS();

@@ -1,5 +1,7 @@
 #include "ScriptingService.h"
 
+namespace fs = std::filesystem;
+
 namespace Project::Services {
   ScriptingService::ScriptingService(Project::Utilities::LogsManager& logsManager) : logsManager(logsManager) {
     luaState = luaL_newstate();
@@ -13,7 +15,9 @@ namespace Project::Services {
   }
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {
+    for (const auto& entry : fs::recursive_directory_iterator(folderPath)) {
 
+    }
   }
   
   bool ScriptingService::validateScript(const std::string& scriptPath) {

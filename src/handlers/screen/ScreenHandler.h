@@ -9,6 +9,8 @@
 #include "handlers/input/KeyHandler.h"
 #include "handlers/input/MouseHandler.h"
 
+#include "states/GameStateManager.h"
+
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
@@ -17,7 +19,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& frameCounter);
+    ScreenHandler(GameStateManager& gameStateManager, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& frameCounter);
     ~ScreenHandler();
 
     bool init();
@@ -35,6 +37,8 @@ namespace Project::Handlers {
     FontHandler& fontHandler;
     KeyHandler& keyHandler;
     MouseHandler& mouseHandler;
+
+    GameStateManager& gameStateManager;
     
     LogsManager& logsManager;
     FramesCounter& framesCounter;

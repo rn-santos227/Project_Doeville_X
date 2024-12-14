@@ -20,7 +20,12 @@ namespace Project::Services {
         const std::string scriptPath  = entry.path().string();
         const std::string scriptName  = entry.path().filename().string();
 
-        ScriptCategory type = determineScriptType(scriptName);
+        ScriptCategory category = determineScriptType(scriptName);
+        if (category != ScriptCategory::Invalid) {
+
+        } else {
+          logsManager.logError("Invalid script naming: " + scriptName);
+        }
       }
     }
   }

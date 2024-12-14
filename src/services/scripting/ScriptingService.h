@@ -16,11 +16,14 @@ namespace Project::Services {
 
   class ScriptingService {
   public:
-    ScriptingService(Project::Utilities::LogsManager& logsManager);
+    explicit ScriptingService(Project::Utilities::LogsManager& logsManager);
     ~ScriptingService();
 
     bool loadScript(const std::string& scriptPath);
     bool validateScript(const std::string& scriptPath);
+
+    void loadScriptsFromFolder(const std::string& folderPath);
+    void registerEngineFunctions();
     
     void onEnter();
     void onExit();

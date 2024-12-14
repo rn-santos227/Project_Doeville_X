@@ -42,6 +42,28 @@ namespace Project::Services {
     return true;
   }
 
+  ScriptCategory ScriptingService::determineScriptType(const std::string& scriptName) {
+    if (scriptName.find(".state.lua") != std::string::npos) {
+      return ScriptCategory::State;
+    } 
+    
+    else if (scriptName.find(".entity.lua") != std::string::npos) {
+      return ScriptCategory::Entity;
+    } 
+    
+    else if (scriptName.find(".map.lua") != std::string::npos) {
+      return ScriptCategory::Map;
+    } 
+    
+    else if (scriptName.find(".animation.lua") != std::string::npos) {
+      return ScriptCategory::Animation;
+    } 
+    
+    else {
+      return ScriptCategory::Invalid;
+    }
+  }
+
   void ScriptingService::handleLuaError(int errorCode) {
     const char* errorMessage = lua_tostring(luaState, -1);
     logsManager.logError("Lua Error [" + std::to_string(errorCode) + "]:" + std::string(errorMessage));

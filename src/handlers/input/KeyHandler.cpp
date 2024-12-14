@@ -10,6 +10,8 @@ namespace Project::Handlers {
     keyBindings[KeyAction::ENTER] = SDL_SCANCODE_RETURN;
     keyBindings[KeyAction::ACTION_1] = SDL_SCANCODE_Z;
     keyBindings[KeyAction::ACTION_2] = SDL_SCANCODE_Y;
+    keyBindings[KeyAction::ACTION_3] = SDL_SCANCODE_Q;
+    keyBindings[KeyAction::ACTION_4] = SDL_SCANCODE_E;
 
     bindFunctionKeys();
     isFrozen = false;

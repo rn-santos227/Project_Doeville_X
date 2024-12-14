@@ -57,12 +57,19 @@ namespace Project::Handlers {
     DODGE,
     RELOAD,
 
+    // **Other Game-Specific Actions**
+    SPRINT,
+    CROUCH,
+    JUMP,
+    SWITCH_WEAPON,
+
     // **Menu and Navigation**
     MENU_OPEN,
     MENU_BACK,
     ESCAPE,
     ENTER,
     CONFIRM,
+    MAP_TOGGLE,
 
     // **System and Debugging**
     HELP_TOGGLE,

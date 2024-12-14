@@ -62,6 +62,10 @@ namespace Project::Services {
     else if (scriptName.find(".map.lua") != std::string::npos) {
       return ScriptCategory::MAP;
     } 
+
+    else if (scriptName.find(".item.lua") != std::string::npos) {
+      return ScriptCategory::ITEM;
+    } 
     
     else if (scriptName.find(".animation.lua") != std::string::npos) {
       return ScriptCategory::ANIMATION;

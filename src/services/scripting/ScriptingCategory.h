@@ -9,6 +9,7 @@ namespace Project::Services {
     STATE,
     ENTITY,
     MAP,
+    ITEM,
     ANIMATION,
     OTHER,
     INVALID

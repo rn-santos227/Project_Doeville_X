@@ -23,6 +23,11 @@ namespace Project::States {
     virtual void handleInput() = 0;
     
     virtual std::string getName() const = 0;
+
+    bool isInitialized() const { return initialized; }
+
+  protected:
+    bool initialized = false;
   };
 }
 

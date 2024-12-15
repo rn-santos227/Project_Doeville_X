@@ -40,7 +40,15 @@ namespace Project::States {
   }
 
   void GameStateManager::popState() {
+    if (!stateStack.empty()) {
+      stateStack.top()->onExit();
+      addToCache(stateStack.top()->getName(), nullptr);
+      stateStack.pop();
+    }
 
+    if (!stateStack.empty()) {
+      stateStack.top()->onEnter();
+    }
   }
 
   void GameStateManager::update(float deltaTime) {

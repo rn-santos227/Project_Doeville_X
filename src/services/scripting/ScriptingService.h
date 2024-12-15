@@ -35,10 +35,9 @@ namespace Project::Services {
     lua_State* luaState;
     
     LogsManager& logsManager;
-    
     ScriptCategory determineScriptType(const std::string& scriptName);
     
-    void loadScriptByType(const std::string& scriptPath, ScriptCategory category);
+    void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);
     void handleLuaError(int errorCode);
   };
 }

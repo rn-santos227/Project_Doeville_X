@@ -73,6 +73,14 @@ namespace Project::Services {
     return ScriptCategory::INVALID;
   }
 
+  void ScriptingService::loadScriptByCategory(const std::string& scriptPath, ScriptCategory category) {
+    int result = luaL_dofile(luaState, scriptPath.c_str());
+    if (result != LUA_OK) {
+      handleLuaError(result);
+      return;
+    }
+  }
+
   void ScriptingService::handleLuaError(int errorCode) {
     const char* errorMessage = lua_tostring(luaState, -1);
     logsManager.logError("Lua Error [" + std::to_string(errorCode) + "]:" + std::string(errorMessage));

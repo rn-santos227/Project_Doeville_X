@@ -30,7 +30,13 @@ namespace Project::States {
   }
 
   void GameStateManager::cleanup() {
+    while (!stateStack.empty()) {
+      stateStack.top()->onExit();
+      stateStack.pop();
+    }
 
+    states.clear();
+    cleanupCache();
   }
 
   void GameStateManager::cleanupCache() {

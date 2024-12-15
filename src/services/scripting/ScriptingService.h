@@ -6,6 +6,7 @@
 #include <iostream>
 #include <regex>
 #include <filesystem>
+#include <fstream>
 #include <string>
 
 extern "C" {

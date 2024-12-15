@@ -55,29 +55,22 @@ namespace Project::Services {
   }
 
   ScriptCategory ScriptingService::determineScriptType(const std::string& scriptName) {
-    if (scriptName.find(".state.lua") != std::string::npos) {
-      return ScriptCategory::STATE;
-    } 
-    
-    else if (scriptName.find(".entity.lua") != std::string::npos) {
-      return ScriptCategory::ENTITY;
-    } 
-    
-    else if (scriptName.find(".map.lua") != std::string::npos) {
-      return ScriptCategory::MAP;
-    } 
+    static const std::unordered_map<std::string, ScriptCategory> extensionMap = {
+      {".state.lua", ScriptCategory::STATE},
+      {".entity.lua", ScriptCategory::ENTITY},
+      {".map.lua", ScriptCategory::MAP},
+      {".item.lua", ScriptCategory::ITEM},
+      {".animation.lua", ScriptCategory::ANIMATION}
+    };
 
-    else if (scriptName.find(".item.lua") != std::string::npos) {
-      return ScriptCategory::ITEM;
-    } 
-    
-    else if (scriptName.find(".animation.lua") != std::string::npos) {
-      return ScriptCategory::ANIMATION;
-    } 
-    
-    else {
-      return ScriptCategory::INVALID;
+    for (const auto& [suffix, category] : extensionMap) {
+      if (scriptName.size() >= suffix.size() &&
+        scriptName.compare(scriptName.size() - suffix.size(), suffix.size(), suffix) == 0) {
+        return category;
+      }
     }
+
+    return ScriptCategory::INVALID;
   }
 
   void ScriptingService::handleLuaError(int errorCode) {

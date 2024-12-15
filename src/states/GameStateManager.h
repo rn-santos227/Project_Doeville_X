@@ -38,7 +38,7 @@ namespace Project::States {
     std::stack<GameState*> stateStack;
 
     void addToCache(const std::string& name, std::unique_ptr<GameState> state);
-    std::unique_ptr<GameState> retrieveFromCache(const std::string& name);
+    GameState* retrieveFromCache(const std::string& name);
   };
 }
 

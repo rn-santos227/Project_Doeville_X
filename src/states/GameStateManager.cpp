@@ -51,7 +51,25 @@ namespace Project::States {
   }
 
   void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
+    if (cacheMap.find(name) != cacheMap.end()) {
+      stateCache.erase(cacheMap[name]);
+    }
 
+    GameState* rawState = state.release();
+    stateCache.emplace_front(name, rawState);
+    cacheMap[name] = stateCache.begin();
+
+    cleanupCache();
+  }
+
+  GameState* GameStateManager::retrieveFromCache(const std::string& name) {
+    if (cacheMap.find(name) == cacheMap.end()) {
+      return nullptr;
+    }
+
+    auto it = cacheMap[name];
+    stateCache.splice(stateCache.begin(), stateCache, it);
+    return it->second.get();
   }
 }
 

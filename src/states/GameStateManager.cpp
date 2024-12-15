@@ -6,56 +6,15 @@ namespace Project::States {
   }
 
   void GameStateManager::changeState(const std::string& name) {
-    if (!stateStack.empty()) {
-      stateStack.top()->onExit();
-      stateStack.pop();
-    }
 
-    auto it = states.find(name);
-    if (it != states.end()) {
-      stateStack.push(it->second.get());
-      stateStack.top()->onEnter();
-    } else {
-      auto stateIt = states.find(name);
-      if (stateIt != states.end()) {
-        stateCache[name] = std::move(stateIt->second);
-        stateStack.push(stateCache[name].get());
-        stateStack.top()->onEnter();
-      }
-    }
   }
 
   void GameStateManager::pushState(const std::string& name) {
-    auto it = states.find(name);
-    if (it != states.end()) {
-      if (!stateStack.empty() && stateStack.top() != it->second.get()) {
-        stateStack.top()->onExit();
-      }
 
-      stateStack.push(it->second.get());
-      stateStack.top()->onEnter();
-    } else {
-      auto stateIt = states.find(name);
-      if (stateIt != states.end()) {
-        stateCache[name] = std::move(stateIt->second);
-        if (!stateStack.empty()) {
-          stateStack.top()->onExit();
-        }
-        stateStack.push(stateCache[name].get());
-        stateStack.top()->onEnter();
-      }
-    }
   }
 
   void GameStateManager::popState() {
-    if (!stateStack.empty()) {
-      stateStack.top()->onExit();
-      stateStack.pop();
-    }
 
-    if (!stateStack.empty()) {
-      stateStack.top()->onEnter();
-    }
   }
 
   void GameStateManager::update(float deltaTime) {
@@ -71,13 +30,7 @@ namespace Project::States {
   }
 
   void GameStateManager::cleanup() {
-   while (!stateStack.empty()) {
-      stateStack.top()->onExit();
-      stateStack.pop();
-    }
 
-    states.clear();
-    stateCache.clear();
   }
 }
 

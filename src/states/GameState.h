@@ -25,6 +25,7 @@ namespace Project::States {
     virtual std::string getName() const = 0;
 
     bool isInitialized() const { return initialized; }
+    void markInitialized() { initialized = true; }
 
   protected:
     bool initialized = false;

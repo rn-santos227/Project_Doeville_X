@@ -12,7 +12,7 @@
 namespace Project::States {
   class GameStateManager {
   public:
-    GameStateManager() = default;
+    GameStateManager(size_t cacheLimit = 5);
     ~GameStateManager() = default;
 
     void addState(const std::string& name, std::unique_ptr<GameState> state);

@@ -32,5 +32,13 @@ namespace Project::States {
   void GameStateManager::cleanup() {
 
   }
+
+  void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
+
+  }
+
+  std::unique_ptr<GameState> GameStateManager::retrieveFromCache(const std::string& name) {
+
+  }
 }
 

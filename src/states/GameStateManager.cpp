@@ -9,7 +9,30 @@ namespace Project::States {
   }
 
   void GameStateManager::changeState(const std::string& name) {
+    if (!stateStack.empty()) {
+      stateStack.top()->onExit();
+      addToCache(stateStack.top()->getName(), nullptr);
+      stateStack.pop();
+    }
 
+    auto it = states.find(name);
+    if (it == states.end()) {
+      GameState* cachedState = retrieveFromCache(name);
+      if (cachedState) {
+        stateStack.push(cachedState);
+        stateStack.top()->onEnter();
+        return;
+      }
+      return;
+    }
+
+    if (!it->second->isInitialized()) {
+      it->second->initialize();
+      it->second->markInitialized();
+    }
+
+    stateStack.push(it->second.get());
+    stateStack.top()->onEnter();
   }
 
   void GameStateManager::pushState(const std::string& name) {

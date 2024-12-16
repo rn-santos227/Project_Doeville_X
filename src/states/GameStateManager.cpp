@@ -49,6 +49,8 @@ namespace Project::States {
 
       stateStack.push(it->second.get());
       stateStack.top()->onEnter();
+    } else {
+      GameState* cachedState = retrieveFromCache(name);
     }
   }
 

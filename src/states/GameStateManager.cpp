@@ -37,6 +37,9 @@ namespace Project::States {
 
   void GameStateManager::pushState(const std::string& name) {
     auto it = states.find(name);
+    if (it != states.end()) {
+
+    }
   }
 
   void GameStateManager::popState() {

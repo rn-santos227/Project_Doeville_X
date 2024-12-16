@@ -48,7 +48,7 @@ namespace Project::States {
 
     bool attachLuaScript(const std::string& scriptPath) {
       if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
-        logsManager.logError("Failed to load Lua script: " + scriptPath + "\n" + lua_tostring(luaState, -1));
+        handleLuaError("Failed to load Lua script: " + scriptPath);
         return false;
       }
 
@@ -57,7 +57,11 @@ namespace Project::States {
     }
 
     bool callLuaFunction(const std::string& functionName) {
+      lua_getglobal(luaState, functionName.c_str());
 
+      if (!lua_isfunction(luaState, -1)) {
+        
+      }
     }
 
   protected:

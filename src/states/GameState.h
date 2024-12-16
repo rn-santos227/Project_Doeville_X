@@ -47,7 +47,13 @@ namespace Project::States {
     void markInitialized() { initialized = true; }
 
     bool attachLuaScript(const std::string& scriptPath) {
+      if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
+        logsManager.logError("Failed to load Lua script: " + scriptPath + "\n" + lua_tostring(luaState, -1));
+        return false;
+      }
 
+      logsManager.logMessage("Lua script attached: " + scriptPath);
+      return true;
     }
 
   protected:

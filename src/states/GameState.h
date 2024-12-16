@@ -70,6 +70,9 @@ namespace Project::States {
         lua_pop(luaState, 1);
         return false;
       }
+
+      logsManager.logMessage("Lua function called successfully: " + functionName);
+      return true;
     }
 
   protected:

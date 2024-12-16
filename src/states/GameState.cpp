@@ -12,6 +12,15 @@ namespace Project::States {
     }
   }
 
+  bool GameState::attachLuaScript(const std::string& scriptPath) {
+    if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
+      handleLuaError("Failed to load Lua script: " + scriptPath);
+      return false;
+    }
+    logsManager.logMessage("Lua script attached: " + scriptPath);
+    return true;
+  }
+
   void GameState::handleLuaError(const std::string& errorMessage) {
     logsManager.logError(errorMessage);
 

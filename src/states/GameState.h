@@ -46,6 +46,10 @@ namespace Project::States {
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }
 
+    bool attachLuaScript(const std::string& scriptPath) {
+
+    }
+
   protected:
     LogsManager& logsManager;
     lua_State* luaState = nullptr;

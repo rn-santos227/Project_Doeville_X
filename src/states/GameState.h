@@ -60,7 +60,9 @@ namespace Project::States {
       lua_getglobal(luaState, functionName.c_str());
 
       if (!lua_isfunction(luaState, -1)) {
-        
+        handleLuaError("Lua function not found: " + functionName);
+        lua_pop(luaState, 1);
+        return false;
       }
     }
 

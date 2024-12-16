@@ -10,7 +10,13 @@ using namespace Project::States;
 using namespace Project::Utilities;
 
 namespace Project::Factories {
-
+  class GameStateFactory {
+  public:
+    explicit GameStateFactory(GameStateManager& gameStateManager);
+  
+  private:
+    GameStateManager& gameStateManager;
+  };
 }
 
 #endif

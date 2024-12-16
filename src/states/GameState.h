@@ -41,6 +41,10 @@ namespace Project::States {
 
     lua_State* luaState = nullptr;
     std::string luaName;
+    
+    void reportLuaError() {
+
+    }
   };
 }
 

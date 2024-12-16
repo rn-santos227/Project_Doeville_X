@@ -67,7 +67,12 @@ namespace Project::States {
     bool initialized = false;
 
     void handleLuaError(const std::string& errorMessage) {
+      logsManager.logError(errorMessage);
 
+      if (lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
+        logsManager.logError("Lua error details: " + std::string(lua_tostring(luaState, -1)));
+        lua_pop(luaState, 1);
+      }
     }
   };
 }

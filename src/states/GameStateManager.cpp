@@ -51,6 +51,10 @@ namespace Project::States {
       stateStack.top()->onEnter();
     } else {
       GameState* cachedState = retrieveFromCache(name);
+      if (cachedState) {
+        stateStack.push(cachedState);
+        stateStack.top()->onEnter();
+      }
     }
   }
 

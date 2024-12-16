@@ -18,7 +18,7 @@ using namespace Project::Utilities;
 namespace Project::States {
   class GameState {
   public:
-    explicit GameState(Project::Utilities::LogsManager& logsManager)
+    explicit GameState(LogsManager& logsManager)
       : logsManager(logsManager), luaState(luaL_newstate()), initialized(false) {
       luaL_openlibs(luaState);
     }
@@ -56,11 +56,19 @@ namespace Project::States {
       return true;
     }
 
+    bool callLuaFunction(const std::string& functionName) {
+
+    }
+
   protected:
     LogsManager& logsManager;
     lua_State* luaState = nullptr;
     
     bool initialized = false;
+
+    void handleLuaError(const std::string& errorMessage) {
+
+    }
   };
 }
 

@@ -46,6 +46,9 @@ namespace Project::States {
         it->second->initialize();
         it->second->markInitialized();
       }
+
+      stateStack.push(it->second.get());
+      stateStack.top()->onEnter();
     }
   }
 

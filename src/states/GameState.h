@@ -64,6 +64,10 @@ namespace Project::States {
         lua_pop(luaState, 1);
         return false;
       }
+
+      if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
+
+      }
     }
 
   protected:

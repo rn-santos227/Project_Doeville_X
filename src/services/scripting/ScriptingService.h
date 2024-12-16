@@ -28,7 +28,6 @@ namespace Project::Services {
 
     bool loadScript(const std::string& scriptPath);
     bool validateScript(const std::string& scriptPath);
-
     void loadScriptsFromFolder(const std::string& folderPath);
 
   private:

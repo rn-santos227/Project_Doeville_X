@@ -5,6 +5,12 @@
 
 #include <string>
 
+extern "C" {
+  #include "lua.h"
+  #include "lauxlib.h"
+  #include "lualib.h"
+}
+
 namespace Project::States {
   class GameState {
   public:
@@ -22,13 +28,19 @@ namespace Project::States {
 
     virtual void handleInput() = 0;
     
-    virtual std::string getName() const = 0;
+    virtual std::string getName() const {
+      return name;
+    }
 
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }
 
   protected:
+    std::string name;
     bool initialized = false;
+
+    lua_State* luaState = nullptr;
+    std::string luaName;
   };
 }
 

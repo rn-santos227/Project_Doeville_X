@@ -11,10 +11,23 @@ extern "C" {
   #include "lualib.h"
 }
 
+#include "utilities/logs_manager/LogsManager.h"
+
+using namespace Project::Utilities;
+
 namespace Project::States {
   class GameState {
   public:
-    virtual ~GameState() = default;
+    explicit GameState(Project::Utilities::LogsManager& logsManager)
+      : logsManager(logsManager), luaState(luaL_newstate()), initialized(false) {
+      luaL_openlibs(luaState);
+    }
+
+    virtual ~GameState() {
+      if (luaState) {
+        lua_close(luaState);
+      }
+    }
     
     virtual void initialize() = 0;
 
@@ -28,23 +41,16 @@ namespace Project::States {
 
     virtual void handleInput() = 0;
     
-    virtual std::string getName() const {
-      return name;
-    }
+    virtual std::string getName() const = 0;
 
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }
 
   protected:
-    std::string name;
-    bool initialized = false;
-
+    LogsManager& logsManager;
     lua_State* luaState = nullptr;
-    std::string luaName;
     
-    void reportLuaError() {
-
-    }
+    bool initialized = false;
   };
 }
 

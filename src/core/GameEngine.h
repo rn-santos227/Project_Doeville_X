@@ -54,6 +54,7 @@ namespace Project::Core {
     void handleFrameRate();
 
     std::mutex eventMutex;
+    std::mutex updateMutex;
   };
 }
 

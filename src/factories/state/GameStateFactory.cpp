@@ -5,5 +5,10 @@ namespace Project::Factories {
 
   bool GameStateFactory::createStateFromLua(const std::string& scriptPath) {
     auto newState = std::make_unique<GameState>(logsManager);
+
+    if (!newState->attachLuaScript(scriptPath)) {
+      logsManager.logError("Failed to load GameState from Lua script: " + scriptPath);
+      return false;
+    }
   }
 }

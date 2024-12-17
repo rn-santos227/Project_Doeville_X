@@ -10,5 +10,10 @@ namespace Project::Factories {
       logsManager.logError("Failed to load GameState from Lua script: " + scriptPath);
       return false;
     }
+
+    if (!newState->callLuaFunction("initialize")) {
+      logsManager.logError("Failed to initialize GameState from Lua script: " + scriptPath);
+      return false;
+    }
   }
 }

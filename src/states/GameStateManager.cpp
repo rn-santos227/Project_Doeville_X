@@ -78,6 +78,7 @@ namespace Project::States {
   }
 
   void GameStateManager::render() {
+    std::lock_guard<std::mutex> lock(gameStateMutex);
     if (!stateStack.empty()) {
       stateStack.top()->render();
     }

@@ -19,6 +19,8 @@ namespace Project::States {
     explicit GameState(LogsManager& logsManager);
     virtual ~GameState();
 
+    lua_State* getLuaState() const { return luaState; }
+
     virtual void initialize() = 0;
     virtual void onEnter() = 0;
     virtual void onExit() = 0;

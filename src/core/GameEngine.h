@@ -2,6 +2,7 @@
 #define GAME_ENGINE_H
 
 #include <iostream>
+#include <mutex>
 
 #include <SDL.h>
 
@@ -50,8 +51,9 @@ namespace Project::Core {
     void handleEvents();
     void update();
     void render();
-
     void handleFrameRate();
+
+    std::mutex eventMutex;
   };
 }
 

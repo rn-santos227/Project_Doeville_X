@@ -69,7 +69,7 @@ namespace Project::Handlers {
   }
 
   void ScreenHandler::handleEvents() {
-    std::lock_guard<std::mutex> lock(renderMutex);
+    std::lock_guard<std::mutex> lock(eventMutex);
     
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0) {

@@ -18,5 +18,18 @@ namespace Project::Factories {
     
     lua_State* L = newState->getLuaState();
     lua_getglobal(L, "stateName");
+
+    if (!lua_isstring(L, -1)) {
+      logsManager.logError("Lua script is missing 'stateName': " + scriptPath);
+      return false;
+    }
+
+    std::string stateName = lua_tostring(L, -1);
+    lua_pop(L, 1);
+
+    gameStateManager.addState(stateName, std::move(newState));
+    logsManager.logMessage("Successfully created and registered state: " + stateName);
+
+    return true;
   }
 }

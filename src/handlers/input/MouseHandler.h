@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "utilities/logs_manager/LogsManager.h"
 

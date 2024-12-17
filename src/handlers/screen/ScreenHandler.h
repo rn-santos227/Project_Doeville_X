@@ -2,6 +2,7 @@
 #define SCREEN_HANDLER_H
 
 #include <iostream>
+#include <mutex>
 
 #include <SDL.h>
 
@@ -43,6 +44,9 @@ namespace Project::Handlers {
     
     LogsManager& logsManager;
     FramesCounter& framesCounter;
+
+    std::mutex renderMutex;
+    std::mutex eventMutex;
     
     bool running;
     void renderFPS();

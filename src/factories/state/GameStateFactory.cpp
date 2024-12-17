@@ -15,5 +15,8 @@ namespace Project::Factories {
       logsManager.logError("Failed to initialize GameState from Lua script: " + scriptPath);
       return false;
     }
+    
+    lua_State* L = newState->getLuaState();
+    lua_getglobal(L, "stateName");
   }
 }

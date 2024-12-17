@@ -51,7 +51,7 @@ namespace Project::Handlers {
 
   void ScreenHandler::render() {
     std::lock_guard<std::mutex> lock(renderMutex);
-    
+
     if (renderer) {
       if (keyHandler.isGameDebugMode()) {
         renderFPS();
@@ -69,6 +69,8 @@ namespace Project::Handlers {
   }
 
   void ScreenHandler::handleEvents() {
+    std::lock_guard<std::mutex> lock(renderMutex);
+    
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0) {
       if (e.type == SDL_QUIT) {

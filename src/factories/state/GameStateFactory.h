@@ -12,10 +12,11 @@ using namespace Project::Utilities;
 namespace Project::Factories {
   class GameStateFactory {
   public:
-    explicit GameStateFactory(GameStateManager& gameStateManager);
+    explicit GameStateFactory(GameStateManager& gameStateManager, LogsManager& logsManager);
   
   private:
     GameStateManager& gameStateManager;
+    LogsManager& logsManager;
   };
 }
 

@@ -8,6 +8,7 @@
 #include <stack>
 #include <list>
 #include <memory>
+#include <mutex>
 
 namespace Project::States {
   class GameStateManager {
@@ -39,6 +40,8 @@ namespace Project::States {
 
     void addToCache(const std::string& name, std::unique_ptr<GameState> state);
     GameState* retrieveFromCache(const std::string& name);
+
+    std::mutex gameStateMutex;
   };
 }
 

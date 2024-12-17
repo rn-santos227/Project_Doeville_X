@@ -39,6 +39,8 @@ namespace Project::Handlers {
   }
 
   void ScreenHandler::clear() {
+    std::lock_guard<std::mutex> lock(renderMutex); 
+    
     if (renderer) {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
       SDL_RenderClear(renderer);

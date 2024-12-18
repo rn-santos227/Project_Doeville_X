@@ -37,7 +37,7 @@ namespace Project::States {
   }
 
   void GameState::onExit() {
-    logsManager.logMessage("GameState exit.");
+    lua_getglobal(luaState, "initialize");
   }
 
   void GameState::update(float deltaTime) {

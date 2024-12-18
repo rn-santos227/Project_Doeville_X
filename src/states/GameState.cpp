@@ -39,7 +39,7 @@ namespace Project::States {
   void GameState::onExit() {
     lua_getglobal(luaState, "onExit");
     if (lua_isfunction(luaState, -1)) {
-
+      int result = lua_pcall(luaState, 0, 0, 0);
     }
   }
 

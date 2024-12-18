@@ -35,9 +35,6 @@ namespace Project::Core {
     void clean();
 
   private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-
     FontHandler fontHandler;
     KeyHandler keyHandler;
     MouseHandler mouseHandler;

@@ -14,7 +14,7 @@ namespace Project::Factories {
   public:
     explicit GameStateFactory(GameStateManager& gameStateManager, LogsManager& logsManager);
 
-    bool GameStateFactory::createStateFromLua(const std::string& scriptPath);
+    bool createStateFromLua(const std::string& scriptPath);
   
   private:
     GameStateManager& gameStateManager;

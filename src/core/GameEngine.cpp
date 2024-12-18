@@ -2,7 +2,7 @@
 
 namespace Project::Core {
   GameEngine::GameEngine() : 
-    window(nullptr), renderer(nullptr), isRunning(false), logsManager(), 
+    isRunning(false), logsManager(), 
     keyHandler(logsManager), mouseHandler(logsManager), 
     fontHandler(logsManager), 
     gameStateManager(),

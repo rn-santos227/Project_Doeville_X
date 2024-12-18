@@ -21,13 +21,13 @@ namespace Project::States {
 
     lua_State* getLuaState() const { return luaState; }
 
-    virtual void initialize() = 0;
-    virtual void onEnter() = 0;
-    virtual void onExit() = 0;
-    virtual void update(float deltaTime) = 0;
-    virtual void render() = 0;
-    virtual void handleInput() = 0;
-    virtual std::string getName() const = 0;
+    virtual void initialize();
+    virtual void onEnter();
+    virtual void onExit();
+    virtual void update(float deltaTime);
+    virtual void render();
+    virtual void handleInput();
+    virtual std::string getName() const;
 
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }

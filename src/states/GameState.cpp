@@ -13,9 +13,7 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    if (!callLuaFunction("initialize")) {
-      logsManager.logMessage("C++: Initializing game state.");
-    }
+    lua_getglobal(luaState, "initialize");
   }
 
   void GameState::onEnter() {

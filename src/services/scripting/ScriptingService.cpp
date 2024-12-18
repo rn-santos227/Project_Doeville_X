@@ -82,7 +82,13 @@ namespace Project::Services {
     }
 
     switch(category) {
+      case ScriptCategory::STATE: {
+        if(gameStateFactory.createStateFromLua(scriptPath)) {
 
+        } else {
+          
+        }
+      }
     }
   }
 

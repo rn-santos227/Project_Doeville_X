@@ -44,6 +44,10 @@ namespace Project::States {
     logsManager.logMessage("GameState update.");
   }
 
+  void GameState::render() {
+    logsManager.logMessage("GameState update.");
+  }
+
   bool GameState::attachLuaScript(const std::string& scriptPath) {
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
       handleLuaError("Failed to load Lua script: " + scriptPath);

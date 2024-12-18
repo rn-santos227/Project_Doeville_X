@@ -23,7 +23,7 @@ namespace Project::States {
 
     virtual void initialize();
     virtual void onEnter();
-    virtual void onExit() = 0;
+    virtual void onExit();
     virtual void update(float deltaTime) = 0;
     virtual void render() = 0;
     virtual void handleInput() = 0;

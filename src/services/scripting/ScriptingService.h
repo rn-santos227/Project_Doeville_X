@@ -30,7 +30,7 @@ namespace Project::Services {
 
   class ScriptingService {
   public:
-    explicit ScriptingService(GameStateFactory& gameStateFactory, LogsManager& logsManager);
+    explicit ScriptingService(GameStateManager& gameStateManager, LogsManager& logsManager);
     ~ScriptingService();
 
     bool loadScript(const std::string& scriptPath);
@@ -40,7 +40,7 @@ namespace Project::Services {
   private:
     lua_State* luaState;
 
-    GameStateFactory& gameStateFactory;
+    GameStateFactory gameStateFactory;
 
     LogsManager& logsManager;
     ScriptCategory determineScriptType(const std::string& scriptName);

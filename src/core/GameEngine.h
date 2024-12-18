@@ -20,6 +20,7 @@
 #include "utilities/frames_counter/FramesCounter.h"
 
 using namespace Project::Handlers;
+using namespace Project::Services;
 using namespace Project::States;
 using namespace Project::Utilities;
 

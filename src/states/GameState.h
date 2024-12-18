@@ -26,7 +26,7 @@ namespace Project::States {
     virtual void onExit();
     virtual void update(float deltaTime);
     virtual void render();
-    virtual void handleInput() = 0;
+    virtual void handleInput();
     virtual std::string getName() const = 0;
 
     bool isInitialized() const { return initialized; }

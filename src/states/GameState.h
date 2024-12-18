@@ -24,7 +24,7 @@ namespace Project::States {
     virtual void initialize();
     virtual void onEnter();
     virtual void onExit();
-    virtual void update(float deltaTime) = 0;
+    virtual void update(float deltaTime);
     virtual void render() = 0;
     virtual void handleInput() = 0;
     virtual std::string getName() const = 0;

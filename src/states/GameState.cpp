@@ -13,7 +13,9 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    logsManager.logMessage("GameState initialized.");
+    if (!callLuaFunction("initialize")) {
+      logsManager.logMessage("C++: Initializing game state.");
+    }
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {

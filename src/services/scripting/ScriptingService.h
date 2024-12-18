@@ -15,8 +15,12 @@ extern "C" {
   #include "lualib.h"
 }
 
-#include "utilities/logs_manager/LogsManager.h"
+
 #include "factories/state/GameStateFactory.h"
+
+#include "states/GameStateManager.h"
+
+#include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Factories;
 using namespace Project::Utilities;

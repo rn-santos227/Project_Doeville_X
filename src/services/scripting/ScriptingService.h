@@ -18,6 +18,7 @@ extern "C" {
 #include "utilities/logs_manager/LogsManager.h"
 #include "factories/state/GameStateFactory.h"
 
+using namespace Project::Factories;
 using namespace Project::Utilities;
 
 namespace Project::Services {
@@ -33,7 +34,9 @@ namespace Project::Services {
 
   private:
     lua_State* luaState;
+
     
+
     LogsManager& logsManager;
     ScriptCategory determineScriptType(const std::string& scriptName);
     

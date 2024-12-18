@@ -80,6 +80,10 @@ namespace Project::Services {
       handleLuaError(result);
       return;
     }
+
+    switch(category) {
+
+    }
   }
 
   void ScriptingService::handleLuaError(int errorCode) {

@@ -25,7 +25,7 @@ namespace Project::States {
   }
 
   void GameState::onEnter() {
-    logsManager.logMessage("GameState entered.");
+    lua_getglobal(luaState, "onEnter");
   }
 
   void GameState::onExit() {

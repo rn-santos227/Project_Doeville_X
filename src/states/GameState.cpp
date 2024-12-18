@@ -37,7 +37,11 @@ namespace Project::States {
   }
 
   void GameState::onExit() {
-    logsManager.logMessage("GameState exite.");
+    logsManager.logMessage("GameState exit.");
+  }
+
+  void GameState::update(float deltaTime) {
+    logsManager.logMessage("GameState update.");
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {

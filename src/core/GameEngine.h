@@ -14,6 +14,8 @@
 
 #include "states/GameStateManager.h"
 
+#include "services/scripting/ScriptingService.h"
+
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 

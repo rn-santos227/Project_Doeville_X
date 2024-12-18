@@ -40,9 +40,11 @@ namespace Project::Services {
   private:
     lua_State* luaState;
 
-    GameStateFactory gameStateFactory;
-
+    GameStateManager& gameStateManager;
     LogsManager& logsManager;
+
+    GameStateFactory gameStateFactory;
+    
     ScriptCategory determineScriptType(const std::string& scriptName);
     
     void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);

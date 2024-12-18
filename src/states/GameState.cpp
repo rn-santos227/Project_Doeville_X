@@ -27,7 +27,7 @@ namespace Project::States {
   void GameState::onEnter() {
     lua_getglobal(luaState, "onEnter");
     if (lua_isfunction(luaState, -1)) {
-
+      int result = lua_pcall(luaState, 0, 0, 0);
     }
   }
 

@@ -27,7 +27,7 @@ namespace Project::States {
     virtual void update(float deltaTime);
     virtual void render();
     virtual void handleInput();
-    virtual std::string getName() const = 0;
+    virtual std::string getName() const { return stateName; }
 
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }
@@ -36,8 +36,10 @@ namespace Project::States {
     bool callLuaFunction(const std::string& functionName);
 
   protected:
-    LogsManager& logsManager;
     lua_State* luaState = nullptr;
+    std::string stateName;
+    
+    LogsManager& logsManager;
     bool initialized = false;
 
     void handleLuaError(const std::string& errorMessage);

@@ -46,8 +46,10 @@ namespace Project::Core {
 
     GameStateManager gameStateManager;
 
+    ScriptingService scriptingService;
+
     LogsManager logsManager;
-    FramesCounter framesCounter; 
+    FramesCounter framesCounter;
 
     bool isRunning;
 

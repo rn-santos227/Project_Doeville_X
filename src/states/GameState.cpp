@@ -18,6 +18,10 @@ namespace Project::States {
     }
   }
 
+  void GameState::onEnter() {
+    logsManager.logMessage("GameState entered.");
+  }
+
   bool GameState::attachLuaScript(const std::string& scriptPath) {
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
       handleLuaError("Failed to load Lua script: " + scriptPath);

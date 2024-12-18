@@ -16,6 +16,7 @@ extern "C" {
 }
 
 #include "utilities/logs_manager/LogsManager.h"
+#include "factories/state/GameStateFactory.h"
 
 using namespace Project::Utilities;
 

@@ -37,7 +37,10 @@ namespace Project::States {
   }
 
   void GameState::onExit() {
-    lua_getglobal(luaState, "initialize");
+    lua_getglobal(luaState, "onExit");
+    if (lua_isfunction(luaState, -1)) {
+
+    }
   }
 
   void GameState::update(float deltaTime) {

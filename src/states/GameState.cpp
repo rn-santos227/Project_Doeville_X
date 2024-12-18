@@ -18,7 +18,9 @@ namespace Project::States {
       int result = lua_pcall(luaState, 0, 0, 0);
       if (result != LUA_OK) {
         handleLuaError("Error calling Lua function 'initialize': " + std::string(lua_tostring(luaState, -1)));
-      }
+      } 
+    } else {
+      lua_pop(luaState, 1);
     }
   }
 

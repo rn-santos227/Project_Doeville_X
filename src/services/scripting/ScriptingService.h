@@ -23,6 +23,7 @@ extern "C" {
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Factories;
+using namespace Project::States;
 using namespace Project::Utilities;
 
 namespace Project::Services {

@@ -26,6 +26,9 @@ namespace Project::States {
 
   void GameState::onEnter() {
     lua_getglobal(luaState, "onEnter");
+    if (lua_isfunction(luaState, -1)) {
+
+    }
   }
 
   void GameState::onExit() {

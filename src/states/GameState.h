@@ -22,7 +22,7 @@ namespace Project::States {
     lua_State* getLuaState() const { return luaState; }
 
     virtual void initialize();
-    virtual void onEnter() = 0;
+    virtual void onEnter();
     virtual void onExit() = 0;
     virtual void update(float deltaTime) = 0;
     virtual void render() = 0;

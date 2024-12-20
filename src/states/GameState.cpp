@@ -74,6 +74,9 @@ namespace Project::States {
 
   void GameState::handleInput() {
     lua_getglobal(luaState, "handleInput");
+    if (lua_isfunction(luaState, -1)) {
+
+    }
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {

@@ -3,7 +3,7 @@
 
 namespace Project::Entity {
   enum class EntityID {
-
+    PLAYER,
   };
 }
 

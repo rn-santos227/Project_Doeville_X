@@ -61,7 +61,7 @@ namespace Project::States {
   }
 
   void GameState::render() {
-    logsManager.logMessage("GameState update.");
+    lua_getglobal(luaState, "render");
   }
 
   void GameState::handleInput() {

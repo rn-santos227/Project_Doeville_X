@@ -49,7 +49,7 @@ namespace Project::States {
   }
 
   void GameState::update(float deltaTime) {
-    logsManager.logMessage("GameState update.");
+    lua_getglobal(luaState, "update");
   }
 
   void GameState::render() {

@@ -5,6 +5,7 @@ namespace Project::Entity {
   enum class EntityID {
     PLAYER,
     ENEMY,
+    NPC,
   };
 }
 

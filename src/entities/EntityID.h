@@ -8,6 +8,8 @@ namespace Project::Entity {
     NPC,
     PROJECTILE,
     OBSTACLE,
+    VEHICLE,
+    TRIGGER,
   };
 }
 

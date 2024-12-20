@@ -6,6 +6,8 @@ namespace Project::Entity {
     PLAYER,
     ENEMY,
     NPC,
+    PROJECTILE,
+    OBSTACLE,
   };
 }
 

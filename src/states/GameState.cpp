@@ -51,7 +51,7 @@ namespace Project::States {
   void GameState::update(float deltaTime) {
     lua_getglobal(luaState, "update");
     if (lua_isfunction(luaState, -1)) {
-
+      int result = lua_pcall(luaState, 0, 0, 0);
     } else {
       lua_pop(luaState, 1);
     }

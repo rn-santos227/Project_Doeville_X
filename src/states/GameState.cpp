@@ -50,6 +50,9 @@ namespace Project::States {
 
   void GameState::update(float deltaTime) {
     lua_getglobal(luaState, "update");
+    if (lua_isfunction(luaState, -1)) {
+
+    }
   }
 
   void GameState::render() {

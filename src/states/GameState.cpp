@@ -52,6 +52,8 @@ namespace Project::States {
     lua_getglobal(luaState, "update");
     if (lua_isfunction(luaState, -1)) {
 
+    } else {
+      lua_pop(luaState, 1);
     }
   }
 

@@ -28,6 +28,7 @@ namespace Project::Entities {
 
     void update(float deltaTime);
     void render();
+    bool attachLuaScript(const std::string& scriptPath);
 
   private:
     EntityID entityID;

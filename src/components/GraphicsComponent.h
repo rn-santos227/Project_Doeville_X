@@ -7,8 +7,14 @@
 
 #include <SDL.h>
 
-namespace Project::Components {
+namespace Project::Components  {
+  class GraphicsComponent : public BaseComponent {
+  public:
+    explicit GraphicsComponent(SDL_Renderer* renderer, const std::string& texturePath);
+    ~GraphicsComponent();
+    
 
+  };
 }
 
 #endif

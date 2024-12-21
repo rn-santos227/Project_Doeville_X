@@ -31,6 +31,8 @@ namespace Project::Entities {
     bool attachLuaScript(const std::string& scriptPath);
     bool callLuaFunction(const std::string& functionName);
 
+    void addComponent(const std::string& componentName, std::function<void()> updateFunc);
+
   private:
     EntityID entityID;
     lua_State* luaState;

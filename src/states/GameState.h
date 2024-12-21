@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <SDL.h>
-
 extern "C" {
   #include "lua.h"
   #include "lauxlib.h"
@@ -39,8 +37,6 @@ namespace Project::States {
 
   protected:
     lua_State* luaState = nullptr;
-    SDL_Renderer* renderer = nullptr;
-    
     std::string stateName;
     
     LogsManager& logsManager;

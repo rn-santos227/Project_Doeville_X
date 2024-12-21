@@ -10,6 +10,7 @@ namespace Project::Entities {
   Entity::~Entity() {
     if (luaState) {
       lua_close(luaState);
+      logsManager.logMessage("Lua state closed for Entity ID: " + std::to_string(static_cast<int>(entityID)));
     }
   }
 }

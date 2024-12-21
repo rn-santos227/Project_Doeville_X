@@ -14,8 +14,18 @@ extern "C" {
 
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Entities {
   class Entity {
+  public:
+    explicit Entity(const std::string& id, LogsManager& logsManager);
+    virtual ~Entity();
+
+  private:
+    std::string id;
+    lua_State* luaState;
+    LogsManager& logsManager;
 
   };
 }

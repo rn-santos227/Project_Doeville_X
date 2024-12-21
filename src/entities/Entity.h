@@ -27,6 +27,7 @@ namespace Project::Entities {
     const EntityID& getEntityID() const { return entityID; }
 
     void update(float deltaTime);
+    void render();
 
   private:
     EntityID entityID;

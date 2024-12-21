@@ -15,6 +15,13 @@ namespace Project::Components  {
     
     void update(float deltaTime) override;
     void render() override;
+
+  private:
+    SDL_Renderer* renderer;
+    SDL_Texture* texture;
+    SDL_Rect destinationRect;
+
+    void loadTexture(const std::string& path);
   };
 }
 

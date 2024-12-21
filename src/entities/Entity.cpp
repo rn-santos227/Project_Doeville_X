@@ -8,6 +8,8 @@ namespace Project::Entities {
   }
   
   Entity::~Entity() {
-
+    if (luaState) {
+      lua_close(luaState);
+    }
   }
 }

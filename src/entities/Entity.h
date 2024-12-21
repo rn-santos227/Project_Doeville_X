@@ -26,6 +26,8 @@ namespace Project::Entities {
 
     const EntityID& getEntityID() const { return entityID; }
 
+    void update(float deltaTime);
+
   private:
     EntityID entityID;
     lua_State* luaState;

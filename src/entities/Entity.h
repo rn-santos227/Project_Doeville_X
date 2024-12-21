@@ -32,6 +32,7 @@ namespace Project::Entities {
     bool callLuaFunction(const std::string& functionName);
 
     void addComponent(const std::string& componentName, std::function<void()> updateFunc);
+    void removeComponent(const std::string& componentName);
 
   private:
     EntityID entityID;

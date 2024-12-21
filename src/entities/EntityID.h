@@ -10,6 +10,12 @@ namespace Project::Entity {
     OBSTACLE,
     VEHICLE,
     TRIGGER,
+    ENVIRONMENT,
+    PICKUP,
+    DOOR,
+    CHECKPOINT,
+    CAMERA,
+    UI_ELEMENT
   };
 }
 

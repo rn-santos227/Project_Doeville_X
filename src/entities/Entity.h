@@ -24,6 +24,8 @@ namespace Project::Entities {
     explicit Entity(EntityID entityID, LogsManager& logsManager);
     virtual ~Entity();
 
+    const EntityID& getEntityID() const { return entityID; }
+
   private:
     EntityID entityID;
     lua_State* luaState;

@@ -1,7 +1,7 @@
 #ifndef ENTITY_ID_H
 #define ENTITY_ID_H
 
-namespace Project::Entity {
+namespace Project::Entities {
   enum class EntityID {
     PLAYER,
     ENEMY,
@@ -15,7 +15,7 @@ namespace Project::Entity {
     DOOR,
     CHECKPOINT,
     CAMERA,
-    UI_ELEMENT
+    UI_ELEMENT  
   };
 }
 

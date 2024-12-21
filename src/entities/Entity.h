@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "EntityID.h"
+
 #include <string>
 #include <unordered_map>
 #include <memory>
@@ -19,11 +21,11 @@ using namespace Project::Utilities;
 namespace Project::Entities {
   class Entity {
   public:
-    explicit Entity(const std::string& id, LogsManager& logsManager);
+    explicit Entity(EntityID entityID, LogsManager& logsManager);
     virtual ~Entity();
 
   private:
-    std::string id;
+    EntityID entityID;
     lua_State* luaState;
     LogsManager& logsManager;
 

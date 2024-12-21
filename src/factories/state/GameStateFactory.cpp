@@ -25,6 +25,7 @@ namespace Project::Factories {
     }
 
     std::string stateName = lua_tostring(L, -1);
+    newState->setStateName(stateName);
     lua_pop(L, 1);
 
     gameStateManager.addState(stateName, std::move(newState));

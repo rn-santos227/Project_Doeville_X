@@ -39,6 +39,8 @@ namespace Project::Entities {
     lua_State* luaState;
     LogsManager& logsManager;
 
+    std::string entityName;
+
     std::unordered_map<std::string, std::function<void()>> components;
     void handleLuaError(const std::string& errorMessage);
   };

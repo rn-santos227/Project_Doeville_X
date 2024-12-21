@@ -27,7 +27,9 @@ namespace Project::States {
     virtual void update(float deltaTime);
     virtual void render();
     virtual void handleInput();
-    virtual std::string getName() const { return stateName; }
+    
+    virtual std::string getStateName() const { return stateName; }
+    virtual void setStateName(const std::string stateName) { this->stateName = stateName; }
 
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }

@@ -10,6 +10,8 @@
 #include <memory>
 #include <mutex>
 
+#include <SDL.h>
+
 namespace Project::States {
   class GameStateManager {
   public:
@@ -30,6 +32,7 @@ namespace Project::States {
 
   private:
     size_t cacheLimit;
+    SDL_Renderer* renderer;
     
     std::unordered_map<std::string, std::unique_ptr<GameState>> states;
     

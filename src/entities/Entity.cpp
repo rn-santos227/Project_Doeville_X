@@ -2,8 +2,12 @@
 
 namespace Project::Entities {
   Entity::Entity(EntityID id, LogsManager& logsManager)
-    : entityID(id), logsManager(logsManager), luaState(luaL_newstate()) {
-      luaL_openlibs(luaState);
-      logsManager.logMessage("Entity created with ID: " + std::to_string(static_cast<int>(entityID)));
-    }
+  : entityID(id), logsManager(logsManager), luaState(luaL_newstate()) {
+    luaL_openlibs(luaState);
+    logsManager.logMessage("Entity created with ID: " + std::to_string(static_cast<int>(entityID)));
+  }
+  
+  Entity::~Entity() {
+
+  }
 }

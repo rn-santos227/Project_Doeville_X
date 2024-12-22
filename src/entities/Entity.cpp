@@ -46,7 +46,8 @@ namespace Project::Entities {
   }
 
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<Components::BaseComponent> component) {
-
+    components[componentName] = std::move(component);
+    logsManager.logMessage("Component added: " + componentName + " to Entity ID: " + std::to_string(static_cast<int>(entityID)));
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

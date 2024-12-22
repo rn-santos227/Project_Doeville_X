@@ -15,6 +15,8 @@ namespace Project::Entities {
   }
 
   void Entity::update(float deltaTime) {
-
+    for (const auto& [name, component] : components) {
+      component->update(deltaTime);
+    }
   }
 }

@@ -30,6 +30,10 @@ namespace Project::Entities {
     }
   }
 
+  void Entity::render() {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError(errorMessage);
 

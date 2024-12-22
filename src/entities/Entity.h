@@ -33,7 +33,7 @@ namespace Project::Entities {
     bool attachLuaScript(const std::string& scriptPath);
     bool callLuaFunction(const std::string& functionName);
 
-    void addComponent(const std::string& componentName, std::function<void()> updateFunc);
+    void addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component);
     void removeComponent(const std::string& componentName);
 
   private:

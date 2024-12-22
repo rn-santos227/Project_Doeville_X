@@ -45,6 +45,10 @@ namespace Project::Entities {
     }
   }
 
+  void Entity::addComponent(const std::string& componentName, std::unique_ptr<Components::BaseComponent> component) {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError(errorMessage);
 

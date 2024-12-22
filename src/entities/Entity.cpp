@@ -23,7 +23,7 @@ namespace Project::Entities {
     if (lua_isfunction(luaState, -1)) {
       lua_pushnumber(luaState, deltaTime);
       if (lua_pcall(luaState, 1, 0, 0) != LUA_OK) {
-
+        handleLuaError("Error calling Lua function 'update'");
       }
     } else {
       lua_pop(luaState, 1);

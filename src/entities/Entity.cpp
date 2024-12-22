@@ -32,5 +32,9 @@ namespace Project::Entities {
 
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError(errorMessage);
+
+    if (lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
+
+    }
   }
 }

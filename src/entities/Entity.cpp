@@ -18,5 +18,7 @@ namespace Project::Entities {
     for (const auto& [name, component] : components) {
       component->update(deltaTime);
     }
+
+    lua_getglobal(luaState, "update");
   }
 }

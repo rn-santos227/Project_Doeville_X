@@ -38,7 +38,7 @@ namespace Project::Entities {
     lua_getglobal(luaState, "render");
     if (lua_isfunction(luaState, -1)) {
       if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
-
+        handleLuaError("Error calling Lua function 'render'");
       }
     } else {
       lua_pop(luaState, 1);

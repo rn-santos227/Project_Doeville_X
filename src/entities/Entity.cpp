@@ -29,4 +29,8 @@ namespace Project::Entities {
       lua_pop(luaState, 1);
     }
   }
+
+  void Entity::handleLuaError(const std::string& errorMessage) {
+
+  }
 }

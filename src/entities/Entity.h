@@ -42,8 +42,8 @@ namespace Project::Entities {
     LogsManager& logsManager;
 
     std::string entityName;
-
     std::unordered_map<std::string, std::unique_ptr<BaseComponent>> components;
+    
     void handleLuaError(const std::string& errorMessage);
   };
 }

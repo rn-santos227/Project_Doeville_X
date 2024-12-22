@@ -31,6 +31,6 @@ namespace Project::Entities {
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {
-
+    logsManager.logError(errorMessage);
   }
 }

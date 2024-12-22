@@ -36,6 +36,11 @@ namespace Project::Entities {
     }
 
     lua_getglobal(luaState, "render");
+    if (lua_isfunction(luaState, -1)) {
+
+    } else {
+      lua_pop(luaState, 1);
+    }
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -31,7 +31,9 @@ namespace Project::Entities {
   }
 
   void Entity::render() {
-
+    for (const auto& [name, component] : components) {
+      component->render();
+    }
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

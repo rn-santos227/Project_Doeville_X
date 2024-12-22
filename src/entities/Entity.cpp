@@ -34,6 +34,8 @@ namespace Project::Entities {
     for (const auto& [name, component] : components) {
       component->render();
     }
+
+    lua_getglobal(luaState, "render");
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

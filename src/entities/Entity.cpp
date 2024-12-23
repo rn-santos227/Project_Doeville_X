@@ -73,6 +73,10 @@ namespace Project::Entities {
       lua_pop(luaState, 1);
       return false;
     }
+
+    if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
+
+    }
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -65,6 +65,10 @@ namespace Project::Entities {
     return true;
   }
 
+  bool Entity::callLuaFunction(const std::string& functionName) {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError(errorMessage);
 

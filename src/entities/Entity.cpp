@@ -69,7 +69,7 @@ namespace Project::Entities {
     lua_getglobal(luaState, functionName.c_str());
 
     if (!lua_isfunction(luaState, -1)) {
-
+      handleLuaError("Lua function not found: " + functionName);
     }
   }
 

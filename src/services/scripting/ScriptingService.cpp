@@ -30,6 +30,7 @@ namespace Project::Services {
           validateScript(scriptPath);
         } else {
           logsManager.logError("Invalid script naming: " + scriptName);
+          logsManager.flushLogs();
         }
       }
     }

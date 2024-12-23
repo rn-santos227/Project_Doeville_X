@@ -72,4 +72,8 @@ namespace Project::Utilities {
 
     return timestampStream.str();
   }
+
+  std::string LogsManager::sanitizePath(const std::string& path) {
+
+  }
 }

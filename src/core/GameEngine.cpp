@@ -26,6 +26,8 @@ namespace Project::Core {
       logsManager.flushLogs();
       return;
     }
+    
+    scriptingService.loadScriptsFromFolder("resources/scripts");
 
     keyHandler.setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     logsManager.logMessage("Game Engine has been initialized successfully.");

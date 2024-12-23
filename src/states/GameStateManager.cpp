@@ -11,7 +11,7 @@ namespace Project::States {
   void GameStateManager::changeState(const std::string& name) {
     if (!stateStack.empty()) {
       stateStack.top()->onExit();
-      addToCache(stateStack.top()->getName(), nullptr);
+      addToCache(stateStack.top()->getStateName(), nullptr);
       stateStack.pop();
     }
 
@@ -61,7 +61,7 @@ namespace Project::States {
   void GameStateManager::popState() {
     if (!stateStack.empty()) {
       stateStack.top()->onExit();
-      addToCache(stateStack.top()->getName(), nullptr);
+      addToCache(stateStack.top()->getStateName(), nullptr);
       stateStack.pop();
     }
 

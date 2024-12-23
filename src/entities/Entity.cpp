@@ -55,6 +55,10 @@ namespace Project::Entities {
     logsManager.logMessage("Component removed: " + componentName + " from Entity ID: " + std::to_string(static_cast<int>(entityID)));
   }
 
+  bool Entity::attachLuaScript(const std::string& scriptPath) {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError(errorMessage);
 

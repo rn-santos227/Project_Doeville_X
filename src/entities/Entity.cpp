@@ -60,6 +60,9 @@ namespace Project::Entities {
       handleLuaError("Failed to load Lua script: " + scriptPath);
       return false;
     }
+
+    logsManager.logMessage("Lua script attached: " + scriptPath);
+    return true;
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

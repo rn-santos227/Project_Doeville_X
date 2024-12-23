@@ -66,7 +66,7 @@ namespace Project::Entities {
   }
 
   bool Entity::callLuaFunction(const std::string& functionName) {
-
+    lua_getglobal(luaState, functionName.c_str());
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -50,6 +50,10 @@ namespace Project::Entities {
     logsManager.logMessage("Component added: " + componentName + " to Entity ID: " + std::to_string(static_cast<int>(entityID)));
   }
 
+  void Entity::removeComponent(const std::string& componentName) {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError(errorMessage);
 

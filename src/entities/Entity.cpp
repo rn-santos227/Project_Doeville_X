@@ -56,7 +56,9 @@ namespace Project::Entities {
   }
 
   bool Entity::attachLuaScript(const std::string& scriptPath) {
+    if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
 
+    }
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -45,15 +45,6 @@ namespace Project::Services {
     return true;
   }
 
-  bool ScriptingService::loadScript(const std::string& scriptPath) {
-    int result = luaL_dofile(luaState, scriptPath.c_str());
-    if (result != LUA_OK) {
-      handleLuaError(result);
-      return false;
-    }
-    return true;
-  }
-
   ScriptCategory ScriptingService::determineScriptType(const std::string& scriptName) {
     static const std::unordered_map<std::string, ScriptCategory> extensionMap = {
       {".state.lua", ScriptCategory::STATE},

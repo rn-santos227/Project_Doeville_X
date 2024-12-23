@@ -33,7 +33,6 @@ namespace Project::Services {
     explicit ScriptingService(GameStateManager& gameStateManager, LogsManager& logsManager);
     ~ScriptingService();
 
-    bool loadScript(const std::string& scriptPath);
     bool validateScript(const std::string& scriptPath);
     void loadScriptsFromFolder(const std::string& folderPath);
 

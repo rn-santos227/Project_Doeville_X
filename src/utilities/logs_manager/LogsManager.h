@@ -25,6 +25,7 @@ namespace Project::Utilities {
     std::ofstream logFile;
 
     std::string getCurrentTimestamp();
+    std::string sanitizePath(const std::string& path);
   };
 }
 

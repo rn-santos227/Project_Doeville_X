@@ -52,6 +52,7 @@ namespace Project::Entities {
 
   void Entity::removeComponent(const std::string& componentName) {
     components.erase(componentName);
+    logsManager.logMessage("Component removed: " + componentName + " from Entity ID: " + std::to_string(static_cast<int>(entityID)));
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

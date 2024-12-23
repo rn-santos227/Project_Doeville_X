@@ -75,7 +75,7 @@ namespace Project::Entities {
     }
 
     if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
-
+      handleLuaError("Error calling Lua function '" + functionName + "'");
     }
   }
 

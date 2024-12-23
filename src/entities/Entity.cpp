@@ -79,6 +79,8 @@ namespace Project::Entities {
       lua_pop(luaState, 1);
       return false;
     }
+
+    logsManager.logMessage("Lua function called successfully: " + functionName);
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -54,6 +54,10 @@ namespace Project::Utilities {
     }
   }
 
+  void LogsManager::logWarning(const std::string& message) {
+
+  }
+
   void LogsManager::flushLogs() {
     if (logFile.is_open()) {
       logFile.flush();

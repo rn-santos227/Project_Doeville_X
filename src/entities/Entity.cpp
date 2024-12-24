@@ -15,7 +15,7 @@ namespace Project::Entities {
   }
 
   void Entity::initialize() {
-    
+    lua_getglobal(luaState, "initialize");
   }
 
   void Entity::update(float deltaTime) {

@@ -17,6 +17,9 @@ namespace Project::Entities {
 
       void addEntity(const std::string& id, std::shared_ptr<Entity> entity);
       void removeEntity(const std::string& id);
+
+    private:
+      LogsManager& logsManager;
   };
 }
 

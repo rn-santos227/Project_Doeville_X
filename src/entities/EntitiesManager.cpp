@@ -3,8 +3,11 @@
 
 #include "Entity.h"
 
+#include <unordered_map>
 #include <vector>
 #include <memory>
+#include <string>
+#include <mutex>
 
 namespace Project::Entities {
   class EntitiesManager {

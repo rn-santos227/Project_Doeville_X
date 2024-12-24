@@ -19,8 +19,10 @@ namespace Project::Utilities {
     bool checkAndLogError(bool condition, const std::string& errorMsg);
 
     void flushLogs();
+    
     void logError(const std::string& message);
     void logMessage(const std::string& message);
+    void logWarning(const std::string& message);
 
   private:
     std::ofstream logFile;

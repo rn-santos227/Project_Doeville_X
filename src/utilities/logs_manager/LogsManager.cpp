@@ -74,6 +74,6 @@ namespace Project::Utilities {
   }
 
   std::string LogsManager::sanitizePath(const std::string& path) {
-
+    std::string sanitized = path;
   }
 }

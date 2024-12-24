@@ -55,7 +55,7 @@ namespace Project::Utilities {
   }
 
   void LogsManager::logWarning(const std::string& message) {
-
+    std::string timestamp = getCurrentTimestamp();
   }
 
   void LogsManager::flushLogs() {

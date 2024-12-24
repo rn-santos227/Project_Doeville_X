@@ -12,8 +12,8 @@
 namespace Project::Entities {
   class EntitiesManager {
     public:
-      EntitiesManager() = default;
-      ~EntitiesManager() = default;
+      explicit EntitiesManager(LogsManager& logsManager);
+      ~EntitiesManager();
   };
 }
 

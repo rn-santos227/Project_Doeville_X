@@ -14,6 +14,8 @@ namespace Project::Entities {
     public:
       explicit EntitiesManager(LogsManager& logsManager);
       ~EntitiesManager();
+
+      std::shared_ptr<Entity> createEntityFromLua(const std::string& luaScriptPath);
   };
 }
 

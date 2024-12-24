@@ -61,6 +61,10 @@ namespace Project::Utilities {
     std::string logMessage = "[WARNING] " + timestamp + " - " + sanitizedMessage + "\n";
 
     std::cout << logMessage;
+
+    if (logFile.is_open()) {
+      logFile << logMessage;
+    }
   }
 
   void LogsManager::flushLogs() {

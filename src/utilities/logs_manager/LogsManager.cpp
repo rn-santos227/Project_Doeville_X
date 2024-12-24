@@ -30,7 +30,9 @@ namespace Project::Utilities {
 
   void LogsManager::logError(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
-    std::string logMessage = "[ERROR] " + timestamp + " - " + message + "\n";
+    std::string sanitizedMessage = sanitizePath(message);
+    
+    std::string logMessage = "[ERROR] " + timestamp + " - " + sanitizedMessage + "\n";
 
     std::cerr << logMessage;
 

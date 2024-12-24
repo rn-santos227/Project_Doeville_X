@@ -17,7 +17,9 @@ namespace Project::Entities {
   void Entity::initialize() {
     lua_getglobal(luaState, "initialize");
     if (lua_isfunction(luaState, -1)) {
-
+      if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
+        handleLuaError("Error calling Lua function 'initialize'");
+      }
     } else {
       lua_pop(luaState, 1);
     }

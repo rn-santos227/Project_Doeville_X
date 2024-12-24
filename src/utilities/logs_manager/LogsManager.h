@@ -1,6 +1,7 @@
 #ifndef LOGS_MANAGER_H
 #define LOGS_MANAGER_H
 
+#include <algorithm> 
 #include <iostream>
 #include <filesystem> 
 #include <fstream>

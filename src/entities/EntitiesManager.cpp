@@ -7,7 +7,9 @@
 #include <memory>
 
 namespace Project::Entities {
+  class EntitiesManager {
 
+  };
 }
 
 #endif

@@ -59,6 +59,8 @@ namespace Project::Utilities {
     std::string sanitizedMessage = sanitizePath(message);
 
     std::string logMessage = "[WARNING] " + timestamp + " - " + sanitizedMessage + "\n";
+
+    std::cout << logMessage;
   }
 
   void LogsManager::flushLogs() {

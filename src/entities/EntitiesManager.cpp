@@ -13,4 +13,8 @@ namespace Project::Entities {
       activeEntities.erase(id);
     }
    }
+
+   void EntitiesManager::unloadSceneEntities() {
+
+   }
 }

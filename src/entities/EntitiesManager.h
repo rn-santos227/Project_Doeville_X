@@ -12,8 +12,8 @@
 namespace Project::Entities {
   class EntitiesManager {
     public:
-      explicit EntitiesManager(LogsManager& logsManager);
-      ~EntitiesManager();
+      EntitiesManager();
+      ~EntitiesManager() = default;
 
       void addEntity(const std::string& id, std::shared_ptr<Entity> entity);
       void removeEntity(const std::string& id);
@@ -25,8 +25,6 @@ namespace Project::Entities {
       void render();
 
     private:
-      LogsManager& logsManager;
-
       std::unordered_map<std::string, std::shared_ptr<Entity>> activeEntities;
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
 

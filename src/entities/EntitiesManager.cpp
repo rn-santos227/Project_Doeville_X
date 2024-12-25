@@ -5,4 +5,8 @@ namespace Project::Entities {
     std::lock_guard<std::mutex> lock(entitiesMutex);
     activeEntities[id] = std::move(entity);
   }
+
+   void EntitiesManager::removeEntity(const std::string& id) {
+
+   }
 }

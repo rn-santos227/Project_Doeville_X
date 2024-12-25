@@ -18,7 +18,7 @@ namespace Project::Entities {
     std::lock_guard<std::mutex> lock(entitiesMutex);
 
     for (const auto& [id, entity] : activeEntities) {
-
+      cachedEntities[id] = entity;
     }
   }
 }

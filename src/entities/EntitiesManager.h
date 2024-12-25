@@ -12,7 +12,7 @@
 namespace Project::Entities {
   class EntitiesManager {
     public:
-      EntitiesManager();
+      EntitiesManager() = default;
       ~EntitiesManager() = default;
 
       void addEntity(const std::string& id, std::shared_ptr<Entity> entity);

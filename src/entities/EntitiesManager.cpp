@@ -7,6 +7,6 @@ namespace Project::Entities {
   }
 
    void EntitiesManager::removeEntity(const std::string& id) {
-
+    std::lock_guard<std::mutex> lock(entitiesMutex);
    }
 }

@@ -20,7 +20,10 @@ namespace Project::Entities {
     for (const auto& [id, entity] : activeEntities) {
       cachedEntities[id] = entity;
     }
-
     activeEntities.clear();
+  }
+
+  void EntitiesManager::optimizeEntities() {
+
   }
 }

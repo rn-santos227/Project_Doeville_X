@@ -19,6 +19,7 @@ namespace Project::Entities {
       void removeEntity(const std::string& id);
 
       void unloadSceneEntities();
+      void optimizeEntities();
 
 
     private:

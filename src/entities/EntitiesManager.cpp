@@ -17,6 +17,7 @@ namespace Project::Entities {
   void EntitiesManager::unloadSceneEntities() {
     std::lock_guard<std::mutex> lock(entitiesMutex);
 
+    optimizeEntities();
     for (const auto& [id, entity] : activeEntities) {
       cachedEntities[id] = entity;
     }

@@ -22,7 +22,8 @@ namespace Project::Entities {
       void optimizeEntities();
 
       void update(float deltaTime);
-      
+      void render();
+
     private:
       LogsManager& logsManager;
 

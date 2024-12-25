@@ -21,7 +21,8 @@ namespace Project::Entities {
       void unloadSceneEntities();
       void optimizeEntities();
 
-
+      void update(float deltaTime);
+      
     private:
       LogsManager& logsManager;
 

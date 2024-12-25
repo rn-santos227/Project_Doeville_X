@@ -15,6 +15,6 @@ namespace Project::Entities {
    }
 
    void EntitiesManager::unloadSceneEntities() {
-
+    std::lock_guard<std::mutex> lock(entitiesMutex);
    }
 }

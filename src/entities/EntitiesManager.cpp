@@ -10,7 +10,7 @@ namespace Project::Entities {
     std::lock_guard<std::mutex> lock(entitiesMutex);
 
     if (activeEntities.find(id) != activeEntities.end()) {
-
+      activeEntities.erase(id);
     }
    }
 }

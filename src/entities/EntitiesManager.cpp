@@ -22,6 +22,7 @@ namespace Project::Entities {
       LogsManager& logsManager;
 
       std::unordered_map<std::string, std::shared_ptr<Entity>> activeEntities;
+      std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
   };
 }
 

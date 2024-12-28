@@ -7,4 +7,8 @@ namespace Project::Factories {
   EntityFactory::~EntityFactory() {
     entitiesManager.reset();
   }
+
+  bool EntityFactory::createEntityFromLua(const std::string& scriptPath) {
+
+  }
 }

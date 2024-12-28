@@ -16,6 +16,11 @@ namespace Project::Factories {
       return false;
     }
 
+    if (!entity->callLuaFunction("initialize")) {
+      logsManager.logError("Failed to initialize Entity from Lua script: " + scriptPath);
+      return false;
+    }
+
     return true;
   }
 }

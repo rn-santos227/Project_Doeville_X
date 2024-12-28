@@ -3,14 +3,14 @@
 namespace Project::Entities {
   void EntitiesManager::addEntity(const std::string& id, std::shared_ptr<Entity> entity) {
     std::lock_guard<std::mutex> lock(entitiesMutex);
-    entities[id] = std::move(entity);
+    activeEntities[id] = std::move(entity);
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
   std::lock_guard<std::mutex> lock(entitiesMutex);
 
-  if (entities.find(id) != entities.end()) {
-    entities.erase(id);
+  if (activeEntities.find(id) != activeEntities.end()) {
+    activeEntities.erase(id);
   }
   }
 

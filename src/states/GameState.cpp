@@ -50,7 +50,7 @@ namespace Project::States {
 
   void GameState::update(float deltaTime) {
     if (entitiesManager) {
-      
+      entitiesManager->update(deltaTime);
     }
 
     lua_getglobal(luaState, "update");

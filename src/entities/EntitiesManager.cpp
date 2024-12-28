@@ -35,4 +35,8 @@ namespace Project::Entities {
       entity->update(deltaTime);
     }
   }
+
+  void EntitiesManager::render() {
+
+  }
 }

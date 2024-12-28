@@ -66,7 +66,7 @@ namespace Project::States {
 
   void GameState::render() {
     if (entitiesManager) {
-      
+      entitiesManager->render();
     }
 
     lua_getglobal(luaState, "render");

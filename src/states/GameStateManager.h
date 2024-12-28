@@ -30,18 +30,16 @@ namespace Project::States {
 
   private:
     size_t cacheLimit;
+    std::mutex gameStateMutex;
     
     std::unordered_map<std::string, std::unique_ptr<GameState>> states;
-    
     std::list<std::pair<std::string, std::unique_ptr<GameState>>> stateCache;
     std::unordered_map<std::string, decltype(stateCache.begin())> cacheMap;
   
     std::stack<GameState*> stateStack;
 
-    void addToCache(const std::string& name, std::unique_ptr<GameState> state);
     GameState* retrieveFromCache(const std::string& name);
-
-    std::mutex gameStateMutex;
+    void addToCache(const std::string& name, std::unique_ptr<GameState> state);
   };
 }
 

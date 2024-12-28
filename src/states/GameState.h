@@ -2,6 +2,7 @@
 #define GAME_STATE_H
 
 #include <string>
+#include <memory>
 
 extern "C" {
   #include "lua.h"
@@ -9,8 +10,10 @@ extern "C" {
   #include "lualib.h"
 }
 
+#include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Entities;
 using namespace Project::Utilities;
 
 namespace Project::States {

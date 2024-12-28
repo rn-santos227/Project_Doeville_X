@@ -8,7 +8,10 @@ namespace Project::Entities {
 
   void EntitiesManager::initialize() {
     if (!initialized) {
-
+      initialized = true;
+      for (const auto& [id, entity] : activeEntities) {
+        entity->initialize();
+      }
     }
   }
 

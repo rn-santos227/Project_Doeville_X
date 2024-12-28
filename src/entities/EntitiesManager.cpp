@@ -31,5 +31,8 @@ namespace Project::Entities {
 
   void EntitiesManager::update(float deltaTime) {
     std::lock_guard<std::mutex> lock(entitiesMutex);
+    for (const auto& [id, entity] : activeEntities) {
+      entity->update(deltaTime);
+    }
   }
 }

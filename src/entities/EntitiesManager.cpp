@@ -7,7 +7,9 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::initialize() {
+    if (!initialized) {
 
+    }
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {

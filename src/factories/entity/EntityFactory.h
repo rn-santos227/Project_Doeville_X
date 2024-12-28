@@ -18,7 +18,7 @@ namespace Project::Factories {
 
   private:
     EntitiesManager& entitiesManager;
-
+    LogsManager& logsManager;
   };
 }
 

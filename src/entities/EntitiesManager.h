@@ -21,6 +21,7 @@ namespace Project::Entities {
       void unloadSceneEntities();
       void optimizeEntities();
 
+      void initialize();
       void update(float deltaTime);
       void render();
 

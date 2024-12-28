@@ -37,6 +37,6 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::render() {
-
+    std::lock_guard<std::mutex> lock(entitiesMutex);
   }
 }

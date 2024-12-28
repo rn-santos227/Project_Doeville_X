@@ -24,6 +24,7 @@ namespace Project::Entities {
       void initialize();
       void update(float deltaTime);
       void render();
+      void reset();
 
     private:
       std::unordered_map<std::string, std::shared_ptr<Entity>> activeEntities;

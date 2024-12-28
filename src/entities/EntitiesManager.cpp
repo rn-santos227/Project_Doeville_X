@@ -6,13 +6,17 @@ namespace Project::Entities {
     activeEntities[id] = std::move(entity);
   }
 
-   void EntitiesManager::removeEntity(const std::string& id) {
-    std::lock_guard<std::mutex> lock(entitiesMutex);
+  void EntitiesManager::initialize() {
 
-    if (activeEntities.find(id) != activeEntities.end()) {
-      activeEntities.erase(id);
-    }
-   }
+  }
+
+  void EntitiesManager::removeEntity(const std::string& id) {
+  std::lock_guard<std::mutex> lock(entitiesMutex);
+
+  if (activeEntities.find(id) != activeEntities.end()) {
+    activeEntities.erase(id);
+  }
+  }
 
   void EntitiesManager::unloadSceneEntities() {
     std::lock_guard<std::mutex> lock(entitiesMutex);

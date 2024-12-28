@@ -6,4 +6,13 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Entities;
+using namespace Project::Utilities;
+
+namespace Project::Factories {
+  class EntityFactory {
+
+  };
+}
+
 #endif

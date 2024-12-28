@@ -28,4 +28,8 @@ namespace Project::Entities {
     std::lock_guard<std::mutex> lock(entitiesMutex);
     cachedEntities.clear();
   }
+
+  void EntitiesManager::update(float deltaTime) {
+
+  }
 }

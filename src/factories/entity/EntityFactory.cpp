@@ -9,6 +9,8 @@ namespace Project::Factories {
   }
 
   bool EntityFactory::createEntityFromLua(const std::string& scriptPath) {
+    auto entity = std::make_unique<Entity>(logsManager);
 
+    return true;
   }
 }

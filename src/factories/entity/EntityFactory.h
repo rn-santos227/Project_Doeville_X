@@ -11,6 +11,10 @@ using namespace Project::Utilities;
 
 namespace Project::Factories {
   class EntityFactory {
+  public:
+    explicit EntityFactory(EntitiesManager& entitiesManager, LogsManager& logsManager);
+
+  private:
 
   };
 }

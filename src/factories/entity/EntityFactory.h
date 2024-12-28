@@ -17,6 +17,7 @@ namespace Project::Factories {
     bool createEntityFromLua(const std::string& scriptPath);
 
   private:
+    EntitiesManager& entitiesManager;
 
   };
 }

@@ -11,6 +11,11 @@ namespace Project::Factories {
   bool EntityFactory::createEntityFromLua(const std::string& scriptPath) {
     auto entity = std::make_unique<Entity>(logsManager);
 
+    if (!entity->attachLuaScript(scriptPath)) {
+      logsManager.logError("Failed to load Entity from Lua script: " + scriptPath);
+      return false;
+    }
+
     return true;
   }
 }

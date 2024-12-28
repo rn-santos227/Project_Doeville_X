@@ -13,6 +13,8 @@ namespace Project::Factories {
   class EntityFactory {
   public:
     explicit EntityFactory(EntitiesManager& entitiesManager, LogsManager& logsManager);
+    
+    bool createEntityFromLua(const std::string& scriptPath);
 
   private:
 

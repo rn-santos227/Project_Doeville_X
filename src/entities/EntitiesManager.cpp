@@ -6,15 +6,6 @@ namespace Project::Entities {
     activeEntities[id] = std::move(entity);
   }
 
-  void EntitiesManager::initialize() {
-    if (!initialized) {
-      initialized = true;
-      for (const auto& [id, entity] : activeEntities) {
-        entity->initialize();
-      }
-    }
-  }
-
   void EntitiesManager::removeEntity(const std::string& id) {
   std::lock_guard<std::mutex> lock(entitiesMutex);
 
@@ -38,6 +29,15 @@ namespace Project::Entities {
     cachedEntities.clear();
   }
 
+  void EntitiesManager::initialize() {
+    if (!initialized) {
+      initialized = true;
+      for (const auto& [id, entity] : activeEntities) {
+        entity->initialize();
+      }
+    }
+  }
+
   void EntitiesManager::update(float deltaTime) {
     std::lock_guard<std::mutex> lock(entitiesMutex);
     for (const auto& [id, entity] : activeEntities) {
@@ -50,5 +50,9 @@ namespace Project::Entities {
     for (const auto& [id, entity] : activeEntities) {
       entity->render();
     }
+  }
+
+  void EntitiesManager::reset() {
+
   }
 }

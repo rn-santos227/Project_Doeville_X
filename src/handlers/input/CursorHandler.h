@@ -10,20 +10,21 @@
 
 namespace Project::Handlers {
   class CursorHandler {
-    public:
-      CursorHandler(const std::string& resourcePath);
-      ~CursorHandler();
+  public:
+    CursorHandler(const std::string& resourcePath);
+    ~CursorHandler();
 
-      void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
+    void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
 
-      void setCursorState(CursorState state);
-      CursorState getCursorState() const;
+    void setCursorState(CursorState state);
+    CursorState getCursorState() const;
 
-      void resetToDefaultCursor();
-      void cleanup();
+    void resetToDefaultCursor();
+    void cleanup();
 
-    private:
-      std::string resourcePath;
+  private:
+    std::unordered_map<CursorState, SDL_Cursor*> cursors;
+    std::string resourcePath;
   };
 }
 

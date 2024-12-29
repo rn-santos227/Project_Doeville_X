@@ -10,6 +10,8 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Handlers {
   class CursorHandler {
   public:
@@ -29,6 +31,7 @@ namespace Project::Handlers {
     
     CursorState currentState = CursorState::DEFAULT;
     SDL_Cursor* defaultCursor = nullptr;
+    
     
     std::string resourcePath;
   };

@@ -1,6 +1,8 @@
 #ifndef CURSOR_HANDLER_H
 #define CURSOR_HANDLER_H
 
+#include "CursorState.h"
+
 #include <string>
 #include <unordered_map>
 
@@ -11,6 +13,8 @@ namespace Project::Handlers {
     public:
       CursorHandler(const std::string& resourcePath);
       ~CursorHandler();
+
+      void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
 
     private:
       std::string resourcePath;

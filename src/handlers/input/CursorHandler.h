@@ -20,6 +20,7 @@ namespace Project::Handlers {
       CursorState getCursorState() const;
 
       void resetToDefaultCursor();
+      void cleanup();
 
     private:
       std::string resourcePath;

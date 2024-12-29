@@ -19,6 +19,8 @@ namespace Project::Handlers {
       void setCursorState(CursorState state);
       CursorState getCursorState() const;
 
+      void resetToDefaultCursor();
+
     private:
       std::string resourcePath;
   };

@@ -15,7 +15,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class CursorHandler {
   public:
-    CursorHandler(const std::string& resourcePath);
+    CursorHandler(LogsManager& logsManage, const std::string& resourcePath);
     ~CursorHandler();
 
     void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
@@ -30,8 +30,8 @@ namespace Project::Handlers {
     std::unordered_map<CursorState, SDL_Cursor*> cursors;
     
     CursorState currentState = CursorState::DEFAULT;
+    LogsManager& logsManager;
     SDL_Cursor* defaultCursor = nullptr;
-    
     
     std::string resourcePath;
   };

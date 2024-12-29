@@ -5,4 +5,8 @@ namespace Project::Handlers {
     defaultCursor = SDL_GetDefaultCursor();
     cursors[CursorState::DEFAULT] = defaultCursor;
   }
+
+  CursorHandler::~CursorHandler() {
+    
+  }
 }

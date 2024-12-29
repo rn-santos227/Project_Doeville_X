@@ -15,7 +15,9 @@ namespace Project::Handlers {
       ~CursorHandler();
 
       void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
+
       void setCursorState(CursorState state);
+      CursorState getCursorState() const;
 
     private:
       std::string resourcePath;

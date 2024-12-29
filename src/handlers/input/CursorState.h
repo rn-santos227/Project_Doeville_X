@@ -3,7 +3,12 @@
 
 namespace Project::Handlers {
   enum class CursorState {
-    
+    DEFAULT,
+    CUSTOM,
+    HOVER,
+    CLICK,
+    ATTACK,
+    DISABLED
   };
 }
 

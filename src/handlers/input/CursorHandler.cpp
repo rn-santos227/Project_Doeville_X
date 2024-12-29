@@ -7,6 +7,6 @@ namespace Project::Handlers {
   }
 
   CursorHandler::~CursorHandler() {
-    
+    cleanup();
   }
 }

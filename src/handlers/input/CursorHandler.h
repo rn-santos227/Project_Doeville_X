@@ -24,7 +24,10 @@ namespace Project::Handlers {
 
   private:
     std::unordered_map<CursorState, SDL_Cursor*> cursors;
+    
+    CursorState currentState = CursorState::DEFAULT;
     SDL_Cursor* defaultCursor = nullptr;
+    
     std::string resourcePath;
   };
 }

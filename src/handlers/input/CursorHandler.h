@@ -6,4 +6,12 @@
 
 #include <SDL.h>
 
+namespace Project::Handlers {
+  class CursorHandler {
+    public:
+
+    private:
+  };
+}
+
 #endif

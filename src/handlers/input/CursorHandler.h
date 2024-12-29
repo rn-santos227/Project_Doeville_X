@@ -8,6 +8,8 @@
 
 #include <SDL.h>
 
+#include "utilities/logs_manager/LogsManager.h"
+
 namespace Project::Handlers {
   class CursorHandler {
   public:

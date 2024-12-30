@@ -26,5 +26,7 @@ namespace Project::Handlers {
       logsManager.flushLogs();
       return;
     }
+
+    cursors[state] = cursor;
   }
 }

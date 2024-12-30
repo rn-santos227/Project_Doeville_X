@@ -9,4 +9,8 @@ namespace Project::Handlers {
   CursorHandler::~CursorHandler() {
     cleanup();
   }
+
+  void CursorHandler::loadCursor(CursorState state, const std::string& imagePath, int hotspotX, int hotspotY) {
+
+  }
 }

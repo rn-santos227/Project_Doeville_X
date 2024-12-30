@@ -15,7 +15,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class CursorHandler {
   public:
-    CursorHandler(LogsManager& logsManage, const std::string& resourcePath);
+    CursorHandler(LogsManager& logsManager, const std::string& resourcePath);
     ~CursorHandler();
 
     void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);

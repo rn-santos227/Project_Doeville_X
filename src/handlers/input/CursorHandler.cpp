@@ -38,4 +38,8 @@ namespace Project::Handlers {
       logsManager.logWarning("Cursor state not found: " + std::to_string(static_cast<int>(state)));
     }
   }
+
+  CursorState CursorHandler::getCursorState() const {
+
+  }
 }

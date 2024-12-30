@@ -18,5 +18,7 @@ namespace Project::Handlers {
       logsManager.flushLogs();
       return;
     }
+
+    SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
   }
 }

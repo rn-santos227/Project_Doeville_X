@@ -14,5 +14,9 @@ namespace Project::Handlers {
     std::string fullPath = resourcePath + "/" + imagePath;
 
     SDL_Surface* surface = SDL_LoadBMP(fullPath.c_str());
+    if (!surface) {
+      logsManager.logError("Failed to load cursor image: " + fullPath + " - " + SDL_GetError());
+      return;
+    }
   }
 }

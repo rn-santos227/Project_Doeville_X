@@ -40,6 +40,6 @@ namespace Project::Handlers {
   }
 
   CursorState CursorHandler::getCursorState() const {
-
+    return currentState;
   }
 }

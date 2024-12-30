@@ -34,6 +34,8 @@ namespace Project::Handlers {
     if (cursors.find(state) != cursors.end() && cursors[state]) {
       SDL_SetCursor(cursors[state]);
       currentState = state;
+    } else {
+      logsManager.logWarning("Cursor state not found: " + std::to_string(static_cast<int>(state)));
     }
   }
 }

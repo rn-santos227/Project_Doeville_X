@@ -21,5 +21,10 @@ namespace Project::Handlers {
 
     SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
     SDL_FreeSurface(surface);
+
+    if(logsManager.checkAndLogError(!cursor, "Failed to create cursor for state: " + std::string(SDL_GetError()))) {
+      logsManager.flushLogs();
+      return;
+    }
   }
 }

@@ -20,5 +20,6 @@ namespace Project::Handlers {
     }
 
     SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
+    SDL_FreeSurface(surface);
   }
 }

@@ -29,4 +29,8 @@ namespace Project::Handlers {
 
     cursors[state] = cursor;
   }
+
+  void CursorHandler::setCursorState(CursorState state) {
+
+  }
 }

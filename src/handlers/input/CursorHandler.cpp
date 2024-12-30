@@ -12,5 +12,7 @@ namespace Project::Handlers {
 
   void CursorHandler::loadCursor(CursorState state, const std::string& imagePath, int hotspotX, int hotspotY) {
     std::string fullPath = resourcePath + "/" + imagePath;
+
+    SDL_Surface* surface = SDL_LoadBMP(fullPath.c_str());
   }
 }

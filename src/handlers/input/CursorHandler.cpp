@@ -31,6 +31,8 @@ namespace Project::Handlers {
   }
 
   void CursorHandler::setCursorState(CursorState state) {
+    if (cursors.find(state) != cursors.end() && cursors[state]) {
 
+    }
   }
 }

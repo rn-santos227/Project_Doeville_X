@@ -97,8 +97,11 @@ namespace Project::Core {
 
   void GameEngine::clean() {
     logsManager.logMessage("Cleaning up game engine...");
-    
+
     gameStateManager.cleanup();
+    cursorHandler.cleanup();
+
+    
     SDL_Quit();
   }
 }

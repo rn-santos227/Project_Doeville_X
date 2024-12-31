@@ -9,6 +9,9 @@ namespace Project::Factories {
   }
 
   bool EntityFactory::createEntityFromLua(const std::string& scriptPath) {
+    lua_State* L = luaL_newstate();
+    luaL_openlibs(L);
+    
     auto entity = std::make_unique<Entity>(logsManager);
 
     if (!entity->attachLuaScript(scriptPath)) {
@@ -20,6 +23,7 @@ namespace Project::Factories {
       logsManager.logError("Failed to initialize Entity from Lua script: " + scriptPath);
       return false;
     }
+
 
 
     return true;

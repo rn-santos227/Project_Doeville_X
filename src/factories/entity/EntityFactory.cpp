@@ -12,7 +12,10 @@ namespace Project::Factories {
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
     
-    auto entity = std::make_unique<Entity>(logsManager);
+    EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));
+    lua_pop(L, 1);
+
+    auto entity = std::make_unique<Entity>(entityID, logsManager);
 
     if (!entity->attachLuaScript(scriptPath)) {
       logsManager.logError("Failed to load Entity from Lua script: " + scriptPath);
@@ -23,8 +26,6 @@ namespace Project::Factories {
       logsManager.logError("Failed to initialize Entity from Lua script: " + scriptPath);
       return false;
     }
-
-
 
     return true;
   }

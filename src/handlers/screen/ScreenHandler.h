@@ -6,10 +6,6 @@
 
 #include <SDL.h>
 
-#include "handlers/font/FontHandler.h"
-#include "handlers/input/KeyHandler.h"
-#include "handlers/input/MouseHandler.h"
-
 #include "states/GameStateManager.h"
 
 #include "utilities/frames_counter/FramesCounter.h"
@@ -21,7 +17,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(GameStateManager& gameStateManager, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& frameCounter);
+    ScreenHandler(GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& frameCounter);
     ~ScreenHandler();
 
     bool init();
@@ -36,6 +32,7 @@ namespace Project::Handlers {
     SDL_Window* window;
     SDL_Renderer* renderer;
 
+    CursorHandler& cursorHandler;
     FontHandler& fontHandler;
     KeyHandler& keyHandler;
     MouseHandler& mouseHandler;

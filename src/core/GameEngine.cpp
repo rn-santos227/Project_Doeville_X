@@ -3,7 +3,7 @@
 namespace Project::Core {
   GameEngine::GameEngine() : 
     isRunning(false), logsManager(), 
-    keyHandler(logsManager), mouseHandler(logsManager), 
+    cursorHandler(logsManager, ResourcesHandler::getResourcePath("resources/system")), keyHandler(logsManager), mouseHandler(logsManager), 
     fontHandler(logsManager), 
     gameStateManager(),
     framesCounter(), 

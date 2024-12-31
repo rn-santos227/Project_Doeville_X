@@ -27,6 +27,8 @@ namespace Project::Factories {
       return false;
     }
 
+    lua_close(L);
+
     return true;
   }
 }

@@ -54,5 +54,6 @@ namespace Project::Handlers {
     for (auto& pair : cursors) {
 
     }
+    cursors.clear();
   }
 }

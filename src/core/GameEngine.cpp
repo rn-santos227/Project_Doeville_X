@@ -11,9 +11,7 @@ namespace Project::Core {
     scriptingService(gameStateManager, logsManager)
     {}
 
-  GameEngine::~GameEngine() {
-
-  }
+  GameEngine::~GameEngine() {}
 
   void GameEngine::init() {
     std::string cursorPath = "cursor_default.bmp";
@@ -74,9 +72,6 @@ namespace Project::Core {
 
       if (event.type == SDL_QUIT) {
         clean();
-        logsManager.logMessage("Quit event received");
-        logsManager.flushLogs();
-        isRunning = false;
       }
     }
   }
@@ -101,7 +96,6 @@ namespace Project::Core {
     gameStateManager.cleanup();
     cursorHandler.cleanup();
     fontHandler.cleanup();
-
 
     SDL_Quit();
   }

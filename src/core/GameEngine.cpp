@@ -73,7 +73,7 @@ namespace Project::Core {
       keyHandler.handleInput(event); 
 
       if (event.type == SDL_QUIT) {
-        gameStateManager.cleanup();
+        clean();
         logsManager.logMessage("Quit event received");
         logsManager.flushLogs();
         isRunning = false;
@@ -100,8 +100,9 @@ namespace Project::Core {
 
     gameStateManager.cleanup();
     cursorHandler.cleanup();
+    fontHandler.cleanup();
 
-    
+
     SDL_Quit();
   }
 }

@@ -100,5 +100,7 @@ namespace Project::Core {
     
     SDL_Quit();
     isRunning = false;
+
+    logsManager.logMessage("Game engine cleanup complete.");
   }
 }

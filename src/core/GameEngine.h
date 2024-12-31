@@ -7,6 +7,7 @@
 #include <SDL.h>
 
 #include "handlers/font/FontHandler.h"
+#include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
@@ -35,6 +36,7 @@ namespace Project::Core {
     void clean();
 
   private:
+    CursorHandler cursorHandler;
     FontHandler fontHandler;
     KeyHandler keyHandler;
     MouseHandler mouseHandler;

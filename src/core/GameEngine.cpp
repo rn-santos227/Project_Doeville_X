@@ -11,9 +11,13 @@ namespace Project::Core {
     scriptingService(gameStateManager, logsManager)
     {}
 
-  GameEngine::~GameEngine() {}
+  GameEngine::~GameEngine() {
+
+  }
 
   void GameEngine::init() {
+    std::string cursorPath = "cursor_default.bmp";
+
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
     
     if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {
@@ -92,6 +96,8 @@ namespace Project::Core {
   }
 
   void GameEngine::clean() {
+    logsManager.logMessage("Cleaning up game engine...");
+    
     gameStateManager.cleanup();
     SDL_Quit();
   }

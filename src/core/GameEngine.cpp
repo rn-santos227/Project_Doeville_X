@@ -99,5 +99,6 @@ namespace Project::Core {
     fontHandler.cleanup();
     
     SDL_Quit();
+    isRunning = false;
   }
 }

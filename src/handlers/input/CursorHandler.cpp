@@ -45,7 +45,7 @@ namespace Project::Handlers {
 
   void CursorHandler::resetToDefaultCursor() {
     if (defaultCursor) {
-
+      SDL_SetCursor(defaultCursor);
     }
   }
 }

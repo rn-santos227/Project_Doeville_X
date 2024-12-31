@@ -52,7 +52,9 @@ namespace Project::Handlers {
 
   void CursorHandler::cleanup() {
     for (auto& pair : cursors) {
+      if (pair.second && pair.second != defaultCursor) {
 
+      }
     }
     cursors.clear();
   }

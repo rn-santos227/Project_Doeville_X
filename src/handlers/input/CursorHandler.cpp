@@ -49,4 +49,8 @@ namespace Project::Handlers {
       currentState = CursorState::DEFAULT;
     }
   }
+
+  void CursorHandler::cleanup() {
+
+  }
 }

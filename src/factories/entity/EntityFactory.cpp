@@ -38,6 +38,7 @@ namespace Project::Factories {
     }
     
     std::string entityName = lua_tostring(L, -1);
+    lua_pop(L, 1);
 
     auto entity = std::make_unique<Entity>(entityID, logsManager);
 

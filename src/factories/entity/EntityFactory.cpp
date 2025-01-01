@@ -26,15 +26,18 @@ namespace Project::Factories {
       return false;
     }
 
+    EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));
+    lua_pop(L, 1);
+
     lua_getglobal(L, "entityName");
 
     if (!lua_isstring(L, -1)) {
       logsManager.logError("Lua script is missing a valid 'entityName': " + scriptPath);
       lua_close(L);
+      return false;
     }
     
-    EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));
-    lua_pop(L, 1);
+    std::string entityName = lua_tostring(L, -1);
 
     auto entity = std::make_unique<Entity>(entityID, logsManager);
 

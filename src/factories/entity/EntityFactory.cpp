@@ -17,6 +17,8 @@ namespace Project::Factories {
       lua_close(L);
       return false;
     }
+
+    lua_getglobal(L, "entityID");
     
     EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));
     lua_pop(L, 1);

@@ -65,7 +65,6 @@ namespace Project::Core {
         SDL_Delay(16 - frameDuration); 
       }
     }
-    clean();
   }
 
   void GameEngine::handleEvents() {

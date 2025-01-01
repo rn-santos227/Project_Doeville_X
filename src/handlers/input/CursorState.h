@@ -5,6 +5,7 @@ namespace Project::Handlers {
   enum class CursorState {
     DEFAULT,
     CUSTOM,
+    CROSSHAIR,
     HOVER,
     CLICK,
     ATTACK,

@@ -47,12 +47,8 @@ namespace Project::Factories {
       return false;
     }
 
-    if (!entity->callLuaFunction("initialize")) {
-      logsManager.logError("Failed to initialize Entity from Lua script: " + scriptPath);
-      return false;
-    }
-
     entitiesManager.addEntity(entityName, std::move(entity));
+    logsManager.logMessage("Successfully created and registered Entity: " + entityName);
 
     lua_close(L);
     return true;

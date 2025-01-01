@@ -15,6 +15,7 @@ namespace Project::Factories {
     if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
       logsManager.logError("Failed to load Lua script: " + scriptPath + "\nError: " + lua_tostring(L, -1));
       lua_close(L);
+      return false;
     }
     
     EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));

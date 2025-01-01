@@ -5,5 +5,13 @@ function initialize()
 end
 
 function onEnter()
-  print("Entering MainMenuState")
+  print("Entering GameState")
+end
+
+function update(deltaTime)
+  print("Updating GameState")
+end
+
+function render()
+  print("Rendering GameState")
 end

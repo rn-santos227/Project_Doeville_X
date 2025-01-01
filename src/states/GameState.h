@@ -48,7 +48,6 @@ namespace Project::States {
     bool initialized = false;
 
     std::shared_ptr<EntitiesManager> entitiesManager;
-
     void handleLuaError(const std::string& errorMessage);
   };
 }

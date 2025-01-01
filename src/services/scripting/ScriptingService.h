@@ -15,7 +15,6 @@ extern "C" {
   #include "lualib.h"
 }
 
-
 #include "factories/state/GameStateFactory.h"
 
 #include "states/GameStateManager.h"

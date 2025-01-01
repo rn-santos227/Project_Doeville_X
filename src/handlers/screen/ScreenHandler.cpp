@@ -20,13 +20,16 @@ namespace Project::Handlers {
     logsManager.logMessage("SDL Initialized successfully.");
 
     window = SDL_CreateWindow("Project Doeville X", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+    
     if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       logsManager.flushLogs();
       return false;
+    
     }
     logsManager.logMessage("Window created successfully.");
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    
     if (logsManager.checkAndLogError(!renderer,  "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       logsManager.flushLogs();
       return false;

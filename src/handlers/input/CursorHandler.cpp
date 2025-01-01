@@ -26,7 +26,7 @@ namespace Project::Handlers {
       logsManager.flushLogs();
       return;
     }
-
+    
     cursors[state] = cursor;
   }
 
@@ -46,7 +46,10 @@ namespace Project::Handlers {
   void CursorHandler::resetToDefaultCursor() {
     if (defaultCursor) {
       SDL_SetCursor(defaultCursor);
+      SDL_ShowCursor(SDL_ENABLE);
       currentState = CursorState::DEFAULT;
+    } else {
+      logsManager.logError("Default cursor is null.");
     }
   }
 

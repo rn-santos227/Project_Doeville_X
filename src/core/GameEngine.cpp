@@ -37,8 +37,6 @@ namespace Project::Core {
     keyHandler.setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     logsManager.logMessage("Game Engine has been initialized successfully.");
 
-    SDL_ShowCursor(SDL_ENABLE);
-    
     logsManager.flushLogs();
     isRunning = true;
   }

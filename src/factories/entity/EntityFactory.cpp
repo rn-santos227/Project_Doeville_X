@@ -11,6 +11,10 @@ namespace Project::Factories {
   bool EntityFactory::createEntityFromLua(const std::string& scriptPath) {
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
+
+    if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
+
+    }
     
     EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));
     lua_pop(L, 1);

@@ -80,6 +80,7 @@ namespace Project::Handlers {
 
       if (e.type == SDL_MOUSEMOTION) {
         int x = e.motion.x;
+        int y = e.motion.y;
       }
     }
   }

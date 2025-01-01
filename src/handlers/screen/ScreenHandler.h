@@ -6,6 +6,11 @@
 
 #include <SDL.h>
 
+#include "handlers/font/FontHandler.h"
+#include "handlers/input/CursorHandler.h"
+#include "handlers/input/KeyHandler.h"
+#include "handlers/input/MouseHandler.h"
+
 #include "states/GameStateManager.h"
 
 #include "utilities/frames_counter/FramesCounter.h"

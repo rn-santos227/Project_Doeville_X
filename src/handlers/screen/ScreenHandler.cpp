@@ -1,9 +1,9 @@
 #include "ScreenHandler.h"
 
 namespace Project::Handlers {
-  ScreenHandler::ScreenHandler(GameStateManager& gameStateManager, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& framesCounter)
+  ScreenHandler::ScreenHandler(GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& framesCounter)
       : window(nullptr), renderer(nullptr), running(false), 
-      fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler),
+      cursorHandler(cursorHandler), fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler),
       gameStateManager(gameStateManager),
       logsManager(logsManager), framesCounter(framesCounter) {}
 

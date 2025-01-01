@@ -77,6 +77,10 @@ namespace Project::Handlers {
         running = false;
       }
       keyHandler.handleInput(e);
+
+      if (e.type == SDL_MOUSEMOTION) {
+
+      }
     }
   }
 

@@ -79,7 +79,7 @@ namespace Project::Handlers {
       keyHandler.handleInput(e);
 
       if (e.type == SDL_MOUSEMOTION) {
-
+        int x = e.motion.x;
       }
     }
   }

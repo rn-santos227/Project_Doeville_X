@@ -52,6 +52,8 @@ namespace Project::Factories {
       return false;
     }
 
+    entitiesManager.addEntity(entityName, std::move(entity));
+
     lua_close(L);
     return true;
   }

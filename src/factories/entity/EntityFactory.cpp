@@ -29,7 +29,8 @@ namespace Project::Factories {
     lua_getglobal(L, "entityName");
 
     if (!lua_isstring(L, -1)) {
-
+      logsManager.logError("Lua script is missing a valid 'entityName': " + scriptPath);
+      lua_close(L);
     }
     
     EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));

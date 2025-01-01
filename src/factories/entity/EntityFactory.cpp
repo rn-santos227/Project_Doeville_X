@@ -23,6 +23,7 @@ namespace Project::Factories {
     if (!lua_isinteger(L, -1)) {
       logsManager.logError("Lua script is missing a valid 'entityID': " + scriptPath);
       lua_close(L);
+      return false;
     }
     
     EntityID entityID = static_cast<EntityID>(lua_tointeger(L, -1));

@@ -31,7 +31,8 @@ namespace Project::Handlers {
     SDL_FreeSurface(surface);
 
     if (!texture) {
-
+      logsManager.logError("Failed to create cursor texture: " + std::string(SDL_GetError()));
+      return;
     }
   }
 

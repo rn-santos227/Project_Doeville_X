@@ -62,7 +62,9 @@ namespace Project::Handlers {
       }
 
       int mouseX, mouseY;
-    SDL_GetMouseState(&mouseX, &mouseY);
+      SDL_GetMouseState(&mouseX, &mouseY);
+
+      SDL_Rect cursorRect = {mouseX, mouseY, 32, 32};
       
       gameStateManager.render();
     } else {

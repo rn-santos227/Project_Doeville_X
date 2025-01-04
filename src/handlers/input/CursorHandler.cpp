@@ -54,6 +54,10 @@ namespace Project::Handlers {
     return currentState;
   }
 
+  SDL_Texture* CursorHandler::getCursorTexture() const {
+
+  }
+
   void CursorHandler::resetToDefaultCursor() {
     if (defaultCursor) {
       SDL_SetCursor(defaultCursor);

@@ -64,13 +64,15 @@ namespace Project::Handlers {
   }
 
   void CursorHandler::resetToDefaultCursor() {
-    if (defaultCursor) {
-      SDL_SetCursor(defaultCursor);
-      SDL_ShowCursor(SDL_ENABLE);
-      currentState = CursorState::DEFAULT;
+    auto it = cursorTextures.find(CursorState::DEFAULT);
+
+    if (it != cursorTextures.end()) {
+      currentCursorTexture = it->second;
     } else {
-      logsManager.logError("Default cursor is null.");
+      logsManager.logError("Default cursor texture not found.");
     }
+
+    
   }
 
   void CursorHandler::cleanup() {

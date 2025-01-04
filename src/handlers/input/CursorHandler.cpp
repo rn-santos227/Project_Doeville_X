@@ -59,6 +59,7 @@ namespace Project::Handlers {
       return currentCursorTexture;
     } else {
       logsManager.logWarning("Current cursor texture is null.");
+      return nullptr;
     }
   }
 

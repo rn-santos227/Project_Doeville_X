@@ -28,6 +28,7 @@ namespace Project::Handlers {
     }
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(SDL_GetRenderer(SDL_GetWindowFromID(1)), surface);
+    SDL_FreeSurface(surface);
   }
 
   void CursorHandler::setCursorState(CursorState state) {

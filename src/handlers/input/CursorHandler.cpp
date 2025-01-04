@@ -14,6 +14,9 @@ namespace Project::Handlers {
     std::string fullPath = resourcePath + "/" + imagePath;
 
     SDL_Cursor* cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+    if (!cursor) {
+    
+    }
   }
 
   void CursorHandler::setCursorState(CursorState state) {

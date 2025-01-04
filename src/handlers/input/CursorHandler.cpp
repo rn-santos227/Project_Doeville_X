@@ -17,6 +17,8 @@ namespace Project::Handlers {
     if (!cursor) {
       logsManager.logError("Failed to load system cursor: " + std::string(SDL_GetError()));
     }
+
+    cursors[state] = cursor;
   }
 
   void CursorHandler::setCursorState(CursorState state) {

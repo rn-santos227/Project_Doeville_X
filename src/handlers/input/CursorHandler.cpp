@@ -36,6 +36,9 @@ namespace Project::Handlers {
     }
 
     cursorTextures[state] = texture;
+    if (state == CursorState::DEFAULT) {
+        currentCursorTexture = texture;
+    }
   }
 
   void CursorHandler::setCursorState(CursorState state) {

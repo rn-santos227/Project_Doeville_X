@@ -18,10 +18,11 @@ namespace Project::Handlers {
     CursorHandler(LogsManager& logsManager, const std::string& resourcePath);
     ~CursorHandler();
 
-    void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
-
-    void setCursorState(CursorState state);
     CursorState getCursorState() const;
+    SDL_Texture* getCursorTexture() const;
+
+    void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
+    void setCursorState(CursorState state);
 
     void resetToDefaultCursor();
     void cleanup();

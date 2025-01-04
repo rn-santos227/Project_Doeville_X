@@ -34,6 +34,8 @@ namespace Project::Handlers {
       logsManager.logError("Failed to create cursor texture: " + std::string(SDL_GetError()));
       return;
     }
+
+    cursorTextures[state] = texture;
   }
 
   void CursorHandler::setCursorState(CursorState state) {

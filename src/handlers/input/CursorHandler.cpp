@@ -16,11 +16,15 @@ namespace Project::Handlers {
     SDL_Cursor* cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     if (!cursor) {
       logsManager.logError("Failed to load system cursor: " + std::string(SDL_GetError()));
+      return;
     }
 
     cursors[state] = cursor;
     SDL_Surface* surface = SDL_LoadBMP(imagePath.c_str());
-    
+
+    if (!surface) {
+
+    }
   }
 
   void CursorHandler::setCursorState(CursorState state) {

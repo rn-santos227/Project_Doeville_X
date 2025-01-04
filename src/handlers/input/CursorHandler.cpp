@@ -26,6 +26,8 @@ namespace Project::Handlers {
       logsManager.logError("Failed to load cursor surface: " + std::string(SDL_GetError()));
       return;
     }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(SDL_GetRenderer(SDL_GetWindowFromID(1)), surface);
   }
 
   void CursorHandler::setCursorState(CursorState state) {

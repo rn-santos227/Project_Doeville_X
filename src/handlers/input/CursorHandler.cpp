@@ -23,7 +23,8 @@ namespace Project::Handlers {
     SDL_Surface* surface = SDL_LoadBMP(imagePath.c_str());
 
     if (!surface) {
-
+      logsManager.logError("Failed to load cursor surface: " + std::string(SDL_GetError()));
+      return;
     }
   }
 

@@ -19,6 +19,8 @@ namespace Project::Handlers {
     }
 
     cursors[state] = cursor;
+    SDL_Surface* surface = SDL_LoadBMP(imagePath.c_str());
+    
   }
 
   void CursorHandler::setCursorState(CursorState state) {

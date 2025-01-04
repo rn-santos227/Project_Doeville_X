@@ -72,7 +72,8 @@ namespace Project::Handlers {
       logsManager.logError("Default cursor texture not found.");
     }
 
-    
+    currentState = CursorState::DEFAULT;
+    SDL_SetCursor(cursors[CursorState::DEFAULT]);
   }
 
   void CursorHandler::cleanup() {

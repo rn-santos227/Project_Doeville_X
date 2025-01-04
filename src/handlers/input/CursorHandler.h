@@ -35,6 +35,7 @@ namespace Project::Handlers {
     LogsManager& logsManager;
     
     SDL_Cursor* defaultCursor = nullptr;
+    SDL_Texture* currentCursorTexture = nullptr;
     
     std::string resourcePath;
   };

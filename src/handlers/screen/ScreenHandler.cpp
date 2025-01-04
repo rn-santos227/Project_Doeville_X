@@ -60,6 +60,8 @@ namespace Project::Handlers {
         renderFPS();
         renderMousePosition();
       }
+
+      int mouseX, mouseY;
       
       gameStateManager.render();
     } else {

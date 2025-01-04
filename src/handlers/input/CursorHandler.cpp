@@ -15,7 +15,7 @@ namespace Project::Handlers {
 
     SDL_Cursor* cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     if (!cursor) {
-    
+      logsManager.logError("Failed to load system cursor: " + std::string(SDL_GetError()));
     }
   }
 

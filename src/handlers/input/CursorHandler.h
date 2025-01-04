@@ -29,9 +29,11 @@ namespace Project::Handlers {
 
   private:
     std::unordered_map<CursorState, SDL_Cursor*> cursors;
+    std::unordered_map<CursorState, SDL_Texture*> cursorTextures;
     
     CursorState currentState = CursorState::DEFAULT;
     LogsManager& logsManager;
+    
     SDL_Cursor* defaultCursor = nullptr;
     
     std::string resourcePath;

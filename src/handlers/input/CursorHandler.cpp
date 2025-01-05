@@ -82,5 +82,6 @@ namespace Project::Handlers {
         SDL_FreeCursor(pair.second);
       }
     }
+    cursors.clear();
   }
 }

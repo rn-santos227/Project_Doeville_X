@@ -65,6 +65,7 @@ namespace Project::Handlers {
       SDL_GetMouseState(&mouseX, &mouseY);
 
       SDL_Rect cursorRect = {mouseX, mouseY, 32, 32};
+      SDL_RenderCopy(renderer, cursorHandler.getCursorTexture(), nullptr, &cursorRect);
       
       gameStateManager.render();
     } else {

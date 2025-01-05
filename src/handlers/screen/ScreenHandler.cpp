@@ -56,11 +56,12 @@ namespace Project::Handlers {
     std::lock_guard<std::mutex> lock(renderMutex);
 
     if (renderer) {
-      SDL_RenderClear(renderer);
       if (keyHandler.isGameDebugMode()) {
         renderFPS();
         renderMousePosition();
       }
+
+      gameStateManager.render();
 
       int mouseX, mouseY;
       SDL_GetMouseState(&mouseX, &mouseY);
@@ -68,10 +69,9 @@ namespace Project::Handlers {
       SDL_Texture* cursorTexture = cursorHandler.getCursorTexture(cursorHandler.getCursorState());
       if (cursorTexture) {
         SDL_Rect dstRect = { mouseX, mouseY, 32, 32 };
+        SDL_RenderCopy(renderer, cursorTexture, nullptr, &dstRect);
       }
       
-      gameStateManager.render();
-      SDL_RenderPresent(renderer);
     } else {
       logsManager.logError("Renderer is null.");
     }

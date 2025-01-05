@@ -15,11 +15,11 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class CursorHandler {
   public:
-    CursorHandler(LogsManager& logsManager,  SDL_Renderer* renderer);
+    CursorHandler(LogsManager& logsManager);
     ~CursorHandler();
 
     CursorState getCursorState() const;
-    SDL_Texture* getCursorTexture() const;
+    SDL_Texture* getCursorTexture(CursorState state) const;
 
     void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
     void setCursorState(CursorState state);

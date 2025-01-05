@@ -30,8 +30,10 @@ namespace Project::Handlers {
     void render();
     void update();
     void handleEvents();
-
+    
     bool isRunning() const;
+
+    SDL_Renderer* getRenderer() const;
 
   private:
     SDL_Window* window;

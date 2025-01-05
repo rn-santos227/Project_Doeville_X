@@ -89,5 +89,6 @@ namespace Project::Handlers {
         SDL_DestroyTexture(pair.second);
       }
     }
+    cursorTextures.clear();
   }
 }

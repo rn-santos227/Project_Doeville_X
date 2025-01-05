@@ -52,6 +52,7 @@ namespace Project::Handlers {
   }
 
   SDL_Texture* CursorHandler::getCursorTexture(CursorState state) const {
+    auto it = cursorTextures.find(state);
     if (currentCursorTexture) {
       return currentCursorTexture;
     } else {

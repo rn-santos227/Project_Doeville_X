@@ -10,16 +10,15 @@ namespace Project::Handlers {
     cleanup();
   }
 
-  void CursorHandler::loadCursor(CursorState state, const std::string& filePath, int hotspotX, int hotspotY) {
+  void CursorHandler::loadCursor(CursorState state, const std::string& cursorPath, int hotspotX, int hotspotY) {
     SDL_Cursor* cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     if (!cursor) {
       logsManager.logError("Failed to load system cursor: " + std::string(SDL_GetError()));
       return;
     }
-
     cursors[state] = cursor;
-    SDL_Surface* surface = SDL_LoadBMP(filePath.c_str());
-
+    
+    SDL_Surface* surface = SDL_LoadBMP(cursorPath.c_str());
     if (!surface) {
       logsManager.logError("Failed to load cursor surface: " + std::string(SDL_GetError()));
       return;
@@ -35,7 +34,7 @@ namespace Project::Handlers {
 
     cursorTextures[state] = texture;
     if (state == CursorState::DEFAULT) {
-        currentCursorTexture = texture;
+      currentCursorTexture = texture;
     }
   }
 

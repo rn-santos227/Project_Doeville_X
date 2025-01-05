@@ -67,7 +67,7 @@ namespace Project::Handlers {
 
       SDL_Texture* cursorTexture = cursorHandler.getCursorTexture(cursorHandler.getCursorState());
       if (cursorTexture) {
-
+        SDL_Rect dstRect = { mouseX, mouseY, 32, 32 };
       }
       
       gameStateManager.render();

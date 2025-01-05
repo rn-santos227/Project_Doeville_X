@@ -79,7 +79,7 @@ namespace Project::Handlers {
   void CursorHandler::cleanup() {
     for (auto& pair : cursors) {
       if (pair.second) {
-
+        SDL_FreeCursor(pair.second);
       }
     }
   }

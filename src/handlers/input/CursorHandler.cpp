@@ -86,7 +86,7 @@ namespace Project::Handlers {
 
     for (auto& pair : cursorTextures) {
       if (pair.second) {
-        
+        SDL_DestroyTexture(pair.second);
       }
     }
   }

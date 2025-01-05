@@ -83,5 +83,9 @@ namespace Project::Handlers {
       }
     }
     cursors.clear();
+
+    for (auto& pair : cursorTextures) {
+
+    }
   }
 }

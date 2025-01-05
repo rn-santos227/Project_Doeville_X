@@ -16,7 +16,7 @@ namespace Project::Core {
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);
     
-    std::string cursorPath = "cursor_default.bmp";
+    std::string cursorPath = ResourcesHandler::getResourcePath("resources/system/cursor_default.bmp");
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath);
     cursorHandler.resetToDefaultCursor();
 

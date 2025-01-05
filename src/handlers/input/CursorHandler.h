@@ -15,7 +15,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class CursorHandler {
   public:
-    CursorHandler(LogsManager& logsManager, const std::string& resourcePath);
+    CursorHandler(LogsManager& logsManager);
     ~CursorHandler();
 
     CursorState getCursorState() const;

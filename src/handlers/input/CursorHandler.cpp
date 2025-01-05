@@ -1,7 +1,7 @@
 #include "CursorHandler.h"
 
 namespace Project::Handlers {
-  CursorHandler::CursorHandler(LogsManager& logsManager, const std::string& resourcePath) : logsManager(logsManager), resourcePath(resourcePath) {
+  CursorHandler::CursorHandler(LogsManager& logsManager) : logsManager(logsManager) {
     defaultCursor = SDL_GetDefaultCursor();
     cursors[CursorState::DEFAULT] = defaultCursor;
   }
@@ -10,9 +10,7 @@ namespace Project::Handlers {
     cleanup();
   }
 
-  void CursorHandler::loadCursor(CursorState state, const std::string& imagePath, int hotspotX, int hotspotY) {
-    std::string fullPath = resourcePath + "/" + imagePath;
-
+  void CursorHandler::loadCursor(CursorState state, const std::string& filePath, int hotspotX, int hotspotY) {
     SDL_Cursor* cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     if (!cursor) {
       logsManager.logError("Failed to load system cursor: " + std::string(SDL_GetError()));
@@ -20,7 +18,7 @@ namespace Project::Handlers {
     }
 
     cursors[state] = cursor;
-    SDL_Surface* surface = SDL_LoadBMP(imagePath.c_str());
+    SDL_Surface* surface = SDL_LoadBMP(filePath.c_str());
 
     if (!surface) {
       logsManager.logError("Failed to load cursor surface: " + std::string(SDL_GetError()));

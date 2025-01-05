@@ -56,6 +56,7 @@ namespace Project::Handlers {
     std::lock_guard<std::mutex> lock(renderMutex);
 
     if (renderer) {
+      
       if (keyHandler.isGameDebugMode()) {
         renderFPS();
         renderMousePosition();
@@ -68,6 +69,7 @@ namespace Project::Handlers {
       SDL_RenderCopy(renderer, cursorHandler.getCursorTexture(), nullptr, &cursorRect);
       
       gameStateManager.render();
+      SDL_RenderPresent(renderer);
     } else {
       logsManager.logError("Renderer is null.");
     }

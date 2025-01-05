@@ -77,6 +77,8 @@ namespace Project::Handlers {
   }
 
   void CursorHandler::cleanup() {
-    
+    for (auto& pair : cursors) {
+
+    }
   }
 }

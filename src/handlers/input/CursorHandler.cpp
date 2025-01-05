@@ -90,5 +90,6 @@ namespace Project::Handlers {
       }
     }
     cursorTextures.clear();
+    currentCursorTexture = nullptr;
   }
 }

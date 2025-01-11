@@ -29,6 +29,7 @@ namespace Project::Handlers {
       return;
     }
     
+    cursorTextures[state] = texture;
   }
 
   void CursorHandler::setCursorState(CursorState state) {

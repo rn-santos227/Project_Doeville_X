@@ -16,8 +16,8 @@ namespace Project::Core {
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);
     
-    std::string cursorPath = ResourcesHandler::getResourcePath("resources/system/cursor_default.bmp");
-    cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath);
+    std::string cursorPath = ResourcesHandler::getResourcePath("resources/system/cursor_default.png");
+    cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
 
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
     

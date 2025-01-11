@@ -6,6 +6,7 @@ import zipfile
 dependencies = {
   "SDL2": "https://www.libsdl.org/release/SDL2-2.26.5.tar.gz",
   "SDL2_ttf": "https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.20.1.tar.gz",
+  "SDL2_image": "https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.6.3.tar.gz",
   "Lua": "https://www.lua.org/ftp/lua-5.4.6.tar.gz"
 }
 

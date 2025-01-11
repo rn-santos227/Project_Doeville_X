@@ -13,8 +13,9 @@ namespace Project::Handlers {
   void CursorHandler::loadCursor(CursorState state, const std::string& cursorPath, int hotspotX, int hotspotY) {
     SDL_Surface* surface = SDL_LoadBMP(cursorPath.c_str());
 
-    if (logsManager.checkAndLogError(!surface, "Failed to load cursor image: " + fullPath + " - " + std::string(SDL_GetError()))) {
-
+    if (logsManager.checkAndLogError(!surface, "Failed to load cursor image: " + cursorPath + " - " + std::string(SDL_GetError()))) {
+        logsManager.flushLogs();
+        return;
     }
   }
 

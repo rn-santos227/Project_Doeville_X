@@ -19,7 +19,7 @@ namespace Project::Handlers {
     ~CursorHandler();
 
     CursorState getCursorState() const;
-    SDL_Texture* getCursorTexture(CursorState state) const;
+    SDL_Texture* getCursorTexture(CursorState state);
 
     void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
     void setCursorState(CursorState state);

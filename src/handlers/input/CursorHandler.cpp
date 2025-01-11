@@ -24,6 +24,10 @@ namespace Project::Handlers {
     }
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (logsManager.checkAndLogError(!texture, "Failed to create texture for cursor: " + std::string(SDL_GetError()))) {
+
+    }
+    
   }
 
   void CursorHandler::setCursorState(CursorState state) {
@@ -39,7 +43,7 @@ namespace Project::Handlers {
     return currentState;
   }
 
-  SDL_Texture* CursorHandler::getCursorTexture(CursorState state) {
+  SDL_Texture* CursorHandler::getCursorTexture(CursorState state) const {
     auto it = cursorTextures.find(state);
     
     if (it != cursorTextures.end()) {

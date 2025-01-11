@@ -22,6 +22,8 @@ namespace Project::Handlers {
     if (cursor) {
       cursors[state] = cursor;
     }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
   }
 
   void CursorHandler::setCursorState(CursorState state) {

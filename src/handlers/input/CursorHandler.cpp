@@ -20,7 +20,7 @@ namespace Project::Handlers {
 
     SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
     if (cursor) {
-
+      cursors[state] = cursor;
     }
   }
 

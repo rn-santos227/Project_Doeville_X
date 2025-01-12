@@ -10,3 +10,7 @@ class TarGzExtractor:
     if archive_path.endswith(".tar.gz") or archive_path.endswith(".tgz"):
       with tarfile.open(archive_path, "r:gz") as tar:
         tar.extractall(dest_folder)
+
+    elif archive_path.endswith(".zip"):
+      with zipfile.ZipFile(archive_path, "r") as zip_ref:
+        zip_ref.extractall(dest_folder)

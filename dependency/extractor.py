@@ -17,3 +17,5 @@ class TarGzExtractor:
 
     else:
       raise ValueError(f"Unsupported archive format: {archive_path}")
+    
+    print(f"Extraction complete: {dest_folder}")

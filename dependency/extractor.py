@@ -1,3 +1,6 @@
+import tarfile
+import zipfile
+import os
 import subprocess
 
 class IExtractor:

@@ -14,3 +14,6 @@ class TarGzExtractor:
     elif archive_path.endswith(".zip"):
       with zipfile.ZipFile(archive_path, "r") as zip_ref:
         zip_ref.extractall(dest_folder)
+
+    else:
+      raise ValueError(f"Unsupported archive format: {archive_path}")

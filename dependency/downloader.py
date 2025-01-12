@@ -4,4 +4,5 @@ import urllib.request
 class HTTPDownloader:
   def download(self, url: str, destination: str):
     print(f"Downloading {url} to {destination}...")
-    command = f"curl -L {url} -o {destination}"
+    with urllib.request.urlopen(url) as response, open(destination, "wb") as out_file:
+      out_file.write(response.read())

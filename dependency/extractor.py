@@ -27,4 +27,5 @@ class TarGzExtractor:
       tar.extractall(dest_folder)
 
   def __extract_zip(self, archive_path: str, dest_folder: str):
-    pass
+    with zipfile.ZipFile(archive_path, "r") as zip_ref:
+      zip_ref.extractall(dest_folder)

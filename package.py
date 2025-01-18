@@ -1,9 +1,10 @@
 import os
 import json
+
 from dependency.downloader import HTTPDownloader
 from dependency.extractor import TarGzExtractor
-from dependency.utils import ensure_folder_exists
 from dependency.manager import DependencyManager
+from dependency.utils import ensure_folder_exists
 
 def load_packages(package_file):
   

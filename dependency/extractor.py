@@ -13,8 +13,7 @@ class TarGzExtractor:
       self.__extract_tar_gz(archive_path, dest_folder)
 
     elif archive_path.endswith(".zip"):
-      with zipfile.ZipFile(archive_path, "r") as zip_ref:
-        zip_ref.extractall(dest_folder)
+      self.__extract_zip(archive_path, dest_folder)
 
     else:
       raise ValueError(f"Unsupported archive format: {archive_path}")

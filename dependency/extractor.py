@@ -7,6 +7,8 @@ class TarGzExtractor:
   def extract(self, archive_path: str, dest_folder: str):
     print(f"Extracting {archive_path} to {dest_folder}...")
 
+    os.makedirs(dest_folder, exist_ok=True)
+
     if archive_path.endswith(".tar.gz") or archive_path.endswith(".tgz"):
       with tarfile.open(archive_path, "r:gz") as tar:
         tar.extractall(dest_folder)

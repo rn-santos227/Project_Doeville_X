@@ -12,4 +12,4 @@ def load_packages(package_file):
     return json.load(file)
 
 def main():
-  pass
+  package_file = "packages.json"

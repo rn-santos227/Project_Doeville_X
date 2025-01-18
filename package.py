@@ -19,3 +19,4 @@ def main():
   lib_dir = "lib"
 
   downloader = HTTPDownloader()
+  extractor = TarGzExtractor()

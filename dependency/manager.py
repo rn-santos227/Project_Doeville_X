@@ -6,3 +6,6 @@ class DependencyManager:
   def __init__(self, downloader, extractor):
     self.downloader: HTTPDownloader = downloader
     self.extractor: TarGzExtractor = extractor
+
+  def process_dependency(self, url, archive_path, source_dir, output_dir):
+    pass

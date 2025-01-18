@@ -8,4 +8,5 @@ class DependencyManager:
     self.extractor: TarGzExtractor = extractor
 
   def process_dependency(self, url, archive_path, source_dir, output_dir):
-    pass
+    if not archive_exists(archive_path):
+      self.downloader.download(url, archive_path)

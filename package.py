@@ -13,3 +13,4 @@ def load_packages(package_file):
 
 def main():
   package_file = "packages.json"
+  lib_dir = "lib"

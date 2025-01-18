@@ -1,5 +1,7 @@
 import os
 import json
+from dependency.downloader import HTTPDownloader
+from dependency.extractor import TarGzExtractor
 from dependency.utils import ensure_folder_exists
 from dependency.manager import DependencyManager
 

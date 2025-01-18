@@ -23,4 +23,5 @@ class TarGzExtractor:
     print(f"Extraction complete: {dest_folder}")
 
   def __extract_tar_gz(self, archive_path: str, dest_folder: str):
-    pass
+    with tarfile.open(archive_path, "r:gz") as tar:
+      tar.extractall(dest_folder)

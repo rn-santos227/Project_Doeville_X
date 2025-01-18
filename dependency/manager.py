@@ -4,5 +4,5 @@ from dependency.utils import ensure_folder_exists, archive_exists
 
 class DependencyManager:
   def __init__(self, downloader, extractor):
-    self.downloader = downloader
+    self.downloader: HTTPDownloader = downloader
     self.extractor = extractor

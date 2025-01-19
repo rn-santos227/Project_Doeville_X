@@ -33,4 +33,4 @@ def main():
   manager = DependencyManager(downloader, extractor)
 
   for package_name, package_info in packages.items():
-    pass
+    print(f"Processing package: {package_name}...")

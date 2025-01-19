@@ -31,3 +31,6 @@ def main():
   downloader = HTTPDownloader()
   extractor = TarGzExtractor()
   manager = DependencyManager(downloader, extractor)
+
+  for package_name, package_info in packages.items():
+    pass

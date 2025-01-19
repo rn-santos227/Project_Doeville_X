@@ -15,7 +15,7 @@ def load_packages(package_file):
     return json.load(file)
 
 def main():
-  package_file = "packages.json"
+  root_dir = os.path.abspath(os.path.dirname(__file__))
   lib_dir = "lib"
   ensure_folder_exists(lib_dir)
 

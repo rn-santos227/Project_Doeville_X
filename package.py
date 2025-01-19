@@ -40,7 +40,9 @@ def main():
     output_dir = os.path.join(lib_dir, package_info["output_dir"])
 
     try:
-      pass
+      manager.process_dependency(
+
+      )
 
     except Exception as e:
       print(f"Error processing {package_name}: {e}")

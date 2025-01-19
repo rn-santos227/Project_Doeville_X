@@ -9,6 +9,9 @@ class HTTPDownloader:
 
     try:
       print(f"Downloaded: {destination}")
+      subprocess.run(
+
+      )
 
     except subprocess.CalledProcessError as e:
       print(f"Error downloading {url}: {e}")

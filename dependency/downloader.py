@@ -10,7 +10,8 @@ class HTTPDownloader:
     try:
       print(f"Downloaded: {destination}")
       subprocess.run(
-
+        ["curl", "-L", "-o", destination, url],
+        check=True
       )
 
     except subprocess.CalledProcessError as e:

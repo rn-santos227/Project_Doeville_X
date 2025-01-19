@@ -30,3 +30,4 @@ def main():
 
   downloader = HTTPDownloader()
   extractor = TarGzExtractor()
+  manager = DependencyManager(downloader, extractor)

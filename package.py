@@ -20,10 +20,13 @@ def main():
   ensure_folder_exists(lib_dir)
 
   packages_file = os.path.join(root_dir, "packages.json")
-  
+
   if not os.path.exists(packages_file):
     print("Error: packages.json not found.")
     return
+
+  with open(packages_file, "r") as file:
+    packages = json.load(file)
 
   downloader = HTTPDownloader()
   extractor = TarGzExtractor()

@@ -44,6 +44,7 @@ def main():
         url=package_info["url"],
         archive_path=archive_path,
         source_dir=source_dir,
+        output_dir=output_dir,
       )
 
     except Exception as e:

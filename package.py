@@ -38,3 +38,9 @@ def main():
     archive_path = os.path.join(lib_dir, package_info["archive"])
     source_dir = os.path.join(lib_dir, package_info["source_dir"])
     output_dir = os.path.join(lib_dir, package_info["output_dir"])
+
+    try:
+      pass
+
+    except Exception as e:
+      print(f"Error processing {package_name}: {e}")

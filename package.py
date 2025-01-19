@@ -17,6 +17,7 @@ def load_packages(package_file):
 def main():
   package_file = "packages.json"
   lib_dir = "lib"
+  ensure_folder_exists(lib_dir)
 
   downloader = HTTPDownloader()
   extractor = TarGzExtractor()

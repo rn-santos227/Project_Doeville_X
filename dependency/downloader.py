@@ -7,4 +7,8 @@ class HTTPDownloader:
 
     os.makedirs(os.path.dirname(destination), exist_ok=True)
 
-    print(f"Downloaded: {destination}")
+    try:
+      print(f"Downloaded: {destination}")
+
+    except subprocess.CalledProcessError as e:
+      print(f"Error downloading {url}: {e}")

@@ -36,3 +36,4 @@ def main():
     print(f"Processing package: {package_name}...")
 
     archive_path = os.path.join(lib_dir, package_info["archive"])
+    source_dir = os.path.join(lib_dir, package_info["source_dir"])

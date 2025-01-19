@@ -43,6 +43,7 @@ def main():
       manager.process_dependency(
         url=package_info["url"],
         archive_path=archive_path,
+        source_dir=source_dir,
       )
 
     except Exception as e:

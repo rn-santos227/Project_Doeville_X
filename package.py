@@ -50,3 +50,6 @@ def main():
     except Exception as e:
       print(f"Error processing {package_name}: {e}")
       continue
+
+  if __name__ == "__main__":
+    pass

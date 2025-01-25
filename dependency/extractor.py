@@ -32,4 +32,4 @@ class TarGzExtractor:
     extracted_items = os.listdir(temp_folder)
 
     if len(extracted_items) == 1 and os.path.isdir(os.path.join(temp_folder, extracted_items[0])):
-      pass
+      extracted_folder = os.path.join(temp_folder, extracted_items[0])

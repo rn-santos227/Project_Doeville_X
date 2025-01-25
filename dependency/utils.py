@@ -18,7 +18,7 @@ def load_packages(package_file):
 def remove_file(filepath):
   try:
     if os.path.exists(filepath):
-      pass
+      os.remove(filepath)
 
   except OSError as e:
     print(f"Error removing file {filepath}: {e}")

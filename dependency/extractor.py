@@ -7,6 +7,7 @@ class TarGzExtractor:
   def extract(self, archive_path: str, dest_folder: str):
     print(f"Extracting {archive_path} to {dest_folder}...")
 
+    temp_folder = dest_folder + "_temp"
     os.makedirs(dest_folder, exist_ok=True)
 
     if archive_path.endswith((".tar.gz", ".tgz")):

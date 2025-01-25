@@ -19,6 +19,7 @@ def remove_file(filepath):
   try:
     if os.path.exists(filepath):
       os.remove(filepath)
+      print(f"Removed file: {filepath}")
 
   except OSError as e:
     print(f"Error removing file {filepath}: {e}")

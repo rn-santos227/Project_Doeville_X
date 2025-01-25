@@ -19,6 +19,7 @@ class TarGzExtractor:
     else:
       raise ValueError(f"Unsupported archive format: {archive_path}")
     
+    self.__move_to_original_name(temp_folder, dest_folder)
     print(f"Extraction complete: {dest_folder}")
 
   def __extract_tar_gz(self, archive_path: str, dest_folder: str):

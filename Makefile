@@ -2,6 +2,7 @@
 CXX = g++
 CXXFLAGS += -Isrc \
             -Ilib/SDL2/SDL2-2.26.5/include \
+			-Ilib/SDL2_image/SDL2_image-2.6.3/include \
             -Ilib/SDL2_ttf/SDL2_ttf-2.20.1 \
             -Ilib/Lua/lua-5.4.6/src
 

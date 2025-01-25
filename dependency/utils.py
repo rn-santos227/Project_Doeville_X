@@ -14,3 +14,5 @@ def load_packages(package_file):
   
   with open(package_file, "r") as file:
     return json.load(file)
+  
+def remove_file(filepath):

@@ -30,3 +30,6 @@ class TarGzExtractor:
 
   def __move_to_original_name(self, temp_folder: str, dest_folder: str):
     extracted_items = os.listdir(temp_folder)
+
+    if len(extracted_items) == 1 and os.path.isdir(os.path.join(temp_folder, extracted_items[0])):
+      pass

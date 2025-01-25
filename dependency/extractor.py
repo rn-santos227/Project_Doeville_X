@@ -1,6 +1,7 @@
+import os
 import tarfile
 import zipfile
-import os
+import shutil
   
 class TarGzExtractor:
   def extract(self, archive_path: str, dest_folder: str):
@@ -26,3 +27,6 @@ class TarGzExtractor:
   def __extract_zip(self, archive_path: str, dest_folder: str):
     with zipfile.ZipFile(archive_path, "r") as zip_ref:
       zip_ref.extractall(dest_folder)
+
+  def __move_to_original_name(self, temp_folder: str, dest_folder: str):
+    pass

@@ -29,4 +29,4 @@ class TarGzExtractor:
       zip_ref.extractall(dest_folder)
 
   def __move_to_original_name(self, temp_folder: str, dest_folder: str):
-    pass
+    extracted_items = os.listdir(temp_folder)

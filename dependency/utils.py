@@ -6,3 +6,6 @@ def ensure_folder_exists(folder_path):
 
 def archive_exists(file_path):
   return os.path.exists(file_path)
+
+def load_packages(package_file):
+  pass

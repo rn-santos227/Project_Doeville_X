@@ -1,7 +1,6 @@
 import tarfile
 import zipfile
 import os
-import subprocess
   
 class TarGzExtractor:
   def extract(self, archive_path: str, dest_folder: str):

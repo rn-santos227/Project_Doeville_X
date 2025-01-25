@@ -33,3 +33,4 @@ class TarGzExtractor:
 
     if len(extracted_items) == 1 and os.path.isdir(os.path.join(temp_folder, extracted_items[0])):
       extracted_folder = os.path.join(temp_folder, extracted_items[0])
+      shutil.move(extracted_folder, dest_folder)

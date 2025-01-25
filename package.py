@@ -33,6 +33,8 @@ def main():
         output_dir=output_dir,
       )
 
+      remove_file(archive_path)
+
     except Exception as e:
       print(f"Error processing {package_name}: {e}")
       continue

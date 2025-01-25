@@ -39,3 +39,5 @@ class TarGzExtractor:
       os.makedirs(dest_folder, exist_ok=True)
       for item in extracted_items:
         shutil.move(os.path.join(temp_folder, item), dest_folder)
+
+    shutil.rmtree(temp_folder)

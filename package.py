@@ -4,7 +4,7 @@ import json
 from dependency.downloader import HTTPDownloader
 from dependency.extractor import TarGzExtractor
 from dependency.manager import DependencyManager
-from dependency.utils import ensure_folder_exists
+from dependency.utils import ensure_folder_exists, load_packages
 
 def main():
   root_dir = os.path.abspath(os.path.dirname(__file__))

@@ -16,3 +16,8 @@ def load_packages(package_file):
     return json.load(file)
   
 def remove_file(filepath):
+  try:
+    pass
+
+  except OSError as e:
+    print(f"Error removing file {filepath}: {e}")

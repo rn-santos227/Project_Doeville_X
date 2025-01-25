@@ -32,7 +32,6 @@ def main():
         source_dir=source_dir,
         output_dir=output_dir,
       )
-
       remove_file(archive_path)
 
     except Exception as e:

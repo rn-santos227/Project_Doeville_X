@@ -31,6 +31,10 @@ namespace Project::Core {
       logsManager.flushLogs();
       return;
     }
+
+    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+
+    }
     
     scriptingService.loadScriptsFromFolder("scripts/");
 

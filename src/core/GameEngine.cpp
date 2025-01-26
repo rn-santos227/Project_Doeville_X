@@ -34,6 +34,7 @@ namespace Project::Core {
 
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
       logsManager.logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
+      return;
     }
     
     scriptingService.loadScriptsFromFolder("scripts/");

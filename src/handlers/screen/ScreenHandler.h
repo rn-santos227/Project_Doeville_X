@@ -44,6 +44,7 @@ namespace Project::Handlers {
     FontHandler& fontHandler;
     KeyHandler& keyHandler;
     MouseHandler& mouseHandler;
+    ResourcesHandler& ResourcesHandler;
 
     GameStateManager& gameStateManager;
     

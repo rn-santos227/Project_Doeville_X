@@ -45,7 +45,7 @@ namespace Project::Handlers {
   }
 
   void CursorHandler::setRenderer(SDL_Renderer* renderer) {
-
+    this->renderer = renderer;
   }
 
   CursorState CursorHandler::getCursorState() const {

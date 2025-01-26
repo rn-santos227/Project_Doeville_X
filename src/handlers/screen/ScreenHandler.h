@@ -10,6 +10,7 @@
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/input/MouseHandler.h"
+#include "handlers/resources/ResourcesHandler.h"
 
 #include "states/GameStateManager.h"
 

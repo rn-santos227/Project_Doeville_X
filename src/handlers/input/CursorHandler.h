@@ -16,7 +16,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class CursorHandler {
   public:
-    CursorHandler(LogsManager& logsManager, SDL_Renderer* renderer);
+    CursorHandler(LogsManager& logsManager);
     ~CursorHandler();
 
     CursorState getCursorState() const;

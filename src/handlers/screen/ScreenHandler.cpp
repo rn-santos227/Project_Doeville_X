@@ -35,6 +35,7 @@ namespace Project::Handlers {
       return false;
     }
 
+    cursorHandler.setRenderer(renderer);
     logsManager.logMessage("Renderer created successfully.");
 
     running = true;

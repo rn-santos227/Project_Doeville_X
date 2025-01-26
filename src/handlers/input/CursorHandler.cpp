@@ -18,9 +18,12 @@ namespace Project::Handlers {
       return;
     }
 
+
     SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
     if (cursor) {
       cursors[state] = cursor;
+    } else {
+      logsManager.logWarning("Failed to create SDL cursor.");
     }
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);

@@ -23,7 +23,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, LogsManager& logsManager, FramesCounter& frameCounter);
+    ScreenHandler(GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourceHandler, LogsManager& logsManager, FramesCounter& frameCounter);
     ~ScreenHandler();
 
     bool init();

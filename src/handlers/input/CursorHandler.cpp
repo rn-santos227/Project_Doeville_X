@@ -1,7 +1,7 @@
 #include "CursorHandler.h"
 
 namespace Project::Handlers {
-  CursorHandler::CursorHandler(LogsManager& logsManager) : logsManager(logsManager) {
+  CursorHandler::CursorHandler(LogsManager& logsManager, SDL_Renderer* renderer) : logsManager(logsManager), renderer(renderer) {
     defaultCursor = SDL_GetDefaultCursor();
     cursors[CursorState::DEFAULT] = defaultCursor;
   }

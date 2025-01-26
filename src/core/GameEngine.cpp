@@ -105,6 +105,7 @@ namespace Project::Core {
     cursorHandler.cleanup();
     fontHandler.cleanup();
     
+    IMG_Quit();
     SDL_Quit();
     isRunning = false;
 

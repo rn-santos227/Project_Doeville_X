@@ -26,7 +26,11 @@ namespace Project::Handlers {
     }
 
     SDL_Texture* texture = nullptr;
-    
+    if (renderer) {
+
+    }
+    //fix this on weekends.
+
     cursorTextures[state] = texture;
   }
 

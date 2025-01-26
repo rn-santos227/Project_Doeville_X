@@ -15,11 +15,6 @@ namespace Project::Core {
 
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);
-    
-    std::string cursorPath = ResourcesHandler::getResourcePath("resources/system/cursor_default.png");
-    cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
-    cursorHandler.setCursorState(CursorState::DEFAULT);
-
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
     
     if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {

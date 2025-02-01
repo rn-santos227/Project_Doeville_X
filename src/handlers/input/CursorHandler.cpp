@@ -30,6 +30,8 @@ namespace Project::Handlers {
       texture = SDL_CreateTextureFromSurface(renderer, surface);
       if (logsManager.checkAndLogError(!texture, "Failed to create texture for cursor: " + filePath + " - " + std::string(SDL_GetError()))) {
         logsManager.flushLogs();
+      } else {
+         cursorTextures[state] = texture;
       }
     } else {
       logsManager.logError("Renderer is null. Cannot create texture.");

@@ -27,7 +27,7 @@ namespace Project::Handlers {
 
     SDL_Texture* texture = nullptr;
     if (renderer) {
-
+      texture = SDL_CreateTextureFromSurface(renderer, surface);
     }
     //fix this on weekends.
 

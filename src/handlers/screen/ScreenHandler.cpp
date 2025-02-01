@@ -74,6 +74,7 @@ namespace Project::Handlers {
       SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
       if (texture) {
         SDL_Rect dstRect = { mouseX, mouseY, 32, 32 };
+        SDL_RenderCopy(renderer, texture, nullptr, &dstRect);
       }
 
     } else {

@@ -151,4 +151,8 @@ namespace Project::Handlers {
       logsManager.logError("Failed to render mouse position.");
     }
   }
+  
+  SDL_Renderer* ScreenHandler::getRenderer() const {
+    return renderer;
+  }
 }

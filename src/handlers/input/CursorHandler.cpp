@@ -60,7 +60,7 @@ namespace Project::Handlers {
   SDL_Texture* CursorHandler::getCursorTexture(CursorState state) const {
     auto it = cursorTextures.find(state);
     if (it != cursorTextures.end() && it->second) {
-
+      return it->second;
     } else {
       logsManager.logWarning("Cursor texture for state " + std::to_string(static_cast<int>(state)) + " is null or not found.");
       return nullptr;

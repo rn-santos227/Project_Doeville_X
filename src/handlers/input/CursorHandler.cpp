@@ -61,6 +61,8 @@ namespace Project::Handlers {
     auto it = cursorTextures.find(state);
     if (it != cursorTextures.end() && it->second) {
 
+    } else {
+
     }
   }
 

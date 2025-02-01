@@ -71,12 +71,8 @@ namespace Project::Handlers {
       int mouseX, mouseY;
       SDL_GetMouseState(&mouseX, &mouseY);
 
-      SDL_Texture* cursorTexture = cursorHandler.getCursorTexture(cursorHandler.getCursorState());
-      if (cursorTexture) {
-        SDL_Rect dstRect = { mouseX, mouseY, 32, 32 };
-        SDL_RenderCopy(renderer, cursorTexture, nullptr, &dstRect);
-      }
-      
+      SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
+
     } else {
       logsManager.logError("Renderer is null.");
     }

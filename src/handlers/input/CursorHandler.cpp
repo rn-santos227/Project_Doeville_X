@@ -63,6 +63,7 @@ namespace Project::Handlers {
 
     } else {
       logsManager.logWarning("Cursor texture for state " + std::to_string(static_cast<int>(state)) + " is null or not found.");
+      return nullptr;
     }
   }
 

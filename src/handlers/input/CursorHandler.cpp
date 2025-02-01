@@ -62,7 +62,7 @@ namespace Project::Handlers {
     if (it != cursorTextures.end() && it->second) {
 
     } else {
-
+      logsManager.logWarning("Cursor texture for state " + std::to_string(static_cast<int>(state)) + " is null or not found.");
     }
   }
 

@@ -35,7 +35,7 @@ namespace Project::Handlers {
       logsManager.logError("Renderer is null. Cannot create texture.");
     }
 
-    cursorTextures[state] = texture;
+    SDL_FreeSurface(surface);
   }
 
   void CursorHandler::setCursorState(CursorState state) {

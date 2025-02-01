@@ -75,6 +75,8 @@ namespace Project::Handlers {
       if (texture) {
         SDL_Rect dstRect = { mouseX, mouseY, 32, 32 };
         SDL_RenderCopy(renderer, texture, nullptr, &dstRect);
+      } else {
+        logsManager.logError("Failed to render cursor: Texture is null.");
       }
 
     } else {

@@ -19,6 +19,8 @@ namespace Project::Handlers {
       return;
     }
 
+    logsManager.logMessage("Successfully loaded cursor image: " + filePath);
+
     SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
     if (cursor) {
       cursors[state] = cursor;

@@ -34,6 +34,9 @@ namespace Project::States {
     virtual std::string getStateName() const { return stateName; }
     virtual void setStateName(const std::string stateName) { this->stateName = stateName; }
 
+    virtual bool isActive() const { return active; }
+    //Update this next weekend.
+
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }
 

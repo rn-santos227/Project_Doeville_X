@@ -72,6 +72,10 @@ namespace Project::Handlers {
   }
 
   void CursorHandler::resetToDefaultCursor() {
+    if (cursorTextures.empty()) {
+
+    }
+    
     auto it = cursorTextures.find(CursorState::DEFAULT);
 
     if (it != cursorTextures.end()) {

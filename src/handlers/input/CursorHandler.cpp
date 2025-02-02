@@ -73,9 +73,9 @@ namespace Project::Handlers {
 
   void CursorHandler::resetToDefaultCursor() {
     if (cursorTextures.empty()) {
-
+      logsManager.logWarning("Cursor Textures Map is empty. No textures have been loaded.");
     }
-    
+
     auto it = cursorTextures.find(CursorState::DEFAULT);
 
     if (it != cursorTextures.end()) {

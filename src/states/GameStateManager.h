@@ -24,6 +24,8 @@ namespace Project::States {
     
     void update(float deltaTime);
     void render();
+
+    void enableStates(const std::vector<std::string>& names);
     
     void cleanup();
     void cleanupCache();

@@ -97,7 +97,7 @@ namespace Project::States {
   }
 
   void GameStateManager::disableStates(const std::vector<std::string>& names) {
-
+    std::lock_guard<std::mutex> lock(gameStateMutex);
   }
 
   void GameStateManager::cleanup() {

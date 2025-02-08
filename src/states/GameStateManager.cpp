@@ -85,6 +85,7 @@ namespace Project::States {
 
     while (!tempStack.empty()) {
       states.push_back(tempStack.top());
+      tempStack.pop();
     }
 
   }

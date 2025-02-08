@@ -96,6 +96,10 @@ namespace Project::States {
     }
   }
 
+  void GameStateManager::disableStates(const std::vector<std::string>& names) {
+
+  }
+
   void GameStateManager::cleanup() {
     while (!stateStack.empty()) {
       stateStack.top()->onExit();

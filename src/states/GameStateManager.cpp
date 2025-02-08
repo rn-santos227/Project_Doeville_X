@@ -84,7 +84,7 @@ namespace Project::States {
     std::stack<GameState*> tempStack = stateStack;
 
     while (!tempStack.empty()) {
-
+      states.push_back(tempStack.top());
     }
 
   }

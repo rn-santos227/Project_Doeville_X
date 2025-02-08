@@ -89,7 +89,9 @@ namespace Project::States {
     }
 
     for (GameState* state : states) {
+      if (state->isActive()) {
 
+      }
     }
   }
 

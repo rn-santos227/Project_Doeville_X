@@ -90,7 +90,7 @@ namespace Project::States {
      for (const auto& name : names) {
         auto it = states.find(name);
         if (it != states.end()) {
-
+           it->second->setActive(true);
         }
      }
   }

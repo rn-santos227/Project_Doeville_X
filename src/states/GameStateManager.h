@@ -26,6 +26,7 @@ namespace Project::States {
     void render();
 
     void enableStates(const std::vector<std::string>& names);
+    void disableStates(const std::vector<std::string>& names);
     
     void cleanup();
     void cleanupCache();

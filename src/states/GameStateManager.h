@@ -10,6 +10,8 @@
 #include <memory>
 #include <mutex>
 
+using namespace Project::Utilities;
+
 namespace Project::States {
   class GameStateManager {
   public:
@@ -32,6 +34,8 @@ namespace Project::States {
     void cleanupCache();
 
   private:
+    LogsManager& logsManager;
+
     size_t cacheLimit;
     std::mutex gameStateMutex;
     

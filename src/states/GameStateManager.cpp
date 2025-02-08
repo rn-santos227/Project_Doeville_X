@@ -88,7 +88,7 @@ namespace Project::States {
      std::lock_guard<std::mutex> lock(gameStateMutex);
 
      for (const auto& name : names) {
-
+      auto it = states.find(name);
      }
   }
 

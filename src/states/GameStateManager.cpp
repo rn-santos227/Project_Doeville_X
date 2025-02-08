@@ -88,6 +88,9 @@ namespace Project::States {
       tempStack.pop();
     }
 
+    for (GameState* state : states) {
+
+    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

@@ -1,7 +1,7 @@
 #include "GameStateManager.h"
 
 namespace Project::States {
-  GameStateManager::GameStateManager(size_t cacheLimit,  LogsManager& logsManager)
+  GameStateManager::GameStateManager(size_t cacheLimit, LogsManager& logsManager)
     : cacheLimit(cacheLimit), logsManager(logsManager) {}
 
   void GameStateManager::addState(const std::string& name, std::unique_ptr<GameState> state) {
@@ -85,14 +85,15 @@ namespace Project::States {
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {
-     std::lock_guard<std::mutex> lock(gameStateMutex);
-
-     for (const auto& name : names) {
-        auto it = states.find(name);
-        if (it != states.end()) {
-           it->second->setActive(true);
-        }
-     }
+    std::lock_guard<std::mutex> lock(gameStateMutex);
+    for (const auto& name : names) {
+      auto it = states.find(name);
+      if (it != states.end()) {
+          it->second->setActive(true);
+      } else {
+        logsManager.logWarning("GameState '" + name + "' not found.");
+      }
+    }
   }
 
   void GameStateManager::cleanup() {

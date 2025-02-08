@@ -82,7 +82,11 @@ namespace Project::States {
     
     std::vector<GameState*> states;
     std::stack<GameState*> tempStack = stateStack;
-    
+
+    while (!tempStack.empty()) {
+
+    }
+
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

@@ -79,7 +79,10 @@ namespace Project::States {
 
   void GameStateManager::render() {
     std::lock_guard<std::mutex> lock(gameStateMutex);
+    
     std::vector<GameState*> states;
+    std::stack<GameState*> tempStack = stateStack;
+    
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

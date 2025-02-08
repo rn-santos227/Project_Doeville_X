@@ -86,6 +86,10 @@ namespace Project::States {
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {
      std::lock_guard<std::mutex> lock(gameStateMutex);
+
+     for (const auto& name : names) {
+
+     }
   }
 
   void GameStateManager::cleanup() {

@@ -84,6 +84,9 @@ namespace Project::States {
       renderQueue.push_front(tempStack.top());
     }
     
+    for (GameState* state : renderQueue) {
+
+    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

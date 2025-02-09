@@ -45,7 +45,7 @@ namespace Project::Core {
 
     std::unique_ptr<GameStateManager> gameStateManager;
 
-    ScriptingService scriptingService;
+    std::unique_ptr<ScriptingService> scriptingService;
 
     LogsManager logsManager;
     FramesCounter framesCounter;

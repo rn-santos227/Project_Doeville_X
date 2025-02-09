@@ -39,7 +39,7 @@ namespace Project::Core {
     std::unique_ptr<CursorHandler> cursorHandler;
     std::unique_ptr<FontHandler> fontHandler;
     std::unique_ptr<KeyHandler> keyHandler;
-    MouseHandler mouseHandler;
+    std::unique_ptr<MouseHandler> mouseHandler;
     ResourcesHandler resourcesHandler;
     ScreenHandler screenHandler;
 

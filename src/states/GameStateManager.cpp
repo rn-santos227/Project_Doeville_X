@@ -71,7 +71,7 @@ namespace Project::States {
   }
 
   void GameStateManager::update(float deltaTime) {
-
+    std::lock_guard<std::mutex> lock(gameStateMutex);
   }
 
   void GameStateManager::render() {

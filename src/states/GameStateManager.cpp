@@ -72,8 +72,8 @@ namespace Project::States {
 
   void GameStateManager::update(float deltaTime) {
     std::lock_guard<std::mutex> lock(gameStateMutex);
-
-    std::vector<GameState*> states;
+    
+    std::deque<GameState*> renderQueue;
   }
 
   void GameStateManager::render() {

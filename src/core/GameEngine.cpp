@@ -9,7 +9,7 @@ namespace Project::Core {
     framesCounter(), 
     screenHandler(gameStateManager, cursorHandler, fontHandler, keyHandler, mouseHandler, resourcesHandler, logsManager, framesCounter),
     scriptingService(gameStateManager, logsManager)
-    {}
+  {}
 
   GameEngine::~GameEngine() {}
 

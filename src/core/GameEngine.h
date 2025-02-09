@@ -43,7 +43,7 @@ namespace Project::Core {
     std::unique_ptr<ResourcesHandler> resourcesHandler;
     std::unique_ptr<ScreenHandler> screenHandler;
 
-    GameStateManager gameStateManager;
+    std::unique_ptr<GameStateManager> gameStateManager;
 
     ScriptingService scriptingService;
 

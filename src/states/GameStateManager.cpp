@@ -80,6 +80,9 @@ namespace Project::States {
     std::lock_guard<std::mutex> lock(gameStateMutex);
 
     std::deque<GameState*> renderQueue;
+    for (std::stack<GameState*> tempStack = stateStack; !tempStack.empty(); tempStack.pop()) {
+
+    }
     
   }
 

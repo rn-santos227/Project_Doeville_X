@@ -86,7 +86,7 @@ namespace Project::States {
     
     for (GameState* state : renderQueue) {
       if (state->isActive()) {
-
+        state->render();
       }
     }
   }

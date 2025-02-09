@@ -77,6 +77,10 @@ namespace Project::States {
     for (std::stack<GameState*> tempStack = stateStack; !tempStack.empty(); tempStack.pop()) {
       renderQueue.push_front(tempStack.top());
     }
+
+    for (GameState* state : renderQueue) {
+
+    }
   }
 
   void GameStateManager::render() {

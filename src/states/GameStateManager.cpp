@@ -75,7 +75,7 @@ namespace Project::States {
     
     std::deque<GameState*> renderQueue;
     for (std::stack<GameState*> tempStack = stateStack; !tempStack.empty(); tempStack.pop()) {
-
+      renderQueue.push_front(tempStack.top());
     }
   }
 

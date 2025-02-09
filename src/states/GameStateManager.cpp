@@ -79,19 +79,6 @@ namespace Project::States {
   void GameStateManager::render() {
     std::lock_guard<std::mutex> lock(gameStateMutex);
     
-    std::vector<GameState*> states;
-    std::stack<GameState*> tempStack = stateStack;
-
-    while (!tempStack.empty()) {
-      states.push_back(tempStack.top());
-      tempStack.pop();
-    }
-
-    for (GameState* state : states) {
-      if (state->isActive()) {
-        state->render();
-      }
-    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

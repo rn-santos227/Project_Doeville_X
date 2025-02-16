@@ -41,7 +41,7 @@ namespace Project::Core {
     scriptingService->loadScriptsFromFolder("scripts/");
 
     keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
-    logsManager.logMessage("Game Engine has been initialized successfully.");
+    logsManager->logMessage("Game Engine has been initialized successfully.");
 
     logsManager.flushLogs();
     isRunning = true;

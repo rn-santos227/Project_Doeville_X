@@ -76,7 +76,7 @@ namespace Project::Core {
   void GameEngine::handleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
-      keyHandler.handleInput(event); 
+      keyHandler->handleInput(event); 
 
       if (event.type == SDL_QUIT) {
         logsManager.logMessage("Quit event received");

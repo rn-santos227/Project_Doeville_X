@@ -3,6 +3,7 @@
 namespace Project::Core {
   GameEngine::GameEngine() : 
     isRunning(false), logsManager(), 
+    logsManager(std::make_unique<LogsManager>()),
   {}
 
   GameEngine::~GameEngine() {}

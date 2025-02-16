@@ -34,11 +34,11 @@ namespace Project::Core {
     }
 
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-      logsManager.logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
+      logsManager->logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
       return;
     }
     
-    scriptingService.loadScriptsFromFolder("scripts/");
+    scriptingService->loadScriptsFromFolder("scripts/");
 
     keyHandler.setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     logsManager.logMessage("Game Engine has been initialized successfully.");

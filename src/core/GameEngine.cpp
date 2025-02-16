@@ -8,6 +8,7 @@ namespace Project::Core {
     keyHandler(std::make_unique<KeyHandler>(*logsManager)),
     mouseHandler(std::make_unique<MouseHandler>(*logsManager)),
     fontHandler(std::make_unique<FontHandler>(*logsManager)),
+    resourcesHandler(std::make_unique<ResourcesHandler>()),
   {}
 
   GameEngine::~GameEngine() {}

@@ -92,7 +92,7 @@ namespace Project::Core {
   }
 
   void GameEngine::render() {
-    screenHandler.render();
+    screenHandler->render();
   }
 
   void GameEngine::handleFrameRate() {

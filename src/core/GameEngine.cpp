@@ -2,8 +2,9 @@
 
 namespace Project::Core {
   GameEngine::GameEngine() : 
-    isRunning(false), logsManager(), 
+    isRunning(false), 
     logsManager(std::make_unique<LogsManager>()),
+    cursorHandler(std::make_unique<CursorHandler>(*logsManager)),
   {}
 
   GameEngine::~GameEngine() {}

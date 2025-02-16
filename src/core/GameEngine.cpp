@@ -28,8 +28,8 @@ namespace Project::Core {
       return;
     }
 
-    if (logsManager.checkAndLogError(!fontHandler.loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
-      logsManager.flushLogs();
+    if (logsManager->checkAndLogError(!fontHandler->loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
+      logsManager->flushLogs();
       return;
     }
 

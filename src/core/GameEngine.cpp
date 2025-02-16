@@ -79,7 +79,7 @@ namespace Project::Core {
       keyHandler->handleInput(event); 
 
       if (event.type == SDL_QUIT) {
-        logsManager.logMessage("Quit event received");
+        logsManager->logMessage("Quit event received");
         clean();
       }
     }

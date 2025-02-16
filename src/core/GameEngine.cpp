@@ -104,7 +104,7 @@ namespace Project::Core {
 
     gameStateManager->cleanup();
     cursorHandler->cleanup();
-    fontHandler.cleanup();
+    fontHandler->cleanup();
     
     IMG_Quit();
     SDL_Quit();

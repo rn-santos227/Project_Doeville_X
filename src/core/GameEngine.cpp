@@ -5,6 +5,7 @@ namespace Project::Core {
     isRunning(false), 
     logsManager(std::make_unique<LogsManager>()),
     cursorHandler(std::make_unique<CursorHandler>(*logsManager)),
+    keyHandler(std::make_unique<KeyHandler>(*logsManager)),
   {}
 
   GameEngine::~GameEngine() {}

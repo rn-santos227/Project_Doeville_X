@@ -61,7 +61,7 @@ namespace Project::Core {
       handleEvents();
       update();
       
-      gameStateManager.update(deltaTime);
+      gameStateManager->update(deltaTime);
       framesCounter.update();
       
       render();

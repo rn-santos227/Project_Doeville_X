@@ -13,6 +13,7 @@ namespace Project::Core {
     screenHandler(std::make_unique<ScreenHandler>(
       *gameStateManager, *cursorHandler, *fontHandler, *keyHandler, 
       *mouseHandler, *resourcesHandler, *logsManager, framesCounter)),
+    scriptingService(std::make_unique<ScriptingService>(*gameStateManager, *logsManager))
   {}
 
   GameEngine::~GameEngine() {}

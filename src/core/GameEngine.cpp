@@ -1,21 +1,22 @@
 #include "GameEngine.h"
 
 namespace Project::Core {
-  GameEngine::GameEngine() : 
-    isRunning(false), 
+  GameEngine::GameEngine() 
+  : isRunning(false),
     logsManager(std::make_unique<LogsManager>()),
+    framesCounter(std::make_unique<FramesCounter>()),
     cursorHandler(std::make_unique<CursorHandler>(*logsManager)),
     keyHandler(std::make_unique<KeyHandler>(*logsManager)),
     mouseHandler(std::make_unique<MouseHandler>(*logsManager)),
     fontHandler(std::make_unique<FontHandler>(*logsManager)),
     resourcesHandler(std::make_unique<ResourcesHandler>()),
     gameStateManager(std::make_unique<GameStateManager>(5, *logsManager)),
-    screenHandler(std::make_unique<ScreenHandler>(
-      *gameStateManager, *cursorHandler, *fontHandler, *keyHandler, 
-      *mouseHandler, *resourcesHandler, *logsManager, *framesCounter)),
-    scriptingService(std::make_unique<ScriptingService>(*gameStateManager, *logsManager))
-  {
+    scriptingService(std::make_unique<ScriptingService>(*gameStateManager, *logsManager)) {
+    
     logsManager->logMessage("GameEngine constructor called.");
+    screenHandler = std::make_unique<ScreenHandler>(
+
+    );
   }
 
   GameEngine::~GameEngine() {

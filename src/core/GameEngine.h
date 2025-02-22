@@ -40,7 +40,7 @@ namespace Project::Core {
     std::unique_ptr<FontHandler> fontHandler;
     std::unique_ptr<KeyHandler> keyHandler;
     std::unique_ptr<MouseHandler> mouseHandler;
-    ResourcesHandler resourcesHandler;
+    std::unique_ptr<ResourcesHandler> resourcesHandler;
     ScreenHandler screenHandler;
 
     GameStateManager gameStateManager;

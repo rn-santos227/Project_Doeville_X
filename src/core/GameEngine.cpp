@@ -14,7 +14,9 @@ namespace Project::Core {
       *gameStateManager, *cursorHandler, *fontHandler, *keyHandler, 
       *mouseHandler, *resourcesHandler, *logsManager, framesCounter)),
     scriptingService(std::make_unique<ScriptingService>(*gameStateManager, *logsManager))
-  {}
+  {
+    logsManager->logMessage("GameEngine constructor called.");
+  }
 
   GameEngine::~GameEngine() {}
 

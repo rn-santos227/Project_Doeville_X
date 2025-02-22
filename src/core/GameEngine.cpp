@@ -3,9 +3,10 @@
 namespace Project::Core {
   GameEngine::GameEngine() :
   isRunning(false), logsManager(), 
-  cursorHandler(std::make_unique<CursorHandler>(logsManager)), mouseHandler(logsManager), 
+  cursorHandler(std::make_unique<CursorHandler>(logsManager)), 
   fontHandler(std::make_unique<FontHandler>(logsManager)), 
   keyHandler(std::make_unique<KeyHandler>(logsManager)),
+  mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   gameStateManager(5, logsManager),
   framesCounter(), 
   screenHandler(gameStateManager, *cursorHandler, *fontHandler, *keyHandler, mouseHandler, resourcesHandler, logsManager, framesCounter),

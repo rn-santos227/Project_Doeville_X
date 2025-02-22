@@ -1,55 +1,43 @@
 #include "GameEngine.h"
 
 namespace Project::Core {
-  GameEngine::GameEngine() 
-  : isRunning(false),
-    logsManager(std::make_unique<LogsManager>()),
-    framesCounter(std::make_unique<FramesCounter>()),
-    cursorHandler(std::make_unique<CursorHandler>(*logsManager)),
-    keyHandler(std::make_unique<KeyHandler>(*logsManager)),
-    mouseHandler(std::make_unique<MouseHandler>(*logsManager)),
-    fontHandler(std::make_unique<FontHandler>(*logsManager)),
-    resourcesHandler(std::make_unique<ResourcesHandler>()),
-    gameStateManager(std::make_unique<GameStateManager>(5, *logsManager)),
-    scriptingService(std::make_unique<ScriptingService>(*gameStateManager, *logsManager)) {
-    
-    logsManager->logMessage("GameEngine constructor called.");
-    screenHandler = std::make_unique<ScreenHandler>(
-      *gameStateManager, *cursorHandler, *fontHandler, 
-      *keyHandler, *mouseHandler, *resourcesHandler, *logsManager, *framesCounter
-    );
-  }
-
-  GameEngine::~GameEngine() {
-    logsManager->logMessage("GameEngine destructor called.");
-  }
+  GameEngine::GameEngine() :
+  isRunning(false), logsManager(), 
+  cursorHandler(logsManager), keyHandler(logsManager), mouseHandler(logsManager), 
+  fontHandler(logsManager), 
+  gameStateManager(5, logsManager),
+  framesCounter(), 
+  screenHandler(gameStateManager, cursorHandler, fontHandler, keyHandler, mouseHandler, resourcesHandler, logsManager, framesCounter),
+  scriptingService(gameStateManager, logsManager) {}
+  
+  GameEngine::~GameEngine() {}
 
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
     
-    if (logsManager->checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
+    if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {
       isRunning = false;
-      logsManager->flushLogs();
+      logsManager.flushLogs();
       return;
     }
 
-    if (logsManager->checkAndLogError(!fontHandler->loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
-      logsManager->flushLogs();
+    if (logsManager.checkAndLogError(!fontHandler.loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
+      logsManager.flushLogs();
       return;
     }
 
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-      logsManager->logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
+      logsManager.logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
       return;
     }
     
-    scriptingService->loadScriptsFromFolder("scripts/");
+    scriptingService.loadScriptsFromFolder("scripts/");
 
-    keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
-    logsManager->logMessage("Game Engine has been initialized successfully.");
+    keyHandler.setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
+    logsManager.logMessage("Game Engine has been initialized successfully.");
 
-    logsManager->flushLogs();
+    logsManager.flushLogs();
     isRunning = true;
   }
 
@@ -67,8 +55,8 @@ namespace Project::Core {
       handleEvents();
       update();
       
-      gameStateManager->update(deltaTime);
-      framesCounter->update();
+      gameStateManager.update(deltaTime);
+      framesCounter.update();
       
       render();
       
@@ -82,10 +70,10 @@ namespace Project::Core {
   void GameEngine::handleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
-      keyHandler->handleInput(event); 
+      keyHandler.handleInput(event); 
 
       if (event.type == SDL_QUIT) {
-        logsManager->logMessage("Quit event received");
+        logsManager.logMessage("Quit event received");
         clean();
       }
     }
@@ -93,12 +81,12 @@ namespace Project::Core {
 
   void GameEngine::update() {
     std::lock_guard<std::mutex> lock(updateMutex);
-    screenHandler->update();
-    screenHandler->clear();
+    screenHandler.update();
+    screenHandler.clear();
   }
 
   void GameEngine::render() {
-    screenHandler->render();
+    screenHandler.render();
   }
 
   void GameEngine::handleFrameRate() {
@@ -106,17 +94,17 @@ namespace Project::Core {
   }
 
   void GameEngine::clean() {
-    logsManager->logMessage("Cleaning up game engine...");
+    logsManager.logMessage("Cleaning up game engine...");
 
-    gameStateManager->cleanup();
-    cursorHandler->cleanup();
-    fontHandler->cleanup();
+    gameStateManager.cleanup();
+    cursorHandler.cleanup();
+    fontHandler.cleanup();
     
     IMG_Quit();
     SDL_Quit();
     isRunning = false;
 
-    logsManager->logMessage("Game engine cleanup complete.");
-    logsManager->flushLogs();
+    logsManager.logMessage("Game engine cleanup complete.");
+    logsManager.flushLogs();
   }
 }

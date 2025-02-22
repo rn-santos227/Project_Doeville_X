@@ -36,19 +36,19 @@ namespace Project::Core {
     void clean();
 
   private:
-    std::unique_ptr<CursorHandler> cursorHandler;
-    std::unique_ptr<FontHandler> fontHandler;
-    std::unique_ptr<KeyHandler> keyHandler;
-    std::unique_ptr<MouseHandler> mouseHandler;
-    std::unique_ptr<ResourcesHandler> resourcesHandler;
-    std::unique_ptr<ScreenHandler> screenHandler;
+    CursorHandler cursorHandler;
+    FontHandler fontHandler;
+    KeyHandler keyHandler;
+    MouseHandler mouseHandler;
+    ResourcesHandler resourcesHandler;
+    ScreenHandler screenHandler;
 
-    std::unique_ptr<GameStateManager> gameStateManager;
+    GameStateManager gameStateManager;
 
-    std::unique_ptr<ScriptingService> scriptingService;
+    ScriptingService scriptingService;
 
-    std::unique_ptr<LogsManager> logsManager;
-    std::unique_ptr<FramesCounter> framesCounter;
+    LogsManager logsManager;
+    FramesCounter framesCounter;
 
     bool isRunning;
 

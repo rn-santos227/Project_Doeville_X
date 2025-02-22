@@ -111,6 +111,6 @@ namespace Project::Core {
     isRunning = false;
 
     logsManager->logMessage("Game engine cleanup complete.");
-    logsManager.flushLogs();
+    logsManager->flushLogs();
   }
 }

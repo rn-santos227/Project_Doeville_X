@@ -3,7 +3,7 @@
 namespace Project::Core {
   GameEngine::GameEngine() :
   isRunning(false), logsManager(), 
-  cursorHandler(logsManager), keyHandler(logsManager), mouseHandler(logsManager), 
+  cursorHandler(std::make_unique<CursorHandler>(logsManager)), keyHandler(logsManager), mouseHandler(logsManager), 
   fontHandler(logsManager), 
   gameStateManager(5, logsManager),
   framesCounter(), 

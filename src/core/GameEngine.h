@@ -48,7 +48,7 @@ namespace Project::Core {
     std::unique_ptr<ScriptingService> scriptingService;
 
     std::unique_ptr<LogsManager> logsManager;
-    FramesCounter framesCounter;
+    std::unique_ptr<FramesCounter> framesCounter;
 
     bool isRunning;
 

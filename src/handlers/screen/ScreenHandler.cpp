@@ -2,10 +2,12 @@
 
 namespace Project::Handlers {
   ScreenHandler::ScreenHandler(GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler, LogsManager& logsManager, FramesCounter& framesCounter)
-      : window(nullptr), renderer(nullptr), running(false), 
-      cursorHandler(cursorHandler), fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler), resourcesHandler(resourcesHandler),
-      gameStateManager(gameStateManager),
-      logsManager(logsManager), framesCounter(framesCounter) {}
+    : window(nullptr), renderer(nullptr), running(false), 
+    cursorHandler(cursorHandler), fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler), resourcesHandler(resourcesHandler),
+    gameStateManager(gameStateManager),
+    logsManager(logsManager), framesCounter(framesCounter) {
+    logsManager.logMessage("ScreenHandler constructor called.");
+  }
 
   ScreenHandler::~ScreenHandler() {
     SDL_DestroyRenderer(renderer);
@@ -24,10 +26,9 @@ namespace Project::Handlers {
     if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       logsManager.flushLogs();
       return false;
-    
     }
-    logsManager.logMessage("Window created successfully.");
 
+    logsManager.logMessage("Window created successfully.");
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
     if (logsManager.checkAndLogError(!renderer,  "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {

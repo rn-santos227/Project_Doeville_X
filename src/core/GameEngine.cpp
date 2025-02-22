@@ -18,7 +18,9 @@ namespace Project::Core {
     logsManager->logMessage("GameEngine constructor called.");
   }
 
-  GameEngine::~GameEngine() {}
+  GameEngine::~GameEngine() {
+    logsManager->logMessage("GameEngine destructor called.");
+  }
 
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);

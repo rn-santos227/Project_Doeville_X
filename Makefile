@@ -12,6 +12,7 @@ LDFLAGS += `sdl2-config --libs` \
            -Llib/SDL2_ttf/SDL2_ttf-2.20.1 \
            -Llib/Lua/lua-5.4.6/src \
            -lSDL2 -lSDL2_image -lSDL2_ttf -llua
+		   -mconsole
 
 SRC_DIR = src
 BUILD_DIR = build

@@ -7,7 +7,7 @@ namespace Project::Core {
   fontHandler(std::make_unique<FontHandler>(logsManager)), 
   gameStateManager(5, logsManager),
   framesCounter(), 
-  screenHandler(gameStateManager, *cursorHandler, fontHandler, keyHandler, mouseHandler, resourcesHandler, logsManager, framesCounter),
+  screenHandler(gameStateManager, *cursorHandler, *fontHandler, keyHandler, mouseHandler, resourcesHandler, logsManager, framesCounter),
   scriptingService(gameStateManager, logsManager) {}
   
   GameEngine::~GameEngine() {}
@@ -22,7 +22,7 @@ namespace Project::Core {
       return;
     }
 
-    if (logsManager.checkAndLogError(!fontHandler.loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
+    if (logsManager.checkAndLogError(!fontHandler->loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
       logsManager.flushLogs();
       return;
     }
@@ -98,7 +98,7 @@ namespace Project::Core {
 
     gameStateManager.cleanup();
     cursorHandler->cleanup();
-    fontHandler.cleanup();
+    fontHandler->cleanup();
     
     IMG_Quit();
     SDL_Quit();

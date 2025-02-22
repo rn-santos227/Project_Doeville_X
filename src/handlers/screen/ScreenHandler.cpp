@@ -24,19 +24,17 @@ namespace Project::Handlers {
     if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       logsManager.flushLogs();
       return false;
-    
     }
     logsManager.logMessage("Window created successfully.");
-
+    
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
     if (logsManager.checkAndLogError(!renderer,  "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       logsManager.flushLogs();
       return false;
-    } else {
-      logsManager.logMessage("Renderer created successfully.");
-    }
-
+    } 
+    logsManager.logMessage("Renderer created successfully.");
+    
     cursorHandler.setRenderer(renderer);
     std::string cursorPath = ResourcesHandler::getResourcePath("resources/system/cursor_default.png");
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());

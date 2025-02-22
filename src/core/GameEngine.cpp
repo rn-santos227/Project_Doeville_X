@@ -12,7 +12,7 @@ namespace Project::Core {
     gameStateManager(std::make_unique<GameStateManager>(5, *logsManager)),
     screenHandler(std::make_unique<ScreenHandler>(
       *gameStateManager, *cursorHandler, *fontHandler, *keyHandler, 
-      *mouseHandler, *resourcesHandler, *logsManager, framesCounter)),
+      *mouseHandler, *resourcesHandler, *logsManager, *framesCounter)),
     scriptingService(std::make_unique<ScriptingService>(*gameStateManager, *logsManager))
   {
     logsManager->logMessage("GameEngine constructor called.");
@@ -66,7 +66,7 @@ namespace Project::Core {
       update();
       
       gameStateManager->update(deltaTime);
-      framesCounter.update();
+      framesCounter->update();
       
       render();
       

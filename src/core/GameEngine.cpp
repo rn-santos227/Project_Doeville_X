@@ -15,7 +15,7 @@ namespace Project::Core {
     
     logsManager->logMessage("GameEngine constructor called.");
     screenHandler = std::make_unique<ScreenHandler>(
-      *gameStateManager, 
+      *gameStateManager, *cursorHandler, 
     );
   }
 

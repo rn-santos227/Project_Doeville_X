@@ -8,7 +8,7 @@ namespace Project::Core {
   keyHandler(std::make_unique<KeyHandler>(logsManager)),
   gameStateManager(5, logsManager),
   framesCounter(), 
-  screenHandler(gameStateManager, *cursorHandler, *fontHandler, keyHandler, mouseHandler, resourcesHandler, logsManager, framesCounter),
+  screenHandler(gameStateManager, *cursorHandler, *fontHandler, *keyHandler, mouseHandler, resourcesHandler, logsManager, framesCounter),
   scriptingService(gameStateManager, logsManager) {}
   
   GameEngine::~GameEngine() {}
@@ -35,7 +35,7 @@ namespace Project::Core {
     
     scriptingService.loadScriptsFromFolder("scripts/");
 
-    keyHandler.setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
+    keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     logsManager.logMessage("Game Engine has been initialized successfully.");
 
     logsManager.flushLogs();
@@ -71,7 +71,7 @@ namespace Project::Core {
   void GameEngine::handleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
-      keyHandler.handleInput(event); 
+      keyHandler->handleInput(event); 
 
       if (event.type == SDL_QUIT) {
         logsManager.logMessage("Quit event received");

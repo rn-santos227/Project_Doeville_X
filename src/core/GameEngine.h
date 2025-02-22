@@ -37,7 +37,7 @@ namespace Project::Core {
 
   private:
     std::unique_ptr<CursorHandler> cursorHandler;
-    FontHandler fontHandler;
+    std::unique_ptr<FontHandler> fontHandler;
     KeyHandler keyHandler;
     MouseHandler mouseHandler;
     ResourcesHandler resourcesHandler;

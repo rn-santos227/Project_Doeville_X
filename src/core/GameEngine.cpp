@@ -82,7 +82,7 @@ namespace Project::Core {
   void GameEngine::update() {
     std::lock_guard<std::mutex> lock(updateMutex);
     screenHandler.update();
-    screenHandler.clear();
+    screenHandler.clear
   }
 
   void GameEngine::render() {
@@ -97,7 +97,7 @@ namespace Project::Core {
     logsManager.logMessage("Cleaning up game engine...");
 
     gameStateManager.cleanup();
-    cursorHandler.cleanup();
+    cursorHandler->cleanup();
     fontHandler.cleanup();
     
     IMG_Quit();

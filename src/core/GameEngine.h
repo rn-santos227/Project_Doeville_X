@@ -41,7 +41,7 @@ namespace Project::Core {
     std::unique_ptr<KeyHandler> keyHandler;
     std::unique_ptr<MouseHandler> mouseHandler;
     std::unique_ptr<ResourcesHandler> resourcesHandler;
-    ScreenHandler screenHandler;
+    std::unique_ptr<ScreenHandler> screenHandler;
 
     GameStateManager gameStateManager;
 

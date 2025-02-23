@@ -5,7 +5,11 @@
 #include <unordered_map>
 
 namespace Project::Handlers {
+  class ConfigHandler {
+  public:
+    static ConfigHandler& getInstance();
 
+  };
 }
 
 #endif

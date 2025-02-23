@@ -72,6 +72,8 @@ namespace Project::Handlers {
       int screenWidth, screenHeight;
       SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
+      mouseX = std::max(0, std::min(mouseX, screenWidth - 32));
+
       SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
       if (texture) {
         SDL_Rect dstRect = { mouseX, mouseY, 32, 32 };

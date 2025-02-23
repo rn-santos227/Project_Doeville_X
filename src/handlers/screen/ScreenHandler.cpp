@@ -69,6 +69,8 @@ namespace Project::Handlers {
       int mouseX, mouseY;
       SDL_GetMouseState(&mouseX, &mouseY);
 
+      int screenWidth, screenHeight;
+
       SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
       if (texture) {
         SDL_Rect dstRect = { mouseX, mouseY, 32, 32 };

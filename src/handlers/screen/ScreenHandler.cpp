@@ -70,6 +70,7 @@ namespace Project::Handlers {
       SDL_GetMouseState(&mouseX, &mouseY);
 
       int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
       SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
       if (texture) {

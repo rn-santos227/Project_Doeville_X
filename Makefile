@@ -41,6 +41,7 @@ $(TARGET): $(OBJECTS)
 $(DEBUG_TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)

@@ -9,6 +9,9 @@ namespace Project::Handlers {
   public:
     static ConfigHandler& getInstance();
 
+  private:
+    ConfigHandler() = default;
+
   };
 }
 

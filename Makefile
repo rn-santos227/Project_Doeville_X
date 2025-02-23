@@ -24,6 +24,7 @@ SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/**/**/*.cpp) $(S
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
 TARGET = $(BIN_DIR)/project_doeville_x
+DEBUG_TARGET = $(BIN_DIR)/project_doeville_x_debug
 
 all: $(TARGET)
 
@@ -53,4 +54,5 @@ clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
 	@echo "Cleaned build directories."
 
-.PHONY: all clean
+.PHONY: all clean debug
+

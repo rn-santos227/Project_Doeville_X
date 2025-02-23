@@ -5,8 +5,6 @@
 #include "core/GameEngine.h"
 
 int main(int argc, char* argv[]) { 
-  std::cout << "Starting main()" << std::endl;
-
   Project::Core::GameEngine engine; engine;
   
   engine.init();  

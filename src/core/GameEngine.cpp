@@ -19,7 +19,7 @@ namespace Project::Core {
     SDL_ShowCursor(SDL_DISABLE);
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
     
-    if (logsManager.checkAndLogError(!screenHandler.init(), "Screen Handler initialization failed!")) {
+    if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
       isRunning = false;
       logsManager.flushLogs();
       return;

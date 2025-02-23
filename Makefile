@@ -29,6 +29,7 @@ all: $(TARGET)
 
 debug: CXXFLAGS += -g
 debug: LDFLAGS += -mconsole
+debug: $(DEBUG_TARGET)
 
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)

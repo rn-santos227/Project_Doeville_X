@@ -27,6 +27,8 @@ TARGET = $(BIN_DIR)/project_doeville_x
 
 all: $(TARGET)
 
+debug: CXXFLAGS += -g
+
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)

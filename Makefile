@@ -38,6 +38,8 @@ $(TARGET): $(OBJECTS)
 	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
 	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
 
+$(DEBUG_TARGET): $(OBJECTS)
+
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@

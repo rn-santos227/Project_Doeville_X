@@ -9,8 +9,9 @@ namespace Project::Core {
   mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   resourcesHandler(std::make_unique<ResourcesHandler>()),
   gameStateManager(5, logsManager),
-  screenHandler(gameStateManager, *cursorHandler, *fontHandler, *keyHandler, *mouseHandler, *resourcesHandler, logsManager, framesCounter),
-  scriptingService(gameStateManager, logsManager) {}
+  scriptingService(gameStateManager, logsManager),
+  screenHandler(std::make_unique<ScreenHandler>(gameStateManager, *cursorHandler, *fontHandler, *keyHandler, *mouseHandler, *resourcesHandler, logsManager, framesCounter))
+  {}
   
   GameEngine::~GameEngine() {}
 

@@ -85,7 +85,7 @@ namespace Project::Core {
   void GameEngine::update() {
     std::lock_guard<std::mutex> lock(updateMutex);
     screenHandler->update();
-    screenHandler.clear();
+    screenHandler->clear();
   }
 
   void GameEngine::render() {

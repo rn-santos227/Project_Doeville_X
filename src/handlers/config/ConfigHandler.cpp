@@ -25,6 +25,6 @@ namespace Project::Handlers {
   }
 
   void ConfigHandler::trim(std::string& str) const {
-
+    str.erase(0, str.find_first_not_of(" \t\r\n"));
   }
 }

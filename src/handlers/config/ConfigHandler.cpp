@@ -20,7 +20,7 @@ namespace Project::Handlers {
       trim(line);
 
       if (line.empty() || line[0] == ';' || line[0] == '#') {
-
+        continue;
       }
     }
 

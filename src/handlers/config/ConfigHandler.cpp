@@ -5,6 +5,6 @@
 
 namespace Project::Handlers {
   ConfigHandler& ConfigHandler::getInstance() {
-
+    static ConfigHandler instance;
   }
 }

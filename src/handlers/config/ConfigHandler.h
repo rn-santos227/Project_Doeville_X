@@ -10,6 +10,8 @@ namespace Project::Handlers {
     static ConfigHandler& getInstance();
 
     bool loadConfig(const std::string& filePath);
+
+    int getIntValue(const std::string& section, const std::string& key, int defaultValue = 0) const;
     bool getBoolValue(const std::string& section, const std::string& key, bool defaultValue = false) const;
 
   private:

@@ -23,4 +23,8 @@ namespace Project::Handlers {
     file.close();
     return true;
   }
+
+  void ConfigHandler::trim(std::string& str) const {
+
+  }
 }

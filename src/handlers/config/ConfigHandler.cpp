@@ -18,6 +18,10 @@ namespace Project::Handlers {
     std::string line, section;
     while (std::getline(file, line)) {
       trim(line);
+
+      if (line.empty() || line[0] == ';' || line[0] == '#') {
+
+      }
     }
 
     file.close();

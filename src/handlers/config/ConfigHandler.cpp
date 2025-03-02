@@ -14,5 +14,7 @@ namespace Project::Handlers {
     if (!file.is_open()) {
       return false;
     }
+
+    std::string line, section;
   }
 }

@@ -10,6 +10,6 @@ namespace Project::Handlers {
   }
 
   bool ConfigHandler::loadConfig(const std::string& filePath) {
-
+    std::ifstream file(filePath);
   }
 }

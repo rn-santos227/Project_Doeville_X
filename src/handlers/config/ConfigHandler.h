@@ -9,6 +9,8 @@ namespace Project::Handlers {
   public:
     static ConfigHandler& getInstance();
 
+    bool loadConfig(const std::string& filePath);
+
   private:
     ConfigHandler() = default;
 

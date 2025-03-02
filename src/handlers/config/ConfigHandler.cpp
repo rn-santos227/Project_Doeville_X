@@ -17,7 +17,7 @@ namespace Project::Handlers {
 
     std::string line, section;
     while (std::getline(file, line)) {
-
+      trim(line);
     }
 
     file.close();

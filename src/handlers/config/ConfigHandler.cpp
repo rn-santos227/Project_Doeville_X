@@ -8,4 +8,8 @@ namespace Project::Handlers {
     static ConfigHandler instance;
     return instance;
   }
+
+  bool ConfigHandler::loadConfig(const std::string& filePath) {
+
+  }
 }

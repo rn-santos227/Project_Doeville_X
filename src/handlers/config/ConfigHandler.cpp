@@ -21,5 +21,6 @@ namespace Project::Handlers {
     }
 
     file.close();
+    return true;
   }
 }

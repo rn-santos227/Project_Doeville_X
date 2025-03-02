@@ -19,6 +19,8 @@ namespace Project::Handlers {
   private:
     ConfigHandler() = default;
 
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> configData;
+
   };
 }
 

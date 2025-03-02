@@ -19,5 +19,7 @@ namespace Project::Handlers {
     while (std::getline(file, line)) {
 
     }
+
+    file.close();
   }
 }

@@ -20,7 +20,8 @@ namespace Project::Handlers {
     ConfigHandler() = default;
 
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> configData;
-
+    
+    void trim(std::string& str) const;
   };
 }
 

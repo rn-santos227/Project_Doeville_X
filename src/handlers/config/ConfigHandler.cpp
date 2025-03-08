@@ -65,6 +65,10 @@ namespace Project::Handlers {
     return !value.empty() ? std::stoi(value) : defaultValue;
   }
 
+  bool ConfigHandler::getBoolValue(const std::string& section, const std::string& key, bool defaultValue) const {
+
+  }
+
   void ConfigHandler::trim(std::string& str) const {
     str.erase(0, str.find_first_not_of(" \t\r\n"));
     str.erase(str.find_last_not_of(" \t\r\n") + 1);

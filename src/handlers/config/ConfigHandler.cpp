@@ -56,7 +56,7 @@ namespace Project::Handlers {
   }
 
   float ConfigHandler::getFloatValue(const std::string& section, const std::string& key, float defaultValue) const {
-
+    std::string value = getValue(section, key);
   }
 
   int ConfigHandler::getIntValue(const std::string& section, const std::string& key, int defaultValue) const {

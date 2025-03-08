@@ -43,6 +43,10 @@ namespace Project::Handlers {
     return true;
   }
 
+  std::string ConfigHandler::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {
+
+  }
+
   void ConfigHandler::trim(std::string& str) const {
     str.erase(0, str.find_first_not_of(" \t\r\n"));
     str.erase(str.find_last_not_of(" \t\r\n") + 1);

@@ -29,7 +29,7 @@ namespace Project::Handlers {
       } else {
         size_t delimiterPos = line.find('=');
         if (delimiterPos != std::string::npos) {
-
+          std::string key = line.substr(0, delimiterPos);
         }
       }
     }

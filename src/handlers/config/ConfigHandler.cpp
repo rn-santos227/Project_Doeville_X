@@ -66,7 +66,7 @@ namespace Project::Handlers {
   }
 
   bool ConfigHandler::getBoolValue(const std::string& section, const std::string& key, bool defaultValue) const {
-
+    std::string value = getValue(section, key);
   }
 
   void ConfigHandler::trim(std::string& str) const {

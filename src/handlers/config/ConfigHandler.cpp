@@ -56,7 +56,7 @@ namespace Project::Handlers {
   }
 
   int ConfigHandler::getIntValue(const std::string& section, const std::string& key, int defaultValue) const {
-
+    std::string value = getValue(section, key);
   }
 
   void ConfigHandler::trim(std::string& str) const {

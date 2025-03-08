@@ -45,6 +45,9 @@ namespace Project::Handlers {
 
   std::string ConfigHandler::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {
     auto secIt = configData.find(section);
+    if (secIt != configData.end()) {
+
+    }
   }
 
   void ConfigHandler::trim(std::string& str) const {

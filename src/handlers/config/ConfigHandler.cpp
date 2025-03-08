@@ -52,6 +52,7 @@ namespace Project::Handlers {
         return keyIt->second;
       }
     }
+    return defaultValue;
   }
 
   void ConfigHandler::trim(std::string& str) const {

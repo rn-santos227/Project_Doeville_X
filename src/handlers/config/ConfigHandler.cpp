@@ -47,6 +47,10 @@ namespace Project::Handlers {
     auto secIt = configData.find(section);
     if (secIt != configData.end()) {
       auto keyIt = secIt->second.find(key);
+
+      if (keyIt != secIt->second.end()) {
+
+      }
     }
   }
 

@@ -41,7 +41,7 @@ namespace Project::Handlers {
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-
+    ConfigHandler& configHandler;
     CursorHandler& cursorHandler;
     FontHandler& fontHandler;
     KeyHandler& keyHandler;

@@ -20,6 +20,9 @@ BIN_DIR = bin
 RESOURCE_DIR = resources
 SCRIPT_DIR = scripts
 
+
+CONFIG_FILE = $(BIN_DIR)/config.ini
+
 SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/**/**/*.cpp) $(SRC_DIR)/main.cpp
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 

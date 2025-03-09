@@ -20,7 +20,6 @@ BIN_DIR = bin
 RESOURCE_DIR = resources
 SCRIPT_DIR = scripts
 
-
 CONFIG_FILE = $(BIN_DIR)/config.ini
 
 SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/**/**/*.cpp) $(SRC_DIR)/main.cpp
@@ -29,7 +28,7 @@ OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 TARGET = $(BIN_DIR)/project_doeville_x
 DEBUG_TARGET = $(BIN_DIR)/project_doeville_x_debug
 
-all: $(TARGET)
+all: $(TARGET) copy_config
 
 debug: CXXFLAGS += -g
 debug: LDFLAGS += -mconsole

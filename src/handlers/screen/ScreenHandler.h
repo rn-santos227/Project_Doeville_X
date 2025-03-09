@@ -6,6 +6,7 @@
 
 #include <SDL.h>
 
+#include "handlers/config/ConfigHandler.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
@@ -39,6 +40,7 @@ namespace Project::Handlers {
   private:
     SDL_Window* window;
     SDL_Renderer* renderer;
+
 
     CursorHandler& cursorHandler;
     FontHandler& fontHandler;

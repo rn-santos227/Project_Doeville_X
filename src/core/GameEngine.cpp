@@ -19,7 +19,7 @@ namespace Project::Core {
     SDL_ShowCursor(SDL_DISABLE);
 
     if (!configHandler->loadConfig("config.ini")) {
-
+      logsManager.logError("Failed to load config.ini");
     }
 
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");

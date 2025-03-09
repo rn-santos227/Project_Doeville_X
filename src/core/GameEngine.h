@@ -37,6 +37,7 @@ namespace Project::Core {
     void clean();
 
   private:
+    std::unique_ptr<ConfigHandler> configHandler;
     std::unique_ptr<CursorHandler> cursorHandler;
     std::unique_ptr<FontHandler> fontHandler;
     std::unique_ptr<KeyHandler> keyHandler;

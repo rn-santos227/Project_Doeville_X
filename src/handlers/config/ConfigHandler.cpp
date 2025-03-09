@@ -17,9 +17,7 @@ namespace Project::Handlers {
     while (std::getline(file, line)) {
       trim(line);
 
-      if (line.empty() || line[0] == ';' || line[0] == '#') {
-        continue;
-      }
+      if (line.empty() || line[0] == ';' || line[0] == '#') continue;
 
       if (line[0] == '[' && line.back() == ']') {
         section = line.substr(1, line.size() - 2);
@@ -33,6 +31,7 @@ namespace Project::Handlers {
           trim(key);
           trim(value);
           configData[section][key] = value;
+          logsManager.logMessage("Loaded config: [" + section + "] " + key + " = " + value);
         }
       }
     }

@@ -51,6 +51,8 @@ namespace Project::Handlers {
         return keyIt->second;
       }
     }
+    
+    logsManager.logWarning("Config key not found: [" + section + "] " + key + ", using default: " + defaultValue);
     return defaultValue;
   }
 

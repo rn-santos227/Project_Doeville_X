@@ -41,7 +41,7 @@ namespace Project::Core {
       return;
     }
     
-    scriptingService.loadScriptsFromFolder("scripts/");
+    scriptingService.loadScriptsFromFolder(configHandler->getValue("Paths", "scripts", "scripts/"));
 
     keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     logsManager.logMessage("Game Engine has been initialized successfully.");

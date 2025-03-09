@@ -6,6 +6,7 @@
 
 #include <SDL.h>
 
+#include "handlers/config/ConfigHandler.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"

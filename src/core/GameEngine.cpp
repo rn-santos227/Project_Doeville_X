@@ -17,6 +17,11 @@ namespace Project::Core {
 
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);
+
+    if (!configHandler->loadConfig("config.ini")) {
+
+    }
+
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
     
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {

@@ -37,6 +37,7 @@ namespace Project::Handlers {
     }
 
     file.close();
+    logsManager.logMessage("Config file loaded successfully from " + filePath);
     return true;
   }
 

@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "utilities/logs_manager/LogsManager.h"
+
 namespace Project::Handlers {
   class ConfigHandler {
   public:

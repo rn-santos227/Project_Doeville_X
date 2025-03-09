@@ -53,6 +53,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 copy_config:
+	@echo "Copying config.ini to bin/"
 
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)

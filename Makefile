@@ -32,7 +32,7 @@ all: $(TARGET) copy_config
 
 debug: CXXFLAGS += -g
 debug: LDFLAGS += -mconsole
-debug: $(DEBUG_TARGET)
+debug: $(DEBUG_TARGET) copy_config
 
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)

@@ -4,10 +4,7 @@
 #include <algorithm>
 
 namespace Project::Handlers {
-  ConfigHandler& ConfigHandler::getInstance() {
-    static ConfigHandler instance;
-    return instance;
-  }
+  ConfigHandler::ConfigHandler(LogsManager& logsManager) : logsManager(logsManager) {}
 
   bool ConfigHandler::loadConfig(const std::string& filePath) {
     std::ifstream file(filePath);

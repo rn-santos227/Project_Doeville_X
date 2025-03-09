@@ -11,7 +11,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ConfigHandler {
   public:
-    static ConfigHandler& getInstance();
+    explicit ConfigHandler(Project::Utilities::LogsManager& logsManager);
 
     bool loadConfig(const std::string& filePath);
 
@@ -21,8 +21,6 @@ namespace Project::Handlers {
     bool getBoolValue(const std::string& section, const std::string& key, bool defaultValue = false) const;
 
   private:
-    ConfigHandler() = default;
-
     LogsManager& logsManager;
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> configData;
     

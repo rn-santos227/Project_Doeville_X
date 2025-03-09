@@ -18,8 +18,9 @@ namespace Project::Core {
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);
 
-    if (!configHandler->loadConfig("config.ini")) {
-      logsManager.logError("Failed to load config.ini");
+    if (logsManager.checkAndLogError(!configHandler->loadConfig("config.ini"), "Failed to load config.ini")) {
+      logsManager.flushLogs();
+      return;
     }
 
     std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");

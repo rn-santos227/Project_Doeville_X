@@ -52,6 +52,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+copy_config:
+
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
 	@echo "Cleaned build directories."

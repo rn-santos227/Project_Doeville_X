@@ -47,6 +47,7 @@ namespace Project::Handlers {
       auto keyIt = secIt->second.find(key);
 
       if (keyIt != secIt->second.end()) {
+        logsManager.logMessage("Retrieved config: [" + section + "] " + key + " = " + keyIt->second);
         return keyIt->second;
       }
     }

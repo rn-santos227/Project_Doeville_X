@@ -24,6 +24,8 @@ namespace Project::Handlers {
     int screenHeight = configHandler.getIntValue("Window", "height", 600);
     bool isFullscreen = configHandler.getBoolValue("Window", "fullscreen", false);
 
+    cursorWidth = configHandler.getIntValue("Cursor", "width", 32);
+
     Uint32 windowFlags = SDL_WINDOW_SHOWN;
     if (isFullscreen) {
       windowFlags |= SDL_WINDOW_FULLSCREEN;

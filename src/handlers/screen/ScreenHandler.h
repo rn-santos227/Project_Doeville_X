@@ -56,10 +56,10 @@ namespace Project::Handlers {
     std::mutex renderMutex;
     std::mutex eventMutex;
     
-    bool isRunning;
+    bool running;
     int cursorWidth;
     int cursorHeight;
-
+    
     void renderFPS();
     void renderMousePosition();
   };

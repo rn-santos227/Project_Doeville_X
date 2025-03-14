@@ -23,7 +23,7 @@ namespace Project::Handlers {
     int screenWidth = configHandler.getIntValue("Window", "width", 800);
     int screenHeight = configHandler.getIntValue("Window", "height", 600);
 
-    window = SDL_CreateWindow("Project Doeville X", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     
     if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       logsManager.flushLogs();

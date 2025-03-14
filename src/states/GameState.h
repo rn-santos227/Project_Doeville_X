@@ -44,6 +44,7 @@ namespace Project::States {
     bool callLuaFunction(const std::string& functionName);
 
     bool setBackgroundImage(const std::string& imagePath);
+    void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b);
 
   protected:
     lua_State* luaState = nullptr;

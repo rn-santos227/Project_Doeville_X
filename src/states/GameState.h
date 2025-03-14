@@ -46,6 +46,9 @@ namespace Project::States {
   protected:
     lua_State* luaState = nullptr;
     std::string stateName;
+
+    SDL_Renderer* renderer = nullptr;
+    SDL_Texture* backgroundTexture = nullptr;
     
     LogsManager& logsManager;
     bool initialized = false;

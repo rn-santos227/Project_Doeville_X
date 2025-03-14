@@ -22,9 +22,12 @@ namespace Project::Handlers {
     std::string windowTitle = configHandler.getValue("Window", "title", "Project Doeville X");
     int screenWidth = configHandler.getIntValue("Window", "width", 800);
     int screenHeight = configHandler.getIntValue("Window", "height", 600);
-    bool fullscreen = configHandler.getBoolValue("Window", "fullscreen", false);
+    bool isFullscreen = configHandler.getBoolValue("Window", "fullscreen", false);
 
     Uint32 windowFlags = SDL_WINDOW_SHOWN;
+    if (isFullscreen) {
+
+    }
 
     window = SDL_CreateWindow(windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     

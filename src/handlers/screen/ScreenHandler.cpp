@@ -20,6 +20,7 @@ namespace Project::Handlers {
     logsManager.logMessage("SDL Initialized successfully.");
 
     std::string windowTitle = configHandler.getValue("Window", "title", "Project Doeville X");
+    int screenWidth = configHandler.getIntValue("Window", "width", 800);
 
     window = SDL_CreateWindow("Project Doeville X", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
     

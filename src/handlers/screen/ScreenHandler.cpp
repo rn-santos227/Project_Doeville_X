@@ -37,7 +37,7 @@ namespace Project::Handlers {
     }
 
     std::string mode = isFullscreen ? "Fullscreen" : "Windowed";
-    logsManager.logMessage("Window created successfully.");
+    logsManager.logMessage("Window created successfully. Mode: " + mode + ", Size: " + std::to_string(screenWidth) + "x" + std::to_string(screenHeight));
     
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     

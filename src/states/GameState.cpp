@@ -93,7 +93,9 @@ namespace Project::States {
   }
 
   void GameState::clearBackground() {
+    if (backgroundTexture) {
 
+    }
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {

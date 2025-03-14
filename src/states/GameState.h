@@ -43,6 +43,8 @@ namespace Project::States {
     bool attachLuaScript(const std::string& scriptPath);
     bool callLuaFunction(const std::string& functionName);
 
+    bool setBackgroundImage(const std::string& imagePath);
+
   protected:
     lua_State* luaState = nullptr;
     std::string stateName;

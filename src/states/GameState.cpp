@@ -94,7 +94,8 @@ namespace Project::States {
 
   void GameState::clearBackground() {
     if (backgroundTexture) {
-
+      SDL_DestroyTexture(backgroundTexture);
+      backgroundTexture = nullptr;
     }
   }
 

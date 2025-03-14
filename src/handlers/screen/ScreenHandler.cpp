@@ -26,7 +26,7 @@ namespace Project::Handlers {
 
     Uint32 windowFlags = SDL_WINDOW_SHOWN;
     if (isFullscreen) {
-
+      windowFlags |= SDL_WINDOW_FULLSCREEN;
     }
 
     window = SDL_CreateWindow(windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);

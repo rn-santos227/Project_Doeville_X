@@ -19,8 +19,10 @@ namespace Project::Handlers {
     ~Animation();
 
     bool addFrame(const std::string& imagePath, Uint32 duration);
+    
     void setPlaybackMode(PlaybackMode mode) { playbackMode = mode; }
     void play(bool reset = true);
+    void stop();
     
   private:
     SDL_Renderer* renderer;

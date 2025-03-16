@@ -6,6 +6,7 @@ namespace Project::Handlers {
     NONE,
     LOOP,
     ONCE,
+    PINGPONG,
   };
 }
 

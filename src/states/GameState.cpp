@@ -10,6 +10,7 @@ namespace Project::States {
     if (luaState) {
       lua_close(luaState);
     }
+    clearBackground();
   }
 
   void GameState::initialize() {

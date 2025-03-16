@@ -8,6 +8,7 @@ namespace Project::Handlers {
     ONCE,
     PINGPONG,
     REVERSE,
+    CUSTOM
   };
 }
 

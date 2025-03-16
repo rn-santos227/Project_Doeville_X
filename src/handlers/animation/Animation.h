@@ -30,6 +30,8 @@ namespace Project::Handlers {
     bool forward = true;
     bool playing = false;
     bool finished = false;
+
+    void freeFrames();
   };
 }
 

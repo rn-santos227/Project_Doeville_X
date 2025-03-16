@@ -25,7 +25,7 @@ namespace Project::Handlers {
     std::vector<AnimationFrame> frames;
     PlaybackMode playbackMode = PlaybackMode::LOOP;
 
-
+    Uint32 elapsedTime = 0;
   };
 }
 

@@ -4,6 +4,7 @@
 namespace Project::Handlers {
   enum class PlaybackMode {
     NONE,
+    LOOP,
   };
 }
 

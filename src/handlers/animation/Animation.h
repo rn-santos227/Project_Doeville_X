@@ -14,7 +14,10 @@ namespace Project::Handlers {
   };
 
   class Animation {
-
+  public:
+    explicit Animation(SDL_Renderer* renderer);
+    ~Animation();
+    
   };
 }
 

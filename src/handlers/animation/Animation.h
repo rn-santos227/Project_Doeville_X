@@ -26,6 +26,7 @@ namespace Project::Handlers {
     PlaybackMode playbackMode = PlaybackMode::LOOP;
 
     Uint32 elapsedTime = 0;
+    size_t currentFrameIndex = 0;
   };
 }
 

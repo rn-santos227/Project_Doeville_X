@@ -4,6 +4,9 @@
 #include <string>
 #include <memory>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
 extern "C" {
   #include "lua.h"
   #include "lauxlib.h"

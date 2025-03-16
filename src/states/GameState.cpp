@@ -93,6 +93,10 @@ namespace Project::States {
     }
   }
 
+  bool GameState::setBackgroundImage(const std::string& imagePath) {
+
+  }
+
   void GameState::clearBackground() {
     if (backgroundTexture) {
       SDL_DestroyTexture(backgroundTexture);

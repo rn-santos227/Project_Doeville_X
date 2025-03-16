@@ -22,6 +22,7 @@ namespace Project::Handlers {
     
   private:
     SDL_Renderer* renderer;
+    std::vector<AnimationFrame> frames;
   };
 }
 

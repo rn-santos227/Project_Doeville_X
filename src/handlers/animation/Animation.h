@@ -20,6 +20,8 @@ namespace Project::Handlers {
 
     bool addFrame(const std::string& imagePath, Uint32 duration);
     
+  private:
+    SDL_Renderer* renderer;
   };
 }
 

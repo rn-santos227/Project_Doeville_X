@@ -12,6 +12,10 @@ namespace Project::Handlers {
     SDL_Texture* texture;
     Uint32 duration;
   };
+
+  class Animation {
+
+  };
 }
 
 #endif

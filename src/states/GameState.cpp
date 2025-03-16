@@ -94,7 +94,7 @@ namespace Project::States {
   }
 
   bool GameState::setBackgroundImage(const std::string& imagePath) {
-
+    clearBackground();
   }
 
   void GameState::clearBackground() {

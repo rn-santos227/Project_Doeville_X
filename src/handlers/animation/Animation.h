@@ -9,6 +9,8 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Handlers {
   struct AnimationFrame {
     SDL_Texture* texture;
@@ -31,6 +33,8 @@ namespace Project::Handlers {
     void render(const SDL_Rect& destRect);
     
   private:
+    LogsManager& logsManager;
+    
     SDL_Renderer* renderer;
     std::vector<AnimationFrame> frames;
     PlaybackMode playbackMode = PlaybackMode::LOOP;

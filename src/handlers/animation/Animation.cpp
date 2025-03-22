@@ -78,7 +78,7 @@ namespace Project::Handlers {
             if (currentFrameIndex > 0) {
               currentFrameIndex--;
             } else {
-
+              forward = true;
             }
           }
           break;

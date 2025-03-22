@@ -47,7 +47,7 @@ namespace Project::Handlers {
   }
 
   void Animation::update(Uint32 deltaTime) {
-
+    if (!playing || frames.empty() || finished) return;
   }
 
   void Animation::freeFrames() {

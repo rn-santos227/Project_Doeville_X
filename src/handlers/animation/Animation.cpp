@@ -67,12 +67,14 @@ namespace Project::Handlers {
           break;
 
         case PlaybackMode::PINGPONG:
+          if (forward) {
 
-        break;
+          }
+          break;
 
         case PlaybackMode::REVERSE:
 
-        break;
+          break;
       }
     }
   }

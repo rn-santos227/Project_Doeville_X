@@ -24,6 +24,10 @@ namespace Project::Handlers {
     return true;
   }
 
+  void Animation::play(bool reset) {
+
+  }
+
   void Animation::freeFrames() {
     for (auto& frame : frames) {
       SDL_DestroyTexture(frame.texture);

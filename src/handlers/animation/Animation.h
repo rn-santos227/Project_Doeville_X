@@ -25,7 +25,7 @@ namespace Project::Handlers {
     bool addFrame(const std::string& imagePath, Uint32 duration);
     bool isFinished() const { return finished; }
     
-    void setPlaybackMode(PlaybackMode mode) { playbackMode = mode; }
+    void setPlaybackMode(PlaybackMode mode);
     void play(bool reset = true);
     void stop();
     void reset();

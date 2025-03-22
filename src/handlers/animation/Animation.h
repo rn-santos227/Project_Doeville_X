@@ -23,6 +23,7 @@ namespace Project::Handlers {
     void setPlaybackMode(PlaybackMode mode) { playbackMode = mode; }
     void play(bool reset = true);
     void stop();
+    void reset();
     
   private:
     SDL_Renderer* renderer;

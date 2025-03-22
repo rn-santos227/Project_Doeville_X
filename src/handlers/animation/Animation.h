@@ -7,6 +7,8 @@
 #include <string>
 #include <SDL.h>
 
+#include "utilities/logs_manager/LogsManager.h"
+
 namespace Project::Handlers {
   struct AnimationFrame {
     SDL_Texture* texture;

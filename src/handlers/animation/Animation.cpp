@@ -74,7 +74,11 @@ namespace Project::Handlers {
 
             }
           } else {
+            if (currentFrameIndex > 0) {
             
+            } else {
+
+            }
           }
           break;
 

@@ -6,6 +6,12 @@ namespace Project::Handlers {
 
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
+
+    if (logsManager.checkAndLogError(!surface, "Failed to load texture: " + imagePath + " - " + IMG_GetError())) {
+      logsManager.flushLogs();
+      return false;
+    }
+
   }
 
   void Animation::freeFrames() {

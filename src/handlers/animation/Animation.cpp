@@ -52,6 +52,10 @@ namespace Project::Handlers {
     elapsedTime += deltaTime;
     if (elapsedTime >= frames[currentFrameIndex].duration) {
       elapsedTime = 0;
+
+      switch (playbackMode) {
+      
+      }
     }
   }
 

@@ -58,6 +58,10 @@ namespace Project::Handlers {
 
         break;
 
+        case PlaybackMode::ONCE:
+
+        break;
+
         case PlaybackMode::PINGPONG:
 
         break;

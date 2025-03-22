@@ -40,7 +40,8 @@ namespace Project::Handlers {
   }
 
   void Animation::reset() {
-
+    currentFrameIndex = 0;
+    //update this tomorrow
   }
 
   void Animation::freeFrames() {

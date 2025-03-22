@@ -71,8 +71,10 @@ namespace Project::Handlers {
             if (currentFrameIndex < frames.size() - 1) {
 
             } else {
-              
+
             }
+          } else {
+            
           }
           break;
 

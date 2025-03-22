@@ -46,6 +46,10 @@ namespace Project::Handlers {
     finished = false;
   }
 
+  void Animation::update(Uint32 deltaTime) {
+
+  }
+
   void Animation::freeFrames() {
     for (auto& frame : frames) {
       SDL_DestroyTexture(frame.texture);

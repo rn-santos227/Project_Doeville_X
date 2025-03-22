@@ -79,6 +79,7 @@ namespace Project::Handlers {
               currentFrameIndex--;
             } else {
               forward = true;
+              if (!looping) finished = true;
             }
           }
           break;

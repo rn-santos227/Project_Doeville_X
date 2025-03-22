@@ -41,9 +41,11 @@ namespace Project::Handlers {
 
     Uint32 elapsedTime = 0;
     size_t currentFrameIndex = 0;
+    
     bool forward = true;
     bool playing = false;
     bool finished = false;
+    bool looping = true;
 
     void freeFrames();
   };

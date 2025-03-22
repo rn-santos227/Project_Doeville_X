@@ -54,7 +54,9 @@ namespace Project::Handlers {
       elapsedTime = 0;
 
       switch (playbackMode) {
-      
+        case PlaybackMode::LOOP:
+
+        break;
       }
     }
   }

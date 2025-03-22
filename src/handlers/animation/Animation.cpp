@@ -12,6 +12,8 @@ namespace Project::Handlers {
       return false;
     }
 
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
   }
 
   void Animation::freeFrames() {

@@ -61,6 +61,8 @@ namespace Project::Handlers {
         case PlaybackMode::ONCE:
           if (currentFrameIndex < frames.size() - 1) {
             currentFrameIndex++;
+          } else {
+            
           }
           break;
 

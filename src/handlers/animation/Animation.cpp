@@ -59,8 +59,10 @@ namespace Project::Handlers {
           break;
 
         case PlaybackMode::ONCE:
+          if (currentFrameIndex < frames.size() - 1) {
 
-        break;
+          }
+          break;
 
         case PlaybackMode::PINGPONG:
 

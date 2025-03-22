@@ -19,7 +19,7 @@ namespace Project::Handlers {
 
   class Animation {
   public:
-    explicit Animation(SDL_Renderer* renderer);
+    explicit Animation(SDL_Renderer* renderer, LogsManager& logsManager);
     ~Animation();
 
     bool addFrame(const std::string& imagePath, Uint32 duration);

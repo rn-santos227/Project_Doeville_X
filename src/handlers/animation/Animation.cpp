@@ -2,7 +2,7 @@
 #include <SDL_image.h>
 
 namespace Project::Handlers {
-  Animation::Animation(SDL_Renderer* renderer) : renderer(renderer) {}
+  Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager) : renderer(renderer), logsManager(logsManager) {}
 
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {
     SDL_Surface* surface = IMG_Load(imagePath.c_str());

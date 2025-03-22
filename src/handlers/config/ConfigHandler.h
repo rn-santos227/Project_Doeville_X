@@ -11,7 +11,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ConfigHandler {
   public:
-    explicit ConfigHandler(Project::Utilities::LogsManager& logsManager);
+    explicit ConfigHandler(LogsManager& logsManager);
 
     bool loadConfig(const std::string& filePath);
 

@@ -21,6 +21,7 @@ namespace Project::Handlers {
     }
 
     frames.push_back({texture, duration});
+    return true;
   }
 
   void Animation::freeFrames() {

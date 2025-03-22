@@ -43,6 +43,7 @@ namespace Project::Handlers {
     currentFrameIndex = 0;
     elapsedTime = 0;
     forward = true;
+    finished = false;
   }
 
   void Animation::freeFrames() {

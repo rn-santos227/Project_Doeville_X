@@ -50,6 +50,9 @@ namespace Project::Handlers {
     if (!playing || frames.empty() || finished) return;
     
     elapsedTime += deltaTime;
+    if (elapsedTime >= frames[currentFrameIndex].duration) {
+      
+    }
   }
 
   void Animation::freeFrames() {

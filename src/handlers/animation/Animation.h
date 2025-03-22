@@ -25,6 +25,7 @@ namespace Project::Handlers {
     void stop();
     void reset();
     void update(Uint32 deltaTime);
+    void render(const SDL_Rect& destRect);
     
   private:
     SDL_Renderer* renderer;

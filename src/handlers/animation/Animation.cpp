@@ -25,7 +25,7 @@ namespace Project::Handlers {
   }
 
   void Animation::play(bool reset) {
-
+    playing = true;
   }
 
   void Animation::freeFrames() {

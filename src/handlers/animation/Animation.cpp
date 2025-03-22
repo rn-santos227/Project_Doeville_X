@@ -29,7 +29,7 @@ namespace Project::Handlers {
     finished = false;
 
     if (reset) {
-
+      currentFrameIndex = 0;
     }
   }
 

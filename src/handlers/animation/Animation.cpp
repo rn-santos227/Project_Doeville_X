@@ -76,7 +76,7 @@ namespace Project::Handlers {
             }
           } else {
             if (currentFrameIndex > 0) {
-            
+              currentFrameIndex--;
             } else {
 
             }

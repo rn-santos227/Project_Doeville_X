@@ -19,6 +19,8 @@ namespace Project::Handlers {
       logsManager.flushLogs();
       return false;
     }
+
+    frames.push_back({texture, duration});
   }
 
   void Animation::freeFrames() {

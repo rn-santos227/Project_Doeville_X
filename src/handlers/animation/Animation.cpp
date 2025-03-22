@@ -31,6 +31,7 @@ namespace Project::Handlers {
     if (reset) {
       currentFrameIndex = 0;
       elapsedTime = 0;
+      forward = true;
     }
   }
 

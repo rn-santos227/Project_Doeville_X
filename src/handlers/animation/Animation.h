@@ -24,6 +24,7 @@ namespace Project::Handlers {
     void play(bool reset = true);
     void stop();
     void reset();
+    void update(Uint32 deltaTime);
     
   private:
     SDL_Renderer* renderer;

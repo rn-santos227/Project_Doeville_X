@@ -41,7 +41,7 @@ namespace Project::Handlers {
 
   void Animation::reset() {
     currentFrameIndex = 0;
-    //update this tomorrow
+    elapsedTime = 0;
   }
 
   void Animation::freeFrames() {

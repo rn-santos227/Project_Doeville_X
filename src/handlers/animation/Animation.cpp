@@ -55,8 +55,8 @@ namespace Project::Handlers {
 
       switch (playbackMode) {
         case PlaybackMode::LOOP:
-
-        break;
+          currentFrameIndex = (currentFrameIndex + 1) % frames.size();
+          break;
 
         case PlaybackMode::ONCE:
 

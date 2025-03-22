@@ -8,5 +8,6 @@ namespace Project::Handlers {
     for (auto& frame : frames) {
       SDL_DestroyTexture(frame.texture);
     }
+    frames.clear();
   }
 }

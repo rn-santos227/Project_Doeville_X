@@ -32,6 +32,9 @@ namespace Project::Handlers {
 
       case PlaybackMode::LOOP:
         break;
+
+      case PlaybackMode::PINGPONG:
+        break;
     }
   }
 

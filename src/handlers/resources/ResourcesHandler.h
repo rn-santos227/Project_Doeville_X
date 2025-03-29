@@ -6,6 +6,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "utilities/logs_manager/LogsManager.h"
+
+using namespace Project::Utilities;
+
 namespace Project::Handlers {
   class ResourcesHandler {
   public:
@@ -14,8 +18,10 @@ namespace Project::Handlers {
 
     static std::vector<SDL_Texture*> sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight);
     static SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
-    
+
   private:
+    LogsManager& logsManager;
+
     static std::string getBasePath();
   };
 }

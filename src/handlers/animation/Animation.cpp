@@ -88,7 +88,9 @@ namespace Project::Handlers {
           if (currentFrameIndex > 0) {
             currentFrameIndex--;
           } else {
+            if (looping) {
             
+            }
           }
           break;
       }

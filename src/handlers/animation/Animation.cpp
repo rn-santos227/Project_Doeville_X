@@ -41,6 +41,7 @@ namespace Project::Handlers {
         break;
 
       case PlaybackMode::REVERSE:
+        looping = true;
         break;
 
       default:

@@ -26,8 +26,8 @@ namespace Project::Handlers {
 
   void Animation::setPlaybackMode(PlaybackMode mode) {
     playbackMode = mode;
-    if (mode == PlaybackMode::ONCE) {
-      
+    switch (mode) {
+
     }
   }
 

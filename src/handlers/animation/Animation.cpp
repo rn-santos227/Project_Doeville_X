@@ -28,6 +28,7 @@ namespace Project::Handlers {
     playbackMode = mode;
     switch (mode) {
       case PlaybackMode::ONCE:
+        looping = false;
         break;
 
       case PlaybackMode::LOOP:

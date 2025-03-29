@@ -2,7 +2,9 @@
 #define RESOURCESHANDLER_H
 
 #include <string>
+#include <vector>
 #include <SDL.h>
+#include <SDL_image.h>
 
 namespace Project::Handlers {
   class ResourcesHandler {

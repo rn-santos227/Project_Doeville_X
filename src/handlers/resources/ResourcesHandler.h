@@ -13,7 +13,8 @@ namespace Project::Handlers {
     static SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
 
     static std::vector<SDL_Texture*> sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight);
-
+    static SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
+    
   private:
     static std::string getBasePath();
   };

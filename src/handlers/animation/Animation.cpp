@@ -29,6 +29,9 @@ namespace Project::Handlers {
     switch (mode) {
       case PlaybackMode::ONCE:
         break;
+
+      case PlaybackMode::LOOP:
+        break;
     }
   }
 

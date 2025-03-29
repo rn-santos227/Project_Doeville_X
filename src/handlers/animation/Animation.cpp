@@ -35,6 +35,9 @@ namespace Project::Handlers {
 
       case PlaybackMode::PINGPONG:
         break;
+
+      case PlaybackMode::REVERSE:
+        break;
     }
   }
 

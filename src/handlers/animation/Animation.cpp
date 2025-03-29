@@ -24,6 +24,10 @@ namespace Project::Handlers {
     return true;
   }
 
+  void Animation::setPlaybackMode(PlaybackMode mode) {
+
+  }
+
   void Animation::play(bool reset) {
     playing = true;
     finished = false;

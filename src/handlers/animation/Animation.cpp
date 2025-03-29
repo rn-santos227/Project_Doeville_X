@@ -38,6 +38,10 @@ namespace Project::Handlers {
 
       case PlaybackMode::REVERSE:
         break;
+
+      default:
+        logsManager.logWarning("Invalid playback mode");
+        break;
     }
   }
 

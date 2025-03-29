@@ -135,7 +135,7 @@ namespace Project::Handlers {
 
   void Animation::render(const SDL_Rect& destRect) {
     if (!frames.empty() && !finished) {
-
+      SDL_RenderCopy(renderer, frames[currentFrameIndex].texture, nullptr, &destRect);
     }
   }
 }

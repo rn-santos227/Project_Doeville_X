@@ -85,7 +85,9 @@ namespace Project::Handlers {
           break;
 
         case PlaybackMode::REVERSE:
+          if (currentFrameIndex > 0) {
 
+          }
           break;
       }
     }

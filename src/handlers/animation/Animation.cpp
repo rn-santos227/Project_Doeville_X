@@ -134,6 +134,8 @@ namespace Project::Handlers {
   }
 
   void Animation::render(const SDL_Rect& destRect) {
+    if (!frames.empty() && !finished) {
 
+    }
   }
 }

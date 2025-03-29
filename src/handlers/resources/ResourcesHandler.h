@@ -12,6 +12,8 @@ namespace Project::Handlers {
     static std::string getResourcePath(const std::string& relativePath);
     static SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
 
+    static std::vector<SDL_Texture*> sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight);
+
   private:
     static std::string getBasePath();
   };

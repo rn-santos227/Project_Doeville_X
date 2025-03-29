@@ -132,4 +132,8 @@ namespace Project::Handlers {
     }
     frames.clear();
   }
+
+  void Animation::render(const SDL_Rect& destRect) {
+
+  }
 }

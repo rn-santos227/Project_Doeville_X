@@ -89,7 +89,7 @@ namespace Project::Handlers {
             currentFrameIndex--;
           } else {
             if (looping) {
-            
+              currentFrameIndex = frames.size() - 1;
             }
           }
           break;

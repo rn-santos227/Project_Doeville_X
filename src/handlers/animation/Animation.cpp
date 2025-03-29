@@ -42,6 +42,7 @@ namespace Project::Handlers {
 
       case PlaybackMode::REVERSE:
         looping = true;
+        currentFrameIndex = frames.size() - 1;
         break;
 
       default:

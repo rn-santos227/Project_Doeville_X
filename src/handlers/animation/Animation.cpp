@@ -90,6 +90,8 @@ namespace Project::Handlers {
           } else {
             if (looping) {
               currentFrameIndex = frames.size() - 1;
+            } else {
+              finished = true;
             }
           }
           break;

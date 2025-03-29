@@ -17,4 +17,8 @@ namespace Project::Handlers {
 
     return basePath + "/" + relativePath;
   }
+
+  SDL_Texture* ResourcesHandler::loadTexture(SDL_Renderer* renderer, const std::string& imagePath) {
+
+  }
 }

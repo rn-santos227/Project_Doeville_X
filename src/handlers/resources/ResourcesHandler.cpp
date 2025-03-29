@@ -19,6 +19,6 @@ namespace Project::Handlers {
   }
 
   SDL_Texture* ResourcesHandler::loadTexture(SDL_Renderer* renderer, const std::string& imagePath) {
-
+    SDL_Surface* surface = IMG_Load(imagePath.c_str());
   }
 }

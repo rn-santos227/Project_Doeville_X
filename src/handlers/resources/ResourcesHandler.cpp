@@ -50,7 +50,8 @@ namespace Project::Handlers {
     SDL_QueryTexture(fullTexture, nullptr, nullptr, &texWidth, &texHeight);
 
     if (frameWidth <= 0 || frameHeight <= 0 || frameWidth > texWidth || frameHeight > texHeight) {
-
+      logsManager.checkAndLogError(true, "Invalid frame size for slicing: " + std::to_string(frameWidth) + "x" + std::to_string(frameHeight) +
+      " (Image size: " + std::to_string(texWidth) + "x" + std::to_string(texHeight) + ")");
     }
   }
 }

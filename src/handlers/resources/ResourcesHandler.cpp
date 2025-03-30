@@ -59,7 +59,9 @@ namespace Project::Handlers {
     }
 
     for (int y = 0; y < texHeight; y += frameHeight) {
+      for (int x = 0; x < texWidth; x += frameWidth) {
 
+      }
     }
   }
 }

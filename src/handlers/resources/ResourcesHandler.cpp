@@ -34,6 +34,7 @@ namespace Project::Handlers {
 
     if (logsManager.checkAndLogError(!texture, "Failed to create texture from image: " + imagePath + " - " + SDL_GetError())) {
       logsManager.flushLogs();
+      return nullptr;
     }
   }
 }

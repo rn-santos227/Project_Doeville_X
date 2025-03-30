@@ -45,5 +45,7 @@ namespace Project::Handlers {
     SDL_Texture* fullTexture = loadTexture(renderer, imagePath);
 
     if (!fullTexture) return frames;
+
+    int texWidth, texHeight;
   }
 }

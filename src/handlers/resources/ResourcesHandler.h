@@ -22,8 +22,7 @@ namespace Project::Handlers {
     static SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
 
   private:
-    LogsManager& logsManager;
-
+    LogsManager& logsManager; 
     static std::string getBasePath();
   };
 }

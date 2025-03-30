@@ -13,17 +13,18 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ResourcesHandler {
   public:
-    explicit ResourcesHandler(Project::Utilities::LogsManager& logsManager);
+    explicit ResourcesHandler(LogsManager& logsManager);
     
-    static std::string getResourcePath(const std::string& relativePath);
-    static SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
+    std::string getResourcePath(const std::string& relativePath);
+    SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
 
-    static std::vector<SDL_Texture*> sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight);
-    static SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
+    std::vector<SDL_Texture*> sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight);
+    SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
 
   private:
     LogsManager& logsManager; 
-    static std::string getBasePath();
+
+    std::string getBasePath();
   };
 }
   

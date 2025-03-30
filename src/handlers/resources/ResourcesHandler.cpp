@@ -1,6 +1,9 @@
 #include "ResourcesHandler.h"
 
 namespace Project::Handlers {
+  ResourcesHandler::ResourcesHandler(Project::Utilities::LogsManager& logsManager)
+    : logsManager(logsManager) {}
+
   std::string ResourcesHandler::getBasePath() {
     char* basePath = SDL_GetBasePath();
     std::string path = basePath ? basePath : "";

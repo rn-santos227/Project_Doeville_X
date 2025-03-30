@@ -41,6 +41,6 @@ namespace Project::Handlers {
   }
 
   std::vector<SDL_Texture*> ResourcesHandler::sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight) {
-
+    std::vector<SDL_Texture*> frames;
   }
 }

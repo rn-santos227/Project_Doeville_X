@@ -13,6 +13,8 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ResourcesHandler {
   public:
+    explicit ResourcesHandler(Project::Utilities::LogsManager& logsManager);
+    
     static std::string getResourcePath(const std::string& relativePath);
     static SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
 

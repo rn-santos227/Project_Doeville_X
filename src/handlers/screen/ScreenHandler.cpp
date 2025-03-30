@@ -51,7 +51,7 @@ namespace Project::Handlers {
     logsManager.logMessage("Renderer created successfully.");
     
     cursorHandler.setRenderer(renderer);
-    std::string cursorPath = ResourcesHandler::getResourcePath("resources/system/cursor_default.png");
+    std::string cursorPath = resourcesHandler.getResourcePath("resources/system/cursor_default.png");
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);
 

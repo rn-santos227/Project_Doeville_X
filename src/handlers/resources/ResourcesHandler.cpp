@@ -23,5 +23,12 @@ namespace Project::Handlers {
 
   SDL_Texture* ResourcesHandler::loadTexture(SDL_Renderer* renderer, const std::string& imagePath) {
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
+    
+    if (logsManager.checkAndLogError(!surface, "Failed to load image: " + imagePath + " - " + IMG_GetError())) {
+      logsManager.flushLogs();
+      return nullptr;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
   }
 }

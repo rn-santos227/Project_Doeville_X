@@ -60,7 +60,9 @@ namespace Project::Handlers {
 
     for (int y = 0; y < texHeight; y += frameHeight) {
       for (int x = 0; x < texWidth; x += frameWidth) {
-        SDL_Rect srcRect = { x, y, frameWidth, frameHeight };
+        SDL_Rect srcRect = {x, y, frameWidth, frameHeight};
+
+        if (x + frameWidth > texWidth || y + frameHeight > texHeight) continue;
       }
     }
   }

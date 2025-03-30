@@ -54,6 +54,7 @@ namespace Project::Handlers {
       " (Image size: " + std::to_string(texWidth) + "x" + std::to_string(texHeight) + ")");
 
       logsManager.flushLogs();
+      SDL_DestroyTexture(fullTexture);
     }
   }
 }

@@ -48,5 +48,9 @@ namespace Project::Handlers {
 
     int texWidth, texHeight;
     SDL_QueryTexture(fullTexture, nullptr, nullptr, &texWidth, &texHeight);
+
+    if (frameWidth <= 0 || frameHeight <= 0 || frameWidth > texWidth || frameHeight > texHeight) {
+
+    }
   }
 }

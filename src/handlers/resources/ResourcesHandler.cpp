@@ -57,5 +57,9 @@ namespace Project::Handlers {
       SDL_DestroyTexture(fullTexture);
       return frames;
     }
+
+    for (int y = 0; y < texHeight; y += frameHeight) {
+
+    }
   }
 }

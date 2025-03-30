@@ -63,6 +63,8 @@ namespace Project::Handlers {
         SDL_Rect srcRect = {x, y, frameWidth, frameHeight};
 
         if (x + frameWidth > texWidth || y + frameHeight > texHeight) continue;
+
+        SDL_Texture* cropped = cropImage(renderer, imagePath, srcRect);
       }
     }
   }

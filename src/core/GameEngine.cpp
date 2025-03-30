@@ -24,7 +24,7 @@ namespace Project::Core {
       return;
     }
 
-    std::string fontPath = ResourcesHandler::getResourcePath("resources/fonts/system.ttf");
+    std::string fontPath = resourcesHandler->getResourcePath("resources/fonts/system.ttf");
     
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
       isRunning = false;

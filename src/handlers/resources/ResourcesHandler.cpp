@@ -36,5 +36,7 @@ namespace Project::Handlers {
       logsManager.flushLogs();
       return nullptr;
     }
+
+    return texture;
   }
 }

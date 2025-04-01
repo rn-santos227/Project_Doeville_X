@@ -65,6 +65,7 @@ namespace Project::Handlers {
         if (x + frameWidth > texWidth || y + frameHeight > texHeight) continue;
 
         SDL_Texture* cropped = cropImage(renderer, imagePath, srcRect);
+        if (cropped) frames.push_back(cropped);
       }
     }
   }

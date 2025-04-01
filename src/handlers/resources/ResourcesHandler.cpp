@@ -88,6 +88,7 @@ namespace Project::Handlers {
       
       logsManager.flushLogs();
       SDL_DestroyTexture(fullTexture);
+      return nullptr;
     }
   }
 }

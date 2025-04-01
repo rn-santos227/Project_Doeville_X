@@ -24,6 +24,7 @@ namespace Project::Components  {
     SDL_Rect destinationRect;
 
     void loadTexture(const std::string& path);
+    void setPosition(int x, int y);
   };
 }
 

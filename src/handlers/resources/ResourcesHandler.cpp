@@ -72,4 +72,8 @@ namespace Project::Handlers {
     SDL_DestroyTexture(fullTexture);
     return frames;
   }
+
+  SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {
+
+  }
 }

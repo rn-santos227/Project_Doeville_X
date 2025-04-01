@@ -6,7 +6,7 @@ namespace Project::Handlers {
 
   Animation::~Animation() {
     freeFrames();
-    logsManager.logInfo("Animation instance destroyed and textures freed.");
+    logsManager.logMessage("Animation instance destroyed and textures freed.");
   }
 
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {

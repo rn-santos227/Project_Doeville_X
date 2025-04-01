@@ -80,9 +80,11 @@ namespace Project::Handlers {
     int texWidth, texHeight;
     SDL_QueryTexture(fullTexture, nullptr, nullptr, &texWidth, &texHeight);
 
-    if (cropRect.x < 0 || cropRect.y < 0 || cropRect.w <= 0 || cropRect.h <= 0 ||
-      cropRect.x + cropRect.w > texWidth || cropRect.y + cropRect.h > texHeight) {
-
+    if (cropRect.x < 0 || cropRect.y < 0 || cropRect.w <= 0 || cropRect.h <= 0 || cropRect.x + cropRect.w > texWidth || cropRect.y + cropRect.h > texHeight) {
+        logsManager.logWarning("Invalid crop dimensions: (" + 
+          std::to_string(cropRect.x) + "," + std::to_string(cropRect.y) + "," + 
+          std::to_string(cropRect.w) + "," + std::to_string(cropRect.h) + 
+          ") (Image size: " + std::to_string(texWidth) + "x" + std::to_string(texHeight) + ")");
     }
   }
 }

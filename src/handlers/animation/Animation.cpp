@@ -4,6 +4,10 @@
 namespace Project::Handlers {
   Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager) : renderer(renderer), logsManager(logsManager) {}
 
+  Animation::~Animation() {
+
+  }
+
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
 

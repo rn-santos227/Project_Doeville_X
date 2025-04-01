@@ -70,5 +70,6 @@ namespace Project::Handlers {
     }
 
     SDL_DestroyTexture(fullTexture);
+    return frames;
   }
 }

@@ -5,7 +5,7 @@ namespace Project::Handlers {
   Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager) : renderer(renderer), logsManager(logsManager) {}
 
   Animation::~Animation() {
-
+    freeFrames();
   }
 
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {

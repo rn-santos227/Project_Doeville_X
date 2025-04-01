@@ -11,7 +11,11 @@
 
 using namespace Project::Utilities;
 namespace Project::Handlers {
-
+  class AnimationHandler {
+    public:
+      explicit AnimationHandler(SDL_Renderer* renderer, LogsManager& logsManager);
+      ~AnimationHandler();
+  };
 }
 
 #endif

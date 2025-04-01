@@ -25,6 +25,7 @@ namespace Project::Components  {
 
     void loadTexture(const std::string& path);
     void setPosition(int x, int y);
+    void setSize(int width, int height);
   };
 }
 

@@ -68,5 +68,7 @@ namespace Project::Handlers {
         if (cropped) frames.push_back(cropped);
       }
     }
+
+    SDL_DestroyTexture(fullTexture);
   }
 }

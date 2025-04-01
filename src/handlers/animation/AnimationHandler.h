@@ -10,5 +10,8 @@
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Utilities;
+namespace Project::Handlers {
+
+}
 
 #endif

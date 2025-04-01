@@ -97,5 +97,6 @@ namespace Project::Handlers {
     SDL_SetRenderTarget(renderer, nullptr);
 
     SDL_DestroyTexture(fullTexture);
+    return croppedTexture;
   }
 }

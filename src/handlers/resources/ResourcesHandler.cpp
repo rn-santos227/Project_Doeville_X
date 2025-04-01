@@ -94,5 +94,6 @@ namespace Project::Handlers {
     SDL_Texture* croppedTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, cropRect.w, cropRect.h);
     SDL_SetRenderTarget(renderer, croppedTexture);
     SDL_RenderCopy(renderer, fullTexture, &cropRect, nullptr);
+    SDL_SetRenderTarget(renderer, nullptr);
   }
 }

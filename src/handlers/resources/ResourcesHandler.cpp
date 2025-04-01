@@ -79,5 +79,10 @@ namespace Project::Handlers {
 
     int texWidth, texHeight;
     SDL_QueryTexture(fullTexture, nullptr, nullptr, &texWidth, &texHeight);
+
+    if (cropRect.x < 0 || cropRect.y < 0 || cropRect.w <= 0 || cropRect.h <= 0 ||
+      cropRect.x + cropRect.w > texWidth || cropRect.y + cropRect.h > texHeight) {
+
+    }
   }
 }

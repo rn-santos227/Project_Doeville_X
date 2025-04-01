@@ -16,6 +16,8 @@ namespace Project::Components  {
     void update(float deltaTime) override;
     void render() override;
 
+    bool setTexture(const std::string& texturePath);
+
   private:
     SDL_Renderer* renderer;
     SDL_Texture* texture;

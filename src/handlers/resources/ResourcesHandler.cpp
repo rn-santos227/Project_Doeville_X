@@ -74,6 +74,6 @@ namespace Project::Handlers {
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {
-
+    SDL_Texture* fullTexture = loadTexture(renderer, imagePath);
   }
 }

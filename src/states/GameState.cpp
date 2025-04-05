@@ -1,8 +1,8 @@
 #include "GameState.h"
 
 namespace Project::States {
-  GameState::GameState(LogsManager& logsManager)
-    : logsManager(logsManager), luaState(luaL_newstate()), initialized(false) {
+  GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager)
+    : logsManager(logsManager), renderer(renderer), luaState(luaL_newstate()), initialized(false) {
     luaL_openlibs(luaState);
   }
 

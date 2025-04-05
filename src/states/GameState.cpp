@@ -97,6 +97,10 @@ namespace Project::States {
     clearBackground();
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
+    if(logsManager.checkAndLogError(!surface, "Failed to load image: " + imagePath)) {
+      logsManager.flushLogs();
+      return false;
+    }
   }
 
   void GameState::clearBackground() {

@@ -175,4 +175,8 @@ namespace Project::States {
     state->setBackgroundImage(path);
     return 0;
   }
+
+  int lua_setBackgroundColor(lua_State* L) {
+
+  }
 }

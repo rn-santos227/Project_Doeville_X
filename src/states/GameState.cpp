@@ -111,6 +111,7 @@ namespace Project::States {
     }
 
     logsManager.logMessage("Background image set: " + imagePath);
+    return true;
   }
 
   void GameState::clearBackground() {

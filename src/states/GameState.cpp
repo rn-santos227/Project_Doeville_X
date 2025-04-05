@@ -122,6 +122,7 @@ namespace Project::States {
     clearBackground();
     backgroundColor = {r, g, b, 255};
     useImageBackground = false;
+    logsManager.logMessage("Background color set to RGB(" + std::to_string(r) + ", " + std::to_string(g) + ", " + std::to_string(b) + ")");
   }
 
   void GameState::clearBackground() {

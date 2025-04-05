@@ -66,6 +66,10 @@ namespace Project::States {
   }
 
   void GameState::render() {
+    if (backgroundTexture) {
+      SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
+    }
+
     if (entitiesManager) {
       entitiesManager->render();
     }
@@ -112,6 +116,10 @@ namespace Project::States {
 
     logsManager.logMessage("Background image set: " + imagePath);
     return true;
+  }
+
+  void GameState::setBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
+
   }
 
   void GameState::clearBackground() {

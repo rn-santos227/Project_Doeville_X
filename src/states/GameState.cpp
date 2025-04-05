@@ -106,7 +106,7 @@ namespace Project::States {
     SDL_FreeSurface(surface);
 
     if(logsManager.checkAndLogError(!backgroundTexture, "Failed to create texture from surface: " + std::string(SDL_GetError()))) {
-
+      logsManager.flushLogs();
     }
   }
 

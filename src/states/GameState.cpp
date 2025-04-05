@@ -95,6 +95,8 @@ namespace Project::States {
 
   bool GameState::setBackgroundImage(const std::string& imagePath) {
     clearBackground();
+
+    SDL_Surface* surface = IMG_Load(imagePath.c_str());
   }
 
   void GameState::clearBackground() {

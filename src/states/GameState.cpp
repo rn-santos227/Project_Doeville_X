@@ -119,7 +119,7 @@ namespace Project::States {
   }
 
   void GameState::setBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
-
+    clearBackground();
   }
 
   void GameState::clearBackground() {

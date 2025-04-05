@@ -101,6 +101,8 @@ namespace Project::States {
       logsManager.flushLogs();
       return false;
     }
+
+    backgroundTexture = SDL_CreateTextureFromSurface(renderer, surface);
   }
 
   void GameState::clearBackground() {

@@ -162,5 +162,6 @@ namespace Project::States {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* path = luaL_checkstring(L, 1);
     state->setBackgroundImage(path);
+    return 0;
   }
 }

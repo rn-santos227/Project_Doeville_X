@@ -56,9 +56,10 @@ namespace Project::States {
     std::string stateName;
 
     SDL_Texture* backgroundTexture = nullptr;
+    SDL_Renderer* renderer = nullptr;
     SDL_Color backgroundColor = {0, 0, 0, 255};
-    bool useImageBackground = false;
     
+    bool useImageBackground = false;
     bool initialized = false;
     bool active = false;
 

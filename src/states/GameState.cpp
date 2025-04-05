@@ -107,6 +107,7 @@ namespace Project::States {
 
     if(logsManager.checkAndLogError(!backgroundTexture, "Failed to create texture from surface: " + std::string(SDL_GetError()))) {
       logsManager.flushLogs();
+      return false;
     }
   }
 

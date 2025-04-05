@@ -103,6 +103,7 @@ namespace Project::States {
     }
 
     backgroundTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
   }
 
   void GameState::clearBackground() {

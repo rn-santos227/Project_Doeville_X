@@ -157,4 +157,8 @@ namespace Project::States {
       lua_pop(luaState, 1);
     }
   }
+
+  int lua_setBackgroundImage(lua_State* L) {
+
+  }
 }

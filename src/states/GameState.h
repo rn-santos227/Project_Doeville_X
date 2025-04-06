@@ -58,12 +58,16 @@ namespace Project::States {
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Color backgroundColor = {0, 0, 0, 255};
-    
+
     bool useImageBackground = false;
     bool initialized = false;
     bool active = false;
 
     std::shared_ptr<EntitiesManager> entitiesManager;
+
+    int lua_setBackgroundImage(lua_State* L);
+    int lua_setBackgroundColor(lua_State* L);
+
     void handleLuaError(const std::string& errorMessage);
   };
 }

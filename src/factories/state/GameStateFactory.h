@@ -1,6 +1,8 @@
 #ifndef STATE_FACTORY_H
 #define STATE_FACTORY_H
 
+#include <SDL.h>
+
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
 

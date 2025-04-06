@@ -14,8 +14,10 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    lua_pushlightuserdata(luaState, this); 
-    
+    lua_pushlightuserdata(luaState, this);
+    lua_pushcclosure(luaState, lua_setBackgroundColor, 1);
+
+
     lua_getglobal(luaState, "initialize");
     if (lua_isfunction(luaState, -1)) {
       int result = lua_pcall(luaState, 0, 0, 0);

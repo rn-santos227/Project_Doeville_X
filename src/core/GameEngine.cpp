@@ -10,7 +10,6 @@ namespace Project::Core {
   mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   gameStateManager(5, logsManager),
-  scriptingService(gameStateManager, logsManager),
   screenHandler(std::make_unique<ScreenHandler>(gameStateManager, *configHandler, *cursorHandler, *fontHandler, *keyHandler, *mouseHandler, *resourcesHandler, logsManager, framesCounter))
   {}
   
@@ -42,7 +41,7 @@ namespace Project::Core {
       return;
     }
     
-    scriptingService.loadScriptsFromFolder(configHandler->getValue("Paths", "scripts", "scripts/"));
+    // scriptingService.loadScriptsFromFolder(configHandler->getValue("Paths", "scripts", "scripts/"));
 
     keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     logsManager.logMessage("Game Engine has been initialized successfully.");

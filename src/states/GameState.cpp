@@ -66,6 +66,10 @@ namespace Project::States {
   }
 
   void GameState::render(SDL_Renderer* renderer) {
+    if (logsManager.checkAndLogError(!renderer, "Renderer is null.")) {
+
+    }
+  
     if (!backgroundTexture) {
       SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
       SDL_RenderClear(renderer);

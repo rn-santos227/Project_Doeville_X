@@ -1,10 +1,10 @@
 #include "GameStateFactory.h"
 namespace Project::Factories {
-  GameStateFactory::GameStateFactory(SDL_Renderer* renderer, GameStateManager& gameStateManager, LogsManager& logsManager)
-  : renderer(renderer), gameStateManager(gameStateManager), logsManager(logsManager) {}
+  GameStateFactory::GameStateFactory(GameStateManager& gameStateManager, LogsManager& logsManager)
+  : gameStateManager(gameStateManager), logsManager(logsManager) {}
 
-  bool GameStateFactory::createStateFromLua(const std::string& scriptPath) {
-    auto newState = std::make_unique<GameState>(logsManager);
+  bool GameStateFactory::createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath) {
+    auto newState = std::make_unique<GameState>(logsManager, renderer);
 
     if (!newState->attachLuaScript(scriptPath)) {
       logsManager.logError("Failed to load GameState from Lua script: " + scriptPath);

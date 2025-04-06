@@ -1,12 +1,12 @@
 #ifndef STATE_FACTORY_H
 #define STATE_FACTORY_H
 
-#include <SDL.h>
-
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
 
 #include "utilities/logs_manager/LogsManager.h"
+
+#include <SDL.h>
 
 using namespace Project::States;
 using namespace Project::Utilities;
@@ -14,13 +14,11 @@ using namespace Project::Utilities;
 namespace Project::Factories {
   class GameStateFactory {
   public:
-    explicit GameStateFactory(SDL_Renderer* renderer, GameStateManager& gameStateManager, LogsManager& logsManager);
+    explicit GameStateFactory(GameStateManager& gameStateManager, LogsManager& logsManager);
 
-    bool createStateFromLua(const std::string& scriptPath);
+    bool createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath);
   
   private:
-    SDL_Renderer* renderer; 
-    
     GameStateManager& gameStateManager;
     LogsManager& logsManager;
   };

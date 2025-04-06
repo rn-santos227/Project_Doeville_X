@@ -85,7 +85,7 @@ namespace Project::States {
     }
   }
 
-  void GameStateManager::render() {
+  void GameStateManager::render(SDL_Renderer* renderer) {
     std::lock_guard<std::mutex> lock(gameStateMutex);
 
     std::deque<GameState*> renderQueue;

@@ -69,6 +69,8 @@ namespace Project::States {
     if (!backgroundTexture) {
       SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
       SDL_RenderClear(renderer);
+    } else {
+      SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     }
 
     if (entitiesManager) {

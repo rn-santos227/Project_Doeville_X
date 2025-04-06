@@ -9,6 +9,8 @@
 #include <fstream>
 #include <string>
 
+#include <SDL2/SDL.h>
+
 extern "C" {
   #include "lua.h"
   #include "lauxlib.h"
@@ -16,9 +18,7 @@ extern "C" {
 }
 
 #include "factories/state/GameStateFactory.h"
-
 #include "states/GameStateManager.h"
-
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Factories;
@@ -29,7 +29,7 @@ namespace Project::Services {
 
   class ScriptingService {
   public:
-    explicit ScriptingService(GameStateManager& gameStateManager, LogsManager& logsManager);
+    explicit ScriptingService(SDL_Renderer* renderer, GameStateManager& gameStateManager, LogsManager& logsManager);
     ~ScriptingService();
 
     bool validateScript(const std::string& scriptPath);

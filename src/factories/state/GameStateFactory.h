@@ -6,7 +6,7 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 using namespace Project::States;
 using namespace Project::Utilities;

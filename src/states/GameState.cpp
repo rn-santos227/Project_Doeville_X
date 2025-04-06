@@ -66,8 +66,9 @@ namespace Project::States {
   }
 
   void GameState::render() {
-    if (backgroundTexture) {
-      SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
+    if (!backgroundTexture) {
+      SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+      SDL_RenderClear(renderer);
     }
 
     if (entitiesManager) {

@@ -13,11 +13,26 @@ namespace Project::States {
     clearBackground();
   }
 
-  void GameState::initialize() {
-    lua_pushlightuserdata(luaState, this);
-    lua_pushcclosure(luaState, lua_setBackgroundColor, 1);
-    lua_setglobal(luaState, "setBackgroundColor");
+  bool GameState::callLuaFunction(const std::string& functionName) {
+    lua_getglobal(luaState, functionName.c_str());
 
+    if (!lua_isfunction(luaState, -1)) {
+      handleLuaError("Lua function not found: " + functionName);
+      lua_pop(luaState, 1);
+      return false;
+    }
+
+    if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
+      handleLuaError("Error calling Lua function '" + functionName + "': " + std::string(lua_tostring(luaState, -1)));
+      lua_pop(luaState, 1);
+      return false;
+    }
+
+    logsManager.logMessage("Lua function called successfully: " + functionName);
+    return true;
+  }
+
+  void GameState::initialize() {
     lua_getglobal(luaState, "initialize");
     if (lua_isfunction(luaState, -1)) {
       int result = lua_pcall(luaState, 0, 0, 0);
@@ -150,25 +165,6 @@ namespace Project::States {
       return false;
     }
     logsManager.logMessage("Lua script attached: " + scriptPath);
-    return true;
-  }
-
-  bool GameState::callLuaFunction(const std::string& functionName) {
-    lua_getglobal(luaState, functionName.c_str());
-
-    if (!lua_isfunction(luaState, -1)) {
-      handleLuaError("Lua function not found: " + functionName);
-      lua_pop(luaState, 1);
-      return false;
-    }
-
-    if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
-      handleLuaError("Error calling Lua function '" + functionName + "': " + std::string(lua_tostring(luaState, -1)));
-      lua_pop(luaState, 1);
-      return false;
-    }
-
-    logsManager.logMessage("Lua function called successfully: " + functionName);
     return true;
   }
 

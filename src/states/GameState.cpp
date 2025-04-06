@@ -67,7 +67,8 @@ namespace Project::States {
 
   void GameState::render(SDL_Renderer* renderer) {
     if (logsManager.checkAndLogError(!renderer, "Renderer is null.")) {
-
+      logsManager.flushLogs();
+      return;
     }
   
     if (!backgroundTexture) {

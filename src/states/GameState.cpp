@@ -16,7 +16,7 @@ namespace Project::States {
   void GameState::initialize() {
     lua_pushlightuserdata(luaState, this);
     lua_pushcclosure(luaState, lua_setBackgroundColor, 1);
-
+    lua_setglobal(luaState, "setBackgroundColor");
 
     lua_getglobal(luaState, "initialize");
     if (lua_isfunction(luaState, -1)) {

@@ -25,7 +25,7 @@ namespace Project::States {
     void popState();
     
     void update(float deltaTime);
-    void render();
+    void render(SDL_Renderer* renderer);
 
     void enableStates(const std::vector<std::string>& names);
     void disableStates(const std::vector<std::string>& names);

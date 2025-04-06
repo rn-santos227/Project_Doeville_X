@@ -79,7 +79,7 @@ namespace Project::Services {
 
     switch (category) {
       case ScriptCategory::STATE: {
-        if(gameStateFactory.createStateFromLua(scriptPath)) {
+        if(gameStateFactory.createStateFromLua(renderer, scriptPath)) {
           logsManager.logMessage("State loaded from " + scriptPath);
         }
         break;

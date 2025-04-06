@@ -55,6 +55,12 @@ namespace Project::Handlers {
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);
 
+    scriptingService = std::make_unique<ScriptingService>(
+      renderer, gameStateManager, logsManager
+    );
+
+    scriptingService->loadScriptsFromFolder(configHandler.getValue("Paths", "scripts", "scripts/"));
+
     running = true;
     return true;
   }

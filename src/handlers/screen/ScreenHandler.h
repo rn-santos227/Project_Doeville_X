@@ -2,6 +2,7 @@
 #define SCREEN_HANDLER_H
 
 #include <iostream>
+#include <memory>
 #include <mutex>
 
 #include <SDL.h>
@@ -56,7 +57,7 @@ namespace Project::Handlers {
     LogsManager& logsManager;
     FramesCounter& framesCounter;
 
-    ScriptingService scriptingService;
+    std::unique_ptr<ScriptingService> scriptingService;
 
     std::mutex renderMutex;
     std::mutex eventMutex;

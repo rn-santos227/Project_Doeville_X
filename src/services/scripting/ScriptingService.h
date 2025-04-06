@@ -37,6 +37,7 @@ namespace Project::Services {
 
   private:
     lua_State* luaState;
+    SDL_Renderer* renderer; 
 
     GameStateManager& gameStateManager;
     LogsManager& logsManager;

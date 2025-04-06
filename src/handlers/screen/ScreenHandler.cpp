@@ -59,7 +59,8 @@ namespace Project::Handlers {
       renderer, gameStateManager, logsManager
     );
 
-    scriptingService->loadScriptsFromFolder(configHandler.getValue("Paths", "scripts", "scripts/"));
+    std::string scriptPath = configHandler.getValue("Paths", "scripts", "scripts/");
+    scriptingService->loadScriptsFromFolder(scriptPath);
 
     running = true;
     return true;

@@ -56,6 +56,8 @@ namespace Project::Handlers {
     LogsManager& logsManager;
     FramesCounter& framesCounter;
 
+    ScriptingService scriptingService;
+
     std::mutex renderMutex;
     std::mutex eventMutex;
     

@@ -13,11 +13,14 @@
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 
+#include "services/scripting/ScriptingService.h"
+
 #include "states/GameStateManager.h"
 
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Services;
 using namespace Project::States;
 using namespace Project::Utilities;
 

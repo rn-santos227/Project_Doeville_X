@@ -86,7 +86,7 @@ namespace Project::Handlers {
         renderMousePosition();
       }
 
-      gameStateManager.render();
+      gameStateManager.render(renderer);
 
       int mouseX, mouseY;
       SDL_GetMouseState(&mouseX, &mouseY);

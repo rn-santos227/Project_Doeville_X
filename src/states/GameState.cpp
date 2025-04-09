@@ -171,5 +171,6 @@ namespace Project::States {
 
   int GameState::lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    Uint8 r = static_cast<Uint8>(luaL_checkinteger(L, 1));
   }
 }

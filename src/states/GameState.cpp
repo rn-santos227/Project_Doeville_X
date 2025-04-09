@@ -150,7 +150,7 @@ namespace Project::States {
   }
 
   int Project::States::GameState::lua_setBackgroundImage(lua_State* L) {
-
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
   }
 
   int GameState::lua_setBackgroundColor(lua_State* L) {

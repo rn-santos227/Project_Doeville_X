@@ -51,7 +51,7 @@ namespace Project::States {
   void GameState::onExit() {
 
     if (!callLuaFunction("onExit")) {
-      handleLuaError("Error calling Lua function 'onExit'");
+      handleLuaError("Error calling Lua function 'onExit': " + std::string(lua_tostring(luaState, -1)));
     }
   }
 

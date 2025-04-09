@@ -38,7 +38,7 @@ namespace Project::States {
     lua_setglobal(luaState, "setBackgroundColor");
 
     if (!callLuaFunction("initialize")) {
-
+      handleLuaError("Error calling Lua function 'initialize'");
     }
   }
 

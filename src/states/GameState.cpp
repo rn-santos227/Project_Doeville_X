@@ -157,6 +157,9 @@ namespace Project::States {
     }
 
     const char* path = luaL_checkstring(L, 1);
+    if (!path) {
+
+    }
   }
 
   int GameState::lua_setBackgroundColor(lua_State* L) {

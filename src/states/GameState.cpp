@@ -155,6 +155,8 @@ namespace Project::States {
       luaL_error(L, "Invalid GameState reference in lua_setBackgroundImage.");
       return 0;
     }
+
+    const char* path = luaL_checkstring(L, 1);
   }
 
   int GameState::lua_setBackgroundColor(lua_State* L) {

@@ -55,7 +55,9 @@ namespace Project::States {
   }
 
   void GameState::update(float deltaTime) {
-
+    if (entitiesManager) {
+      entitiesManager->update(deltaTime);
+    }
   }
 
   void GameState::render(SDL_Renderer* renderer) {

@@ -58,6 +58,10 @@ namespace Project::States {
     if (entitiesManager) {
       entitiesManager->update(deltaTime);
     }
+
+    if (!callLuaFunction("update")) {
+      handleLuaError("Error calling Lua function 'update'");
+    }
   }
 
   void GameState::render(SDL_Renderer* renderer) {

@@ -33,7 +33,7 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    
+    lua_pushlightuserdata(luaState, this);
   }
 
   void GameState::onEnter() {

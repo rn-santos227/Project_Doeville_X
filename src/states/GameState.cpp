@@ -161,6 +161,10 @@ namespace Project::States {
       luaL_error(L, "Expected a valid image path string.");
       return 0;
     }
+
+    if (!state->setBackgroundImage(path)) {
+      luaL_error(L, ("Failed to set background image: " + std::string(path)).c_str());
+    }
   }
 
   int GameState::lua_setBackgroundColor(lua_State* L) {

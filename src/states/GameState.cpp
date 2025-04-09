@@ -174,5 +174,6 @@ namespace Project::States {
     Uint8 r = static_cast<Uint8>(luaL_checkinteger(L, 1));
     Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, 2));
     Uint8 b = static_cast<Uint8>(luaL_checkinteger(L, 3));
+    state->setBackgroundColor(r, g, b);
   }
 }

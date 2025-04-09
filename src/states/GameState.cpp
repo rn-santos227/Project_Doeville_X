@@ -158,7 +158,8 @@ namespace Project::States {
 
     const char* path = luaL_checkstring(L, 1);
     if (!path) {
-
+      luaL_error(L, "Expected a valid image path string.");
+      return 0;
     }
   }
 

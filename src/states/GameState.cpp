@@ -169,19 +169,7 @@ namespace Project::States {
     }
   }
 
-  int lua_setBackgroundImage(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
-    const char* path = luaL_checkstring(L, 1);
-    state->setBackgroundImage(path);
-    return 0;
-  }
-
-  int GameState::lua_setBackgroundColor(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
-    Uint8 r = static_cast<Uint8>(luaL_checkinteger(L, 1));
-    Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, 2));
-    Uint8 b = static_cast<Uint8>(luaL_checkinteger(L, 3));
-    state->setBackgroundColor(r, g, b);
-    return 0;
+  int GameState::lua_setBackgroundImage(lua_State* L) {
+    
   }
 }

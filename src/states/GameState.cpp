@@ -39,6 +39,7 @@ namespace Project::States {
 
     lua_pushlightuserdata(luaState, this);
     lua_pushcclosure(luaState, lua_setBackgroundImage, 1);
+    lua_setglobal(luaState, "setBackgroundImage");
 
     if (!callLuaFunction("initialize")) {
       handleLuaError("Error calling Lua function 'initialize'");

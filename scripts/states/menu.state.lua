@@ -2,6 +2,7 @@ stateName = "MainMenuState"
 
 function initialize()
   print("Initializing MainMenuState")
+  setBackgroundColor(34, 45, 50, 255)
 end
 
 function onEnter()

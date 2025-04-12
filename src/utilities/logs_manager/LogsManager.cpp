@@ -46,6 +46,10 @@ namespace Project::Utilities {
 
     std::string logMessage = "[LUA] " + timestamp + " - " + sanitizedMessage + "\n";
     std::cout << logMessage;
+
+    if (logFile.is_open()) {
+
+    }
   }
 
   void LogsManager::logMessage(const std::string& message) {

@@ -2,6 +2,7 @@ stateName = "GameState"
 
 function initialize()
   print("Initializing GameState")
+  setBackgroundColor(34, 45, 50, 255)
 end
 
 function onEnter()

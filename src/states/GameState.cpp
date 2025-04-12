@@ -164,6 +164,8 @@ namespace Project::States {
   }
 
   int GameState::lua_printRedirect(lua_State* L) {
+    int nargs = lua_gettop(L);
+    
     return 0;
   }
 

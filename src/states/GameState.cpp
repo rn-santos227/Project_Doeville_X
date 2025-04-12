@@ -163,7 +163,7 @@ namespace Project::States {
     }
   }
 
-  int GameState::lua_printRedirect(lua_State* L) {
+  int Project::States::GameState::lua_printRedirect(lua_State* L) {
     int nargs = lua_gettop(L);
     std::string output;
 
@@ -176,7 +176,7 @@ namespace Project::States {
     return 0;
   }
 
-  int GameState::lua_setBackgroundImage(lua_State* L) {
+  int Project::States::GameState::lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {
       luaL_error(L, "Invalid GameState reference in lua_setBackgroundImage.");
@@ -196,7 +196,7 @@ namespace Project::States {
     return 0;
   }
 
-  int GameState::lua_setBackgroundColor(lua_State* L) {
+  int Project::States::GameState::lua_setBackgroundColor(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     Uint8 r = static_cast<Uint8>(luaL_checkinteger(L, 1));
     Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, 2));

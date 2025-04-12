@@ -172,6 +172,7 @@ namespace Project::States {
       output += lua_tostring(L, i);
     }
 
+    std::cout << "[LUA] " << output << std::endl; 
     return 0;
   }
 

@@ -21,7 +21,7 @@ namespace Project::Utilities {
     void flushLogs();
     
     void logError(const std::string& message);
-    void logLua(const std::string& message);
+    void logLuaMessage(const std::string& message);
     void logMessage(const std::string& message);
     void logWarning(const std::string& message);
 

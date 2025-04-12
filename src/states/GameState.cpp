@@ -163,7 +163,7 @@ namespace Project::States {
     }
   }
 
-  int Project::States::GameState::lua_setBackgroundImage(lua_State* L) {
+  int GameState::lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {
       luaL_error(L, "Invalid GameState reference in lua_setBackgroundImage.");

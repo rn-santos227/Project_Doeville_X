@@ -65,6 +65,7 @@ namespace Project::States {
 
     std::shared_ptr<EntitiesManager> entitiesManager;
 
+    static int lua_print_redirect(lua_State* L);
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);
 

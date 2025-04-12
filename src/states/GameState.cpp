@@ -4,6 +4,8 @@ namespace Project::States {
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager)
     : logsManager(logsManager), renderer(renderer), luaState(luaL_newstate()), initialized(false) {
     luaL_openlibs(luaState);
+
+    lua_getglobal(luaState, "_G");
   }
 
   GameState::~GameState() {

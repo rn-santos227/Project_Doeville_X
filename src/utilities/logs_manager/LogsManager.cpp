@@ -48,7 +48,7 @@ namespace Project::Utilities {
     std::cout << logMessage;
 
     if (logFile.is_open()) {
-
+      logFile << logMessage;
     }
   }
 

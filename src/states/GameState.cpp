@@ -5,7 +5,8 @@ namespace Project::States {
     : logsManager(logsManager), renderer(renderer), luaState(luaL_newstate()), initialized(false) {
     luaL_openlibs(luaState);
 
-    lua_getglobal(luaState, "_G");
+    lua_pushcfunction(luaState, lua_printRedirect);
+    lua_setglobal(luaState, "print");
   }
 
   GameState::~GameState() {

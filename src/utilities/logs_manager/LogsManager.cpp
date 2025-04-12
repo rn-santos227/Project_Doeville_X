@@ -45,6 +45,7 @@ namespace Project::Utilities {
     std::string sanitizedMessage = sanitizePath(message);
 
     std::string logMessage = "[LUA] " + timestamp + " - " + sanitizedMessage + "\n";
+    std::cout << logMessage;
   }
 
   void LogsManager::logMessage(const std::string& message) {
@@ -52,7 +53,6 @@ namespace Project::Utilities {
     std::string sanitizedMessage = sanitizePath(message);
 
     std::string logMessage = "[INFO] " + timestamp + " - " + sanitizedMessage + "\n";
-
     std::cout << logMessage;
 
     if (logFile.is_open()) {

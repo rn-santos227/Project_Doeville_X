@@ -87,7 +87,7 @@ namespace Project::States {
 
     lua_getglobal(luaState, "render");
     if (lua_isfunction(luaState, -1)) {
-
+      int result = lua_pcall(luaState, 0, 0, 0);
     }
   }
 

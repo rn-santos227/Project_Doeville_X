@@ -86,6 +86,9 @@ namespace Project::States {
     }
 
     lua_getglobal(luaState, "render");
+    if (lua_isfunction(luaState, -1)) {
+
+    }
   }
 
   void GameState::handleInput() {

@@ -167,6 +167,10 @@ namespace Project::States {
     int nargs = lua_gettop(L);
     std::string output;
 
+    for (int i = 1; i <= nargs; ++i) {
+
+    }
+
     return 0;
   }
 

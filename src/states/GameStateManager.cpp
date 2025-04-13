@@ -148,6 +148,7 @@ namespace Project::States {
     if (!stateStack.empty()) {
       GameState* topState = stateStack.top();
       topState->initialize();
+      logsManager.logMessage("Top game state initialized.");
     } else {
       logsManager.logError("No game state to initialize.");
     }

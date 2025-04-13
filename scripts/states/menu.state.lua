@@ -9,6 +9,10 @@ function onEnter()
   print("Entering MainMenuState")
 end
 
+function onExit()
+  print("Exit MainMenuState")
+end
+
 function update(deltaTime)
   print("Updating MainMenuState")
 end

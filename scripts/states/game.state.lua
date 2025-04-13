@@ -9,6 +9,10 @@ function onEnter()
   print("Entering GameState")
 end
 
+function onExit()
+  print("Exit GameState")
+end
+
 function update(deltaTime)
   print("Updating GameState")
 end

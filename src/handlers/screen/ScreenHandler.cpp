@@ -82,12 +82,11 @@ namespace Project::Handlers {
     std::lock_guard<std::mutex> lock(renderMutex);
 
     if (renderer) {
+      gameStateManager.render(renderer);
       if (keyHandler.isGameDebugMode()) {
         renderFPS();
         renderMousePosition();
       }
-
-      gameStateManager.render(renderer);
 
       int mouseX, mouseY;
       SDL_GetMouseState(&mouseX, &mouseY);

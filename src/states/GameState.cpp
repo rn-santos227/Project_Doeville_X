@@ -150,6 +150,8 @@ namespace Project::States {
     luaState = luaL_newstate();
     luaL_openlibs(luaState);
 
+    lua_pushcfunction(luaState, lua_printRedirect);
+
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
       handleLuaError("Failed to load Lua script: " + scriptPath);
       return false;

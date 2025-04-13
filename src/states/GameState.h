@@ -48,6 +48,7 @@ namespace Project::States {
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+    void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b);
     void clearBackground();
 
   protected:

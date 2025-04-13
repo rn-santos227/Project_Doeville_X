@@ -156,7 +156,8 @@ namespace Project::States {
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
       handleLuaError("Failed to load Lua script: " + scriptPath);
       lua_close(luaState);
-      
+      luaState = nullptr;
+
       return false;
     }
     logsManager.logMessage("Lua script attached: " + scriptPath);

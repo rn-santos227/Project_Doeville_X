@@ -134,7 +134,7 @@ namespace Project::States {
 
   void GameState::setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
     clearBackground();
-    backgroundColor = {r, g, b, 255};
+    backgroundColor = {r, g, b, a};
     useImageBackground = false;
     logsManager.logMessage("Background color set to RGB(" + std::to_string(r) + ", " + std::to_string(g) + ", " + std::to_string(b) + ")");
   }

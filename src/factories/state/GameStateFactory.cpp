@@ -24,6 +24,7 @@ namespace Project::Factories {
     lua_pop(L, 1);
 
     gameStateManager.addState(stateName, std::move(newState));
+    gameStateManager.pushState(stateName);
     logsManager.logMessage("Successfully created and registered state: " + stateName);
 
     return true;

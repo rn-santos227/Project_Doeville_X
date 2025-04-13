@@ -48,8 +48,12 @@ namespace Project::States {
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-    void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b);
     void clearBackground();
+
+    //overload functions
+    void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
+      setBackgroundColor(r, g, b, 255);
+    };
 
   protected:
     lua_State* luaState = nullptr;

@@ -148,6 +148,7 @@ namespace Project::States {
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {
     luaState = luaL_newstate();
+    luaL_openlibs(luaState);
 
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
       handleLuaError("Failed to load Lua script: " + scriptPath);

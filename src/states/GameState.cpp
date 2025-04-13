@@ -151,6 +151,7 @@ namespace Project::States {
     luaL_openlibs(luaState);
 
     lua_pushcfunction(luaState, lua_printRedirect);
+    lua_setglobal(luaState, "print");
 
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
       handleLuaError("Failed to load Lua script: " + scriptPath);

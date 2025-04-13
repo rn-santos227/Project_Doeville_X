@@ -212,7 +212,7 @@ namespace Project::States {
     Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, 2));
     Uint8 b = static_cast<Uint8>(luaL_checkinteger(L, 3));
     Uint8 a = static_cast<Uint8>(luaL_optinteger(L, 4, 255));
-    state->setBackgroundColor(r, g, b);
+    state->setBackgroundColor(r, g, b, a;
     return 0;
   }
 }

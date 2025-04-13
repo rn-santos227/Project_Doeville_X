@@ -136,7 +136,13 @@ namespace Project::States {
     clearBackground();
     backgroundColor = {r, g, b, a};
     useImageBackground = false;
-    logsManager.logMessage("Background color set to RGB(" + std::to_string(r) + ", " + std::to_string(g) + ", " + std::to_string(b) + ")");
+    logsManager.logMessage(
+      "Background color set to RGBA(" +
+      std::to_string(r) + ", " +
+      std::to_string(g) + ", " +
+      std::to_string(b) + ", " +
+      std::to_string(a) + ")"
+    );
   }
 
   void GameState::clearBackground() {
@@ -212,7 +218,7 @@ namespace Project::States {
     Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, 2));
     Uint8 b = static_cast<Uint8>(luaL_checkinteger(L, 3));
     Uint8 a = static_cast<Uint8>(luaL_optinteger(L, 4, 255));
-    state->setBackgroundColor(r, g, b, a;
+    state->setBackgroundColor(r, g, b, a);
     return 0;
   }
 }

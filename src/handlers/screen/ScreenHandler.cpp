@@ -62,7 +62,6 @@ namespace Project::Handlers {
     std::string scriptPath = configHandler.getValue("Paths", "scripts", "scripts/");
     
     scriptingService->loadScriptsFromFolder(scriptPath);
-    gameStateManager.initializeTopState();
 
     running = true;
     return true;

@@ -147,6 +147,8 @@ namespace Project::States {
 
     if (!stateStack.empty()) {
 
+    } else {
+      logsManager.logError("No game state to initialize.");
     }
   }
 

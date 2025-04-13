@@ -146,7 +146,8 @@ namespace Project::States {
     std::lock_guard<std::mutex> lock(gameStateMutex);
 
     if (!stateStack.empty()) {
-
+      GameState* topState = stateStack.top();
+      topState->initialize();
     } else {
       logsManager.logError("No game state to initialize.");
     }

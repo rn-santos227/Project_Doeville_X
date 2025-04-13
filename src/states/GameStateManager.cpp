@@ -144,6 +144,10 @@ namespace Project::States {
 
   void GameStateManager::initializeTopState() {
     std::lock_guard<std::mutex> lock(gameStateMutex);
+
+    if (!stateStack.empty()) {
+
+    }
   }
 
   void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {

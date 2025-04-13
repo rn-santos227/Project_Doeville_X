@@ -142,6 +142,10 @@ namespace Project::States {
     }
   }
 
+  void GameStateManager::initializeTopState() {
+    
+  }
+
   void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
     if (cacheMap.find(name) != cacheMap.end()) {
       stateCache.erase(cacheMap[name]);

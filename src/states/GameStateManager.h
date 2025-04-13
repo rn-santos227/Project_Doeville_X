@@ -33,6 +33,8 @@ namespace Project::States {
     void cleanup();
     void cleanupCache();
 
+    void initializeTopState();
+
   private:
     LogsManager& logsManager;
 

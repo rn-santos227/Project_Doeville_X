@@ -132,7 +132,7 @@ namespace Project::States {
     return true;
   }
 
-  void GameState::setBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
+  void GameState::setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
     clearBackground();
     backgroundColor = {r, g, b, 255};
     useImageBackground = false;

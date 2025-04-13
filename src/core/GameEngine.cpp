@@ -43,8 +43,6 @@ namespace Project::Core {
     
     keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
     
-    gameStateManager.initializeTopState();
-    
     logsManager.logMessage("Game Engine has been initialized successfully.");
     logsManager.flushLogs();
     isRunning = true;

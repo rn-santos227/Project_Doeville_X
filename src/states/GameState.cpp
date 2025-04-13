@@ -36,9 +36,6 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    lua_pushcfunction(luaState, lua_printRedirect);
-    lua_setglobal(luaState, "print");
-
     lua_pushlightuserdata(luaState, this);
     lua_pushcclosure(luaState, lua_setBackgroundColor, 1);
     lua_setglobal(luaState, "setBackgroundColor");
@@ -150,6 +147,8 @@ namespace Project::States {
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {
+    luaState = luaL_newstate();
+
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
       handleLuaError("Failed to load Lua script: " + scriptPath);
       return false;

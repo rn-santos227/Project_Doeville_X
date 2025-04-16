@@ -148,6 +148,9 @@ namespace Project::States {
     } else {
       logsManager.logWarning("Initial state '" + name + "' not found. Falling back to first available state.");
 
+      for (auto& [fallbackName, fallbackState] : states) {
+
+      }
     }
   }
 

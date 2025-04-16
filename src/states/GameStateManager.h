@@ -34,6 +34,7 @@ namespace Project::States {
     void cleanupCache();
 
     void setInitialState(const std::string& name);
+    void setFirstAvailableState();
 
   private:
     LogsManager& logsManager;

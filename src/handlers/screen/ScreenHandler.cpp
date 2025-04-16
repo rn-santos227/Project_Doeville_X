@@ -60,8 +60,9 @@ namespace Project::Handlers {
     );
 
     std::string scriptPath = configHandler.getValue("Paths", "scripts", "scripts/");
-    
     scriptingService->loadScriptsFromFolder(scriptPath);
+
+    std::string initialState = configHandler.getValue("Game", "initial_state", "MainMenu");
 
     running = true;
     return true;

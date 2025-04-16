@@ -143,6 +143,7 @@ namespace Project::States {
       }
 
       stateStack.push(it->second.get());
+      stateStack.top()->onEnter();
     } else {
       
     }

@@ -158,8 +158,11 @@ namespace Project::States {
           stateStack.push(fallbackState.get());
           fallbackState->onEnter();
           logsManager.logMessage("Fallback state '" + fallbackName + "' set and entered.");
+          return;
         }
       }
+
+      logsManager.logError("No available game states found to set as initial state.");
     }
   }
 

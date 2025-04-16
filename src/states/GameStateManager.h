@@ -20,6 +20,7 @@ namespace Project::States {
 
     void addState(const std::string& name, std::unique_ptr<GameState> state);
     void changeState(const std::string& name);
+    void setInitialState(const std::string& name);
     
     void pushState(const std::string& name);
     void popState();
@@ -33,7 +34,6 @@ namespace Project::States {
     void cleanup();
     void cleanupCache();
 
-    void setInitialState(const std::string& name);
 
   private:
     LogsManager& logsManager;

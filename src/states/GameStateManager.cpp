@@ -152,6 +152,7 @@ namespace Project::States {
         if (fallbackState) {
           if (!fallbackState->isInitialized()) {
             fallbackState->initialize();
+            fallbackState->markInitialized();
           }
         }
       }

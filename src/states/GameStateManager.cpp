@@ -140,18 +140,6 @@ namespace Project::States {
     }
   }
 
-  void GameStateManager::initializeTopState() {
-    std::lock_guard<std::mutex> lock(gameStateMutex);
-
-    if (!stateStack.empty()) {
-      GameState* topState = stateStack.top();
-      topState->initialize();
-      logsManager.logMessage("Top game state initialized.");
-    } else {
-      logsManager.logError("No game state to initialize.");
-    }
-  }
-
   void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
     if (cacheMap.find(name) != cacheMap.end()) {
       stateCache.erase(cacheMap[name]);

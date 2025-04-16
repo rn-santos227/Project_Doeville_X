@@ -32,7 +32,9 @@ namespace Project::States {
     
     void cleanup();
     void cleanupCache();
-    
+
+    void setInitialState(const std::string& name);
+
   private:
     LogsManager& logsManager;
 

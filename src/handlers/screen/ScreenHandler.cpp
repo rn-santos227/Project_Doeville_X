@@ -63,6 +63,7 @@ namespace Project::Handlers {
     scriptingService->loadScriptsFromFolder(scriptPath);
 
     std::string initialState = configHandler.getValue("Game", "initial_state", "MainMenu");
+    gameStateManager.setInitialState(initialState);
 
     running = true;
     return true;

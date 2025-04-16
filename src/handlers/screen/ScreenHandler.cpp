@@ -150,7 +150,7 @@ namespace Project::Handlers {
       int screenWidth, screenHeight;
       SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
-      SDL_Rect destRect = {800 - textWidth - 10, 10, textWidth, textHeight};
+      SDL_Rect destRect = {screenWidth - textWidth - 10, 10, textWidth, textHeight};
       SDL_RenderCopy(renderer, fpsTexture, nullptr, &destRect);
       SDL_DestroyTexture(fpsTexture);
     } else {

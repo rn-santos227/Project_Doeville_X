@@ -137,7 +137,9 @@ namespace Project::States {
   void GameStateManager::setInitialState(const std::string& name) {
     auto it = states.find(name);
     if (it != states.end()) {
-      
+      if (!it->second->isInitialized()) {
+
+      }
     } else {
       
     }

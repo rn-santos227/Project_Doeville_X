@@ -146,7 +146,8 @@ namespace Project::States {
       stateStack.top()->onEnter();
       logsManager.logMessage("Initial state '" + name + "' set and entered.");
     } else {
-      
+      logsManager.logWarning("Initial state '" + name + "' not found. Falling back to first available state.");
+
     }
   }
 

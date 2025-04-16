@@ -151,7 +151,7 @@ namespace Project::States {
       for (auto& [fallbackName, fallbackState] : states) {
         if (fallbackState) {
           if (!fallbackState->isInitialized()) {
-
+            fallbackState->initialize();
           }
         }
       }

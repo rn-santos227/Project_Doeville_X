@@ -139,6 +139,7 @@ namespace Project::States {
     if (it != states.end()) {
       if (!it->second->isInitialized()) {
         it->second->initialize();
+        it->second->markInitialized();
       }
     } else {
       

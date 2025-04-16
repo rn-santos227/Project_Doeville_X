@@ -144,6 +144,7 @@ namespace Project::States {
 
       stateStack.push(it->second.get());
       stateStack.top()->onEnter();
+      logsManager.logMessage("Initial state '" + name + "' set and entered.");
     } else {
       
     }

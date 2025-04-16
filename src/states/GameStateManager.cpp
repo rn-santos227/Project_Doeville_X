@@ -84,13 +84,11 @@ namespace Project::States {
   void GameStateManager::render(SDL_Renderer* renderer) {
     std::lock_guard<std::mutex> lock(gameStateMutex);
 
-    std::deque<GameState*> renderQueue;
-    for (std::stack<GameState*> tempStack = stateStack; !tempStack.empty(); tempStack.pop()) {
-      renderQueue.push_front(tempStack.top());
-    }
-    
-    for (GameState* state : renderQueue) {
-      state->render(renderer);
+    if (!stateStack.empty()) {
+      GameState* topState = stateStack.top();
+      if (topState->isActive()) {
+        topState->render(renderer);
+      }
     }
   }
 

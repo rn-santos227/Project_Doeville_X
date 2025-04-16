@@ -72,15 +72,11 @@ namespace Project::States {
 
   void GameStateManager::update(float deltaTime) {
     std::lock_guard<std::mutex> lock(gameStateMutex);
-    
-    std::deque<GameState*> renderQueue;
-    for (std::stack<GameState*> tempStack = stateStack; !tempStack.empty(); tempStack.pop()) {
-      renderQueue.push_front(tempStack.top());
-    }
 
-    for (GameState* state : renderQueue) {
-      if (state->isActive()) {
-        state->update(deltaTime);
+    if (!stateStack.empty()) {
+      GameState* topState = stateStack.top();
+      if (topState->isActive()) {
+        topState->update(deltaTime);
       }
     }
   }

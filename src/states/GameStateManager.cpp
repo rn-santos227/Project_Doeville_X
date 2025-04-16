@@ -157,6 +157,7 @@ namespace Project::States {
 
           stateStack.push(fallbackState.get());
           fallbackState->onEnter();
+          logsManager.logMessage("Fallback state '" + fallbackName + "' set and entered.");
         }
       }
     }

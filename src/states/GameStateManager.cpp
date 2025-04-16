@@ -154,6 +154,8 @@ namespace Project::States {
             fallbackState->initialize();
             fallbackState->markInitialized();
           }
+
+          stateStack.push(fallbackState.get());
         }
       }
     }

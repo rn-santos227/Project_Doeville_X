@@ -50,12 +50,14 @@ namespace Project::States {
   }
 
   void GameState::onEnter() {
+    setActive(true);
     if (!callLuaFunction("onEnter")) {
       handleLuaError("Error calling Lua function 'onEnter': " + std::string(lua_tostring(luaState, -1)));
     }
   }
 
   void GameState::onExit() {
+    setActive(false);
     if (!callLuaFunction("onExit")) {
       handleLuaError("Error calling Lua function 'onExit': " + std::string(lua_tostring(luaState, -1)));
     }

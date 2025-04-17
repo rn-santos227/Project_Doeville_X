@@ -18,5 +18,9 @@ namespace Project::Factories {
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
+
+    if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
+
+    }
   }
 }

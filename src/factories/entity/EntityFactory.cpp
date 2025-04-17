@@ -27,7 +27,9 @@ namespace Project::Factories {
 
     lua_getglobal(L, "entityID");
     if (!lua_isinteger(L, -1)) {
-
+      logsManager.logError("Lua script is missing a valid 'entityID': " + scriptPath);
+      lua_close(L);
+      return false;
     }
   }
 }

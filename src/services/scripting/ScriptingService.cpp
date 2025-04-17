@@ -84,6 +84,10 @@ namespace Project::Services {
         }
         break;
       }
+
+      case ScriptCategory::ENTITY: {
+        break;
+      }
     }
   }
 

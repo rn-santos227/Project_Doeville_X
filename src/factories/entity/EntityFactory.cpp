@@ -20,7 +20,7 @@ namespace Project::Factories {
     luaL_openlibs(L);
 
     if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
-
+      logsManager.logError("Lua error in script: " + scriptPath + "\n" + lua_tostring(L, -1));
     }
   }
 }

@@ -4,6 +4,6 @@ namespace Project::Factories {
   EntityFactory::EntityFactory(LogsManager& logsManager) : logsManager(logsManager) {}
 
   EntityFactory::~EntityFactory() {
-
+    entityCache.clear();
   }
 }

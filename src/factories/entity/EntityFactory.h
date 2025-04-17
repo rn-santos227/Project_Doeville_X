@@ -22,6 +22,7 @@ namespace Project::Factories {
 
   private:
     std::unordered_map<std::string, std::unique_ptr<Entity>> entityTemplates;
+    std::unique_ptr<Entity> loadEntityTemplateFromLua(const std::string& scriptPath);
     
     LogsManager& logsManager;
   };

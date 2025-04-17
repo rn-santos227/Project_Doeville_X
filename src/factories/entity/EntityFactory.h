@@ -18,6 +18,8 @@ namespace Project::Factories {
     bool createEntityFromLua(const std::string& scriptPath);
     bool hasEntityTemplate(const std::string& entityName) const;
 
+    std::unique_ptr<Entity> cloneEntity(const std::string& entityName);
+
   private:
     LogsManager& logsManager;
   };

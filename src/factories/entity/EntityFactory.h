@@ -21,6 +21,8 @@ namespace Project::Factories {
     std::unique_ptr<Entity> cloneEntity(const std::string& entityName);
 
   private:
+    std::unordered_map<std::string, std::unique_ptr<Entity>> entityTemplates;
+    
     LogsManager& logsManager;
   };
 }

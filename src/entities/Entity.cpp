@@ -11,6 +11,10 @@ namespace Project::Entities {
     }
   }
 
+  Entity::~Entity() {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError("Entity Lua Error: " + errorMessage);
   }

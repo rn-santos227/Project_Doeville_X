@@ -4,11 +4,11 @@
 #include "GameState.h"
 #include "GameStateID.h"
 
-#include <unordered_map>
 #include <stack>
 #include <list>
 #include <memory>
 #include <mutex>
+#include <unordered_map>
 
 using namespace Project::Utilities;
 

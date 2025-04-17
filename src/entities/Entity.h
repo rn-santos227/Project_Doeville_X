@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "EntityID.h"
+#include "EntityCategory.h"
 
 #include <functional>
 #include <memory>
@@ -25,7 +25,7 @@ using namespace Project::Utilities;
 namespace Project::Entities {
   class Entity {
   public:
-    explicit Entity(EntityID entityID, LogsManager& logsManager);
+    explicit Entity(EntityCategory entityCategory, LogsManager& logsManager);
     virtual ~Entity();
 
     Entity(const Entity&) = delete;
@@ -34,7 +34,7 @@ namespace Project::Entities {
     Entity(Entity&&) noexcept = default;
     Entity& operator=(Entity&&) noexcept = default;
 
-    const EntityID& getEntityID() const { return entityID; }
+    const EntityCategory& getEntityCategory() const { return entityCategory; }
     const std::string& getEntityName() const { return entityName; }
     void setEntityName(const std::string& name) { entityName = name; }
 
@@ -55,7 +55,7 @@ namespace Project::Entities {
     lua_State* getLuaState() const { return luaState; }
 
   private:
-    EntityID entityID;
+    EntityCategory entityCategory;
     LogsManager& logsManager;
     std::string entityName;
     

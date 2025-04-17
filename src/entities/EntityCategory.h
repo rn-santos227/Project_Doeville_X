@@ -2,7 +2,7 @@
 #define ENTITY_ID_H
 
 namespace Project::Entities {
-  enum class EntityID {
+  enum class EntityCategory {
     PLAYER,
     ENEMY,
     NPC,

@@ -7,7 +7,7 @@ namespace Project::Entities {
     if (luaState) {
       luaL_openlibs(luaState);
     } else {
-      logsManager.logError("Failed to create Lua state for Entity: " + this->entityID.getID());
+      logsManager.logError("Failed to create Lua state for Entity: " + std::to_string(entityID));
     }
   }
 
@@ -15,6 +15,14 @@ namespace Project::Entities {
     if (luaState) {
       lua_close(luaState);
       luaState = nullptr;
+    }
+  }
+
+  void Entity::initialize() {
+    for (auto& [name, component] : components) {
+      if (component) {
+
+      }
     }
   }
 

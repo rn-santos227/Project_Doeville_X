@@ -31,7 +31,6 @@ namespace Project::States {
       return false;
     }
 
-    logsManager.logMessage("Lua function called successfully: " + functionName);
     return true;
   }
 

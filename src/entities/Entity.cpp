@@ -12,7 +12,10 @@ namespace Project::Entities {
   }
 
   Entity::~Entity() {
-
+    if (luaState) {
+      lua_close(luaState);
+      luaState = nullptr;
+    }
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

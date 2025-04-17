@@ -24,5 +24,7 @@ namespace Project::Factories {
       lua_close(L);
       return nullptr;
     }
+
+    lua_getglobal(L, "entityID");
   }
 }

@@ -6,6 +6,8 @@ namespace Project::Entities {
     luaState = luaL_newstate();
     if (luaState) {
       luaL_openlibs(luaState);
+    } else {
+      logsManager.logError("Failed to create Lua state for Entity: " + this->entityID.getID());
     }
   }
 

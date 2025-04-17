@@ -84,7 +84,7 @@ namespace Project::Handlers {
     std::lock_guard<std::mutex> lock(renderMutex);
 
     if (renderer) {
-      gameStateManager.render(renderer);
+      gameStateManager.render();
       if (keyHandler.isGameDebugMode()) {
         renderFPS();
         renderMousePosition();

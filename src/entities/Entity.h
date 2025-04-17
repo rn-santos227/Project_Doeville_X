@@ -31,6 +31,9 @@ namespace Project::Entities {
     Entity(const Entity&) = delete;
     Entity& operator=(const Entity&) = delete;
 
+    Entity(Entity&&) noexcept = default;
+    Entity& operator=(Entity&&) noexcept = default;
+
     const EntityID& getEntityID() const { return entityID; }
 
     void initialize();

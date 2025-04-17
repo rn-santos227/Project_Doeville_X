@@ -49,6 +49,7 @@ namespace Project::Entities {
     bool hasComponent(const std::string& componentName) const;
 
     BaseComponent* getComponent(const std::string& componentName);
+    std::vector<std::string> listComponentNames() const;
 
   private:
     EntityID entityID;

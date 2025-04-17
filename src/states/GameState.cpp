@@ -73,7 +73,7 @@ namespace Project::States {
     }
   }
 
-  void GameState::render(SDL_Renderer* renderer) {
+  void GameState::render() {
     if (logsManager.checkAndLogError(!renderer, "Renderer is null.")) {
       logsManager.flushLogs();
       return;

@@ -26,5 +26,8 @@ namespace Project::Factories {
     }
 
     lua_getglobal(L, "entityID");
+    if (!lua_isinteger(L, -1)) {
+
+    }
   }
 }

@@ -35,6 +35,7 @@ namespace Project::Entities {
     Entity& operator=(Entity&&) noexcept = default;
 
     const EntityID& getEntityID() const { return entityID; }
+    const std::string& getEntityName() const { return entityName; }
     void setEntityName(const std::string& name) { entityName = name; }
 
     void initialize();
@@ -45,13 +46,14 @@ namespace Project::Entities {
 
     void addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component);
     void removeComponent(const std::string& componentName);
+    bool hasComponent(const std::string& componentName) const;
 
   private:
     EntityID entityID;
-    lua_State* luaState;
     LogsManager& logsManager;
-
     std::string entityName;
+    
+    lua_State* luaState;
     std::unordered_map<std::string, std::unique_ptr<BaseComponent>> components;
     
     void handleLuaError(const std::string& errorMessage);

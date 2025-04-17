@@ -1,13 +1,13 @@
 #include "Entity.h"
 
 namespace Project::Entities {
-  Entity::Entity(EntityID entityID, LogsManager& logsManager)
-  : entityID(std::move(entityID)), logsManager(logsManager) {
+  Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager)
+  : entityCategory(std::move(entityCategory)), logsManager(logsManager) {
     luaState = luaL_newstate();
     if (luaState) {
       luaL_openlibs(luaState);
     } else {
-      logsManager.logError("Failed to create Lua state for Entity: " + std::to_string(entityID));
+      logsManager.logError("Failed to create Lua state for Entity: " + entityName);
     }
   }
 

@@ -35,6 +35,7 @@ namespace Project::Entities {
     Entity& operator=(Entity&&) noexcept = default;
 
     const EntityID& getEntityID() const { return entityID; }
+    void setEntityName(const std::string& name) { entityName = name; }
 
     void initialize();
     void update(float deltaTime);

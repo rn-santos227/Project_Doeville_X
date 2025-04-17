@@ -51,6 +51,8 @@ namespace Project::Entities {
     BaseComponent* getComponent(const std::string& componentName);
     std::vector<std::string> listComponentNames() const;
 
+    lua_State* getLuaState() const { return luaState; }
+
   private:
     EntityID entityID;
     LogsManager& logsManager;

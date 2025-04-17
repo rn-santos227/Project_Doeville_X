@@ -31,7 +31,7 @@ namespace Project::States {
     virtual void onEnter();
     virtual void onExit();
     virtual void update(float deltaTime);
-    virtual void render(SDL_Renderer* renderer);
+    virtual void render();
     virtual void handleInput();
     
     virtual std::string getStateName() const { return stateName; }

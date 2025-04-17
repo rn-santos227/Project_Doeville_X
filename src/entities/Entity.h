@@ -48,6 +48,8 @@ namespace Project::Entities {
     void removeComponent(const std::string& componentName);
     bool hasComponent(const std::string& componentName) const;
 
+    BaseComponent* getComponent(const std::string& componentName);
+
   private:
     EntityID entityID;
     LogsManager& logsManager;

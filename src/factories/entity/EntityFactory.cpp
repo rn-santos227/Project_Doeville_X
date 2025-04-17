@@ -33,5 +33,6 @@ namespace Project::Factories {
     }
 
     EntityID id = static_cast<EntityID>(lua_tointeger(L, -1));
+    lua_pop(L, 1);
   }
 }

@@ -3,10 +3,12 @@
 
 #include "EntityID.h"
 
-#include <string>
-#include <unordered_map>
-#include <memory>
 #include <functional>
+#include <memory>
+#include <string>
+#include <type_traits>
+#include <vector>
+#include <unordered_map>
 
 extern "C" {
   #include "lua.h"
@@ -25,6 +27,9 @@ namespace Project::Entities {
   public:
     explicit Entity(EntityID entityID, LogsManager& logsManager);
     virtual ~Entity();
+
+    Entity(const Entity&) = delete;
+    Entity& operator=(const Entity&) = delete;
 
     const EntityID& getEntityID() const { return entityID; }
 

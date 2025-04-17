@@ -11,6 +11,10 @@ namespace Project::Factories {
 
   }
 
+  bool EntityFactory::hasEntityTemplate(const std::string& entityName) const {
+
+  }
+
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
 
   }

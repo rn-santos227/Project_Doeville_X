@@ -12,13 +12,13 @@ using namespace Project::Utilities;
 namespace Project::Factories {
   class EntityFactory {
   public:
-    explicit EntityFactory(EntitiesManager& entitiesManager, LogsManager& logsManager);
+    explicit EntityFactory(LogsManager& logsManager);
     ~EntityFactory();
 
     bool createEntityFromLua(const std::string& scriptPath);
+    bool hasEntityTemplate(const std::string& entityName) const;
 
   private:
-    EntitiesManager& entitiesManager;
     LogsManager& logsManager;
   };
 }

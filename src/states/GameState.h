@@ -22,7 +22,7 @@ using namespace Project::Utilities;
 namespace Project::States {
   class GameState {
   public:
-    explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager);
+    explicit GameState(LogsManager& logsManager);
     virtual ~GameState();
 
     lua_State* getLuaState() const { return luaState; }
@@ -58,11 +58,11 @@ namespace Project::States {
   protected:
     lua_State* luaState = nullptr;
     LogsManager& logsManager;
-  std::string stateName;
 
     SDL_Texture* backgroundTexture = nullptr;
-    SDL_Renderer* renderer = nullptr;
     SDL_Color backgroundColor = {0, 0, 0, 255};
+
+    std::string stateName;
 
     bool useImageBackground = false;
     bool initialized = false;

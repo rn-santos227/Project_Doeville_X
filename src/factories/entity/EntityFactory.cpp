@@ -12,7 +12,7 @@ namespace Project::Factories {
   }
 
   bool EntityFactory::hasEntityTemplate(const std::string& entityName) const {
-
+    return entityTemplates.find(entityName) != entityTemplates.end();
   }
 
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {

@@ -41,6 +41,7 @@ namespace Project::Entities {
     void initialize();
     void update(float deltaTime);
     void render();
+    
     bool attachLuaScript(const std::string& scriptPath);
     bool callLuaFunction(const std::string& functionName);
 

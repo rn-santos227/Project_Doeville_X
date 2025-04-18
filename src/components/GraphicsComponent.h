@@ -12,6 +12,9 @@ namespace Project::Components  {
   public:
     explicit GraphicsComponent(SDL_Renderer* renderer, const std::string& texturePath);
     ~GraphicsComponent();
+
+    void initialize() override;
+    void shutdown() override;
     
     void update(float deltaTime) override;
     void render() override;

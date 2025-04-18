@@ -36,6 +36,7 @@ namespace Project::Entities {
     }
 
     lua_pushnumber(luaState, deltaTime);
+    lua_setglobal(luaState, "deltaTime");
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -43,7 +43,9 @@ namespace Project::Entities {
 
   void Entity::render() {
     for (auto& [name, component] : components) {
-
+      if (component) {
+        component->render();
+      }
     }
   }
 

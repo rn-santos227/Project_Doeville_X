@@ -37,6 +37,12 @@ namespace Project::Entities {
 
     lua_pushnumber(luaState, deltaTime);
     lua_setglobal(luaState, "deltaTime");
+
+    callLuaFunction("update");
+  }
+
+  void Entity::render() {
+
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

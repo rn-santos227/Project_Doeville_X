@@ -34,6 +34,8 @@ namespace Project::Entities {
         component->update(deltaTime);
       }
     }
+
+    lua_pushnumber(luaState, deltaTime);
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

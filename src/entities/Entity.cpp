@@ -21,9 +21,11 @@ namespace Project::Entities {
   void Entity::initialize() {
     for (auto& [name, component] : components) {
       if (component) {
-
+        component->initialize();
       }
     }
+
+    callLuaFunction("initialize");
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

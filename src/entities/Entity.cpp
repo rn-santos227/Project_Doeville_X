@@ -28,6 +28,12 @@ namespace Project::Entities {
     callLuaFunction("initialize");
   }
 
+  void Entity::update(float deltaTime) {
+    for (auto& [name, component] : components) {
+
+    }
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError("Entity Lua Error: " + errorMessage);
   }

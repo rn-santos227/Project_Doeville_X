@@ -19,29 +19,28 @@ namespace Project::Entities {
   }
 
   void Entity::initialize() {
+    callLuaFunction("initialize");
     for (auto& [name, component] : components) {
       if (component) {
         component->initialize();
       }
     }
-
-    callLuaFunction("initialize");
   }
 
   void Entity::update(float deltaTime) {
+    lua_pushnumber(luaState, deltaTime);
+    lua_setglobal(luaState, "deltaTime");
+
+    callLuaFunction("update");
     for (auto& [name, component] : components) {
       if (component) {
         component->update(deltaTime);
       }
     }
-
-    lua_pushnumber(luaState, deltaTime);
-    lua_setglobal(luaState, "deltaTime");
-
-    callLuaFunction("update");
   }
 
   void Entity::render() {
+    callLuaFunction("render");
     for (auto& [name, component] : components) {
       if (component) {
         component->render();

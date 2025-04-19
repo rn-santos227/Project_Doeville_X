@@ -36,6 +36,6 @@ namespace Project::Factories {
   }
 
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
-
+    std::string fileName = scriptPath.substr(scriptPath.find_last_of("/\\") + 1);
   }
 }

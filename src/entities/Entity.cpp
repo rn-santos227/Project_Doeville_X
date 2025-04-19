@@ -73,5 +73,7 @@ namespace Project::Entities {
       logsManager.flushLogs();
       return false;
     }
+
+    lua_getglobal(luaState, functionName.c_str());
   }
 }

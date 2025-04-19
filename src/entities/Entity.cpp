@@ -95,6 +95,10 @@ namespace Project::Entities {
     components.erase(componentName);
   }
 
+  bool Entity::hasComponent(const std::string& componentName) const {
+    return components.find(componentName) != components.end();
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError("Entity Lua Error: " + errorMessage);
   }

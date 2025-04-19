@@ -91,6 +91,10 @@ namespace Project::Entities {
     components[componentName] = std::move(component);
   }
 
+  void Entity::removeComponent(const std::string& componentName) {
+    components.erase(componentName);
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError("Entity Lua Error: " + errorMessage);
   }

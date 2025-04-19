@@ -48,5 +48,7 @@ namespace Project::Factories {
       logsManager.flushLogs();
       return nullptr;
     }
+
+    return entity;
   }
 }

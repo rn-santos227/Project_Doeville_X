@@ -42,5 +42,6 @@ namespace Project::Factories {
     EntityCategory category = EntityCategory::ENVIRONMENT;
 
     std::unique_ptr<Entity> entity = std::make_unique<Entity>(category, logsManager);
+    entity->setEntityName(name);
   }
 }

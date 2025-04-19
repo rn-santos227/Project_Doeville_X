@@ -26,7 +26,7 @@ namespace Project::Factories {
     std::unique_ptr<Entity> clone = std::make_unique<Entity>(category, logsManager);
     clone->setEntityName(entityName);
 
-    
+    lua_State* templateState = it->second->getLuaState();
   }
 
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {

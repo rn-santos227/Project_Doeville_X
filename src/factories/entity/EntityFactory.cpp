@@ -43,5 +43,10 @@ namespace Project::Factories {
 
     std::unique_ptr<Entity> entity = std::make_unique<Entity>(category, logsManager);
     entity->setEntityName(name);
+
+    if (logsManager.checkAndLogError(!entity->attachLuaScript(scriptPath), "Failed to attach Lua script: " + scriptPath)) {
+
+
+    }
   }
 }

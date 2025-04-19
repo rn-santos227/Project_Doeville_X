@@ -54,6 +54,10 @@ namespace Project::Entities {
       return false;
     }
 
+    if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
+
+    }
+
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

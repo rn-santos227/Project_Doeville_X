@@ -10,7 +10,8 @@ namespace Project::Factories {
   bool EntityFactory::createEntityFromLua(const std::string& scriptPath) {
     std::unique_ptr<Entity> entity = loadEntityTemplateFromLua(scriptPath);
     if(logsManager.checkAndLogError(!entity, "Failed to load entity template from Lua: " + scriptPath)) {
-
+      logsManager.flushLogs();
+      return false;
     }
   }
 

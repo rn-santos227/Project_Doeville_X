@@ -58,8 +58,10 @@ namespace Project::Entities {
       std::string luaError = lua_tostring(luaState, -1);
       handleLuaError("Failed to load Lua script: " + luaError);
       lua_pop(luaState, 1);
+      return false;
     }
 
+    return true;
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -64,10 +64,6 @@ namespace Project::Entities {
     return true;
   }
 
-  void Entity::handleLuaError(const std::string& errorMessage) {
-    logsManager.logError("Entity Lua Error: " + errorMessage);
-  }
-
   bool Entity::callLuaFunction(const std::string& functionName) {
     if (logsManager.checkAndLogError(!luaState, "Lua state is null for Entity: " + entityName)) {
       logsManager.flushLogs();
@@ -81,7 +77,12 @@ namespace Project::Entities {
     }
 
     if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
-
+      std::string error = lua_tostring(luaState, -1);
+      handleLuaError("Lua function call failed: " + error);
     }
+  }
+
+  void Entity::handleLuaError(const std::string& errorMessage) {
+    logsManager.logError("Entity Lua Error: " + errorMessage);
   }
 }

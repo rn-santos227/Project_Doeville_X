@@ -61,7 +61,11 @@ namespace Project::Entities {
     
     lua_State* luaState;
     std::unordered_map<std::string, std::unique_ptr<BaseComponent>> components;
-    
+
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+
     void handleLuaError(const std::string& errorMessage);
   };
 }

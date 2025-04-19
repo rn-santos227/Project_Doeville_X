@@ -21,6 +21,8 @@ namespace Project::Factories {
       logsManager.flushLogs();
       return nullptr;
     }
+
+    EntityCategory category = it->second->getEntityCategory();
   }
 
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {

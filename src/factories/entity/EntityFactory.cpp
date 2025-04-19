@@ -40,5 +40,7 @@ namespace Project::Factories {
     std::string name = fileName.substr(0, fileName.find_last_of('.'));
 
     EntityCategory category = EntityCategory::ENVIRONMENT;
+
+    std::unique_ptr<Entity> entity = std::make_unique<Entity>(category, logsManager);
   }
 }

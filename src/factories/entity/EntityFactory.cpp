@@ -45,8 +45,8 @@ namespace Project::Factories {
     entity->setEntityName(name);
 
     if (logsManager.checkAndLogError(!entity->attachLuaScript(scriptPath), "Failed to attach Lua script: " + scriptPath)) {
-
-
+      logsManager.flushLogs();
+      return nullptr;
     }
   }
 }

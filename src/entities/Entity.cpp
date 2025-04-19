@@ -22,7 +22,7 @@ namespace Project::Entities {
     callLuaFunction("initialize");
     for (auto& [name, component] : components) {
       if (component) {
-        component->initialize();
+        component->onAttach();
       }
     }
   }

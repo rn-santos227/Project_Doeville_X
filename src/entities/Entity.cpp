@@ -87,7 +87,8 @@ namespace Project::Entities {
   }
 
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
-
+    if (!component) return;
+    components[componentName] = std::move(component);
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

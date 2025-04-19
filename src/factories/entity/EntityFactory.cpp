@@ -16,7 +16,7 @@ namespace Project::Factories {
   }
 
   std::unique_ptr<Entity> EntityFactory::cloneEntity(const std::string& entityName) {
-
+    auto it = entityTemplates.find(entityName);
   }
 
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {

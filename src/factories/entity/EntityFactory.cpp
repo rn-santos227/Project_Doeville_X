@@ -32,7 +32,10 @@ namespace Project::Factories {
       return nullptr;
     }
 
-    EntityID id = static_cast<EntityID>(lua_tointeger(L, -1));
     lua_pop(L, 1);
+  }
+
+  std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
+
   }
 }

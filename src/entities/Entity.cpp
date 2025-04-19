@@ -102,7 +102,7 @@ namespace Project::Entities {
   BaseComponent* Entity::getComponent(const std::string& componentName) {
     auto it = components.find(componentName);
     if (it != components.end() && it->second) {
-
+      return it->second.get();
     }
   }
 

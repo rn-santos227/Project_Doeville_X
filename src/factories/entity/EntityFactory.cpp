@@ -30,6 +30,8 @@ namespace Project::Factories {
     if (templateState) {
       clone->attachLuaScript("scripts/entities/" + entityName + ".lua");
     }
+
+    return clone;
   }
 
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {

@@ -108,7 +108,7 @@ namespace Project::Entities {
   }
 
   std::vector<std::string> Entity::listComponentNames() const {
-
+    auto it = components.find(componentName);
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

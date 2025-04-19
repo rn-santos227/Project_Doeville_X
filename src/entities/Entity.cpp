@@ -55,7 +55,7 @@ namespace Project::Entities {
     }
 
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
-
+      std::string luaError = lua_tostring(luaState, -1);
     }
 
   }

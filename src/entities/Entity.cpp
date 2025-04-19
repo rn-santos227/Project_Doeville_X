@@ -107,6 +107,10 @@ namespace Project::Entities {
     return nullptr;
   }
 
+  std::vector<std::string> Entity::listComponentNames() const {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError("Entity Lua Error: " + errorMessage);
   }

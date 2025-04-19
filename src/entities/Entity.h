@@ -54,6 +54,8 @@ namespace Project::Entities {
 
     lua_State* getLuaState() const { return luaState; }
 
+    void setPosition(float newX, float newY) { x = newX; y = newY; }
+
   private:
     EntityCategory entityCategory;
     LogsManager& logsManager;

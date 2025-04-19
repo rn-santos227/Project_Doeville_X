@@ -104,6 +104,7 @@ namespace Project::Entities {
     if (it != components.end() && it->second) {
       return it->second.get();
     }
+    return nullptr;
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

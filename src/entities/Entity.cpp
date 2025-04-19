@@ -110,8 +110,9 @@ namespace Project::Entities {
   std::vector<std::string> Entity::listComponentNames() const {
     std::vector<std::string> names;
     for (const auto& [name, _] : components) {
-
+      names.push_back(name);
     }
+    return names;
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

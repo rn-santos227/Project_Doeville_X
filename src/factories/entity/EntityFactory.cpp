@@ -13,6 +13,8 @@ namespace Project::Factories {
       logsManager.flushLogs();
       return false;
     }
+
+    std::string name = entity->getEntityName();
   }
 
   bool EntityFactory::hasEntityTemplate(const std::string& entityName) const {

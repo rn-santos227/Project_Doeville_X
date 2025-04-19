@@ -86,6 +86,10 @@ namespace Project::Entities {
     return true;
   }
 
+  void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
+
+  }
+
   void Entity::handleLuaError(const std::string& errorMessage) {
     logsManager.logError("Entity Lua Error: " + errorMessage);
   }

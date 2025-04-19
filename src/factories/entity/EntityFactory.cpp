@@ -15,24 +15,8 @@ namespace Project::Factories {
     return entityTemplates.find(entityName) != entityTemplates.end();
   }
 
-  std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
-    lua_State* L = luaL_newstate();
-    luaL_openlibs(L);
+  std::unique_ptr<Entity> EntityFactory::cloneEntity(const std::string& entityName) {
 
-    if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
-      logsManager.logError("Lua error in script: " + scriptPath + "\n" + lua_tostring(L, -1));
-      lua_close(L);
-      return nullptr;
-    }
-
-    lua_getglobal(L, "entityID");
-    if (!lua_isinteger(L, -1)) {
-      logsManager.logError("Lua script is missing a valid 'entityID': " + scriptPath);
-      lua_close(L);
-      return nullptr;
-    }
-
-    lua_pop(L, 1);
   }
 
   std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {

@@ -100,7 +100,7 @@ namespace Project::Entities {
   }
 
   BaseComponent* Entity::getComponent(const std::string& componentName) {
-
+    auto it = components.find(componentName);
   }
 
   void Entity::handleLuaError(const std::string& errorMessage) {

@@ -13,6 +13,7 @@ namespace Project::Components {
     ~TextComponent();
 
     void update(float deltaTime) override;
+    void render() override;
   };
 }
 

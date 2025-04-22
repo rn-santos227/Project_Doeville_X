@@ -11,6 +11,8 @@ namespace Project::Components {
   public:
     TextComponent(SDL_Renderer* renderer, const std::string& text, const std::string& fontPath, int fontSize, SDL_Color color);
     ~TextComponent();
+
+    void update(float deltaTime) override;
   };
 }
 

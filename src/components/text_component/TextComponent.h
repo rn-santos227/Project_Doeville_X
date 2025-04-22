@@ -14,6 +14,8 @@ namespace Project::Components {
 
     void update(float deltaTime) override;
     void render() override;
+
+    void setText(const std::string& newText);
   };
 }
 

@@ -17,6 +17,9 @@ namespace Project::Components {
 
     void setText(const std::string& newText);
     void setPosition(int x, int y);
+
+  private:
+    SDL_Renderer* renderer;
   };
 }
 

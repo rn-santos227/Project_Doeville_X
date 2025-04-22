@@ -21,6 +21,7 @@ namespace Project::Components {
   private:
     SDL_Renderer* renderer;
     SDL_Texture* texture;
+    TTF_Font* font;
 
     SDL_Color color;
     SDL_Rect rect;

@@ -8,7 +8,8 @@
 
 namespace Project::Components {
   class TextComponent : public BaseComponent {
-
+  public:
+    TextComponent(SDL_Renderer* renderer, const std::string& text, const std::string& fontPath, int fontSize, SDL_Color color);
   };
 }
 

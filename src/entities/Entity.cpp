@@ -27,6 +27,8 @@ namespace Project::Entities {
     if (lua_isnumber(luaState, -1)) y = static_cast<float>(lua_tonumber(luaState, -1));
     lua_pop(luaState, 1);
 
+    lua_getglobal(luaState, "z");
+
     callLuaFunction("initialize");
     for (auto& [name, component] : components) {
       if (component) {

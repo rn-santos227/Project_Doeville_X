@@ -16,6 +16,7 @@ namespace Project::Components {
     void render() override;
 
     void setText(const std::string& newText);
+    void setPosition(int x, int y);
   };
 }
 

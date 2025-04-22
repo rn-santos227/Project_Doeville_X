@@ -7,11 +7,11 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
-  std::lock_guard<std::mutex> lock(entitiesMutex);
+    std::lock_guard<std::mutex> lock(entitiesMutex);
 
-  if (activeEntities.find(id) != activeEntities.end()) {
-    activeEntities.erase(id);
-  }
+    if (activeEntities.find(id) != activeEntities.end()) {
+      activeEntities.erase(id);
+    }
   }
 
   void EntitiesManager::unloadSceneEntities() {

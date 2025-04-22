@@ -21,6 +21,8 @@ namespace Project::Components {
   private:
     SDL_Renderer* renderer;
     SDL_Texture* texture;
+
+    SDL_Color color;
     SDL_Rect rect;
   };
 }

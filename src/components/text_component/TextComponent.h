@@ -27,6 +27,7 @@ namespace Project::Components {
     SDL_Rect rect;
 
     void createTexture();
+    void freeTexture();
   };
 }
 

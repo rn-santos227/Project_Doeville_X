@@ -58,6 +58,7 @@ namespace Project::Entities {
     void setPosition(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ; }
 
     float getX() const { return x; }
+    float getY() const { return y; }
 
   private:
     EntityCategory entityCategory;

@@ -6,4 +6,8 @@
 #include <SDL_ttf.h>
 #include <string>
 
+namespace Project::Components {
+
+}
+
 #endif

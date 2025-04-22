@@ -7,7 +7,9 @@
 #include <string>
 
 namespace Project::Components {
+  class TextComponent : public BaseComponent {
 
+  };
 }
 
 #endif

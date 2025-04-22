@@ -25,6 +25,8 @@ namespace Project::Components {
 
     SDL_Color color;
     SDL_Rect rect;
+
+    void createTexture();
   };
 }
 

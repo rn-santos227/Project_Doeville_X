@@ -59,6 +59,7 @@ namespace Project::Entities {
 
     float getX() const { return x; }
     float getY() const { return y; }
+    float getZ() const { return z; }
 
   private:
     EntityCategory entityCategory;

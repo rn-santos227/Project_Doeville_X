@@ -21,6 +21,7 @@ namespace Project::Entities {
   void Entity::initialize() {
     lua_getglobal(luaState, "x");
     if (lua_isnumber(luaState, -1)) x = static_cast<float>(lua_tonumber(luaState, -1));
+    lua_pop(luaState, 1);
 
     callLuaFunction("initialize");
     for (auto& [name, component] : components) {

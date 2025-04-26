@@ -5,7 +5,8 @@ namespace Project::Components {
   : BaseComponent(logsManager), renderer(renderer), font(font), color(color), texture(nullptr), currentText(text) {
     font = TTF_OpenFont(fontPath.c_str(), fontSize);
     if (logsManager.checkAndLogError(!font, "Failed to load font: " + fontPath + " Error: " + std::string(TTF_GetError()))) {
-
+      logsManager.flushLogs();
+      return;
     }
   }
 

@@ -23,6 +23,7 @@ namespace Project::Handlers {
       void render();
 
     private:
+      Animation* currentAnimation = nullptr;
       std::unordered_map<std::string, Animation> animations;
   };
 }

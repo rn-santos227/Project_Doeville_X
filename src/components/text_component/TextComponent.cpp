@@ -9,7 +9,7 @@ namespace Project::Components {
   TextComponent::~TextComponent() {
     freeTexture();
     if (font) {
-
+      TTF_CloseFont(font);
     }
   }
 

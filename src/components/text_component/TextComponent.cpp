@@ -33,6 +33,8 @@ namespace Project::Components {
       logsManager.flushLogs();
       return;
     }
+
+    rect.w = surface->w;
   }
 
   void TextComponent::freeTexture() {

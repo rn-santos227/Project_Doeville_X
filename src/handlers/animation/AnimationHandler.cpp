@@ -5,4 +5,8 @@ namespace Project::Handlers {
   : renderer(renderer), logsManager(logsManager) {}
 
   AnimationHandler::~AnimationHandler() = default;
+
+  void AnimationHandler::addAnimation(const std::string& name, Animation animation) {
+
+  }
 }

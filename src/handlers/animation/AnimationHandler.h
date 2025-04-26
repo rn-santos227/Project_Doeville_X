@@ -15,6 +15,8 @@ namespace Project::Handlers {
     public:
       explicit AnimationHandler(SDL_Renderer* renderer, LogsManager& logsManager);
       ~AnimationHandler();
+
+      void addAnimation(const std::string& name, Animation animation);
   };
 }
 

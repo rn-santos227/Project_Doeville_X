@@ -18,6 +18,10 @@ namespace Project::Components {
     }
   }
 
+  void TextComponent::createTexture() {
+
+  }
+
   void TextComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

@@ -3,9 +3,10 @@
 
 #include "components/BaseComponent.h"
 
+#include <string>
+
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <string>
 
 #include "utilities/logs_manager/LogsManager.h"
 

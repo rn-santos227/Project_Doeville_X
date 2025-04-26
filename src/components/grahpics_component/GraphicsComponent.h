@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_COMPONENT_H
 #define GRAPHICS_COMPONENT_H
 
-#include "BaseComponent.h"
+#include "components/BaseComponent.h"
 
 #include <string>
 

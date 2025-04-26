@@ -30,7 +30,8 @@ namespace Project::Components {
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     if(logsManager.checkAndLogError(!texture, "Failed to create texture from surface: " + currentText + " Error: " + std::string(SDL_GetError()))) {
-
+      logsManager.flushLogs();
+      return;
     }
   }
 

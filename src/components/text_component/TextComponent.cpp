@@ -30,7 +30,8 @@ namespace Project::Components {
 
   void TextComponent::setText(const std::string& text) {
     if (text != currentText) {
-
+      currentText = text;
+      createTexture();
     }
   }
 

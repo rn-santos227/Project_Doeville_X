@@ -29,7 +29,9 @@ namespace Project::Components {
   }
 
   void TextComponent::setText(const std::string& text) {
+    if (text != currentText) {
 
+    }
   }
 
   void TextComponent::createTexture() {

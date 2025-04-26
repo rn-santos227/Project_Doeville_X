@@ -9,7 +9,7 @@ namespace Project::Components {
 
   GraphicsComponent::~GraphicsComponent() {
     if (texture) {
-
+      SDL_DestroyTexture(texture);
     }
   }
 }

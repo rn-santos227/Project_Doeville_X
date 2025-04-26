@@ -17,6 +17,7 @@ namespace Project::Handlers {
       ~AnimationHandler();
 
       void addAnimation(const std::string& name, Animation animation);
+      void playAnimation(const std::string& name);
   };
 }
 

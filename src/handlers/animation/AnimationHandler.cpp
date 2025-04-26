@@ -7,6 +7,6 @@ namespace Project::Handlers {
   AnimationHandler::~AnimationHandler() = default;
 
   void AnimationHandler::addAnimation(const std::string& name, Animation animation) {
-
+    animations.emplace(name, std::move(animation));
   }
 }

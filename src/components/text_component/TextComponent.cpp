@@ -44,6 +44,10 @@ namespace Project::Components {
     // Optional: update text based on logic
   }
 
+  void TextComponent::render() {
+
+  }
+
   void TextComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

@@ -9,4 +9,8 @@ namespace Project::Handlers {
   void AnimationHandler::addAnimation(const std::string& name, Animation animation) {
     animations.emplace(name, std::move(animation));
   }
+
+  void AnimationHandler::playAnimation(const std::string& name) {
+
+  }
 }

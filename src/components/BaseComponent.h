@@ -4,6 +4,7 @@
 namespace Project::Components {
   class BaseComponent {
   public:
+    explicit BaseComponent(LogsManager& logsManager) : logsManager(logsManager) {}
     virtual ~BaseComponent() = default;
 
     virtual void update(float deltaTime) = 0;
@@ -11,6 +12,9 @@ namespace Project::Components {
 
     virtual void onAttach() {}
     virtual void onDetach() {}
+
+  protected:
+    LogsManager& logsManager;
   };
 }
 

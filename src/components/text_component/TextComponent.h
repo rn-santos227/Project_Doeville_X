@@ -30,6 +30,8 @@ namespace Project::Components {
     SDL_Color color;
     SDL_Rect rect;
 
+    std::string currentText;
+
     void createTexture();
     void freeTexture();
   };

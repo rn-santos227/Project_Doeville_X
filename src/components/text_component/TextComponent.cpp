@@ -40,6 +40,10 @@ namespace Project::Components {
     SDL_FreeSurface(surface);
   }
 
+  void TextComponent::update(float /*deltaTime*/) {
+    // Optional: update text based on logic
+  }
+
   void TextComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

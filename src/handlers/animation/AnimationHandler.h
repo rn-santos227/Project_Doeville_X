@@ -21,6 +21,9 @@ namespace Project::Handlers {
 
       void update(Uint32 deltaTime);
       void render();
+
+    private:
+      std::unordered_map<std::string, Animation> animations;
   };
 }
 

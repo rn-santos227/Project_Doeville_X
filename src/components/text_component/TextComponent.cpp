@@ -18,6 +18,20 @@ namespace Project::Components {
     }
   }
 
+  void TextComponent::update(float /*deltaTime*/) {
+    // Optional: update text based on logic
+  }
+
+  void TextComponent::render() {
+    if (texture) {
+      SDL_RenderCopy(renderer, texture, nullptr, &rect);
+    }
+  }
+
+  void TextComponent::setText(const std::string& text) {
+
+  }
+
   void TextComponent::createTexture() {
     freeTexture();
     if (!font) return;
@@ -38,16 +52,6 @@ namespace Project::Components {
     rect.h = surface->h;
 
     SDL_FreeSurface(surface);
-  }
-
-  void TextComponent::update(float /*deltaTime*/) {
-    // Optional: update text based on logic
-  }
-
-  void TextComponent::render() {
-    if (texture) {
-      SDL_RenderCopy(renderer, texture, nullptr, &rect);
-    }
   }
 
   void TextComponent::freeTexture() {

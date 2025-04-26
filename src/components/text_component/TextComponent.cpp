@@ -9,6 +9,7 @@ namespace Project::Components {
   void TextComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);
+      texture = nullptr;
     }
   }
 }

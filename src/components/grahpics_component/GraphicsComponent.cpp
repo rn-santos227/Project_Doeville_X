@@ -8,6 +8,8 @@ namespace Project::Components {
   }
 
   GraphicsComponent::~GraphicsComponent() {
+    if (texture) {
 
+    }
   }
 }

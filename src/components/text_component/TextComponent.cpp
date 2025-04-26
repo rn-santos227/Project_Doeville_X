@@ -45,7 +45,9 @@ namespace Project::Components {
   }
 
   void TextComponent::render() {
+    if (texture) {
 
+    }
   }
 
   void TextComponent::freeTexture() {

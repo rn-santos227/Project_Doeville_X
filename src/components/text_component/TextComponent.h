@@ -13,7 +13,7 @@ using namespace Project::Utilities;
 namespace Project::Components {
   class TextComponent : public BaseComponent {
   public:
-    TextComponent(SDL_Renderer* renderer, const std::string& text, TTF_Font* font, SDL_Color color, LogsManager& logsManager);
+    TextComponent(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager);
     ~TextComponent();
 
     void update(float deltaTime) override;

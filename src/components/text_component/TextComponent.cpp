@@ -27,6 +27,8 @@ namespace Project::Components {
       logsManager.flushLogs();
       return;
     }
+
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
   }
 
   void TextComponent::freeTexture() {

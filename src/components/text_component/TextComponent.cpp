@@ -19,7 +19,8 @@ namespace Project::Components {
   }
 
   void TextComponent::createTexture() {
-
+    freeTexture();
+    if (!font) return;
   }
 
   void TextComponent::freeTexture() {

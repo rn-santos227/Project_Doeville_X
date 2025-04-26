@@ -6,4 +6,8 @@ namespace Project::Components {
   : BaseComponent(logsManager), renderer(renderer), texture(nullptr) {
 
   }
+
+  GraphicsComponent::~GraphicsComponent() {
+
+  }
 }

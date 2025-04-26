@@ -25,6 +25,9 @@ namespace Project::Handlers {
       bool isAnimationActive() const;
       
     private:
+      SDL_Renderer* renderer;
+      LogsManager& logsManager;
+
       Animation* currentAnimation = nullptr;
       std::unordered_map<std::string, Animation> animations;
   };

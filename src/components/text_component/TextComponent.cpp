@@ -36,7 +36,7 @@ namespace Project::Components {
   }
 
   void TextComponent::setPosition(int x, int y) {
-
+    rect.x = x;
   }
 
   void TextComponent::createTexture() {

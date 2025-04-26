@@ -11,6 +11,10 @@ namespace Project::Handlers {
   }
 
   void AnimationHandler::playAnimation(const std::string& name) {
-
+    auto it = animations.find(name);
+    if (it != animations.end()) {
+      currentAnimation = &it->second;
+      currentAnimation->play(true);
+    }
   }
 }

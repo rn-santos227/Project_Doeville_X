@@ -23,6 +23,9 @@ namespace Project::Components {
     if (!font) return;
     
     SDL_Surface* surface = TTF_RenderText_Blended(font, currentText.c_str(), color);
+    if(logsManager.checkAndLogError(!surface, "Failed to create surface for text: " + currentText + " Error: " + std::string(TTF_GetError()))) {
+
+    }
   }
 
   void TextComponent::freeTexture() {

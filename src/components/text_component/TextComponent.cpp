@@ -46,7 +46,7 @@ namespace Project::Components {
 
   void TextComponent::render() {
     if (texture) {
-
+      SDL_RenderCopy(renderer, texture, nullptr, &rect);
     }
   }
 

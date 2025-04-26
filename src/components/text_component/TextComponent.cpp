@@ -36,6 +36,8 @@ namespace Project::Components {
 
     rect.w = surface->w;
     rect.h = surface->h;
+
+    SDL_FreeSurface(surface);
   }
 
   void TextComponent::freeTexture() {

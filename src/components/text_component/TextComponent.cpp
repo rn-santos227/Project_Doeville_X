@@ -6,6 +6,10 @@ namespace Project::Components {
 
   }
 
+  TextComponent::~TextComponent() {
+
+  }
+
   void TextComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

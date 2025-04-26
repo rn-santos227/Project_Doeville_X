@@ -5,4 +5,8 @@ namespace Project::Components {
   : BaseComponent(logsManager), renderer(renderer), font(font), color(color), texture(nullptr), currentText(text) {
 
   }
+
+  void TextComponent::freeTexture() {
+
+  }
 }

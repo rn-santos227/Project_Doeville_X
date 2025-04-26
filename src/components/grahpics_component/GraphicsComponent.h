@@ -10,11 +10,8 @@
 namespace Project::Components  {
   class GraphicsComponent : public BaseComponent {
   public:
-    explicit GraphicsComponent(SDL_Renderer* renderer, const std::string& texturePath);
+    GraphicsComponent(SDL_Renderer* renderer, const std::string& texturePath, LogsManager& logsManager);
     ~GraphicsComponent();
-
-    void initialize() override;
-    void shutdown() override;
     
     void update(float deltaTime) override;
     void render() override;

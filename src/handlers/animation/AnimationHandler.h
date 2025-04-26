@@ -20,8 +20,10 @@ namespace Project::Handlers {
       void playAnimation(const std::string& name);
 
       void update(Uint32 deltaTime);
-      void render();
 
+      SDL_Texture* getCurrentFrameTexture() const;
+      bool isAnimationActive() const;
+      
     private:
       Animation* currentAnimation = nullptr;
       std::unordered_map<std::string, Animation> animations;

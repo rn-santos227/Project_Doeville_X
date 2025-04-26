@@ -18,6 +18,8 @@ namespace Project::Handlers {
 
       void addAnimation(const std::string& name, Animation animation);
       void playAnimation(const std::string& name);
+
+      void update(Uint32 deltaTime);
   };
 }
 

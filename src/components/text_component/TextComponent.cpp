@@ -35,6 +35,7 @@ namespace Project::Components {
     }
 
     rect.w = surface->w;
+    rect.h = surface->h;
   }
 
   void TextComponent::freeTexture() {

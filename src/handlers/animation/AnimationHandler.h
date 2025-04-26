@@ -20,6 +20,7 @@ namespace Project::Handlers {
       void playAnimation(const std::string& name);
 
       void update(Uint32 deltaTime);
+      void render();
   };
 }
 

@@ -23,6 +23,8 @@ namespace Project::Components  {
     bool setTexture(const std::string& imagePath);
     void setPosition(int x, int y, int width, int height);
 
+    AnimationHandler* getAnimationHandler() { return animationHandler.get(); }
+
   private:
     SDL_Renderer* renderer;
     LogsManager& logsManager;

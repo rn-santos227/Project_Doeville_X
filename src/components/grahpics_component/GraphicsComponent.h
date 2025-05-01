@@ -25,7 +25,10 @@ namespace Project::Components  {
   private:
     SDL_Renderer* renderer;
     LogsManager& logsManager;
-    
+
+    SDL_Texture* texture = nullptr;
+    SDL_Rect destRect{0, 0, 0, 0};
+
   };
 }
 

@@ -19,6 +19,8 @@ namespace Project::Handlers {
   }
 
   void AnimationHandler::update(Uint32 deltaTime) {
+    if (currentAnimation) {
 
+    }
   }
 }

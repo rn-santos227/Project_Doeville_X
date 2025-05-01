@@ -23,4 +23,8 @@ namespace Project::Handlers {
       currentAnimation->update(deltaTime);
     }
   }
+
+  SDL_Texture* AnimationHandler::getCurrentFrameTexture() const {
+
+  }
 }

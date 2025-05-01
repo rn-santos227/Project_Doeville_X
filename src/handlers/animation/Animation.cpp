@@ -132,7 +132,7 @@ namespace Project::Handlers {
   }
 
   SDL_Texture* Animation::getCurrentFrameTexture() const {
-
+    if (frames.empty()) return nullptr;
   }
 
   void Animation::freeFrames() {

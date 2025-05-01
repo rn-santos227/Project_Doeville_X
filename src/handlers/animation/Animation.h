@@ -31,6 +31,8 @@ namespace Project::Handlers {
     void reset();
     void update(Uint32 deltaTime);
     void render(const SDL_Rect& destRect);
+
+    SDL_Texture* getCurrentFrameTexture() const;
     
   private:
     LogsManager& logsManager;

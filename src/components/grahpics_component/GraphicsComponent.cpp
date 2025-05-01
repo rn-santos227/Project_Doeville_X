@@ -8,6 +8,8 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::freeTexture() {
+    if (texture) {
 
+    }
   }
 }

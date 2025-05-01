@@ -1,11 +1,15 @@
 #ifndef GRAPHICS_COMPONENT_H
 #define GRAPHICS_COMPONENT_H
 
-#include "components/BaseComponent.h"
-
 #include <string>
-
 #include <SDL.h>
+
+#include "components/BaseComponent.h"
+#include "handlers/animation/AnimationHandler.h"
+#include "utilities/logs_manager/LogsManager.h"
+
+using namespace Project::Handlers;
+using namespace Project::Utilities;
 
 namespace Project::Components  {
   class GraphicsComponent : public BaseComponent {

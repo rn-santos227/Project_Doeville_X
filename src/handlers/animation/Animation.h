@@ -32,8 +32,8 @@ namespace Project::Handlers {
     
     SDL_Texture* getCurrentFrameTexture() const;
     bool isFinished() const { return finished; }
-    bool isPlaying() const { return playing; 
-    }
+    bool isPlaying() const { return playing; }
+    
   private:
     LogsManager& logsManager;
     

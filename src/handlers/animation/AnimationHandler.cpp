@@ -32,6 +32,6 @@ namespace Project::Handlers {
   }
 
   bool AnimationHandler::isAnimationActive() const {
-
+    return currentAnimation && currentAnimation->isPlaying();
   }
 }

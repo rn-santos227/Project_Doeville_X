@@ -131,6 +131,10 @@ namespace Project::Handlers {
     }
   }
 
+  SDL_Texture* Animation::getCurrentFrameTexture() const {
+
+  }
+
   void Animation::freeFrames() {
     for (auto& frame : frames) {
       SDL_DestroyTexture(frame.texture);

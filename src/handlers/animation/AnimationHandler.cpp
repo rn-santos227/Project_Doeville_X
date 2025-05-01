@@ -28,5 +28,6 @@ namespace Project::Handlers {
     if (currentAnimation) {
       return currentAnimation->getCurrentFrameTexture();
     }
+    return nullptr;
   }
 }

@@ -23,17 +23,17 @@ namespace Project::Handlers {
     ~Animation();
 
     bool addFrame(const std::string& imagePath, Uint32 duration);
-    bool isFinished() const { return finished; }
     
     void setPlaybackMode(PlaybackMode mode);
     void play(bool reset = true);
     void stop();
     void reset();
     void update(Uint32 deltaTime);
-    void render(const SDL_Rect& destRect);
-
-    SDL_Texture* getCurrentFrameTexture() const;
     
+    SDL_Texture* getCurrentFrameTexture() const;
+    bool isFinished() const { return finished; }
+    bool isPlaying() const { return playing; 
+    }
   private:
     LogsManager& logsManager;
     

@@ -7,6 +7,10 @@ namespace Project::Components {
     animationHandler = std::make_unique<AnimationHandler>(renderer, logsManager);
   }
 
+  GraphicsComponent::~GraphicsComponent() {
+    freeTexture();
+  }
+
   void GraphicsComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

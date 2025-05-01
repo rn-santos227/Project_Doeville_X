@@ -14,7 +14,7 @@ using namespace Project::Utilities;
 namespace Project::Components  {
   class GraphicsComponent : public BaseComponent {
   public:
-    GraphicsComponent(SDL_Renderer* renderer, const std::string& texturePath, LogsManager& logsManager);
+    GraphicsComponent(SDL_Renderer* renderer, LogsManager& logsManager);
     ~GraphicsComponent();
     
     void update(float deltaTime) override;

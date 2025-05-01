@@ -30,7 +30,8 @@ namespace Project::Components  {
     SDL_Rect destRect{0, 0, 0, 0};
 
     std::unique_ptr<AnimationHandler> animationHandler;
-
+    
+    void freeTexture();
   };
 }
 

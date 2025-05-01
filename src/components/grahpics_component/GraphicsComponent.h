@@ -24,12 +24,8 @@ namespace Project::Components  {
 
   private:
     SDL_Renderer* renderer;
-    SDL_Texture* texture;
-    SDL_Rect destinationRect;
-
-    void loadTexture(const std::string& path);
-    void setPosition(int x, int y);
-    void setSize(int width, int height);
+    LogsManager& logsManager;
+    
   };
 }
 

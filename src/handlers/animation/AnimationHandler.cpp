@@ -17,4 +17,8 @@ namespace Project::Handlers {
       currentAnimation->play(true);
     }
   }
+
+  void AnimationHandler::update(Uint32 deltaTime) {
+
+  }
 }

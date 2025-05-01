@@ -131,12 +131,6 @@ namespace Project::Handlers {
     }
   }
 
-  void Animation::render(const SDL_Rect& destRect) {
-    if (!frames.empty() && !finished) {
-      SDL_RenderCopy(renderer, frames[currentFrameIndex].texture, nullptr, &destRect);
-    }
-  }
-
   void Animation::freeFrames() {
     for (auto& frame : frames) {
       SDL_DestroyTexture(frame.texture);

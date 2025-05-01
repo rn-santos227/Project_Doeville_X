@@ -20,7 +20,8 @@ namespace Project::Components  {
     void update(float deltaTime) override;
     void render() override;
 
-    bool setTexture(const std::string& texturePath);
+    bool setTexture(const std::string& imagePath);
+    void setPosition(int x, int y, int width, int height);
 
   private:
     SDL_Renderer* renderer;
@@ -30,7 +31,7 @@ namespace Project::Components  {
     SDL_Rect destRect{0, 0, 0, 0};
 
     std::unique_ptr<AnimationHandler> animationHandler;
-    
+
     void freeTexture();
   };
 }

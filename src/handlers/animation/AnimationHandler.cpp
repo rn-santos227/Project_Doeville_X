@@ -30,4 +30,8 @@ namespace Project::Handlers {
     }
     return nullptr;
   }
+
+  bool AnimationHandler::isAnimationActive() const {
+
+  }
 }

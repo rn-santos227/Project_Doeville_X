@@ -6,4 +6,8 @@ namespace Project::Components {
   : BaseComponent(logsManager), renderer(renderer), logsManager(logsManager) {
     animationHandler = std::make_unique<AnimationHandler>(renderer, logsManager);
   }
+
+  void GraphicsComponent::freeTexture() {
+
+  }
 }

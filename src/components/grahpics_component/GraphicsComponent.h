@@ -29,6 +29,8 @@ namespace Project::Components  {
     SDL_Texture* texture = nullptr;
     SDL_Rect destRect{0, 0, 0, 0};
 
+    std::unique_ptr<AnimationHandler> animationHandler;
+
   };
 }
 

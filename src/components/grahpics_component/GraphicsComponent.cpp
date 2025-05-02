@@ -13,7 +13,7 @@ namespace Project::Components {
 
   void GraphicsComponent::update(float deltaTime) {
     if (animationHandler) {
-
+      animationHandler->update(static_cast<Uint32>(deltaTime * 1000));
     }
   }
 

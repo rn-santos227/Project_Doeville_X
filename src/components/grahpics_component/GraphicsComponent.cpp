@@ -45,7 +45,8 @@ namespace Project::Components {
     SDL_FreeSurface(surface);
 
     if(logsManager.checkAndLogError(!texture, "Failed to create texture: " + imagePath + " - " + IMG_GetError())) {
-
+      logsManager.flushLogs();
+      return false;
     }
   }
 

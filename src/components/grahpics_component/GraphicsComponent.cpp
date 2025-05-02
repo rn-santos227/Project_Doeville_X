@@ -17,6 +17,10 @@ namespace Project::Components {
     }
   }
 
+  void GraphicsComponent::render() {
+
+  }
+
   void GraphicsComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

@@ -30,6 +30,8 @@ namespace Project::Components {
     void playAnimation(const std::string& name);
 
   private:
+    AnimationHandler animationHandler;
+    
     SDL_Renderer* renderer;
     SDL_Texture* texture;
     TTF_Font* font;
@@ -38,6 +40,7 @@ namespace Project::Components {
     SDL_Rect rect;
 
     std::string currentText;
+    int fontSize;
 
     void createTexture();
     void freeTexture();

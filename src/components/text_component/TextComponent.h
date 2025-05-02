@@ -24,6 +24,8 @@ namespace Project::Components {
     void setText(const std::string& newText);
     void setPosition(int x, int y);
 
+    void addAnimation(const std::string& name, Animation animation);
+
   private:
     SDL_Renderer* renderer;
     SDL_Texture* texture;

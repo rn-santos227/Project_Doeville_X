@@ -52,6 +52,10 @@ namespace Project::Components {
     return true;
   }
 
+  void GraphicsComponent::setPosition(int x, int y, int width, int height) {
+
+  }
+
   void GraphicsComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

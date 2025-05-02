@@ -33,7 +33,7 @@ namespace Project::Components {
   }
 
   bool GraphicsComponent::setTexture(const std::string& imagePath) {
-
+    freeTexture();
   }
 
   void GraphicsComponent::freeTexture() {

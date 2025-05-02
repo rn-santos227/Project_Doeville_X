@@ -16,7 +16,7 @@ namespace Project::Components {
   class TextComponent : public BaseComponent {
   public:
     TextComponent(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager);
-    ~TextComponent();
+    ~TextComponent() override;
 
     void update(float deltaTime) override;
     void render() override;

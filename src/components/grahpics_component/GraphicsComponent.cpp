@@ -43,6 +43,10 @@ namespace Project::Components {
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
+
+    if(logsManager.checkAndLogError(!texture, "Failed to create texture: " + imagePath + " - " + IMG_GetError())) {
+
+    }
   }
 
   void GraphicsComponent::freeTexture() {

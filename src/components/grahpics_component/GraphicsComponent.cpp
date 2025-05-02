@@ -48,6 +48,8 @@ namespace Project::Components {
       logsManager.flushLogs();
       return false;
     }
+
+    return true;
   }
 
   void GraphicsComponent::freeTexture() {

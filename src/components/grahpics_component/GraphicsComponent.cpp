@@ -19,6 +19,10 @@ namespace Project::Components {
 
   void GraphicsComponent::render() {
     SDL_Texture* textureToRender = texture;
+
+    if (animationHandler && animationHandler->isAnimationActive()) {
+
+    }
   }
 
   void GraphicsComponent::freeTexture() {

@@ -28,7 +28,7 @@ namespace Project::Components {
     }
 
     if (textureToRender) {
-
+      SDL_RenderCopy(renderer, textureToRender, nullptr, &destRect);
     }
   }
 

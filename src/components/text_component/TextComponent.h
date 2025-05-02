@@ -8,9 +8,11 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "handlers/animation/AnimationHandler.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Utilities;
+using namespace Project::Handlers;
 
 namespace Project::Components {
   class TextComponent : public BaseComponent {
@@ -25,6 +27,7 @@ namespace Project::Components {
     void setPosition(int x, int y);
 
     void addAnimation(const std::string& name, Animation animation);
+    void playAnimation(const std::string& name);
 
   private:
     SDL_Renderer* renderer;

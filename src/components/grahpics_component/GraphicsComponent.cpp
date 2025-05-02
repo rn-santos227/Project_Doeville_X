@@ -54,6 +54,7 @@ namespace Project::Components {
 
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {
     destRect.x = x;
+    destRect.y = y;
   }
 
   void GraphicsComponent::freeTexture() {

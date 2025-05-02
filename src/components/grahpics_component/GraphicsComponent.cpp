@@ -21,7 +21,7 @@ namespace Project::Components {
     SDL_Texture* textureToRender = texture;
 
     if (animationHandler && animationHandler->isAnimationActive()) {
-
+      SDL_Texture* animTexture = animationHandler->getCurrentFrameTexture();
     }
   }
 

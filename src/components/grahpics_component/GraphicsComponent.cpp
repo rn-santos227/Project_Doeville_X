@@ -26,6 +26,10 @@ namespace Project::Components {
         textureToRender = animTexture;
       }
     }
+
+    if (textureToRender) {
+
+    }
   }
 
   void GraphicsComponent::freeTexture() {

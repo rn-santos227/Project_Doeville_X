@@ -11,6 +11,10 @@ namespace Project::Components {
     freeTexture();
   }
 
+  void GraphicsComponent::update(float deltaTime) {
+
+  }
+
   void GraphicsComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

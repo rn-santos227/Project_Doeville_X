@@ -18,7 +18,7 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::render() {
-
+    SDL_Texture* textureToRender = texture;
   }
 
   void GraphicsComponent::freeTexture() {

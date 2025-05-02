@@ -12,7 +12,9 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::update(float deltaTime) {
+    if (animationHandler) {
 
+    }
   }
 
   void GraphicsComponent::freeTexture() {

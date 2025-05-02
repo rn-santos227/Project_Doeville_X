@@ -34,6 +34,8 @@ namespace Project::Components {
 
   bool GraphicsComponent::setTexture(const std::string& imagePath) {
     freeTexture();
+
+    SDL_Surface* surface = IMG_Load(imagePath.c_str());
   }
 
   void GraphicsComponent::freeTexture() {

@@ -56,6 +56,7 @@ namespace Project::Components {
     destRect.x = x;
     destRect.y = y;
     destRect.w = width;
+    destRect.h = height;
   }
 
   void GraphicsComponent::freeTexture() {

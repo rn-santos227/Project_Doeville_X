@@ -42,6 +42,7 @@ namespace Project::Components {
     }
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
   }
 
   void GraphicsComponent::freeTexture() {

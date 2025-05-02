@@ -37,8 +37,11 @@ namespace Project::Components {
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
     if(logsManager.checkAndLogError(!surface, "Failed to load image: " + imagePath + " - " + IMG_GetError())) {
-
+      logsManager.flushLogs();
+      return false;
     }
+
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
   }
 
   void GraphicsComponent::freeTexture() {

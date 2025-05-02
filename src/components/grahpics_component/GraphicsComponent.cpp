@@ -32,6 +32,10 @@ namespace Project::Components {
     }
   }
 
+  bool GraphicsComponent::setTexture(const std::string& imagePath) {
+
+  }
+
   void GraphicsComponent::freeTexture() {
     if (texture) {
       SDL_DestroyTexture(texture);

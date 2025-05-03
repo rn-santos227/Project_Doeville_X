@@ -7,7 +7,7 @@ namespace Project::Components {
   }
 
   TextComponent::~TextComponent() {
-
+    freeTexture();
   }
 
   void TextComponent::createTexture() {

@@ -24,6 +24,10 @@ namespace Project::Components {
     rect.y = y;
   }
 
+  void TextComponent::update(float deltaTime) {
+
+  }
+
   void TextComponent::createTexture() {
     freeTexture();
     if (!font) return;

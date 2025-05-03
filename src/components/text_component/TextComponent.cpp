@@ -28,6 +28,10 @@ namespace Project::Components {
     animationHandler.update(static_cast<Uint32>(deltaTime * 1000));
   }
 
+  void TextComponent::render() {
+
+  }
+
   void TextComponent::createTexture() {
     freeTexture();
     if (!font) return;

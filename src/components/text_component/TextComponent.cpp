@@ -25,7 +25,7 @@ namespace Project::Components {
   }
 
   void TextComponent::update(float deltaTime) {
-
+    animationHandler.update(static_cast<Uint32>(deltaTime * 1000));
   }
 
   void TextComponent::createTexture() {

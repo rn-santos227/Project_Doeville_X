@@ -16,6 +16,7 @@ namespace Project::Components {
 
   void TextComponent::setText(const std::string& newText) {
     currentText = newText;
+    createTexture();
   }
 
   void TextComponent::createTexture() {

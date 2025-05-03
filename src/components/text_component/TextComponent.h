@@ -40,6 +40,7 @@ namespace Project::Components {
     SDL_Rect rect;
 
     std::string currentText;
+    std::string fontPath;
     int fontSize;
 
     void createTexture();

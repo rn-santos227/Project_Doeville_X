@@ -21,6 +21,7 @@ namespace Project::Components {
 
   void TextComponent::setPosition(int x, int y) {
     rect.x = x;
+    rect.y = y;
   }
 
   void TextComponent::createTexture() {

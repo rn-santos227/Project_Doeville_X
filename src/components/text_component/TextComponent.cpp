@@ -15,6 +15,7 @@ namespace Project::Components {
       texture = SDL_CreateTextureFromSurface(renderer, surface);
       rect.w = surface->w;
       rect.h = surface->h;
+      SDL_FreeSurface(surface);
     }
   }
 

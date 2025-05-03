@@ -12,7 +12,7 @@ namespace Project::Components {
 
     SDL_Surface* surface = TTF_RenderText_Blended(font, currentText.c_str(), color);
     if (surface) {
-
+      texture = SDL_CreateTextureFromSurface(renderer, surface);
     }
   }
 

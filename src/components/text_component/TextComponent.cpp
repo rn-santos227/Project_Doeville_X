@@ -11,6 +11,8 @@ namespace Project::Components {
   }
 
   void TextComponent::freeTexture() {
+    if (texture) {
 
+    }
   }
 }

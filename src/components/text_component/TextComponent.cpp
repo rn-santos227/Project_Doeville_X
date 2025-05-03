@@ -19,6 +19,10 @@ namespace Project::Components {
     createTexture();
   }
 
+  void TextComponent::setPosition(int x, int y) {
+
+  }
+
   void TextComponent::createTexture() {
     freeTexture();
     if (!font) return;

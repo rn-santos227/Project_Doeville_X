@@ -9,6 +9,8 @@ namespace Project::Components {
   void TextComponent::createTexture() {
     freeTexture();
     if (!font) return;
+
+    SDL_Surface* surface = TTF_RenderText_Blended(font, currentText.c_str(), color);
   }
 
   void TextComponent::freeTexture() {

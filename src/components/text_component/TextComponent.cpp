@@ -8,6 +8,9 @@ namespace Project::Components {
 
   TextComponent::~TextComponent() {
     freeTexture();
+    if (font) {
+
+    }
   }
 
   void TextComponent::createTexture() {

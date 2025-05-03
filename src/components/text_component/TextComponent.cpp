@@ -14,6 +14,10 @@ namespace Project::Components {
     }
   }
 
+  void TextComponent::setText(const std::string& newText) {
+
+  }
+
   void TextComponent::createTexture() {
     freeTexture();
     if (!font) return;

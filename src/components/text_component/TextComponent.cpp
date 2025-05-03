@@ -10,6 +10,7 @@ namespace Project::Components {
     freeTexture();
     if (font) {
       TTF_CloseFont(font);
+      font = nullptr;
     }
   }
 

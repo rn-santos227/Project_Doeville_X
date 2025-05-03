@@ -9,4 +9,8 @@ namespace Project::Components {
   void TextComponent::createTexture() {
 
   }
+
+  void TextComponent::freeTexture() {
+
+  }
 }

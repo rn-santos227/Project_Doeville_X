@@ -23,6 +23,10 @@ namespace Project::Factories {
   public:
     ComponentFactory(SDL_Renderer* renderer, LogsManager& logsManager);
     std::unique_ptr<BaseComponent> create(const std::string& componentName, lua_State* lua);
+
+  private:
+    SDL_Renderer* renderer;
+    LogsManager& logsManager;
   };
 }
 

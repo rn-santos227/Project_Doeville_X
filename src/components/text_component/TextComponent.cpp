@@ -31,6 +31,9 @@ namespace Project::Components {
   void TextComponent::render() {
     if (animationHandler.isAnimationActive()) {
       SDL_Texture* frame = animationHandler.getCurrentFrameTexture();
+      if (frame) {
+
+      }
     }
 
     if (texture) {

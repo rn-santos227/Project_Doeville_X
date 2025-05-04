@@ -6,5 +6,9 @@ namespace Project::Factories {
 
   std::unique_ptr<BaseComponent> ComponentFactory::create(const std::string& componentName, lua_State* lua) {
     ComponentType type = ComponentTypeResolver::resolve(componentName);
+    
+    switch (type) {
+
+    }
   }
 }

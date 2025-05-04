@@ -7,4 +7,5 @@ ComponentType ComponentTypeResolver::resolve(const std::string& name) {
   };
 
   auto it = map.find(name);
+  if (it != map.end()) return it->second;
 }

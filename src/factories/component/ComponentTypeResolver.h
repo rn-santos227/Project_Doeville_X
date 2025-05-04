@@ -8,7 +8,8 @@
 
 namespace Project::Factories {
   class ComponentTypeResolver {
-
+  public:
+    static ComponentType resolve(const std::string& name);
   };
 }
 

@@ -10,7 +10,8 @@ namespace Project::Factories {
     INPUT,
     PHYSICS,
     TEXT,
-    TRANSFORM
+    TRANSFORM,
+    UNKNOWN
   };
 }
 

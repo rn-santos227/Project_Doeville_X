@@ -15,12 +15,14 @@ extern "C" {
 #include "components/BaseComponent.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Components;
 using namespace Project::Utilities;
 
 namespace Project::Factories {
   class ComponentFactory {
   public:
     ComponentFactory(SDL_Renderer* renderer, LogsManager& logsManager);
+    std::unique_ptr<BaseComponent> create(const std::string& componentName, lua_State* lua);
   };
 }
 

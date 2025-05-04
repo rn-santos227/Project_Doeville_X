@@ -13,6 +13,9 @@ extern "C" {
 }
 
 #include "components/BaseComponent.h"
+#include "components/grahpics_component/GraphicsComponent.h"
+#include "components/text_component/TextComponent.h"
+
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Components;

@@ -1,0 +1,4 @@
+#ifndef COMPONENT_TYPE_RESOLVER_H
+#define COMPONENT_TYPE_RESOLVER_H
+
+#endif

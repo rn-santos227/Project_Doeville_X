@@ -1,10 +1,10 @@
-#ifndef COMPONENT_TYPE_RESOLVER_H
-#define COMPONENT_TYPE_RESOLVER_H
+#ifndef COMPONENT_TYPE_H
+#define COMPONENT_TYPE_H
 
-#include "ComponentType.h"
+namespace Project::Factories {
+  enum class ComponentType {
 
-#include <string>
-#include <unordered_map>
-
+  };
+}
 
 #endif

@@ -6,5 +6,10 @@
 #include <string>
 #include <unordered_map>
 
+namespace Project::Factories {
+  class ComponentTypeResolver {
+
+  };
+}
 
 #endif

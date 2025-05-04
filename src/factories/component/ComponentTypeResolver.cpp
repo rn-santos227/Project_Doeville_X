@@ -5,4 +5,6 @@ ComponentType ComponentTypeResolver::resolve(const std::string& name) {
     {"GraphicsComponent", ComponentType::GRAPHICS},
     {"TextComponent", ComponentType::TEXT},
   };
+
+  auto it = map.find(name);
 }

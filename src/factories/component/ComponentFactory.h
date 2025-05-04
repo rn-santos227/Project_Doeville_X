@@ -15,10 +15,13 @@ extern "C" {
 #include "components/BaseComponent.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Utilities;
+
 namespace Project::Factories {
   class ComponentFactory {
-
-  }
+  public:
+    ComponentFactory(SDL_Renderer* renderer, LogsManager& logsManager);
+  };
 }
 
 #endif

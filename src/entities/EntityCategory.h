@@ -1,5 +1,5 @@
-#ifndef ENTITY_ID_H
-#define ENTITY_ID_H
+#ifndef ENTITY_CATEGORY_H
+#define ENTITY_CATEGORY_H
 
 namespace Project::Entities {
   enum class EntityCategory {

@@ -12,10 +12,13 @@ extern "C" {
   #include "lualib.h"
 }
 
-
 #include "components/BaseComponent.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+namespace Project::Factories {
+  class ComponentFactory {
 
+  }
+}
 
 #endif

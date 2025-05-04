@@ -1,7 +1,7 @@
 #include "ComponentTypeResolver.h"
 
-using namespace Project::Factories;
-
 ComponentType ComponentTypeResolver::resolve(const std::string& name) {
+  static const std::unordered_map<std::string, ComponentType> map = {
 
+  };
 }

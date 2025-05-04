@@ -32,7 +32,7 @@ namespace Project::Components {
     if (animationHandler.isAnimationActive()) {
       SDL_Texture* frame = animationHandler.getCurrentFrameTexture();
       if (frame) {
-
+        SDL_RenderCopy(renderer, frame, nullptr, &rect);
       }
     }
 

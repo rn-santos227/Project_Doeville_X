@@ -3,7 +3,14 @@
 
 namespace Project::Factories {
   enum class ComponentType {
-
+    BUTTON,
+    CURSOR,
+    GRAPHICS,
+    HUD,
+    INPUT,
+    PHYSICS,
+    TEXT,
+    TRANSFORM
   };
 }
 

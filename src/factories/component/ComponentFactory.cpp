@@ -28,6 +28,7 @@ namespace Project::Factories {
         lua_pop(lua, 1);
 
         SDL_Color color = {255, 255, 255, 255};
+        lua_getglobal(lua, "fontColorR"); if (lua_isinteger(lua, -1)) color.r = (Uint8)lua_tointeger(lua, -1); lua_pop(lua, 1);
       }
     }
   }

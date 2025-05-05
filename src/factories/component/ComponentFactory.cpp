@@ -28,22 +28,12 @@ namespace Project::Factories {
         lua_pop(lua, 1);
 
         SDL_Color color = {255, 255, 255, 255};
-        lua_getglobal(lua, "fontColorR"); 
-        if (lua_isinteger(lua, -1)) color.r = (Uint8)lua_tointeger(lua, -1); 
-        lua_pop(lua, 1);
-        
-        lua_getglobal(lua, "fontColorG"); 
-        if (lua_isinteger(lua, -1)) color.g = (Uint8)lua_tointeger(lua, -1); 
-        lua_pop(lua, 1);
 
-        lua_getglobal(lua, "fontColorB");
-        if (lua_isinteger(lua, -1)) color.b = (Uint8)lua_tointeger(lua, -1);
-        lua_pop(lua, 1);
-
-        lua_getglobal(lua, "fontColorA");
-        if (lua_isinteger(lua, -1)) color.a = (Uint8)lua_tointeger(lua, -1);
-        lua_pop(lua, 1);
       }
     }
+  }
+
+  Uint8 ComponentFactory::getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255) {
+
   }
 }

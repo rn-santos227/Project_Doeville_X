@@ -10,6 +10,7 @@ namespace Project::Factories {
     switch (type) {
       case ComponentType::GRAPHICS: {
         auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
+        graphicsComponent->onAttach();
         return graphicsComponent;
       }
     }

@@ -8,7 +8,9 @@ namespace Project::Factories {
     ComponentType type = ComponentTypeResolver::resolve(componentName);
     
     switch (type) {
-
+      case ComponentType::GRAPHICS: {
+        
+      }
     }
   }
 }

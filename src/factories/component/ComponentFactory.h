@@ -32,6 +32,8 @@ namespace Project::Factories {
   private:
     SDL_Renderer* renderer;
     LogsManager& logsManager;
+
+    Uint8 getLuaSDLColor(lua_State* lua);
   };
 }
 

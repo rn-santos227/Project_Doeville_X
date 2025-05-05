@@ -41,6 +41,7 @@ namespace Project::Factories {
         lua_pop(lua, 1);
 
         lua_getglobal(lua, "fontColorA");
+        if (lua_isinteger(lua, -1)) color.a = (Uint8)lua_tointeger(lua, -1);
       }
     }
   }

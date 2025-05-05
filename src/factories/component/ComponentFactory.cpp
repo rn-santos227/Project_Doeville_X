@@ -39,5 +39,6 @@ namespace Project::Factories {
     if (lua_isinteger(lua, -1)) {
       value = static_cast<Uint8>(lua_tointeger(lua, -1));
     }
+    lua_pop(lua, 1);
   }
 }

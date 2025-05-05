@@ -21,6 +21,9 @@ namespace Project::Factories {
 
         lua_getglobal(lua, "fontPath");
         std::string fontPath = lua_isstring(lua, -1) ? lua_tostring(lua, -1) : "assets/fonts/default.ttf";
+
+        lua_getglobal(lua, "fontSize");
+        int fontSize = lua_isinteger(lua, -1) ? lua_tointeger(lua, -1) : 16;
       }
     }
   }

@@ -16,6 +16,7 @@ namespace Project::Factories {
 
       case ComponentType::TEXT: {
         lua_getglobal(lua, "text");
+        std::string text = lua_isstring(lua, -1) ? lua_tostring(lua, -1) : "Default Text";
       }
     }
   }

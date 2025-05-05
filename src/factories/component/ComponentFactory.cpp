@@ -15,7 +15,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::TEXT: {
-
+        lua_getglobal(lua, "text");
       }
     }
   }

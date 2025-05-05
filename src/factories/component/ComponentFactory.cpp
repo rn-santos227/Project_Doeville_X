@@ -40,5 +40,6 @@ namespace Project::Factories {
       value = static_cast<Uint8>(lua_tointeger(lua, -1));
     }
     lua_pop(lua, 1);
+    return value;
   }
 }

@@ -33,7 +33,8 @@ namespace Project::Factories {
     SDL_Renderer* renderer;
     LogsManager& logsManager;
 
-    Uint8 getLuaSDLColor(lua_State* lua);
+    SDL_Color getLuaSDLColor(lua_State* lua);
+    Uint8 getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255);
   };
 }
 

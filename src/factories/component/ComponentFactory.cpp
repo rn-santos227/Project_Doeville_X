@@ -20,6 +20,7 @@ namespace Project::Factories {
         lua_pop(lua, 1);
 
         lua_getglobal(lua, "fontPath");
+        std::string fontPath = lua_isstring(lua, -1) ? lua_tostring(lua, -1) : "assets/fonts/default.ttf";
       }
     }
   }

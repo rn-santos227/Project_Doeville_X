@@ -13,6 +13,10 @@ namespace Project::Factories {
         graphicsComponent->onAttach();
         return graphicsComponent;
       }
+
+      case ComponentType::TEXT: {
+
+      }
     }
   }
 }

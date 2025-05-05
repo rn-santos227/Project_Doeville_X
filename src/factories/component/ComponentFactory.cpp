@@ -35,5 +35,6 @@ namespace Project::Factories {
 
   Uint8 ComponentFactory::getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255) {
     lua_getglobal(lua, globalName.c_str());
+    Uint8 value = defaultValue;
   }
 }

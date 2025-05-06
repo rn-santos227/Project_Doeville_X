@@ -48,5 +48,6 @@ namespace Project::Factories {
     color.r = getLuaColorChannel(lua, "fontColorR");
     color.g = getLuaColorChannel(lua, "fontColorG");
     color.b = getLuaColorChannel(lua, "fontColorB");
+    color.a = getLuaColorChannel(lua, "fontColorA");
   }
 }

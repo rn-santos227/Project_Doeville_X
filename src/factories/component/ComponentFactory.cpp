@@ -72,5 +72,6 @@ namespace Project::Factories {
 
   std::string ComponentFactory::getLuaGlobalString(lua_State* lua, const std::string& name, const std::string& defaultValue) {
     lua_getglobal(lua, name.c_str());
+    std::string value = lua_isstring(lua, -1) ? lua_tostring(lua, -1) : defaultValue;
   }
 }

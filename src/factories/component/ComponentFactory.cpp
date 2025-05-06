@@ -48,6 +48,7 @@ namespace Project::Factories {
   // Components Builder Section
   std::unique_ptr<BaseComponent> ComponentFactory::createGraphicsComponent(lua_State* lua) {
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
+    graphicsComponent->onAttach();
   }
 
   // Utilities Section

@@ -69,4 +69,8 @@ namespace Project::Factories {
     color.a = getLuaColorChannel(lua, "fontColorA");
     return color;
   }
+
+  std::string ComponentFactory::getLuaGlobalString(lua_State* lua, const std::string& name, const std::string& defaultValue) {
+
+  }
 }

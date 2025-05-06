@@ -74,5 +74,6 @@ namespace Project::Factories {
     lua_getglobal(lua, name.c_str());
     std::string value = lua_isstring(lua, -1) ? lua_tostring(lua, -1) : defaultValue;
     lua_pop(lua, 1);
+    return value;
   }
 }

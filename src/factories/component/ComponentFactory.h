@@ -34,9 +34,9 @@ namespace Project::Factories {
     LogsManager& logsManager;
 
     //Components Builder
-    std::unique_ptr<BaseComponent> createGraphicsComponent(lua_State* lua);
-    std::unique_ptr<BaseComponent> createTextComponent(lua_State* lua, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize);
-
+    std::unique_ptr<BaseComponent> createGraphicsComponent();
+    std::unique_ptr<BaseComponent> createTextComponent(lua_State* lua);
+    
     //Utilities
     SDL_Color getLuaSDLColor(lua_State* lua);
     Uint8 getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255);

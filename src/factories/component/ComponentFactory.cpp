@@ -46,13 +46,8 @@ namespace Project::Factories {
   }
 
   // Components Builder Section
-  std::unique_ptr<BaseComponent> ComponentFactory::createGraphicsComponent(lua_State* lua) {
+  std::unique_ptr<BaseComponent> ComponentFactory::createGraphicsComponent() {
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
-    
-    if (lua_isstring(lua, -1)) {
-      const char* imagePath = lua_tostring(lua, -1);
-    }
-    graphicsComponent->onAttach();
   }
 
   // Utilities Section

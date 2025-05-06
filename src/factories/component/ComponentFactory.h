@@ -39,7 +39,9 @@ namespace Project::Factories {
     
     //Utilities
     SDL_Color getLuaSDLColor(lua_State* lua);
-    Uint8 getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255);
+    Uint8 getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255); 
+    std::string getLuaGlobalString(lua_State* lua, const std::string& name, const std::string& defaultValue);
+
   };
 }
 

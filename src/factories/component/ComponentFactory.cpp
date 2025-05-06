@@ -46,5 +46,6 @@ namespace Project::Factories {
   SDL_Color ComponentFactory::getLuaSDLColor(lua_State* lua) {
     SDL_Color color;
     color.r = getLuaColorChannel(lua, "fontColorR");
+    color.g = getLuaColorChannel(lua, "fontColorG");
   }
 }

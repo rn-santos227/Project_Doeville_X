@@ -44,6 +44,6 @@ namespace Project::Factories {
   }
 
   SDL_Color getLuaSDLColor(lua_State* lua) {
-
+    SDL_Color color;
   }
 }

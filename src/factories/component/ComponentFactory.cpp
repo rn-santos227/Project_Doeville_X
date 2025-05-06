@@ -45,6 +45,12 @@ namespace Project::Factories {
     }
   }
 
+  // Components Builder Section
+  std::unique_ptr<BaseComponent> ComponentFactory::createGraphicsComponent(lua_State* lua) {
+
+  }
+
+  // Utilities Section
   Uint8 ComponentFactory::getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255) {
     lua_getglobal(lua, globalName.c_str());
     Uint8 value = defaultValue;

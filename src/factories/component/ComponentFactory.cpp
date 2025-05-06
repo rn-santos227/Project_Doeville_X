@@ -50,7 +50,7 @@ namespace Project::Factories {
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
     
     if (lua_isstring(lua, -1)) {
-
+      const char* imagePath = lua_tostring(lua, -1);
     }
     graphicsComponent->onAttach();
   }

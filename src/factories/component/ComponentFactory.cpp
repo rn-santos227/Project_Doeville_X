@@ -42,4 +42,8 @@ namespace Project::Factories {
     lua_pop(lua, 1);
     return value;
   }
+
+  SDL_Color getLuaSDLColor(lua_State* lua) {
+
+  }
 }

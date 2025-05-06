@@ -28,12 +28,14 @@ namespace Project::Factories {
         lua_pop(lua, 1);
 
         SDL_Color color = getLuaSDLColor(lua);
+        
         TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
         if (logsManager.checkAndLogError(font == nullptr, "Failed to load font: " + fontPath)) {
           logsManager.flushLogs();
           return nullptr;
         }
 
+        return std::make_unique<TextComponent>(renderer, font, color, text, fontPath, fontSize, logsManager);
       }
     }
   }

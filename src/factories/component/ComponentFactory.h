@@ -35,6 +35,7 @@ namespace Project::Factories {
 
     //Components Builder
     std::unique_ptr<BaseComponent> createGraphicsComponent(lua_State* lua);
+    std::unique_ptr<BaseComponent> createTextComponent(lua_State* lua, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize);
 
     //Utilities
     SDL_Color getLuaSDLColor(lua_State* lua);

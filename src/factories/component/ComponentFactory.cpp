@@ -27,7 +27,7 @@ namespace Project::Factories {
         int fontSize = lua_isinteger(lua, -1) ? lua_tointeger(lua, -1) : 16;
         lua_pop(lua, 1);
 
-        SDL_Color color = {255, 255, 255, 255};
+        SDL_Color color = getLuaSDLColor(lua);
 
       }
     }

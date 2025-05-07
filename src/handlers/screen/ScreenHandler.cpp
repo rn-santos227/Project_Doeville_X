@@ -8,8 +8,8 @@ namespace Project::Handlers {
       logsManager(logsManager), framesCounter(framesCounter) {}
 
   ScreenHandler::~ScreenHandler() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    if (renderer) SDL_DestroyRenderer(renderer);
+    if (window) SDL_DestroyWindow(window);
   }
 
   bool ScreenHandler::init() {

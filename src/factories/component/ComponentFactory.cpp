@@ -68,6 +68,7 @@ namespace Project::Factories {
   }
 
   std::unique_ptr<BaseComponent> ComponentFactory::createTextComponent(lua_State* lua) {
+    SDL_Color color = getLuaSDLColor(lua);
     std::string text = getLuaGlobalString(lua, "text", "Default Text");
     std::string fontPath = getLuaGlobalString(lua, "fontPath", "assets/fonts/default.ttf");
     int fontSize = getLuaGlobalInt(lua, "fontSize", 16);

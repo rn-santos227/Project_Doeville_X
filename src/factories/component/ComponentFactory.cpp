@@ -81,5 +81,6 @@ namespace Project::Factories {
     lua_getglobal(lua, name.c_str());
     int value = lua_isinteger(lua, -1) ? lua_tointeger(lua, -1) : defaultValue;
     lua_pop(lua, 1);
+    return value;
   }
 }

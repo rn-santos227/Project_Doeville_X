@@ -13,7 +13,11 @@ namespace Project::Core {
   screenHandler(std::make_unique<ScreenHandler>(gameStateManager, *configHandler, *cursorHandler, *fontHandler, *keyHandler, *mouseHandler, *resourcesHandler, logsManager, framesCounter))
   {}
   
-  GameEngine::~GameEngine() {}
+  GameEngine::~GameEngine() {
+    if (isRunning) {
+
+    }
+  }
 
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);

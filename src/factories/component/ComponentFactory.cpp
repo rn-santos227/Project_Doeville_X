@@ -78,6 +78,8 @@ namespace Project::Factories {
       logsManager.flushLogs();
       return nullptr;
     }
+
+    return std::make_unique<TextComponent>(renderer, font, color, text, fontPath, fontSize, logsManager);
   }
 
   SDL_Color ComponentFactory::getLuaSDLColor(lua_State* lua) {

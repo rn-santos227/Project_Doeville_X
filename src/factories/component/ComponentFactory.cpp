@@ -16,6 +16,7 @@ namespace Project::Factories {
 
       default:
         logsManager.logError("Unknown or unsupported component type: " + componentName);
+        return nullptr;
     }
   }
 

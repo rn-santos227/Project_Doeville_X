@@ -15,7 +15,7 @@ namespace Project::Core {
   
   GameEngine::~GameEngine() {
     if (isRunning) {
-
+      clean();
     }
   }
 

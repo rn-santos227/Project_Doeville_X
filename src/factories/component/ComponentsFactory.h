@@ -24,9 +24,9 @@ using namespace Project::Components;
 using namespace Project::Utilities;
 
 namespace Project::Factories {
-  class ComponentFactory {
+  class ComponentsFactory {
   public:
-    ComponentFactory(SDL_Renderer* renderer, LogsManager& logsManager);
+    ComponentsFactory(SDL_Renderer* renderer, LogsManager& logsManager);
     std::unique_ptr<BaseComponent> create(const std::string& componentName, lua_State* lua);
 
   private:

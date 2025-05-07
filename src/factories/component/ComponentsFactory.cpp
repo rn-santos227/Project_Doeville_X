@@ -1,10 +1,10 @@
-#include "ComponentFactory.h"
+#include "ComponentsFactory.h"
 
 namespace Project::Factories {
-  ComponentFactory::ComponentFactory(SDL_Renderer* renderer, LogsManager& logsManager)
+  ComponentsFactory::ComponentsFactory(SDL_Renderer* renderer, LogsManager& logsManager)
   : renderer(renderer), logsManager(logsManager) {}
 
-  std::unique_ptr<BaseComponent> ComponentFactory::create(const std::string& componentName, lua_State* lua) {
+  std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, lua_State* lua) {
     ComponentType type = ComponentTypeResolver::resolve(componentName);
     
     switch (type) {
@@ -21,7 +21,7 @@ namespace Project::Factories {
   }
 
   // Components Builder Section
-  std::unique_ptr<BaseComponent> ComponentFactory::createGraphicsComponent(lua_State* lua) {
+  std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(lua_State* lua) {
     std::string imagePath = getLuaGlobalString(lua, "imagePath", "assets/images/default.png");
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
@@ -32,7 +32,7 @@ namespace Project::Factories {
   }
 
   // Utilities Section
-  Uint8 ComponentFactory::getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255) {
+  Uint8 ComponentsFactory::getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255) {
     lua_getglobal(lua, globalName.c_str());
     Uint8 value = defaultValue;
     if (lua_isinteger(lua, -1)) {
@@ -42,7 +42,7 @@ namespace Project::Factories {
     return value;
   }
 
-  std::unique_ptr<BaseComponent> ComponentFactory::createTextComponent(lua_State* lua) {
+  std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(lua_State* lua) {
     SDL_Color color = getLuaSDLColor(lua);
     std::string text = getLuaGlobalString(lua, "text", "Default Text");
     std::string fontPath = getLuaGlobalString(lua, "fontPath", "assets/fonts/default.ttf");
@@ -57,7 +57,7 @@ namespace Project::Factories {
     return std::make_unique<TextComponent>(renderer, font, color, text, fontPath, fontSize, logsManager);
   }
 
-  SDL_Color ComponentFactory::getLuaSDLColor(lua_State* lua) {
+  SDL_Color ComponentsFactory::getLuaSDLColor(lua_State* lua) {
     SDL_Color color;
     color.r = getLuaColorChannel(lua, "fontColorR");
     color.g = getLuaColorChannel(lua, "fontColorG");
@@ -66,14 +66,14 @@ namespace Project::Factories {
     return color;
   }
 
-  std::string ComponentFactory::getLuaGlobalString(lua_State* lua, const std::string& name, const std::string& defaultValue) {
+  std::string ComponentsFactory::getLuaGlobalString(lua_State* lua, const std::string& name, const std::string& defaultValue) {
     lua_getglobal(lua, name.c_str());
     std::string value = lua_isstring(lua, -1) ? lua_tostring(lua, -1) : defaultValue;
     lua_pop(lua, 1);
     return value;
   }
 
-  int ComponentFactory::getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue) {
+  int ComponentsFactory::getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue) {
     lua_getglobal(lua, name.c_str());
     int value = lua_isinteger(lua, -1) ? lua_tointeger(lua, -1) : defaultValue;
     lua_pop(lua, 1);

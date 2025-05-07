@@ -67,6 +67,10 @@ namespace Project::Factories {
     return value;
   }
 
+  std::unique_ptr<BaseComponent> ComponentFactory::createTextComponent(lua_State* lua) {
+
+  }
+
   SDL_Color ComponentFactory::getLuaSDLColor(lua_State* lua) {
     SDL_Color color;
     color.r = getLuaColorChannel(lua, "fontColorR");

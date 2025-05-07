@@ -72,6 +72,8 @@ namespace Project::Factories {
     std::string text = getLuaGlobalString(lua, "text", "Default Text");
     std::string fontPath = getLuaGlobalString(lua, "fontPath", "assets/fonts/default.ttf");
     int fontSize = getLuaGlobalInt(lua, "fontSize", 16);
+
+    TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
   }
 
   SDL_Color ComponentFactory::getLuaSDLColor(lua_State* lua) {

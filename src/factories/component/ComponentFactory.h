@@ -34,7 +34,7 @@ namespace Project::Factories {
     LogsManager& logsManager;
 
     //Components Builder
-    std::unique_ptr<BaseComponent> createGraphicsComponent();
+    std::unique_ptr<BaseComponent> createGraphicsComponent(lua_State* lua);
     std::unique_ptr<BaseComponent> createTextComponent(lua_State* lua);
     
     //Utilities

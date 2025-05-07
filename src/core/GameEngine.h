@@ -6,6 +6,8 @@
 
 #include <SDL.h>
 
+#include "factories/component/ComponentFactory.h"
+
 #include "handlers/config/ConfigHandler.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
@@ -19,6 +21,7 @@
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
+using namespace Project::Factories;
 using namespace Project::Handlers;
 using namespace Project::States;
 using namespace Project::Utilities;
@@ -34,6 +37,15 @@ namespace Project::Core {
     void clean();
 
   private:
+    void handleEvents();
+    void update();
+    void render();
+    void handleFrameRate();
+    
+    bool isRunning;
+    LogsManager logsManager;
+    FramesCounter framesCounter;
+
     std::unique_ptr<ConfigHandler> configHandler;
     std::unique_ptr<CursorHandler> cursorHandler;
     std::unique_ptr<FontHandler> fontHandler;
@@ -44,17 +56,6 @@ namespace Project::Core {
 
     GameStateManager gameStateManager;
 
-    LogsManager logsManager;
-    FramesCounter framesCounter;
-
-    bool isRunning;
-
-    void handleEvents();
-    void update();
-    void render();
-    void handleFrameRate();
-
-    std::mutex eventMutex;
     std::mutex updateMutex;
   };
 }

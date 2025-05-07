@@ -6,7 +6,7 @@
 
 #include <SDL.h>
 
-#include "factories/component/ComponentFactory.h"
+#include "factories/component/ComponentsFactory.h"
 
 #include "handlers/config/ConfigHandler.h"
 #include "handlers/font/FontHandler.h"
@@ -54,7 +54,7 @@ namespace Project::Core {
     std::unique_ptr<ResourcesHandler> resourcesHandler;
     std::unique_ptr<ScreenHandler> screenHandler;
 
-    std::unique_ptr<ComponentFactory> componentFactory;
+    std::unique_ptr<ComponentsFactory> componentFactory;
     GameStateManager gameStateManager;
 
     std::mutex updateMutex;

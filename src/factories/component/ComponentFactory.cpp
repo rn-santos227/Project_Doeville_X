@@ -76,4 +76,8 @@ namespace Project::Factories {
     lua_pop(lua, 1);
     return value;
   }
+
+  int ComponentFactory::getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue) {
+
+  }
 }

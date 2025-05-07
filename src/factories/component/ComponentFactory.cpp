@@ -74,6 +74,9 @@ namespace Project::Factories {
     int fontSize = getLuaGlobalInt(lua, "fontSize", 16);
 
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    if (logsManager.checkAndLogError(font == nullptr, "Failed to load font: " + fontPath)) {
+
+    }
   }
 
   SDL_Color ComponentFactory::getLuaSDLColor(lua_State* lua) {

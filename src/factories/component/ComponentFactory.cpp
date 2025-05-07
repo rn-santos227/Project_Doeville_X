@@ -53,6 +53,7 @@ namespace Project::Factories {
     graphicsComponent->setTexture(imagePath);
     graphicsComponent->onAttach();
 
+    return graphicsComponent;
   }
 
   // Utilities Section

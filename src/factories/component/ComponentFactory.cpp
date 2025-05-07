@@ -50,6 +50,7 @@ namespace Project::Factories {
     std::string imagePath = getLuaGlobalString(lua, "imagePath", "assets/images/default.png");
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
+    graphicsComponent->setTexture(imagePath);
 
   }
 

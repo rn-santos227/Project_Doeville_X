@@ -51,6 +51,7 @@ namespace Project::Factories {
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
     graphicsComponent->setTexture(imagePath);
+    graphicsComponent->onAttach();
 
   }
 

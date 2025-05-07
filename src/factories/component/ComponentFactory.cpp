@@ -78,6 +78,6 @@ namespace Project::Factories {
   }
 
   int ComponentFactory::getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue) {
-
+    lua_getglobal(lua, name.c_str());
   }
 }

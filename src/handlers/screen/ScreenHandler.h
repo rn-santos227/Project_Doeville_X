@@ -34,7 +34,6 @@ namespace Project::Handlers {
     bool init();
     void clear();
     void render();
-    void update();
     void handleEvents();
     
     bool isRunning() const;

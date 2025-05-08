@@ -34,6 +34,8 @@ namespace Project::Factories {
 
   private:
     SDL_Renderer* renderer;
+    
+    ConfigHandler& configHandler;
     LogsManager& logsManager;
 
     //Components Builder

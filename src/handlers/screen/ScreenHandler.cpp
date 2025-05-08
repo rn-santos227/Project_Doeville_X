@@ -4,8 +4,7 @@ namespace Project::Handlers {
   ScreenHandler::ScreenHandler(GameStateManager& gameStateManager, ConfigHandler& configHandler, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler, LogsManager& logsManager, FramesCounter& framesCounter)
       : window(nullptr), renderer(nullptr), running(false), 
       configHandler(configHandler), cursorHandler(cursorHandler), fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler), resourcesHandler(resourcesHandler),
-      gameStateManager(gameStateManager),
-      logsManager(logsManager), framesCounter(framesCounter) {}
+      gameStateManager(gameStateManager), logsManager(logsManager), framesCounter(framesCounter) {}
 
   ScreenHandler::~ScreenHandler() {
     if (renderer) SDL_DestroyRenderer(renderer);

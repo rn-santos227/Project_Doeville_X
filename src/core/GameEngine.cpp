@@ -55,7 +55,7 @@ namespace Project::Core {
   void GameEngine::run() {
     Uint32 frameStartTime;
     Uint32 previousTime = SDL_GetTicks();
-    float deltaTime = 0.0f;
+    double deltaTime = 0.0f;
 
     while (isRunning) {
       frameStartTime = SDL_GetTicks();
@@ -65,8 +65,6 @@ namespace Project::Core {
 
       handleEvents();
       update();
-      
-      gameStateManager.update(deltaTime);
       framesCounter.update();
       
       render();
@@ -90,8 +88,9 @@ namespace Project::Core {
     }
   }
 
-  void GameEngine::update() {
+  void GameEngine::update(float deltaTime) {
     std::lock_guard<std::mutex> lock(updateMutex);
+    gameStateManager.update(deltaTime);
     screenHandler->clear();
   }
 

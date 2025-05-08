@@ -7,7 +7,6 @@ namespace Project::Utilities {
     Uint64 currentTime = SDL_GetPerformanceCounter();
     deltaTime = (currentTime - lastTime) / static_cast<double>(frequency);
     frameCount++;
-
     
     double elapsedTime = (currentTime - lastTime) / (double)frequency * 1000;
 

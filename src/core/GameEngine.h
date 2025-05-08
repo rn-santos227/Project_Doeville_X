@@ -38,7 +38,7 @@ namespace Project::Core {
 
   private:
     void handleEvents();
-    void update();
+    void update(float deltaTime);
     void render();
     void handleFrameRate();
     

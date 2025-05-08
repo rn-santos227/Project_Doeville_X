@@ -12,14 +12,16 @@ namespace Project::Utilities {
     ~FramesCounter() = default;
 
     void update();
+    
+    double getDeltaTime() const;
     int getFPS() const; 
 
   private:
     Uint64 lastTime;
     Uint64 frequency;
-    
+
     double deltaTime;
-    
+
     int frameCount;
     int fps;
   };

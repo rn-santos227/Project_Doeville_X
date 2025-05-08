@@ -87,8 +87,12 @@ namespace Project::Handlers {
 
   void ScreenHandler::render() {
     std::lock_guard<std::mutex> lock(renderMutex);
+    if(logsManager.checkAndLogError(!renderer, "Renderer is null.")) {
+
+    }
 
     gameStateManager.render();
+    
     if (keyHandler.isGameDebugMode()) {
       renderFPS();
       renderMousePosition();

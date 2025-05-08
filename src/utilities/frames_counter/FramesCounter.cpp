@@ -19,4 +19,8 @@ namespace Project::Utilities {
   int FramesCounter::getFPS() const {
     return fps;
   }
+
+  double FramesCounter::getDeltaTime() const {
+
+  }
 }

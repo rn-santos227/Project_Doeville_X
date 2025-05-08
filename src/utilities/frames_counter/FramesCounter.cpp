@@ -13,7 +13,7 @@ namespace Project::Utilities {
     if (elapsedTime >= 1000.0) {
       fps = frameCount;
       frameCount = 0;
-      lastTime = currentTime;
+      startFpsTime = currentTime;
     }
   }
 

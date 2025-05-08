@@ -88,34 +88,30 @@ namespace Project::Handlers {
   void ScreenHandler::render() {
     std::lock_guard<std::mutex> lock(renderMutex);
 
-    if (renderer) {
-      gameStateManager.render();
-      if (keyHandler.isGameDebugMode()) {
-        renderFPS();
-        renderMousePosition();
-      }
-
-      int mouseX, mouseY;
-      SDL_GetMouseState(&mouseX, &mouseY);
-
-      int screenWidth, screenHeight;
-      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
-
-      mouseX = std::max(0, std::min(mouseX, screenWidth - cursorWidth));
-      mouseY = std::max(0, std::min(mouseY, screenHeight - cursorHeight));
-
-      SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
-      if (texture) {
-        SDL_Rect dstRect = { mouseX, mouseY, cursorWidth, cursorHeight };
-        SDL_RenderCopy(renderer, texture, nullptr, &dstRect);
-      } else {
-        logsManager.logError("Failed to render cursor: Texture is null.");
-      }
-
-      SDL_RenderPresent(renderer);
-    } else {
-      logsManager.logError("Renderer is null.");
+    gameStateManager.render();
+    if (keyHandler.isGameDebugMode()) {
+      renderFPS();
+      renderMousePosition();
     }
+
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
+    int screenWidth, screenHeight;
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+    mouseX = std::max(0, std::min(mouseX, screenWidth - cursorWidth));
+    mouseY = std::max(0, std::min(mouseY, screenHeight - cursorHeight));
+
+    SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
+    if (texture) {
+      SDL_Rect dstRect = { mouseX, mouseY, cursorWidth, cursorHeight };
+      SDL_RenderCopy(renderer, texture, nullptr, &dstRect);
+    } else {
+      logsManager.logError("Failed to render cursor: Texture is null.");
+    }
+
+    SDL_RenderPresent(renderer);
   }
 
   void ScreenHandler::update() {

@@ -59,6 +59,10 @@ namespace Project::Handlers {
       renderer, gameStateManager, logsManager
     );
 
+    if(logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {
+
+    }
+
     std::string scriptPath = configHandler.getValue("Paths", "scripts", "scripts/");
     scriptingService->loadScriptsFromFolder(scriptPath);
 

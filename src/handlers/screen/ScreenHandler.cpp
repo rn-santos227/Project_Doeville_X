@@ -117,10 +117,6 @@ namespace Project::Handlers {
     SDL_RenderPresent(renderer);
   }
 
-  void ScreenHandler::update() {
-    gameStateManager.update(framesCounter.getDeltaTime()); 
-  }
-
   void ScreenHandler::handleEvents() {
     std::lock_guard<std::mutex> lock(eventMutex);
     

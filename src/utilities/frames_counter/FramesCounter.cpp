@@ -21,6 +21,6 @@ namespace Project::Utilities {
   }
 
   double FramesCounter::getDeltaTime() const {
-
+    return deltaTime;
   }
 }

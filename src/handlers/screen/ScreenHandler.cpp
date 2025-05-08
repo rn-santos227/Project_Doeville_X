@@ -118,10 +118,6 @@ namespace Project::Handlers {
     SDL_RenderPresent(renderer);
   }
 
-  void ScreenHandler::update() {
-    SDL_RenderPresent(renderer); 
-  }
-
   void ScreenHandler::handleEvents() {
     std::lock_guard<std::mutex> lock(eventMutex);
     

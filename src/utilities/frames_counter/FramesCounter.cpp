@@ -5,6 +5,7 @@ namespace Project::Utilities {
 
   void FramesCounter::update() {
     Uint64 currentTime = SDL_GetPerformanceCounter();
+    deltaTime = (currentTime - lastTime) / static_cast<double>(frequency);
     frameCount++;
 
     

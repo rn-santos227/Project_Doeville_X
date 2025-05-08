@@ -4,8 +4,9 @@ namespace Project::Utilities {
   FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequency(SDL_GetPerformanceFrequency()), deltaTime(0.0), frameCount(0), fps(0) {}
 
   void FramesCounter::update() {
-    frameCount++;
     Uint64 currentTime = SDL_GetPerformanceCounter();
+    frameCount++;
+
     
     double elapsedTime = (currentTime - lastTime) / (double)frequency * 1000;
 

@@ -64,9 +64,9 @@ namespace Project::Core {
       previousTime = frameStartTime;
 
       handleEvents();
-      update();
-      framesCounter.update();
+      update(deltaTime);
       
+      framesCounter.update();
       render();
       
       Uint32 frameDuration = SDL_GetTicks() - frameStartTime;

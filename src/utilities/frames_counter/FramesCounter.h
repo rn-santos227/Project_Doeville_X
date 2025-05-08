@@ -17,6 +17,9 @@ namespace Project::Utilities {
   private:
     Uint64 lastTime;
     Uint64 frequency;
+    
+    double deltaTime;
+    
     int frameCount;
     int fps;
   };

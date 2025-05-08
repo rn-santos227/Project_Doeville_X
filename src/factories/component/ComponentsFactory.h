@@ -14,6 +14,8 @@ extern "C" {
 
 #include "ComponentTypeResolver.h"
 
+#include "handlers/config/ConfigHandler.h"
+
 #include "components/BaseComponent.h"
 #include "components/grahpics_component/GraphicsComponent.h"
 #include "components/text_component/TextComponent.h"
@@ -21,6 +23,7 @@ extern "C" {
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Components;
+using namespace Project::Handlers;
 using namespace Project::Utilities;
 
 namespace Project::Factories {

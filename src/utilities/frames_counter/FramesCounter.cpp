@@ -15,6 +15,8 @@ namespace Project::Utilities {
       frameCount = 0;
       startFpsTime = currentTime;
     }
+
+    lastTime = currentTime;
   }
 
   int FramesCounter::getFPS() const {

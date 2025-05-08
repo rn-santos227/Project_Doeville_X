@@ -29,7 +29,7 @@ using namespace Project::Utilities;
 namespace Project::Factories {
   class ComponentsFactory {
   public:
-    ComponentsFactory(SDL_Renderer* renderer, LogsManager& logsManager, ConfigHandler& configHandler);
+    ComponentsFactory(SDL_Renderer* renderer, ConfigHandler& configHandler, LogsManager& logsManager);
     std::unique_ptr<BaseComponent> create(const std::string& componentName, lua_State* lua);
 
   private:

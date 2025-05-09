@@ -105,7 +105,7 @@ namespace Project::Core {
   void GameEngine::clean() {
     logsManager.logMessage("Cleaning up game engine...");
 
-    gameStateManager.cleanup();
+    gameStateManager->cleanup();
     cursorHandler->cleanup();
     fontHandler->cleanup();
     

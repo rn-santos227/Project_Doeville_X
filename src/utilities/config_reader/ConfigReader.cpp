@@ -13,6 +13,8 @@ namespace Project::Utilities {
   public:
     explicit ConfigReader(LogsManager& logsManager);
 
+    bool loadConfig(const std::string& filePath);
+
   };
 }
 

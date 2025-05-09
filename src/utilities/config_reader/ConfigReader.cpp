@@ -11,6 +11,7 @@ using namespace Project::Utilities;
 namespace Project::Utilities {
   class ConfigReader {
   public:
+    explicit ConfigReader(LogsManager& logsManager);
 
   };
 }

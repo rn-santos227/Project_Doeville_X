@@ -9,7 +9,7 @@ namespace Project::Core {
   keyHandler(std::make_unique<KeyHandler>(logsManager)),
   mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
-  gameStateManager(5, logsManager),
+  gameStateManager(std::make_unique<GameStateManager>(5, logsManager)),
   screenHandler(std::make_unique<ScreenHandler>(gameStateManager, *configHandler, *cursorHandler, *fontHandler, *keyHandler, *mouseHandler, *resourcesHandler, logsManager, framesCounter))
   {}
   

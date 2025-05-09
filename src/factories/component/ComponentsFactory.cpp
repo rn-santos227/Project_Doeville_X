@@ -5,6 +5,10 @@ namespace Project::Factories {
   : configHandler(configHandler), logsManager(logsManager), renderer(nullptr) {}
 
   std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, lua_State* lua) {
+    if(logsManager.checkAndLogError(!renderer, "Renderer is null for component: " + componentName)) {
+
+    }
+    
     ComponentType type = ComponentTypeResolver::resolve(componentName);
     
     switch (type) {

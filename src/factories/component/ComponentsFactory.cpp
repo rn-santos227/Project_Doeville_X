@@ -39,9 +39,7 @@ namespace Project::Factories {
     std::string fontPath = getLuaGlobalString(lua, "fontPath", defaultFontPath);
 
     int defaultFontSize = configHandler.getIntValue("Text", "default_font_size", 16);
-
-    std::string fontPath = getLuaGlobalString(lua, "fontPath", "resources/fonts/system.ttf");
-    int fontSize = getLuaGlobalInt(lua, "fontSize", 16);
+    int fontSize = getLuaGlobalInt(lua, "fontSize", defaultFontSize);
 
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
     if (logsManager.checkAndLogError(font == nullptr, "Failed to load font: " + fontPath)) {

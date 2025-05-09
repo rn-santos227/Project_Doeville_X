@@ -83,4 +83,9 @@ namespace Project::Factories {
     lua_pop(lua, 1);
     return value;
   }
+
+  // Getters and Setters Section
+  void ComponentsFactory::setRenderer(SDL_Renderer* renderer) {
+
+  }
 }

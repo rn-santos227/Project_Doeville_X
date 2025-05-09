@@ -30,7 +30,9 @@ namespace Project::Factories {
   class ComponentsFactory {
   public:
     ComponentsFactory(ConfigHandler& configHandler, LogsManager& logsManager);
+
     std::unique_ptr<BaseComponent> create(const std::string& componentName, lua_State* lua);
+    void setRenderer(SDL_Renderer* renderer);
 
   private:
     SDL_Renderer* renderer = nullptr;

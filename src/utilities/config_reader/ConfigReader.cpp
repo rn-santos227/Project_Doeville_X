@@ -9,7 +9,10 @@
 using namespace Project::Utilities;
 
 namespace Project::Utilities {
+  class ConfigReader {
+  public:
 
+  };
 }
 
 #endif

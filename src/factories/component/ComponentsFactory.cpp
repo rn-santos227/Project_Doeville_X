@@ -86,6 +86,6 @@ namespace Project::Factories {
 
   // Getters and Setters Section
   void ComponentsFactory::setRenderer(SDL_Renderer* renderer) {
-
+    this->renderer = renderer;
   }
 }

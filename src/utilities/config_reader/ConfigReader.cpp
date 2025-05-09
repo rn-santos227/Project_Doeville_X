@@ -23,10 +23,9 @@ namespace Project::Utilities {
   
   private:
     LogsManager& logsManager;
-
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> configData;
     
-  
+    void trim(std::string& str) const;
   };
 }
 

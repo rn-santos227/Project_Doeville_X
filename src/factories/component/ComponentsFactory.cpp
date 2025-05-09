@@ -36,7 +36,8 @@ namespace Project::Factories {
     std::string text = getLuaGlobalString(lua, "text", "Default Text");
 
     std::string defaultFontPath = configHandler.getValue("Paths", "default_font", "resources/fonts/system.ttf");
-    
+    std::string fontPath = getLuaGlobalString(lua, "fontPath", defaultFontPath);
+
     int defaultFontSize = configHandler.getIntValue("Text", "default_font_size", 16);
 
     std::string fontPath = getLuaGlobalString(lua, "fontPath", "resources/fonts/system.ttf");

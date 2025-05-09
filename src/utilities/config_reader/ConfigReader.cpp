@@ -18,6 +18,7 @@ namespace Project::Utilities {
     std::string getValue(const std::string& section, const std::string& key, const std::string& defaultValue = "") const;
     float getFloatValue(const std::string& section, const std::string& key, float defaultValue = 0.0f) const;
     int getIntValue(const std::string& section, const std::string& key, int defaultValue = 0) const;
+    bool getBoolValue(const std::string& section, const std::string& key, bool defaultValue = false) const;
   };
 }
 

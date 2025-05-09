@@ -1,8 +1,8 @@
 #include "ComponentsFactory.h"
 
 namespace Project::Factories {
-  ComponentsFactory::ComponentsFactory(SDL_Renderer* renderer,  ConfigHandler& configHandler, LogsManager& logsManager)
-  : renderer(renderer), configHandler(configHandler), logsManager(logsManager) {}
+  ComponentsFactory::ComponentsFactory(ConfigHandler& configHandler, LogsManager& logsManager)
+  : configHandler(configHandler), logsManager(logsManager), renderer(nullptr) {}
 
   std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, lua_State* lua) {
     ComponentType type = ComponentTypeResolver::resolve(componentName);

@@ -29,11 +29,11 @@ using namespace Project::Utilities;
 namespace Project::Factories {
   class ComponentsFactory {
   public:
-    ComponentsFactory(SDL_Renderer* renderer, ConfigHandler& configHandler, LogsManager& logsManager);
+    ComponentsFactory(ConfigHandler& configHandler, LogsManager& logsManager);
     std::unique_ptr<BaseComponent> create(const std::string& componentName, lua_State* lua);
 
   private:
-    SDL_Renderer* renderer;
+    SDL_Renderer* renderer = nullptr;
     
     ConfigHandler& configHandler;
     LogsManager& logsManager;

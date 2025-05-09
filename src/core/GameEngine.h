@@ -46,6 +46,9 @@ namespace Project::Core {
     LogsManager logsManager;
     FramesCounter framesCounter;
 
+    std::unique_ptr<ComponentsFactory> componentFactory;
+    std::unique_ptr<GameStateManager> gameStateManager;
+
     std::unique_ptr<ConfigHandler> configHandler;
     std::unique_ptr<CursorHandler> cursorHandler;
     std::unique_ptr<FontHandler> fontHandler;
@@ -53,9 +56,6 @@ namespace Project::Core {
     std::unique_ptr<MouseHandler> mouseHandler;
     std::unique_ptr<ResourcesHandler> resourcesHandler;
     std::unique_ptr<ScreenHandler> screenHandler;
-
-    std::unique_ptr<ComponentsFactory> componentFactory;
-    std::unique_ptr<GameStateManager> gameStateManager;
 
     std::mutex updateMutex;
   };

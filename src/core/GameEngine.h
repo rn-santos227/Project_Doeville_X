@@ -55,7 +55,7 @@ namespace Project::Core {
     std::unique_ptr<ScreenHandler> screenHandler;
 
     std::unique_ptr<ComponentsFactory> componentFactory;
-    GameStateManager gameStateManager;
+    std::unique_ptr<GameStateManager> gameStateManager;
 
     std::mutex updateMutex;
   };

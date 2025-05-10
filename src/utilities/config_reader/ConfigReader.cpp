@@ -19,4 +19,10 @@ namespace Project::Utilities {
 
     }
   }
+
+  void ConfigReader::trim(std::string& str) const {
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) {
+      return !std::isspace(ch);
+    }));
+  }     
 }

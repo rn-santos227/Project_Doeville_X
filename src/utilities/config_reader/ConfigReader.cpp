@@ -39,6 +39,8 @@ namespace Project::Utilities {
     }
 
     file.close();
+    logsManager.logMessage("Config file loaded successfully from " + filePath);
+    return true;
   }
 
   void ConfigReader::trim(std::string& str) const {

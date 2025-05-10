@@ -12,6 +12,8 @@ namespace Project::Utilities {
     if (logsManager.checkAndLogError(!file.is_open(), "Failed to open config file: " + filePath)) {
       logsManager.flushLogs();
       return false;
-    } 
+    }
+
+    std::string line, section;
   }
 }

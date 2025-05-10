@@ -21,7 +21,7 @@ namespace Project::Utilities {
       if (line.empty() || line[0] == ';' || line[0] == '#') continue;
 
       if (line[0] == '[' && line.back() == ']') {
-
+        section = line.substr(1, line.size() - 2);
       }
     }
   }

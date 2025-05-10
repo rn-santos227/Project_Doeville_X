@@ -33,6 +33,7 @@ namespace Project::Utilities {
           trim(value);
 
           configData[section][key] = value;
+          logsManager.logMessage("Loaded config: [" + section + "] " + key + " = " + value);
         }
       }
     }

@@ -30,6 +30,7 @@ namespace Project::Utilities {
           std::string value = line.substr(delimiterPos + 1);
 
           trim(key);
+          trim(value);
         }
       }
     }

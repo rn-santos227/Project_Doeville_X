@@ -16,7 +16,7 @@ namespace Project::Utilities {
 
     std::string line, section;
     while (std::getline(file, line)) {
-
+      trim(line);
     }
   }
 

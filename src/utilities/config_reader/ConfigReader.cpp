@@ -9,5 +9,8 @@ namespace Project::Utilities {
 
   bool ConfigReader::loadConfig(const std::string& filePath) {
     std::ifstream file(filePath);
+    if (logsManager.checkAndLogError(!file.is_open(), "Failed to open config file: " + filePath)) {
+
+    } 
   }
 }

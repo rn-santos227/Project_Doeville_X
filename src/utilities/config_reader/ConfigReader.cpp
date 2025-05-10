@@ -37,6 +37,8 @@ namespace Project::Utilities {
         }
       }
     }
+
+    file.close();
   }
 
   void ConfigReader::trim(std::string& str) const {

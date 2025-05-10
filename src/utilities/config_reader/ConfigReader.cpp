@@ -24,5 +24,8 @@ namespace Project::Utilities {
     str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) {
       return !std::isspace(ch);
     }));
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) {
+
+    }).base(), str.end());
   }     
 }

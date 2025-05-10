@@ -23,6 +23,8 @@ namespace Project::Utilities {
       if (line[0] == '[' && line.back() == ']') {
         section = line.substr(1, line.size() - 2);
         trim(section);
+      } else {
+        size_t delimiterPos = line.find('=');
       }
     }
   }

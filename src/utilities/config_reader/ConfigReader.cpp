@@ -31,6 +31,8 @@ namespace Project::Utilities {
 
           trim(key);
           trim(value);
+
+          configData[section][key] = value;
         }
       }
     }

@@ -23,11 +23,7 @@ namespace Project::Utilities {
   }
 
   void ConfigReader::trim(std::string& str) const {
-    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) {
-      return !std::isspace(ch);
-    }));
-    str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) {
-      return !std::isspace(ch);
-    }).base(), str.end());
+    str.erase(0, str.find_first_not_of(" \t\r\n"));
+    str.erase(str.find_last_not_of(" \t\r\n") + 1);
   }     
 }

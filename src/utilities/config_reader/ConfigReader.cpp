@@ -5,5 +5,5 @@
 #include <algorithm>
 
 namespace Project::Utilities {
-
+  ConfigReader::ConfigReader(LogsManager& logsManager) : logsManager(logsManager) {}
 }

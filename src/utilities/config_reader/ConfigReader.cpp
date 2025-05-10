@@ -28,6 +28,8 @@ namespace Project::Utilities {
         if (delimiterPos != std::string::npos) {
           std::string key = line.substr(0, delimiterPos);
           std::string value = line.substr(delimiterPos + 1);
+
+          trim(key);
         }
       }
     }

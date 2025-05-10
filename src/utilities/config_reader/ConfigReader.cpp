@@ -8,6 +8,6 @@ namespace Project::Utilities {
   ConfigReader::ConfigReader(LogsManager& logsManager) : logsManager(logsManager) {}
 
   bool ConfigReader::loadConfig(const std::string& filePath) {
-
+    std::ifstream file(filePath);
   }
 }

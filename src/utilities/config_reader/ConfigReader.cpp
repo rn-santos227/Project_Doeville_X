@@ -25,6 +25,9 @@ namespace Project::Utilities {
         trim(section);
       } else {
         size_t delimiterPos = line.find('=');
+         if (delimiterPos != std::string::npos) {
+
+         }
       }
     }
   }

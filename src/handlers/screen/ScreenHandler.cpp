@@ -18,10 +18,10 @@ namespace Project::Handlers {
     }
     logsManager.logMessage("SDL Initialized successfully.");
 
-    std::string windowTitle = configHandler.getValue("Window", "title", "Project Doeville X");
-    int screenWidth = configHandler.getIntValue("Window", "width", 800);
-    int screenHeight = configHandler.getIntValue("Window", "height", 600);
-    bool isFullscreen = configHandler.getBoolValue("Window", "fullscreen", false);
+    std::string windowTitle = configReader.getValue("Window", "title", "Project Doeville X");
+    int screenWidth = configReader.getIntValue("Window", "width", 800);
+    int screenHeight = configReader.getIntValue("Window", "height", 600);
+    bool isFullscreen = configReader.getBoolValue("Window", "fullscreen", false);
 
     cursorWidth = configHandler.getIntValue("Cursor", "width", 32);
     cursorHeight = configHandler.getIntValue("Cursor", "height", 32);

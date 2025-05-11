@@ -46,7 +46,7 @@ namespace Project::Utilities {
    std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {
     auto secIt = configData.find(section);
     if (secIt != configData.end()) {
-
+      auto keyIt = secIt->second.find(key);
     }
    }
 

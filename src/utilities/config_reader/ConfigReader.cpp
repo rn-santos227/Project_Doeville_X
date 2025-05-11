@@ -59,6 +59,7 @@ namespace Project::Utilities {
 
   double ConfigReader::getDoubleValue(const std::string& section, const std::string& key, double defaultValue) const {
     std::string value = getValue(section, key);
+    return !value.empty() ? std::stod(value) : defaultValue;
   }
 
   void ConfigReader::trim(std::string& str) const {

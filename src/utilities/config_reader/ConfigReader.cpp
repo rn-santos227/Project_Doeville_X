@@ -52,6 +52,8 @@ namespace Project::Utilities {
         return keyIt->second;
       }
     }
+
+     logsManager.logWarning("Config key not found: [" + section + "] " + key + ", using default: " + defaultValue);
    }
 
   void ConfigReader::trim(std::string& str) const {

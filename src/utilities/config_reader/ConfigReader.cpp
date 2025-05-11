@@ -68,7 +68,7 @@ namespace Project::Utilities {
   }
 
   int ConfigReader::getIntValue(const std::string& section, const std::string& key, int defaultValue) const {
-
+    std::string value = getValue(section, key);
   }
 
   void ConfigReader::trim(std::string& str) const {

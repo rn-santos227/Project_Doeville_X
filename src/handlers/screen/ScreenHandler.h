@@ -18,6 +18,7 @@
 
 #include "states/GameStateManager.h"
 
+#include "utilities/config_reader/ConfigReader.h"
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
@@ -28,7 +29,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(GameStateManager& gameStateManager, ConfigHandler& configHandler, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler, LogsManager& logsManager, FramesCounter& frameCounter);
+    ScreenHandler(ConfigReader& configReader, GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler, LogsManager& logsManager, FramesCounter& frameCounter);
     ~ScreenHandler();
 
     bool init();
@@ -44,7 +45,10 @@ namespace Project::Handlers {
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-    ConfigHandler& configHandler;
+    LogsManager& logsManager;
+    FramesCounter& framesCounter;
+    ConfigReader configReader;
+    
     CursorHandler& cursorHandler;
     FontHandler& fontHandler;
     KeyHandler& keyHandler;
@@ -53,9 +57,6 @@ namespace Project::Handlers {
 
     GameStateManager& gameStateManager;
     
-    LogsManager& logsManager;
-    FramesCounter& framesCounter;
-
     std::unique_ptr<ScriptingService> scriptingService;
 
     std::mutex renderMutex;

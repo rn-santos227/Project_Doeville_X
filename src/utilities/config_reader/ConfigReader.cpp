@@ -62,6 +62,10 @@ namespace Project::Utilities {
     return !value.empty() ? std::stod(value) : defaultValue;
   }
 
+  float ConfigReader::getFloatValue(const std::string& section, const std::string& key, float defaultValue) const {
+
+  }
+
   void ConfigReader::trim(std::string& str) const {
     str.erase(0, str.find_first_not_of(" \t\r\n"));
     str.erase(str.find_last_not_of(" \t\r\n") + 1);

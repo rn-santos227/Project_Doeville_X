@@ -73,7 +73,7 @@ namespace Project::Utilities {
   }
 
   bool ConfigReader::getBoolValue(const std::string& section, const std::string& key, bool defaultValue) const {
-
+    std::string value = getValue(section, key);
   }
 
   void ConfigReader::trim(std::string& str) const {

@@ -44,9 +44,9 @@ namespace Project::Core {
     void handleFrameRate();
     
     bool isRunning;
-    ConfigReader configReader;
-    FramesCounter framesCounter;
     LogsManager logsManager;
+    FramesCounter framesCounter;
+    ConfigReader configReader;
 
     std::unique_ptr<ComponentsFactory> componentFactory;
     std::unique_ptr<GameStateManager> gameStateManager;

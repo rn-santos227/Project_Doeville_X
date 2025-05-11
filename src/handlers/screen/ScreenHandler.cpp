@@ -63,10 +63,10 @@ namespace Project::Handlers {
       return false;
     }
 
-    std::string scriptPath = configHandler.getValue("Paths", "scripts", "scripts/");
+    std::string scriptPath = configReader.getValue("Paths", "scripts", "scripts/");
     scriptingService->loadScriptsFromFolder(scriptPath);
 
-    std::string initialState = configHandler.getValue("Game", "initial_state", "MainMenu");
+    std::string initialState = configReader.getValue("Game", "initial_state", "MainMenu");
     gameStateManager.setInitialState(initialState);
 
     running = true;

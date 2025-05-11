@@ -21,7 +21,7 @@ namespace Project::Core {
   void GameEngine::init() {
     SDL_ShowCursor(SDL_DISABLE);
 
-    if (logsManager.checkAndLogError(!configHandler->loadConfig("config.ini"), "Failed to load config.ini")) {
+    if (logsManager.checkAndLogError(!configReader.loadConfig("config.ini"), "Failed to load config.ini")) {
       logsManager.flushLogs();
       return;
     }

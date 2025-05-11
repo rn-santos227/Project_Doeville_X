@@ -1,10 +1,10 @@
 #include "ScreenHandler.h"
 
 namespace Project::Handlers {
-  ScreenHandler::ScreenHandler(GameStateManager& gameStateManager, ConfigHandler& configHandler, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler, LogsManager& logsManager, FramesCounter& framesCounter)
+  ScreenHandler::ScreenHandler(ConfigReader& configReader, GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler, LogsManager& logsManager, FramesCounter& framesCounter)
       : window(nullptr), renderer(nullptr), running(false), 
-      configHandler(configHandler), cursorHandler(cursorHandler), fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler), resourcesHandler(resourcesHandler),
-      gameStateManager(gameStateManager), logsManager(logsManager), framesCounter(framesCounter) {}
+      logsManager(logsManager), framesCounter(framesCounter), configReader(configReader), cursorHandler(cursorHandler), fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler), resourcesHandler(resourcesHandler),
+      gameStateManager(gameStateManager){}
 
   ScreenHandler::~ScreenHandler() {
     if (renderer) SDL_DestroyRenderer(renderer);

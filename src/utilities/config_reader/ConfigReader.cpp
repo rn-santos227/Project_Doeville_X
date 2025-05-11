@@ -64,6 +64,7 @@ namespace Project::Utilities {
 
   float ConfigReader::getFloatValue(const std::string& section, const std::string& key, float defaultValue) const {
     std::string value = getValue(section, key);
+    return !value.empty() ? std::stof(value) : defaultValue;
   }
 
   void ConfigReader::trim(std::string& str) const {

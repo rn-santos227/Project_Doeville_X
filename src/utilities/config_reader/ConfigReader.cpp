@@ -47,6 +47,9 @@ namespace Project::Utilities {
     auto secIt = configData.find(section);
     if (secIt != configData.end()) {
       auto keyIt = secIt->second.find(key);
+      if(logsManager.checkAndLogError(keyIt != secIt->second.end(), ("Retrieved config: [" + section + "] " + key + " = " + keyIt->second))) {
+
+      }
     }
    }
 

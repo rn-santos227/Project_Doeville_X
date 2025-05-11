@@ -18,6 +18,7 @@
 
 #include "states/GameStateManager.h"
 
+#include "utilities/config_reader/ConfigReader.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
@@ -43,8 +44,9 @@ namespace Project::Core {
     void handleFrameRate();
     
     bool isRunning;
-    LogsManager logsManager;
+    ConfigReader configReader;
     FramesCounter framesCounter;
+    LogsManager logsManager;
 
     std::unique_ptr<ComponentsFactory> componentFactory;
     std::unique_ptr<GameStateManager> gameStateManager;

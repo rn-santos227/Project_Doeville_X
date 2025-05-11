@@ -43,7 +43,7 @@ namespace Project::Utilities {
     return true;
   }
 
-   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {
+  std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {
     auto secIt = configData.find(section);
     if (secIt != configData.end()) {
       auto keyIt = secIt->second.find(key);
@@ -53,8 +53,9 @@ namespace Project::Utilities {
       }
     }
 
-     logsManager.logWarning("Config key not found: [" + section + "] " + key + ", using default: " + defaultValue);
-   }
+    logsManager.logWarning("Config key not found: [" + section + "] " + key + ", using default: " + defaultValue);
+    return defaultValue;
+  }
 
   void ConfigReader::trim(std::string& str) const {
     str.erase(0, str.find_first_not_of(" \t\r\n"));

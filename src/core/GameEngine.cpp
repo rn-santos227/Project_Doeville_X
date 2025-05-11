@@ -4,13 +4,12 @@ namespace Project::Core {
   GameEngine::GameEngine() :
   isRunning(false), framesCounter(), logsManager(), configReader(logsManager),
   gameStateManager(std::make_unique<GameStateManager>(5, logsManager)),
-  configHandler(std::make_unique<ConfigHandler>(logsManager)),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)), 
   fontHandler(std::make_unique<FontHandler>(logsManager)), 
   keyHandler(std::make_unique<KeyHandler>(logsManager)),
   mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
-  screenHandler(std::make_unique<ScreenHandler>(*gameStateManager, *configHandler, *cursorHandler, *fontHandler, *keyHandler, *mouseHandler, *resourcesHandler, logsManager, framesCounter))
+  screenHandler(std::make_unique<ScreenHandler>(logsManager, framesCounter, configReader, *gameStateManager, *cursorHandler, *fontHandler, *keyHandler, *mouseHandler, *resourcesHandler))
   {}
   
   GameEngine::~GameEngine() {

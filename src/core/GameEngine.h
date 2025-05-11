@@ -8,7 +8,6 @@
 
 #include "factories/component/ComponentsFactory.h"
 
-#include "handlers/config/ConfigHandler.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
@@ -51,7 +50,6 @@ namespace Project::Core {
     std::unique_ptr<ComponentsFactory> componentFactory;
     std::unique_ptr<GameStateManager> gameStateManager;
 
-    std::unique_ptr<ConfigHandler> configHandler;
     std::unique_ptr<CursorHandler> cursorHandler;
     std::unique_ptr<FontHandler> fontHandler;
     std::unique_ptr<KeyHandler> keyHandler;

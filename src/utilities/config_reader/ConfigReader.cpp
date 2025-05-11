@@ -49,7 +49,7 @@ namespace Project::Utilities {
       auto keyIt = secIt->second.find(key);
       if(logsManager.checkAndLogError(keyIt != secIt->second.end(), ("Retrieved config: [" + section + "] " + key + " = " + keyIt->second))) {
         logsManager.flushLogs();
-        return defaultValue;
+        return keyIt->second;
       }
     }
    }

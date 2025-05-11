@@ -74,6 +74,7 @@ namespace Project::Utilities {
 
   bool ConfigReader::getBoolValue(const std::string& section, const std::string& key, bool defaultValue) const {
     std::string value = getValue(section, key);
+     return !value.empty() ? (value == "true" || value == "1") : defaultValue;
   }
 
   void ConfigReader::trim(std::string& str) const {

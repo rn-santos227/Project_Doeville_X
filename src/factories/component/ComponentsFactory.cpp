@@ -1,8 +1,8 @@
 #include "ComponentsFactory.h"
 
 namespace Project::Factories {
-  ComponentsFactory::ComponentsFactory(ConfigHandler& configHandler, LogsManager& logsManager)
-  : configHandler(configHandler), logsManager(logsManager), renderer(nullptr) {}
+  ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager)
+  : configReader(configReader), logsManager(logsManager), renderer(nullptr) {}
 
   std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, lua_State* lua) {
     if(logsManager.checkAndLogError(!renderer, "Renderer is null for component: " + componentName)) {

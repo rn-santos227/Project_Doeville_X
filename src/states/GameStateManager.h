@@ -18,7 +18,7 @@ using namespace Project::Utilities;
 namespace Project::States {
   class GameStateManager {
   public:
-    GameStateManager(size_t cacheLimit, LogsManager& logsManager);
+    GameStateManager(size_t cacheLimit, ComponentsFactory& componentsFactory, LogsManager& logsManager);
     ~GameStateManager() = default;
 
     void addState(const std::string& name, std::unique_ptr<GameState> state);

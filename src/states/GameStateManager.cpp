@@ -1,8 +1,8 @@
 #include "GameStateManager.h"
 
 namespace Project::States {
-  GameStateManager::GameStateManager(size_t cacheLimit, LogsManager& logsManager)
-    : cacheLimit(cacheLimit), logsManager(logsManager) {}
+  GameStateManager::GameStateManager(size_t cacheLimit, ComponentsFactory& componentsFactory, LogsManager& logsManager)
+    : cacheLimit(cacheLimit), componentsFactory(componentsFactory), logsManager(logsManager) {}
 
   void GameStateManager::addState(const std::string& name, std::unique_ptr<GameState> state) {
     states[name] = std::move(state);

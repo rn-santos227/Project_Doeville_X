@@ -10,6 +10,9 @@
 #include <mutex>
 #include <unordered_map>
 
+#include "factories/component/ComponentsFactory.h"
+
+using namespace Project::Factories;
 using namespace Project::Utilities;
 
 namespace Project::States {
@@ -36,6 +39,7 @@ namespace Project::States {
 
   private:
     LogsManager& logsManager;
+    ComponentsFactory& componentsFactory;
 
     size_t cacheLimit;
     std::mutex gameStateMutex;

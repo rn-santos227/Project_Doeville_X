@@ -34,7 +34,6 @@ namespace Project::States {
     void cleanup();
     void cleanupCache();
 
-
   private:
     LogsManager& logsManager;
 

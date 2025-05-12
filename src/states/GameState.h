@@ -24,7 +24,7 @@ using namespace Project::Utilities;
 namespace Project::States {
   class GameState {
   public:
-    explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager);
+    explicit GameState(SDL_Renderer* renderer, ComponentsFactory& componentsFactory, LogsManager& logsManager);
     virtual ~GameState();
 
     lua_State* getLuaState() const { return luaState; }

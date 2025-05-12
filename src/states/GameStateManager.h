@@ -39,7 +39,7 @@ namespace Project::States {
     void cleanupCache();
 
     std::shared_ptr<EntitiesManager> getGlobalEntitiesManager() const {
-
+      return globalEntitiesManager;
     }
 
   private:

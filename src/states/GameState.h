@@ -13,9 +13,11 @@ extern "C" {
   #include "lualib.h"
 }
 
+#include "factories/component/ComponentsFactory.h"
 #include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Factories;
 using namespace Project::Entities;
 using namespace Project::Utilities;
 

@@ -31,7 +31,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(LogsManager& logsManager, FramesCounter& frameCounter, ConfigReader& configReader, GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler);
+    ScreenHandler(LogsManager& logsManager, FramesCounter& frameCounter, ConfigReader& configReader, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler);
     ~ScreenHandler();
 
     bool init();
@@ -51,7 +51,7 @@ namespace Project::Handlers {
     FramesCounter& framesCounter;
     ConfigReader configReader;
     
-    ComponentsFactory componentsFactory;    GameStateManager& gameStateManager;
+    ComponentsFactory& componentsFactory;
     GameStateManager& gameStateManager;
 
     CursorHandler& cursorHandler;

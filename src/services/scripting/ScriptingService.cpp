@@ -3,8 +3,8 @@
 namespace fs = std::filesystem;
 
 namespace Project::Services {
-  ScriptingService::ScriptingService(SDL_Renderer* renderer, GameStateManager& gameStateManager, LogsManager& logsManager) : 
-    renderer(renderer), gameStateManager(gameStateManager), logsManager(logsManager), gameStateFactory(gameStateManager, logsManager) {
+  ScriptingService::ScriptingService(SDL_Renderer* renderer, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager, LogsManager& logsManager) : 
+    renderer(renderer), componentsFactory(componentsFactory), gameStateManager(gameStateManager), logsManager(logsManager), gameStateFactory(gameStateManager, logsManager) {
     luaState = luaL_newstate();
     luaL_openlibs(luaState);
   }

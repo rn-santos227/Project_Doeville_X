@@ -13,7 +13,11 @@ namespace Project::Handlers {
       : window(nullptr), renderer(nullptr), running(false), 
       logsManager(logsManager), framesCounter(framesCounter), configReader(configReader), 
       componentsFactory(componentsFactory), gameStateManager(gameStateManager),
-      cursorHandler(cursorHandler), fontHandler(fontHandler), keyHandler(keyHandler), mouseHandler(mouseHandler), resourcesHandler(resourcesHandler)
+      cursorHandler(cursorHandler), 
+      fontHandler(fontHandler), 
+      keyHandler(keyHandler), 
+      mouseHandler(mouseHandler), 
+      resourcesHandler(resourcesHandler)
       {}
 
   ScreenHandler::~ScreenHandler() {

@@ -17,7 +17,9 @@ extern "C" {
   #include "lualib.h"
 }
 
+#include "factories/component/ComponentsFactory.h"
 #include "factories/state/GameStateFactory.h"
+
 #include "states/GameStateManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
@@ -37,8 +39,9 @@ namespace Project::Services {
 
   private:
     lua_State* luaState;
-    SDL_Renderer* renderer; 
+    SDL_Renderer* renderer;
 
+    ComponentsFactory& componentsFactory;
     GameStateManager& gameStateManager;
     LogsManager& logsManager;
 

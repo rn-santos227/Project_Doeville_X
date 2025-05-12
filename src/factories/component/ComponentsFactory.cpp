@@ -40,10 +40,10 @@ namespace Project::Factories {
     SDL_Color color = getLuaSDLColor(lua);
     std::string text = getLuaGlobalString(lua, "text", "Default Text");
 
-    std::string defaultFontPath = configHandler.getValue("Paths", "default_font", "resources/fonts/system.ttf");
+    std::string defaultFontPath = configReader.getValue("Paths", "default_font", "resources/fonts/system.ttf");
     std::string fontPath = getLuaGlobalString(lua, "fontPath", defaultFontPath);
 
-    int defaultFontSize = configHandler.getIntValue("Text", "default_font_size", 16);
+    int defaultFontSize = configReader.getIntValue("Text", "default_font_size", 16);
     int fontSize = getLuaGlobalInt(lua, "fontSize", defaultFontSize);
 
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);

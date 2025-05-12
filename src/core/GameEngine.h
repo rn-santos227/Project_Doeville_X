@@ -47,7 +47,7 @@ namespace Project::Core {
     FramesCounter framesCounter;
     ConfigReader configReader;
 
-    std::unique_ptr<ComponentsFactory> componentFactory;
+    std::unique_ptr<ComponentsFactory> componentsFactory;
     std::unique_ptr<GameStateManager> gameStateManager;
 
     std::unique_ptr<CursorHandler> cursorHandler;

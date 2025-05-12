@@ -10,16 +10,14 @@
 #include <mutex>
 #include <unordered_map>
 
-#include "factories/component/ComponentsFactory.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Factories;
 using namespace Project::Utilities;
 
 namespace Project::States {
   class GameStateManager {
   public:
-    GameStateManager(size_t cacheLimit, ComponentsFactory& componentsFactory, LogsManager& logsManager);
+    GameStateManager(size_t cacheLimit, LogsManager& logsManager);
     ~GameStateManager() = default;
 
     void addState(const std::string& name, std::unique_ptr<GameState> state);
@@ -40,7 +38,6 @@ namespace Project::States {
 
   private:
     LogsManager& logsManager;
-    ComponentsFactory& componentsFactory;
 
     size_t cacheLimit;
     std::mutex gameStateMutex;

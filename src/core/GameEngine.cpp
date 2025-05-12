@@ -4,6 +4,7 @@ namespace Project::Core {
   GameEngine::GameEngine() :
   isRunning(false), framesCounter(), logsManager(), configReader(logsManager),
   gameStateManager(std::make_unique<GameStateManager>(5, logsManager)),
+  componentFactory(std::make_unique<ComponentsFactory>(configReader, logsManager)),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)), 
   fontHandler(std::make_unique<FontHandler>(logsManager)), 
   keyHandler(std::make_unique<KeyHandler>(logsManager)),

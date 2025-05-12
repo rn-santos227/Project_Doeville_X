@@ -40,14 +40,15 @@ namespace Project::States {
 
   private:
     LogsManager& logsManager;
-
     size_t cacheLimit;
+   
     std::mutex gameStateMutex;
-    
-    std::unordered_map<std::string, std::unique_ptr<GameState>> states;
+
     std::list<std::pair<std::string, std::unique_ptr<GameState>>> stateCache;
+    std::unordered_map<std::string, std::unique_ptr<GameState>> states;
     std::unordered_map<std::string, decltype(stateCache.begin())> cacheMap;
-  
+    
+    std::shared_ptr<EntitiesManager> globalEntitiesManager = std::make_shared<EntitiesManager>();
     std::stack<GameState*> stateStack;
 
     GameState* retrieveFromCache(const std::string& name);

@@ -10,10 +10,10 @@ using namespace Project::Entities;
 using namespace Project::Utilities;
 
 namespace Project::Factories {
-  class EntityFactory {
+  class EntitiesFactory {
   public:
-    explicit EntityFactory(LogsManager& logsManager);
-    ~EntityFactory();
+    explicit EntitiesFactory(LogsManager& logsManager);
+    ~EntitiesFactory();
 
     bool createEntityFromLua(const std::string& scriptPath);
     bool hasEntityTemplate(const std::string& entityName) const;

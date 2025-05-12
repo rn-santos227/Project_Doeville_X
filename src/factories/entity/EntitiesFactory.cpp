@@ -1,13 +1,13 @@
-#include "EntityFactory.h"
+#include "EntitiesFactory.h"
 
 namespace Project::Factories {
-  EntityFactory::EntityFactory(LogsManager& logsManager) : logsManager(logsManager) {}
+  EntitiesFactory::EntitiesFactory(LogsManager& logsManager) : logsManager(logsManager) {}
 
-  EntityFactory::~EntityFactory() {
+  EntitiesFactory::~EntitiesFactory() {
     entityTemplates.clear();
   }
 
-  bool EntityFactory::createEntityFromLua(const std::string& scriptPath) {
+  bool EntitiesFactory::createEntityFromLua(const std::string& scriptPath) {
     std::unique_ptr<Entity> entity = loadEntityTemplateFromLua(scriptPath);
     if(logsManager.checkAndLogError(!entity, "Failed to load entity template from Lua: " + scriptPath)) {
       logsManager.flushLogs();
@@ -24,11 +24,11 @@ namespace Project::Factories {
     return true;
   }
 
-  bool EntityFactory::hasEntityTemplate(const std::string& entityName) const {
+  bool EntitiesFactory::hasEntityTemplate(const std::string& entityName) const {
     return entityTemplates.find(entityName) != entityTemplates.end();
   }
 
-  std::unique_ptr<Entity> EntityFactory::cloneEntity(const std::string& entityName) {
+  std::unique_ptr<Entity> EntitiesFactory::cloneEntity(const std::string& entityName) {
     auto it = entityTemplates.find(entityName);
     if(logsManager.checkAndLogError(it == entityTemplates.end(), "Entity template not found: " + entityName)) {
       logsManager.flushLogs();
@@ -47,7 +47,7 @@ namespace Project::Factories {
     return clone;
   }
 
-  std::unique_ptr<Entity> EntityFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
+  std::unique_ptr<Entity> EntitiesFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
     std::string fileName = scriptPath.substr(scriptPath.find_last_of("/\\") + 1);
     std::string name = fileName.substr(0, fileName.find_last_of('.'));
 

@@ -13,18 +13,16 @@ extern "C" {
   #include "lualib.h"
 }
 
-#include "factories/component/ComponentsFactory.h"
 #include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Factories;
 using namespace Project::Entities;
 using namespace Project::Utilities;
 
 namespace Project::States {
   class GameState {
   public:
-    explicit GameState(SDL_Renderer* renderer, ComponentsFactory& componentsFactory, LogsManager& logsManager);
+    explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager);
     virtual ~GameState();
 
     lua_State* getLuaState() const { return luaState; }
@@ -58,15 +56,14 @@ namespace Project::States {
     };
 
   protected:
-    ComponentsFactory& componentsFactory;
-    LogsManager& logsManager;
-
     lua_State* luaState = nullptr;
+    LogsManager& logsManager;
+  std::string stateName;
+
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Color backgroundColor = {0, 0, 0, 255};
-    
-    std::string stateName;
+
     bool useImageBackground = false;
     bool initialized = false;
     bool active = false;

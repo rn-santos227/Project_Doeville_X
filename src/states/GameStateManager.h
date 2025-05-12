@@ -38,6 +38,10 @@ namespace Project::States {
     void cleanup();
     void cleanupCache();
 
+    std::shared_ptr<EntitiesManager> getGlobalEntitiesManager() const {
+
+    }
+
   private:
     LogsManager& logsManager;
     size_t cacheLimit;

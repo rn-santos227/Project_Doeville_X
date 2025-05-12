@@ -58,14 +58,15 @@ namespace Project::States {
     };
 
   protected:
-    lua_State* luaState = nullptr;
+    ComponentsFactory& componentsFactory;
     LogsManager& logsManager;
-  std::string stateName;
 
+    lua_State* luaState = nullptr;
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Color backgroundColor = {0, 0, 0, 255};
-
+    
+    std::string stateName;
     bool useImageBackground = false;
     bool initialized = false;
     bool active = false;

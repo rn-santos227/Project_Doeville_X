@@ -18,6 +18,7 @@ extern "C" {
 }
 
 #include "factories/component/ComponentsFactory.h"
+#include "factories/entity/EntitiesFactory.h"
 #include "factories/state/GameStateFactory.h"
 
 #include "states/GameStateManager.h"
@@ -45,6 +46,7 @@ namespace Project::Services {
     GameStateManager& gameStateManager;
     LogsManager& logsManager;
 
+    EntitiesFactory entitiesFactory;
     GameStateFactory gameStateFactory;
     
     ScriptCategory determineScriptType(const std::string& scriptName);

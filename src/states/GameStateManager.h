@@ -10,8 +10,10 @@
 #include <mutex>
 #include <unordered_map>
 
+#include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Entities;
 using namespace Project::Utilities;
 
 namespace Project::States {

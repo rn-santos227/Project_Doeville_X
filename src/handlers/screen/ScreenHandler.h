@@ -7,6 +7,8 @@
 
 #include <SDL.h>
 
+#include "factories/component/ComponentsFactory.h"
+
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
@@ -21,6 +23,7 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Factories;
 using namespace Project::Services;
 using namespace Project::States;
 using namespace Project::Utilities;
@@ -48,13 +51,14 @@ namespace Project::Handlers {
     FramesCounter& framesCounter;
     ConfigReader configReader;
     
+    ComponentsFactory componentsFactory;    GameStateManager& gameStateManager;
+    GameStateManager& gameStateManager;
+
     CursorHandler& cursorHandler;
     FontHandler& fontHandler;
     KeyHandler& keyHandler;
     MouseHandler& mouseHandler;
     ResourcesHandler& resourcesHandler;
-
-    GameStateManager& gameStateManager;
     
     std::unique_ptr<ScriptingService> scriptingService;
 

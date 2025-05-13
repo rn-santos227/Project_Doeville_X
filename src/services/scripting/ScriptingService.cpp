@@ -48,6 +48,9 @@ namespace Project::Services {
         ScriptCategory::OTHER
       };
 
+      for (ScriptCategory category : loadOrder) {
+
+      }
     }
   }
   

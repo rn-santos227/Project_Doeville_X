@@ -32,7 +32,7 @@ namespace Project::Services {
 
   class ScriptingService {
   public:
-    explicit ScriptingService(SDL_Renderer* renderer, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager, LogsManager& logsManager);
+    explicit ScriptingService(SDL_Renderer* renderer, LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager);
     ~ScriptingService();
 
     bool validateScript(const std::string& scriptPath);

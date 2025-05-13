@@ -4,7 +4,7 @@ namespace fs = std::filesystem;
 
 namespace Project::Services {
   ScriptingService::ScriptingService(SDL_Renderer* renderer, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager, LogsManager& logsManager)
-    : renderer(renderer), componentsFactory(componentsFactory), gameStateManager(gameStateManager), logsManager(logsManager), gameStateFactory(gameStateManager, logsManager) {
+    : renderer(renderer), logsManager(logsManager), componentsFactory(componentsFactory), gameStateManager(gameStateManager), gameStateFactory(gameStateManager, logsManager) {
     luaState = luaL_newstate();
     luaL_openlibs(luaState);
   }

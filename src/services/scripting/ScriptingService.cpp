@@ -17,6 +17,9 @@ namespace Project::Services {
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {
     std::vector<std::pair<std::string, ScriptCategory>> deferredScripts;
+    for (const auto& entry : fs::recursive_directory_iterator(folderPath)) {
+
+    }
   }
   
   bool ScriptingService::validateScript(const std::string& scriptPath) {

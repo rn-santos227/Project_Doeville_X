@@ -16,29 +16,7 @@ namespace Project::Services {
   }
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {
-    for (const auto& entry : fs::recursive_directory_iterator(folderPath)) {
-      if (entry.is_regular_file()) {
-        const std::string scriptPath  = entry.path().string();
-        const std::string scriptName  = entry.path().filename().string();
 
-        if (fs::is_directory(entry) || scriptName.find(".lua") == std::string::npos) {
-          continue;
-        }
-
-        ScriptCategory category = determineScriptType(scriptName);
-        if (category != ScriptCategory::INVALID) {
-          if(validateScript(scriptPath)) {
-            loadScriptByCategory(scriptPath, category);
-          } else {
-            logsManager.logError("Illegal script: " + scriptName);
-            logsManager.flushLogs();
-          }
-        } else {
-          logsManager.logError("Invalid script naming: " + scriptName);
-          logsManager.flushLogs();
-        }
-      }
-    }
   }
   
   bool ScriptingService::validateScript(const std::string& scriptPath) {

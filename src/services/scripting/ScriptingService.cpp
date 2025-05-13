@@ -21,6 +21,7 @@ namespace Project::Services {
       if (!entry.is_regular_file()) continue;
 
       const std::string scriptPath = entry.path().string();
+      const std::string scriptName = entry.path().filename().string();
     }
   }
   

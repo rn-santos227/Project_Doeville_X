@@ -28,8 +28,9 @@ namespace Project::Services {
       }
       
       ScriptCategory category = determineScriptType(scriptName);
-      if (category != ScriptCategory::INVALID) {
-
+      if (logsManager.checkAndLogError(category == ScriptCategory::INVALID, "Invalid script type for file: " + scriptPath)) {
+        logsManager.flushLogs();
+        continue;
       }
     }
   }

@@ -39,8 +39,10 @@ namespace Project::Services {
       }
 
       categorizedScripts[category].push_back(scriptPath);
+      std::vector<ScriptCategory> loadOrder = {
 
-      
+      };
+
     }
   }
   

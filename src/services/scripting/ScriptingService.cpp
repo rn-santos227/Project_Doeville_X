@@ -42,6 +42,7 @@ namespace Project::Services {
       std::vector<ScriptCategory> loadOrder = {
         ScriptCategory::ENTITY,
         ScriptCategory::ITEM,
+        ScriptCategory::ANIMATION,
       };
 
     }

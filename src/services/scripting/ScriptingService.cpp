@@ -32,6 +32,11 @@ namespace Project::Services {
         logsManager.flushLogs();
         continue;
       }
+
+      if(logsManager.checkAndLogError(!validateScript(scriptPath), "Failed to validate script: " + scriptPath)) {
+        logsManager.flushLogs();
+        continue;
+      }
     }
   }
   

@@ -28,6 +28,9 @@ namespace Project::Services {
       }
       
       ScriptCategory category = determineScriptType(scriptName);
+      if (category != ScriptCategory::INVALID) {
+
+      }
     }
   }
   

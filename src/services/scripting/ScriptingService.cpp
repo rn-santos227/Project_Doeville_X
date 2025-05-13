@@ -45,6 +45,7 @@ namespace Project::Services {
         ScriptCategory::ANIMATION,
         ScriptCategory::MAP,
         ScriptCategory::STATE,
+        ScriptCategory::OTHER
       };
 
     }

@@ -50,6 +50,9 @@ namespace Project::Services {
 
       for (ScriptCategory category : loadOrder) {
         const auto& scripts = categorizedScripts[category];
+        for (const std::string& scriptPath : scripts) {
+
+        }
       }
     }
   }

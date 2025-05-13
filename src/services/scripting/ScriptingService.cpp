@@ -24,6 +24,7 @@ namespace Project::Services {
       const std::string scriptName = entry.path().filename().string();
 
       if (scriptName.find(".lua") == std::string::npos) continue;
+      ScriptCategory category = determineScriptType(scriptName);
     }
   }
   

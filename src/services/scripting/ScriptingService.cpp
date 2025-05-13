@@ -43,6 +43,7 @@ namespace Project::Services {
         ScriptCategory::ENTITY,
         ScriptCategory::ITEM,
         ScriptCategory::ANIMATION,
+        ScriptCategory::MAP,
       };
 
     }

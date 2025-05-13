@@ -19,6 +19,8 @@ namespace Project::Services {
     std::vector<std::pair<std::string, ScriptCategory>> deferredScripts;
     for (const auto& entry : fs::recursive_directory_iterator(folderPath)) {
       if (!entry.is_regular_file()) continue;
+
+      const std::string scriptPath = entry.path().string();
     }
   }
   

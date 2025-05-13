@@ -16,7 +16,7 @@ namespace Project::Services {
   }
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {
-    std::vector<std::pair<std::string, ScriptCategory>> deferredScripts;
+    std::unordered_map<ScriptCategory, std::vector<std::string>> categorizedScripts;
     for (const auto& entry : fs::recursive_directory_iterator(folderPath)) {
       if (!entry.is_regular_file()) continue;
 
@@ -37,6 +37,8 @@ namespace Project::Services {
         logsManager.flushLogs();
         continue;
       }
+
+      
     }
   }
   

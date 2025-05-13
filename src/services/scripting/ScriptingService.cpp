@@ -49,7 +49,7 @@ namespace Project::Services {
       };
 
       for (ScriptCategory category : loadOrder) {
-
+        const auto& scripts = categorizedScripts[category];
       }
     }
   }

@@ -38,6 +38,8 @@ namespace Project::Services {
         continue;
       }
 
+      categorizedScripts[category].push_back(scriptPath);
+
       
     }
   }

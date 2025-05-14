@@ -6,6 +6,7 @@ namespace Project::Services {
   inline const std::vector<ScriptCategory> loadOrder = {
     ScriptCategory::ENTITY,
     ScriptCategory::ITEM,
+    ScriptCategory::ANIMATION,
   };
 
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)

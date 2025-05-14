@@ -3,6 +3,10 @@
 namespace fs = std::filesystem;
 
 namespace Project::Services {
+  inline const std::vector<ScriptCategory> loadOrder = {
+
+  };
+
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
     : renderer(renderer), logsManager(logsManager), componentsFactory(componentsFactory), gameStateManager(gameStateManager), entitiesFactory(logsManager), gameStateFactory(gameStateManager, logsManager) {
     luaState = luaL_newstate();

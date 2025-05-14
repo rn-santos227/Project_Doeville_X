@@ -22,7 +22,7 @@ namespace Project::Factories {
     }
 
     entityTemplates[name] = std::move(entity);
-    return true;
+    return entity;
   }
 
   bool EntitiesFactory::hasEntityTemplate(const std::string& entityName) const {

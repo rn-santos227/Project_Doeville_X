@@ -1,7 +1,8 @@
 #include "EntitiesFactory.h"
 
 namespace Project::Factories {
-  EntitiesFactory::EntitiesFactory(LogsManager& logsManager) : logsManager(logsManager) {}
+  EntitiesFactory::EntitiesFactory(LogsManager& logsManager, ComponentsFactory& componentsFactory)
+    : logsManager(logsManager), componentsFactory(componentsFactory) {}
 
   EntitiesFactory::~EntitiesFactory() {
     entityTemplates.clear();

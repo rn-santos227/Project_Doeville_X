@@ -4,7 +4,7 @@ namespace fs = std::filesystem;
 
 namespace Project::Services {
   inline const std::vector<ScriptCategory> loadOrder = {
-
+    ScriptCategory::ENTITY,
   };
 
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)

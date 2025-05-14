@@ -52,6 +52,9 @@ namespace Project::Services {
       }
 
       categorizedScripts[category].push_back(scriptPath);
+      for (ScriptCategory category : loadOrder) {
+
+      }
     }
   }
 

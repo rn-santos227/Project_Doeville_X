@@ -18,7 +18,7 @@ namespace Project::Factories {
     std::string name = entity->getEntityName();
     if(logsManager.checkAndLogError(name.empty(), "Entity name is empty after loading from Lua: " + scriptPath)) {
       logsManager.flushLogs();
-      return false;
+      return nullptr;
     }
 
     entityTemplates[name] = std::move(entity);

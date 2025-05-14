@@ -15,7 +15,7 @@ using namespace Project::Utilities;
 namespace Project::Factories {
   class EntitiesFactory {
   public:
-    explicit EntitiesFactory(LogsManager& logsManager);
+    explicit EntitiesFactory(LogsManager& logsManager, ComponentsFactory& componentsFactory);
     ~EntitiesFactory();
 
     std::unique_ptr<Entity> createEntityFromLua(const std::string& scriptPath);

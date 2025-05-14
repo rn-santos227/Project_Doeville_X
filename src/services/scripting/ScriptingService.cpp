@@ -2,8 +2,6 @@
 
 namespace fs = std::filesystem;
 
-//Update For Tommorrow
-
 namespace Project::Services {
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
     : renderer(renderer), logsManager(logsManager), componentsFactory(componentsFactory), gameStateManager(gameStateManager), entitiesFactory(logsManager), gameStateFactory(gameStateManager, logsManager) {
@@ -42,22 +40,6 @@ namespace Project::Services {
       }
 
       categorizedScripts[category].push_back(scriptPath);
-    }
-
-    std::vector<ScriptCategory> loadOrder = {
-      ScriptCategory::ENTITY,
-      ScriptCategory::ITEM,
-      ScriptCategory::ANIMATION,
-      ScriptCategory::MAP,
-      ScriptCategory::STATE,
-      ScriptCategory::OTHER
-    };
-
-    for (ScriptCategory category : loadOrder) {
-      const auto& scripts = categorizedScripts[category];
-      for (const std::string& scriptPath : scripts) {
-        loadScriptByCategory(scriptPath, category);
-      }
     }
   }
 

@@ -57,7 +57,7 @@ namespace Project::Services {
     for (ScriptCategory category : loadOrder) {
       const auto& scripts = categorizedScripts[category];
       for (const auto& scriptPath : scripts) {
-
+        loadScriptByCategory(scriptPath, category);
       }
     }
   }

@@ -18,16 +18,17 @@ namespace Project::Factories {
     explicit EntitiesFactory(LogsManager& logsManager);
     ~EntitiesFactory();
 
-    bool createEntityFromLua(const std::string& scriptPath);
-    bool hasEntityTemplate(const std::string& entityName) const;
-
+    std::unique_ptr<Entity> createEntityFromLua(const std::string& scriptPath);
     std::unique_ptr<Entity> cloneEntity(const std::string& entityName);
+
+    bool hasEntityTemplate(const std::string& entityName) const;
 
   private:
     LogsManager& logsManager;    
     ComponentsFactory& componentsFactory;
     
     std::unordered_map<std::string, std::unique_ptr<Entity>> entityTemplates;
+    
     std::unique_ptr<Entity> loadEntityTemplateFromLua(const std::string& scriptPath);
   };
 }

@@ -17,7 +17,7 @@ namespace Project::Services {
       logsManager(logsManager), 
       componentsFactory(componentsFactory), 
       gameStateManager(gameStateManager), 
-      entitiesFactory(logsManager), 
+      entitiesFactory(logsManager, componentsFactory), 
       gameStateFactory(gameStateManager, logsManager) {
     luaState = luaL_newstate();
     luaL_openlibs(luaState);

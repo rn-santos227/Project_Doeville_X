@@ -13,7 +13,12 @@ namespace Project::Services {
   };
 
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
-    : renderer(renderer), logsManager(logsManager), componentsFactory(componentsFactory), gameStateManager(gameStateManager), entitiesFactory(logsManager), gameStateFactory(gameStateManager, logsManager) {
+    : renderer(renderer), 
+      logsManager(logsManager), 
+      componentsFactory(componentsFactory), 
+      gameStateManager(gameStateManager), 
+      entitiesFactory(logsManager), 
+      gameStateFactory(gameStateManager, logsManager) {
     luaState = luaL_newstate();
     luaL_openlibs(luaState);
   }

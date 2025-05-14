@@ -8,6 +8,7 @@ namespace Project::Services {
     ScriptCategory::ITEM,
     ScriptCategory::ANIMATION,
     ScriptCategory::MAP,
+    ScriptCategory::STATE,
   };
 
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)

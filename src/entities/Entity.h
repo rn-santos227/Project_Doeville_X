@@ -17,9 +17,11 @@ extern "C" {
 }
 
 #include "components/BaseComponent.h"
+#include "factories/component/ComponentsFactory.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Components;
+using namespace Project::Factories;
 using namespace Project::Utilities;
 
 namespace Project::Entities {

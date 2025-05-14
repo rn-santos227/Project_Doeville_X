@@ -38,9 +38,7 @@ namespace Project::Services {
       const std::string scriptPath = entry.path().string();
       const std::string scriptName = entry.path().filename().string();
 
-      if (scriptName.find(".lua") == std::string::npos) {
-        continue;
-      }
+      if (scriptName.find(".lua") == std::string::npos) continue;
 
       ScriptCategory category = determineScriptType(scriptName);
       if (logsManager.checkAndLogError(category == ScriptCategory::INVALID, "Invalid script type for file: " + scriptPath)) {

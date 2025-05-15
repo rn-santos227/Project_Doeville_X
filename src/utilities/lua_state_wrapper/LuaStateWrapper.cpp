@@ -8,4 +8,8 @@ namespace Project::Utilities {
       luaL_openlibs(luaState);  
     }
   }
+
+  LuaStateWrapper::~LuaStateWrapper() {
+
+  }
 }

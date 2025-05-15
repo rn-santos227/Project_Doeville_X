@@ -22,7 +22,9 @@ extern "C" {
 #include "factories/state/GameStateFactory.h"
 
 #include "states/GameStateManager.h"
+
 #include "utilities/logs_manager/LogsManager.h"
+#include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
 using namespace Project::Factories;
 using namespace Project::States;
@@ -39,7 +41,7 @@ namespace Project::Services {
     void loadScriptsFromFolder(const std::string& folderPath);
 
   private:
-    lua_State* luaState;
+    LuaStateWrapper luaStateWrapper;
     SDL_Renderer* renderer;
 
     ComponentsFactory& componentsFactory;

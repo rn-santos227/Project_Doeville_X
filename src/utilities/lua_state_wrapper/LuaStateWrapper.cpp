@@ -10,6 +10,8 @@ namespace Project::Utilities {
   }
 
   LuaStateWrapper::~LuaStateWrapper() {
-
+    if (luaState) {
+      lua_close(luaState);
+    }
   }
 }

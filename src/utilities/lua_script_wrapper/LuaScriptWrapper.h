@@ -7,7 +7,8 @@
 #include "utilities/logs_manager/LogsManager.h"
 namespace Project::Utilities {
   class LuaStateWrapper {
-
+  public:
+    LuaStateWrapper(LogsManager& logsManager);
   };
 }
 #endif

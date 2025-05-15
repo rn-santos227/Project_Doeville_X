@@ -20,6 +20,11 @@ namespace Project::Services {
       componentsFactory(componentsFactory), 
       entitiesFactory(logsManager, componentsFactory), 
       gameStateFactory(logsManager, gameStateManager) {
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
+
+    } else {
+
+    }
   }
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {

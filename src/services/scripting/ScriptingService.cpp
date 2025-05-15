@@ -62,12 +62,6 @@ namespace Project::Services {
   }
 
   bool ScriptingService::validateScript(const std::string& scriptPath) {
-    int result = luaL_loadfile(luaState, scriptPath.c_str());
-    if (result != LUA_OK) {
-      handleLuaError(result);
-      return false;
-    }
-    lua_pop(luaState, 1);
     return true;
   }
 
@@ -91,6 +85,10 @@ namespace Project::Services {
   }
 
   void ScriptingService::loadScriptByCategory(const std::string& scriptPath, ScriptCategory category) {
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is not valid")) {
+
+    }
+    
     int result = luaL_dofile(luaState, scriptPath.c_str());
     if (result != LUA_OK) {
       handleLuaError(result);
@@ -108,11 +106,5 @@ namespace Project::Services {
         }
       }
     }
-  }
-
-  void ScriptingService::handleLuaError(int errorCode) {
-    const char* errorMessage = lua_tostring(luaState, -1);
-    logsManager.logError("Lua Error [" + std::to_string(errorCode) + "]:" + std::string(errorMessage));
-    lua_pop(luaState, 1); 
   }
 }

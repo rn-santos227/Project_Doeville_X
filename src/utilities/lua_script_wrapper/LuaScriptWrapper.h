@@ -13,6 +13,7 @@ namespace Project::Utilities {
 
     lua_State* get() const;
     bool isValid() const;
+    void handleLuaError(int errorCode) const;
   };
 }
 #endif

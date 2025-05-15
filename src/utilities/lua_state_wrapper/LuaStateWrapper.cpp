@@ -25,5 +25,6 @@ namespace Project::Utilities {
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
+    const char* errorMessage = lua_tostring(luaState, -1);
   }
 }

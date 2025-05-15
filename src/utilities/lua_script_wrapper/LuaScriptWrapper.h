@@ -5,5 +5,9 @@
 #include <string>
 
 #include "utilities/logs_manager/LogsManager.h"
+namespace Project::Utilities {
+  class LuaStateWrapper {
 
+  };
+}
 #endif

@@ -9,6 +9,7 @@ namespace Project::Utilities {
   class LuaStateWrapper {
   public:
     LuaStateWrapper(LogsManager& logsManager);
+    ~LuaStateWrapper();
   };
 }
 #endif

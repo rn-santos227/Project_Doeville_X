@@ -15,18 +15,11 @@ namespace Project::Services {
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
     : renderer(renderer), 
       logsManager(logsManager), 
+      luaStateWrapper(logsManager),
       gameStateManager(gameStateManager), 
       componentsFactory(componentsFactory), 
       entitiesFactory(logsManager, componentsFactory), 
       gameStateFactory(logsManager, gameStateManager) {
-    luaState = luaL_newstate();
-    luaL_openlibs(luaState);
-  }
-
-  ScriptingService::~ScriptingService() {
-    if (luaState) {
-      lua_close(luaState);
-    }
   }
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {

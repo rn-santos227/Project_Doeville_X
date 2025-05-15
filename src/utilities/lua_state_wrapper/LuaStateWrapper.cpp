@@ -22,4 +22,8 @@ namespace Project::Utilities {
   bool LuaStateWrapper::isValid() const {
     return luaState != nullptr;
   }
+
+  void LuaStateWrapper::handleLuaError(int errorCode) const {
+
+  }
 }

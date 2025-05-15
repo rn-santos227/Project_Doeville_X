@@ -18,4 +18,8 @@ namespace Project::Utilities {
   lua_State* LuaStateWrapper::get() const {
     return luaState;
   }
+
+  bool LuaStateWrapper::isValid() const {
+    return luaState != nullptr;
+  }
 }

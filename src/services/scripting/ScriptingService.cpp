@@ -23,7 +23,8 @@ namespace Project::Services {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
 
     } else {
-
+      lua_State* luaState = luaStateWrapper.get();
+      luaL_openlibs(luaState);  
     }
   }
 

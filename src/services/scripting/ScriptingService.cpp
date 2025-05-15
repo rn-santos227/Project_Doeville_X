@@ -21,7 +21,7 @@ namespace Project::Services {
       entitiesFactory(logsManager, componentsFactory), 
       gameStateFactory(logsManager, gameStateManager) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
-
+      logsManager.flushLogs();
     } else {
       lua_State* luaState = luaStateWrapper.get();
       luaL_openlibs(luaState);  

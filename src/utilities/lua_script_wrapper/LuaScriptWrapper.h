@@ -12,6 +12,7 @@ namespace Project::Utilities {
     ~LuaStateWrapper();
 
     lua_State* get() const;
+    bool isValid() const;
   };
 }
 #endif

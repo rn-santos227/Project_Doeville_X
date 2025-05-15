@@ -14,4 +14,8 @@ namespace Project::Utilities {
       lua_close(luaState);
     }
   }
+
+  lua_State* LuaStateWrapper::get() const {
+    return luaState;
+  }
 }

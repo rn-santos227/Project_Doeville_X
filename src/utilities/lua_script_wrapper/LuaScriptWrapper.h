@@ -10,6 +10,8 @@ namespace Project::Utilities {
   public:
     LuaStateWrapper(LogsManager& logsManager);
     ~LuaStateWrapper();
+
+    lua_State* get() const;
   };
 }
 #endif

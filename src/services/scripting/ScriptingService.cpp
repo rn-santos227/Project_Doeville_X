@@ -89,9 +89,9 @@ namespace Project::Services {
 
     }
     
-    int result = luaL_dofile(luaState, scriptPath.c_str());
+    int result = luaL_dofile(luaStateWrapper.get(), scriptPath.c_str());
     if (result != LUA_OK) {
-      handleLuaError(result);
+      luaStateWrapper.handleLuaError(result);
       return;
     }
 

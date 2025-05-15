@@ -26,5 +26,6 @@ namespace Project::Utilities {
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);
+    logsManager.logError("Lua Error [" + std::to_string(errorCode) + "]: " + std::string(errorMessage));  
   }
 }

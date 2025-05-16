@@ -9,6 +9,7 @@ namespace Project::States {
     }
 
     lua_State* L = luaStateWrapper.get();
+    luaL_openlibs(L);
   }
 
   GameState::~GameState() {

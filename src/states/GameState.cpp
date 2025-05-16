@@ -164,7 +164,7 @@ namespace Project::States {
     lua_State* L = luaStateWrapper.get();
     luaL_openlibs(L);
 
-    lua_pushcfunction(luaState, lua_printRedirect);
+    lua_pushcfunction(L, lua_printRedirect);
     lua_setglobal(luaState, "print");
 
     if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {

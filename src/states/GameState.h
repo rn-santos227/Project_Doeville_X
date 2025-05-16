@@ -7,12 +7,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-extern "C" {
-  #include "lua.h"
-  #include "lauxlib.h"
-  #include "lualib.h"
-}
-
 #include "entities/EntitiesManager.h"
 
 #include "utilities/logs_manager/LogsManager.h"

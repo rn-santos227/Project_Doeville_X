@@ -167,11 +167,9 @@ namespace Project::States {
     lua_pushcfunction(L, lua_printRedirect);
     lua_setglobal(L, "print");
 
-    if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
-      handleLuaError("Failed to load Lua script: " + scriptPath);
-      lua_close(luaState);
-      luaState = nullptr;
-
+    if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
+      luaStateWrapper.handleLuaError("Failed to load Lua script: " + scriptPath);
+      lua_close(L);
       return false;
     }
     logsManager.logMessage("Lua script attached: " + scriptPath);

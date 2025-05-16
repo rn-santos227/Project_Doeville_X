@@ -11,12 +11,6 @@
 
 #include <SDL2/SDL.h>
 
-extern "C" {
-  #include "lua.h"
-  #include "lauxlib.h"
-  #include "lualib.h"
-}
-
 #include "factories/component/ComponentsFactory.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "factories/state/GameStateFactory.h"

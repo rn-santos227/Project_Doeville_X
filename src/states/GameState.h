@@ -27,7 +27,7 @@ namespace Project::States {
     explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager);
     virtual ~GameState();
 
-    lua_State* getLuaState() const { return luaState; }
+    lua_State* getLuaState() const { return luaStateWrapper.get(); }
 
     virtual void initialize();
     virtual void onEnter();

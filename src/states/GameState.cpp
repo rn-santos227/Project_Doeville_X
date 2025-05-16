@@ -161,7 +161,7 @@ namespace Project::States {
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {
-    luaState = luaL_newstate();
+    lua_State* L = luaStateWrapper.get();
     luaL_openlibs(luaState);
 
     lua_pushcfunction(luaState, lua_printRedirect);

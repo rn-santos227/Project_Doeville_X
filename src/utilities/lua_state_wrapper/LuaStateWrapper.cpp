@@ -29,4 +29,8 @@ namespace Project::Utilities {
     logsManager.logError("Lua Error [" + std::to_string(errorCode) + "]: " + std::string(errorMessage));
     lua_pop(luaState, 1);
   }
+
+  void LuaStateWrapper::handleLuaError(const std::string& errorMessage) const {
+
+  }
 }

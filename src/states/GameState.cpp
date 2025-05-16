@@ -110,7 +110,7 @@ namespace Project::States {
     lua_State* L = luaStateWrapper.get();
     lua_getglobal(L, "handleInput");
     if (lua_isfunction(L, -1)) {
-      int result = lua_pcall(luaState, 0, 0, 0);
+      int result = lua_pcall(L, 0, 0, 0);
       if (result != LUA_OK) {
         handleLuaError("Error calling Lua function 'handleInput': " + std::string(lua_tostring(luaState, -1)));
       }

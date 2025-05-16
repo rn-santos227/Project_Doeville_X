@@ -2,7 +2,6 @@
 #define GAME_STATE_MANAGER_H
 
 #include "GameState.h"
-#include "GameStateID.h"
 
 #include <stack>
 #include <list>

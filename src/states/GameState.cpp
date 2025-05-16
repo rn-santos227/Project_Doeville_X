@@ -49,14 +49,14 @@ namespace Project::States {
     lua_setglobal(L, "setBackgroundImage");
 
     if (!callLuaFunction("initialize")) {
-       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
+      luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }
   }
 
   void GameState::onEnter() {
     setActive(true);
     if (!callLuaFunction("onEnter")) {
-      handleLuaError("Error calling Lua function 'onEnter': " + std::string(lua_tostring(luaState, -1)));
+      luaStateWrapper.handleLuaError("Error calling Lua function 'onEnter': " + std::string(lua_tostring(luaStateWrapper.get(), -1)));
     }
   }
 

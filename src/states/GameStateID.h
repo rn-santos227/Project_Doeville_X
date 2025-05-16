@@ -1,8 +1,8 @@
-#ifndef STATE_ID_H
-#define STATE_ID_H
+#ifndef STATE_CATEGORY_H
+#define STATE_CATEGORY_H
 
 namespace Project::States {
-  enum class StateID {
+  enum class StateCategory {
     // Core States
     MAIN_MENU_STATE,
     SETTINGS_STATE,

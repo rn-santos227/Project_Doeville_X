@@ -73,7 +73,7 @@ namespace Project::States {
     }
 
     if (!callLuaFunction("update")) {
-      handleLuaError("Error calling Lua function 'update'");
+      luaStateWrapper.handleLuaError("Error calling Lua function 'update'");
     }
   }
 

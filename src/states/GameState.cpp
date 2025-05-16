@@ -25,13 +25,13 @@ namespace Project::States {
 
     if (!lua_isfunction(L, -1)) {
       luaStateWrapper.handleLuaError("Lua function not found: " + functionName);
-      lua_pop(luaState, 1);
+      lua_pop(L, 1);
       return false;
     }
 
-    if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
-      handleLuaError("Error calling Lua function '" + functionName + "': " + std::string(lua_tostring(luaState, -1)));
-      lua_pop(luaState, 1);
+    if (lua_pcall(L, 0, 0, 0) != LUA_OK) {
+      luaStateWrapper.handleLuaError("Error calling Lua function '" + functionName + "': " + std::string(lua_tostring(L, -1)));
+      lua_pop(L, 1);
       return false;
     }
 

@@ -10,6 +10,8 @@ namespace Project::States {
 
     lua_State* L = luaStateWrapper.get();
     luaL_openlibs(L);
+
+    lua_pushcfunction(L, lua_printRedirect);
   }
 
   GameState::~GameState() {

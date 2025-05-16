@@ -13,7 +13,9 @@ namespace Project::Utilities {
 
     lua_State* get() const;
     bool isValid() const;
+
     void handleLuaError(int errorCode) const;
+    void handleLuaError(const std::string& errorMessage) const;
 
   private:
     lua_State* luaState;

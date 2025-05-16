@@ -44,9 +44,9 @@ namespace Project::States {
     lua_pushcclosure(L, lua_setBackgroundColor, 1);
     lua_setglobal(L, "setBackgroundColor");
 
-    lua_pushlightuserdata(luaState, this);
-    lua_pushcclosure(luaState, lua_setBackgroundImage, 1);
-    lua_setglobal(luaState, "setBackgroundImage");
+    lua_pushlightuserdata(L, this);
+    lua_pushcclosure(L, lua_setBackgroundImage, 1);
+    lua_setglobal(L, "setBackgroundImage");
 
     if (!callLuaFunction("initialize")) {
       handleLuaError("Error calling Lua function 'initialize'");

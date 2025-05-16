@@ -51,9 +51,7 @@ namespace Project::Services {
     GameStateFactory gameStateFactory;
     
     ScriptCategory determineScriptType(const std::string& scriptName);
-    
     void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);
-    void handleLuaError(int errorCode);
   };
 }
 

@@ -14,7 +14,9 @@ extern "C" {
 }
 
 #include "entities/EntitiesManager.h"
+
 #include "utilities/logs_manager/LogsManager.h"
+#include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
 using namespace Project::Entities;
 using namespace Project::Utilities;
@@ -56,14 +58,14 @@ namespace Project::States {
     };
 
   protected:
-    lua_State* luaState = nullptr;
     LogsManager& logsManager;
-  std::string stateName;
-
+    LuaStateWrapper luaStateWrapper;
+    
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Color backgroundColor = {0, 0, 0, 255};
 
+    std::string stateName;
     bool useImageBackground = false;
     bool initialized = false;
     bool active = false;

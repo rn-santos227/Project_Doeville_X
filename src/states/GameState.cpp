@@ -6,7 +6,9 @@ namespace Project::States {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       logsManager.flushLogs();
       return;
-    } 
+    }
+
+    lua_State* L = luaStateWrapper.get();
   }
 
   GameState::~GameState() {

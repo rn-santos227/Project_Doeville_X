@@ -95,7 +95,7 @@ namespace Project::States {
       entitiesManager->render();
     }
 
-    lua_getglobal(luaState, "render");
+    lua_getglobal(L, "render");
     if (lua_isfunction(luaState, -1)) {
       int result = lua_pcall(luaState, 0, 0, 0);
       if (result != LUA_OK) {

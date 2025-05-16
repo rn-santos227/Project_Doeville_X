@@ -112,7 +112,7 @@ namespace Project::States {
     if (lua_isfunction(L, -1)) {
       int result = lua_pcall(L, 0, 0, 0);
       if (result != LUA_OK) {
-        handleLuaError("Error calling Lua function 'handleInput': " + std::string(lua_tostring(luaState, -1)));
+        luaStateWrapper.handleLuaError("Error calling Lua function 'handleInput': " + std::string(lua_tostring(L, -1)));
       }
     } else {
       lua_pop(L, 1);

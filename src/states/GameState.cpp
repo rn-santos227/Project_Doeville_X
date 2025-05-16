@@ -40,9 +40,9 @@ namespace Project::States {
 
   void GameState::initialize() {
     lua_State* L = luaStateWrapper.get();
-    lua_pushlightuserdata(luaState, this);
-    lua_pushcclosure(luaState, lua_setBackgroundColor, 1);
-    lua_setglobal(luaState, "setBackgroundColor");
+    lua_pushlightuserdata(L, this);
+    lua_pushcclosure(L, lua_setBackgroundColor, 1);
+    lua_setglobal(L, "setBackgroundColor");
 
     lua_pushlightuserdata(luaState, this);
     lua_pushcclosure(luaState, lua_setBackgroundImage, 1);

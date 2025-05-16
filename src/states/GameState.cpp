@@ -3,10 +3,10 @@
 namespace Project::States {
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager)
     : logsManager(logsManager), renderer(renderer), luaStateWrapper(logsManager), initialized(false) {
-    luaL_openlibs(luaState);
-
-    lua_pushcfunction(luaState, lua_printRedirect);
-    lua_setglobal(luaState, "print");
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
+      logsManager.flushLogs();
+      return;
+    } 
   }
 
   GameState::~GameState() {

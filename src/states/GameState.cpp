@@ -12,6 +12,7 @@ namespace Project::States {
     luaL_openlibs(L);
 
     lua_pushcfunction(L, lua_printRedirect);
+    lua_setglobal(L, "print");
   }
 
   GameState::~GameState() {

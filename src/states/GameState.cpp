@@ -20,6 +20,7 @@ namespace Project::States {
   }
 
   bool GameState::callLuaFunction(const std::string& functionName) {
+    lua_State* L = luaStateWrapper.get();
     lua_getglobal(luaState, functionName.c_str());
 
     if (!lua_isfunction(luaState, -1)) {

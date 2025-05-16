@@ -102,7 +102,7 @@ namespace Project::States {
         handleLuaError("Error calling Lua function 'render': " + std::string(lua_tostring(L, -1)));
       }
     } else {
-      lua_pop(luaState, 1);
+      lua_pop(L, 1);
     }
   }
 

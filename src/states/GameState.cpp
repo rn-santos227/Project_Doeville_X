@@ -175,15 +175,6 @@ namespace Project::States {
     return true;
   }
 
-  void GameState::handleLuaError(const std::string& errorMessage) {
-    logsManager.logError(errorMessage);
-
-    if (lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
-      logsManager.logError("Lua error details: " + std::string(lua_tostring(luaState, -1)));
-      lua_pop(luaState, 1);
-    }
-  }
-
   int Project::States::GameState::lua_printRedirect(lua_State* L) {
     int nargs = lua_gettop(L);
     std::string output;

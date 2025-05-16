@@ -69,8 +69,6 @@ namespace Project::States {
     static int lua_printRedirect(lua_State* L);
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);
-
-    void handleLuaError(const std::string& errorMessage);
   };
 }
 

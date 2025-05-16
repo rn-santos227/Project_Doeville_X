@@ -16,9 +16,6 @@ namespace Project::States {
   }
 
   GameState::~GameState() {
-    if (luaState) {
-      lua_close(luaState);
-    }
     clearBackground();
   }
 

@@ -115,7 +115,7 @@ namespace Project::States {
         handleLuaError("Error calling Lua function 'handleInput': " + std::string(lua_tostring(luaState, -1)));
       }
     } else {
-      lua_pop(luaState, 1);
+      lua_pop(L, 1);
     }
   }
 

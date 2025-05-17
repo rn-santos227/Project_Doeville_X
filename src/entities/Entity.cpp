@@ -59,15 +59,16 @@ namespace Project::Entities {
   }
 
   bool Entity::attachLuaScript(const std::string& scriptPath) {
-    if (logsManager.checkAndLogError(!luaState, "Lua state is null for Entity: " + entityName)) {
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null for Entity: " + entityName)) {
       logsManager.flushLogs();
       return false;
     }
 
-    if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
-      std::string luaError = lua_tostring(luaState, -1);
-      handleLuaError("Failed to load Lua script: " + luaError);
-      lua_pop(luaState, 1);
+    lua_State* L = luaStateWrapper.get();
+    if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
+      std::string luaError = lua_tostring(L, -1);
+      luaStateWrapper.handleLuaError("Failed to load Lua script: " + luaError);
+      lua_pop(L, 1);
       return false;
     }
 

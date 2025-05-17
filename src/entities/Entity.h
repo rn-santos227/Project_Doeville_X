@@ -10,14 +10,10 @@
 #include <vector>
 #include <unordered_map>
 
-extern "C" {
-  #include "lua.h"
-  #include "lauxlib.h"
-  #include "lualib.h"
-}
-
 #include "components/BaseComponent.h"
 #include "factories/component/ComponentsFactory.h"
+
+#include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Components;
@@ -31,10 +27,10 @@ namespace Project::Entities {
     virtual ~Entity();
 
     Entity(const Entity&) = delete;
-    Entity& operator=(const Entity&) = delete;
+    Entity& operator = (const Entity&) = delete;
 
     Entity(Entity&&) noexcept = default;
-    Entity& operator=(Entity&&) noexcept = default;
+    Entity& operator = (Entity&&) noexcept = default;
 
     const EntityCategory& getEntityCategory() const { return entityCategory; }
     const std::string& getEntityName() const { return entityName; }

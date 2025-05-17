@@ -15,6 +15,7 @@ namespace Project::Entities {
   Entity::~Entity() = default;
 
   void Entity::initialize() {
+    lua_State* L = luaStateWrapper.get();
     lua_getglobal(luaState, "x");
     if (lua_isnumber(luaState, -1)) x = static_cast<float>(lua_tonumber(luaState, -1));
     lua_pop(luaState, 1);

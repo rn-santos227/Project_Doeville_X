@@ -16,17 +16,17 @@ namespace Project::Entities {
 
   void Entity::initialize() {
     lua_State* L = luaStateWrapper.get();
-    lua_getglobal(luaState, "x");
-    if (lua_isnumber(luaState, -1)) x = static_cast<float>(lua_tonumber(luaState, -1));
-    lua_pop(luaState, 1);
+    lua_getglobal(L, "x");
+    if (lua_isnumber(L, -1)) x = static_cast<float>(lua_tonumber(L, -1));
+    lua_pop(L, 1);
 
-    lua_getglobal(luaState, "y");
-    if (lua_isnumber(luaState, -1)) y = static_cast<float>(lua_tonumber(luaState, -1));
-    lua_pop(luaState, 1);
+    lua_getglobal(L, "y");
+    if (lua_isnumber(L, -1)) y = static_cast<float>(lua_tonumber(L, -1));
+    lua_pop(L, 1);
 
-    lua_getglobal(luaState, "z");
-    if (lua_isnumber(luaState, -1)) z = static_cast<float>(lua_tonumber(luaState, -1));
-    lua_pop(luaState, 1);
+    lua_getglobal(L, "z");
+    if (lua_isnumber(L, -1)) z = static_cast<float>(lua_tonumber(L, -1));
+    lua_pop(L, 1);
 
     callLuaFunction("initialize");
     for (auto& [name, component] : components) {

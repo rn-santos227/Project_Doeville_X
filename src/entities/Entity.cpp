@@ -3,11 +3,14 @@
 namespace Project::Entities {
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager)
   : entityCategory(std::move(entityCategory)), logsManager(logsManager), luaStateWrapper(logsManager), x(0.0f), y(0.0f), z(0.0f) {
-    lua_State* L  = luaStateWrapper.get();
-    if (logsManager.checkAndLogError(!L, "Failed to create Lua state for Entity: " + entityName)) {
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state for Entity: " + entityName)) {
       logsManager.flushLogs();
       return;
     }
+
+    lua_State* L  = luaStateWrapper.get();
+    luaL_openlibs(L);
+
   }
 
   Entity::~Entity() {

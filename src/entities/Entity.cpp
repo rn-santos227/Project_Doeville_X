@@ -10,15 +10,9 @@ namespace Project::Entities {
 
     lua_State* L  = luaStateWrapper.get();
     luaL_openlibs(L);
-
   }
 
-  Entity::~Entity() {
-    if (luaState) {
-      lua_close(luaState);
-      luaState = nullptr;
-    }
-  }
+  Entity::~Entity() = default;
 
   void Entity::initialize() {
     lua_getglobal(luaState, "x");

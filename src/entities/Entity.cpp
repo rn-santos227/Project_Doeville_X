@@ -76,7 +76,7 @@ namespace Project::Entities {
   }
 
   bool Entity::callLuaFunction(const std::string& functionName) {
-    if (logsManager.checkAndLogError(!luaState, "Lua state is null for Entity: " + entityName)) {
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null for Entity: " + entityName)) {
       logsManager.flushLogs();
       return false;
     }

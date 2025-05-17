@@ -81,16 +81,17 @@ namespace Project::Entities {
       return false;
     }
 
-    lua_getglobal(luaState, functionName.c_str());
-    if (!lua_isfunction(luaState, -1)) {
-      lua_pop(luaState, 1);
+    lua_State* L = luaStateWrapper.get();
+    lua_getglobal(L, functionName.c_str());
+    if (!lua_isfunction(L, -1)) {
+      lua_pop(L, 1);
       return false;
     }
 
-    if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
-      std::string error = lua_tostring(luaState, -1);
-      handleLuaError("Lua function call failed: " + error);
-      lua_pop(luaState, 1);
+    if (lua_pcall(L, 0, 0, 0) != LUA_OK) {
+      std::string error = lua_tostring(L, -1);
+      luaStateWrapper.handleLuaError("Lua function call failed: " + error);
+      lua_pop(L, 1);
       return false;
     }
 

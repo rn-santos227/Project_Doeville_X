@@ -50,7 +50,7 @@ namespace Project::Entities {
     BaseComponent* getComponent(const std::string& componentName);
     std::vector<std::string> listComponentNames() const;
 
-    lua_State* getLuaState() const { return luaState; }
+    lua_State* getLuaState() const { luaStateWrapper.get(); }
 
     void setPosition(float newX, float newY) { x = newX; y = newY; }
     void setPosition(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ; }
@@ -60,12 +60,13 @@ namespace Project::Entities {
     float getZ() const { return z; }
 
   private:
-    EntityCategory entityCategory;
     LogsManager& logsManager;
-    std::string entityName;
-    
-    lua_State* luaState;
+  
+    LuaStateWrapper luaStateWrapper;
+    EntityCategory entityCategory;
+
     std::unordered_map<std::string, std::unique_ptr<BaseComponent>> components;
+    std::string entityName;
 
     float x = 0.0f;
     float y = 0.0f;

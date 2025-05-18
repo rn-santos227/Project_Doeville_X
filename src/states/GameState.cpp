@@ -172,6 +172,7 @@ namespace Project::States {
       lua_close(L);
       return false;
     }
+    
     logsManager.logMessage("Lua script attached: " + scriptPath);
     return true;
   }

@@ -12,7 +12,9 @@ namespace Project::Utilities {
     ~LuaStateWrapper();
 
     lua_State* get() const;
+    
     bool isValid() const;
+    bool loadScript(const std::string& scriptPath);
 
     void handleLuaError(int errorCode) const;
     void handleLuaError(const std::string& errorMessage) const;

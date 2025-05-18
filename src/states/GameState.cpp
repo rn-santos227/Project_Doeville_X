@@ -165,6 +165,10 @@ namespace Project::States {
       logsManager.flushLogs();
       return false;
     }
+
+    lua_State* L = luaStateWrapper.get();
+    luaL_openlibs(L);
+
     
     logsManager.logMessage("Lua script attached: " + scriptPath);
     return true;

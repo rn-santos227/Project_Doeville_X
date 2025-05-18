@@ -23,6 +23,10 @@ namespace Project::Utilities {
     return luaState != nullptr;
   }
 
+  bool LuaStateWrapper::loadScript(const std::string& scriptPath) {
+    return true;
+  }
+
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);

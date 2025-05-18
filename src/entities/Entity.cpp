@@ -125,8 +125,4 @@ namespace Project::Entities {
     }
     return names;
   }
-
-  void Entity::handleLuaError(const std::string& errorMessage) {
-    logsManager.logError("Entity Lua Error: " + errorMessage);
-  }
 }

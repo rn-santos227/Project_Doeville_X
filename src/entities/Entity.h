@@ -61,6 +61,7 @@ namespace Project::Entities {
 
   private:
     LogsManager& logsManager;
+    ComponentsFactory& componentsFactory;
   
     LuaStateWrapper luaStateWrapper;
     EntityCategory entityCategory;

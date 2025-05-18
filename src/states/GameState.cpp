@@ -161,7 +161,11 @@ namespace Project::States {
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {
-    if(logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null for GameState: " + stateName)) {
+
+    }
+
+    if (logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
       logsManager.flushLogs();
       return false;
     }

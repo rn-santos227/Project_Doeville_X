@@ -23,7 +23,7 @@ using namespace Project::Utilities;
 namespace Project::Entities {
   class Entity {
   public:
-    explicit Entity(EntityCategory entityCategory, LogsManager& logsManager);
+    explicit Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory);
     virtual ~Entity();
 
     Entity(const Entity&) = delete;

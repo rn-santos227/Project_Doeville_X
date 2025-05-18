@@ -29,6 +29,10 @@ namespace Project::Utilities {
       return false;
     }
 
+    if (luaL_dofile(luaState, scriptPath.c_str()) != LUA_OK) {
+
+    }
+
     return true;
   }
 

@@ -67,7 +67,8 @@ namespace Project::Entities {
     }
 
     if (logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
-
+      logsManager.flushLogs();
+      return false;
     }
 
     return true;

@@ -66,12 +66,8 @@ namespace Project::Entities {
       return false;
     }
 
-    lua_State* L = luaStateWrapper.get();
-    if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
-      std::string luaError = lua_tostring(L, -1);
-      luaStateWrapper.handleLuaError("Failed to load Lua script: " + luaError);
-      lua_pop(L, 1);
-      return false;
+    if (logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
+
     }
 
     return true;

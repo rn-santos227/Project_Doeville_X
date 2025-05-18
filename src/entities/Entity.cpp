@@ -71,6 +71,8 @@ namespace Project::Entities {
       return false;
     }
 
+    lua_State* L = luaStateWrapper.get();
+
     return true;
   }
 

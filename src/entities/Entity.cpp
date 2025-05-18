@@ -73,6 +73,9 @@ namespace Project::Entities {
 
     lua_State* L = luaStateWrapper.get();
     lua_getglobal(L, "components");
+    if (lua_istable(L, -1)) {
+
+    }
 
     return true;
   }

@@ -76,7 +76,7 @@ namespace Project::Entities {
     if (lua_istable(L, -1)) {
       lua_pushnil(L);
       while (lua_next(L, -2)) {
-
+        std::string componentName = lua_tostring(L, -2);
       }
     }
 

@@ -81,6 +81,8 @@ namespace Project::Entities {
           std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, L);
           if (component) {
 
+          } else {
+            logsManager.logError("Failed to create component: " + componentName);
           }
         }
       }

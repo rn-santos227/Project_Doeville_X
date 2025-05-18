@@ -25,9 +25,10 @@ namespace Project::Utilities {
 
   bool LuaStateWrapper::loadScript(const std::string& scriptPath) {
     if(logsManager.checkAndLogError(isValid(), "Lua state is invalid. Cannot load script: " + scriptPath)) {
-
+      logsManager.flushLogs();
+      return false;
     }
-    
+
     return true;
   }
 

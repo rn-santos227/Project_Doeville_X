@@ -75,6 +75,9 @@ namespace Project::Entities {
     lua_getglobal(L, "components");
     if (lua_istable(L, -1)) {
       lua_pushnil(L);
+      while (lua_next(L, -2)) {
+
+      }
     }
 
     return true;

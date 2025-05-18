@@ -72,6 +72,7 @@ namespace Project::Entities {
     }
 
     lua_State* L = luaStateWrapper.get();
+    lua_getglobal(L, "components");
 
     return true;
   }

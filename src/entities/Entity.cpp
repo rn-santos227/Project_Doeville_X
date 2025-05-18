@@ -78,7 +78,7 @@ namespace Project::Entities {
       while (lua_next(L, -2)) {
         std::string componentName = lua_tostring(L, -2);
         if (lua_istable(L, -1)) {
-
+          std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, L);
         }
       }
     }

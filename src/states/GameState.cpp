@@ -161,20 +161,8 @@ namespace Project::States {
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {
-    lua_State* L = luaStateWrapper.get();
-    luaL_openlibs(L);
-
-    lua_pushcfunction(L, lua_printRedirect);
-    lua_setglobal(L, "print");
-
-    if(logsManager.checkAndLogError(luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
+    if(logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
       logsManager.flushLogs();
-      return false;
-    }
-
-    if (luaL_dofile(L, scriptPath.c_str()) != LUA_OK) {
-      luaStateWrapper.handleLuaError("Failed to load Lua script: " + scriptPath);
-      lua_close(L);
       return false;
     }
     

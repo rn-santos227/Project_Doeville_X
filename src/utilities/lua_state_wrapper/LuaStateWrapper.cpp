@@ -34,8 +34,11 @@ namespace Project::Utilities {
       handleLuaError("Failed to load Lua script: " + scriptPath);
       return false;
     }
-
     return true;
+  }
+
+  float LuaStateWrapper::getGlobalNumber(const std::string& name, float defaultValue) const {
+
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

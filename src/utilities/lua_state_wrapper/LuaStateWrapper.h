@@ -26,6 +26,8 @@ namespace Project::Utilities {
     bool isGlobalFunction(const std::string& name) const;
     bool callGlobalFunction(const std::string& name, int nargs = 0, int nresults = 0) const;
 
+    bool isGlobalTable(const std::string& name) const;
+
   private:
     lua_State* luaState;
     LogsManager& logsManager;

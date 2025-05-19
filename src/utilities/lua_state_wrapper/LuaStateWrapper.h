@@ -19,6 +19,8 @@ namespace Project::Utilities {
     void handleLuaError(int errorCode) const;
     void handleLuaError(const std::string& errorMessage) const;
 
+    float getGlobalNumber(const std::string& name, float defaultValue = 0.0f) const;
+
   private:
     lua_State* luaState;
     LogsManager& logsManager;

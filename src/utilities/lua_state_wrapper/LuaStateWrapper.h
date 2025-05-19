@@ -24,6 +24,7 @@ namespace Project::Utilities {
     bool getGlobalBoolean(const std::string& name, bool defaultValue = false) const;
 
     bool isGlobalFunction(const std::string& name) const;
+    bool callGlobalFunction(const std::string& name, int nargs = 0, int nresults = 0) const;
 
   private:
     lua_State* luaState;

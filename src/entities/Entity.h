@@ -50,7 +50,7 @@ namespace Project::Entities {
     BaseComponent* getComponent(const std::string& componentName);
     std::vector<std::string> listComponentNames() const;
 
-    lua_State* getLuaState() const { luaStateWrapper.get(); }
+    lua_State* getLuaState() const { return luaStateWrapper.get(); }
 
     void setPosition(float newX, float newY) { x = newX; y = newY; }
     void setPosition(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ; }

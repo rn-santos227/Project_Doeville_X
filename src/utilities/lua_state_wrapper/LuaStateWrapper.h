@@ -23,6 +23,8 @@ namespace Project::Utilities {
     float getGlobalNumber(const std::string& name, float defaultValue = 0.0f) const;
     bool getGlobalBoolean(const std::string& name, bool defaultValue = false) const;
 
+    bool isGlobalFunction(const std::string& name) const;
+
   private:
     lua_State* luaState;
     LogsManager& logsManager;

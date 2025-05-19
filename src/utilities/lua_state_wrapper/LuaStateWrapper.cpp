@@ -39,6 +39,8 @@ namespace Project::Utilities {
   
    std::string LuaStateWrapper::getGlobalString(const std::string& name, const std::string& defaultValue) const {
     if (!isValid()) return defaultValue;
+
+    lua_getglobal(luaState, name.c_str());
    }
 
   float LuaStateWrapper::getGlobalNumber(const std::string& name, float defaultValue) const {

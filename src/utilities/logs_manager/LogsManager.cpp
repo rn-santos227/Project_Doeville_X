@@ -23,7 +23,7 @@ namespace Project::Utilities {
 
   bool LogsManager::checkAndLogError(bool condition, const std::string& errorMsg) {
     if(condition) {
-      logError(errorMsg + " SDL_Error: " + SDL_GetError());
+      logError(errorMsg);
     }
     return condition;
   }

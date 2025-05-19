@@ -37,7 +37,7 @@ namespace Project::Factories {
     }
 
     EntityCategory category = it->second->getEntityCategory();
-    std::unique_ptr<Entity> clone = std::make_unique<Entity>(category, logsManager);
+    std::unique_ptr<Entity> clone = std::make_unique<Entity>(category, logsManager, componentsFactory);
     clone->setEntityName(entityName);
 
     lua_State* templateState = it->second->getLuaState();

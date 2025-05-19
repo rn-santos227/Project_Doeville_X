@@ -21,6 +21,7 @@ namespace Project::Utilities {
 
     std::string getGlobalString(const std::string& name, const std::string& defaultValue = "") const;
     float getGlobalNumber(const std::string& name, float defaultValue = 0.0f) const;
+    bool getGlobalBoolean(const std::string& name, bool defaultValue = false) const;
 
   private:
     lua_State* luaState;

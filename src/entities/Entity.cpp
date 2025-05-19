@@ -80,7 +80,7 @@ namespace Project::Entities {
         if (lua_istable(L, -1)) {
           std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, L);
           if (component) {
-
+            addComponent(componentName, std::move(component));
           } else {
             logsManager.logError("Failed to create component: " + componentName);
           }

@@ -45,7 +45,9 @@ namespace Project::Utilities {
     if (lua_isnumber(luaState, -1)) {
       result = static_cast<float>(lua_tonumber(luaState, -1));
     }
+    
     lua_pop(luaState, 1);
+    return result;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

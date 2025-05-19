@@ -41,6 +41,7 @@ namespace Project::Utilities {
     if (!isValid()) return defaultValue;
     
     lua_getglobal(luaState, name.c_str());
+    float result = defaultValue;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

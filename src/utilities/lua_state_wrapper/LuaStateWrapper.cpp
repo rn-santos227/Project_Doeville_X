@@ -36,6 +36,10 @@ namespace Project::Utilities {
     }
     return true;
   }
+  
+   std::string LuaStateWrapper::getGlobalString(const std::string& name, const std::string& defaultValue) const {
+
+   }
 
   float LuaStateWrapper::getGlobalNumber(const std::string& name, float defaultValue) const {
     if (!isValid()) return defaultValue;
@@ -45,7 +49,7 @@ namespace Project::Utilities {
     if (lua_isnumber(luaState, -1)) {
       result = static_cast<float>(lua_tonumber(luaState, -1));
     }
-    
+
     lua_pop(luaState, 1);
     return result;
   }

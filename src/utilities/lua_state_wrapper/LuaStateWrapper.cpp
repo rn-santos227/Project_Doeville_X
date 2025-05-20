@@ -71,6 +71,8 @@ namespace Project::Utilities {
     if (lua_isboolean(luaState, -1)) {
       result = lua_toboolean(luaState, -1);
     }
+
+    lua_pop(luaState, 1);
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

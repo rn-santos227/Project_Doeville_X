@@ -93,6 +93,10 @@ namespace Project::Utilities {
       lua_pop(luaState, 1);
       return false;
     }
+
+    if (lua_pcall(luaState, nargs, nresults, 0) != LUA_OK) {
+      const char* error = lua_tostring(luaState, -1);
+    }
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

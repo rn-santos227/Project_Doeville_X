@@ -82,6 +82,7 @@ namespace Project::Utilities {
     lua_getglobal(luaState, name.c_str());
     bool isFunc = lua_isfunction(luaState, -1);
     lua_pop(luaState, 1);
+    return isFunc;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

@@ -86,7 +86,7 @@ namespace Project::Utilities {
   }
 
   bool LuaStateWrapper::callGlobalFunction(const std::string& name, int nargs, int nresults) const {
-
+    if (!isValid()) return false;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

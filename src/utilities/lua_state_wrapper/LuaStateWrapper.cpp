@@ -96,6 +96,7 @@ namespace Project::Utilities {
 
     if (lua_pcall(luaState, nargs, nresults, 0) != LUA_OK) {
       const char* error = lua_tostring(luaState, -1);
+      handleLuaError(std::string("Lua function call failed: ") + (error ? error : "Unknown error"));
     }
   }
 

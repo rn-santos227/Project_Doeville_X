@@ -2,6 +2,7 @@
 #define LUA_STATE_WRAPPER_H
 
 #include <lua.hpp>
+#include <functional>
 #include <string>
 
 #include "utilities/logs_manager/LogsManager.h"

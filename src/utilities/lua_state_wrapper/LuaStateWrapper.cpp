@@ -98,6 +98,7 @@ namespace Project::Utilities {
       const char* error = lua_tostring(luaState, -1);
       handleLuaError(std::string("Lua function call failed: ") + (error ? error : "Unknown error"));
       lua_pop(luaState, 1);
+      return false;
     }
   }
 

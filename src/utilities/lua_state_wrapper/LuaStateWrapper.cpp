@@ -73,6 +73,7 @@ namespace Project::Utilities {
     }
 
     lua_pop(luaState, 1);
+    return result;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

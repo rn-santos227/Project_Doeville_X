@@ -68,6 +68,9 @@ namespace Project::Utilities {
 
     lua_getglobal(luaState, name.c_str());
     bool result = defaultValue;
+    if (lua_isboolean(luaState, -1)) {
+
+    }
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

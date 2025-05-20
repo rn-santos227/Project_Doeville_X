@@ -65,6 +65,8 @@ namespace Project::Utilities {
 
   bool LuaStateWrapper::getGlobalBoolean(const std::string& name, bool defaultValue) const {
     if (!isValid()) return defaultValue;
+
+    lua_getglobal(luaState, name.c_str());
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

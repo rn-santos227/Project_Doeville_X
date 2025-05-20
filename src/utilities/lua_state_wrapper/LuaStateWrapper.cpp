@@ -89,6 +89,9 @@ namespace Project::Utilities {
     if (!isValid()) return false;
 
     lua_getglobal(luaState, name.c_str());
+    if (!lua_isfunction(luaState, -1)) {
+
+    }
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

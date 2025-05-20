@@ -76,6 +76,10 @@ namespace Project::Utilities {
     return result;
   }
 
+  bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {
+
+  }
+
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);

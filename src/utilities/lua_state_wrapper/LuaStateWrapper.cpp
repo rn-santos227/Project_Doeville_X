@@ -47,6 +47,7 @@ namespace Project::Utilities {
     }
 
     lua_pop(luaState, 1);
+    return result;
   }
 
   float LuaStateWrapper::getGlobalNumber(const std::string& name, float defaultValue) const {

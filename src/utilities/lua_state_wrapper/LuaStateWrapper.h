@@ -31,6 +31,8 @@ namespace Project::Utilities {
     void handleLuaError(int errorCode) const;
     void handleLuaError(const std::string& errorMessage) const;
 
+    static int luaPrintRedirect(lua_State* L);
+
   private:
     lua_State* luaState;
     LogsManager& logsManager;

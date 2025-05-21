@@ -112,14 +112,14 @@ namespace Project::Utilities {
     return isTable;
   }
 
-   void LuaStateWrapper::iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const {
+  void LuaStateWrapper::iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const {
     if (!isValid()) return;
 
     lua_getglobal(luaState, name.c_str());
     if (!lua_istable(luaState, -1)) {
-
+      lua_pop(luaState, 1);
     }
-   }
+  }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 

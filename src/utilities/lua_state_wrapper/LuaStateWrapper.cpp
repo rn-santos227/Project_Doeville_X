@@ -123,7 +123,7 @@ namespace Project::Utilities {
 
     lua_pushnil(luaState);
     while (lua_next(luaState, -2)) {
-
+      callback(luaState, lua_gettop(luaState));
     }
   }
 

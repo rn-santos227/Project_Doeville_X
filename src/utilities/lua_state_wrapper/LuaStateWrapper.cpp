@@ -113,7 +113,7 @@ namespace Project::Utilities {
   }
 
    void LuaStateWrapper::iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const {
-
+    if (!isValid()) return;
    }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

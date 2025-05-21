@@ -120,6 +120,8 @@ namespace Project::Utilities {
       lua_pop(luaState, 1);
       return;
     }
+
+    lua_pushnil(luaState);
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

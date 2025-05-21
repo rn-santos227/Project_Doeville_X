@@ -116,6 +116,9 @@ namespace Project::Utilities {
     if (!isValid()) return;
 
     lua_getglobal(luaState, name.c_str());
+    if (!lua_istable(luaState, -1)) {
+
+    }
    }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

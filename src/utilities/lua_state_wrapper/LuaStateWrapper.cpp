@@ -130,6 +130,10 @@ namespace Project::Utilities {
     lua_pop(luaState, 1);
   }
 
+  int LuaStateWrapper::luaPrintRedirect(lua_State* L) {
+
+  }
+
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);

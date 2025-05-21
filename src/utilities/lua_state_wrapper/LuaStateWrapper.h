@@ -27,11 +27,13 @@ namespace Project::Utilities {
     bool isGlobalTable(const std::string& name) const;
     void iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const;
 
+    // Lua utilities
+    static int luaPrintRedirect(lua_State* L);
+
     // Lua error handling
     void handleLuaError(int errorCode) const;
     void handleLuaError(const std::string& errorMessage) const;
 
-    static int luaPrintRedirect(lua_State* L);
 
   private:
     lua_State* luaState;

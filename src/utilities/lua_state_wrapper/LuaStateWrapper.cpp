@@ -138,6 +138,8 @@ namespace Project::Utilities {
       if (i > 1) output += "\t";
       output += lua_tostring(L, i);
     }
+
+    std::cout << "[LUA] " << output << std::endl;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

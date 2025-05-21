@@ -107,6 +107,7 @@ namespace Project::Utilities {
   bool LuaStateWrapper::isGlobalTable(const std::string& name) const {
     if (!isValid()) return false;
     lua_getglobal(luaState, name.c_str());
+    bool isTable = lua_istable(luaState, -1);
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

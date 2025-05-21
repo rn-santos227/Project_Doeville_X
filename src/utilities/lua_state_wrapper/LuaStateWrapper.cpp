@@ -105,7 +105,7 @@ namespace Project::Utilities {
   }
 
   bool LuaStateWrapper::isGlobalTable(const std::string& name) const {
-
+    if (!isValid()) return false;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

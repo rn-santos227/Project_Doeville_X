@@ -135,7 +135,7 @@ namespace Project::Utilities {
     std::string output;
 
     for (int i = 1; i <= nargs; ++i) {
-
+      if (i > 1) output += "\t";
     }
   }
 

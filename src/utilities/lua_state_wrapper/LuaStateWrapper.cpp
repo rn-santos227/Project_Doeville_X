@@ -132,6 +132,10 @@ namespace Project::Utilities {
 
   int LuaStateWrapper::luaPrintRedirect(lua_State* L) {
     int nargs = lua_gettop(L);
+
+    for (int i = 1; i <= nargs; ++i) {
+
+    }
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

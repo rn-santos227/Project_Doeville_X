@@ -181,19 +181,6 @@ namespace Project::States {
     return true;
   }
 
-  int Project::States::GameState::lua_printRedirect(lua_State* L) {
-    int nargs = lua_gettop(L);
-    std::string output;
-
-    for (int i = 1; i <= nargs; ++i) {
-      if (i > 1) output += "\t";
-      output += lua_tostring(L, i);
-    }
-
-    std::cout << "[LUA] " << output << std::endl; 
-    return 0;
-  }
-
   int Project::States::GameState::lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

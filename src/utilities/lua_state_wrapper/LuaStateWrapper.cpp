@@ -104,6 +104,10 @@ namespace Project::Utilities {
     return true;
   }
 
+  bool LuaStateWrapper::isGlobalTable(const std::string& name) const {
+
+  }
+
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);

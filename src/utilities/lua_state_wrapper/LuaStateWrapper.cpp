@@ -109,6 +109,7 @@ namespace Project::Utilities {
     lua_getglobal(luaState, name.c_str());
     bool isTable = lua_istable(luaState, -1);
     lua_pop(luaState, 1);
+    return isTable;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

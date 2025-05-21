@@ -126,6 +126,8 @@ namespace Project::Utilities {
       callback(luaState, lua_gettop(luaState));
       lua_pop(luaState, 1);
     }
+
+    lua_pop(luaState, 1);
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

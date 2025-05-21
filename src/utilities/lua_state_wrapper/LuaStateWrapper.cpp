@@ -122,6 +122,9 @@ namespace Project::Utilities {
     }
 
     lua_pushnil(luaState);
+    while (lua_next(luaState, -2)) {
+
+    }
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

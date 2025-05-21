@@ -118,6 +118,7 @@ namespace Project::Utilities {
     lua_getglobal(luaState, name.c_str());
     if (!lua_istable(luaState, -1)) {
       lua_pop(luaState, 1);
+      return;
     }
   }
 

@@ -112,6 +112,10 @@ namespace Project::Utilities {
     return isTable;
   }
 
+   void LuaStateWrapper::iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const {
+
+   }
+
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);

@@ -140,6 +140,7 @@ namespace Project::Utilities {
     }
 
     std::cout << "[LUA] " << output << std::endl;
+    return 0;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

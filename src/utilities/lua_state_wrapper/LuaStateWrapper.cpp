@@ -114,6 +114,8 @@ namespace Project::Utilities {
 
    void LuaStateWrapper::iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const {
     if (!isValid()) return;
+
+    lua_getglobal(luaState, name.c_str());
    }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

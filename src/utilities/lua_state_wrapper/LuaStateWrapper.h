@@ -32,6 +32,7 @@ namespace Project::Utilities {
     //Table Getters
     std::string getTableString(const std::string& tableName, const std::string& key, const std::string& defaultValue = "") const;
     float getTableNumber(const std::string& tableName, const std::string& key, float defaultValue = 0.0f) const;
+    bool getTableBoolean(const std::string& tableName, const std::string& key, bool defaultValue = false) const;
 
     // Function handling
     bool isGlobalFunction(const std::string& name) const;

@@ -108,6 +108,9 @@ namespace Project::Utilities {
     if (!isValid()) return false;
 
     lua_getglobal(luaState, name.c_str());
+    if (!lua_isfunction(luaState, -1)) {
+
+    }
   }
 
   bool LuaStateWrapper::isGlobalTable(const std::string& name) const {

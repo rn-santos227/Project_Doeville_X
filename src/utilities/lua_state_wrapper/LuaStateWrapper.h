@@ -19,9 +19,13 @@ namespace Project::Utilities {
     bool loadScript(const std::string& scriptPath);
     bool loadScriptFromString(const std::string& code); 
 
+    //Global Getters
     std::string getGlobalString(const std::string& name, const std::string& defaultValue = "") const;
     float getGlobalNumber(const std::string& name, float defaultValue = 0.0f) const;
     bool getGlobalBoolean(const std::string& name, bool defaultValue = false) const;
+
+    //Global Setters
+    void setGlobalString(const std::string& name, const std::string& value) const;
 
     bool isGlobalFunction(const std::string& name) const;
     bool callGlobalFunction(const std::string& name, int nargs = 0, int nresults = 0) const;

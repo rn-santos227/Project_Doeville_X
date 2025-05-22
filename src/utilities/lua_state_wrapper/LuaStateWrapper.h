@@ -4,6 +4,7 @@
 #include <lua.hpp>
 #include <functional>
 #include <string>
+#include <optional>
 
 #include "utilities/logs_manager/LogsManager.h"
 namespace Project::Utilities {
@@ -16,6 +17,7 @@ namespace Project::Utilities {
     
     bool isValid() const;
     bool loadScript(const std::string& scriptPath);
+    bool loadScriptFromString(const std::string& code); 
 
     std::string getGlobalString(const std::string& name, const std::string& defaultValue = "") const;
     float getGlobalNumber(const std::string& name, float defaultValue = 0.0f) const;

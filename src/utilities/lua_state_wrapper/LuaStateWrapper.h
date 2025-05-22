@@ -23,6 +23,7 @@ namespace Project::Utilities {
 
     bool isGlobalFunction(const std::string& name) const;
     bool callGlobalFunction(const std::string& name, int nargs = 0, int nresults = 0) const;
+    bool callFunctionIfExists(const std::string& name);
 
     bool isGlobalTable(const std::string& name) const;
     void iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const;

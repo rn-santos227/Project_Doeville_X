@@ -19,6 +19,9 @@ namespace Project::Utilities {
     bool loadScript(const std::string& scriptPath);
     bool loadScriptFromString(const std::string& code); 
 
+    // Generic argument-based function call
+    template<typename... Args>
+
     //Global Getters
     std::string getGlobalString(const std::string& name, const std::string& defaultValue = "") const;
     float getGlobalNumber(const std::string& name, float defaultValue = 0.0f) const;
@@ -35,9 +38,9 @@ namespace Project::Utilities {
     bool getTableBoolean(const std::string& tableName, const std::string& key, bool defaultValue = false) const;
 
     // Table Setters
-    std::string getTableString(const std::string& tableName, const std::string& key, const std::string& defaultValue = "") const;
-    float getTableNumber(const std::string& tableName, const std::string& key, float defaultValue = 0.0f) const;
-    bool getTableBoolean(const std::string& tableName, const std::string& key, bool defaultValue = false) const;
+    void setTableString(const std::string& tableName, const std::string& key, const std::string& value);
+    void setTableNumber(const std::string& tableName, const std::string& key, float value);
+    void setTableBoolean(const std::string& tableName, const std::string& key, bool value);
 
     // Function handling
     bool isGlobalFunction(const std::string& name) const;

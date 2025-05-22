@@ -72,7 +72,7 @@ namespace Project::States {
       entitiesManager->update(deltaTime);
     }
 
-    if (!callLuaFunction("update")) {
+    if (!luaStateWrapper.callGlobalFunction("update")) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'update'");
     }
   }

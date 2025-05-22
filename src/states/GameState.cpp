@@ -20,22 +20,7 @@ namespace Project::States {
   }
 
   bool GameState::callLuaFunction(const std::string& functionName) {
-    lua_State* L = luaStateWrapper.get();
-    lua_getglobal(L, functionName.c_str());
-
-    if (!lua_isfunction(L, -1)) {
-      luaStateWrapper.handleLuaError("Lua function not found: " + functionName);
-      lua_pop(L, 1);
-      return false;
-    }
-
-    if (lua_pcall(L, 0, 0, 0) != LUA_OK) {
-      luaStateWrapper.handleLuaError("Error calling Lua function '" + functionName + "': " + std::string(lua_tostring(L, -1)));
-      lua_pop(L, 1);
-      return false;
-    }
-
-    return true;
+    return luaStateWrapper.callGlobalFunction(functionName);
   }
 
   void GameState::initialize() {

@@ -112,6 +112,10 @@ namespace Project::Utilities {
       lua_pop(luaState, 1);
       return false;
     }
+
+    if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
+
+    }
   }
 
   bool LuaStateWrapper::isGlobalTable(const std::string& name) const {

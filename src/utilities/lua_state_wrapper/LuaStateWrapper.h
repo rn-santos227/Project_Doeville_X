@@ -29,15 +29,18 @@ namespace Project::Utilities {
     void setGlobalNumber(const std::string& name, float value);
     void setGlobalBoolean(const std::string& name, bool value);
 
+    // Function handling
     bool isGlobalFunction(const std::string& name) const;
     bool callGlobalFunction(const std::string& name, int nargs = 0, int nresults = 0) const;
     bool callFunctionIfExists(const std::string& name);
 
+    // Table handling
     bool isGlobalTable(const std::string& name) const;
     void iterateGlobalTable(const std::string& name, std::function<void(lua_State*, int)> callback) const;
 
     // Lua utilities
     static int luaPrintRedirect(lua_State* L);
+    void printStack() const;
 
     // Lua error handling
     void handleLuaError(int errorCode) const;

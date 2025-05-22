@@ -55,7 +55,7 @@ namespace Project::States {
 
   void GameState::onEnter() {
     setActive(true);
-    if (!callLuaFunction("onEnter")) {
+    if (!luaStateWrapper.callGlobalFunction("onEnter")) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'onEnter': " + std::string(lua_tostring(luaStateWrapper.get(), -1)));
     }
   }

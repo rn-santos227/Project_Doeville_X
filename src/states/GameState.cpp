@@ -101,15 +101,8 @@ namespace Project::States {
   }
 
   void GameState::handleInput() {
-    lua_State* L = luaStateWrapper.get();
-    lua_getglobal(L, "handleInput");
-    if (lua_isfunction(L, -1)) {
-      int result = lua_pcall(L, 0, 0, 0);
-      if (result != LUA_OK) {
-        luaStateWrapper.handleLuaError("Error calling Lua function 'handleInput': " + std::string(lua_tostring(L, -1)));
-      }
-    } else {
-      lua_pop(L, 1);
+    if (!luaStateWrapper.callGlobalFunction("handleInput")) {
+      luaStateWrapper.handleLuaError("Error calling Lua function 'handleInput'");
     }
   }
 

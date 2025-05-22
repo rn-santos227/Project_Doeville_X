@@ -118,6 +118,8 @@ namespace Project::Utilities {
       lua_pop(luaState, 1);
       return false;
     }
+
+    return true;
   }
 
   bool LuaStateWrapper::isGlobalTable(const std::string& name) const {

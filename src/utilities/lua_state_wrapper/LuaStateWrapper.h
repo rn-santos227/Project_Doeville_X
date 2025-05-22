@@ -26,6 +26,7 @@ namespace Project::Utilities {
 
     //Global Setters
     void setGlobalString(const std::string& name, const std::string& value) const;
+    void setGlobalNumber(const std::string& name, float value);
 
     bool isGlobalFunction(const std::string& name) const;
     bool callGlobalFunction(const std::string& name, int nargs = 0, int nresults = 0) const;

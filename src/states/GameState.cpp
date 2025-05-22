@@ -48,7 +48,7 @@ namespace Project::States {
     lua_pushcclosure(L, lua_setBackgroundImage, 1);
     lua_setglobal(L, "setBackgroundImage");
 
-    if (!callLuaFunction("initialize")) {
+    if (!luaStateWrapper.callGlobalFunction("initialize")) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }
   }

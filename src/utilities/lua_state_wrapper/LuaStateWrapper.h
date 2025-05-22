@@ -29,6 +29,9 @@ namespace Project::Utilities {
     void setGlobalNumber(const std::string& name, float value);
     void setGlobalBoolean(const std::string& name, bool value);
 
+    //Table Getters
+    std::string getTableString(const std::string& tableName, const std::string& key, const std::string& defaultValue = "") const;
+
     // Function handling
     bool isGlobalFunction(const std::string& name) const;
     bool callGlobalFunction(const std::string& name, int nargs = 0, int nresults = 0) const;

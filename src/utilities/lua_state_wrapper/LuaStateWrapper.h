@@ -21,6 +21,7 @@ namespace Project::Utilities {
 
     // Generic argument-based function call
     template<typename... Args>
+    bool callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args);
 
     //Global Getters
     std::string getGlobalString(const std::string& name, const std::string& defaultValue = "") const;

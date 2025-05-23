@@ -88,6 +88,9 @@ namespace Project::Utilities {
 
       (push(args), ...);
       int argCount = sizeof...(Args);
+      if (result != LUA_OK) {
+
+      }
     }
 
   private:

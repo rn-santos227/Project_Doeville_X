@@ -61,6 +61,8 @@ namespace Project::Utilities {
     template<typename... Args>
     bool callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args) {
       if (!luaState) return false;
+
+      lua_getglobal(luaState, name.c_str());
     }
 
   private:

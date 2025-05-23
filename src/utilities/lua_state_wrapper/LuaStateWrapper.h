@@ -93,6 +93,8 @@ namespace Project::Utilities {
         handleLuaError(result);
         return false;
       }
+
+      return true;
     }
 
   private:

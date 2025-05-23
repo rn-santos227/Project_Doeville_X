@@ -87,6 +87,7 @@ namespace Project::Utilities {
       };
 
       (push(args), ...);
+      int argCount = sizeof...(Args);
     }
 
   private:

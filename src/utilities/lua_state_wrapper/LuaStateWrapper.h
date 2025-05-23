@@ -81,6 +81,8 @@ namespace Project::Utilities {
 
         } else if constexpr (std::is_same_v<T, std::string>) {
 
+        } else {
+          logsManager.logError("Unsupported Lua argument type.");
         }
       }
     }

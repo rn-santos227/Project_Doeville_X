@@ -63,6 +63,9 @@ namespace Project::Utilities {
       if (!luaState) return false;
 
       lua_getglobal(luaState, name.c_str());
+      if (!lua_isfunction(luaState, -1)) {
+        lua_pop(luaState, 1); 
+      }
     }
 
   private:

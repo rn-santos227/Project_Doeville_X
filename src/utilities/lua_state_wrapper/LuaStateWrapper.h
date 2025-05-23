@@ -85,6 +85,8 @@ namespace Project::Utilities {
           logsManager.logError("Unsupported Lua argument type.");
         }
       };
+
+      (push(args), ...);
     }
 
   private:

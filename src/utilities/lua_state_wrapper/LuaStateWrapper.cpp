@@ -36,8 +36,12 @@ namespace Project::Utilities {
     }
     return true;
   }
+
+  bool LuaStateWrapper::loadScriptFromString(const std::string& code) {
+    
+  }
   
-   std::string LuaStateWrapper::getGlobalString(const std::string& name, const std::string& defaultValue) const {
+  std::string LuaStateWrapper::getGlobalString(const std::string& name, const std::string& defaultValue) const {
     if (!isValid()) return defaultValue;
 
     lua_getglobal(luaState, name.c_str());

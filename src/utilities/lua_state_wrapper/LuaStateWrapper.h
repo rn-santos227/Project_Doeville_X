@@ -75,6 +75,8 @@ namespace Project::Utilities {
 
         } else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>) {
 
+        } else if constexpr (std::is_same_v<T, bool>) {
+
         }
       }
     }

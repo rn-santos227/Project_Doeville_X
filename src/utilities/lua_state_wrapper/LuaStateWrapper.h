@@ -68,6 +68,10 @@ namespace Project::Utilities {
         logsManager.logError("Lua: '" + name + "' is not a function.");
         return false;
       }
+
+      auto push = [this](auto value) {
+
+      }
     }
 
   private:

@@ -73,6 +73,8 @@ namespace Project::Utilities {
         using T = std::decay_t<decltype(value)>;
         if constexpr (std::is_same_v<T, int>) {
 
+        } else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>) {
+
         }
       }
     }

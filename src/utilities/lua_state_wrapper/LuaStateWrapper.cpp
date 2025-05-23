@@ -44,7 +44,8 @@ namespace Project::Utilities {
     }
 
     if (luaL_dostring(luaState, code.c_str()) != LUA_OK) {
-
+      handleLuaError("Failed to load Lua script from string.");
+      return false;
     }
 
   }

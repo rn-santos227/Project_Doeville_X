@@ -66,6 +66,7 @@ namespace Project::Utilities {
       if (!lua_isfunction(luaState, -1)) {
         lua_pop(luaState, 1); 
         logsManager.logError("Lua: '" + name + "' is not a function.");
+        return false;
       }
     }
 

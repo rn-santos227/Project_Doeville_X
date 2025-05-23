@@ -77,6 +77,8 @@ namespace Project::Utilities {
 
         } else if constexpr (std::is_same_v<T, bool>) {
 
+        } else if constexpr (std::is_same_v<T, const char*>) {
+
         }
       }
     }

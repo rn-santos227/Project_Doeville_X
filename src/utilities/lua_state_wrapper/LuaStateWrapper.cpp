@@ -43,6 +43,9 @@ namespace Project::Utilities {
       return false;
     }
 
+    if (luaL_dostring(luaState, code.c_str()) != LUA_OK) {
+
+    }
 
   }
   

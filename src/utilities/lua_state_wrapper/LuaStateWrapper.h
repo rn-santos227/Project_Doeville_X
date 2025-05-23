@@ -80,7 +80,7 @@ namespace Project::Utilities {
         } else if constexpr (std::is_same_v<T, const char*>) {
           lua_pushstring(luaState, value);
         } else if constexpr (std::is_same_v<T, std::string>) {
-
+          lua_pushstring(luaState, value.c_str());
         } else {
           logsManager.logError("Unsupported Lua argument type.");
         }

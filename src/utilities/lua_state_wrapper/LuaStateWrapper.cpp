@@ -47,7 +47,7 @@ namespace Project::Utilities {
       handleLuaError("Failed to load Lua script from string.");
       return false;
     }
-
+    return true;
   }
   
   std::string LuaStateWrapper::getGlobalString(const std::string& name, const std::string& defaultValue) const {

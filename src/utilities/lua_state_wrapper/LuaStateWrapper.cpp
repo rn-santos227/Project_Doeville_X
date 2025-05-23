@@ -39,7 +39,8 @@ namespace Project::Utilities {
 
   bool LuaStateWrapper::loadScriptFromString(const std::string& code) {
     if(logsManager.checkAndLogError(!isValid(), "Lua state is invalid. Cannot load script from string.")) {
-
+      logsManager.flushLogs();
+      return false;
     }
 
 

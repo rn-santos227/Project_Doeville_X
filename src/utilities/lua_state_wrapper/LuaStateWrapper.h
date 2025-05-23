@@ -76,7 +76,7 @@ namespace Project::Utilities {
         } else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>) {
           lua_pushnumber(luaState, static_cast<lua_Number>(value));
         } else if constexpr (std::is_same_v<T, bool>) {
-
+          lua_pushboolean(luaState, value);
         } else if constexpr (std::is_same_v<T, const char*>) {
 
         } else if constexpr (std::is_same_v<T, std::string>) {

@@ -19,10 +19,6 @@ namespace Project::Utilities {
     bool loadScript(const std::string& scriptPath);
     bool loadScriptFromString(const std::string& code); 
 
-    // Generic argument-based function call
-    template<typename... Args>
-    bool callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args);
-
     //Global Getters
     std::string getGlobalString(const std::string& name, const std::string& defaultValue = "") const;
     float getGlobalNumber(const std::string& name, float defaultValue = 0.0f) const;
@@ -60,6 +56,12 @@ namespace Project::Utilities {
     // Lua error handling
     void handleLuaError(int errorCode) const;
     void handleLuaError(const std::string& errorMessage) const;
+
+    // Generic argument-based function call
+    template<typename... Args>
+    bool callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args) {
+      if (!luaState) return false;
+    }
 
   private:
     lua_State* luaState;

@@ -70,7 +70,7 @@ namespace Project::Utilities {
       }
 
       auto push = [this](auto value) {
-
+        using T = std::decay_t<decltype(value)>;
       }
     }
 

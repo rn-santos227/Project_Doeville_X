@@ -88,8 +88,10 @@ namespace Project::Utilities {
 
       (push(args), ...);
       int argCount = sizeof...(Args);
+      int result = lua_pcall(luaState, argCount, nresults, 0);
       if (result != LUA_OK) {
         handleLuaError(result);
+        return false;
       }
     }
 

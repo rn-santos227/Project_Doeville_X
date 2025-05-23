@@ -78,7 +78,7 @@ namespace Project::Utilities {
         } else if constexpr (std::is_same_v<T, bool>) {
           lua_pushboolean(luaState, value);
         } else if constexpr (std::is_same_v<T, const char*>) {
-
+          lua_pushstring(luaState, value);
         } else if constexpr (std::is_same_v<T, std::string>) {
 
         } else {

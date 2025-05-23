@@ -72,7 +72,7 @@ namespace Project::Utilities {
       auto push = [this](auto value) {
         using T = std::decay_t<decltype(value)>;
         if constexpr (std::is_same_v<T, int>) {
-
+          lua_pushinteger(luaState, static_cast<lua_Integer>(value));
         } else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>) {
 
         } else if constexpr (std::is_same_v<T, bool>) {
@@ -84,7 +84,7 @@ namespace Project::Utilities {
         } else {
           logsManager.logError("Unsupported Lua argument type.");
         }
-      }
+      };
     }
 
   private:

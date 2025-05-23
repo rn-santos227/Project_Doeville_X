@@ -71,6 +71,9 @@ namespace Project::Utilities {
 
       auto push = [this](auto value) {
         using T = std::decay_t<decltype(value)>;
+        if constexpr (std::is_same_v<T, int>) {
+
+        }
       }
     }
 

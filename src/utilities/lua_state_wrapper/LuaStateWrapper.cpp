@@ -147,7 +147,7 @@ namespace Project::Utilities {
   }
 
    std::string LuaStateWrapper::getTableString(const std::string& tableName, const std::string& key, const std::string& defaultValue) const {
-
+    if (!isValid()) return defaultValue;
   }
 
   void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {

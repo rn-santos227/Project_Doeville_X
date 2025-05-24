@@ -146,6 +146,10 @@ namespace Project::Utilities {
     lua_setglobal(luaState, name.c_str());
   }
 
+  void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {
+
+  }
+
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {
     if (!isValid()) return false;
     

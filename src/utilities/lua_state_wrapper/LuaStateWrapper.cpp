@@ -16,6 +16,11 @@ namespace Project::Utilities {
     }
   }
 
+  template<typename... Args>
+  bool LuaStateWrapper::callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args) {
+
+  }
+
   lua_State* LuaStateWrapper::get() const {
     return luaState;
   }

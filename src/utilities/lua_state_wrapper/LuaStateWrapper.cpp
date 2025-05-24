@@ -132,7 +132,11 @@ namespace Project::Utilities {
     if (!isValid()) return;
     lua_pushstring(luaState, value.c_str());
     lua_setglobal(luaState, name.c_str());
-  } 
+  }
+
+  void LuaStateWrapper::setGlobalNumber(const std::string& name, float value) {
+
+  }
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {
     if (!isValid()) return false;

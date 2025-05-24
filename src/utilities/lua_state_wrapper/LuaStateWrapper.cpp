@@ -128,6 +128,10 @@ namespace Project::Utilities {
     return result;
   }
 
+  void LuaStateWrapper::setGlobalString(const std::string& name, const std::string& value) const {
+
+  } 
+
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {
     if (!isValid()) return false;
     

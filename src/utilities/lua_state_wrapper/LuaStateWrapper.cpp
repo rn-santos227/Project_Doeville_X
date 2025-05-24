@@ -142,7 +142,7 @@ namespace Project::Utilities {
 
   void LuaStateWrapper::setGlobalBoolean(const std::string& name, bool value) {
     if (!isValid()) return;
-
+    lua_pushboolean(luaState, value);
   }
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {

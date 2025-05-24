@@ -157,6 +157,7 @@ namespace Project::Utilities {
     }
 
     lua_pushstring(luaState, key.c_str());
+    lua_pushstring(luaState, value.c_str());
   }
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {

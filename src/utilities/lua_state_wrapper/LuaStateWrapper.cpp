@@ -155,6 +155,8 @@ namespace Project::Utilities {
       handleLuaError("Table '" + tableName + "' does not exist.");
       return;
     }
+
+    lua_pushstring(luaState, key.c_str());
   }
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {

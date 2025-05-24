@@ -131,6 +131,7 @@ namespace Project::Utilities {
   void LuaStateWrapper::setGlobalString(const std::string& name, const std::string& value) const {
     if (!isValid()) return;
     lua_pushstring(luaState, value.c_str());
+    lua_setglobal(luaState, name.c_str());
   } 
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {

@@ -141,6 +141,7 @@ namespace Project::Utilities {
   }
 
   void LuaStateWrapper::setGlobalBoolean(const std::string& name, bool value) {
+    if (!isValid()) return;
 
   }
 

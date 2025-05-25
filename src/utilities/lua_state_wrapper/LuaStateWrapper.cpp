@@ -199,7 +199,7 @@ namespace Project::Utilities {
     lua_gettable(luaState, -2);
     bool result = defaultValue;
     if (lua_isboolean(luaState, -1)) {
-
+      result = lua_toboolean(luaState, -1);
     }
   }
 

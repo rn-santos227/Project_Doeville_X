@@ -179,7 +179,7 @@ namespace Project::Utilities {
     lua_gettable(luaState, -2);
     float result = defaultValue;
     if (lua_isnumber(luaState, -1)) {
-
+      result = static_cast<float>(lua_tonumber(luaState, -1));
     }
   }
 

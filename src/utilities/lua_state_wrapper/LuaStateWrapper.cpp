@@ -228,6 +228,8 @@ namespace Project::Utilities {
     lua_getglobal(luaState, tableName.c_str());
     if (!lua_istable(luaState, -1)) {
       lua_pop(luaState, 1);
+      handleLuaError("Table '" + tableName + "' does not exist.");
+      return;
     }
   }
 

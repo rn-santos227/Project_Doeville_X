@@ -181,6 +181,8 @@ namespace Project::Utilities {
     if (lua_isnumber(luaState, -1)) {
       result = static_cast<float>(lua_tonumber(luaState, -1));
     }
+
+    lua_pop(luaState, 2);
   }
 
   void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {

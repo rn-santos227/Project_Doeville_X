@@ -156,6 +156,18 @@ namespace Project::Utilities {
     }
 
     lua_pushstring(luaState, key.c_str());
+    lua_gettable(luaState, -2);
+    std::string result = defaultValue;
+    if (lua_isstring(luaState, -1)) {
+      result = lua_tostring(luaState, -1);
+    }
+
+    lua_pop(luaState, 2);
+    return result;
+  }
+
+  float LuaStateWrapper::getTableNumber(const std::string& tableName, const std::string& key, float defaultValue) const {
+
   }
 
   void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {

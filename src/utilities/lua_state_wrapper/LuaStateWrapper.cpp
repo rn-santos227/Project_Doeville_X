@@ -190,6 +190,9 @@ namespace Project::Utilities {
     if (!isValid()) return defaultValue;
 
     lua_getglobal(luaState, tableName.c_str());
+    if (!lua_istable(luaState, -1)) {
+
+    }
   }
 
   void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {

@@ -223,7 +223,7 @@ namespace Project::Utilities {
   }
 
   void LuaStateWrapper::setTableNumber(const std::string& tableName, const std::string& key, float value) {
-
+    if (!isValid()) return;
   }
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {

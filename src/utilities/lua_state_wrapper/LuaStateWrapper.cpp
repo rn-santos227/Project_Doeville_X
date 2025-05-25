@@ -226,6 +226,9 @@ namespace Project::Utilities {
     if (!isValid()) return;
 
     lua_getglobal(luaState, tableName.c_str());
+    if (!lua_istable(luaState, -1)) {
+
+    }
   }
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {

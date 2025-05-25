@@ -201,6 +201,8 @@ namespace Project::Utilities {
     if (lua_isboolean(luaState, -1)) {
       result = lua_toboolean(luaState, -1);
     }
+
+    lua_pop(luaState, 2);
   }
 
   void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {

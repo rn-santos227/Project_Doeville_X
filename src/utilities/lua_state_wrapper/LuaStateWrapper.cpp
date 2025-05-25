@@ -222,6 +222,10 @@ namespace Project::Utilities {
     lua_pop(luaState, 1);
   }
 
+  void LuaStateWrapper::setTableNumber(const std::string& tableName, const std::string& key, float value) {
+
+  }
+
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {
     if (!isValid()) return false;
     

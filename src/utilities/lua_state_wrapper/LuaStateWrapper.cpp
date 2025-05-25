@@ -203,6 +203,7 @@ namespace Project::Utilities {
     }
 
     lua_pop(luaState, 2);
+    return result;
   }
 
   void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {

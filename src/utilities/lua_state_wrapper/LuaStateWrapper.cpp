@@ -194,6 +194,8 @@ namespace Project::Utilities {
       lua_pop(luaState, 1);
       return defaultValue;
     }
+
+    lua_pushstring(luaState, key.c_str());
   }
 
   void LuaStateWrapper::setTableString(const std::string& tableName, const std::string& key, const std::string& value) {

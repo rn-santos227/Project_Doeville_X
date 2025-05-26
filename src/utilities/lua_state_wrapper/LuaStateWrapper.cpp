@@ -356,6 +356,9 @@ namespace Project::Utilities {
 
         case LUA_TBOOLEAN:
         break;
+
+        case LUA_TNUMBER:
+        break;
       }
     }
   }

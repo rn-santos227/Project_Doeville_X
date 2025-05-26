@@ -340,6 +340,7 @@ namespace Project::Utilities {
   }
 
   void LuaStateWrapper::printStack() const {
+    if (!isValid()) return;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

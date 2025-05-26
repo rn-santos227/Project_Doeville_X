@@ -353,6 +353,9 @@ namespace Project::Utilities {
       switch (type) {
         case LUA_TSTRING:
         break;
+
+        case LUA_TBOOLEAN:
+        break;
       }
     }
   }

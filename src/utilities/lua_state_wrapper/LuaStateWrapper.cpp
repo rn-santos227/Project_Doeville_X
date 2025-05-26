@@ -371,6 +371,8 @@ namespace Project::Utilities {
           valueStr = typeName;
           break;
       }
+
+      logsManager.logLuaMessage("  [" + std::to_string(i) + "] " + typeName + ": " + valueStr);
     }
   }
 

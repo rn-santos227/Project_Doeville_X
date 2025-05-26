@@ -359,6 +359,9 @@ namespace Project::Utilities {
 
         case LUA_TNUMBER:
         break;
+
+        case LUA_TNIL:
+        break;
       }
     }
   }

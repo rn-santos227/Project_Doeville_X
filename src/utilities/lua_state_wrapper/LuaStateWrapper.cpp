@@ -364,10 +364,12 @@ namespace Project::Utilities {
           break;
 
         case LUA_TNIL:
-        break;
+          valueStr = "nil";
+          break;
 
         default:
-        break;
+          valueStr = typeName;
+          break;
       }
     }
   }

@@ -376,6 +376,10 @@ namespace Project::Utilities {
     }
   }
 
+  void LuaStateWrapper::registerFunction(const std::string& name, lua_CFunction function) {
+
+  }
+
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);

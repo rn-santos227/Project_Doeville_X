@@ -360,7 +360,8 @@ namespace Project::Utilities {
           break;
 
         case LUA_TNUMBER:
-        break;
+          valueStr = std::to_string(lua_tonumber(luaState, i));
+          break;
 
         case LUA_TNIL:
         break;

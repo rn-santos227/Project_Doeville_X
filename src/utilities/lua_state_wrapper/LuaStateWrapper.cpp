@@ -343,6 +343,7 @@ namespace Project::Utilities {
     if (!isValid()) return;
 
     int top = lua_gettop(luaState);
+    logsManager.logMessage("Lua Stack (Top: " + std::to_string(top) + "):");
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

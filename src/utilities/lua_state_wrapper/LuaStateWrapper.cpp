@@ -239,8 +239,7 @@ namespace Project::Utilities {
   }
 
   void LuaStateWrapper::setTableBoolean(const std::string& tableName, const std::string& key, bool value) {
-
-
+    if (!isValid()) return;
   }
 
   bool LuaStateWrapper::isGlobalFunction(const std::string& name) const {

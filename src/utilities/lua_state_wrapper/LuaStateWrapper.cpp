@@ -349,6 +349,11 @@ namespace Project::Utilities {
       int type = lua_type(luaState, i);
       std::string typeName = lua_typename(luaState, type);
       std::string valueStr;
+
+      switch (type) {
+        case LUA_TSTRING:
+        break;
+      }
     }
   }
 

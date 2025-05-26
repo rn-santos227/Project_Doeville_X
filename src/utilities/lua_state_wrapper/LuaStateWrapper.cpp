@@ -339,6 +339,9 @@ namespace Project::Utilities {
     return 0;
   }
 
+  void LuaStateWrapper::printStack() const {
+  }
+
   void LuaStateWrapper::handleLuaError(int errorCode) const {
     if (!luaState) return; 
     const char* errorMessage = lua_tostring(luaState, -1);

@@ -352,7 +352,8 @@ namespace Project::Utilities {
 
       switch (type) {
         case LUA_TSTRING:
-        break;
+          valueStr = lua_tostring(luaState, i);
+          break;
 
         case LUA_TBOOLEAN:
         break;

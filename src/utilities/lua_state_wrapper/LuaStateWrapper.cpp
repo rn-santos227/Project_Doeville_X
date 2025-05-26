@@ -344,6 +344,10 @@ namespace Project::Utilities {
 
     int top = lua_gettop(luaState);
     logsManager.logMessage("Lua Stack (Top: " + std::to_string(top) + "):");
+
+    for (int i = top; i >= 1; --i) {
+      int type = lua_type(luaState, i);
+    }
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

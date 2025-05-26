@@ -362,6 +362,9 @@ namespace Project::Utilities {
 
         case LUA_TNIL:
         break;
+
+        default:
+        break;
       }
     }
   }

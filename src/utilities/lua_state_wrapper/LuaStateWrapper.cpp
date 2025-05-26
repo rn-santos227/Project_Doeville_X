@@ -341,6 +341,8 @@ namespace Project::Utilities {
 
   void LuaStateWrapper::printStack() const {
     if (!isValid()) return;
+
+    int top = lua_gettop(luaState);
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

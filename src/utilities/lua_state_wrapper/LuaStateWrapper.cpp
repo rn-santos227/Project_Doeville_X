@@ -356,7 +356,8 @@ namespace Project::Utilities {
           break;
 
         case LUA_TBOOLEAN:
-        break;
+          valueStr = lua_toboolean(luaState, i) ? "true" : "false";
+          break;
 
         case LUA_TNUMBER:
         break;

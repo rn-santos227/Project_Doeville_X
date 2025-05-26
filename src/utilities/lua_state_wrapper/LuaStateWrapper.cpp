@@ -348,6 +348,7 @@ namespace Project::Utilities {
     for (int i = top; i >= 1; --i) {
       int type = lua_type(luaState, i);
       std::string typeName = lua_typename(luaState, type);
+      std::string valueStr;
     }
   }
 

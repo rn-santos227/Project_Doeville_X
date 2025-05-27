@@ -21,6 +21,9 @@ namespace Project::Entities {
     z = luaStateWrapper.getGlobalNumber("z", 0.0f);
 
     luaStateWrapper.callFunctionIfExists("initialize");
+    for (auto& [name, component] : components) {
+
+    }
   }
 
   void Entity::update(float deltaTime) {

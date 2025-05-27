@@ -8,8 +8,7 @@ namespace Project::States {
       return;
     }
 
-    lua_State* L = luaStateWrapper.get();
-    luaL_openlibs(L);
+    luaL_openlibs(luaStateWrapper.get());
 
     lua_pushcfunction(L, luaStateWrapper.luaPrintRedirect);
     lua_setglobal(L, "print");

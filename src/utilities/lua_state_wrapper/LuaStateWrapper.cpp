@@ -380,6 +380,7 @@ namespace Project::Utilities {
     if (!isValid()) return;
 
     lua_register(luaState, name.c_str(), function);
+    logsManager.logMessage("Registered Lua function: " + name);
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

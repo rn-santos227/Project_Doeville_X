@@ -9,9 +9,7 @@ namespace Project::States {
     }
 
     luaL_openlibs(luaStateWrapper.get());
-
-    lua_pushcfunction(L, luaStateWrapper.luaPrintRedirect);
-    lua_setglobal(L, "print");
+    luaStateWrapper.registerFunction("print", LuaStateWrapper::luaPrintRedirect);
   }
 
   GameState::~GameState() {

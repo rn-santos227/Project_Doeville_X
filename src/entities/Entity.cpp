@@ -59,22 +59,7 @@ namespace Project::Entities {
       return false;
     }
 
-    lua_State* L = luaStateWrapper.get();
-    lua_getglobal(L, "components");
-    if (lua_istable(L, -1)) {
-      lua_pushnil(L);
-      while (lua_next(L, -2)) {
-        std::string componentName = lua_tostring(L, -2);
-        if (lua_istable(L, -1)) {
-          std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, L);
-          if (component) {
-            addComponent(componentName, std::move(component));
-          } else {
-            logsManager.logError("Failed to create component: " + componentName);
-          }
-        }
-      }
-    }
+
 
     return true;
   }

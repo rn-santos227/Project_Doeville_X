@@ -32,6 +32,9 @@ namespace Project::Entities {
     luaStateWrapper.setGlobalNumber("deltaTime", deltaTime);
     luaStateWrapper.callFunctionIfExists("update");
 
+    for (auto& [name, component] : components) {
+
+    }
   }
 
   void Entity::render() {

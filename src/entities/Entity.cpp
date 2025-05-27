@@ -30,6 +30,8 @@ namespace Project::Entities {
 
   void Entity::update(float deltaTime) {
     luaStateWrapper.setGlobalNumber("deltaTime", deltaTime);
+    luaStateWrapper.callFunctionIfExists("update");
+
   }
 
   void Entity::render() {

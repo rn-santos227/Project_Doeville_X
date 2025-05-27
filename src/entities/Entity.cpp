@@ -16,25 +16,7 @@ namespace Project::Entities {
   Entity::~Entity() = default;
 
   void Entity::initialize() {
-    lua_State* L = luaStateWrapper.get();
-    lua_getglobal(L, "x");
-    if (lua_isnumber(L, -1)) x = static_cast<float>(lua_tonumber(L, -1));
-    lua_pop(L, 1);
 
-    lua_getglobal(L, "y");
-    if (lua_isnumber(L, -1)) y = static_cast<float>(lua_tonumber(L, -1));
-    lua_pop(L, 1);
-
-    lua_getglobal(L, "z");
-    if (lua_isnumber(L, -1)) z = static_cast<float>(lua_tonumber(L, -1));
-    lua_pop(L, 1);
-
-    callLuaFunction("initialize");
-    for (auto& [name, component] : components) {
-      if (component) {
-        component->onAttach();
-      }
-    }
   }
 
   void Entity::update(float deltaTime) {

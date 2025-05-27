@@ -33,7 +33,9 @@ namespace Project::Entities {
     luaStateWrapper.callFunctionIfExists("update");
 
     for (auto& [name, component] : components) {
+      if (component) {
 
+      }
     }
   }
 

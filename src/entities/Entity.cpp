@@ -61,7 +61,10 @@ namespace Project::Entities {
 
     if (luaStateWrapper.isGlobalTable("components")) {
       luaStateWrapper.iterateGlobalTable("components", [this](lua_State* L, int index) {
+        if (lua_istable(L, -1)) {
 
+        }
+        lua_pop(L, 1);
       });
     }
 

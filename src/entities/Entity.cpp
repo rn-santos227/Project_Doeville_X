@@ -34,7 +34,7 @@ namespace Project::Entities {
 
     for (auto& [name, component] : components) {
       if (component) {
-
+        component->update(deltaTime);
       }
     }
   }

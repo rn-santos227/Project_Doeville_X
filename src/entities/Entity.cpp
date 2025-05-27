@@ -62,7 +62,7 @@ namespace Project::Entities {
     if (luaStateWrapper.isGlobalTable("components")) {
       luaStateWrapper.iterateGlobalTable("components", [this](lua_State* L, int index) {
         if (lua_istable(L, -1)) {
-
+          std::string componentName = lua_tostring(L, -2);
         }
         lua_pop(L, 1);
       });

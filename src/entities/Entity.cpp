@@ -22,7 +22,9 @@ namespace Project::Entities {
 
     luaStateWrapper.callFunctionIfExists("initialize");
     for (auto& [name, component] : components) {
+      if (component) {
 
+      }
     }
   }
 

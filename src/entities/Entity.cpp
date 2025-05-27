@@ -17,6 +17,7 @@ namespace Project::Entities {
 
   void Entity::initialize() {
     x = luaStateWrapper.getGlobalNumber("x", 0.0f);
+    y = luaStateWrapper.getGlobalNumber("y", 0.0f);
   }
 
   void Entity::update(float deltaTime) {

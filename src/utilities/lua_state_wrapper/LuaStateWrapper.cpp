@@ -378,6 +378,8 @@ namespace Project::Utilities {
 
   void LuaStateWrapper::registerFunction(const std::string& name, lua_CFunction function) {
     if (!isValid()) return;
+
+    lua_register(luaState, name.c_str(), function);
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

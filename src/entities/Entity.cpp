@@ -10,8 +10,7 @@ namespace Project::Entities {
       return;
     }
 
-    lua_State* L  = luaStateWrapper.get();
-    luaL_openlibs(L);
+    luaL_openlibs(luaStateWrapper.get());
   }
 
   Entity::~Entity() = default;

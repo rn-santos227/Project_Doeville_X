@@ -59,7 +59,9 @@ namespace Project::Entities {
       return false;
     }
 
+    if (luaStateWrapper.isGlobalTable("components")) {
 
+    }
 
     return true;
   }

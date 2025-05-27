@@ -16,7 +16,7 @@ namespace Project::Entities {
   Entity::~Entity() = default;
 
   void Entity::initialize() {
-
+    x = luaStateWrapper.getGlobalNumber("x", 0.0f);
   }
 
   void Entity::update(float deltaTime) {

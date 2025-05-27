@@ -60,7 +60,9 @@ namespace Project::Entities {
     }
 
     if (luaStateWrapper.isGlobalTable("components")) {
+      luaStateWrapper.iterateGlobalTable("components", [this](lua_State* L, int index) {
 
+      });
     }
 
     return true;

@@ -29,16 +29,7 @@ namespace Project::Entities {
   }
 
   void Entity::update(float deltaTime) {
-    lua_State* L = luaStateWrapper.get();
-    lua_pushnumber(L, deltaTime);
-    lua_setglobal(L, "deltaTime");
-
-    callLuaFunction("update");
-    for (auto& [name, component] : components) {
-      if (component) {
-        component->update(deltaTime);
-      }
-    }
+    luaStateWrapper.setGlobalNumber("deltaTime", deltaTime);
   }
 
   void Entity::render() {

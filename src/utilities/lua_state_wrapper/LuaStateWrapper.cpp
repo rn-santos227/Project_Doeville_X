@@ -381,7 +381,11 @@ namespace Project::Utilities {
 
     lua_register(luaState, name.c_str(), function);
     if (lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
-
+      const char* errorMessage = lua_tostring(luaState, -1);
+      logsManager.logError("Failed to register Lua function '" + name + "': " + std::string(errorMessage));
+      lua_pop(luaState, 1);
+    } else {
+      logsManager.logMessage("Registered Lua function: " + name);
     }
   }
 

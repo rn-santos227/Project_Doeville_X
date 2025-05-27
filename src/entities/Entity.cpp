@@ -41,6 +41,9 @@ namespace Project::Entities {
 
   void Entity::render() {
     luaStateWrapper.callFunctionIfExists("render");
+    for (auto& [name, component] : components) {
+
+    }
   }
 
   bool Entity::attachLuaScript(const std::string& scriptPath) {

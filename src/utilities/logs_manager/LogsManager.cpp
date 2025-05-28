@@ -1,17 +1,5 @@
 #include "LogsManager.h"
-
-#include <thread>
-#include <queue>
-#include <mutex>
-#include <condition_variable>
-#include <atomic>
-
 namespace Project::Utilities {
-  struct LogEntry {
-    std::string message;
-    std::ostream* stream;
-  };
-
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";
     std::filesystem::create_directories("resources/logs");

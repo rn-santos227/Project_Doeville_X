@@ -1,16 +1,26 @@
 #ifndef LOGS_MANAGER_H
 #define LOGS_MANAGER_H
 
-#include <algorithm> 
-#include <iostream>
+#include <algorithm>
+#include <atomic>
+#include <condition_variable>
+#include <ctime>
 #include <filesystem> 
 #include <fstream>
-#include <string>
-#include <ctime>
+#include <iostream>
+#include <mutex>
+#include <queue>
 #include <sstream>
+#include <string>
+#include <thread>
+
 
 #include <SDL.h>
 namespace Project::Utilities {
+  struct LogEntry {
+    std::string message;
+    std::ostream* stream;
+  };
   class LogsManager {
   public:
     LogsManager();

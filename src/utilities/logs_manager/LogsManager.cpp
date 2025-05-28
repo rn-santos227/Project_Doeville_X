@@ -17,7 +17,7 @@ namespace Project::Utilities {
         lock.unlock();
 
         if (entry.stream) {
-
+          (*entry.stream) << entry.message;
         }
       }
     }

@@ -67,7 +67,7 @@ namespace Project::Entities {
           if (component) {
             addComponent(componentName, std::move(component));
           } else {
-
+            logsManager.logError("Failed to create component: " + componentName);
           }
         }
         lua_pop(L, 1);

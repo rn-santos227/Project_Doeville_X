@@ -64,6 +64,11 @@ namespace Project::Entities {
         if (lua_istable(L, -1)) {
           std::string componentName = lua_tostring(L, -2);
           std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, L);
+          if (component) {
+
+          } else {
+
+          }
         }
         lua_pop(L, 1);
       });

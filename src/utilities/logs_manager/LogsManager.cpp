@@ -20,6 +20,11 @@ namespace Project::Utilities {
           (*entry.stream) << entry.message;
           entry.stream->flush();
         }
+
+        if (file && file->is_open()) {
+          (*file) << entry.message;
+          file->flush();
+        }
       }
     }
   }

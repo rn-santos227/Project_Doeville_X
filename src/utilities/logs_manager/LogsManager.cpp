@@ -18,6 +18,7 @@ namespace Project::Utilities {
 
         if (entry.stream) {
           (*entry.stream) << entry.message;
+          entry.stream->flush();
         }
       }
     }

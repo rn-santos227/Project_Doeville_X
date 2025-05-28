@@ -65,7 +65,7 @@ namespace Project::Entities {
           std::string componentName = lua_tostring(L, -2);
           std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, L);
           if (component) {
-
+            addComponent(componentName, std::move(component));
           } else {
 
           }

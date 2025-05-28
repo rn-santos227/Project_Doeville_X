@@ -6,6 +6,10 @@ namespace Project::Utilities {
   static std::atomic<bool> loggingActive{true};
   static std::thread logThread;
 
+  static void logWorker(std::ofstream* file) {
+
+  }
+
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";
     std::filesystem::create_directories("resources/logs");

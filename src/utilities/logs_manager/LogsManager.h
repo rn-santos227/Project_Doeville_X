@@ -14,7 +14,6 @@
 #include <string>
 #include <thread>
 
-
 #include <SDL.h>
 namespace Project::Utilities {
   struct LogEntry {

@@ -1,5 +1,7 @@
 #include "LogsManager.h"
 namespace Project::Utilities {
+  static std::queue<LogEntry> logQueue;
+
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";
     std::filesystem::create_directories("resources/logs");

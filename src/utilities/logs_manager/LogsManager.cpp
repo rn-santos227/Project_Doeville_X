@@ -4,6 +4,7 @@ namespace Project::Utilities {
   static std::mutex logMutex;
   static std::condition_variable logCv;
   static std::atomic<bool> loggingActive{true};
+  static std::thread logThread;
 
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";

@@ -2,6 +2,7 @@
 namespace Project::Utilities {
   static std::queue<LogEntry> logQueue;
   static std::mutex logMutex;
+  static std::condition_variable logCv;
 
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";

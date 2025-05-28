@@ -1,6 +1,10 @@
 #include "LogsManager.h"
 
 namespace Project::Utilities {
+  struct LogEntry {
+    /* data */
+  };
+
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";
     std::filesystem::create_directories("resources/logs");

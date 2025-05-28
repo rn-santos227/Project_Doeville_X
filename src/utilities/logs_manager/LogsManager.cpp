@@ -13,6 +13,7 @@ namespace Project::Utilities {
 
       while (!logQueue.empty()) {
         LogEntry entry = logQueue.front();
+        logQueue.pop();
       }
     }
   }

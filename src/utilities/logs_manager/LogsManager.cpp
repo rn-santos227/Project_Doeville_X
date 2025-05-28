@@ -2,7 +2,7 @@
 
 namespace Project::Utilities {
   struct LogEntry {
-    /* data */
+    std::string message;
   };
 
   LogsManager::LogsManager() {

@@ -10,6 +10,10 @@ namespace Project::Utilities {
     while (loggingActive || !logQueue.empty()) {
       std::unique_lock<std::mutex> lock(logMutex);
       logCv.wait(lock, [] { return !logQueue.empty() || !loggingActive; });
+
+      while (!logQueue.empty()) {
+
+      }
     }
   }
 

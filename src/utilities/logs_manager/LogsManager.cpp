@@ -7,7 +7,9 @@ namespace Project::Utilities {
   static std::thread logThread;
 
   static void logWorker(std::ofstream* file) {
+    while (loggingActive || !logQueue.empty()) {
 
+    }
   }
 
   LogsManager::LogsManager() {

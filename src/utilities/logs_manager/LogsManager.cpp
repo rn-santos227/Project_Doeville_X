@@ -1,6 +1,7 @@
 #include "LogsManager.h"
 namespace Project::Utilities {
   static std::queue<LogEntry> logQueue;
+  static std::mutex logMutex;
 
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";

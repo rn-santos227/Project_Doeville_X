@@ -15,6 +15,10 @@ namespace Project::Utilities {
         LogEntry entry = logQueue.front();
         logQueue.pop();
         lock.unlock();
+
+        if (entry.stream) {
+
+        }
       }
     }
   }

@@ -18,6 +18,7 @@ namespace Project::Utilities {
 
     bool checkAndLogError(bool condition, const std::string& errorMsg);
 
+    void enqueueLog(const std::string& message, std::ostream* stream);
     void flushLogs();
     
     void logError(const std::string& message);

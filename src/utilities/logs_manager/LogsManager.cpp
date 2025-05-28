@@ -9,6 +9,7 @@ namespace Project::Utilities {
   static void logWorker(std::ofstream* file) {
     while (loggingActive || !logQueue.empty()) {
       std::unique_lock<std::mutex> lock(logMutex);
+      logCv.wait(lock, [] { return !logQueue.empty() || !loggingActive; });
     }
   }
 

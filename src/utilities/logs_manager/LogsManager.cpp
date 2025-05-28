@@ -3,6 +3,7 @@
 namespace Project::Utilities {
   struct LogEntry {
     std::string message;
+    std::ostream* stream;
   };
 
   LogsManager::LogsManager() {

@@ -12,7 +12,7 @@ namespace Project::Utilities {
       logCv.wait(lock, [] { return !logQueue.empty() || !loggingActive; });
 
       while (!logQueue.empty()) {
-
+        LogEntry entry = logQueue.front();
       }
     }
   }

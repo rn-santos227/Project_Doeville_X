@@ -25,6 +25,8 @@ namespace Project::Utilities {
           (*file) << entry.message;
           file->flush();
         }
+
+        lock.lock();
       }
     }
   }

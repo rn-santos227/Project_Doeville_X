@@ -106,7 +106,7 @@ namespace Project::Utilities {
   }
 
   void LogsManager::printConsoleOnly(const std::string& message) {
-
+    std::string timestamp = getCurrentTimestamp();
   }
 
   void LogsManager::flushLogs() {

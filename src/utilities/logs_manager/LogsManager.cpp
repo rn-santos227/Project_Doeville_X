@@ -114,7 +114,7 @@ namespace Project::Utilities {
     }
 
     if (logFile.is_open()) {
-
+      logFile.flush();
     }
   }
 

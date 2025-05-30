@@ -106,7 +106,7 @@ namespace Project::Utilities {
   }
 
   void LogsManager::flushLogs() {
-
+    std::unique_lock<std::mutex> lock(logMutex);
   }
 
 

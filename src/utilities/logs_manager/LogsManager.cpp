@@ -109,6 +109,7 @@ namespace Project::Utilities {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[CONSOLE] " + timestamp + " - " + sanitizedMessage + "\n";
+    std::cout << logMessage << std::endl;
   }
 
   void LogsManager::flushLogs() {

@@ -63,6 +63,10 @@ namespace Project::Utilities {
     };
   }
 
+  void LogsManager::enqueueLog(const std::string& message, std::ostream* stream {
+
+  }
+
   bool LogsManager::checkAndLogError(bool condition, const std::string& errorMsg) {
     if(condition) {
       logError(errorMsg);

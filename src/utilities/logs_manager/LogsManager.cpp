@@ -93,7 +93,7 @@ namespace Project::Utilities {
   }
 
   void LogsManager::logMessage(const std::string& message) {
-    
+    std::string timestamp = getCurrentTimestamp();
   }
 
   void LogsManager::logWarning(const std::string& message) {

@@ -94,6 +94,7 @@ namespace Project::Utilities {
 
   void LogsManager::logMessage(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
+    std::string sanitizedMessage = sanitizePath(message);
   }
 
   void LogsManager::logWarning(const std::string& message) {

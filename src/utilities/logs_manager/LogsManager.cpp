@@ -93,15 +93,7 @@ namespace Project::Utilities {
   }
 
   void LogsManager::logMessage(const std::string& message) {
-    std::string timestamp = getCurrentTimestamp();
-    std::string sanitizedMessage = sanitizePath(message);
-
-    std::string logMessage = "[INFO] " + timestamp + " - " + sanitizedMessage + "\n";
-    std::cout << logMessage;
-
-    if (logFile.is_open()) {
-      logFile << logMessage;
-    }
+    
   }
 
   void LogsManager::logWarning(const std::string& message) {

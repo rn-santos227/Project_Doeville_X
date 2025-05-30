@@ -63,9 +63,10 @@ namespace Project::Utilities {
     };
   }
 
-  void LogsManager::enqueueLog(const std::string& message, std::ostream*) {
+  void LogsManager::enqueueLog(const std::string& message, std::ostream* stream) {
     {
       std::lock_guard<std::mutex> lock(logMutex);
+      logQueue.push(LogEntry{message, stream});
     }
 
   }

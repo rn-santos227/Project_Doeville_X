@@ -51,6 +51,8 @@ namespace Project::Utilities {
   }
 
   LogsManager::~LogsManager() {
+    loggingActive = false;
+    
     if (logFile.is_open()) {
       logFile.close();
     };

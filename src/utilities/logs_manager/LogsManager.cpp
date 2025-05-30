@@ -109,6 +109,7 @@ namespace Project::Utilities {
     std::unique_lock<std::mutex> lock(logMutex);
     while (!logQueue.empty()) {
       lock.unlock();
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
   }
 

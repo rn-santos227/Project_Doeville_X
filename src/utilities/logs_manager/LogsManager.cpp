@@ -52,7 +52,7 @@ namespace Project::Utilities {
 
   LogsManager::~LogsManager() {
     loggingActive = false;
-    
+    logCv.notify_all();
     if (logFile.is_open()) {
       logFile.close();
     };

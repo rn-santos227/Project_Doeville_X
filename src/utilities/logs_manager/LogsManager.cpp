@@ -105,6 +105,10 @@ namespace Project::Utilities {
     std::string logMessage = "[WARNING] " + timestamp + " - " + sanitizedMessage + "\n";
   }
 
+  void LogsManager::printConsoleOnly(const std::string& message) {
+
+  }
+
   void LogsManager::flushLogs() {
     std::unique_lock<std::mutex> lock(logMutex);
     while (!logQueue.empty()) {

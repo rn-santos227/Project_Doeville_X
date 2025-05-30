@@ -110,6 +110,7 @@ namespace Project::Utilities {
     while (!logQueue.empty()) {
       lock.unlock();
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      lock.lock();
     }
   }
 

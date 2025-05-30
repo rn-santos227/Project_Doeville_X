@@ -46,6 +46,7 @@ namespace Project::Utilities {
     static std::once_flag flag;
     std::call_once(flag, [this] {
       loggingActive = true;
+      logThread = std::thread(logWorker, &logFile);
     });
   }
 

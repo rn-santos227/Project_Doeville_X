@@ -112,6 +112,10 @@ namespace Project::Utilities {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       lock.lock();
     }
+
+    if (logFile.is_open()) {
+
+    }
   }
 
 

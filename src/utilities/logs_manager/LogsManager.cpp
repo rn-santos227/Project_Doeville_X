@@ -86,7 +86,7 @@ namespace Project::Utilities {
   }
 
   void LogsManager::logLuaMessage(const std::string& message) {
-    
+    std::string timestamp = getCurrentTimestamp();
   }
 
   void LogsManager::logMessage(const std::string& message) {

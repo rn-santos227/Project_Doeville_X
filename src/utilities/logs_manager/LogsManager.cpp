@@ -106,10 +106,7 @@ namespace Project::Utilities {
   }
 
   void LogsManager::flushLogs() {
-    if (logFile.is_open()) {
-      logFile.flush();
-      logFile.clear();
-    }
+
   }
 
 

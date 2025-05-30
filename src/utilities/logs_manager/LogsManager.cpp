@@ -55,6 +55,7 @@ namespace Project::Utilities {
     logCv.notify_all();
 
     if (logThread.joinable()) {
+      logThread.join();
     }
 
     if (logFile.is_open()) {

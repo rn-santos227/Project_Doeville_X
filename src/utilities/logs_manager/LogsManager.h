@@ -35,6 +35,8 @@ namespace Project::Utilities {
     void logMessage(const std::string& message);
     void logWarning(const std::string& message);
 
+    void printConsoleOnly(const std::string& message);
+
   private:
     std::ofstream logFile;
 

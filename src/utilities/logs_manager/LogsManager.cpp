@@ -68,7 +68,7 @@ namespace Project::Utilities {
       std::lock_guard<std::mutex> lock(logMutex);
       logQueue.push(LogEntry{message, stream});
     }
-
+    logCv.notify_one();
   }
 
   bool LogsManager::checkAndLogError(bool condition, const std::string& errorMsg) {

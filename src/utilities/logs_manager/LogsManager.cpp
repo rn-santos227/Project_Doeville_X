@@ -82,6 +82,7 @@ namespace Project::Utilities {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[ERROR] " + timestamp + " - " + sanitizedMessage + "\n";
+    enqueueLog(logMessage, &std::cerr);
   }
 
   void LogsManager::logLuaMessage(const std::string& message) {

@@ -34,7 +34,6 @@ namespace Project::Utilities {
   LogsManager::LogsManager() {
     std::string logFilePath = "resources/logs/logs.txt";
     std::filesystem::create_directories("resources/logs");
-    
     logFile.open(logFilePath, std::ios_base::app);
     
     if (!logFile.is_open()) {
@@ -43,6 +42,8 @@ namespace Project::Utilities {
         std::cerr << "Failed to create log file: " << logFilePath << std::endl;
       }
     }
+
+    static std::once_flag flag;
   }
 
   LogsManager::~LogsManager() {

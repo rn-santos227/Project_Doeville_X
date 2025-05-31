@@ -4,4 +4,11 @@
 #include <SDL.h>
 #include <string>
 
+namespace Project::Core {
+  class SDLManager {
+  public:
+    SDLManager();
+  };
+}
+
 #endif

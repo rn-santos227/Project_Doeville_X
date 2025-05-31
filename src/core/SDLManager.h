@@ -11,6 +11,7 @@ namespace Project::Core {
     ~SDLManager();
 
     bool initialize(const std::string& title, int width, int height, bool fullscreen);
+    void clear();
   };
 }
 

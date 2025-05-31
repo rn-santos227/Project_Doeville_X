@@ -10,7 +10,7 @@ using namespace Project::Utilities;
 namespace Project::Core {
   class SDLManager {
   public:
-    SDLManager();
+    SDLManager(Project::Handlers::LogsManager& logsManager);
     ~SDLManager();
 
     bool initialize(const std::string& title, int width, int height, bool fullscreen);

@@ -15,6 +15,7 @@ namespace Project::Core {
     void present();
 
     SDL_Renderer* getRenderer() const;
+    SDL_Window* getWindow() const;
   };
 }
 

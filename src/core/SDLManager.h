@@ -13,6 +13,8 @@ namespace Project::Core {
     bool initialize(const std::string& title, int width, int height, bool fullscreen);
     void clear();
     void present();
+
+    SDL_Renderer* getRenderer() const;
   };
 }
 

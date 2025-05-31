@@ -1,7 +1,7 @@
 #ifndef SDL_MANAGER_H
 #define SDL_MANAGER_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string>
 
 #include "utilities/logs_manager/LogsManager.h"
@@ -10,7 +10,7 @@ using namespace Project::Utilities;
 namespace Project::Core {
   class SDLManager {
   public:
-    SDLManager(Project::Handlers::LogsManager& logsManager);
+    SDLManager(LogsManager& logsManager);
     ~SDLManager();
 
     bool initialize(const std::string& title, int width, int height, bool fullscreen);

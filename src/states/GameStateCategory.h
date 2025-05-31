@@ -2,7 +2,7 @@
 #define STATE_CATEGORY_H
 
 namespace Project::States {
-  enum class StateCategory {
+  enum class GameStateCategory {
     // Core States
     MAIN_MENU_STATE,
     SETTINGS_STATE,

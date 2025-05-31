@@ -1,6 +1,8 @@
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
+#include "GameStateCategory.h"
+
 #include <string>
 #include <memory>
 
@@ -54,6 +56,8 @@ namespace Project::States {
   protected:
     LogsManager& logsManager;
     LuaStateWrapper luaStateWrapper;
+
+    GameStateCategory gameStateCategory;
     
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;

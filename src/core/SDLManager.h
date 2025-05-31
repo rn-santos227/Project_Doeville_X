@@ -8,6 +8,7 @@ namespace Project::Core {
   class SDLManager {
   public:
     SDLManager();
+     ~SDLManager();
   };
 }
 

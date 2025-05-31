@@ -8,7 +8,9 @@ namespace Project::Core {
   class SDLManager {
   public:
     SDLManager();
-     ~SDLManager();
+    ~SDLManager();
+
+    bool initialize(const std::string& title, int width, int height, bool fullscreen);
   };
 }
 

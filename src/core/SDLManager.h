@@ -26,7 +26,7 @@ namespace Project::Core {
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-    bool isInitialized;
+    bool initialized;
     void cleanup();
   };
 }

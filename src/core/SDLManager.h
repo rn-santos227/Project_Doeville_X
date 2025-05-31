@@ -4,6 +4,9 @@
 #include <SDL.h>
 #include <string>
 
+#include "utilities/logs_manager/LogsManager.h"
+using namespace Project::Utilities;
+
 namespace Project::Core {
   class SDLManager {
   public:
@@ -18,6 +21,8 @@ namespace Project::Core {
     SDL_Window* getWindow() const;
 
   private:
+    LogsManager& logsManager;
+    
     SDL_Window* window;
     SDL_Renderer* renderer;
 

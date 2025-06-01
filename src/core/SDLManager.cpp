@@ -13,6 +13,8 @@ namespace Project::Core {
     "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
+
+    Uint32 windowFlags = SDL_WINDOW_SHOWN;
   }
 
   void SDLManager::cleanup() {

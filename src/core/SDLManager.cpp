@@ -30,6 +30,8 @@ namespace Project::Core {
     }
 
     logsManager.logMessage("SDL initialized successfully. Window and renderer created.");
+    initialized = true;
+    return true;
   }
 
   void SDLManager::cleanup() {

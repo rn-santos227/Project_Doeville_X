@@ -11,7 +11,8 @@ namespace Project::Core {
     }
 
     if (window)  {
-      
+      SDL_DestroyWindow(window);
+      window = nullptr;  
     }
   }
 }

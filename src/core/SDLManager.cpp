@@ -35,7 +35,11 @@ namespace Project::Core {
   }
 
   void SDLManager::clear() {
+    if (renderer) {
 
+    } else {
+      
+    }
   }
 
   void SDLManager::cleanup() {

@@ -8,6 +8,10 @@ namespace Project::Core {
     cleanup();
   }
 
+  bool SDLManager::initialize(const std::string& title, int width, int height, bool fullscreen) {
+
+  }
+
   void SDLManager::cleanup() {
     if (renderer) {
       SDL_DestroyRenderer(renderer);

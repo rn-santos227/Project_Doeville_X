@@ -9,5 +9,9 @@ namespace Project::Core {
       SDL_DestroyRenderer(renderer);
       renderer = nullptr;
     }
+
+    if (window)  {
+      
+    }
   }
 }

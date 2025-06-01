@@ -14,5 +14,7 @@ namespace Project::Core {
       SDL_DestroyWindow(window);
       window = nullptr;  
     }
+
+    SDL_Quit();
   }
 }

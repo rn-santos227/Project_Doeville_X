@@ -6,7 +6,8 @@ namespace Project::Core {
 
   void SDLManager::cleanup() {
     if (renderer) {
-
+      SDL_DestroyRenderer(renderer);
+      renderer = nullptr;
     }
   }
 }

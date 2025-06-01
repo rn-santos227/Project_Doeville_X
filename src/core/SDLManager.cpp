@@ -38,7 +38,7 @@ namespace Project::Core {
     if (renderer) {
 
     } else {
-      
+      logsManager.logError("Attempted to clear but renderer is null.");  
     }
   }
 

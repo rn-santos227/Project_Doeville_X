@@ -18,6 +18,8 @@ namespace Project::Core {
     if (fullscreen) {
       windowFlags |= SDL_WINDOW_FULLSCREEN;
     }
+
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, windowFlags);
   }
 
   void SDLManager::cleanup() {

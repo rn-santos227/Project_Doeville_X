@@ -44,8 +44,11 @@ namespace Project::Core {
   }
 
   void SDLManager::present() {
+    if (renderer) {
 
+    } else {
 
+    }
   }
 
   void SDLManager::cleanup() {

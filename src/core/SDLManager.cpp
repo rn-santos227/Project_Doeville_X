@@ -23,6 +23,8 @@ namespace Project::Core {
     if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   }
 
   void SDLManager::cleanup() {

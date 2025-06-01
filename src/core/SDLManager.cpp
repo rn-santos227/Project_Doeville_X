@@ -45,9 +45,9 @@ namespace Project::Core {
 
   void SDLManager::present() {
     if (renderer) {
-
+      SDL_RenderPresent(renderer);
     } else {
-
+      logsManager.logError("Attempted to present but renderer is null.");
     }
   }
 

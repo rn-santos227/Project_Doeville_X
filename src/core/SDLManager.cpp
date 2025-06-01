@@ -16,7 +16,7 @@ namespace Project::Core {
 
     Uint32 windowFlags = SDL_WINDOW_SHOWN;
     if (fullscreen) {
-
+      windowFlags |= SDL_WINDOW_FULLSCREEN;
     }
   }
 

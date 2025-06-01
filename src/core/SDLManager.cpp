@@ -5,7 +5,7 @@ namespace Project::Core {
     : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false) {}
 
   SDLManager::~SDLManager() {
-    
+    cleanup();
   }
 
   void SDLManager::cleanup() {

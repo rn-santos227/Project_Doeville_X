@@ -34,6 +34,10 @@ namespace Project::Core {
     return true;
   }
 
+  void SDLManager::clear() {
+
+  }
+
   void SDLManager::cleanup() {
     if (renderer) {
       SDL_DestroyRenderer(renderer);

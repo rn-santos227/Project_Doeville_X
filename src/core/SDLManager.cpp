@@ -9,7 +9,10 @@ namespace Project::Core {
   }
 
   bool SDLManager::initialize(const std::string& title, int width, int height, bool fullscreen) {
-
+    if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0,
+    "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
+      return false;
+    }
   }
 
   void SDLManager::cleanup() {

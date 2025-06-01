@@ -16,5 +16,6 @@ namespace Project::Core {
     }
 
     SDL_Quit();
+    initialized = false;
   }
 }

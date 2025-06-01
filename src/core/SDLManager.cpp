@@ -5,6 +5,8 @@ namespace Project::Core {
     : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false) {}
 
   void SDLManager::cleanup() {
+    if (renderer) {
 
+    }
   }
 }

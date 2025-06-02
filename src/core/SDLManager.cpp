@@ -24,7 +24,9 @@ namespace Project::Core {
       return false;
     }
     std::string mode = fullscreen ? "Fullscreen" : "Windowed";
+    logsManager.logMessage("Window and renderer validated. Mode: " + mode + ", Size: " + std::to_string(screenWidth) + "x" + std::to_string(screenHeight));
 
+   
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (logsManager.checkAndLogError(!renderer, "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;

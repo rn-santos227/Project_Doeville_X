@@ -25,8 +25,6 @@ namespace Project::Handlers {
   ScreenHandler::~ScreenHandler() = default;
 
   bool ScreenHandler::init() {
-    logsManager.logMessage("SDL Initialized successfully.");
-
     std::string windowTitle = configReader.getValue("Window", "title", "Project Doeville X");
     int screenWidth = configReader.getIntValue("Window", "width", 800);
     int screenHeight = configReader.getIntValue("Window", "height", 600);

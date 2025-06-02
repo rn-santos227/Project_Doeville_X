@@ -25,10 +25,6 @@ namespace Project::Handlers {
   ScreenHandler::~ScreenHandler() = default;
 
   bool ScreenHandler::init() {
-    if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0, "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
-      logsManager.flushLogs();
-      return false;
-    }
     logsManager.logMessage("SDL Initialized successfully.");
 
     std::string windowTitle = configReader.getValue("Window", "title", "Project Doeville X");

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <mutex>
 
-#include <SDL.h>
+#include "core/SDLManager.h"
 
 #include "factories/component/ComponentsFactory.h"
 
@@ -46,6 +46,7 @@ namespace Project::Core {
     LogsManager logsManager;
     FramesCounter framesCounter;
     ConfigReader configReader;
+    SDLManager sdlManager;
 
     std::unique_ptr<ComponentsFactory> componentsFactory;
     std::unique_ptr<GameStateManager> gameStateManager;

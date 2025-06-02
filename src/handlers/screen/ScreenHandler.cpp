@@ -38,29 +38,6 @@ namespace Project::Handlers {
 
     cursorWidth = configReader.getIntValue("Cursor", "width", 32);
     cursorHeight = configReader.getIntValue("Cursor", "height", 32);
-
-    Uint32 windowFlags = SDL_WINDOW_SHOWN;
-    if (isFullscreen) {
-      windowFlags |= SDL_WINDOW_FULLSCREEN;
-    }
-
-    window = SDL_CreateWindow(windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, windowFlags);
-    
-    if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
-      logsManager.flushLogs();
-      return false;
-    }
-
-    std::string mode = isFullscreen ? "Fullscreen" : "Windowed";
-    logsManager.logMessage("Window created successfully. Mode: " + mode + ", Size: " + std::to_string(screenWidth) + "x" + std::to_string(screenHeight));
-    
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    
-    if (logsManager.checkAndLogError(!renderer,  "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
-      logsManager.flushLogs();
-      return false;
-    } 
-    logsManager.logMessage("Renderer created successfully.");
     
     cursorHandler.setRenderer(renderer);
     std::string cursorPath = resourcesHandler.getResourcePath("resources/system/cursor_default.png");

@@ -22,10 +22,7 @@ namespace Project::Handlers {
       resourcesHandler(resourcesHandler)
       {}
 
-  ScreenHandler::~ScreenHandler() {
-    if (renderer) SDL_DestroyRenderer(renderer);
-    if (window) SDL_DestroyWindow(window);
-  }
+  ScreenHandler::~ScreenHandler() = default;
 
   bool ScreenHandler::init() {
     if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0, "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {

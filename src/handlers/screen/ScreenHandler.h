@@ -34,7 +34,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(LogsManager& logsManager, FramesCounter& frameCounter, ConfigReader& configReader, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler);
+    ScreenHandler(LogsManager& logsManager, FramesCounter& frameCounter, ConfigReader& configReader, SDLManager& sdlManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler);
     ~ScreenHandler();
 
     bool init();
@@ -45,6 +45,7 @@ namespace Project::Handlers {
     bool isRunning() const;
 
     SDL_Renderer* getRenderer() const;
+    SDL_Window* getWindow() const;
 
   private:
     SDL_Window* window;

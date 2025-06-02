@@ -2,7 +2,7 @@
 
 namespace Project::Core {
   GameEngine::GameEngine() :
-  isRunning(false), framesCounter(), logsManager(), configReader(logsManager),
+  isRunning(false), framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
   componentsFactory(std::make_unique<ComponentsFactory>(configReader, logsManager)),
   gameStateManager(std::make_unique<GameStateManager>(5, logsManager)),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)), 

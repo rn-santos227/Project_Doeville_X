@@ -51,6 +51,10 @@ namespace Project::Core {
     }
   }
 
+  SDL_Renderer* SDLManager::getRenderer() const {
+
+  }
+
   void SDLManager::cleanup() {
     if (renderer) {
       SDL_DestroyRenderer(renderer);

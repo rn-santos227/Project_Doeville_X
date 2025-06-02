@@ -53,6 +53,7 @@ namespace Project::Handlers {
     LogsManager& logsManager;
     FramesCounter& framesCounter;
     ConfigReader& configReader;
+    SDLManager& sdlManager;
     
     ComponentsFactory& componentsFactory;
     GameStateManager& gameStateManager;

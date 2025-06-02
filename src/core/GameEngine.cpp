@@ -21,6 +21,10 @@ namespace Project::Core {
 
   void GameEngine::init() {
     std::string title = configReader.getValue("Window", "title", "Project Doeville X");
+    int screenWidth = configReader.getIntValue("Window", "width", 800);
+
+
+
     SDL_ShowCursor(SDL_DISABLE);
 
     if (logsManager.checkAndLogError(!configReader.loadConfig("config.ini"), "Failed to load config.ini")) {

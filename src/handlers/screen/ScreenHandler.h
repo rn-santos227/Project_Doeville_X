@@ -7,6 +7,8 @@
 
 #include <SDL.h>
 
+#include "core/SDLManager.h"
+
 #include "factories/component/ComponentsFactory.h"
 
 #include "handlers/font/FontHandler.h"
@@ -23,6 +25,7 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Core;
 using namespace Project::Factories;
 using namespace Project::Services;
 using namespace Project::States;

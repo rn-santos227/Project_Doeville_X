@@ -25,8 +25,8 @@ namespace Project::Core {
     int screenHeight = configReader.getIntValue("Window", "height", 600);
     bool isFullscreen = configReader.getBoolValue("Window", "fullscreen", false);
 
-    if (!sdlManager.initialize(title, width, height, fullscreen)) {
-
+    if (!sdlManager.initialize(title, screenWidth, screenHeight, isFullscreen)) {
+      logsManager.logError("Failed to initialize SDLManager.");
     }
 
     SDL_ShowCursor(SDL_DISABLE);

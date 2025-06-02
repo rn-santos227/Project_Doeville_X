@@ -111,7 +111,6 @@ namespace Project::Core {
     fontHandler->cleanup();
     
     IMG_Quit();
-    SDL_Quit();
     isRunning = false;
 
     logsManager.logMessage("Game engine cleanup complete.");

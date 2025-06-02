@@ -52,7 +52,7 @@ namespace Project::Core {
   }
 
   SDL_Renderer* SDLManager::getRenderer() const {
-
+    return renderer;
   }
 
   void SDLManager::cleanup() {

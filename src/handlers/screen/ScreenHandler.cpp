@@ -3,6 +3,7 @@
 namespace Project::Handlers {
   ScreenHandler::ScreenHandler(
       LogsManager& logsManager, FramesCounter& framesCounter, ConfigReader& configReader, 
+      SDLManager& sdlManager,
       ComponentsFactory& componentsFactory, 
       GameStateManager& gameStateManager, 
       CursorHandler& cursorHandler, 
@@ -11,7 +12,8 @@ namespace Project::Handlers {
       MouseHandler& mouseHandler, 
       ResourcesHandler& resourcesHandler)
       : window(nullptr), renderer(nullptr), running(false), 
-      logsManager(logsManager), framesCounter(framesCounter), configReader(configReader), 
+      logsManager(logsManager), framesCounter(framesCounter), 
+      configReader(configReader), sdlManager(sdlManager), 
       componentsFactory(componentsFactory), gameStateManager(gameStateManager),
       cursorHandler(cursorHandler), 
       fontHandler(fontHandler), 

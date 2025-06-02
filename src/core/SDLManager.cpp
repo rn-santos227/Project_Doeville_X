@@ -56,7 +56,7 @@ namespace Project::Core {
   }
 
   SDL_Window* SDLManager::getWindow() const {
-
+    return window;
   }
 
   void SDLManager::cleanup() {

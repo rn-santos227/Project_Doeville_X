@@ -169,6 +169,9 @@ namespace Project::Handlers {
   }
   
   SDL_Renderer* ScreenHandler::getRenderer() const {
-    return renderer;
+    return sdlManager.getRenderer();
   }
+
+  SDL_Window* ScreenHandler::getWindow() const {
+    return window;
 }

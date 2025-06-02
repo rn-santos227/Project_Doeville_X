@@ -31,6 +31,7 @@ namespace Project::Core {
     if (logsManager.checkAndLogError(!renderer, "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
+    logsManager.logMessage("Renderer created successfully.");
 
 
     initialized = true;

@@ -25,7 +25,7 @@ namespace Project::Handlers {
   ScreenHandler::~ScreenHandler() = default;
 
   bool ScreenHandler::init() {
-    std::string windowTitle = configReader.getValue("Window", "title", "Project Doeville X");
+    //fix this tomorrow
     int screenWidth = configReader.getIntValue("Window", "width", 800);
     int screenHeight = configReader.getIntValue("Window", "height", 600);
     bool isFullscreen = configReader.getBoolValue("Window", "fullscreen", false);

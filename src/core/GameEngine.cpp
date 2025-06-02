@@ -27,6 +27,7 @@ namespace Project::Core {
 
     if (!sdlManager.initialize(title, screenWidth, screenHeight, isFullscreen)) {
       logsManager.logError("Failed to initialize SDLManager.");
+      return;
     }
 
     SDL_ShowCursor(SDL_DISABLE);

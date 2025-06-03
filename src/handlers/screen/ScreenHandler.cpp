@@ -29,7 +29,7 @@ namespace Project::Handlers {
     cursorWidth = configReader.getIntValue("Cursor", "width", 32);
     cursorHeight = configReader.getIntValue("Cursor", "height", 32);
     
-    cursorHandler.setRenderer(sdlManager.getRenderer());
+    cursorHandler.setRenderer(renderer);
     std::string cursorPath = resourcesHandler.getResourcePath("resources/system/cursor_default.png");
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);

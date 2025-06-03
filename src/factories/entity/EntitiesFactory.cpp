@@ -11,13 +11,11 @@ namespace Project::Factories {
   std::unique_ptr<Entity> EntitiesFactory::createEntityFromLua(const std::string& scriptPath) {
     std::unique_ptr<Entity> entity = loadEntityTemplateFromLua(scriptPath);
     if(logsManager.checkAndLogError(!entity, "Failed to load entity template from Lua: " + scriptPath)) {
-      logsManager.flushLogs();
       return nullptr;
     }
 
     std::string name = entity->getEntityName();
     if(logsManager.checkAndLogError(name.empty(), "Entity name is empty after loading from Lua: " + scriptPath)) {
-      logsManager.flushLogs();
       return nullptr;
     }
 

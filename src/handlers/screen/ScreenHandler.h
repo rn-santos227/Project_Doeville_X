@@ -46,9 +46,6 @@ namespace Project::Handlers {
     SDL_Window* getWindow() const;
 
   private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-
     LogsManager& logsManager;
     FramesCounter& framesCounter;
     ConfigReader& configReader;

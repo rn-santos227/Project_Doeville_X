@@ -36,7 +36,6 @@ namespace Project::Handlers {
     ~ScreenHandler();
 
     bool init();
-    void clear();
     void render();
     void handleEvents();
     

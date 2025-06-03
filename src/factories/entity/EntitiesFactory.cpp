@@ -30,7 +30,6 @@ namespace Project::Factories {
   std::unique_ptr<Entity> EntitiesFactory::cloneEntity(const std::string& entityName) {
     auto it = entityTemplates.find(entityName);
     if(logsManager.checkAndLogError(it == entityTemplates.end(), "Entity template not found: " + entityName)) {
-      logsManager.flushLogs();
       return nullptr;
     }
 

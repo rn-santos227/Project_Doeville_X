@@ -11,7 +11,7 @@ namespace Project::Handlers {
       KeyHandler& keyHandler, 
       MouseHandler& mouseHandler, 
       ResourcesHandler& resourcesHandler)
-      : window(nullptr), renderer(nullptr), running(false), 
+      : running(false), 
       logsManager(logsManager), framesCounter(framesCounter), 
       configReader(configReader), sdlManager(sdlManager), 
       componentsFactory(componentsFactory), gameStateManager(gameStateManager),

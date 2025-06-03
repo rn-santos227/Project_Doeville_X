@@ -5,8 +5,6 @@
 #include <memory>
 #include <mutex>
 
-#include <SDL.h>
-
 #include "core/SDLManager.h"
 
 #include "factories/component/ComponentsFactory.h"

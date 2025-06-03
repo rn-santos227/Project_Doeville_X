@@ -16,7 +16,6 @@ namespace Project::Handlers {
     
     SDL_Surface* surface = IMG_Load(filePath.c_str());
     if (logsManager.checkAndLogError(!surface, "Failed to load cursor image: " + filePath + " - " + std::string(SDL_GetError()))) {
-      logsManager.flushLogs();
       return;
     }
 
@@ -33,7 +32,6 @@ namespace Project::Handlers {
     if (renderer) {
       texture = SDL_CreateTextureFromSurface(renderer, surface);
       if (logsManager.checkAndLogError(!texture, "Failed to create texture for cursor: " + filePath + " - " + std::string(SDL_GetError()))) {
-        logsManager.flushLogs();
       } else {
          cursorTextures[state] = texture;
       }

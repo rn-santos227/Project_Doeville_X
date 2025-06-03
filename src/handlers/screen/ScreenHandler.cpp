@@ -34,7 +34,7 @@ namespace Project::Handlers {
     cursorHandler.setCursorState(CursorState::DEFAULT);
 
     scriptingService = std::make_unique<ScriptingService>(
-      renderer, logsManager, componentsFactory, gameStateManager
+      sdlManager.getRenderer(), logsManager, componentsFactory, gameStateManager
     );
 
     if(logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {

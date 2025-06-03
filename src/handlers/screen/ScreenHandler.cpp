@@ -128,6 +128,7 @@ namespace Project::Handlers {
   }
 
   void ScreenHandler::renderMousePosition() {
+    SDL_Renderer* renderer = sdlManager.getRenderer();
     mouseHandler.updateMousePosition();
     int mouseX = mouseHandler.getMouseX();
     int mouseY = mouseHandler.getMouseY();

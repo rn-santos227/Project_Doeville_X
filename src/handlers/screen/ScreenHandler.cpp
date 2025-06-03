@@ -80,7 +80,7 @@ namespace Project::Handlers {
       logsManager.logError("Failed to render cursor: Texture is null.");
     }
 
-    SDL_RenderPresent(renderer);
+    sdlManager.present(); 
   }
 
   void ScreenHandler::handleEvents() {

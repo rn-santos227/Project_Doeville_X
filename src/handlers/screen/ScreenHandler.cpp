@@ -52,17 +52,6 @@ namespace Project::Handlers {
     return true;
   }
 
-  void ScreenHandler::clear() {
-    std::lock_guard<std::mutex> lock(renderMutex); 
-
-    if (renderer) {
-      SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-      SDL_RenderClear(renderer);
-    } else {
-      logsManager.logError("Renderer is null.");
-    }
-  }
-
   void ScreenHandler::render() {
     std::lock_guard<std::mutex> lock(renderMutex);
     if(logsManager.checkAndLogError(!renderer, "Renderer is null.")) {

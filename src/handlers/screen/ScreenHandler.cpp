@@ -55,10 +55,7 @@ namespace Project::Handlers {
 
   void ScreenHandler::render() {
     std::lock_guard<std::mutex> lock(renderMutex);
-    if(logsManager.checkAndLogError(!renderer, "Renderer is null.")) {
-      logsManager.flushLogs();
-      return;
-    }
+    SDL_Renderer* renderer = sdlManager.getRenderer();
 
     gameStateManager.render();
     if (keyHandler.isGameDebugMode()) {

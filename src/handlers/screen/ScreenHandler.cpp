@@ -25,6 +25,7 @@ namespace Project::Handlers {
   ScreenHandler::~ScreenHandler() = default;
 
   bool ScreenHandler::init() {
+    SDL_Renderer* renderer = sdlManager.getRenderer();
     cursorWidth = configReader.getIntValue("Cursor", "width", 32);
     cursorHeight = configReader.getIntValue("Cursor", "height", 32);
     

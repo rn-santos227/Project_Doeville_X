@@ -47,7 +47,6 @@ namespace Project::Factories {
 
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
     if (logsManager.checkAndLogError(font == nullptr, "Failed to load font: " + fontPath)) {
-      logsManager.flushLogs();
       return nullptr;
     }
 

@@ -101,7 +101,7 @@ namespace Project::Core {
   void GameEngine::update(float deltaTime) {
     std::lock_guard<std::mutex> lock(updateMutex);
     gameStateManager->update(deltaTime);
-    screenHandler->clear();
+    sdlManager.clear();
   }
 
   void GameEngine::render() {

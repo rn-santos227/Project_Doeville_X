@@ -12,7 +12,6 @@ namespace Project::Handlers {
   bool FontHandler::loadFont(const std::string& fontId, const std::string& filePath, int fontSize) {
     TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
     if(logsManager.checkAndLogError(!font,  "Failed to initialize SDL_ttf: "  + std::string(TTF_GetError()))) {
-      logsManager.flushLogs();
       return false;
     }
 

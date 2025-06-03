@@ -26,7 +26,6 @@ namespace Project::Handlers {
 
   bool ScreenHandler::init() {
     //fix this tomorrow
-    int screenHeight = configReader.getIntValue("Window", "height", 600);
     bool isFullscreen = configReader.getBoolValue("Window", "fullscreen", false);
 
     cursorWidth = configReader.getIntValue("Cursor", "width", 32);

@@ -8,7 +8,7 @@ namespace Project::Utilities {
     deltaTime = (currentTime - lastTime) / static_cast<double>(frequency);
     frameCount++;
     
-    double elapsedTime = (currentTime - lastTime) / (double)frequency * 1000;
+    double elapsedTime = (currentTime - startFpsTime) / static_cast<double>(frequency) * 1000;
 
     if (elapsedTime >= 1000.0) {
       fps = frameCount;

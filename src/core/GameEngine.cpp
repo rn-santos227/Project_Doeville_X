@@ -11,7 +11,7 @@ namespace Project::Core {
   mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   screenHandler(std::make_unique<ScreenHandler>(
-    logsManager
+    logsManager, framesCounter, configReader, sdlManager,
   ))
   {}
   

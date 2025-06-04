@@ -8,7 +8,8 @@ namespace Project::Components {
     texture(nullptr),
     font(font),
     color(color),
-    rect{0, 0, 0, 0}{
+    rect{0, 0, 0, 0}, 
+    currentText(text) {
     createTexture();
   }
 

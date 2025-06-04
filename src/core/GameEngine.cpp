@@ -14,7 +14,7 @@ namespace Project::Core {
     logsManager, framesCounter, configReader, sdlManager,
     *componentsFactory, *gameStateManager,
     *cursorHandler, *fontHandler, *keyHandler,
-  ))
+    *mouseHandler, *resourcesHandler))
   {}
   
   GameEngine::~GameEngine() {

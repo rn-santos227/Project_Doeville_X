@@ -12,7 +12,8 @@ namespace Project::Core {
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   screenHandler(std::make_unique<ScreenHandler>(
     logsManager, framesCounter, configReader, sdlManager,
-     *componentsFactory, *gameStateManager,
+    *componentsFactory, *gameStateManager,
+    *cursorHandler, *fontHandler, *keyHandler,
   ))
   {}
   

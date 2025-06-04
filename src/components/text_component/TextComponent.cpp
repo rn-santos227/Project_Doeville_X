@@ -5,7 +5,8 @@ namespace Project::Components {
   : BaseComponent(logsManager), 
     animationHandler(renderer, logsManager),
     renderer(renderer), 
-    texture(nullptr) {
+    texture(nullptr),
+    font(font) {
     createTexture();
   }
 

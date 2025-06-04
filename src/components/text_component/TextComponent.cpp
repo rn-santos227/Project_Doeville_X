@@ -10,7 +10,8 @@ namespace Project::Components {
     color(color),
     rect{0, 0, 0, 0}, 
     currentText(text),
-    fontPath(fontPath){
+    fontPath(fontPath),
+    fontSize(fontSize) {
     createTexture();
   }
 

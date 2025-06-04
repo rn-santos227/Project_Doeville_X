@@ -5,7 +5,7 @@
 #include "core/GameEngine.h"
 
 int main(int argc, char* argv[]) { 
-  Project::Core::GameEngine engine; engine;
+  Project::Core::GameEngine engine;
   
   engine.init();  
   engine.run();  

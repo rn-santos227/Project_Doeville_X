@@ -74,5 +74,4 @@ namespace Project::States {
     static int lua_setBackgroundColor(lua_State* L);
   };
 }
-
 #endif

@@ -27,5 +27,4 @@ namespace Project::Utilities {
     int fps;
   };
 }
-
 #endif

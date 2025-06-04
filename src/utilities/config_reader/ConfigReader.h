@@ -28,5 +28,4 @@ namespace Project::Utilities {
     void trim(std::string& str) const;
   };
 }
-
 #endif

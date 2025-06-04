@@ -58,5 +58,4 @@ namespace Project::States {
     void addToCache(const std::string& name, std::unique_ptr<GameState> state);
   };
 }
-
 #endif

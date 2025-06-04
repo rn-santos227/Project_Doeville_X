@@ -2,7 +2,7 @@
 
 namespace Project::Handlers {
   CursorHandler::CursorHandler(LogsManager& logsManager) 
-    : logsManager(logsManager), renderer(renderer), currentCursorTexture(nullptr), currentState(CursorState::DEFAULT) {
+    : logsManager(logsManager), renderer(nullptr), currentCursorTexture(nullptr), currentState(CursorState::DEFAULT) {
     defaultCursor = SDL_GetDefaultCursor();
     cursors[CursorState::DEFAULT] = defaultCursor;
   }

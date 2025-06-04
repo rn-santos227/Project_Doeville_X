@@ -12,5 +12,4 @@ namespace Project::Handlers {
     DISABLED
   };
 }
-
 #endif

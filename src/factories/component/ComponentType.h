@@ -14,5 +14,4 @@ namespace Project::Factories {
     UNKNOWN
   };
 }
-
 #endif

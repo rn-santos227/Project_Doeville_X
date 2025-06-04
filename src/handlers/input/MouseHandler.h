@@ -34,5 +34,4 @@ namespace Project::Handlers {
     int mouseWheelScroll;
   };
 }
-
 #endif

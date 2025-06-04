@@ -44,5 +44,4 @@ namespace Project::Handlers {
     std::string resourcePath;
   };
 }
-
 #endif

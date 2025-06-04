@@ -51,5 +51,4 @@ namespace Project::Factories {
     int getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue);
   };
 }
-
 #endif

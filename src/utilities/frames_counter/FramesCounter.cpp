@@ -1,7 +1,7 @@
 #include "FramesCounter.h"
 
 namespace Project::Utilities {
-  FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequency(SDL_GetPerformanceFrequency()), deltaTime(0.0), frameCount(0), fps(0) {}
+  FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequency(SDL_GetPerformanceFrequency()), startFpsTime(lastTime), deltaTime(0.0), frameCount(0), fps(0) {}
 
   void FramesCounter::update() {
     Uint64 currentTime = SDL_GetPerformanceCounter();

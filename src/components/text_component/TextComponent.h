@@ -47,5 +47,4 @@ namespace Project::Components {
     void freeTexture();
   };
 }
-
 #endif

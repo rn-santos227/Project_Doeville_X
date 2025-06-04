@@ -103,6 +103,7 @@ namespace Project::Utilities {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[WARNING] " + timestamp + " - " + sanitizedMessage + "\n";
+    enqueueLog(logMessage, &std::cout);
   }
 
   void LogsManager::printConsoleOnly(const std::string& message) {

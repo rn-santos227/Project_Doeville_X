@@ -5,4 +5,4 @@ class Builder:
     self.source_dir = source_dir
 
   def build(self, install_prefix: str):
-    pass
+    print(f"Building {self.source_dir}...")

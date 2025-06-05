@@ -13,6 +13,16 @@ class Builder:
       configure_script = os.path.join(self.source_dir, "configure")
       cmakelists = os.path.join(self.source_dir, "CMakeLists.txt")
 
+      if os.path.isfile(configure_script):
+        pass
+
+      elif os.path.isfile(cmakelists):
+        pass
+
+      else:
+        raise RuntimeError(f"No build system found in {self.source_dir}")
+
+
     except subprocess.CalledProcessError as e:
       print(f"Build failed for {self.source_dir}: {e}")
       raise

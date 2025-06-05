@@ -11,6 +11,7 @@ class HTTPDownloader:
         "curl",
         "-L",
         "-o",
+        destination,
       ], check=True)
       print(f"Downloaded: {destination}")
 

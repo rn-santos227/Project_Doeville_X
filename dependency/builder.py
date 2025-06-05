@@ -14,7 +14,7 @@ class Builder:
       cmakelists = os.path.join(self.source_dir, "CMakeLists.txt")
 
       if os.path.isfile(configure_script):
-        pass
+        subprocess.run(["chmod", "+x", configure_script], check=True)
 
       elif os.path.isfile(cmakelists):
         pass

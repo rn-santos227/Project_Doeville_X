@@ -31,7 +31,8 @@ class Builder:
 
       else:
         raise RuntimeError(f"No build system found in {self.source_dir}")
-
+      
+      print(f"Build finished: {self.source_dir}")
 
     except subprocess.CalledProcessError as e:
       print(f"Build failed for {self.source_dir}: {e}")

@@ -10,4 +10,4 @@ class HTTPDownloader:
       pass
 
     except subprocess.CalledProcessError as e:
-      pass
+      print(f"Error downloading {url}: {e}")

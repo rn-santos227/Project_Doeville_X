@@ -13,4 +13,4 @@ class Builder:
       pass
 
     except subprocess.CalledProcessError as e:
-      pass
+      print(f"Build failed for {self.source_dir}: {e}")

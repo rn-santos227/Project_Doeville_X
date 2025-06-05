@@ -25,8 +25,9 @@ class Builder:
         subprocess.run([
           "cmake",
           "..",
-          f"-DCMAKE_INSTALL_PREFIX={install_prefix}",
+          f"-DCMAKE_INSTALL_PREFIX={install_prefix}"
         ], cwd=build_dir, check=True)
+        subprocess.run(["cmake", "--build", ".", "--target", "install"], cwd=build_dir, check=True)
 
       else:
         raise RuntimeError(f"No build system found in {self.source_dir}")

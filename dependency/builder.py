@@ -11,6 +11,7 @@ class Builder:
 
     try:
       configure_script = os.path.join(self.source_dir, "configure")
+      cmakelists = os.path.join(self.source_dir, "CMakeLists.txt")
 
     except subprocess.CalledProcessError as e:
       print(f"Build failed for {self.source_dir}: {e}")

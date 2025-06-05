@@ -12,6 +12,7 @@ class HTTPDownloader:
         "-L",
         "-o",
         destination,
+        url
       ], check=True)
       print(f"Downloaded: {destination}")
 

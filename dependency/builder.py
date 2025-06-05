@@ -8,3 +8,9 @@ class Builder:
   def build(self, install_prefix: str):
     print(f"Building {self.source_dir}...")
     os.makedirs(install_prefix, exist_ok=True)
+
+    try:
+      pass
+
+    except subprocess.CalledProcessError as e:
+      pass

@@ -15,6 +15,7 @@ class Builder:
 
       if os.path.isfile(configure_script):
         subprocess.run(["chmod", "+x", configure_script], check=True)
+        subprocess.run([configure_script, f"--prefix={install_prefix}"], cwd=self.source_dir, check=True)
 
       elif os.path.isfile(cmakelists):
         pass

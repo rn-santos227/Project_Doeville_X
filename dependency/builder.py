@@ -22,6 +22,9 @@ class Builder:
       elif os.path.isfile(cmakelists):
         build_dir = os.path.join(self.source_dir, "build")
         os.makedirs(build_dir, exist_ok=True)
+        subprocess.run([
+
+        ], cwd=build_dir, check=True)
 
       else:
         raise RuntimeError(f"No build system found in {self.source_dir}")

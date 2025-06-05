@@ -72,5 +72,4 @@ namespace Project::Handlers {
     void renderMousePosition();
   };
 }
-
 #endif

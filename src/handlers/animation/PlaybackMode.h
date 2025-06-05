@@ -11,5 +11,4 @@ namespace Project::Handlers {
     CUSTOM
   };
 }
-
 #endif

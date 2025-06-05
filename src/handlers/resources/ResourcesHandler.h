@@ -27,5 +27,4 @@ namespace Project::Handlers {
     std::string getBasePath();
   };
 }
-  
 #endif

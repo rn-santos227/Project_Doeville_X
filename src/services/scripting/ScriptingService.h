@@ -49,5 +49,4 @@ namespace Project::Services {
     void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);
   };
 }
-
 #endif

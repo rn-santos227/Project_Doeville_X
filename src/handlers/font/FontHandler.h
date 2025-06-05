@@ -28,5 +28,4 @@ namespace Project::Handlers {
     std::unordered_map<std::string, TTF_Font*> fonts;
   };
 }
-
 #endif

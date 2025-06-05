@@ -20,7 +20,7 @@ class Builder:
         subprocess.run(["make", "install"], cwd=self.source_dir, check=True)
 
       elif os.path.isfile(cmakelists):
-        pass
+        build_dir = os.path.join(self.source_dir, "build")
 
       else:
         raise RuntimeError(f"No build system found in {self.source_dir}")

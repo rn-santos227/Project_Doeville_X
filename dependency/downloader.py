@@ -8,7 +8,7 @@ class HTTPDownloader:
 
     try:
       subprocess.run([
-
+        "curl",
       ], check=True)
       print(f"Downloaded: {destination}")
 

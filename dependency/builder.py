@@ -23,7 +23,9 @@ class Builder:
         build_dir = os.path.join(self.source_dir, "build")
         os.makedirs(build_dir, exist_ok=True)
         subprocess.run([
-
+          "cmake",
+          "..",
+          f"-DCMAKE_INSTALL_PREFIX={install_prefix}",
         ], cwd=build_dir, check=True)
 
       else:

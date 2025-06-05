@@ -10,7 +10,8 @@ class Builder:
     os.makedirs(install_prefix, exist_ok=True)
 
     try:
-      pass
+      configure_script = os.path.join(self.source_dir, "configure")
 
     except subprocess.CalledProcessError as e:
       print(f"Build failed for {self.source_dir}: {e}")
+      raise

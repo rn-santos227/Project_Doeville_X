@@ -91,7 +91,6 @@ namespace Project::States {
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
     if(logsManager.checkAndLogError(!surface, "Failed to load background image: " + std::string(IMG_GetError()))) {
-      logsManager.flushLogs();
       return false;
     }
 

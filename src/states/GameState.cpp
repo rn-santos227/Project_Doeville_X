@@ -98,7 +98,6 @@ namespace Project::States {
     SDL_FreeSurface(surface);
 
     if(logsManager.checkAndLogError(!backgroundTexture, "Failed to create texture from surface: " + std::string(SDL_GetError()))) {
-      logsManager.flushLogs();
       return false;
     }
 
@@ -128,12 +127,10 @@ namespace Project::States {
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null for GameState: " + stateName)) {
-      logsManager.flushLogs();
       return false;
     }
 
     if (logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
-      logsManager.flushLogs();
       return false;
     }
 

@@ -86,7 +86,7 @@ namespace Project::Handlers {
   void KeyHandler::immediateExit() {
     logsManager.logMessage("Exiting immediately.");
     logsManager.flushLogs();
-    SDL_Quit();
+    sdlManager.clear();
     exit(0);
   }
 }

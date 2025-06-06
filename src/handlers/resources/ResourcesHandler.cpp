@@ -51,7 +51,6 @@ namespace Project::Handlers {
       logsManager.logWarning("Invalid frame size for slicing: " + std::to_string(frameWidth) + "x" + std::to_string(frameHeight) +
       " (Image size: " + std::to_string(texWidth) + "x" + std::to_string(texHeight) + ")");
 
-      logsManager.flushLogs();
       SDL_DestroyTexture(fullTexture);
       return frames;
     }

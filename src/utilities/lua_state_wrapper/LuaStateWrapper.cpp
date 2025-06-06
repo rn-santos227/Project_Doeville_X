@@ -5,7 +5,6 @@ namespace Project::Utilities {
     if (logsManager.checkAndLogError(!luaState, "Failed to create Lua state")) {
       return;
     }
-
     luaL_openlibs(luaState);  
   }
 
@@ -65,7 +64,6 @@ namespace Project::Utilities {
 
   bool LuaStateWrapper::loadScript(const std::string& scriptPath) {
     if(logsManager.checkAndLogError(!isValid(), "Lua state is invalid. Cannot load script: " + scriptPath)) {
-      logsManager.flushLogs();
       return false;
     }
 

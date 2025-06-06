@@ -4,7 +4,6 @@ namespace Project::States {
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager)
     : logsManager(logsManager), renderer(renderer), luaStateWrapper(logsManager), initialized(false) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
-      logsManager.flushLogs();
       return;
     }
 

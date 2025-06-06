@@ -22,4 +22,5 @@ class DependencyManager:
           self.extractor.extract(archive_path, source_dir)
 
       except Exception as e:
-        pass
+        print(f"Failed to process dependency {url}: {e}")
+        raise

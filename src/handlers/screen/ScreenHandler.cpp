@@ -39,7 +39,6 @@ namespace Project::Handlers {
     );
 
     if(logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {
-      logsManager.flushLogs();
       return false;
     }
 

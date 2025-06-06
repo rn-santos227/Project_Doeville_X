@@ -84,7 +84,6 @@ namespace Project::Services {
 
   void ScriptingService::loadScriptByCategory(const std::string& scriptPath, ScriptCategory category) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is not valid")) {
-      logsManager.flushLogs();
       return;
     }
     

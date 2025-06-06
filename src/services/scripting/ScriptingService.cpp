@@ -20,6 +20,7 @@ namespace Project::Services {
       componentsFactory(componentsFactory), 
       entitiesFactory(logsManager, componentsFactory), 
       gameStateFactory(logsManager, gameStateManager) {
+    logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state");
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       logsManager.flushLogs();
     } else {

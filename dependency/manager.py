@@ -20,6 +20,8 @@ class DependencyManager:
 
         if not os.path.exists(source_dir):
           self.extractor.extract(archive_path, source_dir)
+        
+        builder = Builder(source_dir)
 
       except Exception as e:
         print(f"Failed to process dependency {url}: {e}")

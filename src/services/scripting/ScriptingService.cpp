@@ -24,9 +24,10 @@ namespace Project::Services {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       logsManager.flushLogs();
     } else {
-      lua_State* luaState = luaStateWrapper.get();
-      luaL_openlibs(luaState);  
+
     }
+    lua_State* luaState = luaStateWrapper.get();
+    luaL_openlibs(luaState);  
   }
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {

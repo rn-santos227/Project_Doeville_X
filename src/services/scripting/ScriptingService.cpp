@@ -41,12 +41,10 @@ namespace Project::Services {
 
       ScriptCategory category = determineScriptType(scriptName);
       if (logsManager.checkAndLogError(category == ScriptCategory::INVALID, "Invalid script type for file: " + scriptPath)) {
-        logsManager.flushLogs();
         continue;
       }
 
       if (logsManager.checkAndLogError(!validateScript(scriptPath), "Failed to validate script: " + scriptPath)) {
-        logsManager.flushLogs();
         continue;
       }
 

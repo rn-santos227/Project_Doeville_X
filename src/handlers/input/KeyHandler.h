@@ -9,8 +9,6 @@
 #include <unordered_map> 
 #include <vector>
 
-#include <SDL.h>
-
 #include "core/SDLManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
@@ -38,7 +36,9 @@ namespace Project::Handlers {
     std::vector<SDL_Scancode> keyReleased;
 
     KeyAction currentAction;
+    
     LogsManager& logsManager;
+    SDLManager& sdlManager;
     
     bool isFrozen; 
     bool isDebugMode;

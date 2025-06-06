@@ -18,5 +18,8 @@ class DependencyManager:
         if not archive_exists(archive_path):
           self.downloader.download(url, archive_path)
 
+        if not os.path.exists(source_dir):
+          self.extractor.extract(archive_path, source_dir)
+
       except Exception as e:
         pass

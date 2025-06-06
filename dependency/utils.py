@@ -13,7 +13,10 @@ def load_packages(package_file):
     raise FileNotFoundError(f"Package file not found: {package_file}")
   
   with open(package_file, "r") as file:
-    return json.load(file)
+    try:
+      return json.load(file)
+    except json.JSONDecodeError as e:
+      raise ValueError(f"Invalid package file {package_file}: {e}")
   
 def remove_file(filepath):
   try:

@@ -61,7 +61,6 @@ namespace Project::States {
   void GameState::render() {
     lua_State* L = luaStateWrapper.get();
     if (logsManager.checkAndLogError(!renderer, "Renderer is null.")) {
-      logsManager.flushLogs();
       return;
     }
   

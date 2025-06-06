@@ -18,7 +18,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   class KeyHandler {
   public:
-    KeyHandler(LogsManager& logsManager);
+    KeyHandler(LogsManager& logsManager, SDLManager& sdlManager);
     ~KeyHandler();
 
     void handleInput(SDL_Event& event);

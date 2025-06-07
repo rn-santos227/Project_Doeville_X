@@ -359,6 +359,7 @@ namespace Project::Utilities {
     }
 
     logsManager.logError(logMessage);
+    lua_pop(luaState, 2);
   }
 
   void LuaStateWrapper::handleLuaError(const std::string& errorMessage) const {

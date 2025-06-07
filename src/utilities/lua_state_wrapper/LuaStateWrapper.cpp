@@ -349,6 +349,7 @@ namespace Project::Utilities {
     if (!luaState) return; 
 
     const char* errorMessage = lua_tostring(luaState, -1);
+    std::string logMessage = "Lua Error [" + std::to_string(errorCode) + "]: " + (errorMessage ? std::string(errorMessage) : std::string("Unknown error"));
   }
 
   void LuaStateWrapper::handleLuaError(const std::string& errorMessage) const {

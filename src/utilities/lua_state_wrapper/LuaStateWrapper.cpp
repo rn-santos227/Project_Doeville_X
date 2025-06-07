@@ -364,5 +364,9 @@ namespace Project::Utilities {
 
   void LuaStateWrapper::handleLuaError(const std::string& errorMessage) const {
     std::string logMessage = errorMessage;
+
+    if (luaState && lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
+
+    }
   }
 }

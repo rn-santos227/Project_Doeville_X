@@ -29,6 +29,7 @@ namespace Project::Handlers {
   private:
     LogsManager& logsManager; 
 
+    std::unordered_map<std::string, SDL_Texture*> textureCache;
     std::string getBasePath();
   };
 }

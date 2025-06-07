@@ -28,7 +28,6 @@ namespace Project::Handlers {
      }
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
-    
     if (logsManager.checkAndLogError(!surface, "Failed to load image: " + imagePath + " - " + IMG_GetError())) {
       return nullptr;
     }
@@ -40,6 +39,7 @@ namespace Project::Handlers {
       return nullptr;
     }
 
+    textureCache[imagePath] = texture;
     return texture;
   }
 

@@ -357,6 +357,8 @@ namespace Project::Utilities {
       logMessage += "\n";
       logMessage += traceback;
     }
+
+    logsManager.logError(logMessage);
   }
 
   void LuaStateWrapper::handleLuaError(const std::string& errorMessage) const {

@@ -289,7 +289,6 @@ namespace Project::Utilities {
 
     if (lua_pcall(luaState, 0, 0, 0) != LUA_OK) {
       handleLuaError("Error calling Lua function '" + name + "': " + std::string(lua_tostring(luaState, -1)));
-      lua_pop(luaState, 1);
       return false;
     }
 

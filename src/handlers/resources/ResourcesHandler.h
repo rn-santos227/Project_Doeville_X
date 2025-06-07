@@ -2,7 +2,9 @@
 #define RESOURCESHANDLER_H
 
 #include <string>
+#include <unordered_map>
 #include <vector>
+
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -14,7 +16,10 @@ namespace Project::Handlers {
   class ResourcesHandler {
   public:
     explicit ResourcesHandler(LogsManager& logsManager);
-    
+    ~ResourcesHandler();
+
+    void cleanup();
+
     std::string getResourcePath(const std::string& relativePath);
     SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
 

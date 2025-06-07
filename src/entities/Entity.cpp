@@ -89,7 +89,6 @@ namespace Project::Entities {
     if (lua_pcall(L, 0, 0, 0) != LUA_OK) {
       std::string error = lua_tostring(L, -1);
       luaStateWrapper.handleLuaError("Lua function call failed: " + error);
-      lua_pop(L, 1);
       return false;
     }
 

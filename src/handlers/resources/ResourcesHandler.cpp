@@ -4,6 +4,10 @@ namespace Project::Handlers {
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
     : logsManager(logsManager) {}
 
+  void ResourcesHandler::cleanup() {
+
+  }
+
   std::string ResourcesHandler::getBasePath() {
     char* basePath = SDL_GetBasePath();
     std::string path = basePath ? basePath : "";

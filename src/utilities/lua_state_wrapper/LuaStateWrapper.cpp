@@ -373,6 +373,7 @@ namespace Project::Utilities {
         logMessage += "\n";
         logMessage += traceback;
       }
+      lua_pop(luaState, 2);
     }
   }
 }

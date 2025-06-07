@@ -366,7 +366,7 @@ namespace Project::Utilities {
     std::string logMessage = errorMessage;
 
     if (luaState && lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
-
+      const char* luaError = lua_tostring(luaState, -1);
     }
   }
 }

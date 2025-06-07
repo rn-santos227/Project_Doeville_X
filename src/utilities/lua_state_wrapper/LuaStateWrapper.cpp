@@ -363,6 +363,6 @@ namespace Project::Utilities {
   }
 
   void LuaStateWrapper::handleLuaError(const std::string& errorMessage) const {
-
+    std::string logMessage = errorMessage;
   }
 }

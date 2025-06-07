@@ -370,7 +370,8 @@ namespace Project::Utilities {
       luaL_traceback(luaState, luaState, luaError, 1);
       const char* traceback = lua_tostring(luaState, -1);
       if (traceback) {
-
+        logMessage += "\n";
+        logMessage += traceback;
       }
     }
   }

@@ -363,10 +363,6 @@ namespace Project::Utilities {
   }
 
   void LuaStateWrapper::handleLuaError(const std::string& errorMessage) const {
-    logsManager.logError(errorMessage);
-    if (luaState && lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
-      logsManager.logError("Lua error details: " + std::string(lua_tostring(luaState, -1)));
-      lua_pop(luaState, 1);
-    }
+
   }
 }

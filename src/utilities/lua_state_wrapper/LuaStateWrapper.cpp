@@ -375,5 +375,6 @@ namespace Project::Utilities {
       }
       lua_pop(luaState, 2);
     }
+    logsManager.logError(logMessage);
   }
 }

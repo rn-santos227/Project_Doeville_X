@@ -23,6 +23,9 @@ namespace Project::Handlers {
 
   SDL_Texture* ResourcesHandler::loadTexture(SDL_Renderer* renderer, const std::string& imagePath) {
     auto it = textureCache.find(imagePath);
+     if (it != textureCache.end()) {
+      return it->second;
+     }
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
     

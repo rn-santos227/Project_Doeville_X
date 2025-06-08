@@ -22,6 +22,8 @@ namespace Project::Handlers {
     if (cIt != cursorCache.end() && tIt != textureCache.end()) {
       cursor = cIt->second;
       texture = tIt->second;
+    } else {
+      SDL_Surface* surface = IMG_Load(filePath.c_str());
     }
 
   }

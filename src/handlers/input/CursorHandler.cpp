@@ -35,6 +35,10 @@ namespace Project::Handlers {
       } else {
         logsManager.logWarning("Failed to create SDL cursor.");
       }
+
+      if (renderer) {
+        texture = SDL_CreateTextureFromSurface(renderer, surface);
+      }
     }
 
   }

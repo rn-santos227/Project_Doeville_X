@@ -98,6 +98,7 @@ namespace Project::Handlers {
       defaultCursor = nullptr;
     }
 
+    cursorCache.clear();
     cursors.clear();
 
     for (auto& pair : textureCache) {
@@ -105,6 +106,7 @@ namespace Project::Handlers {
         SDL_DestroyTexture(pair.second);
       }
     }
+    
     textureCache.clear();
     cursorTextures.clear();
     currentCursorTexture = nullptr;

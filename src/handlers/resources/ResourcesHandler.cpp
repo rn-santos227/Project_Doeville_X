@@ -96,8 +96,7 @@ namespace Project::Handlers {
         std::to_string(cropRect.x) + "," + std::to_string(cropRect.y) + "," + 
         std::to_string(cropRect.w) + "," + std::to_string(cropRect.h) + 
         ") (Image size: " + std::to_string(texWidth) + "x" + std::to_string(texHeight) + ")");
-      
-      SDL_DestroyTexture(fullTexture);
+    
       return nullptr;
     }
 
@@ -106,7 +105,6 @@ namespace Project::Handlers {
     SDL_RenderCopy(renderer, fullTexture, &cropRect, nullptr);
     SDL_SetRenderTarget(renderer, nullptr);
 
-    SDL_DestroyTexture(fullTexture);
     return croppedTexture;
   }
 }

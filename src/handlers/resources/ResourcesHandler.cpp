@@ -5,7 +5,7 @@ namespace Project::Handlers {
     : logsManager(logsManager) {}
 
   ResourcesHandler::~ResourcesHandler() {
-
+    cleanup();
   }
 
   void ResourcesHandler::cleanup() {

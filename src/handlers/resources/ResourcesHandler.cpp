@@ -68,8 +68,6 @@ namespace Project::Handlers {
     if (frameWidth <= 0 || frameHeight <= 0 || frameWidth > texWidth || frameHeight > texHeight) {
       logsManager.logWarning("Invalid frame size for slicing: " + std::to_string(frameWidth) + "x" + std::to_string(frameHeight) +
       " (Image size: " + std::to_string(texWidth) + "x" + std::to_string(texHeight) + ")");
-
-      SDL_DestroyTexture(fullTexture);
       return frames;
     }
 
@@ -83,8 +81,6 @@ namespace Project::Handlers {
         if (cropped) frames.push_back(cropped);
       }
     }
-
-    SDL_DestroyTexture(fullTexture);
     return frames;
   }
 

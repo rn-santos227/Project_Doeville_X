@@ -13,6 +13,10 @@ namespace Project::Handlers {
 
   void CursorHandler::loadCursor(CursorState state, const std::string& filePath, int hotspotX, int hotspotY) {
     logsManager.logMessage("Loading cursor from: " + filePath);
+    SDL_Cursor* cursor = nullptr;
+    SDL_Texture* texture = nullptr;
+
+    
   }
 
   void CursorHandler::setCursorState(CursorState state) {

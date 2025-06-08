@@ -6,7 +6,9 @@ namespace Project::Handlers {
 
   void ResourcesHandler::cleanup() {
     for (auto& pair : textureCache) {
-
+      if (pair.second) {
+        SDL_DestroyTexture(pair.second);
+      }
     }
     textureCache.clear();
   }

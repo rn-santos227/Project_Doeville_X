@@ -43,6 +43,8 @@ namespace Project::Handlers {
         } else {
           textureCache[filePath] = texture;
         }
+      } else {
+        logsManager.logError("Renderer is null. Cannot create texture.");
       }
     }
 

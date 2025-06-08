@@ -30,6 +30,9 @@ namespace Project::Handlers {
 
       logsManager.logMessage("Successfully loaded cursor image: " + filePath);
       cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
+      if (cursor) {
+        cursorCache[filePath] = cursor;
+      }
     }
 
   }

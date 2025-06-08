@@ -124,6 +124,7 @@ namespace Project::Core {
     gameStateManager->cleanup();
     cursorHandler->cleanup();
     fontHandler->cleanup();
+    resourcesHandler->cleanup();
     
     IMG_Quit();
     isRunning = false;

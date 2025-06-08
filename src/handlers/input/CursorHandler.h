@@ -33,6 +33,8 @@ namespace Project::Handlers {
   private:
     std::unordered_map<CursorState, SDL_Cursor*> cursors;
     std::unordered_map<CursorState, SDL_Texture*> cursorTextures;
+    std::unordered_map<std::string, SDL_Cursor*> cursorCache;
+    std::unordered_map<std::string, SDL_Texture*> textureCache;
     
     CursorState currentState = CursorState::DEFAULT;
     LogsManager& logsManager;

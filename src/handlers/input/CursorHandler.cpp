@@ -20,7 +20,8 @@ namespace Project::Handlers {
     auto tIt = textureCache.find(filePath);
 
     if (cIt != cursorCache.end() && tIt != textureCache.end()) {
-
+      cursor = cIt->second;
+      texture = tIt->second;
     }
 
   }

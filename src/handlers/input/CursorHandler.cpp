@@ -92,6 +92,12 @@ namespace Project::Handlers {
         SDL_FreeCursor(pair.second);
       }
     }
+
+    if (defaultCursor) {
+      SDL_FreeCursor(defaultCursor);
+      defaultCursor = nullptr;
+    }
+
     cursors.clear();
 
     for (auto& pair : textureCache) {

@@ -4,6 +4,10 @@ namespace Project::Handlers {
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
     : logsManager(logsManager) {}
 
+  ResourcesHandler::~ResourcesHandler() {
+
+  }
+
   void ResourcesHandler::cleanup() {
     for (auto& pair : textureCache) {
       if (pair.second) {

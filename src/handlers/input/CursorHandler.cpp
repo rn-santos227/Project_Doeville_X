@@ -19,6 +19,10 @@ namespace Project::Handlers {
     auto cIt = cursorCache.find(filePath);
     auto tIt = textureCache.find(filePath);
 
+    if (cIt != cursorCache.end() && tIt != textureCache.end()) {
+
+    }
+
   }
 
   void CursorHandler::setCursorState(CursorState state) {

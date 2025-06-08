@@ -24,6 +24,12 @@ namespace Project::Handlers {
       texture = tIt->second;
     } else {
       SDL_Surface* surface = IMG_Load(filePath.c_str());
+      if (logsManager.checkAndLogError(!surface, "Failed to load cursor image: " + filePath + " - " + std::string(SDL_GetError()))) {
+        return;
+      }
+
+      logsManager.logMessage("Successfully loaded cursor image: " + filePath);
+      cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
     }
 
   }

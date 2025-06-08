@@ -16,7 +16,9 @@ namespace Project::Handlers {
     SDL_Cursor* cursor = nullptr;
     SDL_Texture* texture = nullptr;
 
-    
+    auto cIt = cursorCache.find(filePath);
+    auto tIt = textureCache.find(filePath);
+
   }
 
   void CursorHandler::setCursorState(CursorState state) {

@@ -5,7 +5,9 @@ namespace Project::Handlers {
     : logsManager(logsManager) {}
 
   void ResourcesHandler::cleanup() {
+    for (auto& pair : textureCache) {
 
+    }
   }
 
   std::string ResourcesHandler::getBasePath() {

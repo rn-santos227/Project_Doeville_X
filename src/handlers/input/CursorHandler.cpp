@@ -32,6 +32,8 @@ namespace Project::Handlers {
       cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
       if (cursor) {
         cursorCache[filePath] = cursor;
+      } else {
+        logsManager.logWarning("Failed to create SDL cursor.");
       }
     }
 

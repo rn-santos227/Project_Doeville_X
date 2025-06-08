@@ -8,6 +8,7 @@ namespace Project::Handlers {
     for (auto& pair : textureCache) {
 
     }
+    textureCache.clear();
   }
 
   std::string ResourcesHandler::getBasePath() {

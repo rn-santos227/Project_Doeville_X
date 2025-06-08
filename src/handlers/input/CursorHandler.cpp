@@ -48,6 +48,10 @@ namespace Project::Handlers {
       }
       SDL_FreeSurface(surface);
     }
+
+    if (cursor) {
+      cursors[state] = cursor;
+    }
   }
 
   void CursorHandler::setCursorState(CursorState state) {

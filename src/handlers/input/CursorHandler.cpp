@@ -13,33 +13,6 @@ namespace Project::Handlers {
 
   void CursorHandler::loadCursor(CursorState state, const std::string& filePath, int hotspotX, int hotspotY) {
     logsManager.logMessage("Loading cursor from: " + filePath);
-    
-    SDL_Surface* surface = IMG_Load(filePath.c_str());
-    if (logsManager.checkAndLogError(!surface, "Failed to load cursor image: " + filePath + " - " + std::string(SDL_GetError()))) {
-      return;
-    }
-
-    logsManager.logMessage("Successfully loaded cursor image: " + filePath);
-
-    SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
-    if (cursor) {
-      cursors[state] = cursor;
-    } else {
-      logsManager.logWarning("Failed to create SDL cursor.");
-    }
-
-    SDL_Texture* texture = nullptr;
-    if (renderer) {
-      texture = SDL_CreateTextureFromSurface(renderer, surface);
-      if (logsManager.checkAndLogError(!texture, "Failed to create texture for cursor: " + filePath + " - " + std::string(SDL_GetError()))) {
-      } else {
-         cursorTextures[state] = texture;
-      }
-    } else {
-      logsManager.logError("Renderer is null. Cannot create texture.");
-    }
-
-    SDL_FreeSurface(surface);
   }
 
   void CursorHandler::setCursorState(CursorState state) {
@@ -106,7 +79,7 @@ namespace Project::Handlers {
         SDL_DestroyTexture(pair.second);
       }
     }
-    
+
     textureCache.clear();
     cursorTextures.clear();
     currentCursorTexture = nullptr;

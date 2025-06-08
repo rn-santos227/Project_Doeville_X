@@ -94,11 +94,12 @@ namespace Project::Handlers {
     }
     cursors.clear();
 
-    for (auto& pair : cursorTextures) {
+    for (auto& pair : textureCache) {
       if (pair.second) {
         SDL_DestroyTexture(pair.second);
       }
     }
+    textureCache.clear();
     cursorTextures.clear();
     currentCursorTexture = nullptr;
   }

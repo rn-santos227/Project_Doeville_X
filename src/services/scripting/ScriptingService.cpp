@@ -12,10 +12,11 @@ namespace Project::Services {
     ScriptCategory::OTHER
   };
 
-  ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
+  ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ResourcesHandler& resourcesHandler, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
     : renderer(renderer), 
       logsManager(logsManager), 
       luaStateWrapper(logsManager),
+      resourcesHandler(resourcesHandler),
       gameStateManager(gameStateManager), 
       componentsFactory(componentsFactory), 
       entitiesFactory(logsManager, componentsFactory), 

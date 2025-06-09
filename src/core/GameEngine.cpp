@@ -68,7 +68,9 @@ namespace Project::Core {
   }
 
   void GameEngine::run() {
+    while (isRunning) {
 
+    }
   }
 
   void GameEngine::handleEvents() {

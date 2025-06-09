@@ -90,6 +90,9 @@ namespace Project::States {
     clearBackground();
 
     SDL_Texture* loaded = resourcesHandler.loadTexture(renderer, imagePath);
+    if (logsManager.checkAndLogError(!loaded, "Failed to load background image: " + imagePath)) {
+      return false;
+    }
 
     logsManager.logMessage("Background image set: " + imagePath);
     return true;

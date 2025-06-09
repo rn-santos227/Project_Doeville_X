@@ -89,18 +89,6 @@ namespace Project::States {
   bool GameState::setBackgroundImage(const std::string& imagePath) {
     clearBackground();
 
-    SDL_Surface* surface = IMG_Load(imagePath.c_str());
-    if(logsManager.checkAndLogError(!surface, "Failed to load background image: " + std::string(IMG_GetError()))) {
-      return false;
-    }
-
-    backgroundTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    if(logsManager.checkAndLogError(!backgroundTexture, "Failed to create texture from surface: " + std::string(SDL_GetError()))) {
-      return false;
-    }
-
     logsManager.logMessage("Background image set: " + imagePath);
     return true;
   }

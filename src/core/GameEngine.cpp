@@ -69,6 +69,7 @@ namespace Project::Core {
 
   void GameEngine::run() {
     while (isRunning) {
+      Uint64 frameStartTime = SDL_GetPerformanceCounter();
 
     }
   }

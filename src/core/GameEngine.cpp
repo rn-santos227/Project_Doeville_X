@@ -68,27 +68,7 @@ namespace Project::Core {
   }
 
   void GameEngine::run() {
-    Uint32 frameStartTime;
-    Uint32 previousTime = SDL_GetTicks();
-    double deltaTime = 0.0f;
 
-    while (isRunning) {
-      frameStartTime = SDL_GetTicks();
-
-      deltaTime = (frameStartTime - previousTime) / 1000.0f;
-      previousTime = frameStartTime;
-
-      handleEvents();
-      update(deltaTime);
-      
-      framesCounter.update();
-      render();
-      
-      Uint32 frameDuration = SDL_GetTicks() - frameStartTime;
-      if (frameDuration < 16) {  
-        SDL_Delay(16 - frameDuration); 
-      }
-    }
   }
 
   void GameEngine::handleEvents() {

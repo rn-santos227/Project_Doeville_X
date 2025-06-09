@@ -76,6 +76,8 @@ namespace Project::Core {
 
       handleEvents();
       update(static_cast<float>(deltaTime));
+      render();
+
 
     }
   }

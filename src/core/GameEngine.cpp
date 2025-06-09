@@ -72,6 +72,7 @@ namespace Project::Core {
       Uint64 frameStartTime = SDL_GetPerformanceCounter();
 
       framesCounter.update();
+      double deltaTime = framesCounter.getDeltaTime();
 
     }
   }

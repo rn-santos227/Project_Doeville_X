@@ -113,7 +113,7 @@ namespace Project::Core {
     double frameDuration = (frameEndTime - frameStartTime) / static_cast<double>(frequency);
 
     if (frameDuration < targetFrameDuration) {
-
+      Uint32 delayMs = static_cast<Uint32>((targetFrameDuration - frameDuration) * 1000.0);
     }
   }
 

@@ -78,7 +78,7 @@ namespace Project::Core {
       update(static_cast<float>(deltaTime));
       render();
 
-
+      handleFrameRate(frameStartTime);
     }
   }
 

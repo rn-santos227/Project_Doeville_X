@@ -89,6 +89,8 @@ namespace Project::States {
   bool GameState::setBackgroundImage(const std::string& imagePath) {
     clearBackground();
 
+    SDL_Texture* loaded = resourcesHandler.loadTexture(renderer, imagePath);
+
     logsManager.logMessage("Background image set: " + imagePath);
     return true;
   }

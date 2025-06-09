@@ -75,6 +75,7 @@ namespace Project::Core {
       double deltaTime = framesCounter.getDeltaTime();
 
       handleEvents();
+      update(static_cast<float>(deltaTime));
 
     }
   }

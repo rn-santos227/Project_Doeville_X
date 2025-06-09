@@ -113,10 +113,7 @@ namespace Project::States {
   }
 
   void GameState::clearBackground() {
-    if (backgroundTexture) {
-      SDL_DestroyTexture(backgroundTexture);
-      backgroundTexture = nullptr;
-    }
+    backgroundTexture = nullptr;
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {

@@ -1,8 +1,8 @@
 #include "GameState.h"
 
 namespace Project::States {
-  GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager)
-    : logsManager(logsManager), renderer(renderer), luaStateWrapper(logsManager), initialized(false) {
+  GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
+    : logsManager(logsManager), luaStateWrapper(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       return;
     }

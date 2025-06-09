@@ -107,6 +107,8 @@ namespace Project::Core {
 
   void handleFrameRate(Uint64 frameStartTime) {
     const double targetFrameDuration = 1.0 / 60.0;
+
+    Uint64 frameEndTime = SDL_GetPerformanceCounter();
   }
 
   void GameEngine::clean() {

@@ -105,7 +105,7 @@ namespace Project::Core {
     screenHandler->render();
   }
 
-  void GameEngine::handleFrameRate() {
+  void handleFrameRate(Uint64 frameStartTime) {
     //For Optimization
   }
 

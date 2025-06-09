@@ -114,6 +114,9 @@ namespace Project::Core {
 
     if (frameDuration < targetFrameDuration) {
       Uint32 delayMs = static_cast<Uint32>((targetFrameDuration - frameDuration) * 1000.0);
+      if (delayMs > 0) {
+        SDL_Delay(delayMs);
+      }
     }
   }
 

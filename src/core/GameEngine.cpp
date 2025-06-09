@@ -109,6 +109,7 @@ namespace Project::Core {
     const double targetFrameDuration = 1.0 / 60.0;
 
     Uint64 frameEndTime = SDL_GetPerformanceCounter();
+    Uint64 frequency = SDL_GetPerformanceFrequency();
   }
 
   void GameEngine::clean() {

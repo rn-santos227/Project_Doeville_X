@@ -15,12 +15,15 @@
 #include "factories/entity/EntitiesFactory.h"
 #include "factories/state/GameStateFactory.h"
 
+#include "handlers/resources/ResourcesHandler.h"
+
 #include "states/GameStateManager.h"
 
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
 using namespace Project::Factories;
+using namespace Project::Handlers;
 using namespace Project::States;
 using namespace Project::Utilities;
 

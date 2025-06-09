@@ -71,6 +71,8 @@ namespace Project::Core {
     while (isRunning) {
       Uint64 frameStartTime = SDL_GetPerformanceCounter();
 
+      framesCounter.update();
+
     }
   }
 

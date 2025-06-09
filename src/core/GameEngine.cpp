@@ -106,7 +106,7 @@ namespace Project::Core {
   }
 
   void handleFrameRate(Uint64 frameStartTime) {
-    //For Optimization
+    const double targetFrameDuration = 1.0 / 60.0;
   }
 
   void GameEngine::clean() {

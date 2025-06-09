@@ -23,7 +23,7 @@ using namespace Project::Utilities;
 namespace Project::States {
   class GameState {
   public:
-    explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager);
+    explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
     virtual ~GameState();
 
     lua_State* getLuaState() const { return luaStateWrapper.get(); }
@@ -58,8 +58,9 @@ namespace Project::States {
 
   protected:
     LogsManager& logsManager;
+    ResourcesHandler& resourcesHandler;
+    
     LuaStateWrapper luaStateWrapper;
-
     GameStateCategory gameStateCategory;
     
     SDL_Texture* backgroundTexture = nullptr;

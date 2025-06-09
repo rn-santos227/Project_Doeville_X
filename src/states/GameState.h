@@ -11,9 +11,12 @@
 
 #include "entities/EntitiesManager.h"
 
+#include "handlers/resources/ResourcesHandler.h"
+
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
+using namespace Project::Handlers;
 using namespace Project::Entities;
 using namespace Project::Utilities;
 

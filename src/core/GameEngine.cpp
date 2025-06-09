@@ -111,6 +111,10 @@ namespace Project::Core {
     Uint64 frameEndTime = SDL_GetPerformanceCounter();
     Uint64 frequency = SDL_GetPerformanceFrequency();
     double frameDuration = (frameEndTime - frameStartTime) / static_cast<double>(frequency);
+
+    if (frameDuration < targetFrameDuration) {
+
+    }
   }
 
   void GameEngine::clean() {

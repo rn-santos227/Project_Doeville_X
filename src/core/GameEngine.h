@@ -40,7 +40,7 @@ namespace Project::Core {
     void handleEvents();
     void update(float deltaTime);
     void render();
-    void handleFrameRate();
+    void handleFrameRate(Uint64 frameStartTime);
     
     bool isRunning;
     LogsManager logsManager;

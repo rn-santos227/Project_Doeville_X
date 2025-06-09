@@ -94,6 +94,7 @@ namespace Project::States {
       return false;
     }
 
+    backgroundTexture = loaded;
     logsManager.logMessage("Background image set: " + imagePath);
     return true;
   }

@@ -58,7 +58,7 @@ namespace Project::Factories {
     return static_cast<Uint8>(luaStateWrapper.getGlobalNumber(globalName, static_cast<float>(defaultValue)));
   }
 
-  SDL_Color ComponentsFactory::getLuaSDLColor(lua_State* lua) {
+  SDL_Color ComponentsFactory::getLuaSDLColor(LuaStateWrapper& luaStateWrapper) {
     SDL_Color color;
     color.r = getLuaColorChannel(lua, "fontColorR");
     color.g = getLuaColorChannel(lua, "fontColorG");

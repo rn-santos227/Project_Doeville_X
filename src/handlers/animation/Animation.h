@@ -7,8 +7,10 @@
 #include <string>
 #include <SDL.h>
 
+#include "handlers/resources/ResourcesHandler.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+using namespace Project::Handlers;
 using namespace Project::Utilities;
 
 namespace Project::Handlers {

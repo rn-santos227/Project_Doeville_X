@@ -28,7 +28,7 @@ namespace Project::Factories {
   public:
     ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
 
-    std::unique_ptr<BaseComponent> create(const std::string& componentName, LuaStateWrapper* lua);
+    std::unique_ptr<BaseComponent> create(const std::string& componentName, LuaStateWrapper& luaStateWrapper);
     void setRenderer(SDL_Renderer* renderer);
 
   private:
@@ -39,7 +39,7 @@ namespace Project::Factories {
     ResourcesHandler& resourcesHandler;
 
     //Components Builder
-    std::unique_ptr<BaseComponent> createGraphicsComponent(lua_State* lua);
+    std::unique_ptr<BaseComponent> createGraphicsComponent(LuaStateWrapper& luaStateWrapper);
     std::unique_ptr<BaseComponent> createTextComponent(lua_State* lua);
     
     //Utilities

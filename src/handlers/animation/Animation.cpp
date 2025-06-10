@@ -11,6 +11,7 @@ namespace Project::Handlers {
   }
 
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {
+    SDL_Texture* texture = resourcesHandler.loadTexture(renderer, imagePath);
     return true;
   }
 

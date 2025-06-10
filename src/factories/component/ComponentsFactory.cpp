@@ -55,7 +55,7 @@ namespace Project::Factories {
 
   // Utilities Section
   Uint8 ComponentsFactory::getLuaColorChannel(LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue) {
-    
+    return static_cast<Uint8>(luaStateWrapper.getGlobalNumber(globalName, static_cast<float>(defaultValue)));
   }
 
   SDL_Color ComponentsFactory::getLuaSDLColor(lua_State* lua) {

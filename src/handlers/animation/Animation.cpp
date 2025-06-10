@@ -15,6 +15,8 @@ namespace Project::Handlers {
     if (logsManager.checkAndLogError(!texture, "Failed to load image: " + imagePath)) {
       return false;
     }
+
+    frames.push_back({texture, duration});
     return true;
   }
 

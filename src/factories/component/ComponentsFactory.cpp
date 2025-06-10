@@ -13,10 +13,10 @@ namespace Project::Factories {
     
     switch (type) {
       case ComponentType::GRAPHICS:
-        return createGraphicsComponent(lua);
+        return createGraphicsComponent(luaStateWrapper);
 
       case ComponentType::TEXT:
-        return createTextComponent(lua);
+        return createTextComponent(luaStateWrapper);
 
       default:
         logsManager.logError("Unknown or unsupported component type: " + componentName);

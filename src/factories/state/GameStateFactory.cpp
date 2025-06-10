@@ -4,7 +4,7 @@ namespace Project::Factories {
   : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler) {}
 
   bool GameStateFactory::createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath) {
-    auto newState = std::make_unique<GameState>(renderer, logsManager);
+    auto newState = std::make_unique<GameState>(renderer, logsManager, resourcesHandler);
 
     if (!newState->attachLuaScript(scriptPath)) {
       logsManager.logError("Failed to load GameState from Lua script: " + scriptPath);

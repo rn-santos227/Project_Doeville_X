@@ -16,12 +16,13 @@ using namespace Project::Utilities;
 namespace Project::Factories {
   class GameStateFactory {
   public:
-    explicit GameStateFactory(LogsManager& logsManager, GameStateManager& gameStateManager);
+    explicit GameStateFactory(LogsManager& logsManager,  ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager);
 
     bool createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath);
   
   private:
     LogsManager& logsManager;
+    ResourcesHandler& resourcesHandler;
     GameStateManager& gameStateManager;
   };
 }

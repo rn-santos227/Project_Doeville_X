@@ -2,7 +2,8 @@
 #include <SDL_image.h>
 
 namespace Project::Handlers {
-  Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager) : renderer(renderer), logsManager(logsManager) {}
+  Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
+    : renderer(renderer), logsManager(logsManager), resourcesHandler(resourcesHandler) {}
 
   Animation::~Animation() {
     freeFrames();

@@ -54,14 +54,8 @@ namespace Project::Factories {
   }
 
   // Utilities Section
-  Uint8 ComponentsFactory::getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue) {
-    lua_getglobal(lua, globalName.c_str());
-    Uint8 value = defaultValue;
-    if (lua_isinteger(lua, -1)) {
-      value = static_cast<Uint8>(lua_tointeger(lua, -1));
-    }
-    lua_pop(lua, 1);
-    return value;
+  Uint8 ComponentsFactory::getLuaColorChannel(LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue) {
+    
   }
 
   SDL_Color ComponentsFactory::getLuaSDLColor(lua_State* lua) {

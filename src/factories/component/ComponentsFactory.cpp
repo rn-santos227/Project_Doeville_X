@@ -60,10 +60,10 @@ namespace Project::Factories {
 
   SDL_Color ComponentsFactory::getLuaSDLColor(LuaStateWrapper& luaStateWrapper) {
     SDL_Color color;
-    color.r = getLuaColorChannel(lua, "fontColorR");
-    color.g = getLuaColorChannel(lua, "fontColorG");
-    color.b = getLuaColorChannel(lua, "fontColorB");
-    color.a = getLuaColorChannel(lua, "fontColorA");
+    color.r = getLuaColorChannel(luaStateWrapper, "fontColorR");
+    color.g = getLuaColorChannel(luaStateWrapper, "fontColorG");
+    color.b = getLuaColorChannel(luaStateWrapper, "fontColorB");
+    color.a = getLuaColorChannel(luaStateWrapper, "fontColorA");
     return color;
   }
 

@@ -6,12 +6,6 @@
 
 #include <SDL2/SDL.h>
 
-extern "C" {
-  #include "lua.h"
-  #include "lauxlib.h"
-  #include "lualib.h"
-}
-
 #include "ComponentTypeResolver.h"
 
 #include "components/BaseComponent.h"
@@ -21,6 +15,7 @@ extern "C" {
 #include "handlers/resources/ResourcesHandler.h"
 
 #include "utilities/logs_manager/LogsManager.h"
+#include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/config_reader/ConfigReader.h"
 
 using namespace Project::Components;

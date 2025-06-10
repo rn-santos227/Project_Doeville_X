@@ -43,7 +43,7 @@ namespace Project::Factories {
     std::unique_ptr<BaseComponent> createTextComponent(LuaStateWrapper& luaStateWrapper);
     
     //Utilities
-    SDL_Color getLuaSDLColor(lua_State* lua);
+    SDL_Color getLuaSDLColor(LuaStateWrapper& luaStateWrapper);
     Uint8 getLuaColorChannel(lua_State* lua, const std::string& globalName, Uint8 defaultValue = 255); 
     std::string getLuaGlobalString(lua_State* lua, const std::string& name, const std::string& defaultValue);
     int getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue);

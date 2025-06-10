@@ -4,10 +4,12 @@
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
 
+#include "handlers/resources/ResourcesHandler.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 #include <SDL2/SDL.h>
 
+using namespace Project::Handlers;
 using namespace Project::States;
 using namespace Project::Utilities;
 

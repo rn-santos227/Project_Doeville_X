@@ -1,7 +1,7 @@
 #include "GameStateFactory.h"
 namespace Project::Factories {
-  GameStateFactory::GameStateFactory(LogsManager& logsManager, GameStateManager& gameStateManager)
-  : logsManager(logsManager), gameStateManager(gameStateManager) {}
+  GameStateFactory::GameStateFactory(LogsManager& logsManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager)
+  : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler) {}
 
   bool GameStateFactory::createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath) {
     auto newState = std::make_unique<GameState>(renderer, logsManager);

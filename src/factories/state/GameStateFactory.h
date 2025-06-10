@@ -26,5 +26,4 @@ namespace Project::Factories {
     GameStateManager& gameStateManager;
   };
 }
-
 #endif

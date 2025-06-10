@@ -40,7 +40,7 @@ namespace Project::Factories {
 
     //Components Builder
     std::unique_ptr<BaseComponent> createGraphicsComponent(LuaStateWrapper& luaStateWrapper);
-    std::unique_ptr<BaseComponent> createTextComponent(lua_State* lua);
+    std::unique_ptr<BaseComponent> createTextComponent(LuaStateWrapper& luaStateWrapper);
     
     //Utilities
     SDL_Color getLuaSDLColor(lua_State* lua);

@@ -38,6 +38,7 @@ namespace Project::Handlers {
     std::queue<Task> tasks;
     std::mutex tasksMutex;
     std::condition_variable cv;
+    std::thread worker;
   };
 }
 

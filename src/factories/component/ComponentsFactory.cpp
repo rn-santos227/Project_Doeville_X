@@ -67,11 +67,8 @@ namespace Project::Factories {
     return color;
   }
 
-  std::string ComponentsFactory::getLuaGlobalString(lua_State* lua, const std::string& name, const std::string& defaultValue) {
-    lua_getglobal(lua, name.c_str());
-    std::string value = lua_isstring(lua, -1) ? lua_tostring(lua, -1) : defaultValue;
-    lua_pop(lua, 1);
-    return value;
+  std::string ComponentsFactory::getLuaGlobalString(LuaStateWrapper& lua, const std::string& name, const std::string& defaultValue) {
+    return lua.getGlobalString(name, defaultValue);
   }
 
   int ComponentsFactory::getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue) {

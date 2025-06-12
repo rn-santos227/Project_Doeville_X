@@ -21,6 +21,9 @@ namespace Project::Handlers {
   public:
     explicit AsyncResourceLoader(Project::Utilities::LogsManager& logsManager);
     ~AsyncResourceLoader();
+
+    std::future<SDL_Surface*> loadSurface(const std::string& imagePath);
+    void stop();
   };
 }
 

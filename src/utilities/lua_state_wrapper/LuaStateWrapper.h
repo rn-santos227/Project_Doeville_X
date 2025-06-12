@@ -15,7 +15,7 @@ namespace Project::Utilities {
 
     // Generic argument-based function call
     template<typename... Args>
-    bool LuaStateWrapper::callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args) {
+    bool callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args) {
       if (!luaState) return false;
 
       lua_getglobal(luaState, name.c_str());

@@ -41,7 +41,7 @@ namespace Project::Components {
       return false;
     }
 
-
+    texture = loaded;
     return true;
   }
 

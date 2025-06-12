@@ -37,7 +37,7 @@ namespace Project::Factories {
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper) {
     SDL_Color color = getLuaSDLColor(luaStateWrapper);
-    std::string text = getLuaGlobalString(lua, "text", "Default Text");
+    std::string text = getLuaGlobalString(luaStateWrapper, "text", "Default Text");
 
     std::string defaultFontPath = configReader.getValue("Paths", "default_font", "resources/fonts/system.ttf");
     std::string fontPath = getLuaGlobalString(lua, "fontPath", defaultFontPath);

@@ -29,6 +29,9 @@ namespace Project::Handlers {
 
     std::future<SDL_Surface*> loadSurface(const std::string& imagePath);
     void stop();
+
+  private:
+    void workerThread();
   };
 }
 

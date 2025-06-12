@@ -20,6 +20,7 @@ namespace Project::Utilities {
     std::string message;
     std::ostream* stream;
   };
+
   class LogsManager {
   public:
     LogsManager();

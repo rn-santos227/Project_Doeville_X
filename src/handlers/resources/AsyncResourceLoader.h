@@ -39,6 +39,7 @@ namespace Project::Handlers {
     std::mutex tasksMutex;
     std::condition_variable cv;
     std::thread worker;
+    std::atomic<bool> running{true};
   };
 }
 

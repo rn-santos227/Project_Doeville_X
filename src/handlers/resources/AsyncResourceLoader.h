@@ -31,6 +31,8 @@ namespace Project::Handlers {
     void stop();
 
   private:
+    LogsManager& logsManager;
+
     void workerThread();
 
     std::queue<Task> tasks;

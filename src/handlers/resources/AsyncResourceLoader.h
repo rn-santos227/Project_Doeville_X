@@ -16,4 +16,10 @@
 
 using namespace Project::Utilities;
 
+namespace Project::Handlers {
+  class AsyncResourceLoader {
+
+  };
+}
+
 #endif

@@ -35,7 +35,12 @@ namespace Project::Components {
 
   bool GraphicsComponent::setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath) {
     freeTexture();
+
     SDL_Texture* loaded = resourcesHandler.loadTexture(renderer, imagePath);
+    if (logsManager.checkAndLogError(!loaded, "Failed to load texture: " + imagePath)) {
+      return false;
+    }
+
 
     return true;
   }

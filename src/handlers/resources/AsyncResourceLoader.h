@@ -17,6 +17,10 @@
 using namespace Project::Utilities;
 
 namespace Project::Handlers {
+  struct Task {
+
+  };
+
   class AsyncResourceLoader {
   public:
     explicit AsyncResourceLoader(Project::Utilities::LogsManager& logsManager);

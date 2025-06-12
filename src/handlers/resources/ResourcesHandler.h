@@ -3,10 +3,14 @@
 
 #include <string>
 #include <unordered_map>
+#include <future>
+#include <mutex>
 #include <vector>
 
 #include <SDL.h>
 #include <SDL_image.h>
+
+#include "AsyncResourceLoader.h"
 
 #include "utilities/logs_manager/LogsManager.h"
 

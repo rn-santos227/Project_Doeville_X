@@ -34,6 +34,7 @@ namespace Project::Handlers {
     void workerThread();
 
     std::queue<Task> tasks;
+    std::mutex tasksMutex;
   };
 }
 

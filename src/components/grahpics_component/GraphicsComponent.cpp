@@ -36,18 +36,6 @@ namespace Project::Components {
   bool GraphicsComponent::setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath) {
     freeTexture();
 
-    SDL_Surface* surface = IMG_Load(imagePath.c_str());
-    if(logsManager.checkAndLogError(!surface, "Failed to load image: " + imagePath + " - " + IMG_GetError())) {
-      return false;
-    }
-
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    if(logsManager.checkAndLogError(!texture, "Failed to create texture: " + imagePath + " - " + IMG_GetError())) {
-      return false;
-    }
-
     return true;
   }
 

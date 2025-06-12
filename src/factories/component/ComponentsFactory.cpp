@@ -71,12 +71,10 @@ namespace Project::Factories {
     return lua.getGlobalString(name, defaultValue);
   }
 
-  int ComponentsFactory::getLuaGlobalInt(lua_State* lua, const std::string& name, int defaultValue) {
-    lua_getglobal(lua, name.c_str());
-    int value = lua_isinteger(lua, -1) ? lua_tointeger(lua, -1) : defaultValue;
-    lua_pop(lua, 1);
-    return value;
+  int ComponentsFactory::getLuaGlobalInt(LuaStateWrapper& lua, const std::string& name, int defaultValue) {
+    return static_cast<int>(lua.getGlobalNumber(name, static_cast<float>(defaultValue)));
   }
+
 
   // Getters and Setters Section
   void ComponentsFactory::setRenderer(SDL_Renderer* renderer) {

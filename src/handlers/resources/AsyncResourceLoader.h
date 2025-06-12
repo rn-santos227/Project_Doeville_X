@@ -18,7 +18,9 @@ using namespace Project::Utilities;
 
 namespace Project::Handlers {
   class AsyncResourceLoader {
-
+  public:
+    explicit AsyncResourceLoader(Project::Utilities::LogsManager& logsManager);
+    ~AsyncResourceLoader();
   };
 }
 

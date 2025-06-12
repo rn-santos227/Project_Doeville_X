@@ -5,7 +5,10 @@
 #include <SDL.h>
 
 #include "components/BaseComponent.h"
+
 #include "handlers/animation/AnimationHandler.h"
+#include "handlers/resources/ResourcesHandler.h"
+
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Handlers;
@@ -20,7 +23,7 @@ namespace Project::Components  {
     void update(float deltaTime) override;
     void render() override;
 
-    bool setTexture(const std::string& imagePath);
+    bool setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setPosition(int x, int y, int width, int height);
 
     AnimationHandler* getAnimationHandler() { return animationHandler.get(); }

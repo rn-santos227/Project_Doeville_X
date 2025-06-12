@@ -3,7 +3,7 @@
 namespace Project::Entities {
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
   : logsManager(logsManager), componentsFactory(componentsFactory), 
-    luaStateWrapper(logsManager), entityCategory(std::move(entityCategory)),  
+    luaStateWrapper(luaStateWrapper), entityCategory(std::move(entityCategory)),  
     x(0.0f), y(0.0f), z(0.0f) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state for Entity: " + entityName)) {
       return;
@@ -60,7 +60,7 @@ namespace Project::Entities {
       luaStateWrapper.iterateGlobalTable("components", [this](lua_State* L, int index) {
         if (lua_istable(L, -1)) {
           std::string componentName = lua_tostring(L, -2);
-          std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, L);
+          std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, luaStateWrapper);
           if (component) {
             addComponent(componentName, std::move(component));
           } else {

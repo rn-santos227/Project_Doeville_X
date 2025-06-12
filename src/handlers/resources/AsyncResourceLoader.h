@@ -32,6 +32,8 @@ namespace Project::Handlers {
 
   private:
     void workerThread();
+
+    std::queue<Task> tasks;
   };
 }
 

@@ -18,7 +18,8 @@ using namespace Project::Utilities;
 
 namespace Project::Handlers {
   struct Task {
-
+    std::string path;
+    std::promise<SDL_Surface*> promise;
   };
 
   class AsyncResourceLoader {

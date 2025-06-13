@@ -6,5 +6,7 @@ namespace Project::Handlers {
 
   }
 
+  std::future<SDL_Surface*> AsyncResourceLoader::loadSurface(const std::string& imagePath) {
 
+  }
 }

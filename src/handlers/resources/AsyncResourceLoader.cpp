@@ -39,6 +39,7 @@ namespace Project::Handlers {
         if (!running && tasks.empty()) {
           return;
         }
+        task = std::move(tasks.front());
       }
     }
   }

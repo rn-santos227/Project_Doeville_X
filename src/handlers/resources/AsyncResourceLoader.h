@@ -33,7 +33,7 @@ namespace Project::Handlers {
   private:
     LogsManager& logsManager;
 
-    void workerThread();
+    void workerLoop();
 
     std::queue<Task> tasks;
     std::mutex tasksMutex;

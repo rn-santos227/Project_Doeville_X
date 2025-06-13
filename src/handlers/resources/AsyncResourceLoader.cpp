@@ -6,6 +6,10 @@ namespace Project::Handlers {
 
   }
 
+  AsyncResourceLoader::~AsyncResourceLoader() {
+
+  }
+
   std::future<SDL_Surface*> AsyncResourceLoader::loadSurface(const std::string& imagePath) {
     Task task;
     task.path = imagePath;
@@ -25,4 +29,6 @@ namespace Project::Handlers {
       worker.join();
     }
   }
+
+
 }

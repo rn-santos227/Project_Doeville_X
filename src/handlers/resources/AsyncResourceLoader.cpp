@@ -40,6 +40,7 @@ namespace Project::Handlers {
           return;
         }
         task = std::move(tasks.front());
+        tasks.pop();
       }
     }
   }

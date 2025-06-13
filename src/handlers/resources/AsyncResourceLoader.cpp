@@ -42,6 +42,12 @@ namespace Project::Handlers {
         task = std::move(tasks.front());
         tasks.pop();
       }
+      SDL_Surface* surface = IMG_Load(task.path.c_str());
+      if (logsManager.checkAndLogError(!surface, "Failed to load image: " + task.path + " - " + IMG_GetError())) {
+
+      } else {
+
+      }
     }
   }
 }

@@ -19,6 +19,6 @@ namespace Project::Handlers {
   }
 
   void AsyncResourceLoader::stop() {
-
+    running = false;
   }
 }

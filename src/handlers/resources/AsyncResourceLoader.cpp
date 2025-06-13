@@ -15,5 +15,6 @@ namespace Project::Handlers {
       tasks.push(std::move(task));
     }
     cv.notify_one();
+    return fut;
   }
 }

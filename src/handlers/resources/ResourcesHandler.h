@@ -25,8 +25,10 @@ namespace Project::Handlers {
     void cleanup();
 
     std::string getResourcePath(const std::string& relativePath);
+    
+    std::future<SDL_Texture*> loadTextureAsync(SDL_Renderer* renderer, const std::string& imagePath);
     SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
-
+    
     std::vector<SDL_Texture*> sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight);
     SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
 

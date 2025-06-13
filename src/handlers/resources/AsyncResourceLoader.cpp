@@ -34,8 +34,11 @@ namespace Project::Handlers {
     while (running) {
       Task task;
       {
-         std::unique_lock<std::mutex> lock(tasksMutex);
-         cv.wait(lock, [this] { return !tasks.empty() || !running; });
+        std::unique_lock<std::mutex> lock(tasksMutex);
+        cv.wait(lock, [this] { return !tasks.empty() || !running; });
+        if (!running && tasks.empty()) {
+          return;
+        }
       }
     }
   }

@@ -17,4 +17,8 @@ namespace Project::Handlers {
     cv.notify_one();
     return fut;
   }
+
+  void AsyncResourceLoader::stop() {
+
+  }
 }

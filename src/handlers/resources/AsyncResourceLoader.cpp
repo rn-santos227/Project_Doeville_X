@@ -22,7 +22,7 @@ namespace Project::Handlers {
     running = false;
     cv.notify_all();
     if (worker.joinable()) {
-
+      worker.join();
     }
   }
 }

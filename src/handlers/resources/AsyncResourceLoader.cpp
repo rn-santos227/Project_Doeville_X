@@ -33,6 +33,9 @@ namespace Project::Handlers {
   void AsyncResourceLoader::workerLoop() {
     while (running) {
       Task task;
+      {
+         std::unique_lock<std::mutex> lock(tasksMutex);
+      }
     }
   }
 }

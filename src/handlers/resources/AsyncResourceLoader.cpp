@@ -21,5 +21,8 @@ namespace Project::Handlers {
   void AsyncResourceLoader::stop() {
     running = false;
     cv.notify_all();
+    if (worker.joinable()) {
+
+    }
   }
 }

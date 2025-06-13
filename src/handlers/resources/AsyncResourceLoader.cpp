@@ -3,7 +3,7 @@
 namespace Project::Handlers {
   AsyncResourceLoader::AsyncResourceLoader(LogsManager& logsManager)
     : logsManager(logsManager) {
-
+    worker = std::thread(&AsyncResourceLoader::workerLoop, this);
   }
 
   AsyncResourceLoader::~AsyncResourceLoader() {

@@ -14,5 +14,6 @@ namespace Project::Handlers {
       std::lock_guard<std::mutex> lock(tasksMutex);
       tasks.push(std::move(task));
     }
+    cv.notify_one();
   }
 }

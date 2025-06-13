@@ -10,5 +10,9 @@ namespace Project::Handlers {
     Task task;
     task.path = imagePath;
     std::future<SDL_Surface*> fut = task.promise.get_future();
+    {
+      std::lock_guard<std::mutex> lock(tasksMutex);
+      tasks.push(std::move(task));
+    }
   }
 }

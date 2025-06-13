@@ -32,7 +32,7 @@ namespace Project::Handlers {
 
   void AsyncResourceLoader::workerLoop() {
     while (running) {
-
+      Task task;
     }
   }
 }

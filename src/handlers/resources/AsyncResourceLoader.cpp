@@ -46,6 +46,8 @@ namespace Project::Handlers {
       if (logsManager.checkAndLogError(!surface, "Failed to load image: " + task.path + " - " + IMG_GetError())) {
         task.promise.set_value(nullptr);
       } else {
+        task.promise.set_value(surface);
+        logsManager.logMessage("Loaded image: " + task.path);
       }
     }
   }

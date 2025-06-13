@@ -29,4 +29,8 @@ namespace Project::Handlers {
       worker.join();
     }
   }
+
+  void AsyncResourceLoader::workerLoop() {
+
+  }
 }

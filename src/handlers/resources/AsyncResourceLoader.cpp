@@ -35,6 +35,7 @@ namespace Project::Handlers {
       Task task;
       {
          std::unique_lock<std::mutex> lock(tasksMutex);
+         cv.wait(lock, [this] { return !tasks.empty() || !running; });
       }
     }
   }

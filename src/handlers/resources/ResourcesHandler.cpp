@@ -69,7 +69,7 @@ namespace Project::Handlers {
       std::lock_guard<std::mutex> lock(textureCacheMutex);
       auto it = textureCache.find(imagePath);
       if (it != textureCache.end()) {
-
+        std::promise<SDL_Texture*> p;
       }
     }
   }

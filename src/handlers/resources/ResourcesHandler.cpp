@@ -1,8 +1,9 @@
 #include "ResourcesHandler.h"
+#include "AsyncResourceLoader.h"
 
 namespace Project::Handlers {
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
-    : logsManager(logsManager) {}
+    : logsManager(logsManager), asyncLoader(logsManager) {}
 
   ResourcesHandler::~ResourcesHandler() {
     cleanup();

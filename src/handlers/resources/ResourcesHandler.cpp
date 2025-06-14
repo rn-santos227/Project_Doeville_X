@@ -79,6 +79,9 @@ namespace Project::Handlers {
     return std::async(std::launch::deferred,
       [this, renderer, imagePath, sf = std::move(surfaceFuture)]() mutable -> SDL_Texture* {
         SDL_Surface* surface = sf.get();
+        if (logsManager.checkAndLogError(!surface, "Failed to load image asynchronously: " + imagePath + " - " + IMG_GetError())) {
+          return nullptr;
+        }
     });
   }
 

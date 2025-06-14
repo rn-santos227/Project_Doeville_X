@@ -74,6 +74,8 @@ namespace Project::Handlers {
         return p.get_future();
       }
     }
+
+    auto surfaceFuture = asyncLoader.loadSurface(imagePath);
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

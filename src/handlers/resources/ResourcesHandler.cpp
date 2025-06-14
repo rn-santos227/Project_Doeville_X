@@ -39,6 +39,7 @@ namespace Project::Handlers {
   SDL_Texture* ResourcesHandler::loadTexture(SDL_Renderer* renderer, const std::string& imagePath) {
     {
       std::lock_guard<std::mutex> lock(textureCacheMutex);
+      auto it = textureCache.find(imagePath);
     }
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());

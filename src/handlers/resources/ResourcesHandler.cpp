@@ -71,6 +71,7 @@ namespace Project::Handlers {
       if (it != textureCache.end()) {
         std::promise<SDL_Texture*> p;
         p.set_value(it->second);
+        return p.get_future();
       }
     }
   }

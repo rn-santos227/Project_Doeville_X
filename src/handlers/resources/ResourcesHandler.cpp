@@ -65,7 +65,9 @@ namespace Project::Handlers {
   }
 
   std::future<SDL_Texture*> ResourcesHandler::loadTextureAsync(SDL_Renderer* renderer, const std::string& imagePath) {
-
+    {
+      std::lock_guard<std::mutex> lock(textureCacheMutex);
+    }
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

@@ -40,6 +40,9 @@ namespace Project::Handlers {
     {
       std::lock_guard<std::mutex> lock(textureCacheMutex);
       auto it = textureCache.find(imagePath);
+      if (it != textureCache.end()) {
+        return it->second;
+      }
     }
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());

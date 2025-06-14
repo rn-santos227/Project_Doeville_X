@@ -90,6 +90,10 @@ namespace Project::Handlers {
           return nullptr;
         }
 
+        {
+          std::lock_guard<std::mutex> lock(textureCacheMutex);
+
+        }
     });
   }
 

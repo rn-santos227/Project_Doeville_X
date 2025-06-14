@@ -57,7 +57,9 @@ namespace Project::Handlers {
       return nullptr;
     }
 
-    textureCache[imagePath] = texture;
+    {
+      std::lock_guard<std::mutex> lock(textureCacheMutex);
+    }
     return texture;
   }
 

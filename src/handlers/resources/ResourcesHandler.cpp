@@ -10,6 +10,7 @@ namespace Project::Handlers {
   }
 
   void ResourcesHandler::cleanup() {
+    std::lock_guard<std::mutex> lock(textureCacheMutex);
     for (auto& pair : textureCache) {
       if (pair.second) {
         SDL_DestroyTexture(pair.second);

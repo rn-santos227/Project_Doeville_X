@@ -70,6 +70,7 @@ namespace Project::Handlers {
       auto it = textureCache.find(imagePath);
       if (it != textureCache.end()) {
         std::promise<SDL_Texture*> p;
+        p.set_value(it->second);
       }
     }
   }

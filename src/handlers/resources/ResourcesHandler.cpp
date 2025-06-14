@@ -92,7 +92,7 @@ namespace Project::Handlers {
 
         {
           std::lock_guard<std::mutex> lock(textureCacheMutex);
-
+          textureCache[imagePath] = texture;
         }
     });
   }

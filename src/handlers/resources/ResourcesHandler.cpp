@@ -82,6 +82,8 @@ namespace Project::Handlers {
         if (logsManager.checkAndLogError(!surface, "Failed to load image asynchronously: " + imagePath + " - " + IMG_GetError())) {
           return nullptr;
         }
+
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     });
   }
 

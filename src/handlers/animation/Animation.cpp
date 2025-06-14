@@ -12,6 +12,7 @@ namespace Project::Handlers {
 
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {
     auto futureTex = resourcesHandler.loadTextureAsync(renderer, imagePath);
+    SDL_Texture* texture = futureTex.get();
     if (logsManager.checkAndLogError(!texture, "Failed to load image: " + imagePath)) {
       return false;
     }

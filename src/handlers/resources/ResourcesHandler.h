@@ -34,8 +34,11 @@ namespace Project::Handlers {
 
   private:
     LogsManager& logsManager; 
+    AsyncResourceLoader asyncLoader;
 
     std::unordered_map<std::string, SDL_Texture*> textureCache;
+    std::mutex textureCacheMutex;
+    
     std::string getBasePath();
   };
 }

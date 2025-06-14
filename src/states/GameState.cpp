@@ -89,7 +89,8 @@ namespace Project::States {
   bool GameState::setBackgroundImage(const std::string& imagePath) {
     clearBackground();
 
-    SDL_Texture* loaded = resourcesHandler.loadTexture(renderer, imagePath);
+    auto futureTex = resourcesHandler.loadTextureAsync(renderer, imagePath);
+    SDL_Texture* loaded = futureTex.get();
     if (logsManager.checkAndLogError(!loaded, "Failed to load background image: " + imagePath)) {
       return false;
     }

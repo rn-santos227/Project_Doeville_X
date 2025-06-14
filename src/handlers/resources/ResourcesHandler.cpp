@@ -78,7 +78,7 @@ namespace Project::Handlers {
     auto surfaceFuture = asyncLoader.loadSurface(imagePath);
     return std::async(std::launch::deferred,
       [this, renderer, imagePath, sf = std::move(surfaceFuture)]() mutable -> SDL_Texture* {
-
+        SDL_Surface* surface = sf.get();
     });
   }
 

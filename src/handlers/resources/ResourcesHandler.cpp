@@ -180,6 +180,8 @@ namespace Project::Handlers {
         task.promise.set_value(nullptr);
         continue;
       }
+
+      SDL_Texture* texture = SDL_CreateTextureFromSurface(task.renderer, surface);
     }
   }
 }

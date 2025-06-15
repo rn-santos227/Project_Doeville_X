@@ -19,6 +19,7 @@ using namespace Project::Utilities;
 namespace Project::Handlers {
   struct TextureTask {
     SDL_Renderer* renderer;
+    std::string path;
   };
 
   class ResourcesHandler {

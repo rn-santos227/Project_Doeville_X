@@ -154,7 +154,7 @@ namespace Project::Handlers {
     running = false;
     tasksCv.notify_all();
     if (workerThread.joinable()) {
-
+      workerThread.join();
     }
   }
 }

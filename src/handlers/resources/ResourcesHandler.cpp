@@ -171,6 +171,7 @@ namespace Project::Handlers {
           return;
         }
         task = std::move(textureTasks.front());
+        textureTasks.pop();
       }
     }
   }

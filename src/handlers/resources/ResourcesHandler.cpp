@@ -176,6 +176,10 @@ namespace Project::Handlers {
 
       auto surfaceFuture = asyncLoader.loadSurface(task.path);
       SDL_Surface* surface = surfaceFuture.get();
+      if (!surface) {
+        task.promise.set_value(nullptr);
+        continue;
+      }
     }
   }
 }

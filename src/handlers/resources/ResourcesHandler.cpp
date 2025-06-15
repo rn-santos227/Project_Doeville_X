@@ -164,6 +164,9 @@ namespace Project::Handlers {
   void ResourcesHandler::workerLoop() {
     while (running) {
       TextureTask task;
+      {
+        std::unique_lock<std::mutex> lock(tasksMutex);
+      }
     }
   }
 }

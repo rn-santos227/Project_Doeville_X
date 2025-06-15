@@ -11,7 +11,8 @@ namespace Project::Handlers {
 
   void ResourcesHandler::cleanup() {
     stopWorker();
-    
+    asyncLoader.stop();
+
     std::lock_guard<std::mutex> lock(textureCacheMutex);
     for (auto& pair : textureCache) {
       if (pair.second) {

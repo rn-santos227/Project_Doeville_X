@@ -43,6 +43,7 @@ namespace Project::Handlers {
     AsyncResourceLoader asyncLoader;
 
     std::queue<TextureTask> textureTasks;
+    std::mutex tasksMutex;
 
     std::unordered_map<std::string, SDL_Texture*> textureCache;
     std::mutex textureCacheMutex;

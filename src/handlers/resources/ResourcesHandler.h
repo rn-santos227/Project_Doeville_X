@@ -39,8 +39,10 @@ namespace Project::Handlers {
     SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
 
   private:
-    LogsManager& logsManager; 
+    LogsManager& logsManager;
     AsyncResourceLoader asyncLoader;
+
+    std::queue<TextureTask> textureTasks;
 
     std::unordered_map<std::string, SDL_Texture*> textureCache;
     std::mutex textureCacheMutex;

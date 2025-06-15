@@ -153,5 +153,8 @@ namespace Project::Handlers {
   void ResourcesHandler::stopWorker() {
     running = false;
     tasksCv.notify_all();
+    if (workerThread.joinable()) {
+
+    }
   }
 }

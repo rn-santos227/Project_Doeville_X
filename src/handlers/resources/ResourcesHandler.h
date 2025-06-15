@@ -44,6 +44,7 @@ namespace Project::Handlers {
 
     std::queue<TextureTask> textureTasks;
     std::mutex tasksMutex;
+    std::condition_variable tasksCv;
 
     std::unordered_map<std::string, SDL_Texture*> textureCache;
     std::mutex textureCacheMutex;

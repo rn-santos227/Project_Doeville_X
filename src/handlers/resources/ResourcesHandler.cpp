@@ -162,6 +162,8 @@ namespace Project::Handlers {
   }
 
   void ResourcesHandler::workerLoop() {
+    while (running) {
 
+    }
   }
 }

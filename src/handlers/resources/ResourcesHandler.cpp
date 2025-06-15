@@ -160,4 +160,8 @@ namespace Project::Handlers {
       workerThread.join();
     }
   }
+
+  void ResourcesHandler::workerLoop() {
+
+  }
 }

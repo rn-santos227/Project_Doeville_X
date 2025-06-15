@@ -173,6 +173,8 @@ namespace Project::Handlers {
         task = std::move(textureTasks.front());
         textureTasks.pop();
       }
+
+      auto surfaceFuture = asyncLoader.loadSurface(task.path);
     }
   }
 }

@@ -17,6 +17,10 @@
 using namespace Project::Utilities;
 
 namespace Project::Handlers {
+  struct TextureTask {
+
+  };
+  
   class ResourcesHandler {
   public:
     explicit ResourcesHandler(LogsManager& logsManager);

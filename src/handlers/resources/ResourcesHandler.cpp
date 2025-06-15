@@ -175,6 +175,7 @@ namespace Project::Handlers {
       }
 
       auto surfaceFuture = asyncLoader.loadSurface(task.path);
+      SDL_Surface* surface = surfaceFuture.get();
     }
   }
 }

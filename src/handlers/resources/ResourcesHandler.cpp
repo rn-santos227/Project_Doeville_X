@@ -167,6 +167,9 @@ namespace Project::Handlers {
       {
         std::unique_lock<std::mutex> lock(tasksMutex);
         tasksCv.wait(lock, [this] { return !textureTasks.empty() || !running; });
+        if (!running && textureTasks.empty()) {
+          return;
+        }
       }
     }
   }

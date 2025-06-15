@@ -151,6 +151,6 @@ namespace Project::Handlers {
   }
 
   void ResourcesHandler::stopWorker() {
-
+    running = false;
   }
 }

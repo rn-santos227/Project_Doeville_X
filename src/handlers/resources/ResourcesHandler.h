@@ -46,6 +46,7 @@ namespace Project::Handlers {
     std::mutex tasksMutex;
     std::condition_variable tasksCv;
     std::thread workerThread;
+    std::atomic<bool> running{true};
 
     std::unordered_map<std::string, SDL_Texture*> textureCache;
     std::mutex textureCacheMutex;

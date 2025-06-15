@@ -149,4 +149,8 @@ namespace Project::Handlers {
     }
     return frames;
   }
+
+  void ResourcesHandler::stopWorker() {
+
+  }
 }

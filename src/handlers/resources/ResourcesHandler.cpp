@@ -170,6 +170,7 @@ namespace Project::Handlers {
         if (!running && textureTasks.empty()) {
           return;
         }
+        task = std::move(textureTasks.front());
       }
     }
   }

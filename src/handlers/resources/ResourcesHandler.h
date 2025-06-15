@@ -20,6 +20,7 @@ namespace Project::Handlers {
   struct TextureTask {
     SDL_Renderer* renderer;
     std::string path;
+    std::promise<SDL_Texture*> promise;
   };
 
   class ResourcesHandler {

@@ -51,7 +51,8 @@ namespace Project::Handlers {
     std::unordered_map<std::string, SDL_Texture*> textureCache;
     std::mutex textureCacheMutex;
 
-    void workerLoop();
+    void stopWorker();
+    void workerLoop();    
     
     std::string getBasePath();
   };

@@ -38,7 +38,7 @@ namespace Project::Utilities {
       if (status == LUA_OK) {
         std::vector<char> bytecode;
         auto writer = [](lua_State*, const void* p, size_t sz, void* ud) -> int {
-
+          auto* buffer = static_cast<std::vector<char>*>(ud);
         };
       }
     }

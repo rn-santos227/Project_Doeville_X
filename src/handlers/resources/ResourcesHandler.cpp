@@ -89,6 +89,7 @@ namespace Project::Handlers {
       std::lock_guard<std::mutex> lock(tasksMutex);
       textureTasks.push(std::move(task));
     }
+    tasksCv.notify_one();
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

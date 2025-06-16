@@ -29,7 +29,7 @@ namespace Project::Factories {
     std::string imagePath = getLuaGlobalString(luaStateWrapper, "imagePath", "assets/images/default.png");
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
-    graphicsComponent->setTexture(imagePath);
+    graphicsComponent->setTexture(resourcesHandler, imagePath);
     graphicsComponent->onAttach();
 
     return graphicsComponent;

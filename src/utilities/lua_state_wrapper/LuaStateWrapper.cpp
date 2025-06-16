@@ -30,6 +30,10 @@ namespace Project::Utilities {
 
     auto cacheIt = compiledScriptCache.find(scriptPath);
     int status = LUA_OK;
+    if (cacheIt != compiledScriptCache.end()) {
+      const auto& bytecode = cacheIt->second;
+      status = luaL_loadbuffer(luaState, bytecode.data(), bytecode.size(), scriptPath.c_str());
+    }
 
     return true;
   }

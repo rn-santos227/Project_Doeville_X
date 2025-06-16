@@ -90,6 +90,7 @@ namespace Project::Handlers {
       textureTasks.push(std::move(task));
     }
     tasksCv.notify_one();
+    return fut;
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

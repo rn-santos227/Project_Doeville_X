@@ -48,6 +48,7 @@ namespace Project::Core {
     ConfigReader configReader;
     SDLManager sdlManager;
 
+    std::unique_ptr<ResourcesHandler> resourcesHandler;
     std::unique_ptr<ComponentsFactory> componentsFactory;
     std::unique_ptr<GameStateManager> gameStateManager;
 
@@ -55,7 +56,6 @@ namespace Project::Core {
     std::unique_ptr<FontHandler> fontHandler;
     std::unique_ptr<KeyHandler> keyHandler;
     std::unique_ptr<MouseHandler> mouseHandler;
-    std::unique_ptr<ResourcesHandler> resourcesHandler;
     std::unique_ptr<ScreenHandler> screenHandler;
 
     std::mutex updateMutex;

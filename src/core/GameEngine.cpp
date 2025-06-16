@@ -105,7 +105,7 @@ namespace Project::Core {
     screenHandler->render();
   }
 
-  void handleFrameRate(Uint64 frameStartTime) {
+  void GameEngine::handleFrameRate(Uint64 frameStartTime) {
     const double targetFrameDuration = 1.0 / 60.0;
 
     Uint64 frameEndTime = SDL_GetPerformanceCounter();

@@ -9,7 +9,7 @@
 #include "ComponentTypeResolver.h"
 
 #include "components/BaseComponent.h"
-#include "components/grahpics_component/GraphicsComponent.h"
+#include "components/graphics_component/GraphicsComponent.h"
 #include "components/text_component/TextComponent.h"
 
 #include "handlers/resources/ResourcesHandler.h"

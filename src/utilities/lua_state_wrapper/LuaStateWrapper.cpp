@@ -29,6 +29,7 @@ namespace Project::Utilities {
     }
 
     auto cacheIt = compiledScriptCache.find(scriptPath);
+    int status = LUA_OK;
 
     return true;
   }

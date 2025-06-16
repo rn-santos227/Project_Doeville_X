@@ -79,28 +79,6 @@ namespace Project::Handlers {
         return p.get_future();
       }
     }
-
-    auto surfaceFuture = asyncLoader.loadSurface(imagePath);
-    return std::async(std::launch::deferred,
-      [this, renderer, imagePath, sf = std::move(surfaceFuture)]() mutable -> SDL_Texture* {
-        SDL_Surface* surface = sf.get();
-        if (logsManager.checkAndLogError(!surface, "Failed to load image asynchronously: " + imagePath + " - " + IMG_GetError())) {
-          return nullptr;
-        }
-
-        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
-
-        if (logsManager.checkAndLogError(!texture, "Failed to create texture from image asynchronously: " + imagePath + " - " + SDL_GetError())) {
-          return nullptr;
-        }
-
-        {
-          std::lock_guard<std::mutex> lock(textureCacheMutex);
-          textureCache[imagePath] = texture;
-        }
-        return texture;
-    });
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

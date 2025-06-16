@@ -37,6 +37,9 @@ namespace Project::Utilities {
       status = luaL_loadfile(luaState, scriptPath.c_str());
       if (status == LUA_OK) {
         std::vector<char> bytecode;
+        auto writer = [](lua_State*, const void* p, size_t sz, void* ud) -> int {
+
+        };
       }
     }
 

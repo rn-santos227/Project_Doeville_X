@@ -184,7 +184,8 @@ namespace Project::Handlers {
       SDL_Texture* texture = SDL_CreateTextureFromSurface(task.renderer, surface);
       SDL_FreeSurface(surface);
       if(logsManager.checkAndLogError(!texture, "Failed to create texture from image asynchronously: " + task.path + " - " + SDL_GetError())) {
-
+        task.promise.set_value(nullptr);
+        continue;
       }
     }
   }

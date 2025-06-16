@@ -82,6 +82,7 @@ namespace Project::Handlers {
 
     TextureTask task;
     task.renderer = renderer;
+    task.path = imagePath;
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

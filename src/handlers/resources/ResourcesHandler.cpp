@@ -182,6 +182,7 @@ namespace Project::Handlers {
       }
 
       SDL_Texture* texture = SDL_CreateTextureFromSurface(task.renderer, surface);
+      SDL_FreeSurface(surface);
     }
   }
 }

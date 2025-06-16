@@ -28,6 +28,8 @@ namespace Project::Utilities {
       return false;
     }
 
+    auto cacheIt = compiledScriptCache.find(scriptPath);
+
     return true;
   }
 

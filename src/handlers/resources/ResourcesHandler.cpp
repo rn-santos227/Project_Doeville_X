@@ -187,6 +187,11 @@ namespace Project::Handlers {
         task.promise.set_value(nullptr);
         continue;
       }
+
+      {
+        std::lock_guard<std::mutex> lock(textureCacheMutex);
+        textureCache[task.path] = texture;
+      }
     }
   }
 }

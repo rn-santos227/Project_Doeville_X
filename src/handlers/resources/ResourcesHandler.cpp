@@ -3,7 +3,9 @@
 
 namespace Project::Handlers {
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
-    : logsManager(logsManager), asyncLoader(logsManager) {}
+    : logsManager(logsManager), asyncLoader(logsManager) {
+      workerThread = std::thread(&ResourcesHandler::workerLoop, this);
+    }
 
   ResourcesHandler::~ResourcesHandler() {
     cleanup();

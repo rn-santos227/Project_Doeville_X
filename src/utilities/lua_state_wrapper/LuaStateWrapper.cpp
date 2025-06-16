@@ -33,6 +33,8 @@ namespace Project::Utilities {
     if (cacheIt != compiledScriptCache.end()) {
       const auto& bytecode = cacheIt->second;
       status = luaL_loadbuffer(luaState, bytecode.data(), bytecode.size(), scriptPath.c_str());
+    } else {
+      status = luaL_loadfile(luaState, scriptPath.c_str());
     }
 
     return true;

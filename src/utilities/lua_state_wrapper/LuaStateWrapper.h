@@ -5,6 +5,8 @@
 #include <functional>
 #include <string>
 #include <optional>
+#include <vector>
+#include <unordered_map>
 
 #include "utilities/logs_manager/LogsManager.h"
 namespace Project::Utilities {
@@ -100,6 +102,8 @@ namespace Project::Utilities {
   private:
     lua_State* luaState;
     LogsManager& logsManager;
+
+    std::unordered_map<std::string, std::vector<char>> compiledScriptCache;
   };
 }
 #endif

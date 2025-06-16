@@ -176,7 +176,7 @@ namespace Project::Handlers {
 
       auto surfaceFuture = asyncLoader.loadSurface(task.path);
       SDL_Surface* surface = surfaceFuture.get();
-      if (!surface) {
+      if (logsManager.checkAndLogError(!surface, "Failed to load image asynchronously: " + task.path + " - " + IMG_GetError())) {
         task.promise.set_value(nullptr);
         continue;
       }

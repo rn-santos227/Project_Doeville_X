@@ -84,6 +84,11 @@ namespace Project::Handlers {
     task.renderer = renderer;
     task.path = imagePath;
     std::future<SDL_Texture*> fut = task.promise.get_future();
+
+    {
+      std::lock_guard<std::mutex> lock(tasksMutex);
+      textureTasks.push(std::move(task));
+    }
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

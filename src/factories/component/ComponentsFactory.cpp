@@ -1,7 +1,7 @@
 #include "ComponentsFactory.h"
 
 namespace Project::Factories {
-  ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& , ResourcesHandler& resourcesHandler)
+  ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
   : configReader(configReader), logsManager(logsManager), resourcesHandler(resourcesHandler), renderer(nullptr) {}
 
   std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper) {

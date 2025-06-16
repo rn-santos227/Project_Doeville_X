@@ -79,6 +79,8 @@ namespace Project::Handlers {
         return p.get_future();
       }
     }
+
+    TextureTask task;
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {

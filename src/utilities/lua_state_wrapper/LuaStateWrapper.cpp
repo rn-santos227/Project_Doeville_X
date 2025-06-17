@@ -40,6 +40,7 @@ namespace Project::Utilities {
         auto writer = [](lua_State*, const void* p, size_t sz, void* ud) -> int {
           auto* buffer = static_cast<std::vector<char>*>(ud);
           const char* cp = static_cast<const char*>(p);
+          buffer->insert(buffer->end(), cp, cp + sz);
         };
       }
     }

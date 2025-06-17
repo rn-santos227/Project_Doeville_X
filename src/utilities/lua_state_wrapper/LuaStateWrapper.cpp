@@ -55,6 +55,7 @@ namespace Project::Utilities {
     if (status != LUA_OK) {
       handleLuaError(status);
       lua_pop(luaState, 1);
+      return false;
     }
 
     return true;

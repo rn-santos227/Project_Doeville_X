@@ -53,7 +53,7 @@ namespace Project::Utilities {
     }
 
     if (status != LUA_OK) {
-
+      handleLuaError(status);
     }
 
     return true;

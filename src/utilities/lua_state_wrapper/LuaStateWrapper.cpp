@@ -41,6 +41,7 @@ namespace Project::Utilities {
           auto* buffer = static_cast<std::vector<char>*>(ud);
           const char* cp = static_cast<const char*>(p);
           buffer->insert(buffer->end(), cp, cp + sz);
+          return 0;
         };
       }
     }

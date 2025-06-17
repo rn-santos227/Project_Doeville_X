@@ -72,6 +72,8 @@ namespace Project::Utilities {
       return false;
     }
 
+    int status = luaL_loadstring(luaState, code.c_str());
+
     return true;
   }
   

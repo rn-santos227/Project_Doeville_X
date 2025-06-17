@@ -6,6 +6,9 @@
 namespace Project::Utilities {
   struct ResourceCleaner {
     template<typename AssocContainer, typename Deleter>
+    static void cleanupMap(AssocContainer& container, Deleter deleter) {
+
+    }
   };
 }
 

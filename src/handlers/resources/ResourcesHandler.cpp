@@ -1,6 +1,8 @@
 #include "ResourcesHandler.h"
 #include "AsyncResourceLoader.h"
 
+#include "utilities/resource_cleaner/ResourceCleaner.h"
+
 namespace Project::Handlers {
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
     : logsManager(logsManager), asyncLoader(logsManager) {
@@ -16,12 +18,11 @@ namespace Project::Handlers {
     asyncLoader.stop();
 
     std::lock_guard<std::mutex> lock(textureCacheMutex);
-    for (auto& pair : textureCache) {
-      if (pair.second) {
-        SDL_DestroyTexture(pair.second);
+    ResourceCleaner::cleanupMap(textureCache, [](SDL_Texture* texture) {
+      if (texture) {
+        SDL_DestroyTexture(texture);
       }
-    }
-    textureCache.clear();
+    });
   }
 
   std::string ResourcesHandler::getBasePath() {

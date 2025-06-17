@@ -8,7 +8,9 @@ namespace Project::Utilities {
     template<typename AssocContainer, typename Deleter>
     static void cleanupMap(AssocContainer& container, Deleter deleter) {
       for (auto& pair : container) {
-
+        if (pair.second) {
+          deleter(pair.second);
+        }
       }
     }
   };

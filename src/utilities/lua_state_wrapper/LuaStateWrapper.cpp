@@ -58,6 +58,8 @@ namespace Project::Utilities {
       return false;
     }
 
+    status = lua_pcall(luaState, 0, LUA_MULTRET, 0);
+
     return true;
   }
 

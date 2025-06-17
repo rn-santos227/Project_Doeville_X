@@ -81,7 +81,8 @@ namespace Project::Utilities {
 
     status = lua_pcall(luaState, 0, LUA_MULTRET, 0);
     if (status != LUA_OK) {
-
+      handleLuaError(status);
+      return false;
     }
 
     return true;

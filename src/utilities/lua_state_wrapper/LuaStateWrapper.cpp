@@ -52,6 +52,10 @@ namespace Project::Utilities {
       }
     }
 
+    if (status != LUA_OK) {
+
+    }
+
     return true;
   }
 

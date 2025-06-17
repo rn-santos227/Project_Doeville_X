@@ -1,5 +1,7 @@
 #include "CursorHandler.h"
 
+#include "utilities/resource_cleaner/ResourceCleaner.h"
+
 namespace Project::Handlers {
   CursorHandler::CursorHandler(LogsManager& logsManager) 
     : logsManager(logsManager), renderer(nullptr), currentCursorTexture(nullptr), currentState(CursorState::DEFAULT) {
@@ -102,27 +104,24 @@ namespace Project::Handlers {
   }
 
   void CursorHandler::cleanup() {
-    for (auto& pair : cursorCache) {
-      if (pair.second && pair.second != defaultCursor) {
-        SDL_FreeCursor(pair.second);
+    ResourceCleaner::cleanupMap(cursorCache, [this](SDL_Cursor* cursor) {
+      if (cursor && cursor != defaultCursor) {
+        SDL_FreeCursor(cursor);
       }
-    }
+    });
 
     if (defaultCursor) {
       SDL_FreeCursor(defaultCursor);
       defaultCursor = nullptr;
     }
-
-    cursorCache.clear();
     cursors.clear();
 
-    for (auto& pair : textureCache) {
-      if (pair.second) {
-        SDL_DestroyTexture(pair.second);
+    ResourceCleaner::cleanupMap(textureCache, [](SDL_Texture* texture) {
+      if (texture) {
+        SDL_DestroyTexture(texture);
       }
-    }
+    });  
 
-    textureCache.clear();
     cursorTextures.clear();
     currentCursorTexture = nullptr;
   }

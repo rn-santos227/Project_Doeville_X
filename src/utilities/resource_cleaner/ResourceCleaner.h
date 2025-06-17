@@ -3,6 +3,10 @@
 
 #include <utility>
 
-
+namespace Project::Utilities {
+  struct ResourceCleaner {
+    template<typename AssocContainer, typename Deleter>
+  };
+}
 
 #endif

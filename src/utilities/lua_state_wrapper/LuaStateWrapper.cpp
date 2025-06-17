@@ -43,6 +43,10 @@ namespace Project::Utilities {
           buffer->insert(buffer->end(), cp, cp + sz);
           return 0;
         };
+
+        if (lua_dump(luaState, writer, &bytecode, 0) == 0) {
+
+        }
       }
     }
 

@@ -46,7 +46,9 @@ namespace Project::Utilities {
 
         if (lua_dump(luaState, writer, &bytecode, 0) == 0) {
           compiledScriptCache[scriptPath] = std::move(bytecode);
-        }
+        } else {
+          logsManager.logError("Failed to dump bytecode for " + scriptPath);
+        } 
       }
     }
 

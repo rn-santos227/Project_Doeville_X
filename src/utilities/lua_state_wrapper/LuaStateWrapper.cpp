@@ -75,6 +75,8 @@ namespace Project::Utilities {
     int status = luaL_loadstring(luaState, code.c_str());
     if (status != LUA_OK) {
       handleLuaError(status);
+      lua_pop(luaState, 1);
+      return false;
     }
 
     return true;

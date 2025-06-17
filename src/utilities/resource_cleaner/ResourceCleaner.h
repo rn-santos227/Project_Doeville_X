@@ -12,6 +12,7 @@ namespace Project::Utilities {
           deleter(pair.second);
         }
       }
+      container.clear();
     }
   };
 }

@@ -25,8 +25,6 @@ namespace Project::States {
     explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
     virtual ~GameState();
 
-    lua_State* getLuaState() const { return luaStateWrapper.get(); }
-
     virtual void initialize();
     virtual void onEnter();
     virtual void onExit();
@@ -44,7 +42,6 @@ namespace Project::States {
     void markInitialized() { initialized = true; }
 
     bool attachLuaScript(const std::string& scriptPath);
-    bool callLuaFunction(const std::string& functionName);
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
@@ -56,10 +53,7 @@ namespace Project::States {
     };
 
   protected:
-    LogsManager& logsManager;
     ResourcesHandler& resourcesHandler;
-    
-    LuaStateWrapper luaStateWrapper;
     GameStateCategory gameStateCategory;
     
     SDL_Texture* backgroundTexture = nullptr;

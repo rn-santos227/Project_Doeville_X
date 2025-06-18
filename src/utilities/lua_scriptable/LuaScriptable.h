@@ -5,6 +5,8 @@
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Utilities {
-
+  class LuaScriptable {
+  public:
+  };
 }
 #endif

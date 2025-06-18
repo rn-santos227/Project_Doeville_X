@@ -10,4 +10,8 @@ namespace Project::Utilities {
       logsManager.logError("Failed to create Lua state");
     }
   }
+
+  bool LuaScriptable::attachLuaScript(const std::string& scriptPath) {
+
+  }
 }

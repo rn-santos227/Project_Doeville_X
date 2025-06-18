@@ -67,27 +67,6 @@ namespace Project::Entities {
     return true;
   }
 
-  bool Entity::callLuaFunction(const std::string& functionName) {
-    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null for Entity: " + entityName)) {
-      return false;
-    }
-
-    lua_State* L = luaStateWrapper.get();
-    lua_getglobal(L, functionName.c_str());
-    if (!lua_isfunction(L, -1)) {
-      lua_pop(L, 1);
-      return false;
-    }
-
-    if (lua_pcall(L, 0, 0, 0) != LUA_OK) {
-      std::string error = lua_tostring(L, -1);
-      luaStateWrapper.handleLuaError("Lua function call failed: " + error);
-      return false;
-    }
-
-    return true;
-  }
-
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
     if (!component) return;
     components[componentName] = std::move(component);

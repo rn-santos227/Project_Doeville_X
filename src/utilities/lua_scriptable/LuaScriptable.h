@@ -11,6 +11,8 @@ namespace Project::Utilities {
     virtual ~LuaScriptable() = default;
 
     lua_State* getLuaState() const { return luaStateWrapper.get(); }
+    
+    virtual bool attachLuaScript(const std::string& scriptPath);
   };
 }
 #endif

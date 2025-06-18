@@ -40,7 +40,6 @@ namespace Project::Entities {
     void render();
     
     bool attachLuaScript(const std::string& scriptPath);
-    bool callLuaFunction(const std::string& functionName);
 
     void addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component);
     void removeComponent(const std::string& componentName);
@@ -48,8 +47,6 @@ namespace Project::Entities {
 
     BaseComponent* getComponent(const std::string& componentName);
     std::vector<std::string> listComponentNames() const;
-
-    lua_State* getLuaState() const { return luaStateWrapper.get(); }
 
     void setPosition(float newX, float newY) { x = newX; y = newY; }
     void setPosition(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ; }
@@ -59,10 +56,7 @@ namespace Project::Entities {
     float getZ() const { return z; }
 
   private:
-    LogsManager& logsManager;
     ComponentsFactory& componentsFactory;
-  
-    LuaStateWrapper luaStateWrapper;
     EntityCategory entityCategory;
 
     std::unordered_map<std::string, std::unique_ptr<BaseComponent>> components;

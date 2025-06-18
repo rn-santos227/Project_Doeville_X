@@ -41,11 +41,7 @@ namespace Project::Entities {
   }
 
   bool Entity::attachLuaScript(const std::string& scriptPath) {
-    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null for Entity: " + entityName)) {
-      return false;
-    }
-
-    if (logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
+    if (!LuaScriptable::attachLuaScript(scriptPath)) {
       return false;
     }
 

@@ -2,21 +2,10 @@
 
 namespace Project::States {
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-    : logsManager(logsManager), luaStateWrapper(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {
-    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
-      return;
-    }
-
-    luaL_openlibs(luaStateWrapper.get());
-    luaStateWrapper.registerFunction("print", LuaStateWrapper::luaPrintRedirect);
-  }
+: LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {}
 
   GameState::~GameState() {
     clearBackground();
-  }
-
-  bool GameState::callLuaFunction(const std::string& functionName) {
-    return luaStateWrapper.callGlobalFunction(functionName);
   }
 
   void GameState::initialize() {

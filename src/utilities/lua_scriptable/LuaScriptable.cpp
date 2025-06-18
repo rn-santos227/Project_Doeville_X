@@ -3,10 +3,10 @@
 namespace Project::Utilities {
   LuaScriptable::LuaScriptable(LogsManager& logsManager)
     : logsManager(logsManager), luaStateWrapper(logsManager) {
-      if (luaStateWrapper.isValid()) {
+    if (luaStateWrapper.isValid()) {
 
-      } else {
-        
-      }
+    } else {
+      logsManager.logError("Failed to create Lua state");
+    }
   }
 }

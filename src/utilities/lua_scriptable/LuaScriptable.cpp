@@ -22,4 +22,8 @@ namespace Project::Utilities {
 
     return true;
   }
+
+  bool LuaScriptable::callLuaFunction(const std::string& functionName) {
+
+  }
 }

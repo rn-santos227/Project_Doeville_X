@@ -2,15 +2,8 @@
 
 namespace Project::Entities {
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
-  : logsManager(logsManager), componentsFactory(componentsFactory), 
-    luaStateWrapper(luaStateWrapper), entityCategory(std::move(entityCategory)),  
-    x(0.0f), y(0.0f), z(0.0f) {
-    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state for Entity: " + entityName)) {
-      return;
-    }
-
-    luaL_openlibs(luaStateWrapper.get());
-  }
+  : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),  
+    x(0.0f), y(0.0f), z(0.0f) {}
 
   Entity::~Entity() = default;
 

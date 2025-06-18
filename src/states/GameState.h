@@ -20,7 +20,7 @@ using namespace Project::Entities;
 using namespace Project::Utilities;
 
 namespace Project::States {
-  class GameState : public Project::Utilities::LuaScriptable {
+  class GameState : public LuaScriptable {
   public:
     explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
     virtual ~GameState();

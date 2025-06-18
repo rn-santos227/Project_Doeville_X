@@ -13,15 +13,14 @@
 #include "components/BaseComponent.h"
 #include "factories/component/ComponentsFactory.h"
 
-#include "utilities/lua_state_wrapper/LuaStateWrapper.h"
-#include "utilities/logs_manager/LogsManager.h"
+#include "utilities/lua_scriptable/LuaScriptable.h"
 
 using namespace Project::Components;
 using namespace Project::Factories;
 using namespace Project::Utilities;
 
 namespace Project::Entities {
-  class Entity {
+  class Entity : public LuaScriptable {
   public:
     explicit Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory);
     virtual ~Entity();

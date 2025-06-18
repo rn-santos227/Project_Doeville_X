@@ -12,6 +12,8 @@ namespace Project::Utilities {
   }
 
   bool LuaScriptable::attachLuaScript(const std::string& scriptPath) {
-
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null")) {
+      return false;
+    }
   }
 }

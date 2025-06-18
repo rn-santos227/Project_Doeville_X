@@ -15,5 +15,9 @@ namespace Project::Utilities {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Lua state is null")) {
       return false;
     }
+
+    if (logsManager.checkAndLogError(!luaStateWrapper.loadScript(scriptPath), "Failed to load Lua script: " + scriptPath)) {
+      return false;
+    }
   }
 }

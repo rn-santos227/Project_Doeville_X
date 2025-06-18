@@ -9,6 +9,8 @@ namespace Project::Utilities {
   public:
     explicit LuaScriptable(LogsManager& logsManager);
     virtual ~LuaScriptable() = default;
+
+    lua_State* getLuaState() const { return luaStateWrapper.get(); }
   };
 }
 #endif

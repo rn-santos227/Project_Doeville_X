@@ -14,6 +14,10 @@ namespace Project::Utilities {
 
     virtual bool attachLuaScript(const std::string& scriptPath);
     virtual bool callLuaFunction(const std::string& functionName);
+
+  protected:
+    LogsManager& logsManager;
+    LuaStateWrapper luaStateWrapper;
   };
 }
 #endif

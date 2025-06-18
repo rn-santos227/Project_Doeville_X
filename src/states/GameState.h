@@ -13,15 +13,14 @@
 
 #include "handlers/resources/ResourcesHandler.h"
 
-#include "utilities/logs_manager/LogsManager.h"
-#include "utilities/lua_state_wrapper/LuaStateWrapper.h"
+#include "utilities/lua_scriptable/LuaScriptable.h"
 
 using namespace Project::Handlers;
 using namespace Project::Entities;
 using namespace Project::Utilities;
 
 namespace Project::States {
-  class GameState {
+  class GameState : public Project::Utilities::LuaScriptable {
   public:
     explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
     virtual ~GameState();

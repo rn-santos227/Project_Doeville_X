@@ -8,6 +8,7 @@ namespace Project::Utilities {
   class LuaScriptable {
   public:
     explicit LuaScriptable(LogsManager& logsManager);
+    virtual ~LuaScriptable() = default;
   };
 }
 #endif

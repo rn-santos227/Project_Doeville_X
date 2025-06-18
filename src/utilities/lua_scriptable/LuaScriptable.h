@@ -4,4 +4,7 @@
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+namespace Project::Utilities {
+
+}
 #endif

@@ -1,5 +1,4 @@
 #include "GraphicsComponent.h"
-#include "components/TextureHolder.h"
 
 #include <SDL_image.h>
 
@@ -10,7 +9,7 @@ namespace Project::Components {
   }
 
   GraphicsComponent::~GraphicsComponent() {
-    freeTexture();
+    destroyTexture();
   }
 
   void GraphicsComponent::update(float deltaTime) {

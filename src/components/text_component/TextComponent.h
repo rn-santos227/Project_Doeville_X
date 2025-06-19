@@ -2,6 +2,7 @@
 #define TEXT_COMPONENT_H
 
 #include "components/BaseComponent.h"
+#include "components/TextureHolder.h"
 
 #include <string>
 
@@ -15,7 +16,7 @@ using namespace Project::Utilities;
 using namespace Project::Handlers;
 
 namespace Project::Components {
-  class TextComponent : public BaseComponent {
+  class TextComponent : public BaseComponent, public TextureHolder {
   public:
     TextComponent(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager);
     ~TextComponent() override;

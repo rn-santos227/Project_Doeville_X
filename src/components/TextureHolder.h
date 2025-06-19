@@ -10,7 +10,8 @@ namespace Project::Components {
 
     void destroyTexture() {
       if (texture) {
-
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
       }
     }
   };

@@ -5,6 +5,8 @@
 
 namespace Project::Components {
   class TextureHolder {
+  public:
+    TextureHolder() : texture(nullptr) {}
   protected:
     SDL_Texture* texture;
 

@@ -34,7 +34,6 @@ namespace Project::Components {
     AnimationHandler animationHandler;
     
     SDL_Renderer* renderer;
-    SDL_Texture* texture;
     TTF_Font* font;
 
     SDL_Color color;
@@ -45,7 +44,6 @@ namespace Project::Components {
     int fontSize;
 
     void createTexture();
-    void freeTexture();
   };
 }
 #endif

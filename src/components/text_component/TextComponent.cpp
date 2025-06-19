@@ -15,7 +15,7 @@ namespace Project::Components {
   }
 
   TextComponent::~TextComponent() {
-    freeTexture();
+    destroyTexture();
     if (font) {
       TTF_CloseFont(font);
       font = nullptr;

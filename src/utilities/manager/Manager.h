@@ -28,6 +28,10 @@ namespace Project::Utilities {
     void render() {
 
     }
+
+  protected:
+    std::unordered_map<std::string, Ptr> objects;
+    std::mutex managerMutex;
   };
 }
 

@@ -12,6 +12,10 @@ namespace Project::Utilities {
   public:
     Manager() = default;
     virtual ~Manager() = default;
+
+    void add(const std::string& id, Ptr object) {
+
+    }
   };
 }
 

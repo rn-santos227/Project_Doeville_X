@@ -9,7 +9,9 @@ namespace Project::Components {
     SDL_Texture* texture;
 
     void destroyTexture() {
+      if (texture) {
 
+      }
     }
   };
 }

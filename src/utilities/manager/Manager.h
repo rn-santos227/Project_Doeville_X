@@ -6,4 +6,11 @@
 #include <memory>
 #include <mutex>
 
+namespace Project::Utilities {
+  template<typename T, typename Ptr = std::shared_ptr<T>>
+  class Manager {
+
+  };
+}
+
 #endif

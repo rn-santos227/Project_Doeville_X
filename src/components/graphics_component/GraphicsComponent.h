@@ -16,7 +16,7 @@ using namespace Project::Handlers;
 using namespace Project::Utilities;
 
 namespace Project::Components  {
-  class GraphicsComponent : public BaseComponent {
+  class GraphicsComponent : public BaseComponent, public TextureHolder {
   public:
     GraphicsComponent(SDL_Renderer* renderer, LogsManager& logsManager);
     ~GraphicsComponent();

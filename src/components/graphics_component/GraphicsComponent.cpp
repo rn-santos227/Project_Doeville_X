@@ -52,11 +52,4 @@ namespace Project::Components {
     destRect.w = width;
     destRect.h = height;
   }
-
-  void GraphicsComponent::freeTexture() {
-    if (texture) {
-      SDL_DestroyTexture(texture);
-      texture = nullptr;
-    }
-  }
 }

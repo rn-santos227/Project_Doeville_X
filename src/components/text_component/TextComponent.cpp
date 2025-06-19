@@ -61,11 +61,4 @@ namespace Project::Components {
       SDL_FreeSurface(surface);
     }
   }
-
-  void TextComponent::freeTexture() {
-    if (texture) {
-      SDL_DestroyTexture(texture);
-      texture = nullptr;
-    }
-  }
 }

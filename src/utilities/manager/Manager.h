@@ -11,6 +11,7 @@ namespace Project::Utilities {
   class Manager {
   public:
     Manager() = default;
+    virtual ~Manager() = default;
   };
 }
 

@@ -7,6 +7,8 @@ namespace Project::Components {
   class TextureHolder {
   public:
     TextureHolder() : texture(nullptr) {}
+    virtual ~TextureHolder() = default;
+
   protected:
     SDL_Texture* texture;
 

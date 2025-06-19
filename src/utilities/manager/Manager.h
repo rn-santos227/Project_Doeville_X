@@ -20,6 +20,10 @@ namespace Project::Utilities {
     void remove(const std::string& id) {
 
     }
+
+    void update(float deltaTime) {
+
+    }
   };
 }
 

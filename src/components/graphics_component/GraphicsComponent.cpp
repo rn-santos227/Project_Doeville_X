@@ -1,4 +1,5 @@
 #include "GraphicsComponent.h"
+#include "components/TextureHolder.h"
 
 #include <SDL_image.h>
 

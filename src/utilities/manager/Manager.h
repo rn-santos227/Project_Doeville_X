@@ -16,6 +16,10 @@ namespace Project::Utilities {
     void add(const std::string& id, Ptr object) {
 
     }
+
+    void remove(const std::string& id) {
+
+    }
   };
 }
 

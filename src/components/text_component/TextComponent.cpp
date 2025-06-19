@@ -2,10 +2,9 @@
 
 namespace Project::Components {
   TextComponent::TextComponent(SDL_Renderer* renderer, TTF_Font* font,  SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager)
-  : BaseComponent(logsManager), 
+  : BaseComponent(logsManager),
     animationHandler(renderer, logsManager),
     renderer(renderer), 
-    texture(nullptr),
     font(font),
     color(color),
     rect{0, 0, 0, 0}, 

@@ -24,6 +24,10 @@ namespace Project::Utilities {
     void update(float deltaTime) {
 
     }
+
+    void render() {
+
+    }
   };
 }
 

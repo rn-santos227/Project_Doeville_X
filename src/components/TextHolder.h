@@ -4,6 +4,8 @@
 #include <SDL.h>
 
 namespace Project::Components {
+  class TextureHolder {
 
+  };
 }
 #endif

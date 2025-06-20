@@ -15,9 +15,9 @@ namespace Project::States {
       stateStack.pop();
     }
 
-    auto& gameStates = stateManager.getObjects();
-    auto it = gameStates.find(name);
-    if (it == gameStates.end()) {
+    auto& states = stateManager.getObjects();
+    auto it = states.find(name);
+    if (it == states.end()) {
       GameState* cachedState = retrieveFromCache(name);
       if (cachedState) {
         stateStack.push(cachedState);
@@ -37,9 +37,9 @@ namespace Project::States {
   }
 
   void GameStateManager::pushState(const std::string& name) {
-    auto& gameStates = stateManager.getObjects();
-    auto it = gameStates.find(name);
-    if (it != gameStates.end()) {
+    auto& states = stateManager.getObjects();
+    auto it = states.find(name);
+    if (it != states.end()) {
       if (!stateStack.empty()) {
         stateStack.top()->onExit();
       }
@@ -97,6 +97,7 @@ namespace Project::States {
   void GameStateManager::enableStates(const std::vector<std::string>& names) {
     std::lock_guard<std::mutex> lock(gameStateMutex);
     for (const auto& name : names) {
+      auto& states = stateManager.getObjects();
       auto it = states.find(name);
       if (it != states.end()) {
         it->second->setActive(true);

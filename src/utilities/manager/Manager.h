@@ -20,6 +20,7 @@ namespace Project::Utilities {
 
     void remove(const std::string& id) {
       std::lock_guard<std::mutex> lock(managerMutex);
+      objects.erase(id);
     }
 
     void update(float deltaTime) {

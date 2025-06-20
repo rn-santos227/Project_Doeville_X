@@ -26,4 +26,4 @@ class DependencyManager:
 
       except Exception as e:
         print(f"Failed to process dependency {url}: {e}")
-        raise
+        raise e

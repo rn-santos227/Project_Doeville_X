@@ -20,7 +20,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::optimizeEntities() {
-    std::lock_guard<std::mutex> lock(entitiesMutex);
+    std::lock_guard<std::mutex> lock(managerMutex);
     cachedEntities.clear();
   }
 

@@ -5,7 +5,7 @@ namespace Project::States {
     : cacheLimit(cacheLimit), logsManager(logsManager) {}
 
   void GameStateManager::addState(const std::string& name, std::unique_ptr<GameState> state) {
-    states[name] = std::move(state);
+    stateManager.add(name, std::move(state));
   }
 
   void GameStateManager::changeState(const std::string& name) {

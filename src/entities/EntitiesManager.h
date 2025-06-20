@@ -31,10 +31,7 @@ namespace Project::Entities {
       void reset();
 
     private:
-      std::unordered_map<std::string, std::shared_ptr<Entity>> activeEntities;
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
-
-      std::mutex entitiesMutex;
       bool initialized = false;
   };
 }

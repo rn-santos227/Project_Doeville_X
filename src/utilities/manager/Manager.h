@@ -26,7 +26,7 @@ namespace Project::Utilities {
     void update(float deltaTime) {
       std::lock_guard<std::mutex> lock(managerMutex);
       for (auto& [id, obj] : objects) {
-
+        obj->update(deltaTime);
       }
     }
 

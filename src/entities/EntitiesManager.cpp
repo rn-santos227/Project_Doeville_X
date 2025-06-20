@@ -38,10 +38,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::render() {
-    std::lock_guard<std::mutex> lock(entitiesMutex);
-    for (const auto& [id, entity] : activeEntities) {
-      entity->render();
-    }
+    Manager<Entity>::render();
   }
 
   void EntitiesManager::reset() {

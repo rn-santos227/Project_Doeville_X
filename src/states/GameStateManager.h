@@ -10,7 +10,9 @@
 #include <unordered_map>
 
 #include "entities/EntitiesManager.h"
+
 #include "utilities/logs_manager/LogsManager.h"
+#include "utilities/manager/Manager.h"
 
 using namespace Project::Entities;
 using namespace Project::Utilities;
@@ -43,12 +45,11 @@ namespace Project::States {
 
   private:
     LogsManager& logsManager;
+    Manager<GameState, std::unique_ptr<GameState>> stateManager;
     size_t cacheLimit;
-   
-    std::mutex gameStateMutex;
 
+    std::mutex gameStateMutex;
     std::list<std::pair<std::string, std::unique_ptr<GameState>>> stateCache;
-    std::unordered_map<std::string, std::unique_ptr<GameState>> states;
     std::unordered_map<std::string, decltype(stateCache.begin())> cacheMap;
     
     std::shared_ptr<EntitiesManager> globalEntitiesManager = std::make_shared<EntitiesManager>();

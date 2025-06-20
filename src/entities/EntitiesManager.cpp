@@ -44,5 +44,6 @@ namespace Project::Entities {
   void EntitiesManager::reset() {
     std::lock_guard<std::mutex> lock(managerMutex);
     objects.clear();
+    initialized = false;
   }
 }

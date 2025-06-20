@@ -14,7 +14,7 @@ namespace Project::Utilities {
     virtual ~Manager() = default;
 
     void add(const std::string& id, Ptr object) {
-
+      std::lock_guard<std::mutex> lock(managerMutex);
     }
 
     void remove(const std::string& id) {

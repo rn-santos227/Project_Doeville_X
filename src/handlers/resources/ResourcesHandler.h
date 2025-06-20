@@ -1,10 +1,13 @@
 #ifndef RESOURCESHANDLER_H
 #define RESOURCESHANDLER_H
 
-#include <string>
-#include <unordered_map>
+#include <atomic>
+#include <condition_variable>
 #include <future>
 #include <mutex>
+#include <queue>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 #include <SDL.h>

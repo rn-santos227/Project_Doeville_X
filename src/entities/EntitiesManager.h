@@ -9,8 +9,12 @@
 #include <string>
 #include <mutex>
 
+#include "utilities/manager/Manager.h"
+
+using namespace Project::Utilities;
+
 namespace Project::Entities {
-  class EntitiesManager {
+  class EntitiesManager : public Manager<Entity> {
     public:
       EntitiesManager() = default;
       ~EntitiesManager() = default;

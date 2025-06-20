@@ -20,4 +20,4 @@ class HTTPDownloader:
       print(f"Error downloading {url}: {e}")
       if os.path.exists(destination):
         os.remove(destination)
-      raise
+      raise e

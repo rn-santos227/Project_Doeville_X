@@ -24,7 +24,7 @@ namespace Project::Utilities {
     }
 
     void update(float deltaTime) {
-
+      std::lock_guard<std::mutex> lock(managerMutex);
     }
 
     void render() {

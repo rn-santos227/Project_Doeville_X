@@ -37,6 +37,8 @@ namespace Project::Utilities {
       }
     }
 
+    std::unordered_map<std::string, Ptr>& getObjects() { return objects; }
+
   protected:
     std::unordered_map<std::string, Ptr> objects;
     std::mutex managerMutex;

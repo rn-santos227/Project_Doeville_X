@@ -15,8 +15,8 @@ namespace Project::States {
       stateStack.pop();
     }
 
-    auto it = states.find(name);
-    if (it == states.end()) {
+    auto it = stateManager.objects.find(name);
+    if (it != stateManager.objects.end()) {
       GameState* cachedState = retrieveFromCache(name);
       if (cachedState) {
         stateStack.push(cachedState);

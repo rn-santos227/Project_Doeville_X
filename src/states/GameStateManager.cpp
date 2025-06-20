@@ -126,7 +126,7 @@ namespace Project::States {
       stateStack.pop();
     }
 
-    states.clear();
+    stateManager.getObjects().clear();
     cleanupCache();
   }
 

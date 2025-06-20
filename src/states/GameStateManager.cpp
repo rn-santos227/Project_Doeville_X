@@ -15,9 +15,9 @@ namespace Project::States {
       stateStack.pop();
     }
 
-    auto& objects = stateManager.getObjects();
-    auto it = objects.find(name);
-    if (it == objects.end()) {
+    auto& gameStates = stateManager.getObjects();
+    auto it = gameStates.find(name);
+    if (it == gameStates.end()) {
       GameState* cachedState = retrieveFromCache(name);
       if (cachedState) {
         stateStack.push(cachedState);
@@ -37,9 +37,9 @@ namespace Project::States {
   }
 
   void GameStateManager::pushState(const std::string& name) {
-    auto& objects = stateManager.getObjects();
-    auto it = objects.find(name);
-    if (it != objects.end()) {
+    auto& gameStates = stateManager.getObjects();
+    auto it = gameStates.find(name);
+    if (it != gameStates.end()) {
       if (!stateStack.empty()) {
         stateStack.top()->onExit();
       }

@@ -10,7 +10,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::unloadSceneEntities() {
-    std::lock_guard<std::mutex> lock(entitiesMutex);
+    std::lock_guard<std::mutex> lock(managerMutex);
 
     optimizeEntities();
     for (const auto& [id, entity] : activeEntities) {

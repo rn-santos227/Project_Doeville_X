@@ -1,4 +1,6 @@
 #include "ScriptingService.h"
+#include <vector>
+#include <unordered_map>
 
 namespace fs = std::filesystem;
 

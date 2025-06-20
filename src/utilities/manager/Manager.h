@@ -15,6 +15,7 @@ namespace Project::Utilities {
 
     void add(const std::string& id, Ptr object) {
       std::lock_guard<std::mutex> lock(managerMutex);
+      objects[id] = std::move(object);
     }
 
     void remove(const std::string& id) {

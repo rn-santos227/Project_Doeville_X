@@ -33,7 +33,7 @@ namespace Project::Utilities {
     void render() {
       std::lock_guard<std::mutex> lock(managerMutex);
       for (auto& [id, obj] : objects) {
-
+        obj->render();
       }
     }
 

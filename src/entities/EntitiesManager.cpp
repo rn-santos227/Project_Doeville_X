@@ -16,7 +16,7 @@ namespace Project::Entities {
     for (const auto& [id, entity] : objects) {
       cachedEntities[id] = entity;
     }
-    activeEntities.clear();
+    objects.clear();
   }
 
   void EntitiesManager::optimizeEntities() {

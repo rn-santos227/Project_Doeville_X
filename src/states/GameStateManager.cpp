@@ -114,8 +114,6 @@ namespace Project::States {
       auto it = states.find(name);
       if (it != states.end()) {
         it->second->setActive(false);
-      } else {
-
       }
     }
   }

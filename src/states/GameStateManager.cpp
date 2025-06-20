@@ -39,7 +39,7 @@ namespace Project::States {
   void GameStateManager::pushState(const std::string& name) {
     auto& objects = stateManager.getObjects();
     auto it = objects.find(name);
-    if (it != states.end()) {
+    if (it != objects.end()) {
       if (!stateStack.empty()) {
         stateStack.top()->onExit();
       }

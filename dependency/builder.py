@@ -36,4 +36,4 @@ class Builder:
 
     except subprocess.CalledProcessError as e:
       print(f"Build failed for {self.source_dir}: {e}")
-      raise
+      raise e

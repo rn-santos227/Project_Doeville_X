@@ -16,7 +16,7 @@ namespace Project::States {
     }
 
     auto& objects = stateManager.getObjects();
-    auto it = stateManager.objects.find(name);
+    auto it = objects.find(name);
     if (it != stateManager.objects.end()) {
       GameState* cachedState = retrieveFromCache(name);
       if (cachedState) {

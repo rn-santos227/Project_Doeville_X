@@ -38,6 +38,7 @@ namespace Project::Utilities {
     }
 
     std::unordered_map<std::string, Ptr>& getObjects() { return objects; }
+    const std::unordered_map<std::string, Ptr>& getObjects() const { return objects; }
 
   protected:
     std::unordered_map<std::string, Ptr> objects;

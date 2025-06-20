@@ -110,6 +110,7 @@ namespace Project::States {
   void GameStateManager::disableStates(const std::vector<std::string>& names) {
     std::lock_guard<std::mutex> lock(gameStateMutex);
     for (const auto& name : names) {
+      auto& states = stateManager.getObjects();
       auto it = states.find(name);
       if (it != states.end()) {
         it->second->setActive(false);

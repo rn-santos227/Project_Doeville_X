@@ -20,7 +20,7 @@ namespace Project::Handlers {
       keyHandler(keyHandler), 
       mouseHandler(mouseHandler), 
       resourcesHandler(resourcesHandler)
-      {}
+    {}
 
   ScreenHandler::~ScreenHandler() = default;
 

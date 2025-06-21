@@ -63,6 +63,8 @@ namespace Project::Handlers {
 
     std::mutex renderMutex;
     std::mutex eventMutex;
+
+    SDL_Color debugTextColor{144, 238, 144, 255};
     
     bool running;
     int cursorWidth;

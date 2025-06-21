@@ -59,6 +59,9 @@ namespace Project::Utilities {
     }
 
     SDL_Color color = defaultValue;
+    if (index >= 3) {
+
+    }
   }
 
   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {

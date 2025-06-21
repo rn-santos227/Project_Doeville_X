@@ -53,6 +53,9 @@ namespace Project::Utilities {
 
     int channels[4] = {defaultValue.r, defaultValue.g, defaultValue.b, defaultValue.a};
     int i = 0;
+    while (std::getline(ss, channel, ',') && i < 4) {
+
+    }
   }
 
   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {

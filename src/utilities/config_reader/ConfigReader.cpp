@@ -65,6 +65,8 @@ namespace Project::Utilities {
       color.b = static_cast<Uint8>(channels[2]);
       color.a = (index == 4) ? static_cast<Uint8>(channels[3]) : defaultValue.a;
     }
+
+    return color;
   }
 
   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {

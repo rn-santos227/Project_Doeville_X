@@ -109,9 +109,7 @@ namespace Project::Handlers {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     int fps = framesCounter.getFPS();
     std::string fpsText = "FPS: " + std::to_string(fps);
-    
-    SDL_Color color = {144, 238, 144, 255};
-    SDL_Texture* fpsTexture = fontHandler.renderText(renderer, fpsText, "system", color);
+    SDL_Texture* fpsTexture = fontHandler.renderText(renderer, fpsText, "system", debugTextColor);
     
     if (fpsTexture) {
       int textWidth, textHeight;

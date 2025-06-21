@@ -8,3 +8,7 @@ fontColorG = 255
 fontColorB = 255
 fontColorA = 255
 fontSize = 24
+
+components = {
+  TextComponent = {}
+}

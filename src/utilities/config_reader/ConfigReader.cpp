@@ -43,7 +43,7 @@ namespace Project::Utilities {
   }
 
   SDL_Color ConfigReader::getColorValue(const std::string& section, const std::string& key, SDL_Color defaultValue) const {
-
+    std::string value = getValue(section, key);
   }
 
   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {

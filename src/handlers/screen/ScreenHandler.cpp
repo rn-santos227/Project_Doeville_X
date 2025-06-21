@@ -157,5 +157,6 @@ namespace Project::Handlers {
 
   SDL_Window* ScreenHandler::getWindow() const {
     return sdlManager.getWindow();
+  }
 }
 

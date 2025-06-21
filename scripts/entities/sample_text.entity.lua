@@ -12,3 +12,7 @@ fontSize = 24
 components = {
   TextComponent = {}
 }
+
+return {
+  name = "sample_text"
+}

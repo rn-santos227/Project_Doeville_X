@@ -48,6 +48,8 @@ namespace Project::Handlers {
     std::string initialState = configReader.getValue("Game", "initial_state", "MainMenu");
     gameStateManager.setInitialState(initialState);
 
+    debugTextColor = configReader.getColorValue("Debug", "text_color", debugTextColor);
+
     running = true;
     return true;
   }

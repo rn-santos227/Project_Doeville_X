@@ -61,6 +61,7 @@ namespace Project::Utilities {
     SDL_Color color = defaultValue;
     if (index >= 3) {
       color.r = static_cast<Uint8>(channels[0]);
+      color.g = static_cast<Uint8>(channels[1]);
     }
   }
 

@@ -54,9 +54,11 @@ namespace Project::Utilities {
     int channels[4] = {defaultValue.r, defaultValue.g, defaultValue.b, defaultValue.a};
     int index = 0;
     while (std::getline(ss, channel, ',') && index < 4) {
-      channels[i] = std::stoi(channel);
+      channels[index] = std::stoi(channel);
       ++index;
     }
+
+    SDL_Color color = defaultValue;
   }
 
   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {

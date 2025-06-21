@@ -49,6 +49,7 @@ namespace Project::Utilities {
     }
 
     std::stringstream ss(value);
+    std::string channel;
   }
 
   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {

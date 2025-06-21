@@ -50,6 +50,8 @@ namespace Project::Utilities {
 
     std::stringstream ss(value);
     std::string channel;
+
+    int channels[4] = {defaultValue.r, defaultValue.g, defaultValue.b, defaultValue.a};
   }
 
   std::string ConfigReader::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const {

@@ -54,7 +54,7 @@ namespace Project::Utilities {
     int channels[4] = {defaultValue.r, defaultValue.g, defaultValue.b, defaultValue.a};
     int i = 0;
     while (std::getline(ss, channel, ',') && i < 4) {
-
+      channels[i] = std::stoi(channel);
     }
   }
 

@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+#include <SDL.h>
+
 #include "utilities/logs_manager/LogsManager.h"
 
 using namespace Project::Utilities;
@@ -14,6 +16,8 @@ namespace Project::Utilities {
     explicit ConfigReader(LogsManager& logsManager);
 
     bool loadConfig(const std::string& filePath);
+
+    SDL_Color getColorValue(const std::string& section, const std::string& key, SDL_Color defaultValue) const;
 
     std::string getValue(const std::string& section, const std::string& key, const std::string& defaultValue = "") const;
     double getDoubleValue(const std::string& section, const std::string& key, double defaultValue = 0.0) const;

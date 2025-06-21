@@ -24,6 +24,11 @@ namespace Project::Core {
   }
 
   void GameEngine::init() {
+    if (logsManager.checkAndLogError(!configReader.loadConfig("config.ini"), "Failed to load config.ini")) {
+      logsManager.flushLogs();
+      return;
+    }
+
     std::string title = configReader.getValue("Window", "title", "Project Doeville X");
     int screenWidth = configReader.getIntValue("Window", "width", 800);
     int screenHeight = configReader.getIntValue("Window", "height", 600);
@@ -35,12 +40,6 @@ namespace Project::Core {
     }
 
     SDL_ShowCursor(SDL_DISABLE);
-
-    if (logsManager.checkAndLogError(!configReader.loadConfig("config.ini"), "Failed to load config.ini")) {
-      logsManager.flushLogs();
-      return;
-    }
-
     std::string fontPath = resourcesHandler->getResourcePath("resources/fonts/system.ttf");
     
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {

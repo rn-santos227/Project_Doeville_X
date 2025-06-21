@@ -133,8 +133,7 @@ namespace Project::Handlers {
     int mouseY = mouseHandler.getMouseY();
 
     std::string mousePositionText = "Mouse: (" + std::to_string(mouseX) + ", " + std::to_string(mouseY) + ")";
-    SDL_Color color = {144, 238, 144, 255};
-    SDL_Texture* mouseTexture  = fontHandler.renderText(renderer, mousePositionText, "system", color);
+    SDL_Texture* mouseTexture  = fontHandler.renderText(renderer, mousePositionText, "system", debugTextColor);
 
     if (mouseTexture) {
       int textWidth, textHeight;

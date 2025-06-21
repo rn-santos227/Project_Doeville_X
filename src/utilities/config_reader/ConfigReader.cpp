@@ -52,9 +52,10 @@ namespace Project::Utilities {
     std::string channel;
 
     int channels[4] = {defaultValue.r, defaultValue.g, defaultValue.b, defaultValue.a};
-    int i = 0;
-    while (std::getline(ss, channel, ',') && i < 4) {
+    int index = 0;
+    while (std::getline(ss, channel, ',') && index < 4) {
       channels[i] = std::stoi(channel);
+      ++index;
     }
   }
 

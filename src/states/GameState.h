@@ -10,13 +10,15 @@
 #include <SDL2/SDL_image.h>
 
 #include "entities/EntitiesManager.h"
+#include "factories/entity/EntitiesFactory.h"
 
 #include "handlers/resources/ResourcesHandler.h"
 
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
-using namespace Project::Handlers;
 using namespace Project::Entities;
+using namespace Project::Factories;
+using namespace Project::Handlers;
 using namespace Project::Utilities;
 
 namespace Project::States {
@@ -56,8 +58,10 @@ namespace Project::States {
     ResourcesHandler& resourcesHandler;
     GameStateCategory gameStateCategory;
     
+    EntitiesFactory* entitiesFactory = nullptr;
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
+    
     SDL_Color backgroundColor = {0, 0, 0, 255};
 
     std::string stateName;
@@ -69,6 +73,7 @@ namespace Project::States {
 
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);
+    static int lua_spawnEntity(lua_State* L);
   };
 }
 #endif

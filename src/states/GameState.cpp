@@ -146,4 +146,8 @@ namespace Project::States {
     state->setBackgroundColor(r, g, b, a);
     return 0;
   }
+
+  int Project::States::GameState::lua_spawnEntity(lua_State* L) {
+
+  }
 }

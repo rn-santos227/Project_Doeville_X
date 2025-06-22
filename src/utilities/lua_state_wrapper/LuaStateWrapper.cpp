@@ -387,6 +387,9 @@ namespace Project::Utilities {
   }
 
   void LuaStateWrapper::registerFunction(const std::string& name, lua_CFunction function, void* userData) {
+    if (!isValid()) return;
+
+  
 
   }
 

@@ -47,6 +47,10 @@ namespace Project::States {
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+    void setEntitiesManager(std::shared_ptr<EntitiesManager> manager) { entitiesManager = std::move(manager); }
+    void setEntitiesFactory(EntitiesFactory* factory) { entitiesFactory = factory; }
+
     void clearBackground();
 
     //overload functions

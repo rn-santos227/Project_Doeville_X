@@ -94,6 +94,7 @@ namespace Project::Utilities {
     static int luaPrintRedirect(lua_State* L);
     void printStack() const;
     void registerFunction(const std::string& name, lua_CFunction function);
+    void registerFunction(const std::string& name, lua_CFunction function, void* userData);
 
     // Lua error handling
     void handleLuaError(int errorCode) const;

@@ -393,6 +393,11 @@ namespace Project::Utilities {
     lua_pushcclosure(luaState, function, 1);
     lua_setglobal(luaState, name.c_str());
 
+    if (lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
+
+    } else {
+      logsManager.logMessage("Registered Lua function with userdata: " + name);
+    }
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

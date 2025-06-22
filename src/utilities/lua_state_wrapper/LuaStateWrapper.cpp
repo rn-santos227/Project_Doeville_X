@@ -389,7 +389,9 @@ namespace Project::Utilities {
   void LuaStateWrapper::registerFunction(const std::string& name, lua_CFunction function, void* userData) {
     if (!isValid()) return;
 
-  
+    lua_pushlightuserdata(luaState, userData);
+    lua_pushcclosure(luaState, function, 1);
+    lua_setglobal(luaState, name.c_str());
 
   }
 

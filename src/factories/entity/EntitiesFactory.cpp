@@ -42,6 +42,7 @@ namespace Project::Factories {
     lua_State* templateState = it->second->getLuaState();
     if (templateState) {
       auto pathIt = entityScriptPaths.find(entityName);
+      std::string scriptPath = (pathIt != entityScriptPaths.end()) ? pathIt->second : "";
     }
 
     return clone;

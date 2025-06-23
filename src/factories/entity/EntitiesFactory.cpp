@@ -62,7 +62,7 @@ namespace Project::Factories {
     if (filename.size() >= suffix.size() && filename.compare(filename.size() - suffix.size(), suffix.size(), suffix) == 0) {
       name = filename.substr(0, filename.size() - suffix.size());
     } else {
-
+      name = p.stem().string();
     }
 
     EntityCategory category = EntityCategory::ENVIRONMENT;

@@ -99,7 +99,7 @@ namespace Project::Services {
     switch (category) {
       case ScriptCategory::ENTITY: {
         if (entitiesFactory.createEntityFromLua(scriptPath)) {
-
+          logsManager.logMessage("Entity template loaded from " + scriptPath);
         }
       }
 

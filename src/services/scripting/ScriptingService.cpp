@@ -22,6 +22,7 @@ namespace Project::Services {
       case ScriptCategory::MAP: return "MAP";
       case ScriptCategory::STATE: return "STATE";
       case ScriptCategory::OTHER: return "OTHER";
+      default: return "INVALID";
     }
   }
 

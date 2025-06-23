@@ -114,12 +114,19 @@ namespace Project::Services {
         if (entitiesFactory.createEntityFromLua(scriptPath)) {
           logsManager.logMessage("Entity template loaded from " + scriptPath);
         }
+        break;
       }
 
       case ScriptCategory::STATE: {
         if(gameStateFactory.createStateFromLua(renderer, scriptPath)) {
           logsManager.logMessage("State loaded from " + scriptPath);
         }
+        break;
+      }
+
+      default: {
+        logsManager.logMessage("Script loaded from " + scriptPath + " with category " + categoryToString(category));
+        break; 
       }
     }
   }

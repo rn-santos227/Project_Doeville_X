@@ -94,6 +94,7 @@ namespace Project::Services {
       }
     }
 
+    logsManager.logWarning("Unable to determine script type for " + scriptName);
     return ScriptCategory::INVALID;
   }
 

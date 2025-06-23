@@ -14,6 +14,10 @@ namespace Project::Services {
     ScriptCategory::OTHER
   };
 
+  static std::string categoryToString(ScriptCategory category) {
+
+  }
+
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ResourcesHandler& resourcesHandler, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
     : renderer(renderer), 
       logsManager(logsManager), 

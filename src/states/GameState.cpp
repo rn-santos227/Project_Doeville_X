@@ -163,5 +163,7 @@ namespace Project::States {
       luaL_error(L, "EntitiesFactory not set for this state.");
       return 0;
     }
+
+    std::unique_ptr<Entity> entity = state->entitiesFactory->cloneEntity(name);
   }
 }

@@ -16,7 +16,7 @@ namespace Project::Services {
 
   static std::string categoryToString(ScriptCategory category) {
     switch (category) {
-
+      case ScriptCategory::ENTITY: return "ENTITY";
     }
   }
 

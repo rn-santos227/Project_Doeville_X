@@ -9,15 +9,6 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    lua_State* L = luaStateWrapper.get();
-    lua_pushlightuserdata(L, this);
-    lua_pushcclosure(L, lua_setBackgroundColor, 1);
-    lua_setglobal(L, "setBackgroundColor");
-
-    lua_pushlightuserdata(L, this);
-    lua_pushcclosure(L, lua_setBackgroundImage, 1);
-    lua_setglobal(L, "setBackgroundImage");
-
     if (!luaStateWrapper.callGlobalFunction("initialize")) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }

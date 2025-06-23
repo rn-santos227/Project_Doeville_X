@@ -154,5 +154,8 @@ namespace Project::States {
     }
 
     const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+
+    }
   }
 }

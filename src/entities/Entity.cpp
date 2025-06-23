@@ -56,7 +56,6 @@ namespace Project::Entities {
             logsManager.logError("Failed to create component: " + componentName);
           }
         }
-        lua_pop(L, 1);
       });
     }
 

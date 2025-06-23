@@ -174,9 +174,9 @@ namespace Project::States {
     std::shared_ptr<Entity> shared = std::move(entity);
 
     if (state->entitiesManager) {
-
+      state->entitiesManager->addEntity(name, shared);
     } else {
-      
+
     }
   }
 }

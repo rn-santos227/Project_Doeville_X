@@ -23,6 +23,8 @@ namespace Project::Factories {
     newState->setStateName(stateName);
     lua_pop(L, 1);
 
+    newState->setEntitiesManager(gameStateManager.getGlobalEntitiesManager());
+
     gameStateManager.addState(stateName, std::move(newState));
     gameStateManager.pushState(stateName);
     logsManager.logMessage("Successfully created and registered state: " + stateName);

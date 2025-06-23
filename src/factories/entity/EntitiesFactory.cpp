@@ -41,7 +41,7 @@ namespace Project::Factories {
 
     lua_State* templateState = it->second->getLuaState();
     if (templateState) {
-      clone->attachLuaScript("scripts/entities/" + entityName + ".entity.lua");
+      auto pathIt = entityScriptPaths.find(entityName);
     }
 
     return clone;

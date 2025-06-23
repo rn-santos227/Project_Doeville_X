@@ -59,6 +59,9 @@ namespace Project::Factories {
     std::string filename = p.filename().string();
     std::string suffix = ".entity.lua";
     std::string name = filename;
+    if (filename.size() >= suffix.size() && filename.compare(filename.size() - suffix.size(), suffix.size(), suffix) == 0) {
+
+    }
 
     EntityCategory category = EntityCategory::ENVIRONMENT;
 

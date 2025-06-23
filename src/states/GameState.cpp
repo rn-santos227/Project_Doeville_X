@@ -152,5 +152,7 @@ namespace Project::States {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_spawnEntity.");
     }
+
+    const char* name = luaL_checkstring(L, 1);
   }
 }

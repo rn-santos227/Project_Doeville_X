@@ -39,7 +39,7 @@ namespace Project::Factories {
     SDL_Color color = getLuaSDLColor(luaStateWrapper);
     std::string text = getLuaGlobalString(luaStateWrapper, "text", "Default Text");
 
-    std::string defaultFontPath = configReader.getValue("Paths", "default_font", "resources/fonts/system.ttf");
+    std::string defaultFontPath = configReader.getValue("Font", "default_path", "resources/fonts/system.ttf");
     std::string fontPath = getLuaGlobalString(luaStateWrapper, "fontPath", defaultFontPath);
 
     int defaultFontSize = configReader.getIntValue("Font", "default_size", 16);

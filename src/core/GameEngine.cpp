@@ -40,7 +40,7 @@ namespace Project::Core {
     }
 
     SDL_ShowCursor(SDL_DISABLE);
-     std::string fontRelPath = configReader.getValue("Font", "default", "resources/fonts/system.ttf");
+     std::string fontRelPath = configReader.getValue("Font", "default_path", "resources/fonts/system.ttf");
     std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
     
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {

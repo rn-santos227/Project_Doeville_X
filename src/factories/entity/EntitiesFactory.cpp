@@ -21,6 +21,7 @@ namespace Project::Factories {
     }
 
     entityTemplates[name] = std::move(entity);
+    entityScriptPaths[name] = scriptPath;
     return cloneEntity(name);
   }
 

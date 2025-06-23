@@ -10,6 +10,7 @@ namespace Project::States {
 
   void GameState::initialize() {
     luaStateWrapper.registerFunction("setBackgroundColor", lua_setBackgroundColor, this);
+    luaStateWrapper.registerFunction("setBackgroundImage", lua_setBackgroundImage, this);
 
     if (!luaStateWrapper.callGlobalFunction("initialize")) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");

@@ -1,6 +1,8 @@
 #ifndef ENTITY_FACTORY_H
 #define ENTITY_FACTORY_H
 
+#include <unordered_map>
+
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 
@@ -28,6 +30,7 @@ namespace Project::Factories {
     ComponentsFactory& componentsFactory;
     
     std::unordered_map<std::string, std::unique_ptr<Entity>> entityTemplates;
+    std::unordered_map<std::string, std::string> entityScriptPaths;    
     
     std::unique_ptr<Entity> loadEntityTemplateFromLua(const std::string& scriptPath);
   };

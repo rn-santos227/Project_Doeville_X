@@ -21,8 +21,8 @@ namespace Project::Services {
       resourcesHandler(resourcesHandler),
       gameStateManager(gameStateManager), 
       componentsFactory(componentsFactory), 
-      entitiesFactory(logsManager, componentsFactory), 
-      gameStateFactory(logsManager, resourcesHandler, gameStateManager) {
+      entitiesFactory(logsManager, componentsFactory),
+      gameStateFactory(logsManager, resourcesHandler, gameStateManager, entitiesFactory) {
     if(logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       return;
     }

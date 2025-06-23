@@ -46,7 +46,8 @@ namespace Project::Factories {
       if (!scriptPath.empty()) { 
         clone->attachLuaScript(scriptPath);
       } else {
-
+        logsManager.logWarning("Script path for entity '" + entityName + "' not found. Using default path.");
+        clone->attachLuaScript("scripts/entities/" + entityName + ".entity.lua");
       }
     }
 

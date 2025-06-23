@@ -166,7 +166,8 @@ namespace Project::States {
 
     std::unique_ptr<Entity> entity = state->entitiesFactory->cloneEntity(name);
     if (!entity) {
-
+      luaL_error(L, ("Failed to clone entity: " + std::string(name)).c_str());
+      return 0;
     }
   }
 }

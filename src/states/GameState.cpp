@@ -171,5 +171,6 @@ namespace Project::States {
     }
 
     entity->initialize();
+    std::shared_ptr<Entity> shared = std::move(entity);
   }
 }

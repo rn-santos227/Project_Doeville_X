@@ -61,6 +61,8 @@ namespace Project::Factories {
     std::string name = filename;
     if (filename.size() >= suffix.size() && filename.compare(filename.size() - suffix.size(), suffix.size(), suffix) == 0) {
 
+    } else {
+      
     }
 
     EntityCategory category = EntityCategory::ENVIRONMENT;

@@ -24,6 +24,7 @@ namespace Project::Factories {
     lua_pop(L, 1);
 
     newState->setEntitiesManager(gameStateManager.getGlobalEntitiesManager());
+    newState->setEntitiesFactory(&entitiesFactory);
 
     gameStateManager.addState(stateName, std::move(newState));
     gameStateManager.pushState(stateName);

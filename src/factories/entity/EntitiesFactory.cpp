@@ -56,7 +56,7 @@ namespace Project::Factories {
 
   std::unique_ptr<Entity> EntitiesFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
     std::filesystem::path p(scriptPath);
-    std::string name = p.stem().stem().string();
+    std::string filename = p.filename().string();
 
     EntityCategory category = EntityCategory::ENVIRONMENT;
 
@@ -67,6 +67,7 @@ namespace Project::Factories {
       return nullptr;
     }
 
+    entityScriptPaths[name] = scriptPath;
     return entity;
   }
 }

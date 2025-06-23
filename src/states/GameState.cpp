@@ -169,5 +169,7 @@ namespace Project::States {
       luaL_error(L, ("Failed to clone entity: " + std::string(name)).c_str());
       return 0;
     }
+
+    entity->initialize();
   }
 }

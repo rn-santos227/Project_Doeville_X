@@ -19,6 +19,7 @@ namespace Project::Services {
       case ScriptCategory::ENTITY: return "ENTITY";
       case ScriptCategory::ITEM: return "ITEM";
       case ScriptCategory::ANIMATION: return "ANIMATION";
+      case ScriptCategory::MAP: return "MAP";
     }
   }
 

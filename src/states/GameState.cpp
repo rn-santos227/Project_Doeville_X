@@ -160,7 +160,8 @@ namespace Project::States {
     }
 
     if (!state->entitiesFactory) {
-      
+      luaL_error(L, "EntitiesFactory not set for this state.");
+      return 0;
     }
   }
 }

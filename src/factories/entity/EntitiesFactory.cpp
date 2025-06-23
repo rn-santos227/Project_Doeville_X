@@ -1,4 +1,5 @@
 #include "EntitiesFactory.h"
+#include <filesystem>
 
 namespace Project::Factories {
   EntitiesFactory::EntitiesFactory(LogsManager& logsManager, ComponentsFactory& componentsFactory)
@@ -46,8 +47,8 @@ namespace Project::Factories {
   }
 
   std::unique_ptr<Entity> EntitiesFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
-    std::string fileName = scriptPath.substr(scriptPath.find_last_of("/\\") + 1);
-    std::string name = fileName.substr(0, fileName.find_last_of('.'));
+    std::filesystem::path p(scriptPath);
+    std::string name = p.stem().stem().string();
 
     EntityCategory category = EntityCategory::ENVIRONMENT;
 

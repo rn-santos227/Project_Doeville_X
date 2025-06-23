@@ -43,6 +43,11 @@ namespace Project::Factories {
     if (templateState) {
       auto pathIt = entityScriptPaths.find(entityName);
       std::string scriptPath = (pathIt != entityScriptPaths.end()) ? pathIt->second : "";
+      if (!scriptPath.empty()) { 
+
+      } else {
+        
+      }
     }
 
     return clone;

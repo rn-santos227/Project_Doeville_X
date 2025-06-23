@@ -176,7 +176,7 @@ namespace Project::States {
     if (state->entitiesManager) {
       state->entitiesManager->addEntity(name, shared);
     } else {
-
+      luaL_error(L, "EntitiesManager not set for this state.");
     }
   }
 }

@@ -88,8 +88,8 @@ namespace Project::Services {
     };
 
     for (const auto& [suffix, category] : extensionMap) {
-      if (scriptName.size() >= suffix.size() &&
-        scriptName.compare(scriptName.size() - suffix.size(), suffix.size(), suffix) == 0) {
+      if (scriptName.size() >= suffix.size() && scriptName.compare(scriptName.size() - suffix.size(), suffix.size(), suffix) == 0) {
+        logsManager.logMessage("Script '" + scriptName + "' categorized as " + categoryToString(category));
         return category;
       }
     }

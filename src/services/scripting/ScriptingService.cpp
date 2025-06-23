@@ -98,7 +98,9 @@ namespace Project::Services {
 
     switch (category) {
       case ScriptCategory::ENTITY: {
-        //Entity
+        if (entitiesFactory.createEntityFromLua(scriptPath)) {
+
+        }
       }
 
       case ScriptCategory::STATE: {

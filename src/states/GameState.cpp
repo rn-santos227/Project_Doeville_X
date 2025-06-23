@@ -178,5 +178,7 @@ namespace Project::States {
     } else {
       luaL_error(L, "EntitiesManager not set for this state.");
     }
+
+    return 0;
   }
 }

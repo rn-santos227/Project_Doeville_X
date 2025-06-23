@@ -42,7 +42,7 @@ namespace Project::Factories {
     std::string defaultFontPath = configReader.getValue("Paths", "default_font", "resources/fonts/system.ttf");
     std::string fontPath = getLuaGlobalString(luaStateWrapper, "fontPath", defaultFontPath);
 
-    int defaultFontSize = configReader.getIntValue("Text", "default_font_size", 16);
+    int defaultFontSize = configReader.getIntValue("Font", "default_size", 16);
     int fontSize = getLuaGlobalInt(luaStateWrapper, "fontSize", defaultFontSize);
 
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);

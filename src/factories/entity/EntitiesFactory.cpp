@@ -44,9 +44,9 @@ namespace Project::Factories {
       auto pathIt = entityScriptPaths.find(entityName);
       std::string scriptPath = (pathIt != entityScriptPaths.end()) ? pathIt->second : "";
       if (!scriptPath.empty()) { 
-
+        clone->attachLuaScript(scriptPath);
       } else {
-        
+
       }
     }
 

@@ -18,6 +18,7 @@ namespace Project::Services {
     switch (category) {
       case ScriptCategory::ENTITY: return "ENTITY";
       case ScriptCategory::ITEM: return "ITEM";
+      case ScriptCategory::ANIMATION: return "ANIMATION";
     }
   }
 

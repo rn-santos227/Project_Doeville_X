@@ -165,5 +165,8 @@ namespace Project::States {
     }
 
     std::unique_ptr<Entity> entity = state->entitiesFactory->cloneEntity(name);
+    if (!entity) {
+
+    }
   }
 }

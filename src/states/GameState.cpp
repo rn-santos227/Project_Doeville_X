@@ -156,6 +156,11 @@ namespace Project::States {
     const char* name = luaL_checkstring(L, 1);
     if (!name) {
       luaL_error(L, "Expected an entity name string.");
+      return 0;
+    }
+
+    if (!state->entitiesFactory) {
+      
     }
   }
 }

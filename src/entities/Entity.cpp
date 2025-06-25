@@ -18,7 +18,9 @@ namespace Project::Entities {
     luaStateWrapper.callFunctionIfExists("initialize");
 
     auto positionComponent = [this](BaseComponent* comp) {
+      if (auto* text = dynamic_cast<Components::TextComponent*>(comp)) {
 
+      }
     };
 
     for (auto& [name, component] : components) {

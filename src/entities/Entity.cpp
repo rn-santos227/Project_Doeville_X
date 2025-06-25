@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+#include "components/PositionableComponent.h"
+
 namespace Project::Entities {
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
   : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),  
@@ -13,9 +15,17 @@ namespace Project::Entities {
     z = luaStateWrapper.getGlobalNumber("z", 0.0f);
 
     luaStateWrapper.callFunctionIfExists("initialize");
+
+    auto positionComponent = [this](BaseComponent* comp) {
+      if (auto* positionable = dynamic_cast<Components::PositionableComponent*>(comp)) {
+        positionable->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+      }
+    };
+
     for (auto& [name, component] : components) {
       if (component) {
         component->onAttach();
+        positionComponent(component.get());
       }
     }
   }

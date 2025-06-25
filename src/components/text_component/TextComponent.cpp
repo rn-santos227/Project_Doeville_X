@@ -32,6 +32,10 @@ namespace Project::Components {
     rect.y = y;
   }
 
+  void TextComponent::setEntityPosition(int x, int y) {
+    setPosition(x, y);
+  }
+
   void TextComponent::update(float deltaTime) {
     animationHandler.update(static_cast<Uint32>(deltaTime * 1000));
   }

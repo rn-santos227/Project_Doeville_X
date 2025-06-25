@@ -28,6 +28,7 @@ namespace Project::Components  {
     void setPosition(int x, int y, int width, int height);
 
     int getWidth() const { return destRect.w; }
+    int getHeight() const { return destRect.h; }
 
     AnimationHandler* getAnimationHandler() { return animationHandler.get(); }
 

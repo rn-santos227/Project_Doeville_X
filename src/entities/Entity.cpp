@@ -24,6 +24,7 @@ namespace Project::Entities {
         graphics->setPosition(
           static_cast<int>(x),
           static_cast<int>(y),
+          graphics->getWidth(),
         );
       }
     };

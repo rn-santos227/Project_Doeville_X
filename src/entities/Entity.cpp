@@ -33,6 +33,7 @@ namespace Project::Entities {
     for (auto& [name, component] : components) {
       if (component) {
         component->onAttach();
+        positionComponent(component.get());
       }
     }
   }

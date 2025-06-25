@@ -28,6 +28,7 @@ namespace Project::Components  {
 
     bool setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setPosition(int x, int y, int width, int height);
+    void setEntityPosition(int x, int y) override;
 
     const SDL_Rect& getRect() const { return destRect; }
     int getWidth() const { return destRect.w; }

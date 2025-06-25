@@ -16,6 +16,11 @@ namespace Project::Entities {
     z = luaStateWrapper.getGlobalNumber("z", 0.0f);
 
     luaStateWrapper.callFunctionIfExists("initialize");
+
+    auto positionComponent = [this](BaseComponent* comp) {
+
+    };
+
     for (auto& [name, component] : components) {
       if (component) {
         component->onAttach();

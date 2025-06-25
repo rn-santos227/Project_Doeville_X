@@ -45,6 +45,7 @@ namespace Project::Components {
     texture = loaded;
 
     int texW = 0;
+    int texH = 0;
     
     return true;
   }

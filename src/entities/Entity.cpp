@@ -23,6 +23,7 @@ namespace Project::Entities {
       } else if (auto* graphics = dynamic_cast<Components::GraphicsComponent*>(comp)) {
         graphics->setPosition(
           static_cast<int>(x),
+          static_cast<int>(y),
         );
       }
     };

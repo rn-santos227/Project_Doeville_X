@@ -25,6 +25,7 @@ namespace Project::Entities {
           static_cast<int>(x),
           static_cast<int>(y),
           graphics->getWidth(),
+          graphics->getHeight()
         );
       }
     };

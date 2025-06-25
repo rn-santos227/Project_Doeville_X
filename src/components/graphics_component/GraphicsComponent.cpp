@@ -60,4 +60,8 @@ namespace Project::Components {
     destRect.w = width;
     destRect.h = height;
   }
+
+  void GraphicsComponent::setEntityPosition(int x, int y) {
+
+  }
 }

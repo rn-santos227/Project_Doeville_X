@@ -5,7 +5,9 @@
 #include <SDL.h>
 
 #include "components/BaseComponent.h"
+#include "components/PositionableComponent.h"
 #include "components/TextureHolder.h"
+
 
 #include "handlers/animation/AnimationHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
@@ -16,7 +18,7 @@ using namespace Project::Handlers;
 using namespace Project::Utilities;
 
 namespace Project::Components  {
-  class GraphicsComponent : public BaseComponent, public TextureHolder {
+  class GraphicsComponent : public BaseComponent, public PositionableComponent, public TextureHolder {
   public:
     GraphicsComponent(SDL_Renderer* renderer, LogsManager& logsManager);
     ~GraphicsComponent();

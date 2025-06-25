@@ -2,6 +2,7 @@
 #define TEXT_COMPONENT_H
 
 #include "components/BaseComponent.h"
+#include "components/PositionableComponent.h"
 #include "components/TextureHolder.h"
 
 #include <string>
@@ -16,7 +17,7 @@ using namespace Project::Utilities;
 using namespace Project::Handlers;
 
 namespace Project::Components {
-  class TextComponent : public BaseComponent, public TextureHolder {
+  class TextComponent : public BaseComponent, public PositionableComponent, public TextureHolder {
   public:
     TextComponent(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager);
     ~TextComponent() override;
@@ -26,6 +27,7 @@ namespace Project::Components {
 
     void setText(const std::string& newText);
     void setPosition(int x, int y);
+    void setEntityPosition(int x, int y) override;
 
     const SDL_Rect& getRect() const { return rect; }
     int getWidth() const { return rect.w; }

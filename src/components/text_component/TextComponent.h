@@ -28,6 +28,7 @@ namespace Project::Components {
     void setPosition(int x, int y);
 
     const SDL_Rect& getRect() const { return rect; }
+    int getWidth() const { return rect.w; }
 
     void addAnimation(const std::string& name, Animation animation);
     void playAnimation(const std::string& name);

@@ -46,6 +46,9 @@ namespace Project::Components {
 
     int texW = 0;
     int texH = 0;
+    if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
+
+    }
     
     return true;
   }

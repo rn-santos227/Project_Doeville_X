@@ -20,6 +20,8 @@ namespace Project::Entities {
     auto positionComponent = [this](BaseComponent* comp) {
       if (auto* text = dynamic_cast<Components::TextComponent*>(comp)) {
 
+      } else if (auto* graphics = dynamic_cast<Components::GraphicsComponent*>(comp)) {
+
       }
     };
 

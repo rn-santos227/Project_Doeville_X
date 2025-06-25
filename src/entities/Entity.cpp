@@ -1,5 +1,8 @@
 #include "Entity.h"
 
+#include "components/graphics_component/GraphicsComponent.h"
+#include "components/text_component/TextComponent.h"
+
 namespace Project::Entities {
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
   : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),  

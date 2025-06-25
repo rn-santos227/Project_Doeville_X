@@ -62,6 +62,6 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::setEntityPosition(int x, int y) {
-
+    setPosition(x, y, destRect.w, destRect.h);
   }
 }

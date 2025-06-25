@@ -3,8 +3,10 @@
 
 namespace Project::Components {
   class PositionableComponent {
-
-  }
+  public:
+    virtual ~PositionableComponent() = default;
+    virtual void setEntityPosition(int x, int y) = 0;
+  };
 }
 
 #endif

@@ -1,8 +1,5 @@
 #include "Entity.h"
 
-#include "components/graphics_component/GraphicsComponent.h"
-#include "components/text_component/TextComponent.h"
-
 namespace Project::Entities {
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
   : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),  
@@ -16,24 +13,9 @@ namespace Project::Entities {
     z = luaStateWrapper.getGlobalNumber("z", 0.0f);
 
     luaStateWrapper.callFunctionIfExists("initialize");
-
-    auto positionComponent = [this](BaseComponent* comp) {
-      if (auto* text = dynamic_cast<Components::TextComponent*>(comp)) {
-        text->setPosition(static_cast<int>(x), static_cast<int>(y));
-      } else if (auto* graphics = dynamic_cast<Components::GraphicsComponent*>(comp)) {
-        graphics->setPosition(
-          static_cast<int>(x),
-          static_cast<int>(y),
-          graphics->getWidth(),
-          graphics->getHeight()
-        );
-      }
-    };
-
     for (auto& [name, component] : components) {
       if (component) {
         component->onAttach();
-        positionComponent(component.get());
       }
     }
   }

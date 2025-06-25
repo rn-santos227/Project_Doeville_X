@@ -27,8 +27,10 @@ namespace Project::Components  {
     bool setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setPosition(int x, int y, int width, int height);
 
+    const SDL_Rect& getRect() const { return destRect; }
     int getWidth() const { return destRect.w; }
     int getHeight() const { return destRect.h; }
+    
 
     AnimationHandler* getAnimationHandler() { return animationHandler.get(); }
 

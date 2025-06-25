@@ -19,7 +19,7 @@ namespace Project::Entities {
 
     auto positionComponent = [this](BaseComponent* comp) {
       if (auto* text = dynamic_cast<Components::TextComponent*>(comp)) {
-
+        text->setPosition(static_cast<int>(x), static_cast<int>(y));
       } else if (auto* graphics = dynamic_cast<Components::GraphicsComponent*>(comp)) {
 
       }

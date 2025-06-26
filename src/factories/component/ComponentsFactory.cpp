@@ -40,6 +40,7 @@ namespace Project::Factories {
       static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontColorR", 255)),
       static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontColorG", 255)),
       static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontColorB", 255)),
+      static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontColorA", 255))
     };
     std::string text = getLuaGlobalString(luaStateWrapper, "text", "Default Text");
 

@@ -39,8 +39,8 @@ namespace Project::Factories {
     ResourcesHandler& resourcesHandler;
 
     //Components Builder
-    std::unique_ptr<BaseComponent> createGraphicsComponent(LuaStateWrapper& luaStateWrapper);
-    std::unique_ptr<BaseComponent> createTextComponent(LuaStateWrapper& luaStateWrapper);
+    std::unique_ptr<BaseComponent> createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+    std::unique_ptr<BaseComponent> createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     
     //Utilities
     SDL_Color getLuaSDLColor(LuaStateWrapper& luaStateWrapper);

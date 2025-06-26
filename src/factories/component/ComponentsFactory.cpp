@@ -9,7 +9,8 @@ namespace Project::Factories {
       return nullptr;
     }
     
-    ComponentType type = ComponentTypeResolver::resolve(componentName);
+    std::string resolvedName = luaStateWrapper.getTableString(tableName, "component", componentName);
+    ComponentType type = ComponentTypeResolver::resolve(resolvedName);
     
     switch (type) {
       case ComponentType::GRAPHICS:

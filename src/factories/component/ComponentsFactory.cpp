@@ -35,7 +35,7 @@ namespace Project::Factories {
     return graphicsComponent;
   }
 
-  std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper) {
+  std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     SDL_Color color = getLuaSDLColor(luaStateWrapper);
     std::string text = getLuaGlobalString(luaStateWrapper, "text", "Default Text");
 

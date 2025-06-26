@@ -62,6 +62,7 @@ namespace Project::Entities {
           
           lua_pushvalue(L, -1);
           lua_setglobal(L, componentName.c_str());
+          std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, luaStateWrapper, componentName);
 
           if (component) {
             addComponent(componentName, std::move(component));

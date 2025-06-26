@@ -45,7 +45,7 @@ namespace Project::Factories {
     std::string text = luaStateWrapper.getTableString(tableName, "text", "Default Text");
 
     std::string defaultFontPath = configReader.getValue("Font", "default_path", "resources/fonts/system.ttf");
-    std::string fontPath = getLuaGlobalString(luaStateWrapper, "fontPath", defaultFontPath);
+    std::string fontPath = luaStateWrapper.getTableString(tableName, "fontPath", defaultFontPath);
 
     int defaultFontSize = configReader.getIntValue("Font", "default_size", 16);
     int fontSize = getLuaGlobalInt(luaStateWrapper, "fontSize", defaultFontSize);

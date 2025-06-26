@@ -16,7 +16,7 @@ namespace Project::Factories {
         return createGraphicsComponent(luaStateWrapper, tableName);
 
       case ComponentType::TEXT:
-        return createTextComponent(luaStateWrapper);
+        return createTextComponent(luaStateWrapper, tableName);
 
       default:
         logsManager.logError("Unknown or unsupported component type: " + componentName);

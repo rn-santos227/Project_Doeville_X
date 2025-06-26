@@ -37,7 +37,7 @@ namespace Project::Factories {
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     SDL_Color color = {
-
+      static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontColorR", 255)),
     };
     std::string text = getLuaGlobalString(luaStateWrapper, "text", "Default Text");
 

@@ -61,6 +61,7 @@ namespace Project::Entities {
           std::string componentName = lua_tostring(L, -2);
           
           lua_pushvalue(L, -1);
+          lua_setglobal(L, componentName.c_str());
 
           if (component) {
             addComponent(componentName, std::move(component));

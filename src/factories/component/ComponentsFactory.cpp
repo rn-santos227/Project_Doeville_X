@@ -48,7 +48,7 @@ namespace Project::Factories {
     std::string fontPath = luaStateWrapper.getTableString(tableName, "fontPath", defaultFontPath);
 
     int defaultFontSize = configReader.getIntValue("Font", "default_size", 16);
-    int fontSize = getLuaGlobalInt(luaStateWrapper, "fontSize", defaultFontSize);
+    int fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "fontSize", static_cast<float>(defaultFontSize)));
 
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
     if (logsManager.checkAndLogError(font == nullptr, "Failed to load font: " + fontPath)) {

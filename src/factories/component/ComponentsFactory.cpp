@@ -25,7 +25,7 @@ namespace Project::Factories {
   }
 
   // Components Builder Section
-  std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper) {
+  std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     std::string imagePath = getLuaGlobalString(luaStateWrapper, "imagePath", "assets/images/default.png");
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);

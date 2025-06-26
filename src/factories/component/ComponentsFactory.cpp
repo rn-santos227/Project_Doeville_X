@@ -13,7 +13,7 @@ namespace Project::Factories {
     
     switch (type) {
       case ComponentType::GRAPHICS:
-        return createGraphicsComponent(luaStateWrapper);
+        return createGraphicsComponent(luaStateWrapper, tableName);
 
       case ComponentType::TEXT:
         return createTextComponent(luaStateWrapper);

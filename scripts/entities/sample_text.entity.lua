@@ -3,7 +3,9 @@ y = 360
 z = 0
 
 components = {
-  TextComponent = {}
+  TextComponent = {
+    text = "Sample Text",
+  }
 }
 
 return {

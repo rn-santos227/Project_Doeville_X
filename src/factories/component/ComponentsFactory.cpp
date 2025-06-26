@@ -42,7 +42,7 @@ namespace Project::Factories {
       static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontColorB", 255)),
       static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontColorA", 255))
     };
-    std::string text = getLuaGlobalString(luaStateWrapper, "text", "Default Text");
+    std::string text = luaStateWrapper.getTableString(tableName, "text", "Default Text");
 
     std::string defaultFontPath = configReader.getValue("Font", "default_path", "resources/fonts/system.ttf");
     std::string fontPath = getLuaGlobalString(luaStateWrapper, "fontPath", defaultFontPath);

@@ -59,10 +59,12 @@ namespace Project::Entities {
       luaStateWrapper.iterateGlobalTable("components", [this](lua_State* L, int index) {
         if (lua_istable(L, -1)) {
           std::string componentName = lua_tostring(L, -2);
-          
+
           lua_pushvalue(L, -1);
           lua_setglobal(L, componentName.c_str());
           std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, luaStateWrapper, componentName);
+          lua_pushnil(L);
+          lua_setglobal(L, componentName.c_str());
 
           if (component) {
             addComponent(componentName, std::move(component));

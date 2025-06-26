@@ -5,6 +5,7 @@ z = 0
 components = {
   TextComponent = {
     text = "Sample Text",
+    fontColorR = 255,
   }
 }
 

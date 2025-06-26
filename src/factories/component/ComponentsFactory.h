@@ -28,7 +28,7 @@ namespace Project::Factories {
   public:
     ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
 
-    std::unique_ptr<BaseComponent> create(const std::string& componentName, LuaStateWrapper& luaStateWrapper);
+    std::unique_ptr<BaseComponent> create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     void setRenderer(SDL_Renderer* renderer);
 
   private:

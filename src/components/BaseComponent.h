@@ -19,6 +19,7 @@ namespace Project::Components {
 
   protected:
     LogsManager& logsManager;
+    bool active = true;
   };
 }
 

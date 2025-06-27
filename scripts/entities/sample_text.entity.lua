@@ -6,6 +6,7 @@ components = {
   TextComponent = {
     text = "Sample Text",
     component = "TextComponent",
+    active = true,
     fontColorR = 255,
     fontColorG = 255,
     fontColorB = 255,

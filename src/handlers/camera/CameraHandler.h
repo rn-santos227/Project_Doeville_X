@@ -11,6 +11,9 @@ namespace Project::Handlers {
 
     void setSize(int width, int height);
     void setPosition(int x, int y);
+
+    private:
+      SDL_Rect cameraRect{0,0,0,0};
   };
 }
 #endif

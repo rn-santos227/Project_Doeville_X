@@ -10,6 +10,7 @@ namespace Project::Handlers {
     ~CameraHandler() = default;
 
     void setSize(int width, int height);
+    void setPosition(int x, int y);
   };
 }
 #endif

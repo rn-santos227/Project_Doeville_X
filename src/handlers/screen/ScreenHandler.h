@@ -9,6 +9,7 @@
 
 #include "factories/component/ComponentsFactory.h"
 
+#include "handlers/camera/CameraHandler.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
@@ -41,6 +42,7 @@ namespace Project::Handlers {
     
     bool isRunning() const;
 
+    CameraHandler* getCameraHandler() const;
     SDL_Renderer* getRenderer() const;
     SDL_Window* getWindow() const;
 

@@ -8,6 +8,8 @@ namespace Project::Handlers {
   public:
     CameraHandler() = default;
     ~CameraHandler() = default;
+
+    void setSize(int width, int height);
   };
 }
 #endif

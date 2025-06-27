@@ -61,7 +61,8 @@ namespace Project::Factories {
 
     auto textComponent = std::make_unique<TextComponent>(renderer, font, color, text, fontPath, fontSize, logsManager);
     bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);
-  }
+    textComponent->setActive(active);
+    }
 
   // Utilities Section
   Uint8 ComponentsFactory::getLuaColorChannel(LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue) {

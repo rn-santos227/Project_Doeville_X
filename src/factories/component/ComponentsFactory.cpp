@@ -59,7 +59,7 @@ namespace Project::Factories {
       return nullptr;
     }
 
-    return std::make_unique<TextComponent>(renderer, font, color, text, fontPath, fontSize, logsManager);
+    auto textComponent = std::make_unique<TextComponent>(renderer, font, color, text, fontPath, fontSize, logsManager);
   }
 
   // Utilities Section

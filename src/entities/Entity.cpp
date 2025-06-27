@@ -35,7 +35,7 @@ namespace Project::Entities {
     luaStateWrapper.callFunctionIfExists("update");
 
     for (auto& [name, component] : components) {
-      if (component) {
+      if (component && component->isActive()) {
         component->update(deltaTime);
       }
     }

@@ -31,8 +31,10 @@ namespace Project::Factories {
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
     graphicsComponent->setTexture(resourcesHandler, imagePath);
-    graphicsComponent->onAttach();
 
+    bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);
+
+    graphicsComponent->onAttach();
     return graphicsComponent;
   }
 

@@ -60,6 +60,7 @@ namespace Project::Factories {
     }
 
     auto textComponent = std::make_unique<TextComponent>(renderer, font, color, text, fontPath, fontSize, logsManager);
+    bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);
   }
 
   // Utilities Section

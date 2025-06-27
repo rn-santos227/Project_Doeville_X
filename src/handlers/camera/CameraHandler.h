@@ -14,6 +14,7 @@ namespace Project::Handlers {
 
     int getWidth() const { return cameraRect.w; }
     int getHeight() const { return cameraRect.h; }
+    int getX() const { return cameraRect.x; }
 
     private:
       SDL_Rect cameraRect{0,0,0,0};

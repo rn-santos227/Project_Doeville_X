@@ -33,6 +33,7 @@ namespace Project::Factories {
     graphicsComponent->setTexture(resourcesHandler, imagePath);
 
     bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);
+    graphicsComponent->setActive(active);
 
     graphicsComponent->onAttach();
     return graphicsComponent;

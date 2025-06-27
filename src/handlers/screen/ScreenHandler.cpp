@@ -30,6 +30,8 @@ namespace Project::Handlers {
 
     int screenWidth = 0;
     int screenHeight = 0;
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    cameraHandler.setSize(screenWidth, screenHeight);
     
     cursorWidth = configReader.getIntValue("Cursor", "width", 32);
     cursorHeight = configReader.getIntValue("Cursor", "height", 32);

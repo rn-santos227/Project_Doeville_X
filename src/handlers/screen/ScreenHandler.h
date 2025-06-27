@@ -60,12 +60,14 @@ namespace Project::Handlers {
     KeyHandler& keyHandler;
     MouseHandler& mouseHandler;
     ResourcesHandler& resourcesHandler;
-    
+
     std::unique_ptr<ScriptingService> scriptingService;
 
     std::mutex renderMutex;
     std::mutex eventMutex;
 
+    CameraHandler cameraHandler;
+    
     SDL_Color debugTextColor{144, 238, 144, 255};
     
     bool running;

@@ -13,6 +13,7 @@ namespace Project::Handlers {
     void setPosition(int x, int y);
 
     int getWidth() const { return cameraRect.w; }
+    int getHeight() const { return cameraRect.h; }
 
     private:
       SDL_Rect cameraRect{0,0,0,0};

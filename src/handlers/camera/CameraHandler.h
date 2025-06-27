@@ -5,7 +5,9 @@
 
 namespace Project::Handlers {
   class CameraHandler {
-
+  public:
+    CameraHandler() = default;
+    ~CameraHandler() = default;
   };
 }
 #endif

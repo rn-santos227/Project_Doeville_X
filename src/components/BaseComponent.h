@@ -17,6 +17,9 @@ namespace Project::Components {
     virtual void onAttach() {}
     virtual void onDetach() {}
 
+    void setActive(bool isActive) { active = isActive; }
+    bool isActive() const { return active; }
+
   protected:
     LogsManager& logsManager;
     bool active = true;

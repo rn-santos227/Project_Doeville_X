@@ -28,6 +28,10 @@ namespace Project::Components {
     solid = solidEnabled;
   }
 
+  bool BoundingBoxComponent::isSolid() const {
+    return solid;
+  }
+
   void BoundingBoxComponent::setEntityPosition(int x, int y) {
     entityX = x;
     entityY = y;

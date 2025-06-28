@@ -20,6 +20,7 @@ namespace Project::Components {
     const std::vector<SDL_Rect>& getBoxes() const;
 
     void setSolid(bool solidEnabled);
+    bool isSolid() const;
 
   private:
     std::vector<SDL_Rect> boxes;

@@ -9,9 +9,11 @@
 #include "ComponentTypeResolver.h"
 
 #include "components/BaseComponent.h"
+#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/text_component/TextComponent.h"
 
+#include "handlers/input/KeyHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 
 #include "utilities/logs_manager/LogsManager.h"
@@ -28,9 +30,12 @@ namespace Project::Factories {
     ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
 
     std::unique_ptr<BaseComponent> create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+    
+    void setKeyHandler(Handlers::KeyHandler* keyHandler);
     void setRenderer(SDL_Renderer* renderer);
 
   private:
+    KeyHandler* keyHandler = nullptr;
     SDL_Renderer* renderer = nullptr;
     
     ConfigReader& configReader;
@@ -38,6 +43,7 @@ namespace Project::Factories {
     ResourcesHandler& resourcesHandler;
 
     //Components Builder
+    std::unique_ptr<BaseComponent> createBoundingBoxComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     std::unique_ptr<BaseComponent> createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     std::unique_ptr<BaseComponent> createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     

@@ -17,6 +17,7 @@ namespace Project::Components {
 
     void addBox(const SDL_Rect& rect);
     void clearBoxes();
+    const std::vector<SDL_Rect>& getBoxes() const;
 
   private:
     std::vector<SDL_Rect> boxes;

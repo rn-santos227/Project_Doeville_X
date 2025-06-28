@@ -16,6 +16,7 @@ namespace Project::Components {
     void render() override;
 
     void addBox(const SDL_Rect& rect);
+    void clearBoxes();
 
   private:
     std::vector<SDL_Rect> boxes;

@@ -5,4 +5,6 @@ namespace Project::Components {
     : BaseComponent(logsManager) {}
 
   void BoundingBoxComponent::update(float /*deltaTime*/) {}
+
+  void BoundingBoxComponent::render() {}
 }

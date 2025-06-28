@@ -9,6 +9,6 @@ namespace Project::Components {
   void BoundingBoxComponent::render() {}
 
   void BoundingBoxComponent::addBox(const SDL_Rect& rect) {
-
+    boxes.push_back(rect);
   }
 }

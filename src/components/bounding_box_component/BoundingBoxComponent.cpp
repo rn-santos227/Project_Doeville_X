@@ -17,5 +17,11 @@ namespace Project::Components {
 
   void BoundingBoxComponent::updateWorldBoxes() {
     worldBoxes.resize(boxes.size());
+    for (size_t i = 0; i < boxes.size(); ++i) {
+      worldBoxes[i].x = boxes[i].x + entityX;
+      worldBoxes[i].y = boxes[i].y + entityY;
+      worldBoxes[i].w = boxes[i].w;
+      worldBoxes[i].h = boxes[i].h;
+    }
   }
 }

@@ -19,6 +19,8 @@ namespace Project::Components {
     void clearBoxes();
     const std::vector<SDL_Rect>& getBoxes() const;
 
+    void setSolid(bool solidEnabled);
+
   private:
     std::vector<SDL_Rect> boxes;
     int entityX = 0;

@@ -15,6 +15,8 @@ namespace Project::Components {
     void update(float deltaTime) override;
     void render() override;
 
+    void addBox(const SDL_Rect& rect);
+
   private:
     std::vector<SDL_Rect> boxes;
     int entityX = 0;

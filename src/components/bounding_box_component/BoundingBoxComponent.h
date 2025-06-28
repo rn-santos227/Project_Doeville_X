@@ -15,7 +15,7 @@ using namespace Project::Utilities;
 namespace Project::Components {
   class BoundingBoxComponent : public BaseComponent, public PositionableComponent {
   public:
-    explicit BoundingBoxComponent(SDL_Renderer* renderer, KeyHandler& keyHandler, SDL_Color debugColor, LogsManager& logsManager);
+    explicit BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor);
 
     void update(float deltaTime) override;
     void render() override;
@@ -32,6 +32,11 @@ namespace Project::Components {
   private:
     std::vector<SDL_Rect> boxes;
     std::vector<SDL_Rect> worldBoxes;
+
+    SDL_Renderer* renderer = nullptr;
+    KeyHandler* keyHandler = nullptr;
+
+    SDL_Color debugColor{0, 0, 0, 255};
 
     int entityX = 0;
     int entityY = 0;

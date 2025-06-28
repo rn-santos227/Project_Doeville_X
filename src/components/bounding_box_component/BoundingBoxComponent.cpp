@@ -1,8 +1,10 @@
 #include "BoundingBoxComponent.h"
 
 namespace Project::Components {
-  BoundingBoxComponent::BoundingBoxComponent(LogsManager& logsManager)
-    : BaseComponent(logsManager) {}
+  BoundingBoxComponent::BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor)
+      : BaseComponent(logsManager), PositionableComponent(), renderer(renderer), keyHandler(keyHandler), debugColor(debugColor) {
+    logsManager.logMessage("BoundingBoxComponent initialized.");
+  }
 
   void BoundingBoxComponent::update(float /*deltaTime*/) {}
 

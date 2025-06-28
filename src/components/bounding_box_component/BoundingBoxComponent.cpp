@@ -20,6 +20,10 @@ namespace Project::Components {
     worldBoxes.clear();
   }
 
+  const std::vector<SDL_Rect>& BoundingBoxComponent::getBoxes() const {
+    return worldBoxes;
+  }
+
   void BoundingBoxComponent::setEntityPosition(int x, int y) {
     entityX = x;
     entityY = y;

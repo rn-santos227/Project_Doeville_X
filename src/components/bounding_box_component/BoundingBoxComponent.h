@@ -14,6 +14,9 @@ namespace Project::Components {
 
   private:
     std::vector<SDL_Rect> boxes;
+    int entityX = 0;
+    int entityY = 0;
+    bool solid = false;
   };
 }
 

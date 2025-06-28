@@ -15,6 +15,10 @@ namespace Project::Components {
     updateWorldBoxes();
   }
 
+  void BoundingBoxComponent::setEntityPosition(int x, int y) {
+
+  }
+
   void BoundingBoxComponent::updateWorldBoxes() {
     worldBoxes.resize(boxes.size());
     for (size_t i = 0; i < boxes.size(); ++i) {

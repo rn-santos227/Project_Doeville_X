@@ -24,6 +24,10 @@ namespace Project::Components {
     return worldBoxes;
   }
 
+  void BoundingBoxComponent::setSolid(bool solidEnabled) {
+    solid = solidEnabled;
+  }
+
   void BoundingBoxComponent::setEntityPosition(int x, int y) {
     entityX = x;
     entityY = y;

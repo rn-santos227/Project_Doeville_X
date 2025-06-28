@@ -14,4 +14,8 @@ namespace Project::Components {
     boxes.push_back(rect);
     updateWorldBoxes();
   }
+
+  void BoundingBoxComponent::updateWorldBoxes() {
+    worldBoxes.resize(boxes.size());
+  }
 }

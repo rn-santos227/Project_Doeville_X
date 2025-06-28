@@ -5,6 +5,8 @@
 
 ComponentType ComponentTypeResolver::resolve(const std::string& name) {
   static const std::unordered_map<std::string, ComponentType> map = {
+    {"boundingboxcomponent", ComponentType::BOUNDING_BOX},
+    {"boundingbox", ComponentType::BOUNDING_BOX},
     {"graphicscomponent", ComponentType::GRAPHICS},
     {"graphics", ComponentType::GRAPHICS},
     {"textcomponent", ComponentType::TEXT},

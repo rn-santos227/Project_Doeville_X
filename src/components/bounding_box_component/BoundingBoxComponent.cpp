@@ -18,6 +18,7 @@ namespace Project::Components {
   void BoundingBoxComponent::setEntityPosition(int x, int y) {
     entityX = x;
     entityY = y;
+    updateWorldBoxes();
   }
 
   void BoundingBoxComponent::updateWorldBoxes() {

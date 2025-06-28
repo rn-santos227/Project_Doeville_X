@@ -12,6 +12,9 @@ namespace Project::Components {
   public:
     explicit BoundingBoxComponent(LogsManager& logsManager);
 
+    void update(float deltaTime) override;
+    void render() override;
+
   private:
     std::vector<SDL_Rect> boxes;
     int entityX = 0;

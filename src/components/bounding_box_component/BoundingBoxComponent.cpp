@@ -7,4 +7,8 @@ namespace Project::Components {
   void BoundingBoxComponent::update(float /*deltaTime*/) {}
 
   void BoundingBoxComponent::render() {}
+
+  void BoundingBoxComponent::addBox(const SDL_Rect& rect) {
+
+  }
 }

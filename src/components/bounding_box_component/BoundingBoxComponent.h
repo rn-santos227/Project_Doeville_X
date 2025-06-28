@@ -29,6 +29,8 @@ namespace Project::Components {
     int entityX = 0;
     int entityY = 0;
     bool solid = false;
+
+    void updateWorldBoxes();
   };
 }
 

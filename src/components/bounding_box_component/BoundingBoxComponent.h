@@ -22,6 +22,8 @@ namespace Project::Components {
     void setSolid(bool solidEnabled);
     bool isSolid() const;
 
+    void setEntityPosition(int x, int y) override;
+
   private:
     std::vector<SDL_Rect> boxes;
     int entityX = 0;

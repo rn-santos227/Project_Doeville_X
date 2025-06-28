@@ -15,6 +15,11 @@ namespace Project::Components {
     updateWorldBoxes();
   }
 
+  void BoundingBoxComponent::clearBoxes() {
+    boxes.clear();
+    worldBoxes.clear();
+  }
+
   void BoundingBoxComponent::setEntityPosition(int x, int y) {
     entityX = x;
     entityY = y;

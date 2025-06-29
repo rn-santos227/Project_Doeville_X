@@ -42,7 +42,7 @@ namespace Project::Factories {
         lua_pushnil(L);
         while (lua_next(L, -2)) {
           if (lua_istable(L, -1)) {
-
+            int x = 0, y = 0, w = 0, h = 0;
           }
           lua_pop(L, 1);
         }

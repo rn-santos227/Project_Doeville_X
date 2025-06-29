@@ -40,6 +40,9 @@ namespace Project::States {
     virtual bool isActive() const { return active; }
     virtual void setActive(bool active) { this->active = active; }
 
+    GameStateCategory getGameStateCategory() const { return gameStateCategory; }
+    void setGameStateCategory(GameStateCategory category) { gameStateCategory = category; }
+
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }
 

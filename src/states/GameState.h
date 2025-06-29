@@ -60,7 +60,7 @@ namespace Project::States {
 
   protected:
     ResourcesHandler& resourcesHandler;
-    GameStateCategory gameStateCategory;
+    GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
     
     EntitiesFactory* entitiesFactory = nullptr;
     SDL_Texture* backgroundTexture = nullptr;

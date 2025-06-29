@@ -29,6 +29,10 @@ namespace Project::Factories {
   }
 
   // Components Builder Section
+ std::unique_ptr<BaseComponent> ComponentsFactory::createBoundingBoxComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+
+ }
+
   std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     std::string imagePath = luaStateWrapper.getTableString(tableName, "imagePath", "assets/images/default.png");
 

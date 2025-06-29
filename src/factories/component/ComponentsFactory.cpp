@@ -41,7 +41,10 @@ namespace Project::Factories {
       if (lua_istable(L, -1)) {
         lua_pushnil(L);
         while (lua_next(L, -2)) {
+          if (lua_istable(L, -1)) {
 
+          }
+          lua_pop(L, 1);
         }
         lua_pop(L, 1);
       }

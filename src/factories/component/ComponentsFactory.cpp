@@ -46,6 +46,7 @@ namespace Project::Factories {
             lua_getfield(L, -1, "x");
             if (lua_isnumber(L, -1)) x = static_cast<int>(lua_tonumber(L, -1));
             lua_pop(L, 1);
+            lua_getfield(L, -1, "y");
           }
           lua_pop(L, 1);
         }

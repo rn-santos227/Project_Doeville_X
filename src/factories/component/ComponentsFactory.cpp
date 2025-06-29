@@ -33,6 +33,9 @@ namespace Project::Factories {
     SDL_Color defaultColor{144, 238, 144, 255};
     SDL_Color debugColor = configReader.getColorValue("Font", "default_color", defaultColor);
     auto boxComponent = std::make_unique<BoundingBoxComponent>(renderer, keyHandler, debugColor, logsManager);
+
+    lua_State* L = luaStateWrapper.get();
+    lua_getglobal(L, tableName.c_str());
  }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

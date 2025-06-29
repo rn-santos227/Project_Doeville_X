@@ -1,4 +1,5 @@
 stateName = "GameState"
+stateCategory = "STATIC_GAME_STATE"
 
 function initialize()
   print("Initializing GameState")

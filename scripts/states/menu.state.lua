@@ -1,4 +1,5 @@
 stateName = "MainMenuState"
+stateCategory = "MAIN_MENU_STATE"
 
 sampleText = dofile("scripts/entities/sample_text.entity.lua")
 

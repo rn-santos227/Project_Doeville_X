@@ -95,4 +95,8 @@ namespace Project::Factories {
   void ComponentsFactory::setRenderer(SDL_Renderer* renderer) {
     this->renderer = renderer;
   }
+
+  void ComponentsFactory::setKeyHandler(Handlers::KeyHandler* keyHandler) {
+    this->keyHandler = keyHandler;
+  }
 }

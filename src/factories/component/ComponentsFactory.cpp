@@ -50,6 +50,7 @@ namespace Project::Factories {
             if (lua_isnumber(L, -1)) y = static_cast<int>(lua_tonumber(L, -1));
             lua_pop(L, 1);
             lua_getfield(L, -1, "w");
+            if (lua_isnumber(L, -1)) w = static_cast<int>(lua_tonumber(L, -1));
           }
           lua_pop(L, 1);
         }

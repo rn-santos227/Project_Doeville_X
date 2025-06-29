@@ -2,7 +2,7 @@
 
 namespace Project::Factories {
   ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-  : configReader(configReader), logsManager(logsManager), resourcesHandler(resourcesHandler), renderer(nullptr) {}
+  : configReader(configReader), logsManager(logsManager), resourcesHandler(resourcesHandler), renderer(nullptr), keyHandler(nullptr) {}
 
   std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     if(logsManager.checkAndLogError(!renderer, "Renderer is null for component: " + componentName)) {

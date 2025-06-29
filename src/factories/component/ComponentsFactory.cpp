@@ -55,6 +55,8 @@ namespace Project::Factories {
             lua_getfield(L, -1, "h");
             if (lua_isnumber(L, -1)) h = static_cast<int>(lua_tonumber(L, -1));
             lua_pop(L, 1);
+            SDL_Rect rect{x, y, w, h};
+            boxComponent->addBox(rect);
           }
           lua_pop(L, 1);
         }

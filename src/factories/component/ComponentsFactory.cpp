@@ -36,6 +36,11 @@ namespace Project::Factories {
 
     lua_State* L = luaStateWrapper.get();
     lua_getglobal(L, tableName.c_str());
+    if (lua_istable(L, -1)) {
+
+    } else {
+      lua_pop(L, 1);
+    }
  }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

@@ -13,6 +13,9 @@ namespace Project::Factories {
     ComponentType type = ComponentTypeResolver::resolve(resolvedName);
     
     switch (type) {
+      case ComponentType::BOUNDING_BOX:
+        return createBoundingBoxComponent(luaStateWrapper, tableName);
+
       case ComponentType::GRAPHICS:
         return createGraphicsComponent(luaStateWrapper, tableName);
 

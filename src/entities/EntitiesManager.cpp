@@ -1,5 +1,11 @@
 #include "EntitiesManager.h"
 
+#include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "components/graphics_component/GraphicsComponent.h"
+#include "components/text_component/TextComponent.h"
+#include "handlers/camera/CameraHandler.h"
+#include <SDL.h>
+
 namespace Project::Entities {
   void EntitiesManager::addEntity(const std::string& id, std::shared_ptr<Entity> entity) {
     add(id, std::move(entity));

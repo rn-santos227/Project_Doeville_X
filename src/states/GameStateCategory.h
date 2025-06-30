@@ -60,7 +60,8 @@ namespace Project::States {
       {"SHOP_STATE", GameStateCategory::SHOP_STATE},
       {"STORY_STATE", GameStateCategory::STORY_STATE},
       {"VICTORY_STATE", GameStateCategory::VICTORY_STATE},
-      {"GAME_OVER_STATE", GameStateCategory::GAME_OVER_STATE}
+      {"GAME_OVER_STATE", GameStateCategory::GAME_OVER_STATE},
+      {"CREDITS_STATE", GameStateCategory::CREDITS_STATE},
     };
   }
 }

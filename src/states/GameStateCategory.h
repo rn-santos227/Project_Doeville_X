@@ -47,6 +47,7 @@ namespace Project::States {
       {"TRANSITION_STATE", GameStateCategory::TRANSITION_STATE},
       {"STATIC_GAME_STATE", GameStateCategory::STATIC_GAME_STATE},
       {"DYNAMIC_GAME_STATE", GameStateCategory::DYNAMIC_GAME_STATE},
+      {"CINEMATIC_STATE", GameStateCategory::CINEMATIC_STATE}
     };
   }
 }

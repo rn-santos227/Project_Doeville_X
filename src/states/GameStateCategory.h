@@ -44,6 +44,7 @@ namespace Project::States {
       {"SETTINGS_STATE", GameStateCategory::SETTINGS_STATE},
       {"PAUSE_STATE", GameStateCategory::PAUSE_STATE},
       {"LOADING_STATE", GameStateCategory::LOADING_STATE},
+      {"TRANSITION_STATE", GameStateCategory::TRANSITION_STATE}
     };
   }
 }

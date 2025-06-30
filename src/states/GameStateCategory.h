@@ -40,8 +40,8 @@ namespace Project::States {
 
   inline GameStateCategory parseGameStateCategory(const std::string& value) {
     static const std::unordered_map<std::string, GameStateCategory> map = {
-
-    }
+      {"MAIN_MENU_STATE", GameStateCategory::MAIN_MENU_STATE},
+    };
   }
 }
 #endif

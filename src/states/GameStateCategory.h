@@ -49,7 +49,8 @@ namespace Project::States {
       {"DYNAMIC_GAME_STATE", GameStateCategory::DYNAMIC_GAME_STATE},
       {"CINEMATIC_STATE", GameStateCategory::CINEMATIC_STATE},
       {"FPS_GAMEPLAY_STATE", GameStateCategory::FPS_GAMEPLAY_STATE},
-      {"SIDE_SCROLLER_STATE", GameStateCategory::SIDE_SCROLLER_STATE}
+      {"SIDE_SCROLLER_STATE", GameStateCategory::SIDE_SCROLLER_STATE},
+      {"PUZZLE_GAMEPLAY_STATE", GameStateCategory::PUZZLE_GAMEPLAY_STATE},
     };
   }
 }

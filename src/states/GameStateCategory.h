@@ -51,6 +51,7 @@ namespace Project::States {
       {"FPS_GAMEPLAY_STATE", GameStateCategory::FPS_GAMEPLAY_STATE},
       {"SIDE_SCROLLER_STATE", GameStateCategory::SIDE_SCROLLER_STATE},
       {"PUZZLE_GAMEPLAY_STATE", GameStateCategory::PUZZLE_GAMEPLAY_STATE},
+      {"VR_GAMEPLAY_STATE", GameStateCategory::VR_GAMEPLAY_STATE},
     };
   }
 }

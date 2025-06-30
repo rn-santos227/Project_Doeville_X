@@ -39,7 +39,9 @@ namespace Project::States {
   };
 
   inline GameStateCategory parseGameStateCategory(const std::string& value) {
+    static const std::unordered_map<std::string, GameStateCategory> map = {
 
+    }
   }
 }
 #endif

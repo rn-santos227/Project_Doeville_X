@@ -58,6 +58,7 @@ namespace Project::States {
       {"MAP_STATE", GameStateCategory::MAP_STATE},
       {"PUZZLE_STATE", GameStateCategory::PUZZLE_STATE},
       {"SHOP_STATE", GameStateCategory::SHOP_STATE},
+      {"STORY_STATE", GameStateCategory::STORY_STATE},
     };
   }
 }

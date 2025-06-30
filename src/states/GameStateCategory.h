@@ -37,6 +37,10 @@ namespace Project::States {
     DEBUG_STATE,
     EDITOR_STATE,
   };
+
+  inline GameStateCategory parseGameStateCategory(const std::string& value) {
+
+  }
 }
 #endif
 

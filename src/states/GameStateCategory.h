@@ -53,6 +53,7 @@ namespace Project::States {
       {"PUZZLE_GAMEPLAY_STATE", GameStateCategory::PUZZLE_GAMEPLAY_STATE},
       {"VR_GAMEPLAY_STATE", GameStateCategory::VR_GAMEPLAY_STATE},
       {"BATTLE_STATE", GameStateCategory::BATTLE_STATE},
+      {"DIALOGUE_STATE", GameStateCategory::DIALOGUE_STATE},
     };
   }
 }

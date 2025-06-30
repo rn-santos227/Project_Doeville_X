@@ -42,6 +42,7 @@ namespace Project::States {
     static const std::unordered_map<std::string, GameStateCategory> map = {
       {"MAIN_MENU_STATE", GameStateCategory::MAIN_MENU_STATE},
       {"SETTINGS_STATE", GameStateCategory::SETTINGS_STATE},
+      {"PAUSE_STATE", GameStateCategory::PAUSE_STATE},
     };
   }
 }

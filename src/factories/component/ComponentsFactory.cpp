@@ -72,6 +72,8 @@ namespace Project::Factories {
 
     bool solid = luaStateWrapper.getTableBoolean(tableName, "solid", false);
     boxComponent->setSolid(solid);
+
+    return boxComponent;
  }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

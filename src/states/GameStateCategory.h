@@ -55,6 +55,7 @@ namespace Project::States {
       {"BATTLE_STATE", GameStateCategory::BATTLE_STATE},
       {"DIALOGUE_STATE", GameStateCategory::DIALOGUE_STATE},
       {"INVENTORY_STATE", GameStateCategory::INVENTORY_STATE},
+      {"MAP_STATE", GameStateCategory::MAP_STATE},
     };
   }
 }

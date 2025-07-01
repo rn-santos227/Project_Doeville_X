@@ -25,5 +25,7 @@ namespace Project::Utilities {
     std::stringstream ss;
     ss << std::hex << value;
     ss >> rgb;
+
+    SDL_Color color;
   }
 }

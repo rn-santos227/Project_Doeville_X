@@ -41,8 +41,12 @@ namespace Project::Components  {
     SDL_Renderer* renderer;
     LogsManager& logsManager;
 
-    SDL_Rect destRect{0, 0, 0, 0};
     std::unique_ptr<AnimationHandler> animationHandler;
+    
+    SDL_Color shapeColor{255, 255, 255, 255};
+    SDL_Rect destRect{0, 0, 0, 0};
+
+    bool drawShape = false;
   };
 }
 #endif

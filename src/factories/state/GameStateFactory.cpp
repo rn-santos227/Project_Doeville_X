@@ -27,6 +27,7 @@ namespace Project::Factories {
 
     lua_getglobal(L, "stateCategory");
     if (lua_isstring(L, -1)) {
+      std::string categoryStr = lua_tostring(L, -1);
 
     } else {
 

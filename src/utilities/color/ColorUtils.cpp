@@ -23,5 +23,6 @@ namespace Project::Utilities {
 
     unsigned int rgb;
     std::stringstream ss;
+    ss << std::hex << value;
   }
 }

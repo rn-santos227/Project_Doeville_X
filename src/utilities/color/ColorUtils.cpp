@@ -30,5 +30,7 @@ namespace Project::Utilities {
     color.r = static_cast<Uint8>((rgb >> 16) & 0xFF);
     color.g = static_cast<Uint8>((rgb >> 8) & 0xFF);
     color.b = static_cast<Uint8>(rgb & 0xFF);
+    color.a = alpha;
+    return color;
   }
 }

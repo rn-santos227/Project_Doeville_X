@@ -6,6 +6,6 @@
 
 namespace Project::Utilities {
   SDL_Color hexToRGB(const std::string& hex, Uint8 alpha) {
-
+    std::string value = hex;
   }
 }

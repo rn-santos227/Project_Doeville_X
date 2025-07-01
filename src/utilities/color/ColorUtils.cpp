@@ -18,5 +18,7 @@ namespace Project::Utilities {
     if (value.length() != 6) {
       return SDL_Color{0, 0, 0, alpha};
     }
+
+    std::transform(value.begin(), value.end(), value.begin(), ::tolower);
   }
 }

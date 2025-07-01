@@ -28,7 +28,10 @@ namespace Project::Factories {
     lua_getglobal(L, "stateCategory");
     if (lua_isstring(L, -1)) {
 
+    } else {
+
     }
+    lua_pop(L, 1);
 
     newState->setEntitiesManager(gameStateManager.getGlobalEntitiesManager());
     newState->setEntitiesFactory(&entitiesFactory);

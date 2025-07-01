@@ -65,6 +65,8 @@ namespace Project::States {
       {"DEBUG_STATE", GameStateCategory::DEBUG_STATE},
       {"EDITOR_STATE", GameStateCategory::EDITOR_STATE}
     };
+
+    auto it = map.find(value);
   }
 }
 #endif

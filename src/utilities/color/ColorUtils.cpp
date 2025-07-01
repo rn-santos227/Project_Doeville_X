@@ -10,5 +10,9 @@ namespace Project::Utilities {
     if (!value.empty() && value[0] == '#') {
       value.erase(0, 1);
     }
+
+    if (value.rfind("0x", 0) == 0 || value.rfind("0X", 0) == 0) {
+      value.erase(0, 2);
+    }
   }
 }

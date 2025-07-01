@@ -27,6 +27,7 @@ namespace Project::Components  {
     void render() override;
 
     bool setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath);
+    void setShape(int width, int height, SDL_Color color);
     void setPosition(int x, int y, int width, int height);
     void setEntityPosition(int x, int y) override;
 
@@ -42,7 +43,7 @@ namespace Project::Components  {
     LogsManager& logsManager;
 
     std::unique_ptr<AnimationHandler> animationHandler;
-    
+
     SDL_Color shapeColor{255, 255, 255, 255};
     SDL_Rect destRect{0, 0, 0, 0};
 

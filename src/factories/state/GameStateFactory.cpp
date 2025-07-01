@@ -1,4 +1,6 @@
 #include "GameStateFactory.h"
+#include <string>
+
 namespace Project::Factories {
   GameStateFactory::GameStateFactory(LogsManager& logsManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory)
   : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory) {}
@@ -22,6 +24,8 @@ namespace Project::Factories {
     std::string stateName = lua_tostring(L, -1);
     newState->setStateName(stateName);
     lua_pop(L, 1);
+
+    lua_getglobal(L, "stateCategory");
 
     newState->setEntitiesManager(gameStateManager.getGlobalEntitiesManager());
     newState->setEntitiesFactory(&entitiesFactory);

@@ -20,5 +20,7 @@ namespace Project::Utilities {
     }
 
     std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+
+    unsigned int rgb;
   }
 }

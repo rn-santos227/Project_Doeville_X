@@ -31,6 +31,7 @@ namespace Project::Factories {
       newState->setGameStateCategory(parseGameStateCategory(categoryStr));
     } else {
       logsManager.logWarning("Lua script is missing 'stateCategory', defaulting to DEBUG_STATE: " + scriptPath);
+      newState->setGameStateCategory(GameStateCategory::DEBUG_STATE);
     }
     lua_pop(L, 1);
 

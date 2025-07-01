@@ -68,6 +68,7 @@ namespace Project::States {
 
     auto it = map.find(value);
     if (it != map.end()) return it->second;
+    return GameStateCategory::DEBUG_STATE;
   }
 }
 #endif

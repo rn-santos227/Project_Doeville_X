@@ -30,7 +30,7 @@ namespace Project::Factories {
       std::string categoryStr = lua_tostring(L, -1);
       newState->setGameStateCategory(parseGameStateCategory(categoryStr));
     } else {
-
+      logsManager.logWarning("Lua script is missing 'stateCategory', defaulting to DEBUG_STATE: " + scriptPath);
     }
     lua_pop(L, 1);
 

@@ -63,6 +63,7 @@ namespace Project::States {
       {"GAME_OVER_STATE", GameStateCategory::GAME_OVER_STATE},
       {"CREDITS_STATE", GameStateCategory::CREDITS_STATE},
       {"DEBUG_STATE", GameStateCategory::DEBUG_STATE},
+      {"EDITOR_STATE", GameStateCategory::EDITOR_STATE}
     };
   }
 }

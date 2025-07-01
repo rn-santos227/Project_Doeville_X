@@ -14,5 +14,9 @@ namespace Project::Utilities {
     if (value.rfind("0x", 0) == 0 || value.rfind("0X", 0) == 0) {
       value.erase(0, 2);
     }
+
+    if (value.length() != 6) {
+      return SDL_Color{0, 0, 0, alpha};
+    }
   }
 }

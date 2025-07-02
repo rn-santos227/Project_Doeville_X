@@ -30,7 +30,9 @@ namespace Project::Components {
 
     if (textureToRender) {
       SDL_RenderCopy(renderer, textureToRender, nullptr, &destRect);
-    }
+    } else if (drawShape) {
+
+    }  
   }
 
   bool GraphicsComponent::setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath) {

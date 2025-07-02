@@ -132,12 +132,9 @@ namespace Project::Factories {
   }
 
   SDL_Color ComponentsFactory::getLuaSDLColor(LuaStateWrapper& luaStateWrapper) {
-    SDL_Color color;
-    color.r = getLuaColorChannel(luaStateWrapper, "fontColorR");
-    color.g = getLuaColorChannel(luaStateWrapper, "fontColorG");
-    color.b = getLuaColorChannel(luaStateWrapper, "fontColorB");
-    color.a = getLuaColorChannel(luaStateWrapper, "fontColorA");
-    return color;
+    std::string hex = luaStateWrapper.getGlobalString("fontColorHex", "FFFFFF");
+    Uint8 alpha = getLuaColorChannel(luaStateWrapper, "fontColorA");
+    return Utilities::hexToRGB(hex, alpha);
   }
 
   std::string ComponentsFactory::getLuaGlobalString(LuaStateWrapper& lua, const std::string& name, const std::string& defaultValue) {

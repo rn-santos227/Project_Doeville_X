@@ -61,6 +61,7 @@ namespace Project::Components {
     destroyTexture();
     destRect.w = width;
     destRect.h = height;
+    shapeColor = color;
   }
 
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {

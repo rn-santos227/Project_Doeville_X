@@ -82,7 +82,11 @@ namespace Project::Factories {
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
 
-    
+    if (!imagePath.empty()) {
+
+    } else {
+      
+    }
 
     bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);
     graphicsComponent->setActive(active);

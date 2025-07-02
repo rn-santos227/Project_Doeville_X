@@ -7,8 +7,8 @@ components = {
     text = "Sample Text",
     component = "TextComponent",
     active = true,
-    fontColorHex = "FFFFFF",
     fontAlpha = 255,
+    fontColorHex = "FFFFFF",
     fontSize = 24
   }
 }

@@ -1,4 +1,5 @@
 #include "ComponentsFactory.h"
+#include "utilities/color/ColorUtils.h"
 
 namespace Project::Factories {
   ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
@@ -77,10 +78,11 @@ namespace Project::Factories {
  }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    std::string imagePath = luaStateWrapper.getTableString(tableName, "imagePath", "assets/images/default.png");
+    std::string imagePath = luaStateWrapper.getTableString(tableName, "imagePath", "");
 
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
-    graphicsComponent->setTexture(resourcesHandler, imagePath);
+
+    
 
     bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);
     graphicsComponent->setActive(active);

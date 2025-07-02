@@ -83,9 +83,9 @@ namespace Project::Factories {
     auto graphicsComponent = std::make_unique<GraphicsComponent>(renderer, logsManager);
 
     if (!imagePath.empty()) {
-
+      graphicsComponent->setTexture(resourcesHandler, imagePath);
     } else {
-      
+
     }
 
     bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);

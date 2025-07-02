@@ -1,5 +1,7 @@
 #include "ConfigReader.h"
 
+#include "utilities/color/ColorUtils.h"
+
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -46,6 +48,10 @@ namespace Project::Utilities {
     std::string value = getValue(section, key);
     if (value.empty()) {
       return defaultValue;
+    }
+
+    if (value.find(',') == std::string::npos) {
+      return Project::Utilities::hexToRGB(value, defaultValue.a);
     }
 
     std::stringstream ss(value);

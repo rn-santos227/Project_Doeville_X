@@ -40,6 +40,7 @@ namespace Project::Components {
 
   void TextComponent::setEntityPosition(int x, int y) {
     setPosition(x, y);
+    createTexture();
   }
 
   void TextComponent::update(float deltaTime) {

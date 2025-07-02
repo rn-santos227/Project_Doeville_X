@@ -1,5 +1,4 @@
 #include "TextComponent.h"
-
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Components {
@@ -31,6 +30,11 @@ namespace Project::Components {
 
   void TextComponent::setColor(SDL_Color newColor) {
     color = newColor;
+    createTexture();
+  }
+
+  void TextComponent::setColorHex(const std::string& hex) {
+    color = Project::Utilities::hexToRGB(hex, color.a);
   }
 
   void TextComponent::setPosition(int x, int y) {
@@ -40,7 +44,6 @@ namespace Project::Components {
 
   void TextComponent::setEntityPosition(int x, int y) {
     setPosition(x, y);
-    createTexture();
   }
 
   void TextComponent::update(float deltaTime) {

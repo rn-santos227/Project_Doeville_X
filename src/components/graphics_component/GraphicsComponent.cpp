@@ -58,7 +58,7 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::setShape(int width, int height, SDL_Color color) {
-
+    destroyTexture();
   }
 
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {

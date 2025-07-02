@@ -26,6 +26,7 @@ namespace Project::Components {
     void render() override;
 
     void setText(const std::string& newText);
+    void setColor(SDL_Color newColor);
     void setPosition(int x, int y);
     void setEntityPosition(int x, int y) override;
 

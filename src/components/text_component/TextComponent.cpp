@@ -30,7 +30,7 @@ namespace Project::Components {
   }
 
   void TextComponent::setColor(SDL_Color newColor) {
-
+    color = newColor;
   }
 
   void TextComponent::setPosition(int x, int y) {

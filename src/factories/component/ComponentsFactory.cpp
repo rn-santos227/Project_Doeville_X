@@ -89,6 +89,7 @@ namespace Project::Factories {
       int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "height", 32));
       std::string colorHex = luaStateWrapper.getTableString(tableName, "colorHex", "FFFFFF");
       Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "colorAlpha", 255));
+      SDL_Color color = Utilities::hexToRGB(colorHex, alpha);
     }
 
     bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);

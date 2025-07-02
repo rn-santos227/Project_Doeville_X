@@ -86,6 +86,7 @@ namespace Project::Factories {
       graphicsComponent->setTexture(resourcesHandler, imagePath);
     } else {
       int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "width", 32));
+      int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "height", 32));
     }
 
     bool active = luaStateWrapper.getTableBoolean(tableName, "active", true);

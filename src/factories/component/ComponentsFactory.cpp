@@ -103,6 +103,7 @@ namespace Project::Factories {
   std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     std::string colorHex = luaStateWrapper.getTableString(tableName, "fontColorHex", "FFFFFF");
     Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "fontAlpha", 255));
+    SDL_Color color = Utilities::hexToRGB(colorHex, alpha);
 
     std::string text = luaStateWrapper.getTableString(tableName, "text", "Default Text");
 

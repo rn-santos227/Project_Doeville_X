@@ -32,6 +32,7 @@ namespace Project::Components {
       SDL_RenderCopy(renderer, textureToRender, nullptr, &destRect);
     } else if (drawShape) {
       SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
+      SDL_RenderFillRect(renderer, &destRect);
     }  
   }
 

@@ -62,6 +62,7 @@ namespace Project::Components {
     destRect.w = width;
     destRect.h = height;
     shapeColor = color;
+    drawShape = true;
   }
 
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {

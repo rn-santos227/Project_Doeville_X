@@ -57,6 +57,10 @@ namespace Project::Components {
     return true;
   }
 
+  void GraphicsComponent::setShape(int width, int height, SDL_Color color) {
+
+  }
+
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {
     destRect.x = x;
     destRect.y = y;

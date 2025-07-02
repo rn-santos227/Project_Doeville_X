@@ -1,5 +1,7 @@
 #include "TextComponent.h"
 
+#include "utilities/color/ColorUtils.h"
+
 namespace Project::Components {
   TextComponent::TextComponent(SDL_Renderer* renderer, TTF_Font* font,  SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager)
   : BaseComponent(logsManager),
@@ -25,6 +27,10 @@ namespace Project::Components {
   void TextComponent::setText(const std::string& newText) {
     currentText = newText;
     createTexture();
+  }
+
+  void TextComponent::setColor(SDL_Color newColor) {
+
   }
 
   void TextComponent::setPosition(int x, int y) {

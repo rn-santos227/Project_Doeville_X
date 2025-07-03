@@ -1,6 +1,11 @@
 #include "SDLManager.h"
 
+#include "libraries/constants/Constants.h"
+
+namespace Constants = Project::Libraries::Constants;
 namespace Project::Core {
+  using Project::Utilities::LogsManager;
+
   SDLManager::SDLManager(LogsManager& logsManager)
     : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false) {}
 
@@ -40,7 +45,11 @@ namespace Project::Core {
 
   void SDLManager::clear() {
     if (renderer) {
-      SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+      SDL_SetRenderDrawColor(renderer,
+        Constants::DEFAULT_BACKGROUND_COLOR.r,
+        Constants::DEFAULT_BACKGROUND_COLOR.g,
+        Constants::DEFAULT_BACKGROUND_COLOR.b,
+        Constants::DEFAULT_BACKGROUND_COLOR.a);
       SDL_RenderClear(renderer);
     } else {
       logsManager.logError("Attempted to clear but renderer is null.");  

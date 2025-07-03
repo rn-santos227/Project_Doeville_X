@@ -5,12 +5,11 @@
 #include <string>
 
 #include "utilities/logs_manager/LogsManager.h"
-using namespace Project::Utilities;
 
 namespace Project::Core {
   class SDLManager {
   public:
-    SDLManager(LogsManager& logsManager);
+    SDLManager(Project::Utilities::LogsManager& logsManager);
     ~SDLManager();
 
     bool initialize(const std::string& title, int width, int height, bool fullscreen);

@@ -15,6 +15,11 @@ namespace Project::Libraries {
   constexpr const char* SCRIPT_FOLDER = "scripts/";
   constexpr const char* ENTITY_SCRIPT_FOLDER = "scripts/entities/";
   constexpr const char* DEFAULT_FONT_PATH = "resources/fonts/system.ttf";
+
+  // Screen defaults
+  constexpr int DEFAULT_SCREEN_WIDTH = 800;
+  constexpr int DEFAULT_SCREEN_HEIGHT = 600;
+  constexpr const char* DEFAULT_INITIAL_STATE = "MainMenu";
 } 
 
 #endif 

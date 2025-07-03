@@ -5,7 +5,7 @@
 #include <sstream>
 
 namespace Project::Utilities {
-  SDL_Color hexToRGB(const std::string& hex, Uint8 alpha) {
+  SDL_Color ColorUtils::hexToRGB(const std::string& hex, Uint8 alpha) {
     std::string value = hex;
     if (!value.empty() && value[0] == '#') {
       value.erase(0, 1);

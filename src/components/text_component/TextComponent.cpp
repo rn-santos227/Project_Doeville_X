@@ -34,7 +34,7 @@ namespace Project::Components {
   }
 
   void TextComponent::setColorHex(const std::string& hex) {
-    color = Project::Utilities::hexToRGB(hex, color.a);
+    color = ColorUtils::hexToRGB(hex, color.a);
     createTexture();
   }
 

@@ -12,13 +12,10 @@
 #include "core/SDLManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Core;
-using namespace Project::Utilities;
-
 namespace Project::Handlers {
   class KeyHandler {
   public:
-    KeyHandler(LogsManager& logsManager, SDLManager& sdlManager);
+    KeyHandler(Project::Utilities::LogsManager& logsManager, Project::Core::SDLManager& sdlManager);
     ~KeyHandler();
 
     void handleInput(SDL_Event& event);
@@ -36,11 +33,11 @@ namespace Project::Handlers {
     std::vector<SDL_Scancode> keyReleased;
 
     KeyAction currentAction;
-    
-    LogsManager& logsManager;
-    SDLManager& sdlManager;
-    
-    bool isFrozen; 
+
+    Project::Utilities::LogsManager& logsManager;
+    Project::Core::SDLManager& sdlManager;
+
+    bool isFrozen;
     bool isDebugMode;
 
     void setKeyPressed(SDL_Scancode key);

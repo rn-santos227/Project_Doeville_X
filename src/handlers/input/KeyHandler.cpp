@@ -3,6 +3,9 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Handlers {
+  using Project::Utilities::LogsManager;
+  using Project::Core::SDLManager;
+
   KeyHandler::KeyHandler(LogsManager& logsManager, SDLManager& sdlManager)
     : logsManager(logsManager), sdlManager(sdlManager) {
     using namespace Project::Libraries::Constants;

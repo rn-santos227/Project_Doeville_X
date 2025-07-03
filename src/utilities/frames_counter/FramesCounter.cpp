@@ -1,6 +1,9 @@
 #include "FramesCounter.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::Utilities {
+  namespace Constants = Project::Libraries::Constants;
+
   FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequency(SDL_GetPerformanceFrequency()), startFpsTime(lastTime), deltaTime(0.0), frameCount(0), fps(0) {}
 
   void FramesCounter::update() {
@@ -8,9 +11,9 @@ namespace Project::Utilities {
     deltaTime = (currentTime - lastTime) / static_cast<double>(frequency);
     frameCount++;
     
-    double elapsedTime = (currentTime - startFpsTime) / static_cast<double>(frequency) * 1000;
+    double elapsedTime = (currentTime - startFpsTime) / static_cast<double>(frequency) * Constants::MILLISECONDS_PER_SECOND;
 
-    if (elapsedTime >= 1000.0) {
+    if (elapsedTime >= Constants::MILLISECONDS_PER_SECOND) {
       fps = frameCount;
       frameCount = 0;
       startFpsTime = currentTime;

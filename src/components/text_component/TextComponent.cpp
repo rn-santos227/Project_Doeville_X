@@ -1,7 +1,14 @@
 #include "TextComponent.h"
+#include "libraries/constants/Constants.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Components {
+  using Project::Utilities::LogsManager;
+  using Project::Handlers::Animation;
+  using Project::Handlers::AnimationHandler;
+
+  namespace Constants = Project::Libraries::Constants;
+
   TextComponent::TextComponent(SDL_Renderer* renderer, TTF_Font* font,  SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager)
   : BaseComponent(logsManager),
     animationHandler(renderer, logsManager),
@@ -48,7 +55,7 @@ namespace Project::Components {
   }
 
   void TextComponent::update(float deltaTime) {
-    animationHandler.update(static_cast<Uint32>(deltaTime * 1000));
+    animationHandler.update(static_cast<Uint32>(deltaTime * Constants::MILLISECONDS_PER_SECOND));
   }
 
   void TextComponent::render() {

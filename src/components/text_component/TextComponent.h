@@ -13,13 +13,10 @@
 #include "handlers/animation/AnimationHandler.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Utilities;
-using namespace Project::Handlers;
-
 namespace Project::Components {
   class TextComponent : public BaseComponent, public PositionableComponent, public TextureHolder {
   public:
-    TextComponent(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager);
+    TextComponent(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, Project::Utilities::LogsManager& logsManager);
     ~TextComponent() override;
 
     void update(float deltaTime) override;
@@ -35,12 +32,12 @@ namespace Project::Components {
     int getWidth() const { return rect.w; }
     int getHeight() const { return rect.h; }
 
-    void addAnimation(const std::string& name, Animation animation);
+    void addAnimation(const std::string& name, Project::Handlers::Animation animation);
     void playAnimation(const std::string& name);
 
   private:
-    AnimationHandler animationHandler;
-    
+    Project::Handlers::AnimationHandler animationHandler;
+
     SDL_Renderer* renderer;
     TTF_Font* font;
 

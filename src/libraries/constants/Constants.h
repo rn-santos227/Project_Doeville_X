@@ -38,6 +38,13 @@ namespace Project::Libraries {
   constexpr SDL_Color DEFAULT_BOUNDING_BOX_COLOR{0, 0, 0, 255};
   constexpr SDL_Color DEFAULT_SHAPE_COLOR{255, 255, 255, 255};
   constexpr SDL_Color DEFAULT_BACKGROUND_COLOR{0, 0, 0, 255};
+
+  // Lua script suffixes
+  constexpr const char* LUA_STATE_SUFFIX = ".state.lua";
+  constexpr const char* LUA_ENTITY_SUFFIX = ".entity.lua";
+  constexpr const char* LUA_MAP_SUFFIX = ".map.lua";
+  constexpr const char* LUA_ITEM_SUFFIX = ".item.lua";
+  constexpr const char* LUA_ANIMATION_SUFFIX = ".animation.lua";
 } 
 
 #endif 

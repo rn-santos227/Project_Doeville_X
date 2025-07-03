@@ -12,15 +12,12 @@
 #include "entities/EntitiesManager.h"
 
 #include "utilities/logs_manager/LogsManager.h"
-#include "utilities/manager/Manager.h"
-
-using namespace Project::Entities;
-using namespace Project::Utilities;
+#include "utilities/objects_manager/ObjectsManager.h"
 
 namespace Project::States {
   class GameStateManager {
   public:
-    GameStateManager(size_t cacheLimit, LogsManager& logsManager);
+    GameStateManager(size_t cacheLimit, Project::Utilities::LogsManager& logsManager);
     ~GameStateManager() = default;
 
     void addState(const std::string& name, std::unique_ptr<GameState> state);
@@ -39,20 +36,20 @@ namespace Project::States {
     void cleanup();
     void cleanupCache();
 
-    std::shared_ptr<EntitiesManager> getGlobalEntitiesManager() const {
+    std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const {
       return globalEntitiesManager;
     }
 
   private:
-    LogsManager& logsManager;
-    Manager<GameState, std::unique_ptr<GameState>> stateManager;
+    Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;
     size_t cacheLimit;
 
     std::mutex gameStateMutex;
     std::list<std::pair<std::string, std::unique_ptr<GameState>>> stateCache;
     std::unordered_map<std::string, decltype(stateCache.begin())> cacheMap;
-    
-    std::shared_ptr<EntitiesManager> globalEntitiesManager = std::make_shared<EntitiesManager>();
+
+    std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager = std::make_shared<Project::Entities::EntitiesManager>();
     std::stack<GameState*> stateStack;
 
     GameState* retrieveFromCache(const std::string& name);

@@ -54,7 +54,7 @@ namespace Project::States {
 
     //overload functions
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
-      setBackgroundColor(r, g, b, Constants::DEFAULT_ALPHA);
+      setBackgroundColor(r, g, b, Constants::FULL_ALPHA);
     };
 
   protected:

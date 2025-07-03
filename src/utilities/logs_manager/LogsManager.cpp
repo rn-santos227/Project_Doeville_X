@@ -137,8 +137,8 @@ namespace Project::Utilities {
     std::tm* localTime = std::localtime(&now);
 
     std::ostringstream timestampStream;
-    timestampStream << (localTime->tm_year + 1900) << "-" 
-                    << (localTime->tm_mon + 1) << "-"
+    timestampStream << (localTime->tm_year + Constants::TIME_YEAR_OFFSET) << "-"
+                    << (localTime->tm_mon + Constants::TIME_MONTH_OFFSET) << "-"
                     << localTime->tm_mday << " "
                     << localTime->tm_hour << ":"
                     << localTime->tm_min << ":"

@@ -29,7 +29,6 @@ namespace Project::Libraries::Constants {
     constexpr int DEFAULT_BASE_FONT_SIZE = 16;
 
     constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
-
     constexpr Uint8 FULL_ALPHA = 255;
 
     constexpr int TIME_YEAR_OFFSET = 1900;

@@ -100,7 +100,7 @@ namespace Project::Factories {
       int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "width", Constants::DEFAULT_COMPONENT_SIZE));
       int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "height", Constants::DEFAULT_COMPONENT_SIZE));
       std::string colorHex = luaStateWrapper.getTableString(tableName, "colorHex", "FFFFFF");
-      Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "colorAlpha", Constants::DEFAULT_ALPHA));
+      Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "colorAlpha", Constants::FULL_ALPHA));
       SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
       graphicsComponent->setShape(width, height, color);
     }

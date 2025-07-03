@@ -3,6 +3,9 @@
 #include "utilities/resource_cleaner/ResourceCleaner.h"
 
 namespace Project::Handlers {
+  using Project::Utilities::LogsManager;
+  using Project::Utilities::ResourceCleaner;
+
   CursorHandler::CursorHandler(LogsManager& logsManager) 
     : logsManager(logsManager), renderer(nullptr), currentCursorTexture(nullptr), currentState(CursorState::DEFAULT) {
     defaultCursor = SDL_GetDefaultCursor();

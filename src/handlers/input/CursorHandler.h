@@ -10,13 +10,10 @@
 #include <SDL_image.h>
 
 #include "utilities/logs_manager/LogsManager.h"
-
-using namespace Project::Utilities;
-
 namespace Project::Handlers {
   class CursorHandler {
   public:
-    CursorHandler(LogsManager& logsManager);
+    CursorHandler(Project::Utilities::LogsManager& logsManager);
     ~CursorHandler();
 
     CursorState getCursorState() const;
@@ -37,8 +34,8 @@ namespace Project::Handlers {
     std::unordered_map<std::string, SDL_Texture*> textureCache;
     
     CursorState currentState = CursorState::DEFAULT;
-    LogsManager& logsManager;
-    
+    Project::Utilities::LogsManager& logsManager;
+
     SDL_Cursor* defaultCursor = nullptr;
     SDL_Renderer* renderer;
     SDL_Texture* currentCursorTexture = nullptr;

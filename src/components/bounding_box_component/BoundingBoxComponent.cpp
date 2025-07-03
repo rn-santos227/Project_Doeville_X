@@ -1,6 +1,9 @@
 #include "BoundingBoxComponent.h"
 
 namespace Project::Components {
+  using Project::Utilities::LogsManager;
+  using Project::Handlers::KeyHandler;
+  
   BoundingBoxComponent::BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor)
       : BaseComponent(logsManager), PositionableComponent(), renderer(renderer), keyHandler(keyHandler), debugColor(debugColor) {
     logsManager.logMessage("BoundingBoxComponent initialized.");

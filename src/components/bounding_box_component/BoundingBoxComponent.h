@@ -4,18 +4,19 @@
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 
+#include "libraries/constants/Constants.h"
+
 #include "handlers/input/KeyHandler.h"
 
 #include <SDL.h>
 #include <vector>
 
-using namespace Project::Handlers;
-using namespace Project::Utilities;
+namespace Constants = Project::Libraries::Constants;
 
 namespace Project::Components {
   class BoundingBoxComponent : public BaseComponent, public PositionableComponent {
   public:
-    explicit BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor);
+    explicit BoundingBoxComponent(Project::Utilities::LogsManager& logsManager, SDL_Renderer* renderer, Project::Handlers::KeyHandler* keyHandler, SDL_Color debugColor);
 
     void update(float deltaTime) override;
     void render() override;
@@ -36,7 +37,7 @@ namespace Project::Components {
     SDL_Renderer* renderer = nullptr;
     KeyHandler* keyHandler = nullptr;
 
-    SDL_Color debugColor{0, 0, 0, 255};
+    SDL_Color debugColor = Constants::DEFAULT_BOUNDING_BOX_COLOR;
 
     int entityX = 0;
     int entityY = 0;

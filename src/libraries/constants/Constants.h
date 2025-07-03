@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <string>
 
-namespace Project::Libraries {
+namespace Project::Libraries::Constants {
   const std::string PROJECT_NAME = "Project Doeville X";
   const std::string VERSION = "1.0.0";
 

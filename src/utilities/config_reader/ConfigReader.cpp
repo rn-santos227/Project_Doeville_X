@@ -51,7 +51,7 @@ namespace Project::Utilities {
     }
 
     if (value.find(',') == std::string::npos) {
-      return Project::Utilities::hexToRGB(value, defaultValue.a);
+      return ColorUtils::hexToRGB(value, defaultValue.a);
     }
 
     std::stringstream ss(value);

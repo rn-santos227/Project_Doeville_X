@@ -1,5 +1,9 @@
 #include "LogsManager.h"
+#include "libraries/constants/Constants.h"
+
 namespace Project::Utilities {
+  namespace Constants = Project::Libraries::Constants;
+
   static std::queue<LogEntry> logQueue;
   static std::mutex logMutex;
   static std::condition_variable logCv;
@@ -32,8 +36,8 @@ namespace Project::Utilities {
   }
 
   LogsManager::LogsManager() {
-    std::string logFilePath = "resources/logs/logs.txt";
-    std::filesystem::create_directories("resources/logs");
+    std::string logFilePath = Constants::LOG_FILE_PATH;
+    std::filesystem::create_directories(Constants::LOGS_DIRECTORY);
     logFile.open(logFilePath, std::ios_base::app);
     
     if (!logFile.is_open()) {
@@ -117,7 +121,7 @@ namespace Project::Utilities {
     std::unique_lock<std::mutex> lock(logMutex);
     while (!logQueue.empty()) {
       lock.unlock();
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      std::this_thread::sleep_for(std::chrono::milliseconds(Constants::LOG_FLUSH_WAIT_MS));
       lock.lock();
     }
 

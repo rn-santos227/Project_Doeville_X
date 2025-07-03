@@ -40,11 +40,11 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::update(float deltaTime) {
-    Manager<Entity>::update(deltaTime);
+    ObjectsManager<Entity>::update(deltaTime);
   }
 
   void EntitiesManager::render() {
-    Manager<Entity>::render();
+    ObjectsManager<Entity>::render();
   }
 
   void EntitiesManager::reset() {

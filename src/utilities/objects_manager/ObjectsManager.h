@@ -8,10 +8,10 @@
 
 namespace Project::Utilities {
   template<typename T, typename Ptr = std::shared_ptr<T>>
-  class Manager {
+  class ObjectsManager {
   public:
-    Manager() = default;
-    virtual ~Manager() = default;
+    ObjectsManager() = default;
+    virtual ~ObjectsManager() = default;
 
     void add(const std::string& id, Ptr object) {
       std::lock_guard<std::mutex> lock(managerMutex);

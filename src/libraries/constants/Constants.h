@@ -21,17 +21,23 @@ namespace Project::Libraries {
   constexpr int DEFAULT_SCREEN_HEIGHT = 600;
   constexpr const char* DEFAULT_INITIAL_STATE = "MainMenu";
 
-    // Numeric values
-    constexpr int DEFAULT_CURSOR_SIZE = 32;
-    constexpr int DEFAULT_COMPONENT_SIZE = 32;
-    constexpr int DEBUG_TEXT_MARGIN = 10;
-    constexpr int DEFAULT_FONT_SIZE = 24;
-    constexpr int DEFAULT_BASE_FONT_SIZE = 16;
+  // Numeric values
+  constexpr int DEFAULT_CURSOR_SIZE = 32;
+  constexpr int DEFAULT_COMPONENT_SIZE = 32;
+  constexpr int DEBUG_TEXT_MARGIN = 10;
+  constexpr int DEFAULT_FONT_SIZE = 24;
+  constexpr int DEFAULT_BASE_FONT_SIZE = 16;
 
-    constexpr int MILLISECONDS_PER_SECOND = 1000;
-    constexpr int LOG_FLUSH_WAIT_MS = 10;
+  constexpr int MILLISECONDS_PER_SECOND = 1000;
+  constexpr int LOG_FLUSH_WAIT_MS = 10;
 
-    constexpr double TARGET_FPS = 60.0;
+  constexpr double TARGET_FPS = 60.0;
+
+  // Colors
+  constexpr SDL_Color DEFAULT_DEBUG_TEXT_COLOR{144, 238, 144, 255};
+  constexpr SDL_Color DEFAULT_BOUNDING_BOX_COLOR{0, 0, 0, 255};
+  constexpr SDL_Color DEFAULT_SHAPE_COLOR{255, 255, 255, 255};
+  constexpr SDL_Color DEFAULT_BACKGROUND_COLOR{0, 0, 0, 255};
 } 
 
 #endif 

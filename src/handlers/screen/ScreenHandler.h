@@ -26,18 +26,22 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Core;
-using namespace Project::Factories;
-using namespace Project::Services;
-using namespace Project::States;
-using namespace Project::Utilities;
-
 namespace Constants = Project::Libraries::Constants;
 
 namespace Project::Handlers {
   class ScreenHandler {
   public:
-    ScreenHandler(LogsManager& logsManager, FramesCounter& frameCounter, ConfigReader& configReader, SDLManager& sdlManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager, CursorHandler& cursorHandler, FontHandler& fontHandler, KeyHandler& keyHandler, MouseHandler& mouseHandler, ResourcesHandler& resourcesHandler);
+    ScreenHandler(Project::Utilities::LogsManager& logsManager, 
+      Project::Utilities::FramesCounter& frameCounter, 
+      Project::Utilities::ConfigReader& configReader, 
+      Project::Core::SDLManager& sdlManager, 
+      Project::Factories::ComponentsFactory& componentsFactory, 
+      Project::States::GameStateManager& gameStateManager, 
+      Project::Handlers::CursorHandler& cursorHandler, 
+      Project::Handlers::FontHandler& fontHandler, 
+      Project::Handlers::KeyHandler& keyHandler, 
+      Project::Handlers::MouseHandler& mouseHandler, 
+      Project::Handlers::ResourcesHandler& resourcesHandler);
     ~ScreenHandler();
 
     bool init();
@@ -51,27 +55,26 @@ namespace Project::Handlers {
     SDL_Window* getWindow() const;
 
   private:
-    LogsManager& logsManager;
-    FramesCounter& framesCounter;
-    ConfigReader& configReader;
-    SDLManager& sdlManager;
-    
-    ComponentsFactory& componentsFactory;
-    GameStateManager& gameStateManager;
+    Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::FramesCounter& framesCounter;
+    Project::Utilities::ConfigReader& configReader;
+    Project::Core::SDLManager& sdlManager;
 
-    CursorHandler& cursorHandler;
-    FontHandler& fontHandler;
-    KeyHandler& keyHandler;
-    MouseHandler& mouseHandler;
-    ResourcesHandler& resourcesHandler;
+    Project::Factories::ComponentsFactory& componentsFactory;
+    Project::States::GameStateManager& gameStateManager;
 
-    std::unique_ptr<ScriptingService> scriptingService;
+    Project::Handlers::CursorHandler& cursorHandler;
+    Project::Handlers::FontHandler& fontHandler;
+    Project::Handlers::KeyHandler& keyHandler;
+    Project::Handlers::MouseHandler& mouseHandler;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
+
+    std::unique_ptr<Project::Services::ScriptingService> scriptingService;
 
     std::mutex renderMutex;
     std::mutex eventMutex;
 
-    CameraHandler cameraHandler;
-
+    Project::Handlers::CameraHandler cameraHandler;
     SDL_Color debugTextColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
 
     bool running;

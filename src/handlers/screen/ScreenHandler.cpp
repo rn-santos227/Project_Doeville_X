@@ -2,6 +2,19 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Handlers {
+  using Project::Utilities::LogsManager;
+  using Project::Utilities::FramesCounter;
+  using Project::Utilities::ConfigReader;
+  using Project::Core::SDLManager;
+  using Project::Factories::ComponentsFactory;
+  using Project::States::GameStateManager;
+  using Project::Handlers::CursorHandler;
+  using Project::Handlers::FontHandler;
+  using Project::Handlers::KeyHandler;
+  using Project::Handlers::MouseHandler;
+  using Project::Handlers::ResourcesHandler;
+  using Project::Services::ScriptingService;
+
   namespace Constants = Project::Libraries::Constants;
 
   ScreenHandler::ScreenHandler(

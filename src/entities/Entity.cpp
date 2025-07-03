@@ -3,8 +3,12 @@
 #include "components/PositionableComponent.h"
 
 namespace Project::Entities {
+  using Project::Utilities::LogsManager;
+  using Project::Factories::ComponentsFactory;
+  using Project::Components::BaseComponent;
+
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
-  : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),  
+  : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),
     x(0.0f), y(0.0f), z(0.0f) {}
 
   Entity::~Entity() = default;

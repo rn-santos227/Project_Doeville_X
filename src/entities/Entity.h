@@ -15,14 +15,12 @@
 
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
-using namespace Project::Components;
-using namespace Project::Factories;
-using namespace Project::Utilities;
-
 namespace Project::Entities {
   class Entity : public LuaScriptable {
   public:
-    explicit Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory);
+    explicit Entity(EntityCategory entityCategory, 
+      Project::Utilities::LogsManager& logsManager, 
+      Project::Factories::ComponentsFactory& componentsFactory);
     virtual ~Entity();
 
     Entity(const Entity&) = delete;
@@ -41,11 +39,11 @@ namespace Project::Entities {
     
     bool attachLuaScript(const std::string& scriptPath);
 
-    void addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component);
+    void addComponent(const std::string& componentName, std::unique_ptr<Project::Components::BaseComponent> component);
     void removeComponent(const std::string& componentName);
     bool hasComponent(const std::string& componentName) const;
 
-    BaseComponent* getComponent(const std::string& componentName);
+    Project::Components::BaseComponent* getComponent(const std::string& componentName);
     std::vector<std::string> listComponentNames() const;
 
     void setPosition(float newX, float newY) { x = newX; y = newY; }
@@ -56,10 +54,10 @@ namespace Project::Entities {
     float getZ() const { return z; }
 
   private:
-    ComponentsFactory& componentsFactory;
+    Project::Factories::ComponentsFactory& componentsFactory;
     EntityCategory entityCategory;
 
-    std::unordered_map<std::string, std::unique_ptr<BaseComponent>> components;
+    std::unordered_map<std::string, std::unique_ptr<Project::Components::BaseComponent>> components;
     std::string entityName;
 
     float x = 0.0f;

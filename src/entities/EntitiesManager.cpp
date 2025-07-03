@@ -4,6 +4,7 @@
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "handlers/camera/CameraHandler.h"
+
 #include <SDL.h>
 
 namespace Project::Entities {

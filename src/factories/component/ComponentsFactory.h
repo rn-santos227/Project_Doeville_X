@@ -13,6 +13,8 @@
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/text_component/TextComponent.h"
 
+#include "libraries/constants/Constants.h"
+
 #include "handlers/input/KeyHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 
@@ -20,38 +22,42 @@
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/config_reader/ConfigReader.h"
 
-using namespace Project::Components;
-using namespace Project::Handlers;
-using namespace Project::Utilities;
+namespace Constants = Project::Libraries::Constants;
 
 namespace Project::Factories {
   class ComponentsFactory {
   public:
-    ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
+    ComponentsFactory(
+      Project::Utilities::ConfigReader& configReader,
+      Project::Utilities::LogsManager& logsManager,
+      Project::Handlers::ResourcesHandler& resourcesHandler);
 
     std::unique_ptr<BaseComponent> create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     
-    void setKeyHandler(Handlers::KeyHandler* keyHandler);
+    void setKeyHandler(Project::Handlers::KeyHandler* keyHandler);
     void setRenderer(SDL_Renderer* renderer);
 
   private:
-    KeyHandler* keyHandler = nullptr;
+    Project::Handlers::KeyHandler* keyHandler = nullptr;
     SDL_Renderer* renderer = nullptr;
-    
-    ConfigReader& configReader;
-    LogsManager& logsManager;
-    ResourcesHandler& resourcesHandler;
+
+    Project::Utilities::ConfigReader& configReader;
+    Project::Utilities::LogsManager& logsManager;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
 
     //Components Builder
-    std::unique_ptr<BaseComponent> createBoundingBoxComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    std::unique_ptr<BaseComponent> createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    std::unique_ptr<BaseComponent> createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    
+    std::unique_ptr<Project::Components::BaseComponent> createBoundingBoxComponent(
+      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+    std::unique_ptr<Project::Components::BaseComponent> createGraphicsComponent(
+      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+    std::unique_ptr<Project::Components::BaseComponent> createTextComponent(
+      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+
     //Utilities
-    SDL_Color getLuaSDLColor(LuaStateWrapper& luaStateWrapper);
-    Uint8 getLuaColorChannel(LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue = 255); 
-    std::string getLuaGlobalString(LuaStateWrapper& luaStateWrapper, const std::string& name, const std::string& defaultValue);
-    int getLuaGlobalInt(LuaStateWrapper& luaStateWrapper, const std::string& name, int defaultValue);
+    SDL_Color getLuaSDLColor(Project::Utilities::LuaStateWrapper& luaStateWrapper);
+    Uint8 getLuaColorChannel(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue = Constants::DEFAULT_ALPHA);
+    std::string getLuaGlobalString(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& name, const std::string& defaultValue);
+    int getLuaGlobalInt(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& name, int defaultValue);
   };
 }
 #endif

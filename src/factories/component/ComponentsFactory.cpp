@@ -1,7 +1,19 @@
 #include "ComponentsFactory.h"
+#include "libraries/constants/Constants.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Factories {
+  using Project::Components::BaseComponent;
+  using Project::Components::BoundingBoxComponent;
+  using Project::Components::GraphicsComponent;
+  using Project::Components::TextComponent;
+  using Project::Handlers::ResourcesHandler;
+  using Project::Utilities::ConfigReader;
+  using Project::Utilities::LogsManager;
+  using Project::Utilities::LuaStateWrapper;
+
+  namespace Constants = Project::Libraries::Constants;
+
   ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
   : configReader(configReader), logsManager(logsManager), resourcesHandler(resourcesHandler), renderer(nullptr), keyHandler(nullptr) {}
 
@@ -31,7 +43,7 @@ namespace Project::Factories {
 
   // Components Builder Section
  std::unique_ptr<BaseComponent> ComponentsFactory::createBoundingBoxComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    SDL_Color defaultColor{144, 238, 144, 255};
+    SDL_Color defaultColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
     SDL_Color debugColor = configReader.getColorValue("Font", "default_color", defaultColor);
     auto boxComponent = std::make_unique<BoundingBoxComponent>(logsManager, renderer, keyHandler, debugColor);
 
@@ -85,10 +97,10 @@ namespace Project::Factories {
     if (!imagePath.empty()) {
       graphicsComponent->setTexture(resourcesHandler, imagePath);
     } else {
-      int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "width", 32));
-      int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "height", 32));
+      int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "width", Constants::DEFAULT_COMPONENT_SIZE));
+      int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "height", Constants::DEFAULT_COMPONENT_SIZE));
       std::string colorHex = luaStateWrapper.getTableString(tableName, "colorHex", "FFFFFF");
-      Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "colorAlpha", 255));
+      Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, "colorAlpha", Constants::DEFAULT_ALPHA));
       SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
       graphicsComponent->setShape(width, height, color);
     }
@@ -107,10 +119,10 @@ namespace Project::Factories {
 
     std::string text = luaStateWrapper.getTableString(tableName, "text", "Default Text");
 
-    std::string defaultFontPath = configReader.getValue("Font", "default_path", "resources/fonts/system.ttf");
+    std::string defaultFontPath = configReader.getValue("Font", "default_path", Constants::DEFAULT_FONT_PATH);
     std::string fontPath = luaStateWrapper.getTableString(tableName, "fontPath", defaultFontPath);
 
-    int defaultFontSize = configReader.getIntValue("Font", "default_size", 16);
+    int defaultFontSize = configReader.getIntValue("Font", "default_size", Constants::DEFAULT_FONT_SIZE);
     int fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, "fontSize", static_cast<float>(defaultFontSize)));
 
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);

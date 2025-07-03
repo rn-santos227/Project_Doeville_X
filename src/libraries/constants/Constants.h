@@ -58,6 +58,11 @@ namespace Project::Libraries {
   constexpr SDL_Scancode KEY_ACTION_3 = SDL_SCANCODE_Q;
   constexpr SDL_Scancode KEY_ACTION_4 = SDL_SCANCODE_E;
 
+  constexpr SDL_Scancode KEY_FUNC_HELP = SDL_SCANCODE_F1;
+  constexpr SDL_Scancode KEY_FUNC_DEBUG = SDL_SCANCODE_F2;
+  constexpr SDL_Scancode KEY_FUNC_FREEZE = SDL_SCANCODE_F3;
+  constexpr SDL_Scancode KEY_FUNC_RESTART = SDL_SCANCODE_F4;
+  constexpr SDL_Scancode KEY_FUNC_EXIT = SDL_SCANCODE_F5;
 } 
 
 #endif 

@@ -16,6 +16,8 @@
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 
+#include "libraries/constants/Constants.h"
+
 #include "services/scripting/ScriptingService.h"
 
 #include "states/GameStateManager.h"
@@ -29,6 +31,8 @@ using namespace Project::Factories;
 using namespace Project::Services;
 using namespace Project::States;
 using namespace Project::Utilities;
+
+namespace Constants = Project::Libraries::Constants;
 
 namespace Project::Handlers {
   class ScreenHandler {
@@ -67,9 +71,9 @@ namespace Project::Handlers {
     std::mutex eventMutex;
 
     CameraHandler cameraHandler;
-    
-    SDL_Color debugTextColor{144, 238, 144, 255};
-    
+
+    SDL_Color debugTextColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
+
     bool running;
     int cursorWidth;
     int cursorHeight;

@@ -1,6 +1,9 @@
 #include "ScreenHandler.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::Handlers {
+  namespace Constants = Project::Libraries::Constants;
+
   ScreenHandler::ScreenHandler(
       LogsManager& logsManager, FramesCounter& framesCounter, ConfigReader& configReader, 
       SDLManager& sdlManager,
@@ -32,12 +35,12 @@ namespace Project::Handlers {
     int screenHeight = 0;
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
     cameraHandler.setSize(screenWidth, screenHeight);
-    
-    cursorWidth = configReader.getIntValue("Cursor", "width", 32);
-    cursorHeight = configReader.getIntValue("Cursor", "height", 32);
-    
+
+    cursorWidth = configReader.getIntValue("Cursor", "width", Constants::DEFAULT_CURSOR_SIZE);
+    cursorHeight = configReader.getIntValue("Cursor", "height", Constants::DEFAULT_CURSOR_SIZE);
+
     cursorHandler.setRenderer(renderer);
-    std::string cursorPath = resourcesHandler.getResourcePath("resources/system/cursor_default.png");
+    std::string cursorPath = resourcesHandler.getResourcePath(Constants::DEFAULT_CURSOR_PATH);
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);
 
@@ -49,10 +52,10 @@ namespace Project::Handlers {
       return false;
     }
 
-    std::string scriptPath = configReader.getValue("Paths", "scripts", "scripts/");
+    std::string scriptPath = configReader.getValue("Paths", "scripts", Constants::SCRIPT_FOLDER);
     scriptingService->loadScriptsFromFolder(scriptPath);
 
-    std::string initialState = configReader.getValue("Game", "initial_state", "MainMenu");
+    std::string initialState = configReader.getValue("Game", "initial_state", Constants::DEFAULT_INITIAL_STATE);
     gameStateManager.setInitialState(initialState);
 
     debugTextColor = configReader.getColorValue("Debug", "text_color", debugTextColor);
@@ -149,7 +152,7 @@ namespace Project::Handlers {
       int screenWidth, screenHeight;
       SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
-      SDL_Rect destRect = {10, screenHeight - textHeight - 10, textWidth, textHeight};
+      SDL_Rect destRect = {Constants::DEBUG_TEXT_MARGIN, screenHeight - textHeight - Constants::DEBUG_TEXT_MARGIN, textWidth, textHeight};
       SDL_RenderCopy(renderer, mouseTexture, nullptr, &destRect);
       SDL_DestroyTexture(mouseTexture);
     } else {

@@ -11,20 +11,16 @@
 
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
-
+#include "libraries/constants/Constants.h"
 #include "handlers/resources/ResourcesHandler.h"
-
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
-using namespace Project::Entities;
-using namespace Project::Factories;
-using namespace Project::Handlers;
-using namespace Project::Utilities;
+namespace Constants = Project::Libraries::Constants;
 
 namespace Project::States {
-  class GameState : public LuaScriptable {
+  class GameState : public Project::Utilities::LuaScriptable {
   public:
-    explicit GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
+    explicit GameState(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager, Project::Handlers::ResourcesHandler& resourcesHandler);
     virtual ~GameState();
 
     virtual void initialize();
@@ -51,8 +47,8 @@ namespace Project::States {
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
-    void setEntitiesManager(std::shared_ptr<EntitiesManager> manager) { entitiesManager = std::move(manager); }
-    void setEntitiesFactory(EntitiesFactory* factory) { entitiesFactory = factory; }
+    void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { entitiesManager = std::move(manager); }
+    void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
 
     void clearBackground();
 
@@ -62,21 +58,21 @@ namespace Project::States {
     };
 
   protected:
-    ResourcesHandler& resourcesHandler;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
     
-    EntitiesFactory* entitiesFactory = nullptr;
+    Project::Factories::EntitiesFactory* entitiesFactory = nullptr;
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
     
-    SDL_Color backgroundColor = {0, 0, 0, 255};
+    SDL_Color backgroundColor = Constants::DEFAULT_BACKGROUND_COLOR;
 
     std::string stateName;
     bool useImageBackground = false;
     bool initialized = false;
     bool active = false;
 
-    std::shared_ptr<EntitiesManager> entitiesManager;
+    std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
 
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);

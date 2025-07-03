@@ -1,8 +1,11 @@
 #include "GameState.h"
 
 namespace Project::States {
+  using Project::Utilities::LogsManager;
+  using Project::Handlers::ResourcesHandler;
+
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-: LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {}
+  : LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {}
 
   GameState::~GameState() {
     clearBackground();

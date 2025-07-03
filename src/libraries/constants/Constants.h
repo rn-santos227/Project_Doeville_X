@@ -22,6 +22,7 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_INITIAL_STATE = "MainMenu";
 
   // Numeric values
+  constexpr int DEFAULT_ALPHA = 255;
   constexpr int DEFAULT_CURSOR_SIZE = 32;
   constexpr int DEFAULT_COMPONENT_SIZE = 32;
   constexpr int DEBUG_TEXT_MARGIN = 10;

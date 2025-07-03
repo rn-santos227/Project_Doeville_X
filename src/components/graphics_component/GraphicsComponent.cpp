@@ -2,7 +2,15 @@
 
 #include <SDL_image.h>
 
+#include "libraries/constants/Constants.h"
+
 namespace Project::Components {
+  using Project::Utilities::LogsManager;
+  using Project::Handlers::ResourcesHandler;
+  using Project::Handlers::AnimationHandler;
+
+  namespace Constants = Project::Libraries::Constants;
+
   GraphicsComponent::GraphicsComponent(SDL_Renderer* renderer, LogsManager& logsManager)
   : BaseComponent(logsManager), renderer(renderer), logsManager(logsManager) {
     animationHandler = std::make_unique<AnimationHandler>(renderer, logsManager);
@@ -14,7 +22,7 @@ namespace Project::Components {
 
   void GraphicsComponent::update(float deltaTime) {
     if (animationHandler) {
-      animationHandler->update(static_cast<Uint32>(deltaTime * 1000));
+      animationHandler->update(static_cast<Uint32>(deltaTime * Constants::MILLISECONDS_PER_SECOND));
     }
   }
 

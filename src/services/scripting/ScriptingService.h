@@ -22,33 +22,32 @@
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
-using namespace Project::Factories;
-using namespace Project::Handlers;
-using namespace Project::States;
-using namespace Project::Utilities;
-
 namespace Project::Services {
 
   class ScriptingService {
   public:
-    explicit ScriptingService(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager);
+    explicit ScriptingService(SDL_Renderer* renderer, 
+      Project::Utilities::LogsManager& logsManager, 
+      Project::Handlers::ResourcesHandler& resourcesHandler, 
+      Project::Factories::ComponentsFactory& componentsFactory, 
+      Project::States::GameStateManager& gameStateManager);
     ~ScriptingService() = default;
 
     bool validateScript(const std::string& scriptPath);
     void loadScriptsFromFolder(const std::string& folderPath);
 
   private:
-    LogsManager& logsManager;
-    ComponentsFactory& componentsFactory;
-    GameStateManager& gameStateManager;
-    ResourcesHandler& resourcesHandler;
+    Project::Utilities::LogsManager& logsManager;
+    Project::Factories::ComponentsFactory& componentsFactory;
+    Project::States::GameStateManager& gameStateManager;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
 
     LuaStateWrapper luaStateWrapper;
     SDL_Renderer* renderer;
 
-    EntitiesFactory entitiesFactory;
-    GameStateFactory gameStateFactory;
-    
+    Project::Factories::EntitiesFactory entitiesFactory;
+    Project::Factories::GameStateFactory gameStateFactory;
+
     ScriptCategory determineScriptType(const std::string& scriptName);
     void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);
   };

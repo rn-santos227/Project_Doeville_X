@@ -1,7 +1,11 @@
 #include "ScriptingService.h"
+
 #include <vector>
 #include <unordered_map>
 
+#include "libraries/constants/Constants.h"
+
+namespace Constants = Project::Libraries::Constants;
 namespace fs = std::filesystem;
 
 namespace Project::Services {
@@ -80,11 +84,11 @@ namespace Project::Services {
 
   ScriptCategory ScriptingService::determineScriptType(const std::string& scriptName) {
     static const std::unordered_map<std::string, ScriptCategory> extensionMap = {
-      {".state.lua", ScriptCategory::STATE},
-      {".entity.lua", ScriptCategory::ENTITY},
-      {".map.lua", ScriptCategory::MAP},
-      {".item.lua", ScriptCategory::ITEM},
-      {".animation.lua", ScriptCategory::ANIMATION}
+      {Constants::LUA_STATE_SUFFIX, ScriptCategory::STATE},
+      {Constants::LUA_ENTITY_SUFFIX, ScriptCategory::ENTITY},
+      {Constants::LUA_MAP_SUFFIX, ScriptCategory::MAP},
+      {Constants::LUA_ITEM_SUFFIX, ScriptCategory::ITEM},
+      {Constants::LUA_ANIMATION_SUFFIX, ScriptCategory::ANIMATION}
     };
 
     for (const auto& [suffix, category] : extensionMap) {

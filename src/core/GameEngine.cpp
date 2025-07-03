@@ -1,6 +1,9 @@
 #include "GameEngine.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::Core {
+  namespace Constants = Project::Libraries::Constants;
+
   GameEngine::GameEngine() :
   isRunning(false), framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
@@ -29,9 +32,9 @@ namespace Project::Core {
       return;
     }
 
-    std::string title = configReader.getValue("Window", "title", "Project Doeville X");
-    int screenWidth = configReader.getIntValue("Window", "width", 800);
-    int screenHeight = configReader.getIntValue("Window", "height", 600);
+    std::string title = configReader.getValue("Window", "title", Constants::PROJECT_NAME);
+    int screenWidth = configReader.getIntValue("Window", "width", Constants::DEFAULT_SCREEN_WIDTH);
+    int screenHeight = configReader.getIntValue("Window", "height", Constants::DEFAULT_SCREEN_HEIGHT);
     bool isFullscreen = configReader.getBoolValue("Window", "fullscreen", false);
 
     if (!sdlManager.initialize(title, screenWidth, screenHeight, isFullscreen)) {
@@ -40,7 +43,7 @@ namespace Project::Core {
     }
 
     SDL_ShowCursor(SDL_DISABLE);
-     std::string fontRelPath = configReader.getValue("Font", "default_path", "resources/fonts/system.ttf");
+    std::string fontRelPath = configReader.getValue("Font", "default_path", Constants::DEFAULT_FONT_PATH);
     std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
     
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
@@ -49,7 +52,7 @@ namespace Project::Core {
       return;
     }
 
-    if (logsManager.checkAndLogError(!fontHandler->loadFont("system", fontPath.c_str(), 24), "Failed to load required font 'system'!")) {
+    if (logsManager.checkAndLogError(!fontHandler->loadFont("system", fontPath.c_str(), Constants::DEFAULT_FONT_SIZE), "Failed to load required font 'system'!")) {
       logsManager.flushLogs();
       return;
     }
@@ -58,10 +61,10 @@ namespace Project::Core {
       logsManager.logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
       return;
     }
-    
-    componentsFactory->setRenderer(screenHandler->getRenderer()); 
-    keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, SDL_SCANCODE_F1);
-    
+
+    componentsFactory->setRenderer(screenHandler->getRenderer());
+    keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
+
     logsManager.logMessage("Game Engine has been initialized successfully.");
     logsManager.flushLogs();
     isRunning = true;
@@ -106,14 +109,15 @@ namespace Project::Core {
   }
 
   void GameEngine::handleFrameRate(Uint64 frameStartTime) {
-    const double targetFrameDuration = 1.0 / 60.0;
+    const double BASE_VALUE = 1.0;
+    const double targetFrameDuration = BASE_VALUE / Constants::TARGET_FPS;
 
     Uint64 frameEndTime = SDL_GetPerformanceCounter();
     Uint64 frequency = SDL_GetPerformanceFrequency();
     double frameDuration = (frameEndTime - frameStartTime) / static_cast<double>(frequency);
 
     if (frameDuration < targetFrameDuration) {
-      Uint32 delayMs = static_cast<Uint32>((targetFrameDuration - frameDuration) * 1000.0);
+      Uint32 delayMs = static_cast<Uint32>((targetFrameDuration - frameDuration) * Constants::MILLISECONDS_PER_SECOND);
       if (delayMs > 0) {
         SDL_Delay(delayMs);
       }

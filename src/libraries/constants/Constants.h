@@ -45,6 +45,19 @@ namespace Project::Libraries {
   constexpr const char* LUA_MAP_SUFFIX = ".map.lua";
   constexpr const char* LUA_ITEM_SUFFIX = ".item.lua";
   constexpr const char* LUA_ANIMATION_SUFFIX = ".animation.lua";
+
+  // Default key bindings
+  constexpr SDL_Scancode KEY_MOVE_UP = SDL_SCANCODE_W;
+  constexpr SDL_Scancode KEY_MOVE_DOWN = SDL_SCANCODE_S;
+  constexpr SDL_Scancode KEY_MOVE_LEFT = SDL_SCANCODE_A;
+  constexpr SDL_Scancode KEY_MOVE_RIGHT = SDL_SCANCODE_D;
+  constexpr SDL_Scancode KEY_ESCAPE = SDL_SCANCODE_ESCAPE;
+  constexpr SDL_Scancode KEY_ENTER = SDL_SCANCODE_RETURN;
+  constexpr SDL_Scancode KEY_ACTION_1 = SDL_SCANCODE_Z;
+  constexpr SDL_Scancode KEY_ACTION_2 = SDL_SCANCODE_Y;
+  constexpr SDL_Scancode KEY_ACTION_3 = SDL_SCANCODE_Q;
+  constexpr SDL_Scancode KEY_ACTION_4 = SDL_SCANCODE_E;
+
 } 
 
 #endif 

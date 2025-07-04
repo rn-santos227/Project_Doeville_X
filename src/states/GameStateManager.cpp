@@ -220,7 +220,7 @@ namespace Project::States {
 
     GameState* state = it->second.get();
     if (!state) {
-
+      logsManager.logError("Cached state '" + name + "' is null.");
     } else {
       logsManager.logMessage("Restored state '" + name + "' from cache.");
     }

@@ -155,6 +155,9 @@ namespace Project::Handlers {
   void ScreenHandler::renderBenchmark() {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     double frameTime = framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND;
+    std::string benchmarkText = "Frame: " + std::to_string(static_cast<int>(frameTime)) + " ms";
+    SDL_Texture* benchmarkTexture = fontHandler.renderText(renderer, benchmarkText, "system", debugTextColor);
+
   }
 
   void ScreenHandler::renderMousePosition() {

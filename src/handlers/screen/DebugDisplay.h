@@ -16,7 +16,7 @@ namespace Constants = Project::Libraries::Constants;
 
 namespace Project::Handlers {
   class DebugDisplay {
-    public:
+  public:
     DebugDisplay(Project::Utilities::LogsManager& logsManager,
       Project::Utilities::FramesCounter& framesCounter,
       Project::Utilities::ConfigReader& configReader,
@@ -26,6 +26,18 @@ namespace Project::Handlers {
     ~DebugDisplay() = default;
 
     void render();
+
+  private:
+    Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::FramesCounter& framesCounter;
+    Project::Utilities::ConfigReader& configReader;
+    Project::Core::SDLManager& sdlManager;
+    Project::Handlers::FontHandler& fontHandler;
+    Project::Handlers::MouseHandler& mouseHandler;
+
+    SDL_Color debugTextColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
+    SDL_Color axisXColor = Constants::DEFAULT_X_AXIS_COLOR;
+    SDL_Color axisYColor = Constants::DEFAULT_Y_AXIS_COLOR;
   };
 }
 #endif

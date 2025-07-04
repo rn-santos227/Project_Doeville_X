@@ -65,8 +65,11 @@ namespace Project::States {
 
   void GameStateManager::popState() {
     if (!stateStack.empty()) {
+      auto currentName = stateStack.top()->getStateName();
       stateStack.top()->onExit();
-      addToCache(stateStack.top()->getStateName(), nullptr);
+
+      auto& states = stateManager.getObjects();
+
       stateStack.pop();
     }
 

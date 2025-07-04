@@ -109,6 +109,12 @@ namespace Project::Core {
         clean();
       }
     }
+
+    if (sdlManager.isExitRequested()) {
+      logsManager.logMessage("Exit flag detected");
+      clean();
+      sdlManager.clearExitRequest();
+    }
   }
 
   void GameEngine::update(float deltaTime) {

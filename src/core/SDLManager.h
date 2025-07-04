@@ -20,8 +20,8 @@ namespace Project::Core {
     SDL_Window* getWindow() const;
 
   private:
-    LogsManager& logsManager;
-    
+    Project::Utilities::LogsManager& logsManager;
+
     SDL_Window* window;
     SDL_Renderer* renderer;
 

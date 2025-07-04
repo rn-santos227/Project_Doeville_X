@@ -26,4 +26,8 @@ namespace Project::Handlers {
     renderBenchmark();
     renderMousePosition();
   }
+
+  void DebugDisplay::renderFPS() {
+
+  }
 }

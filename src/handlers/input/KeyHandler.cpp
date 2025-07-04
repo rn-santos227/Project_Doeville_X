@@ -91,9 +91,13 @@ namespace Project::Handlers {
   }
 
   void KeyHandler::immediateExit() {
-    sdlManager.clear();
+    if (!isDebugMode) {
+      logsManager.logWarning("Immediate exit is only available in debug mode.");
+      return;
+    }
+
     logsManager.logMessage("Exiting immediately.");
     logsManager.flushLogs();
-    exit(0);
+    sdlManager.requestExit();
   }
 }

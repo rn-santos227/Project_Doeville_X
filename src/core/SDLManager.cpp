@@ -76,6 +76,10 @@ namespace Project::Core {
     exitRequested = true;
   }
 
+  bool SDLManager::isExitRequested() const {
+    return exitRequested;
+  }
+
   void SDLManager::cleanup() {
     if (renderer) {
       SDL_DestroyRenderer(renderer);

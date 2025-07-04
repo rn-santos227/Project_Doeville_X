@@ -8,6 +8,7 @@ namespace Project::Factories {
   using Project::Components::GraphicsComponent;
   using Project::Components::TextComponent;
   using Project::Handlers::ResourcesHandler;
+  using Project::Utilities::ColorUtils;
   using Project::Utilities::ConfigReader;
   using Project::Utilities::LogsManager;
   using Project::Utilities::LuaStateWrapper;

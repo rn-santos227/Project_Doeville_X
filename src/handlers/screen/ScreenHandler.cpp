@@ -149,6 +149,11 @@ namespace Project::Handlers {
     }
   }
 
+  void ScreenHandler::renderBenchmark() {
+    SDL_Renderer* renderer = sdlManager.getRenderer();
+    double frameTime = framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND;
+  }
+
   void ScreenHandler::renderMousePosition() {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     mouseHandler.updateMousePosition();

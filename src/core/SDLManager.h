@@ -19,12 +19,18 @@ namespace Project::Core {
     SDL_Renderer* getRenderer() const;
     SDL_Window* getWindow() const;
 
+    //shutdown request functions
+    void requestExit();
+    bool isExitRequested() const;
+    void clearExitRequest();
+
   private:
     Project::Utilities::LogsManager& logsManager;
 
     SDL_Window* window;
     SDL_Renderer* renderer;
 
+    bool exitRequested;
     bool initialized;
     void cleanup();
   };

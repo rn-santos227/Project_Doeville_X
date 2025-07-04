@@ -2,6 +2,19 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Core {
+  using Project::Utilities::LogsManager;
+  using Project::Utilities::ConfigReader;
+  using Project::Utilities::FramesCounter;
+  using Project::Core::SDLManager;
+  using Project::Handlers::ResourcesHandler;
+  using Project::Factories::ComponentsFactory;
+  using Project::States::GameStateManager;
+  using Project::Handlers::CursorHandler;
+  using Project::Handlers::FontHandler;
+  using Project::Handlers::KeyHandler;
+  using Project::Handlers::MouseHandler;
+  using Project::Handlers::ScreenHandler;
+
   namespace Constants = Project::Libraries::Constants;
 
   GameEngine::GameEngine() :
@@ -63,7 +76,7 @@ namespace Project::Core {
     }
 
     componentsFactory->setRenderer(screenHandler->getRenderer());
-    keyHandler->setKeyBinding(KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
+    keyHandler->setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
 
     logsManager.logMessage("Game Engine has been initialized successfully.");
     logsManager.flushLogs();

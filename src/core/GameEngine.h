@@ -5,26 +5,18 @@
 #include <mutex>
 
 #include "core/SDLManager.h"
-
 #include "factories/component/ComponentsFactory.h"
-
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
-
 #include "states/GameStateManager.h"
-
 #include "utilities/config_reader/ConfigReader.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
-using namespace Project::Factories;
-using namespace Project::Handlers;
-using namespace Project::States;
-using namespace Project::Utilities;
 
 namespace Project::Core {
   class GameEngine {
@@ -43,20 +35,20 @@ namespace Project::Core {
     void handleFrameRate(Uint64 frameStartTime);
     
     bool isRunning;
-    LogsManager logsManager;
-    FramesCounter framesCounter;
-    ConfigReader configReader;
-    SDLManager sdlManager;
+    Project::Utilities::LogsManager logsManager;
+    Project::Utilities::FramesCounter framesCounter;
+    Project::Utilities::ConfigReader configReader;
+    Project::Core::SDLManager sdlManager;
 
-    std::unique_ptr<ResourcesHandler> resourcesHandler;
-    std::unique_ptr<ComponentsFactory> componentsFactory;
-    std::unique_ptr<GameStateManager> gameStateManager;
+    std::unique_ptr<Project::Handlers::ResourcesHandler> resourcesHandler;
+    std::unique_ptr<Project::Factories::ComponentsFactory> componentsFactory;
+    std::unique_ptr<Project::States::GameStateManager> gameStateManager;
 
-    std::unique_ptr<CursorHandler> cursorHandler;
-    std::unique_ptr<FontHandler> fontHandler;
-    std::unique_ptr<KeyHandler> keyHandler;
-    std::unique_ptr<MouseHandler> mouseHandler;
-    std::unique_ptr<ScreenHandler> screenHandler;
+    std::unique_ptr<Project::Handlers::CursorHandler> cursorHandler;
+    std::unique_ptr<Project::Handlers::FontHandler> fontHandler;
+    std::unique_ptr<Project::Handlers::KeyHandler> keyHandler;
+    std::unique_ptr<Project::Handlers::MouseHandler> mouseHandler;
+    std::unique_ptr<Project::Handlers::ScreenHandler> screenHandler;
 
     std::mutex updateMutex;
   };

@@ -38,6 +38,8 @@ namespace Project::Handlers {
     SDL_Color debugTextColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
     SDL_Color axisXColor = Constants::DEFAULT_X_AXIS_COLOR;
     SDL_Color axisYColor = Constants::DEFAULT_Y_AXIS_COLOR;
+
+    
   };
 }
 #endif

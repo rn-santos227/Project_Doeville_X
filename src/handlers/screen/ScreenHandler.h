@@ -74,8 +74,11 @@ namespace Project::Handlers {
     bool running;
     int cursorWidth;
     int cursorHeight;
+
+    int fpsTextHeight = 0;
     
     void renderFPS();
+    void renderBenchmark();
     void renderMousePosition();
   };
 }

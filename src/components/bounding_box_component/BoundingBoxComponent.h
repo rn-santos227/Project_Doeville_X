@@ -33,7 +33,7 @@ namespace Project::Components {
     std::vector<SDL_Rect> worldBoxes;
 
     SDL_Renderer* renderer = nullptr;
-    KeyHandler* keyHandler = nullptr;
+    Project::Handlers::KeyHandler* keyHandler = nullptr;
 
     SDL_Color debugColor = Constants::DEFAULT_BOUNDING_BOX_COLOR;
 

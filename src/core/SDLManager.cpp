@@ -7,7 +7,7 @@ namespace Project::Core {
   using Project::Utilities::LogsManager;
 
   SDLManager::SDLManager(LogsManager& logsManager)
-    : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false) {}
+    : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false), exitRequested(false) {}
 
   SDLManager::~SDLManager() {
     cleanup();

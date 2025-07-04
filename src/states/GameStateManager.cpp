@@ -18,6 +18,11 @@ namespace Project::States {
 
       auto& states = stateManager.getObjects();
       auto it = states.find(currentName);
+      if (it != states.end()) {
+
+      } else {
+        retrieveFromCache(currentName);
+      }
       stateStack.pop();
     }
 

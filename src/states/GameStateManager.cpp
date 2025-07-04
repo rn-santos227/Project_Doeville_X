@@ -219,5 +219,11 @@ namespace Project::States {
     stateCache.splice(stateCache.begin(), stateCache, it);
 
     GameState* state = it->second.get();
+    if (!state) {
+
+    } else {
+      logsManager.logMessage("Restored state '" + name + "' from cache.");
+    }
+    return state;
   }
 }

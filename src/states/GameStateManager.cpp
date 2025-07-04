@@ -13,8 +13,11 @@ namespace Project::States {
 
   void GameStateManager::changeState(const std::string& name) {
     if (!stateStack.empty()) {
+      auto currentName = stateStack.top()->getStateName();
       stateStack.top()->onExit();
-      addToCache(stateStack.top()->getStateName(), nullptr);
+
+      auto& states = stateManager.getObjects();
+      auto it = states.find(currentName);
       stateStack.pop();
     }
 
@@ -195,6 +198,7 @@ namespace Project::States {
     stateCache.emplace_front(name, std::move(state));
     cacheMap[name] = stateCache.begin();
 
+    logsManager.logMessage("Cached state '" + name + "'.");
     cleanupCache();
   }
 

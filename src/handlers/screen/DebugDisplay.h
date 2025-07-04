@@ -39,7 +39,12 @@ namespace Project::Handlers {
     SDL_Color axisXColor = Constants::DEFAULT_X_AXIS_COLOR;
     SDL_Color axisYColor = Constants::DEFAULT_Y_AXIS_COLOR;
 
-    
+    int fpsTextHeight = 0;
+
+    void renderFPS();
+    void renderBenchmark();
+    void renderMousePosition();
+    void renderAxes();    
   };
 }
 #endif

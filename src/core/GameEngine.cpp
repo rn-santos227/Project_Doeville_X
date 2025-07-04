@@ -122,12 +122,19 @@ namespace Project::Core {
   }
 
   void GameEngine::update(float deltaTime) {
+    if (keyHandler->isGameFrozen()) {
+      return;
+    }
+
     std::lock_guard<std::mutex> lock(updateMutex);
     gameStateManager->update(deltaTime);
     sdlManager.clear();
   }
 
   void GameEngine::render() {
+    if (keyHandler->isGameFrozen()) {
+      return;
+    }
     screenHandler->render();
   }
 

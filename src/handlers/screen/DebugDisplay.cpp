@@ -19,4 +19,8 @@ namespace Project::Handlers {
     axisXColor = configReader.getColorValue("Axis", "x_color", axisXColor);
     axisYColor = configReader.getColorValue("Axis", "y_color", axisYColor);
   }
+
+  void DebugDisplay::render() {
+
+  }
 }

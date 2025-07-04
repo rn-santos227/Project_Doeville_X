@@ -2,13 +2,10 @@
 #define BASE_COMPONENT_H
 
 #include "utilities/logs_manager/LogsManager.h"
-
-using namespace Project::Utilities;
-
 namespace Project::Components {
   class BaseComponent {
   public:
-    explicit BaseComponent(LogsManager& logsManager) : logsManager(logsManager) {}
+    explicit BaseComponent(Project::Utilities::LogsManager& logsManager) : logsManager(logsManager) {}
     virtual ~BaseComponent() = default;
 
     virtual void update(float deltaTime) = 0;
@@ -21,7 +18,7 @@ namespace Project::Components {
     bool isActive() const { return active; }
 
   protected:
-    LogsManager& logsManager;
+    Project::Utilities::LogsManager& logsManager;
     bool active = true;
   };
 }

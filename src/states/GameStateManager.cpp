@@ -19,7 +19,8 @@ namespace Project::States {
       auto& states = stateManager.getObjects();
       auto it = states.find(currentName);
       if (it != states.end()) {
-
+        addToCache(currentName, std::move(it->second));
+        states.erase(it);
       } else {
         retrieveFromCache(currentName);
       }
@@ -35,6 +36,8 @@ namespace Project::States {
         stateStack.top()->onEnter();
         return;
       }
+
+      logsManager.logWarning("State '" + name + "' not found to change to.");
       return;
     }
 

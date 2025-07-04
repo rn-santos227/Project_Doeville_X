@@ -2,6 +2,13 @@
 #include <string>
 
 namespace Project::Factories {
+  using Project::Utilities::LogsManager;
+  using Project::Handlers::ResourcesHandler;
+  using Project::States::GameState;
+  using Project::States::GameStateManager;
+  using Project::States::GameStateCategory;
+  using Project::Factories::EntitiesFactory;
+
   GameStateFactory::GameStateFactory(LogsManager& logsManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory)
   : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory) {}
 
@@ -28,7 +35,7 @@ namespace Project::Factories {
     lua_getglobal(L, "stateCategory");
     if (lua_isstring(L, -1)) {
       std::string categoryStr = lua_tostring(L, -1);
-      newState->setGameStateCategory(parseGameStateCategory(categoryStr));
+      newState->setGameStateCategory(Project::States::parseGameStateCategory(categoryStr));
     } else {
       logsManager.logWarning("Lua script is missing 'stateCategory', defaulting to DEBUG_STATE: " + scriptPath);
       newState->setGameStateCategory(GameStateCategory::DEBUG_STATE);

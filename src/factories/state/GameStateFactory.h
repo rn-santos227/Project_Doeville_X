@@ -3,30 +3,29 @@
 
 #include "factories/entity/EntitiesFactory.h"
 
-#include "states/GameState.h"
-#include "states/GameStateManager.h"
-
-#include "handlers/resources/ResourcesHandler.h"
-#include "utilities/logs_manager/LogsManager.h"
-
 #include <SDL2/SDL.h>
 
-using namespace Project::Handlers;
-using namespace Project::States;
-using namespace Project::Utilities;
+#include "handlers/resources/ResourcesHandler.h"
+#include "states/GameState.h"
+#include "states/GameStateManager.h"
+#include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Factories {
   class GameStateFactory {
   public:
-    explicit GameStateFactory(LogsManager& logsManager,  ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory);
+    explicit GameStateFactory(
+      Project::Utilities::LogsManager& logsManager, 
+      Project::Handlers::ResourcesHandler& resourcesHandler, 
+      Project::States::GameStateManager& gameStateManager, 
+      Project::Factories::EntitiesFactory& entitiesFactory);
 
     bool createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath);
   
   private:
-    LogsManager& logsManager;
-    ResourcesHandler& resourcesHandler;
-    GameStateManager& gameStateManager;
-    EntitiesFactory& entitiesFactory;
+    Project::Utilities::LogsManager& logsManager;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
+    Project::States::GameStateManager& gameStateManager;
+    Project::Factories::EntitiesFactory& entitiesFactory;
   };
 }
 #endif

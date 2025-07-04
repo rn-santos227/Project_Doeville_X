@@ -4,6 +4,7 @@
 
 namespace Project::Components {
   using Project::Utilities::LogsManager;
+  using Project::Utilities::ColorUtils;
   using Project::Handlers::Animation;
   using Project::Handlers::AnimationHandler;
 

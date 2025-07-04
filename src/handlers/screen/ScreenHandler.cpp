@@ -144,7 +144,7 @@ namespace Project::Handlers {
       int screenWidth, screenHeight;
       SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
-      SDL_Rect destRect = {screenWidth - textWidth - 10, 10, textWidth, textHeight};
+      SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, Constants::DEBUG_TEXT_MARGIN, textWidth, textHeight};
       SDL_RenderCopy(renderer, fpsTexture, nullptr, &destRect);
       SDL_DestroyTexture(fpsTexture);
     } else {
@@ -163,6 +163,9 @@ namespace Project::Handlers {
       SDL_QueryTexture(benchmarkTexture, nullptr, nullptr, &textWidth, &textHeight);
 
       int screenWidth, screenHeight;
+      int yPosition = Constants::DEBUG_TEXT_MARGIN + fpsTextHeight + Constants::DEBUG_TEXT_HEIGHT_OFFSET;
+      SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, yPosition, textWidth, textHeight};
+
       SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
     } else {
       logsManager.logError("Failed to render benchmark text.");

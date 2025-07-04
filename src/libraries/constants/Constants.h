@@ -25,6 +25,7 @@ namespace Project::Libraries::Constants {
     constexpr int DEFAULT_CURSOR_SIZE = 32;
     constexpr int DEFAULT_COMPONENT_SIZE = 32;
     constexpr int DEBUG_TEXT_MARGIN = 10;
+    constexpr int DEBUG_TEXT_HEIGHT_OFFSET = 5;
     constexpr int DEFAULT_FONT_SIZE = 24;
     constexpr int DEFAULT_BASE_FONT_SIZE = 16;
 

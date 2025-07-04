@@ -10,9 +10,6 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Handlers;
-using namespace Project::Utilities;
-
 namespace Project::Handlers {
   struct AnimationFrame {
     SDL_Texture* texture;
@@ -21,7 +18,7 @@ namespace Project::Handlers {
 
   class Animation {
   public:
-    explicit Animation(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler);
+    explicit Animation(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager, Project::Handlers::ResourcesHandler& resourcesHandler);
     ~Animation();
 
     bool addFrame(const std::string& imagePath, Uint32 duration);
@@ -37,9 +34,9 @@ namespace Project::Handlers {
     bool isPlaying() const { return playing; }
     
   private:
-    LogsManager& logsManager;
-    ResourcesHandler& resourcesHandler;
-    
+    Project::Utilities::LogsManager& logsManager;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
+
     SDL_Renderer* renderer;
     std::vector<AnimationFrame> frames;
     PlaybackMode playbackMode = PlaybackMode::LOOP;

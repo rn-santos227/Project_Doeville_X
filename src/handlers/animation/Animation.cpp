@@ -2,6 +2,9 @@
 #include <SDL_image.h>
 
 namespace Project::Handlers {
+  using Project::Utilities::LogsManager;
+  using Project::Handlers::ResourcesHandler;
+
   Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
     : renderer(renderer), logsManager(logsManager), resourcesHandler(resourcesHandler) {}
 

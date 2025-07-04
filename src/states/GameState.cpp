@@ -2,6 +2,7 @@
 
 namespace Project::States {
   using Project::Utilities::LogsManager;
+  using Project::Utilities::LuaStateWrapper;
   using Project::Entities::Entity;
   using Project::Handlers::ResourcesHandler;
 

@@ -1,6 +1,9 @@
 #ifndef STATE_CATEGORY_H
 #define STATE_CATEGORY_H
 
+#include <string>
+#include <unordered_map>
+
 namespace Project::States {
   enum class GameStateCategory {
     // Core States

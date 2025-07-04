@@ -91,6 +91,10 @@ namespace Project::Core {
       double deltaTime = framesCounter.getDeltaTime();
 
       handleEvents();
+      if (!isRunning) {
+        break;
+      }
+
       update(static_cast<float>(deltaTime));
       render();
 

@@ -9,6 +9,14 @@ namespace Constants = Project::Libraries::Constants;
 namespace fs = std::filesystem;
 
 namespace Project::Services {
+  using Project::Utilities::LogsManager;
+  using Project::Utilities::LuaStateWrapper;
+  using Project::Handlers::ResourcesHandler;
+  using Project::Factories::ComponentsFactory;
+  using Project::States::GameStateManager;
+  using Project::Factories::EntitiesFactory;
+  using Project::Factories::GameStateFactory;
+
   inline const std::vector<ScriptCategory> loadOrder = {
     ScriptCategory::ENTITY,
     ScriptCategory::ITEM,

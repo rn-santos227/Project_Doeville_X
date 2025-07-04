@@ -7,7 +7,7 @@
 namespace Project::Utilities {
   class LuaScriptable {
   public:
-    explicit LuaScriptable(LogsManager& logsManager);
+    explicit LuaScriptable(Project::Utilities::LogsManager& logsManager);
     virtual ~LuaScriptable() = default;
 
     lua_State* getLuaState() const { return luaStateWrapper.get(); }
@@ -16,7 +16,7 @@ namespace Project::Utilities {
     virtual bool callLuaFunction(const std::string& functionName);
 
   protected:
-    LogsManager& logsManager;
+    Project::Utilities::LogsManager& logsManager;
     LuaStateWrapper luaStateWrapper;
   };
 }

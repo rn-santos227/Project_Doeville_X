@@ -14,11 +14,8 @@
 #include "factories/component/ComponentsFactory.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "factories/state/GameStateFactory.h"
-
 #include "handlers/resources/ResourcesHandler.h"
-
 #include "states/GameStateManager.h"
-
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
@@ -42,7 +39,7 @@ namespace Project::Services {
     Project::States::GameStateManager& gameStateManager;
     Project::Handlers::ResourcesHandler& resourcesHandler;
 
-    LuaStateWrapper luaStateWrapper;
+    Project::Utilities::LuaStateWrapper luaStateWrapper;
     SDL_Renderer* renderer;
 
     Project::Factories::EntitiesFactory entitiesFactory;

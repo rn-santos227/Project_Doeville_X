@@ -6,22 +6,16 @@
 #include <mutex>
 
 #include "core/SDLManager.h"
-
 #include "factories/component/ComponentsFactory.h"
-
 #include "handlers/camera/CameraHandler.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
-
 #include "libraries/constants/Constants.h"
-
 #include "services/scripting/ScriptingService.h"
-
 #include "states/GameStateManager.h"
-
 #include "utilities/config_reader/ConfigReader.h"
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"

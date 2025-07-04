@@ -12,7 +12,6 @@
 #include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/objects_manager/ObjectsManager.h"
-
 namespace Project::States {
   class GameStateManager {
   public:

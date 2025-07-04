@@ -71,7 +71,8 @@ namespace Project::States {
       auto& states = stateManager.getObjects();
       auto it = states.find(currentName);
       if (it != states.end()) {
-
+        addToCache(currentName, std::move(it->second));
+        states.erase(it);
       } else {
         retrieveFromCache(currentName);
       }

@@ -183,12 +183,16 @@ namespace Project::States {
   }
 
   void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
+    if (!state) {
+      logsManager.logWarning("Attempted to cache null state '" + name + "'.");
+      return;
+    }
+
     if (cacheMap.find(name) != cacheMap.end()) {
       stateCache.erase(cacheMap[name]);
     }
 
-    GameState* rawState = state.release();
-    stateCache.emplace_front(name, rawState);
+    stateCache.emplace_front(name, std::move(state));
     cacheMap[name] = stateCache.begin();
 
     cleanupCache();

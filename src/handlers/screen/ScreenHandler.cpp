@@ -159,7 +159,8 @@ namespace Project::Handlers {
     SDL_Texture* benchmarkTexture = fontHandler.renderText(renderer, benchmarkText, "system", debugTextColor);
 
     if (benchmarkTexture) {
-
+      int textWidth, textHeight;
+      SDL_QueryTexture(benchmarkTexture, nullptr, nullptr, &textWidth, &textHeight);
     } else {
       logsManager.logError("Failed to render benchmark text.");
     }

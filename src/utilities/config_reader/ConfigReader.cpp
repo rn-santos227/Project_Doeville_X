@@ -7,6 +7,8 @@
 #include <algorithm>
 
 namespace Project::Utilities {
+  using Project::Utilities::LogsManager;
+
   ConfigReader::ConfigReader(LogsManager& logsManager) : logsManager(logsManager) {}
 
   bool ConfigReader::loadConfig(const std::string& filePath) {

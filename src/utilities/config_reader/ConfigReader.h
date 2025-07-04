@@ -8,12 +8,10 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Utilities;
-
 namespace Project::Utilities {
   class ConfigReader {
   public:
-    explicit ConfigReader(LogsManager& logsManager);
+    explicit ConfigReader(Project::Utilities::LogsManager& logsManager);
 
     bool loadConfig(const std::string& filePath);
 
@@ -26,7 +24,7 @@ namespace Project::Utilities {
     bool getBoolValue(const std::string& section, const std::string& key, bool defaultValue = false) const;
   
   private:
-    LogsManager& logsManager;
+    Project::Utilities::LogsManager& logsManager;
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> configData;
     
     void trim(std::string& str) const;

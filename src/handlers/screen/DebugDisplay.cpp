@@ -15,6 +15,8 @@ namespace Project::Handlers {
     SDLManager& sdlManager, FontHandler& fontHandler, MouseHandler& mouseHandler)
     : logsManager(logsManager), framesCounter(framesCounter), configReader(configReader),
       sdlManager(sdlManager), fontHandler(fontHandler), mouseHandler(mouseHandler) {
-
+    debugTextColor = configReader.getColorValue("Debug", "text_color", debugTextColor);
+    axisXColor = configReader.getColorValue("Axis", "x_color", axisXColor);
+    axisYColor = configReader.getColorValue("Axis", "y_color", axisYColor);
   }
 }

@@ -2,6 +2,7 @@
 
 namespace Project::States {
   using Project::Utilities::LogsManager;
+  using Project::Entities::Entity;
   using Project::Handlers::ResourcesHandler;
 
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)

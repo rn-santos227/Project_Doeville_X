@@ -11,8 +11,8 @@
 
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
-#include "libraries/constants/Constants.h"
 #include "handlers/resources/ResourcesHandler.h"
+#include "libraries/constants/Constants.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Constants = Project::Libraries::Constants;

@@ -10,7 +10,6 @@
 #include <unordered_map>
 
 #include "entities/EntitiesManager.h"
-
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/objects_manager/ObjectsManager.h"
 

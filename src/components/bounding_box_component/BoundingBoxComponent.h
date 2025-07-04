@@ -3,9 +3,7 @@
 
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
-
 #include "libraries/constants/Constants.h"
-
 #include "handlers/input/KeyHandler.h"
 
 #include <SDL.h>

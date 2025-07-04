@@ -2,6 +2,12 @@
 #include <filesystem>
 
 namespace Project::Factories {
+  using Project::Utilities::LogsManager;
+  using Project::Handlers::ResourcesHandler;
+  using Project::Entities::Entity;
+  using Project::Entities::EntityCategory;
+  using Project::Factories::EntitiesFactory;
+
   EntitiesFactory::EntitiesFactory(LogsManager& logsManager, ComponentsFactory& componentsFactory)
     : logsManager(logsManager), componentsFactory(componentsFactory) {}
 

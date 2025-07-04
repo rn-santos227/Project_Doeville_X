@@ -7,12 +7,9 @@
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/TextureHolder.h"
-
-#include "libraries/constants/Constants.h"
-
 #include "handlers/animation/AnimationHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
-
+#include "libraries/constants/Constants.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Constants = Project::Libraries::Constants;

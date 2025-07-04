@@ -161,6 +161,9 @@ namespace Project::Handlers {
     if (benchmarkTexture) {
       int textWidth, textHeight;
       SDL_QueryTexture(benchmarkTexture, nullptr, nullptr, &textWidth, &textHeight);
+
+      int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
     } else {
       logsManager.logError("Failed to render benchmark text.");
     }

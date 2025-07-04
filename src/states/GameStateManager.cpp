@@ -217,6 +217,7 @@ namespace Project::States {
 
     auto it = cacheMap[name];
     stateCache.splice(stateCache.begin(), stateCache, it);
-    return it->second.get();
+
+    GameState* state = it->second.get();
   }
 }

@@ -17,8 +17,6 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Utilities;
-
 namespace Project::Handlers {
   struct TextureTask {
     SDL_Renderer* renderer;
@@ -28,7 +26,7 @@ namespace Project::Handlers {
 
   class ResourcesHandler {
   public:
-    explicit ResourcesHandler(LogsManager& logsManager);
+    explicit ResourcesHandler(Project::Utilities::LogsManager& logsManager);
     ~ResourcesHandler();
 
     void cleanup();
@@ -42,7 +40,7 @@ namespace Project::Handlers {
     SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
 
   private:
-    LogsManager& logsManager;
+    Project::Utilities::LogsManager& logsManager;
     AsyncResourceLoader asyncLoader;
 
     std::queue<TextureTask> textureTasks;

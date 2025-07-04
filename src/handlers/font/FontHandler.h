@@ -21,8 +21,8 @@ namespace Project::Handlers {
     void cleanup();
 
   private:
-    LogsManager& logsManager;
-    
+    Project::Utilities::LogsManager& logsManager;
+
     std::unordered_map<std::string, TTF_Font*> fonts;
   };
 }

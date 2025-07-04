@@ -4,6 +4,9 @@
 #include "utilities/resource_cleaner/ResourceCleaner.h"
 
 namespace Project::Handlers {
+  using Project::Utilities::LogsManager;
+  using Project::Utilities::ResourceCleaner;
+
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
     : logsManager(logsManager), asyncLoader(logsManager) {
       workerThread = std::thread(&ResourcesHandler::workerLoop, this);

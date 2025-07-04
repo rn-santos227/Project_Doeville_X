@@ -9,4 +9,12 @@ namespace Project::Handlers {
   using Project::Handlers::MouseHandler;
   
   namespace Constants = Project::Libraries::Constants;
+
+  DebugDisplay::DebugDisplay(LogsManager& logsManager,
+    FramesCounter& framesCounter, ConfigReader& configReader,
+    SDLManager& sdlManager, FontHandler& fontHandler, MouseHandler& mouseHandler)
+    : logsManager(logsManager), framesCounter(framesCounter), configReader(configReader),
+      sdlManager(sdlManager), fontHandler(fontHandler), mouseHandler(mouseHandler) {
+
+  }
 }

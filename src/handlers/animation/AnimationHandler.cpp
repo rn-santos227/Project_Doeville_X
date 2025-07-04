@@ -1,6 +1,8 @@
 #include "AnimationHandler.h"
 
 namespace Project::Handlers {
+  using Project::Utilities::LogsManager;
+
   AnimationHandler::AnimationHandler(SDL_Renderer* renderer, LogsManager& logsManager)
   : renderer(renderer), logsManager(logsManager) {}
 

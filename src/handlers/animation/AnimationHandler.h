@@ -9,11 +9,10 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Utilities;
 namespace Project::Handlers {
   class AnimationHandler {
     public:
-      explicit AnimationHandler(SDL_Renderer* renderer, LogsManager& logsManager);
+      explicit AnimationHandler(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager);
       ~AnimationHandler();
 
       void addAnimation(const std::string& name, Animation animation);
@@ -26,7 +25,7 @@ namespace Project::Handlers {
       
     private:
       SDL_Renderer* renderer;
-      LogsManager& logsManager;
+      Project::Utilities::LogsManager& logsManager;
 
       Animation* currentAnimation = nullptr;
       std::unordered_map<std::string, Animation> animations;

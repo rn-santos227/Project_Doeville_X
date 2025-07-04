@@ -80,6 +80,10 @@ namespace Project::Core {
     return exitRequested;
   }
 
+  void SDLManager::clearExitRequest() {
+    exitRequested = false;
+  }
+
   void SDLManager::cleanup() {
     if (renderer) {
       SDL_DestroyRenderer(renderer);

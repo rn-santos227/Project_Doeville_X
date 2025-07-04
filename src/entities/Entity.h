@@ -12,11 +12,10 @@
 
 #include "components/BaseComponent.h"
 #include "factories/component/ComponentsFactory.h"
-
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Project::Entities {
-  class Entity : public LuaScriptable {
+  class Entity : public Project::Utilities::LuaScriptable {
   public:
     explicit Entity(EntityCategory entityCategory, 
       Project::Utilities::LogsManager& logsManager, 

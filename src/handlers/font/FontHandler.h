@@ -10,12 +10,10 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Utilities;
-
 namespace Project::Handlers {
   class FontHandler {
   public:
-    FontHandler(LogsManager& LogsManager);
+    FontHandler(Project::Utilities::LogsManager& logsManager);
     ~FontHandler();
 
     bool loadFont(const std::string& fontId, const std::string& path, int fontSize);

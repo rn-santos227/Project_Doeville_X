@@ -29,7 +29,7 @@ namespace Project::Handlers {
     void stop();
 
   private:
-    LogsManager& logsManager;
+    Project::Utilities::LogsManager& logsManager;
 
     void workerLoop();
 

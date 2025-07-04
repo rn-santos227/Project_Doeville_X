@@ -69,6 +69,7 @@ namespace Project::States {
       stateStack.top()->onExit();
 
       auto& states = stateManager.getObjects();
+      auto it = states.find(currentName);
 
       stateStack.pop();
     }

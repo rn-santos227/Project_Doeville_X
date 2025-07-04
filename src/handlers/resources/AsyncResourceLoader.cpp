@@ -1,6 +1,8 @@
 #include "AsyncResourceLoader.h"
 
 namespace Project::Handlers {
+  using Project::Utilities::LogsManager;
+
   AsyncResourceLoader::AsyncResourceLoader(LogsManager& logsManager)
     : logsManager(logsManager) {
     worker = std::thread(&AsyncResourceLoader::workerLoop, this);

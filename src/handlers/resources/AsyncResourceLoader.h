@@ -14,8 +14,6 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 
-using namespace Project::Utilities;
-
 namespace Project::Handlers {
   struct Task {
     std::string path;
@@ -24,7 +22,7 @@ namespace Project::Handlers {
 
   class AsyncResourceLoader {
   public:
-    explicit AsyncResourceLoader(LogsManager& logsManager);
+    explicit AsyncResourceLoader(Project::Utilities::LogsManager& logsManager);
     ~AsyncResourceLoader();
 
     std::future<SDL_Surface*> loadSurface(const std::string& imagePath);

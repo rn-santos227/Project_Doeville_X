@@ -6,19 +6,20 @@ namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Core::SDLManager;
 
+
+
   KeyHandler::KeyHandler(LogsManager& logsManager, SDLManager& sdlManager)
     : logsManager(logsManager), sdlManager(sdlManager) {
-    using namespace Project::Libraries::Constants;
-    keyBindings[KeyAction::MOVE_UP] = KEY_MOVE_UP;
-    keyBindings[KeyAction::MOVE_DOWN] = KEY_MOVE_DOWN;
-    keyBindings[KeyAction::MOVE_LEFT] = KEY_MOVE_LEFT;
-    keyBindings[KeyAction::MOVE_RIGHT] = KEY_MOVE_RIGHT;
-    keyBindings[KeyAction::ESCAPE] = KEY_ESCAPE;
-    keyBindings[KeyAction::ENTER] = KEY_ENTER;
-    keyBindings[KeyAction::ACTION_1] = KEY_ACTION_1;
-    keyBindings[KeyAction::ACTION_2] = KEY_ACTION_2;
-    keyBindings[KeyAction::ACTION_3] = KEY_ACTION_3;
-    keyBindings[KeyAction::ACTION_4] = KEY_ACTION_4;
+    keyBindings[KeyAction::MOVE_UP] = Project::Libraries::Constants::KEY_MOVE_UP;
+    keyBindings[KeyAction::MOVE_DOWN] = Project::Libraries::Constants::KEY_MOVE_DOWN;
+    keyBindings[KeyAction::MOVE_LEFT] = Project::Libraries::Constants::KEY_MOVE_LEFT;
+    keyBindings[KeyAction::MOVE_RIGHT] = Project::Libraries::Constants::KEY_MOVE_RIGHT;
+    keyBindings[KeyAction::ESCAPE] = Project::Libraries::Constants::KEY_ESCAPE;
+    keyBindings[KeyAction::ENTER] = Project::Libraries::Constants::KEY_ENTER;
+    keyBindings[KeyAction::ACTION_1] = Project::Libraries::Constants::KEY_ACTION_1;
+    keyBindings[KeyAction::ACTION_2] = Project::Libraries::Constants::KEY_ACTION_2;
+    keyBindings[KeyAction::ACTION_3] = Project::Libraries::Constants::KEY_ACTION_3;
+    keyBindings[KeyAction::ACTION_4] = Project::Libraries::Constants::KEY_ACTION_4;
 
     bindFunctionKeys();
     isFrozen = false;
@@ -28,12 +29,11 @@ namespace Project::Handlers {
   KeyHandler::~KeyHandler() {}
 
   void KeyHandler::bindFunctionKeys() {
-    using namespace Project::Libraries::Constants;
-    functionKeyActions[KEY_FUNC_HELP] = [this]() { helpToggle(); };
-    functionKeyActions[KEY_FUNC_DEBUG] = [this]() { debugToggle(); };
-    functionKeyActions[KEY_FUNC_FREEZE] = [this]() { freezeGame(); };
-    functionKeyActions[KEY_FUNC_RESTART] = [this]() { restartGame(); };
-    functionKeyActions[KEY_FUNC_EXIT] = [this]() { immediateExit(); };
+    functionKeyActions[Project::Libraries::Constants::KEY_FUNC_HELP] = [this]() { helpToggle(); };
+    functionKeyActions[Project::Libraries::Constants::KEY_FUNC_DEBUG] = [this]() { debugToggle(); };
+    functionKeyActions[Project::Libraries::Constants::KEY_FUNC_FREEZE] = [this]() { freezeGame(); };
+    functionKeyActions[Project::Libraries::Constants::KEY_FUNC_RESTART] = [this]() { restartGame(); };
+    functionKeyActions[Project::Libraries::Constants::KEY_FUNC_EXIT] = [this]() { immediateExit(); };
   }
 
   void KeyHandler::handleInput(SDL_Event& event) {

@@ -15,6 +15,17 @@
 namespace Constants = Project::Libraries::Constants;
 
 namespace Project::Handlers {
+  class DebugDisplay {
+    public:
+    DebugDisplay(Project::Utilities::LogsManager& logsManager,
+      Project::Utilities::FramesCounter& framesCounter,
+      Project::Utilities::ConfigReader& configReader,
+      Project::Core::SDLManager& sdlManager,
+      Project::Handlers::FontHandler& fontHandler,
+      Project::Handlers::MouseHandler& mouseHandler);
+    ~DebugDisplay() = default;
 
+    void render();
+  };
 }
 #endif

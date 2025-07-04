@@ -158,6 +158,11 @@ namespace Project::Handlers {
     std::string benchmarkText = "Frame: " + std::to_string(static_cast<int>(frameTime)) + " ms";
     SDL_Texture* benchmarkTexture = fontHandler.renderText(renderer, benchmarkText, "system", debugTextColor);
 
+    if (benchmarkTexture) {
+
+    } else {
+      logsManager.logError("Failed to render benchmark text.");
+    }
   }
 
   void ScreenHandler::renderMousePosition() {

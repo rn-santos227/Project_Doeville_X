@@ -1,6 +1,8 @@
 #ifndef SCREEN_HANDLER_H
 #define SCREEN_HANDLER_H
 
+#include "DebugDisplay.h"
+
 #include <iostream>
 #include <memory>
 #include <mutex>

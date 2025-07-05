@@ -49,4 +49,8 @@ namespace Project::Handlers {
       logsManager.logError("Failed to render FPS text.");
     }
   }
+
+  void DebugDisplay::renderBenchmark() {
+
+  }
 }

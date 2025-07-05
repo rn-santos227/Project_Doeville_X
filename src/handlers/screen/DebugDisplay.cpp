@@ -81,7 +81,15 @@ namespace Project::Handlers {
     SDL_Texture* mouseTexture = fontHandler.renderText(renderer, mousePositionText, "system", debugTextColor);
 
     if (mouseTexture) {
+      int textWidth, textHeight;
+      SDL_QueryTexture(mouseTexture, nullptr, nullptr, &textWidth, &textHeight);
 
+      int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+      SDL_Rect destRect = {Constants::DEBUG_TEXT_MARGIN, screenHeight - textHeight - Constants::DEBUG_TEXT_MARGIN, textWidth, textHeight};
+      SDL_RenderCopy(renderer, mouseTexture, nullptr, &destRect);
+      SDL_DestroyTexture(mouseTexture);
     } else {
       logsManager.logError("Failed to render mouse position text.");
     }

@@ -9,8 +9,6 @@
 #include <SDL.h>
 #include <vector>
 
-namespace Constants = Project::Libraries::Constants;
-
 namespace Project::Components {
   class BoundingBoxComponent : public BaseComponent, public PositionableComponent {
   public:
@@ -35,7 +33,7 @@ namespace Project::Components {
     SDL_Renderer* renderer = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;
 
-    SDL_Color debugColor = Constants::DEFAULT_BOUNDING_BOX_COLOR;
+    SDL_Color debugColor = Project::Libraries::Constants::DEFAULT_BOUNDING_BOX_COLOR;
 
     int entityX = 0;
     int entityY = 0;

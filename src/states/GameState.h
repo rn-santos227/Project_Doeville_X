@@ -15,8 +15,6 @@
 #include "libraries/constants/Constants.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
-namespace Constants = Project::Libraries::Constants;
-
 namespace Project::States {
   class GameState : public Project::Utilities::LuaScriptable {
   public:
@@ -54,7 +52,7 @@ namespace Project::States {
 
     //overload functions
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
-      setBackgroundColor(r, g, b, Constants::FULL_ALPHA);
+      setBackgroundColor(r, g, b, Project::Libraries::Constants::FULL_ALPHA);
     };
 
   protected:
@@ -65,7 +63,7 @@ namespace Project::States {
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
     
-    SDL_Color backgroundColor = Constants::DEFAULT_BACKGROUND_COLOR;
+    SDL_Color backgroundColor = Project::Libraries::Constants::DEFAULT_BACKGROUND_COLOR;
 
     std::string stateName;
     bool useImageBackground = false;

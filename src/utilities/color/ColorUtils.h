@@ -6,12 +6,10 @@
 
 #include "libraries/constants/Constants.h"
 
-namespace Constants = Project::Libraries::Constants;
-
 namespace Project::Utilities {
   class ColorUtils {
   public:
-    static SDL_Color hexToRGB(const std::string& hex, Uint8 alpha = Constants::FULL_ALPHA);
+    static SDL_Color hexToRGB(const std::string& hex, Uint8 alpha = Project::Libraries::Constants::FULL_ALPHA);
   };
 }
 

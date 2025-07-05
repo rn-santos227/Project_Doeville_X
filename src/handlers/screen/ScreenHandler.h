@@ -22,8 +22,6 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-namespace Constants = Project::Libraries::Constants;
-
 namespace Project::Handlers {
   class ScreenHandler {
   public:

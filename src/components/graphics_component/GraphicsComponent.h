@@ -12,8 +12,6 @@
 #include "libraries/constants/Constants.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-namespace Constants = Project::Libraries::Constants;
-
 namespace Project::Components  {
   class GraphicsComponent : public BaseComponent, public PositionableComponent, public TextureHolder {
   public:
@@ -40,7 +38,7 @@ namespace Project::Components  {
 
     std::unique_ptr<Project::Handlers::AnimationHandler> animationHandler;
 
-    SDL_Color shapeColor = Constants::DEFAULT_SHAPE_COLOR;
+    SDL_Color shapeColor = Project::Libraries::Constants::DEFAULT_SHAPE_COLOR;
     SDL_Rect destRect{0, 0, 0, 0};
 
     bool drawShape = false;

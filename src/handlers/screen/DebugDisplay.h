@@ -12,8 +12,6 @@
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
 
-namespace Constants = Project::Libraries::Constants;
-
 namespace Project::Handlers {
   class DebugDisplay {
   public:
@@ -35,9 +33,9 @@ namespace Project::Handlers {
     Project::Handlers::FontHandler& fontHandler;
     Project::Handlers::MouseHandler& mouseHandler;
 
-    SDL_Color debugTextColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
-    SDL_Color axisXColor = Constants::DEFAULT_X_AXIS_COLOR;
-    SDL_Color axisYColor = Constants::DEFAULT_Y_AXIS_COLOR;
+    SDL_Color debugTextColor = Project::Libraries::Constants::DEFAULT_DEBUG_TEXT_COLOR;
+    SDL_Color axisXColor = Project::Libraries::Constants::DEFAULT_X_AXIS_COLOR;
+    SDL_Color axisYColor = Project::Libraries::Constants::DEFAULT_Y_AXIS_COLOR;
 
     int fpsTextHeight = 0;
 

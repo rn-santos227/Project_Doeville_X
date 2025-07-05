@@ -20,7 +20,7 @@ namespace Project::Handlers {
 
       void update(Uint32 deltaTime);
 
-      SDL_Texture* getCurrentFrameTexture() const;
+      SDL_Texture* getCurrentFrameTexture();
       bool isAnimationActive() const;
       
     private:

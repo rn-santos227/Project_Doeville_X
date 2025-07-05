@@ -26,7 +26,7 @@ namespace Project::Handlers {
     }
   }
 
-  SDL_Texture* AnimationHandler::getCurrentFrameTexture() const {
+  SDL_Texture* AnimationHandler::getCurrentFrameTexture() {
     if (currentAnimation) {
       return currentAnimation->getCurrentFrameTexture();
     }

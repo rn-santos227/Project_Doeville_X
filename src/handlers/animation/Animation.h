@@ -3,8 +3,10 @@
 
 #include "PlaybackMode.h"
 
-#include <vector>
+#include <future>
 #include <string>
+#include <vector>
+
 #include <SDL.h>
 
 #include "handlers/resources/ResourcesHandler.h"
@@ -12,7 +14,9 @@
 
 namespace Project::Handlers {
   struct AnimationFrame {
-    SDL_Texture* texture;
+    SDL_Texture* texture = nullptr;
+    std::future<SDL_Texture*> future;
+    std::string path;
     Uint32 duration;
   };
 
@@ -29,7 +33,7 @@ namespace Project::Handlers {
     void reset();
     void update(Uint32 deltaTime);
     
-    SDL_Texture* getCurrentFrameTexture() const;
+    SDL_Texture* getCurrentFrameTexture();
     bool isFinished() const { return finished; }
     bool isPlaying() const { return playing; }
     

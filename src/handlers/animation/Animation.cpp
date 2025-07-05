@@ -1,4 +1,8 @@
 #include "Animation.h"
+
+#include <chrono>
+#include <future>
+
 #include <SDL_image.h>
 
 namespace Project::Handlers {
@@ -14,13 +18,11 @@ namespace Project::Handlers {
   }
 
   bool Animation::addFrame(const std::string& imagePath, Uint32 duration) {
-    auto futureTex = resourcesHandler.loadTextureAsync(renderer, imagePath);
-    SDL_Texture* texture = futureTex.get();
-    if (logsManager.checkAndLogError(!texture, "Failed to load image: " + imagePath)) {
-      return false;
-    }
-
-    frames.push_back({texture, duration});
+    AnimationFrame frame;
+    frame.future = resourcesHandler.loadTextureAsync(renderer, imagePath);
+    frame.path = imagePath;
+    frame.duration = duration;
+    frames.push_back(std::move(frame));
     return true;
   }
 
@@ -126,9 +128,21 @@ namespace Project::Handlers {
     }
   }
 
-  SDL_Texture* Animation::getCurrentFrameTexture() const {
+  SDL_Texture* Animation::getCurrentFrameTexture() {
     if (frames.empty()) return nullptr;
-    return frames[currentFrameIndex].texture;
+    
+    AnimationFrame& frame = frames[currentFrameIndex];
+    if (!frame.texture && frame.future.valid() &&
+        frame.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+      SDL_Texture* tex = frame.future.get();
+      if (!tex) {
+        logsManager.logError("Failed to load animation frame: " + frame.path);
+      } else {
+        frame.texture = tex;
+      }
+    }
+
+    return frame.texture;
   }
 
   void Animation::freeFrames() {

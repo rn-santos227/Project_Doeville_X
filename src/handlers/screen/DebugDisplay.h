@@ -36,7 +36,9 @@ namespace Project::Handlers {
     SDL_Color debugTextColor = Project::Libraries::Constants::DEFAULT_DEBUG_TEXT_COLOR;
     SDL_Color axisXColor = Project::Libraries::Constants::DEFAULT_X_AXIS_COLOR;
     SDL_Color axisYColor = Project::Libraries::Constants::DEFAULT_Y_AXIS_COLOR;
+    SDL_Color gridColor = Project::Libraries::Constants::DEFAULT_GRID_COLOR;
 
+    int gridSpacing = Project::Libraries::Constants::DEFAULT_GRID_SPACING;
     int fpsTextHeight = 0;
 
     void renderAxes();  

@@ -134,4 +134,3 @@ namespace Project::Handlers {
     return sdlManager.getWindow();
   }
 }
-

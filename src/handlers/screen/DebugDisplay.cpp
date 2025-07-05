@@ -88,7 +88,18 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::renderGrid() {
+    SDL_Renderer* renderer = sdlManager.getRenderer();
+    int screenWidth, screenHeight;
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    SDL_SetRenderDrawColor(renderer, gridColor.r, gridColor.g, gridColor.b, gridColor.a);
 
+    for (int x = 0; x <= screenWidth; x += gridSpacing) {
+      SDL_RenderDrawLine(renderer, x, 0, x, screenHeight);
+    }
+
+    for (int y = 0; y <= screenHeight; y += gridSpacing) {
+      SDL_RenderDrawLine(renderer, 0, y, screenWidth, y);
+    }
   }
 
   void DebugDisplay::renderMousePosition() {

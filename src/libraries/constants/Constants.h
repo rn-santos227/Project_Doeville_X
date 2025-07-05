@@ -49,7 +49,7 @@ namespace Project::Libraries::Constants {
   constexpr SDL_Color DEFAULT_X_AXIS_COLOR{255, 0, 0, 255};
   constexpr SDL_Color DEFAULT_Y_AXIS_COLOR{0, 0, 255, 255};
   constexpr SDL_Color DEFAULT_Z_AXIS_COLOR{0, 255, 0, 255};
-  constexpr SDL_Color DEFAULT_GRID_COLOR = DEFAULT_DEBUG_TEXT_COLOR;
+  constexpr SDL_Color DEFAULT_GRID_COLOR{0, 100, 0, 255};
 
   // Lua script suffixes
   constexpr const char* LUA_STATE_SUFFIX = ".state.lua";

@@ -70,4 +70,8 @@ namespace Project::Handlers {
       logsManager.logError("Failed to render benchmark text.");
     }
   }
+
+  void DebugDisplay::renderMousePosition() {
+
+  }
 }

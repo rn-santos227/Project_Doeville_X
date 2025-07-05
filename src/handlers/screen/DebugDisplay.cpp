@@ -57,7 +57,15 @@ namespace Project::Handlers {
     SDL_Texture* benchmarkTexture = fontHandler.renderText(renderer, benchmarkText, "system", debugTextColor);
 
     if( benchmarkTexture) {
+      int textWidth, textHeight;
+      SDL_QueryTexture(benchmarkTexture, nullptr, nullptr, &textWidth, &textHeight);
 
+      int screenWidth, screenHeight;
+      int yPosition = Constants::DEBUG_TEXT_MARGIN + fpsTextHeight + Constants::DEBUG_TEXT_HEIGHT_OFFSET;
+      SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, yPosition, textWidth, textHeight};
+
+      SDL_RenderCopy(renderer, benchmarkTexture, nullptr, &destRect);
+      SDL_DestroyTexture(benchmarkTexture);
     } else {
       logsManager.logError("Failed to render benchmark text.");
     }

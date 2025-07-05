@@ -1,5 +1,8 @@
 #include "GameState.h"
 
+#include <future>
+#include <chrono>
+
 namespace Project::States {
   using Project::Utilities::LogsManager;
   using Project::Utilities::LuaStateWrapper;
@@ -54,11 +57,28 @@ namespace Project::States {
     }
   
     if (!backgroundTexture) {
-      SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-      SDL_RenderClear(renderer);
-    } else {
+      if (backgroundFuture.valid() &&
+          backgroundFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+        SDL_Texture* loaded = backgroundFuture.get();
+        if (!loaded) {
+          logsManager.logError("Failed to load background image: " + pendingBackgroundPath);
+        } else {
+          backgroundTexture = loaded;
+          logsManager.logMessage("Background image set: " + pendingBackgroundPath);
+        }
+        pendingBackgroundPath.clear();
+      }
+
+      if (!backgroundTexture) {
+        SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+        SDL_RenderClear(renderer);
+      }
+    }
+
+    if (backgroundTexture) {
       SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     }
+
 
     if (entitiesManager) {
       entitiesManager->render();
@@ -78,14 +98,10 @@ namespace Project::States {
   bool GameState::setBackgroundImage(const std::string& imagePath) {
     clearBackground();
 
-    auto futureTex = resourcesHandler.loadTextureAsync(renderer, imagePath);
-    SDL_Texture* loaded = futureTex.get();
-    if (logsManager.checkAndLogError(!loaded, "Failed to load background image: " + imagePath)) {
-      return false;
-    }
-
-    backgroundTexture = loaded;
-    logsManager.logMessage("Background image set: " + imagePath);
+    backgroundFuture = resourcesHandler.loadTextureAsync(renderer, imagePath);
+    pendingBackgroundPath = imagePath;
+    useImageBackground = true;
+    logsManager.logMessage("Background image loading started: " + imagePath);
     return true;
   }
 
@@ -104,6 +120,8 @@ namespace Project::States {
 
   void GameState::clearBackground() {
     backgroundTexture = nullptr;
+    backgroundFuture = std::future<SDL_Texture*>();
+    pendingBackgroundPath.clear();
   }
 
   bool GameState::attachLuaScript(const std::string& scriptPath) {

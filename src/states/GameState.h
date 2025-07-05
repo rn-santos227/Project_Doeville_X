@@ -3,8 +3,9 @@
 
 #include "GameStateCategory.h"
 
-#include <string>
+#include <future>
 #include <memory>
+#include <string>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -64,8 +65,11 @@ namespace Project::States {
     SDL_Renderer* renderer = nullptr;
     
     SDL_Color backgroundColor = Project::Libraries::Constants::DEFAULT_BACKGROUND_COLOR;
-
+    
+    std::future<SDL_Texture*> backgroundFuture;
+    std::string pendingBackgroundPath;
     std::string stateName;
+
     bool useImageBackground = false;
     bool initialized = false;
     bool active = false;

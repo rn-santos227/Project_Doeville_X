@@ -25,6 +25,11 @@ namespace Project::Handlers {
     explicit Animation(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager, Project::Handlers::ResourcesHandler& resourcesHandler);
     ~Animation();
 
+    Animation(const Animation&) = delete;
+    Animation& operator=(const Animation&) = delete;
+    Animation(Animation&& other) noexcept;
+    Animation& operator=(Animation&& other) noexcept;
+
     bool addFrame(const std::string& imagePath, Uint32 duration);
     
     void setPlaybackMode(PlaybackMode mode);

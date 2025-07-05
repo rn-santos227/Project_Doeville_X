@@ -12,6 +12,41 @@ namespace Project::Handlers {
   Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
     : renderer(renderer), logsManager(logsManager), resourcesHandler(resourcesHandler) {}
 
+  Animation::Animation(Animation&& other) noexcept
+    : logsManager(other.logsManager),
+      resourcesHandler(other.resourcesHandler),
+      renderer(other.renderer),
+      frames(std::move(other.frames)),
+      playbackMode(other.playbackMode),
+      elapsedTime(other.elapsedTime),
+      currentFrameIndex(other.currentFrameIndex),
+      forward(other.forward),
+      playing(other.playing),
+      finished(other.finished),
+      looping(other.looping) {
+    other.renderer = nullptr;
+    other.frames.clear();
+  }
+
+  Animation& Animation::operator=(Animation&& other) noexcept {
+    if (this != &other) {
+      freeFrames();
+      renderer = other.renderer;
+      frames = std::move(other.frames);
+      playbackMode = other.playbackMode;
+      elapsedTime = other.elapsedTime;
+      currentFrameIndex = other.currentFrameIndex;
+      forward = other.forward;
+      playing = other.playing;
+      finished = other.finished;
+      looping = other.looping;
+
+      other.renderer = nullptr;
+      other.frames.clear();
+    }
+    return *this;
+  }
+
   Animation::~Animation() {
     freeFrames();
     logsManager.logMessage("Animation instance destroyed and textures freed.");

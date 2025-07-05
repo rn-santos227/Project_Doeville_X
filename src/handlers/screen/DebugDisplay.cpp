@@ -75,6 +75,11 @@ namespace Project::Handlers {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     int screenWidth, screenHeight;
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+    // Draw X-axis
+    SDL_SetRenderDrawColor(renderer, axisXColor.r, axisXColor.g, axisXColor.b, axisXColor.a);
+    SDL_RenderDrawLine(renderer, 0, 0, screenWidth, 0);
+
   }
 
   void DebugDisplay::renderMousePosition() {

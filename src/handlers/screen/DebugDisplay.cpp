@@ -38,6 +38,10 @@ namespace Project::Handlers {
       SDL_QueryTexture(fpsTexture, nullptr, nullptr, &textWidth, &textHeight);
 
       fpsTextHeight = textHeight;
+
+      int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
     } else {
       logsManager.logError("Failed to render FPS text.");
     }

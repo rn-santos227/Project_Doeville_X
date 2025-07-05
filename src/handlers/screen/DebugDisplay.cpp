@@ -34,7 +34,8 @@ namespace Project::Handlers {
     SDL_Texture* fpsTexture = fontHandler.renderText(renderer, fpsText, "system", debugTextColor);
 
     if (fpsTexture) {
-
+      int textWidth, textHeight;
+      SDL_QueryTexture(fpsTexture, nullptr, nullptr, &textWidth, &textHeight);
     } else {
       logsManager.logError("Failed to render FPS text.");
     }

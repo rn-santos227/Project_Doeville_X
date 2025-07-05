@@ -1,7 +1,9 @@
 #ifndef GRAPHICS_COMPONENT_H
 #define GRAPHICS_COMPONENT_H
 
+#include <future>
 #include <string>
+
 #include <SDL.h>
 
 #include "components/BaseComponent.h"
@@ -42,6 +44,9 @@ namespace Project::Components  {
     SDL_Rect destRect{0, 0, 0, 0};
 
     bool drawShape = false;
+
+    std::future<SDL_Texture*> textureFuture;
+    std::string pendingTexturePath;
   };
 }
 #endif

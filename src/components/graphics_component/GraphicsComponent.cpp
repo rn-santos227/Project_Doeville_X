@@ -1,5 +1,8 @@
 #include "GraphicsComponent.h"
 
+#include <chrono>
+#include <future>
+
 #include <SDL_image.h>
 
 #include "libraries/constants/Constants.h"
@@ -18,6 +21,8 @@ namespace Project::Components {
 
   GraphicsComponent::~GraphicsComponent() {
     destroyTexture();
+    textureFuture = std::future<SDL_Texture*>();
+    pendingTexturePath.clear();
   }
 
   void GraphicsComponent::update(float deltaTime) {
@@ -27,6 +32,23 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::render() {
+    if (!texture && textureFuture.valid() &&
+        textureFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+      SDL_Texture* loaded = textureFuture.get();
+      if (!loaded) {
+        logsManager.logError("Failed to load texture: " + pendingTexturePath);
+      } else {
+        texture = loaded;
+        int texW = 0;
+        int texH = 0;
+        if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
+          destRect.w = texW;
+          destRect.h = texH;
+        }
+      }
+      pendingTexturePath.clear();
+    }
+
     SDL_Texture* textureToRender = texture;
 
     if (animationHandler && animationHandler->isAnimationActive()) {
@@ -47,26 +69,16 @@ namespace Project::Components {
   bool GraphicsComponent::setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath) {
     destroyTexture();
 
-    auto futureTex = resourcesHandler.loadTextureAsync(renderer, imagePath);
-    SDL_Texture* loaded = futureTex.get();
-    if (logsManager.checkAndLogError(!loaded, "Failed to load texture: " + imagePath)) {
-      return false;
-    }
-
-    texture = loaded;
-
-    int texW = 0;
-    int texH = 0;
-    if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
-      destRect.w = texW;
-      destRect.h = texH;
-    }
-    
+    textureFuture = resourcesHandler.loadTextureAsync(renderer, imagePath);
+    pendingTexturePath = imagePath;
+    drawShape = false;
     return true;
   }
 
   void GraphicsComponent::setShape(int width, int height, SDL_Color color) {
     destroyTexture();
+    textureFuture = std::future<SDL_Texture*>();
+    pendingTexturePath.clear();
     destRect.w = width;
     destRect.h = height;
     shapeColor = color;

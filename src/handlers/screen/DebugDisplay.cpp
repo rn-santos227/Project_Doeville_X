@@ -56,11 +56,12 @@ namespace Project::Handlers {
     std::string benchmarkText = "Frame: " + std::to_string(static_cast<int>(frameTime)) + " ms";
     SDL_Texture* benchmarkTexture = fontHandler.renderText(renderer, benchmarkText, "system", debugTextColor);
 
-    if( benchmarkTexture) {
+    if (benchmarkTexture) {
       int textWidth, textHeight;
       SDL_QueryTexture(benchmarkTexture, nullptr, nullptr, &textWidth, &textHeight);
 
       int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
       int yPosition = Constants::DEBUG_TEXT_MARGIN + fpsTextHeight + Constants::DEBUG_TEXT_HEIGHT_OFFSET;
       SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, yPosition, textWidth, textHeight};
 
@@ -78,11 +79,11 @@ namespace Project::Handlers {
 
     // Draw X-axis
     SDL_SetRenderDrawColor(renderer, axisXColor.r, axisXColor.g, axisXColor.b, axisXColor.a);
-    SDL_RenderDrawLine(renderer, 0, 0, screenWidth, 0);
+    SDL_RenderDrawLine(renderer, 0, screenHeight / 2, screenWidth, screenHeight / 2);
     
     // Draw Y-axis
     SDL_SetRenderDrawColor(renderer, axisYColor.r, axisYColor.g, axisYColor.b, axisYColor.a);
-    SDL_RenderDrawLine(renderer, 0, 0, 0, screenHeight); 
+    SDL_RenderDrawLine(renderer, screenWidth / 2, 0, screenWidth / 2, screenHeight);
   }
 
   void DebugDisplay::renderMousePosition() {

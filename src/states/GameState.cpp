@@ -111,7 +111,6 @@ namespace Project::States {
       return false;
     }
 
-    luaL_openlibs(luaStateWrapper.get());
     luaStateWrapper.registerFunction("print", LuaStateWrapper::luaPrintRedirect);
     logsManager.logMessage("Lua script attached: " + scriptPath);
 

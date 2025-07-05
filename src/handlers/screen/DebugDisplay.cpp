@@ -76,5 +76,8 @@ namespace Project::Handlers {
     mouseHandler.updateMousePosition();
     int mouseX = mouseHandler.getMouseX();
     int mouseY = mouseHandler.getMouseY();
+
+    std::string mousePositionText = "Mouse: (" + std::to_string(mouseX) + ", " + std::to_string(mouseY) + ")";
+    SDL_Texture* mouseTexture = fontHandler.renderText(renderer, mousePositionText, "system", debugTextColor);
   }
 }

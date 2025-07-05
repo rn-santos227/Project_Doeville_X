@@ -71,6 +71,10 @@ namespace Project::Handlers {
     }
   }
 
+  void DebugDisplay::renderAxes() {
+
+  }
+
   void DebugDisplay::renderMousePosition() {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     mouseHandler.updateMousePosition();

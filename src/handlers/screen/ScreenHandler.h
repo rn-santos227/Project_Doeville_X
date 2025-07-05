@@ -71,17 +71,11 @@ namespace Project::Handlers {
     std::mutex eventMutex;
 
     Project::Handlers::CameraHandler cameraHandler;
-    SDL_Color debugTextColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
+    Project::Handlers::DebugDisplay debugDisplay;
 
     bool running;
     int cursorWidth;
     int cursorHeight;
-
-    int fpsTextHeight = 0;
-    
-    void renderFPS();
-    void renderBenchmark();
-    void renderMousePosition();
   };
 }
 #endif

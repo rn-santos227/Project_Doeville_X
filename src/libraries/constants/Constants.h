@@ -22,23 +22,24 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_INITIAL_STATE = "MainMenu";
 
   // Numeric values
-    constexpr int DEFAULT_CURSOR_SIZE = 32;
-    constexpr int DEFAULT_COMPONENT_SIZE = 32;
-    constexpr int DEBUG_TEXT_MARGIN = 10;
-    constexpr int DEBUG_TEXT_HEIGHT_OFFSET = 5;
-    constexpr int DEFAULT_FONT_SIZE = 24;
-    constexpr int DEFAULT_BASE_FONT_SIZE = 16;
+  constexpr int DEFAULT_CURSOR_SIZE = 32;
+  constexpr int DEFAULT_COMPONENT_SIZE = 32;
+  constexpr int DEBUG_TEXT_MARGIN = 10;
+  constexpr int DEBUG_TEXT_HEIGHT_OFFSET = 5;
+  constexpr int DEFAULT_FONT_SIZE = 24;
+  constexpr int DEFAULT_BASE_FONT_SIZE = 16;
+  constexpr int DEFAULT_GRID_SPACING = 32;
 
-    constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
-    constexpr Uint8 FULL_ALPHA = 255;
+  constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
+  constexpr Uint8 FULL_ALPHA = 255;
 
-    constexpr int TIME_YEAR_OFFSET = 1900;
-    constexpr int TIME_MONTH_OFFSET = 1;
+  constexpr int TIME_YEAR_OFFSET = 1900;
+  constexpr int TIME_MONTH_OFFSET = 1;
 
-    constexpr int MILLISECONDS_PER_SECOND = 1000;
-    constexpr int LOG_FLUSH_WAIT_MS = 10;
+  constexpr int MILLISECONDS_PER_SECOND = 1000;
+  constexpr int LOG_FLUSH_WAIT_MS = 10;
 
-    constexpr double TARGET_FPS = 60.0;
+  constexpr double TARGET_FPS = 60.0;
 
   // Colors
   constexpr SDL_Color DEFAULT_DEBUG_TEXT_COLOR{144, 238, 144, 255};
@@ -48,6 +49,7 @@ namespace Project::Libraries::Constants {
   constexpr SDL_Color DEFAULT_X_AXIS_COLOR{255, 0, 0, 255};
   constexpr SDL_Color DEFAULT_Y_AXIS_COLOR{0, 0, 255, 255};
   constexpr SDL_Color DEFAULT_Z_AXIS_COLOR{0, 255, 0, 255};
+  constexpr SDL_Color DEFAULT_GRID_COLOR = DEFAULT_DEBUG_TEXT_COLOR;
 
   // Lua script suffixes
   constexpr const char* LUA_STATE_SUFFIX = ".state.lua";

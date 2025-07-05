@@ -39,7 +39,8 @@ namespace Project::Handlers {
 
     int fpsTextHeight = 0;
 
-    void renderAxes();    
+    void renderAxes();  
+    void renderGrid(); 
     void renderFPS();
     void renderBenchmark();
     void renderMousePosition();

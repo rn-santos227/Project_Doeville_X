@@ -21,6 +21,7 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::render() {
+    renderGrid();
     renderAxes();
     renderFPS();
     renderBenchmark();
@@ -84,6 +85,10 @@ namespace Project::Handlers {
     // Draw Y-axis
     SDL_SetRenderDrawColor(renderer, axisYColor.r, axisYColor.g, axisYColor.b, axisYColor.a);
     SDL_RenderDrawLine(renderer, screenWidth / 2, 0, screenWidth / 2, screenHeight);
+  }
+
+  void DebugDisplay::renderGrid() {
+
   }
 
   void DebugDisplay::renderMousePosition() {

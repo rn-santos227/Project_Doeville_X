@@ -72,7 +72,9 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::renderAxes() {
-
+    SDL_Renderer* renderer = sdlManager.getRenderer();
+    int screenWidth, screenHeight;
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
   }
 
   void DebugDisplay::renderMousePosition() {

@@ -18,6 +18,10 @@ namespace Project::Components {
     void update(float deltaTime) override;
     void render() override {}
 
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+    void setSpeed(float newSpeed) { speed = newSpeed; }
+    float getSpeed() const { return speed; }
+
   private:
     Project::Handlers::KeyHandler* keyHandler = nullptr;
     Project::Entities::Entity* owner = nullptr;

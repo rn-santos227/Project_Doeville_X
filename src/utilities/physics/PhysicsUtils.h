@@ -11,6 +11,8 @@ namespace Project::Utilities {
 		static bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);
 		static float calculateDistance(float x1, float y1, float x2, float y2);
 
+		static SDL_FPoint applyGravity(SDL_FPoint velocity, float deltaTime);
+
 	};
 }
 

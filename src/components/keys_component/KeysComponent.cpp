@@ -3,4 +3,10 @@
 namespace Project::Components {
   using Project::Handlers::KeyAction;
   using Project::Handlers::KeyHandler;
+
+  KeysComponent::KeysComponent(Project::Utilities::LogsManager& logsManager, KeyHandler* keyHandler)
+    : BaseComponent(logsManager), keyHandler(keyHandler) {}
+
+  
+    
 }

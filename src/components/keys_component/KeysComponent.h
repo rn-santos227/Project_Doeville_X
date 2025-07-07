@@ -14,6 +14,7 @@ namespace Project::Components {
   class KeysComponent : public BaseComponent {
   public:
     KeysComponent(Project::Utilities::LogsManager& logsManager, Project::Handlers::KeyHandler* keyHanndler);
+    ~KeysComponent() override = default;
 
     void update(float deltaTime) override;
     void render() override;

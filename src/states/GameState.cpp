@@ -78,8 +78,7 @@ namespace Project::States {
     if (backgroundTexture) {
       SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     }
-
-
+    
     if (entitiesManager) {
       entitiesManager->render();
     }

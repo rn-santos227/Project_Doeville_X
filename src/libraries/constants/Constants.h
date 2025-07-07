@@ -29,8 +29,8 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_FONT_SIZE = 24;
   constexpr int DEFAULT_BASE_FONT_SIZE = 16;
   constexpr int DEFAULT_GRID_SPACING = 32;
-
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
+
   constexpr Uint8 FULL_ALPHA = 255;
 
   constexpr int TIME_YEAR_OFFSET = 1900;
@@ -40,6 +40,17 @@ namespace Project::Libraries::Constants {
   constexpr int LOG_FLUSH_WAIT_MS = 10;
 
   constexpr double TARGET_FPS = 60.0;
+
+  // Physics constants
+  constexpr float GRAVITY = 9.81f;
+  constexpr float TERMINAL_VELOCITY = 50.0f;
+  constexpr float DEFAULT_MOTION_SPEED = 100.0f;
+  constexpr float DEFAULT_ROTATION_SPEED = 90.0f;
+  constexpr float DEFAULT_ACCELERATION = 10.0f;
+  constexpr float DEFAULT_FRICTION = 0.1f;
+  constexpr float DEFAULT_BOUNCE_FACTOR = 0.5f;
+  constexpr float DEFAULT_DAMPING = 0.1f;
+  constexpr float DEFAULT_COLLISION_THRESHOLD = 0.1f;
 
   // Colors
   constexpr SDL_Color DEFAULT_DEBUG_TEXT_COLOR{144, 238, 144, 255};

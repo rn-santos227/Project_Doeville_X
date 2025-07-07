@@ -16,4 +16,8 @@ namespace Project::Components {
       }
     }
   }
+
+  bool KeysComponent::isActionTriggered(KeyAction action) const {
+    return keyHandler ? keyHandler->isActionTriggered(action) : false;
+  }
 }

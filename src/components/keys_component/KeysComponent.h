@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "entities/Entity.h"
 #include "handlers/input/KeyHandler.h"
 
 namespace Project { namespace Entities { class Entity; } }
@@ -17,7 +18,6 @@ namespace Project::Components {
     ~KeysComponent() override = default;
 
     void update(float deltaTime) override;
-    void render() override;
 
     bool isActionTriggered(Project::Handlers::KeyAction action) const;
     bool isKeyPressed(SDL_Scancode key) const;

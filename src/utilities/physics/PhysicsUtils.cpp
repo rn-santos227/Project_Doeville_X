@@ -21,4 +21,8 @@ namespace Project::Utilities {
     }
     return velocity;
   }
+
+  void PhysicsUtils::clampVelocity(SDL_FPoint& velocity, float maxSpeed) {
+
+  }
 }

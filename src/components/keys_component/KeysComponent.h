@@ -6,7 +6,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "entities/Entity.h"
 #include "handlers/input/KeyHandler.h"
 
 namespace Project { namespace Entities { class Entity; } }

@@ -1,4 +1,5 @@
 #include "KeysComponent.h"
+#include "entities/Entity.h"
 
 namespace Project::Components {
   using Project::Handlers::KeyAction;

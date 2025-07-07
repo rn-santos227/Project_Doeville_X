@@ -13,4 +13,8 @@ namespace Project::Utilities {
     float dy = y2 - y1;
     return std::sqrt(dx * dx + dy * dy);
   }
+
+  SDL_FPoint PhysicsUtils::applyGravity(SDL_FPoint velocity, float deltaTime) {
+
+  }
 }

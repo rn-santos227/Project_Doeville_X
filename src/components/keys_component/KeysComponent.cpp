@@ -24,4 +24,8 @@ namespace Project::Components {
   bool KeysComponent::isKeyPressed(SDL_Scancode key) const {
     return keyHandler ? keyHandler->isKeyPressed(key) : false;
   }
+
+  void KeysComponent::addActionCallback(KeyAction action, const std::string& functionName) {
+    actionCallbacks[action] = functionName;
+  }
 }

@@ -20,4 +20,8 @@ namespace Project::Components {
   bool KeysComponent::isActionTriggered(KeyAction action) const {
     return keyHandler ? keyHandler->isActionTriggered(action) : false;
   }
+
+  bool KeysComponent::isKeyPressed(SDL_Scancode key) const {
+    return keyHandler ? keyHandler->isKeyPressed(key) : false;
+  }
 }

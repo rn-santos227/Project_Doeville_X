@@ -6,7 +6,11 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Utilities {
+	class PhysicsUtils {
+	public:
+		static bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);
 
+	};
 }
 
 #endif

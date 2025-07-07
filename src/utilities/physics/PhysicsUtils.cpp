@@ -23,6 +23,11 @@ namespace Project::Utilities {
   }
 
   void PhysicsUtils::clampVelocity(SDL_FPoint& velocity, float maxSpeed) {
-
+    float speed = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+    if (speed > maxSpeed) {
+      float scale = maxSpeed / speed;
+      velocity.x *= scale;
+      velocity.y *= scale;
+    }
   }
 }

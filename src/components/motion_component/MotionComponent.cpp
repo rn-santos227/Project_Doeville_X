@@ -16,7 +16,10 @@ namespace Project::Components {
 
     KeysComponent* keys = nullptr;
     for (const std::string& name : owner->listComponentNames()) {
-
+      if (auto* comp = owner->getComponent(name)) {
+        keys = dynamic_cast<KeysComponent*>(comp);
+        if (keys) break;
+      }
     }
   }
 }

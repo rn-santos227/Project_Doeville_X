@@ -35,5 +35,9 @@ namespace Project::Components {
       dy -= speed * deltaTime;
     if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) 
       dy += speed * deltaTime;
+
+    if (dx != 0.0f || dy != 0.0f) {
+
+    }
   }
 }

@@ -9,6 +9,8 @@ namespace Project::Factories {
     GRAPHICS,
     HUD,
     INPUT,
+    KEYS,
+    MOTION,
     PHYSICS,
     TEXT,
     TRANSFORM,

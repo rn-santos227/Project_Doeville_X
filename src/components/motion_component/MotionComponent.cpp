@@ -38,6 +38,7 @@ namespace Project::Components {
 
     if (dx != 0.0f || dy != 0.0f) {
       float newX = owner->getX() + dx;
+      float newY = owner->getY() + dy;
     }
   }
 }

@@ -11,6 +11,8 @@ namespace Project::Factories {
       {"boundingbox", ComponentType::BOUNDING_BOX},
       {"graphicscomponent", ComponentType::GRAPHICS},
       {"graphics", ComponentType::GRAPHICS},
+      {"keyscomponent", ComponentType::KEYS},
+      {"keys", ComponentType::KEYS},
       {"textcomponent", ComponentType::TEXT},
       {"text", ComponentType::TEXT},
     };

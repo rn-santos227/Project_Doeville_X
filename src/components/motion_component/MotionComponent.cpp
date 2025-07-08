@@ -12,5 +12,7 @@ namespace Project::Components {
 
   void MotionComponent::update(float deltaTime) {
     if (!owner) return;
+
+    KeysComponent* keys = nullptr;
   }
 }

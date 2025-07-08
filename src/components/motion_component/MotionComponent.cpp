@@ -8,6 +8,9 @@ namespace Project::Components {
   using Project::Entities::Entity;
 
   MotionComponent::MotionComponent(Project::Utilities::LogsManager& logsManager, KeyHandler* keyHandler, float speed)
-      : BaseComponent(logsManager), keyHandler(keyHandler), speed(speed) {}
+    : BaseComponent(logsManager), keyHandler(keyHandler), speed(speed) {}
 
+  void MotionComponent::update(float deltaTime) {
+
+  }
 }

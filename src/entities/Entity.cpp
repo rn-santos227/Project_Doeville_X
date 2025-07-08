@@ -86,8 +86,13 @@ namespace Project::Entities {
 
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
     if (!component) return;
+    
     if (auto* motion = dynamic_cast<Components::MotionComponent*>(component.get())) {
       motion->setEntityReference(this);
+    }
+    
+    if (auto* keys = dynamic_cast<Components::KeysComponent*>(component.get())) {
+      keys->setEntityReference(this);
     }
     components[componentName] = std::move(component);
   }

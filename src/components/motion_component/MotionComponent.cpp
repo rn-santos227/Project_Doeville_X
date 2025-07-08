@@ -42,7 +42,9 @@ namespace Project::Components {
       owner->setPosition(newX, newY);
 
       for (const std::string& name : owner->listComponentNames()) {
+        if (auto* comp = owner->getComponent(name)) {
 
+        }
       }
     }
   }

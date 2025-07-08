@@ -1,4 +1,5 @@
 #include "MotionComponent.h"
+#include "entities/Entity.h"
 
 #include "components/keys_component/KeysComponent.h"
 
@@ -14,5 +15,8 @@ namespace Project::Components {
     if (!owner) return;
 
     KeysComponent* keys = nullptr;
+    for (const std::string& name : owner->listComponentNames()) {
+
+    }
   }
 }

@@ -23,5 +23,8 @@ namespace Project::Components {
     }
 
     if (!keys) return;
+
+    float dx = 0.0f;
+    float dy = 0.0f;
   }
 }

@@ -5,5 +5,11 @@
 #include <string>
 #include <unordered_map>
 
+namespace Project::Handlers {
+  class KeyActionResolver {
+  public:
+    static KeyAction resolve(const std::string& name);
+  };
+}
 
 #endif

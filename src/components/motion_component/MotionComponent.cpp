@@ -26,5 +26,7 @@ namespace Project::Components {
 
     float dx = 0.0f;
     float dy = 0.0f;
+
+    if (keys->isActionTriggered(KeyAction::MOVE_LEFT))  dx -= speed * deltaTime;
   }
 }

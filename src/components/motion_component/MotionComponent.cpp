@@ -40,6 +40,10 @@ namespace Project::Components {
       float newX = owner->getX() + dx;
       float newY = owner->getY() + dy;
       owner->setPosition(newX, newY);
+
+      for (const std::string& name : owner->listComponentNames()) {
+
+      }
     }
   }
 }

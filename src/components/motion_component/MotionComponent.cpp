@@ -11,6 +11,6 @@ namespace Project::Components {
     : BaseComponent(logsManager), keyHandler(keyHandler), speed(speed) {}
 
   void MotionComponent::update(float deltaTime) {
-
+    if (!owner) return;
   }
 }

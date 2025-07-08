@@ -27,8 +27,13 @@ namespace Project::Components {
     float dx = 0.0f;
     float dy = 0.0f;
 
-    if (keys->isActionTriggered(KeyAction::MOVE_LEFT))  dx -= speed * deltaTime;
-    if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) dx += speed * deltaTime;
-    if (keys->isActionTriggered(KeyAction::MOVE_UP))    dy -= speed * deltaTime;
+    if (keys->isActionTriggered(KeyAction::MOVE_LEFT))  
+      dx -= speed * deltaTime;
+    if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) 
+      dx += speed * deltaTime;
+    if (keys->isActionTriggered(KeyAction::MOVE_UP))
+      dy -= speed * deltaTime;
+    if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) 
+      dy += speed * deltaTime;
   }
 }

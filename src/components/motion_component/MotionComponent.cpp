@@ -21,5 +21,7 @@ namespace Project::Components {
         if (keys) break;
       }
     }
+
+    if (!keys) return;
   }
 }

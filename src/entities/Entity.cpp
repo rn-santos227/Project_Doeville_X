@@ -1,6 +1,8 @@
 #include "Entity.h"
 
 #include "components/PositionableComponent.h"
+#include "components/motion_component/MotionComponent.h"
+#include "components/keys_component/KeysComponent.h"
 
 namespace Project::Entities {
   using Project::Utilities::LogsManager;
@@ -84,6 +86,9 @@ namespace Project::Entities {
 
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
     if (!component) return;
+    if (auto* motion = dynamic_cast<Components::MotionComponent*>(component.get())) {
+      motion->setEntityReference(this);
+    }
     components[componentName] = std::move(component);
   }
 

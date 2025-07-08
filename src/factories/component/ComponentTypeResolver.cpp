@@ -13,6 +13,8 @@ namespace Project::Factories {
       {"graphics", ComponentType::GRAPHICS},
       {"keyscomponent", ComponentType::KEYS},
       {"keys", ComponentType::KEYS},
+      {"motioncomponent", ComponentType::MOTION},
+      {"motion", ComponentType::MOTION},
       {"textcomponent", ComponentType::TEXT},
       {"text", ComponentType::TEXT},
     };

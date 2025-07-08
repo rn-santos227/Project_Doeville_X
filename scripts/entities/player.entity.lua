@@ -19,7 +19,24 @@ components = {
     height = 32,
     colorHex = "ADD8E6",
     colorA = 255
-  }
+  },
+
+  KeysComponent = {
+    component = "KeysComponent",
+    active = true,
+    keys = {
+      up = "w",
+      down = "s",
+      left = "a",
+      right = "d"
+    }
+  },
+
+  MotionComponent = {
+    component = "MotionComponent",
+    active = true,
+    speed = 100.0
+  },
 }
 
 return {

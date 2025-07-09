@@ -1,5 +1,7 @@
 #include "GameState.h"
 
+#include "libraries/keys/Keys.h"
+
 #include <future>
 #include <chrono>
 
@@ -21,21 +23,21 @@ namespace Project::States {
     luaStateWrapper.registerFunction("setBackgroundImage", lua_setBackgroundImage, this);
     luaStateWrapper.registerFunction("spawnEntity", lua_spawnEntity, this);
 
-    if (!luaStateWrapper.callGlobalFunction("initialize")) {
+    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }
   }
 
   void GameState::onEnter() {
     setActive(true);
-    if (!luaStateWrapper.callGlobalFunction("onEnter")) {
+    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_ON_ENTER)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'onEnter': " + std::string(lua_tostring(luaStateWrapper.get(), -1)));
     }
   }
 
   void GameState::onExit() {
     setActive(false);
-    if (!luaStateWrapper.callGlobalFunction("onExit")) {
+    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_ON_EXIT)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'onExit': " + std::string(lua_tostring(luaStateWrapper.get(), -1)));
     }
   }
@@ -45,7 +47,7 @@ namespace Project::States {
       entitiesManager->update(deltaTime);
     }
 
-    if (!luaStateWrapper.callGlobalFunction("update")) {
+    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_UPDATE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'update'");
     }
   }
@@ -83,13 +85,13 @@ namespace Project::States {
       entitiesManager->render();
     }
 
-    if (!luaStateWrapper.callGlobalFunction("render")) {
+    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_RENDER)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'render'");
     }
   }
 
   void GameState::handleInput() {
-    if (!luaStateWrapper.callGlobalFunction("handleInput")) {
+    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_HANDLE_INPUT)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'handleInput'");
     }
   }
@@ -128,7 +130,7 @@ namespace Project::States {
       return false;
     }
 
-    luaStateWrapper.registerFunction("print", LuaStateWrapper::luaPrintRedirect);
+    luaStateWrapper.registerFunction(Project::Libraries::Keys::STATE_PRINT, LuaStateWrapper::luaPrintRedirect);
     logsManager.logMessage("Lua script attached: " + scriptPath);
 
     return true;

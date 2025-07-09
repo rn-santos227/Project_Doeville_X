@@ -15,3 +15,10 @@ def check_installed(packages):
     path = os.path.join(BASE_DIR, out_dir)
     results[name] = os.path.exists(path)
   return results
+
+def main():
+  packages = load_packages(PACKAGES_FILE)
+  results = check_installed(packages)
+  for name, ok in results.items():
+    status = "OK" if ok else "MISSING"
+    print(f"[{status}] {name}")

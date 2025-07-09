@@ -32,13 +32,10 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
 
   constexpr Uint8 FULL_ALPHA = 255;
-
   constexpr int TIME_YEAR_OFFSET = 1900;
   constexpr int TIME_MONTH_OFFSET = 1;
-
   constexpr int MILLISECONDS_PER_SECOND = 1000;
   constexpr int LOG_FLUSH_WAIT_MS = 10;
-
   constexpr double TARGET_FPS = 60.0;
 
   // Physics constants
@@ -61,6 +58,11 @@ namespace Project::Libraries::Constants {
   constexpr SDL_Color DEFAULT_Y_AXIS_COLOR{0, 0, 255, 255};
   constexpr SDL_Color DEFAULT_Z_AXIS_COLOR{0, 255, 0, 255};
   constexpr SDL_Color DEFAULT_GRID_COLOR{0, 100, 0, 255};
+
+  // Color Hex
+  constexpr const char* DEFAULT_DEBUG_TEXT_COLOR_HEX = "#90EE90";
+  constexpr const char* DEFAULT_BOUNDING_BOX_COLOR_HEX = "#000000";
+  constexpr const char* DEFAULT_SHAPE_COLOR_HEX = "#FFFFFF";
 
   // Lua script suffixes
   constexpr const char* LUA_STATE_SUFFIX = ".state.lua";

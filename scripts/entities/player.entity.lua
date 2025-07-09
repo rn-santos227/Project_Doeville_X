@@ -17,8 +17,8 @@ components = {
     active = true,
     width = 32,
     height = 32,
-    colorHex = "ADD8E6",
-    colorA = 255
+    color_hex = "ADD8E6",
+    color_alpha = 255
   }
   
   KeysComponent = {

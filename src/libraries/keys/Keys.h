@@ -1,0 +1,67 @@
+#ifndef KEYS_H
+#define KEYS_H
+
+#include <string>
+
+namespace Project::Libraries::Keys {
+  //Keys for game engine configuration
+  constexpr const char* CONFIG_FILE = "config.ini";
+  constexpr const char* WINDOW_SECTION = "Window";
+  constexpr const char* WINDOW_TITLE = "title";
+  constexpr const char* WINDOW_WIDTH = "width";
+  constexpr const char* WINDOW_HEIGHT = "height";
+  constexpr const char* WINDOW_FULLSCREEN = "fullscreen";
+  constexpr const char* FONT_SECTION = "Font";
+  constexpr const char* FONT_DEFAULT_PATH = "default_path";
+  constexpr const char* FONT_DEFAULT_SIZE = "default_size";
+  constexpr const char* FONT_DEFAULT_COLOR = "default_color";
+  constexpr const char* LOGS_SECTION = "Logs";
+  constexpr const char* LOGS_DIRECTORY = "directory";
+  constexpr const char* LOG_FILE_PATH = "log_file_path";
+  constexpr const char* CURSOR_SECTION = "Cursor";
+  constexpr const char* CURSOR_DEFAULT_PATH = "default_path";
+  constexpr const char* DEFAULT_TEXT = "Default Text";
+
+  //Keys for lua scripts and components
+  constexpr const char* ACTIVE = "active";
+  constexpr const char* ACTION = "action";
+  constexpr const char* ACTIONS = "actions";
+  constexpr const char* BINDING = "binding";
+  constexpr const char* BINDINGS = "bindings";
+  constexpr const char* BOXES = "boxes";
+  constexpr const char* COLOR = "color";
+  constexpr const char* COLOR_ALPHA = "color_alpha";
+  constexpr const char* COLOR_HEX = "color_hex";
+  constexpr const char* COMPONENT = "component";
+  constexpr const char* DEFAULT = "default";
+  constexpr const char* ENABLED = "enabled";
+  constexpr const char* FONT_COLOR_HEX = "font_color_hex";
+  constexpr const char* FONT_COLOR_ALPHA = "font_color_alpha";
+  constexpr const char* FONT_SIZE = "font_size";
+  constexpr const char* FONT_PATH = "font_path";
+  constexpr const char* FUNCTION = "function";
+  constexpr const char* H = "h";
+  constexpr const char* HEIGHT = "height";
+  constexpr const char* ID = "id";
+  constexpr const char* POSITION = "position";
+  constexpr const char* SIZE = "size";
+  constexpr const char* SOLID = "solid";
+  constexpr const char* SPEED = "speed";
+  constexpr const char* TEXT = "text";
+  constexpr const char* TEXTURE = "texture";
+  constexpr const char* TEXTURE_PATH = "texture_path";
+  constexpr const char* TITLE = "title";
+  constexpr const char* TYPE = "type";
+  constexpr const char* VISIBLE = "visible";
+  constexpr const char* W = "w";
+  constexpr const char* WIDTH = "width";
+  constexpr const char* X = "x";
+  constexpr const char* Y = "y";
+  constexpr const char* Z = "z";
+  constexpr const char* Z_INDEX = "z_index";
+  constexpr const char* ZOOM = "zoom";
+  constexpr const char* ZOOM_IN = "zoom_in";
+  constexpr const char* ZOOM_OUT = "zoom_out";
+}
+
+#endif

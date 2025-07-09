@@ -1,4 +1,7 @@
 #include "ComponentsFactory.h"
+
+#include "handlers/input/KeyActionResolver.h"
+#include "handlers/input/KeyCodeResolver.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/color/ColorUtils.h"
@@ -7,6 +10,8 @@ namespace Project::Factories {
   using Project::Components::BaseComponent;
   using Project::Components::BoundingBoxComponent;
   using Project::Components::GraphicsComponent;
+  using Project::Components::KeysComponent;
+  using Project::Components::MotionComponent;
   using Project::Components::TextComponent;
   using Project::Handlers::ResourcesHandler;
   using Project::Utilities::ColorUtils;
@@ -92,10 +97,6 @@ namespace Project::Factories {
     return boxComponent;
  }
 
-  std::unique_ptr<BaseComponent> ComponentsFactory::createKeysComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    auto keysComponent = std::make_unique<Components::KeysComponent>(logsManager, keyHandler);
-  }
-
   std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     std::string imagePath = luaStateWrapper.getTableString(tableName, Keys::TEXTURE_PATH, "");
 
@@ -117,6 +118,13 @@ namespace Project::Factories {
 
     graphicsComponent->onAttach();
     return graphicsComponent;
+  }
+
+  std::unique_ptr<BaseComponent> ComponentsFactory::createKeysComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    auto keysComponent = std::make_unique<Components::KeysComponent>(logsManager, keyHandler);
+
+    lua_State* L = luaStateWrapper.get();
+    lua_getglobal(L, tableName.c_str());
   }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createMotionComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

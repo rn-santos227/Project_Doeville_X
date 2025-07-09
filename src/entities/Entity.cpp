@@ -3,6 +3,7 @@
 #include "components/PositionableComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/keys_component/KeysComponent.h"
+#include "libraries/keys/Keys.h"
 
 namespace Project::Entities {
   using Project::Utilities::LogsManager;
@@ -16,11 +17,11 @@ namespace Project::Entities {
   Entity::~Entity() = default;
 
   void Entity::initialize() {
-    x = luaStateWrapper.getGlobalNumber("x", 0.0f);
-    y = luaStateWrapper.getGlobalNumber("y", 0.0f);
-    z = luaStateWrapper.getGlobalNumber("z", 0.0f);
+    x = luaStateWrapper.getGlobalNumber(Project::Libraries::Keys::X, 0.0f);
+    y = luaStateWrapper.getGlobalNumber(Project::Libraries::Keys::Y, 0.0f);
+    z = luaStateWrapper.getGlobalNumber(Project::Libraries::Keys::Z, 0.0f);
 
-    luaStateWrapper.callFunctionIfExists("initialize");
+    luaStateWrapper.callFunctionIfExists(Project::Libraries::Keys::INITIALIZE);
 
     auto positionComponent = [this](BaseComponent* comp) {
       if (auto* positionable = dynamic_cast<Components::PositionableComponent*>(comp)) {
@@ -37,8 +38,8 @@ namespace Project::Entities {
   }
 
   void Entity::update(float deltaTime) {
-    luaStateWrapper.setGlobalNumber("deltaTime", deltaTime);
-    luaStateWrapper.callFunctionIfExists("update");
+    luaStateWrapper.setGlobalNumber(Project::Libraries::Keys::DELTA_TIME, deltaTime);
+    luaStateWrapper.callFunctionIfExists(Project::Libraries::Keys::UPDATE);
 
     for (auto& [name, component] : components) {
       if (component && component->isActive()) {
@@ -48,7 +49,7 @@ namespace Project::Entities {
   }
 
   void Entity::render() {
-    luaStateWrapper.callFunctionIfExists("render");
+    luaStateWrapper.callFunctionIfExists(Project::Libraries::Keys::RENDER);
     for (auto& [name, component] : components) {
       if (component && component->isActive()) {
         component->render();
@@ -61,8 +62,8 @@ namespace Project::Entities {
       return false;
     }
 
-    if (luaStateWrapper.isGlobalTable("components")) {
-      luaStateWrapper.iterateGlobalTable("components", [this](lua_State* L, int index) {
+    if (luaStateWrapper.isGlobalTable(Project::Libraries::Keys::COMPONENTS)) {
+      luaStateWrapper.iterateGlobalTable(Project::Libraries::Keys::COMPONENTS, [this](lua_State* L, int index) {
         if (lua_istable(L, -1)) {
           std::string componentName = lua_tostring(L, -2);
 

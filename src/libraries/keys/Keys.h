@@ -33,7 +33,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* COLOR_ALPHA = "color_alpha";
   constexpr const char* COLOR_HEX = "color_hex";
   constexpr const char* COMPONENT = "component";
+  constexpr const char* COMPONENTS = "components";
   constexpr const char* DEFAULT = "default";
+  constexpr const char* DELTA_TIME = "deltaTime";
   constexpr const char* ENABLED = "enabled";
   constexpr const char* FONT_COLOR_HEX = "font_color_hex";
   constexpr const char* FONT_COLOR_ALPHA = "font_color_alpha";
@@ -43,7 +45,13 @@ namespace Project::Libraries::Keys {
   constexpr const char* H = "h";
   constexpr const char* HEIGHT = "height";
   constexpr const char* ID = "id";
+  constexpr const char* IMAGE = "image";
+  constexpr const char* IMAGE_PATH = "image_path";
+  constexpr const char* INITIALIZE = "initialize";
   constexpr const char* POSITION = "position";
+  constexpr const char* RENDER = "render";
+  constexpr const char* ROTATION = "rotation";
+  constexpr const char* SCALE = "scale";
   constexpr const char* SIZE = "size";
   constexpr const char* SOLID = "solid";
   constexpr const char* SPEED = "speed";
@@ -52,6 +60,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* TEXTURE_PATH = "texture_path";
   constexpr const char* TITLE = "title";
   constexpr const char* TYPE = "type";
+  constexpr const char* UPDATE = "update";
+  constexpr const char* VALUE = "value";
   constexpr const char* VISIBLE = "visible";
   constexpr const char* W = "w";
   constexpr const char* WIDTH = "width";

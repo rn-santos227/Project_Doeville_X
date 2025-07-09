@@ -20,5 +20,10 @@ namespace Project::Handlers {
         code = SDL_GetScancodeFromKey(SDLK_a + (c - 'A'));
       }
     }
+
+    if (code >= SDL_SCANCODE_F1 && code <= SDL_SCANCODE_F12) {
+      return SDL_SCANCODE_UNKNOWN;
+    }
+
   }
 }

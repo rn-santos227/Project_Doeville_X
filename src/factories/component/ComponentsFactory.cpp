@@ -40,6 +40,12 @@ namespace Project::Factories {
       case ComponentType::GRAPHICS:
         return createGraphicsComponent(luaStateWrapper, tableName);
 
+      case ComponentType::KEYS:
+        return createKeysComponent(luaStateWrapper, tableName);
+
+      case ComponentType::MOTION:
+        return createMotionComponent(luaStateWrapper, tableName);
+
       case ComponentType::TEXT:
         return createTextComponent(luaStateWrapper, tableName);
 
@@ -50,7 +56,7 @@ namespace Project::Factories {
   }
 
   // Components Builder Section
- std::unique_ptr<BaseComponent> ComponentsFactory::createBoundingBoxComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+  std::unique_ptr<BaseComponent> ComponentsFactory::createBoundingBoxComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     SDL_Color defaultColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
     SDL_Color debugColor = configReader.getColorValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_COLOR, defaultColor);
     auto boxComponent = std::make_unique<BoundingBoxComponent>(logsManager, renderer, keyHandler, debugColor);
@@ -125,6 +131,62 @@ namespace Project::Factories {
 
     lua_State* L = luaStateWrapper.get();
     lua_getglobal(L, tableName.c_str());
+    if (lua_istable(L, -1)) {
+      lua_getfield(L, -1, Keys::BINDINGS);
+      if (lua_istable(L, -1)) {
+        lua_pushnil(L);
+        while (lua_next(L, -2)) {
+          if (lua_isstring(L, -2) && lua_isstring(L, -1)) {
+            std::string actionName = lua_tostring(L, -2);
+            std::string funcName = lua_tostring(L, -1);
+            auto action = Project::Handlers::KeyActionResolver::resolve(actionName);
+            if (action != Project::Handlers::KeyAction::NONE) {
+              keysComponent->addActionCallback(action, funcName);
+            }
+          }
+          lua_pop(L, 1);
+        }
+        lua_pop(L, 1);
+      } else {
+        lua_pop(L, 1);
+      }
+
+      lua_getfield(L, -1, Keys::KEYS);
+      if (lua_istable(L, -1)) {
+        lua_pushnil(L);
+        while (lua_next(L, -2)) {
+          if (lua_istable(L, -1)) {
+            std::string keyStr;
+            std::string actionName;
+            lua_getfield(L, -1, Keys::KEY);
+            if (lua_isstring(L, -1)) keyStr = lua_tostring(L, -1);
+            lua_pop(L, 1);
+            lua_getfield(L, -1, Keys::ACTION);
+            if (lua_isstring(L, -1)) actionName = lua_tostring(L, -1);
+            lua_pop(L, 1);
+
+            SDL_Scancode code = Project::Handlers::KeyCodeResolver::resolve(keyStr);
+            auto action = Project::Handlers::KeyActionResolver::resolve(actionName);
+
+            if (code != SDL_SCANCODE_UNKNOWN && action != Project::Handlers::KeyAction::NONE && keyHandler) {
+              keyHandler->setKeyBinding(action, code);
+            }
+          }
+          lua_pop(L, 1);
+        }
+        lua_pop(L, 1);
+      } else {
+        lua_pop(L, 1);
+      }
+
+      lua_pop(L, 1);
+    } else {
+      lua_pop(L, 1);
+    }
+
+    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
+    keysComponent->setActive(active);
+    return keysComponent;
   }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createMotionComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

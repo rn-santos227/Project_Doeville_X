@@ -61,6 +61,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* IMAGE = "image";
   constexpr const char* IMAGE_PATH = "image_path";
   constexpr const char* INITIALIZE = "initialize";
+  constexpr const char* KEY = "key";
+  constexpr const char* KEYS = "keys";
   constexpr const char* POSITION = "position";
   constexpr const char* RENDER = "render";
   constexpr const char* ROTATION = "rotation";

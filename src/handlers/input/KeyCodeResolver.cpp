@@ -11,5 +11,14 @@ namespace Project::Handlers {
     }
 
     if (code != SDL_SCANCODE_UNKNOWN) return code;
+
+    if (name.size() == 1) {
+      char c = name[0];
+      if (c >= 'a' && c <= 'z') {
+        code = SDL_GetScancodeFromKey(SDLK_a + (c - 'a'));
+      } else if (c >= 'A' && c <= 'Z') {
+        code = SDL_GetScancodeFromKey(SDLK_a + (c - 'A'));
+      }
+    }
   }
 }

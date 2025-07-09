@@ -1,10 +1,14 @@
 #include "LuaScriptable.h"
 
+#include "libraries/keys/Keys.h"
+
 namespace Project::Utilities {
+  namespace Keys = Project::Libraries::Keys;
+
   LuaScriptable::LuaScriptable(LogsManager& logsManager)
     : logsManager(logsManager), luaStateWrapper(logsManager) {
     if (luaStateWrapper.isValid()) {
-      luaStateWrapper.registerFunction("print", LuaStateWrapper::luaPrintRedirect);
+      luaStateWrapper.registerFunction(Keys::LUA_FUNC_PRINT, LuaStateWrapper::luaPrintRedirect);
     } else {
       logsManager.logError("Failed to create Lua state");
     }

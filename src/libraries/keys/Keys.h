@@ -6,6 +6,8 @@
 namespace Project::Libraries::Keys {
   //Keys for game engine configuration
   constexpr const char* CONFIG_FILE = "config.ini";
+  constexpr const char* CURSOR_H = "height";
+  constexpr const char* CURSOR_W = "width";
   constexpr const char* WINDOW_SECTION = "Window";
   constexpr const char* WINDOW_TITLE = "title";
   constexpr const char* WINDOW_WIDTH = "width";
@@ -20,9 +22,20 @@ namespace Project::Libraries::Keys {
   constexpr const char* LOG_FILE_PATH = "log_file_path";
   constexpr const char* CURSOR_SECTION = "Cursor";
   constexpr const char* CURSOR_DEFAULT_PATH = "default_path";
+
+  //Default values for game engine configuration
+  constexpr const char* DEFAULT_CURSOR_PATH = "resources/system/cursor_default.png";
+  constexpr const char* DEFAULT_ENTITY_SCRIPT_FOLDER = "scripts/entities/";
+  constexpr const char* DEFAULT_FONT_PATH = "resources/fonts/system.ttf";
+  constexpr const char* DEFAULT_STATE_SCRIPT_FOLDER = "scripts/states/";
+  constexpr const char* DEFAULT_INITIAL_STATE = "MainMenu";
+  constexpr const char* DEFAULT_LOGS_DIRECTORY = "resources/logs";
+  constexpr const char* DEFAULT_LOG_FILE_PATH = "resources/logs/logs.txt";
+  constexpr const char* DEFAULT_SCRIPT_PATH = "scripts/";
+  constexpr const char* DEFAULT_FONT = "system";
   constexpr const char* DEFAULT_TEXT = "Default Text";
 
-  //Keys for lua entites and components
+  //Keys for lua entities and components
   constexpr const char* ACTIVE = "active";
   constexpr const char* ACTION = "action";
   constexpr const char* ACTIONS = "actions";
@@ -83,6 +96,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* STATE_ON_EXIT = "onExit";
   constexpr const char* STATE_HANDLE_INPUT = "handleInput";
   constexpr const char* STATE_PRINT = "print";
+
+  //functions for lua state
+  constexpr const char* LUA_FUNC_PRINT = "print";
 }
 
 #endif

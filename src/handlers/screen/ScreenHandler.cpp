@@ -1,5 +1,7 @@
 #include "ScreenHandler.h"
+
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
@@ -16,6 +18,7 @@ namespace Project::Handlers {
   using Project::Services::ScriptingService;
 
   namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
   ScreenHandler::ScreenHandler(
       LogsManager& logsManager, FramesCounter& framesCounter, ConfigReader& configReader, 
@@ -54,7 +57,7 @@ namespace Project::Handlers {
     cursorHeight = configReader.getIntValue("Cursor", "height", Constants::DEFAULT_CURSOR_SIZE);
 
     cursorHandler.setRenderer(renderer);
-    std::string cursorPath = resourcesHandler.getResourcePath(Constants::DEFAULT_CURSOR_PATH);
+    std::string cursorPath = resourcesHandler.getResourcePath(Keys::DEFAULT_CURSOR_PATH);
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);
 
@@ -66,10 +69,10 @@ namespace Project::Handlers {
       return false;
     }
 
-    std::string scriptPath = configReader.getValue("Paths", "scripts", Constants::SCRIPT_FOLDER);
+    std::string scriptPath = configReader.getValue("Paths", "scripts", Keys::DEFAULT_SCRIPT_PATH);
     scriptingService->loadScriptsFromFolder(scriptPath);
 
-    std::string initialState = configReader.getValue("Game", "initial_state", Constants::DEFAULT_INITIAL_STATE);
+    std::string initialState = configReader.getValue("Game", "initial_state", Keys::DEFAULT_INITIAL_STATE);
     gameStateManager.setInitialState(initialState);
 
     running = true;

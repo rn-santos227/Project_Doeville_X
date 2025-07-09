@@ -1,8 +1,11 @@
 #include "LogsManager.h"
+
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 
 namespace Project::Utilities {
   namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
   static std::queue<LogEntry> logQueue;
   static std::mutex logMutex;
@@ -36,8 +39,8 @@ namespace Project::Utilities {
   }
 
   LogsManager::LogsManager() {
-    std::string logFilePath = Constants::LOG_FILE_PATH;
-    std::filesystem::create_directories(Constants::LOGS_DIRECTORY);
+    std::string logFilePath = Keys::LOG_FILE_PATH;
+    std::filesystem::create_directories(Keys::LOGS_DIRECTORY);
     logFile.open(logFilePath, std::ios_base::app);
     
     if (!logFile.is_open()) {

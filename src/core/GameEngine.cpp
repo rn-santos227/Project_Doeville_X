@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 
 namespace Project::Core {
   using Project::Utilities::LogsManager;
@@ -16,12 +17,13 @@ namespace Project::Core {
   using Project::Handlers::ScreenHandler;
 
   namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
   GameEngine::GameEngine() :
   isRunning(false), framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   componentsFactory(std::make_unique<ComponentsFactory>(configReader, logsManager, *resourcesHandler)),
-  gameStateManager(std::make_unique<GameStateManager>(5, logsManager)),
+  gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager)),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)),
   fontHandler(std::make_unique<FontHandler>(logsManager)),
   keyHandler(std::make_unique<KeyHandler>(logsManager, sdlManager)),
@@ -40,15 +42,15 @@ namespace Project::Core {
   }
 
   void GameEngine::init() {
-    if (logsManager.checkAndLogError(!configReader.loadConfig("config.ini"), "Failed to load config.ini")) {
+    if (logsManager.checkAndLogError(!configReader.loadConfig(Keys::CONFIG_FILE), "Failed to load config.ini")) {
       logsManager.flushLogs();
       return;
     }
 
-    std::string title = configReader.getValue("Window", "title", Constants::PROJECT_NAME);
-    int screenWidth = configReader.getIntValue("Window", "width", Constants::DEFAULT_SCREEN_WIDTH);
-    int screenHeight = configReader.getIntValue("Window", "height", Constants::DEFAULT_SCREEN_HEIGHT);
-    bool isFullscreen = configReader.getBoolValue("Window", "fullscreen", false);
+    std::string title = configReader.getValue(Keys::WINDOW_SECTION, Keys::WINDOW_TITLE, Constants::PROJECT_NAME);
+    int screenWidth = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_WIDTH, Constants::DEFAULT_SCREEN_WIDTH);
+    int screenHeight = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_HEIGHT, Constants::DEFAULT_SCREEN_HEIGHT);
+    bool isFullscreen = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_FULLSCREEN, false);
 
     if (!sdlManager.initialize(title, screenWidth, screenHeight, isFullscreen)) {
       logsManager.logError("Failed to initialize SDLManager.");
@@ -56,7 +58,7 @@ namespace Project::Core {
     }
 
     SDL_ShowCursor(SDL_DISABLE);
-    std::string fontRelPath = configReader.getValue("Font", "default_path", Constants::DEFAULT_FONT_PATH);
+    std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Keys::DEFAULT_FONT_PATH);
     std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
     
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
@@ -65,7 +67,7 @@ namespace Project::Core {
       return;
     }
 
-    if (logsManager.checkAndLogError(!fontHandler->loadFont("system", fontPath.c_str(), Constants::DEFAULT_FONT_SIZE), "Failed to load required font 'system'!")) {
+    if (logsManager.checkAndLogError(!fontHandler->loadFont(Keys::DEFAULT_FONT, fontPath.c_str(), Constants::DEFAULT_FONT_SIZE), "Failed to load required font 'system'!")) {
       logsManager.flushLogs();
       return;
     }

@@ -22,3 +22,6 @@ def main():
   for name, ok in results.items():
     status = "OK" if ok else "MISSING"
     print(f"[{status}] {name}")
+
+if __name__ == "__main__":
+  main()

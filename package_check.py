@@ -8,4 +8,10 @@ def load_packages(path):
   with open(path, "r") as f:
     return json.load(f)
 
-
+def check_installed(packages):
+  results = {}
+  for name, info in packages.items():
+    out_dir = info.get("output_dir") or info.get("source_dir")
+    path = os.path.join(BASE_DIR, out_dir)
+    results[name] = os.path.exists(path)
+  return results

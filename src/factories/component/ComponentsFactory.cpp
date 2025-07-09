@@ -116,7 +116,12 @@ namespace Project::Factories {
   }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createMotionComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    float speed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPEED, Constants::DEFAULT_MOTION_SPEED));
+    auto motionComponent = std::make_unique<Components::MotionComponent>(logsManager, keyHandler, speed);
 
+    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
+    motionComponent->setActive(active);
+    return motionComponent;
   }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

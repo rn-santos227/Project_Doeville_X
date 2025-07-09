@@ -54,11 +54,11 @@ namespace Project::Handlers {
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
     cameraHandler.setSize(screenWidth, screenHeight);
 
-    cursorWidth = configReader.getIntValue("Cursor", "width", Constants::DEFAULT_CURSOR_SIZE);
-    cursorHeight = configReader.getIntValue("Cursor", "height", Constants::DEFAULT_CURSOR_SIZE);
+    cursorWidth = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_W, Constants::DEFAULT_CURSOR_SIZE);
+    cursorHeight = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_H, Constants::DEFAULT_CURSOR_SIZE);
 
     cursorHandler.setRenderer(renderer);
-    std::string cursorPath = resourcesHandler.getResourcePath(Keys::DEFAULT_CURSOR_PATH);
+    std::string cursorPath = resourcesHandler.getResourcePath(Constants::DEFAULT_CURSOR_PATH);
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);
 
@@ -70,10 +70,10 @@ namespace Project::Handlers {
       return false;
     }
 
-    std::string scriptPath = configReader.getValue("Paths", "scripts", Keys::DEFAULT_SCRIPT_PATH);
+    std::string scriptPath = configReader.getValue(Keys::PATHS_SECTION, Keys::PATH_SCRIPTS, Constants::DEFAULT_SCRIPT_PATH);
     scriptingService->loadScriptsFromFolder(scriptPath);
 
-    std::string initialState = configReader.getValue("Game", "initial_state", Keys::DEFAULT_INITIAL_STATE);
+    std::string initialState = configReader.getValue(Keys::GAME_SECTION, Keys::GAME_INITIAL_STATE, Constants::DEFAULT_INITIAL_STATE);
     gameStateManager.setInitialState(initialState);
 
     running = true;

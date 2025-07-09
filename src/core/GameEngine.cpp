@@ -58,7 +58,7 @@ namespace Project::Core {
     }
 
     SDL_ShowCursor(SDL_DISABLE);
-    std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Keys::DEFAULT_FONT_PATH);
+    std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
     std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
     
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
@@ -67,7 +67,7 @@ namespace Project::Core {
       return;
     }
 
-    if (logsManager.checkAndLogError(!fontHandler->loadFont(Keys::DEFAULT_FONT, fontPath.c_str(), Constants::DEFAULT_FONT_SIZE), "Failed to load required font 'system'!")) {
+    if (logsManager.checkAndLogError(!fontHandler->loadFont(Constants::DEFAULT_FONT, fontPath.c_str(), Constants::DEFAULT_FONT_SIZE), "Failed to load required font 'system'!")) {
       logsManager.flushLogs();
       return;
     }

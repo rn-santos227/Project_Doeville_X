@@ -11,6 +11,8 @@
 #include "components/BaseComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
+#include "components/keys_component/KeysComponent.h"
+#include "components/motion_component/MotionComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "libraries/constants/Constants.h"
 #include "handlers/input/KeyHandler.h"
@@ -45,6 +47,10 @@ namespace Project::Factories {
     std::unique_ptr<Project::Components::BaseComponent> createBoundingBoxComponent(
       Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     std::unique_ptr<Project::Components::BaseComponent> createGraphicsComponent(
+      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+    std::unique_ptr<Project::Components::BaseComponent> createKeysComponent(
+      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+    std::unique_ptr<Project::Components::BaseComponent> createMotionComponent(
       Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
     std::unique_ptr<Project::Components::BaseComponent> createTextComponent(
       Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);

@@ -115,6 +115,10 @@ namespace Project::Factories {
     return graphicsComponent;
   }
 
+  std::unique_ptr<BaseComponent> ComponentsFactory::createMotionComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+
+  }
+
   std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
     Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_COLOR_ALPHA, Constants::FULL_ALPHA));

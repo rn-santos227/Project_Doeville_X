@@ -47,6 +47,7 @@ namespace Project::Handlers {
   bool ScreenHandler::init() {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     componentsFactory.setRenderer(renderer);
+    componentsFactory.setKeyHandler(&keyHandler);
 
     int screenWidth = 0;
     int screenHeight = 0;

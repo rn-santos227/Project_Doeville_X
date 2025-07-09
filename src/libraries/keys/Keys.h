@@ -6,8 +6,6 @@
 namespace Project::Libraries::Keys {
   //Keys for game engine configuration
   constexpr const char* CONFIG_FILE = "config.ini";
-  constexpr const char* CURSOR_H = "height";
-  constexpr const char* CURSOR_W = "width";
   constexpr const char* WINDOW_SECTION = "Window";
   constexpr const char* WINDOW_TITLE = "title";
   constexpr const char* WINDOW_WIDTH = "width";
@@ -22,6 +20,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* LOG_FILE_PATH = "log_file_path";
   constexpr const char* CURSOR_SECTION = "Cursor";
   constexpr const char* CURSOR_DEFAULT_PATH = "default_path";
+  constexpr const char* CURSOR_H = "height";
+  constexpr const char* CURSOR_W = "width";
 
   //Default values for game engine configuration
   constexpr const char* DEFAULT_CURSOR_PATH = "resources/system/cursor_default.png";
@@ -42,6 +42,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* BINDING = "binding";
   constexpr const char* BINDINGS = "bindings";
   constexpr const char* BOXES = "boxes";
+  constexpr const char* CATEGORY = "category";  
+  constexpr const char* CLASS = "class";
   constexpr const char* COLOR = "color";
   constexpr const char* COLOR_ALPHA = "color_alpha";
   constexpr const char* COLOR_HEX = "color_hex";
@@ -54,7 +56,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* FONT_COLOR_ALPHA = "font_color_alpha";
   constexpr const char* FONT_SIZE = "font_size";
   constexpr const char* FONT_PATH = "font_path";
+  constexpr const char* FRICTION = "friction";
   constexpr const char* FUNCTION = "function";
+  constexpr const char* GROUP = "group";
   constexpr const char* H = "h";
   constexpr const char* HEIGHT = "height";
   constexpr const char* ID = "id";
@@ -63,17 +67,22 @@ namespace Project::Libraries::Keys {
   constexpr const char* INITIALIZE = "initialize";
   constexpr const char* KEY = "key";
   constexpr const char* KEYS = "keys";
+  constexpr const char* LAYER = "layer";  
+  constexpr const char* NAME = "name"; 
   constexpr const char* POSITION = "position";
   constexpr const char* RENDER = "render";
   constexpr const char* ROTATION = "rotation";
   constexpr const char* SCALE = "scale";
+  constexpr const char* SECONDS = "seconds";
   constexpr const char* SIZE = "size";
   constexpr const char* SOLID = "solid";
   constexpr const char* SPEED = "speed";
+  constexpr const char* TAG = "tag";  
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";
   constexpr const char* TEXTURE_PATH = "texture_path";
   constexpr const char* TITLE = "title";
+  constexpr const char* TIME = "time";
   constexpr const char* TYPE = "type";
   constexpr const char* UPDATE = "update";
   constexpr const char* VALUE = "value";

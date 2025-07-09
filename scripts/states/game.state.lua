@@ -1,9 +1,12 @@
 stateName = "GameState"
 stateCategory = "STATIC_GAME_STATE"
 
+player = dofile("scripts/entities/player.entity.lua")
+
 function initialize()
   print("Initializing GameState")
   setBackgroundColor(34, 45, 50, 255)
+  spawnEntity("player")
 end
 
 function onEnter()

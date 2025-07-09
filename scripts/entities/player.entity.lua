@@ -19,7 +19,7 @@ components = {
     height = 32,
     color_hex = "ADD8E6",
     color_alpha = 255
-  }
+  },
   
   KeysComponent = {
     component = "KeysComponent",
@@ -30,7 +30,7 @@ components = {
       { key = "s", action = "move_down" },
       { key = "d", action = "move_right" }
     }
-  }
+  },
   
   MotionComponent = {
     component = "MotionComponent",

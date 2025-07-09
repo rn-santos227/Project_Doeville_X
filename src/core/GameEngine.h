@@ -53,5 +53,4 @@ namespace Project::Core {
     std::mutex updateMutex;
   };
 }
-
 #endif

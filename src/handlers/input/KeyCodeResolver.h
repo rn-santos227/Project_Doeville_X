@@ -6,7 +6,8 @@
 
 namespace Project::Handlers {
   class KeyCodeResolver {
-
+  public:
+    static SDL_Scancode resolve(const std::string& name);
   };
 }
 

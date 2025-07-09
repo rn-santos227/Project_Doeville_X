@@ -62,6 +62,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* LAYER = "layer";  
   constexpr const char* NAME = "name"; 
   constexpr const char* POSITION = "position";
+  constexpr const char* RADIUS = "radius";
+  constexpr const char* RECT = "rect";
   constexpr const char* RENDER = "render";
   constexpr const char* ROTATION = "rotation";
   constexpr const char* SCALE = "scale";

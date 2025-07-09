@@ -203,9 +203,9 @@ namespace Project::Factories {
     Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_COLOR_ALPHA, Constants::FULL_ALPHA));
     SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
 
-    std::string text = luaStateWrapper.getTableString(tableName, Keys::TEXT, Keys::DEFAULT_TEXT);
+    std::string text = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::DEFAULT_TEXT);
 
-    std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Keys::DEFAULT_FONT_PATH);
+    std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
     std::string fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
 
     int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);

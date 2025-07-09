@@ -92,6 +92,10 @@ namespace Project::Factories {
     return boxComponent;
  }
 
+  std::unique_ptr<BaseComponent> ComponentsFactory::createKeysComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    auto keysComponent = std::make_unique<Components::KeysComponent>(logsManager, keyHandler);
+  }
+
   std::unique_ptr<BaseComponent> ComponentsFactory::createGraphicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     std::string imagePath = luaStateWrapper.getTableString(tableName, Keys::TEXTURE_PATH, "");
 

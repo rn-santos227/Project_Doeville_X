@@ -25,5 +25,6 @@ namespace Project::Handlers {
       return SDL_SCANCODE_UNKNOWN;
     }
 
+    return code;
   }
 }

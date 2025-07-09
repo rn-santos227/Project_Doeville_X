@@ -57,5 +57,8 @@ namespace Project::Handlers {
       {"MENU_BACK", KeyAction::MENU_BACK},
       {"MAP_TOGGLE", KeyAction::MAP_TOGGLE}
     };
+
+    std::string key = name;
+    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){ return std::toupper(c); });
   }
 }

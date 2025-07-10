@@ -25,6 +25,8 @@ namespace Project::Handlers {
     renderAxes();
     renderFPS();
     renderBenchmark();
+    renderMemoryUsage();
+    renderProcessCount();
     renderMousePosition();
   }
 

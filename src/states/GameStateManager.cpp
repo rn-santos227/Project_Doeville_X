@@ -105,6 +105,10 @@ namespace Project::States {
         topState->update(deltaTime);
       }
     }
+
+    if (globalEntitiesManager) {
+      globalEntitiesManager->update(deltaTime);
+    }
   }
 
   void GameStateManager::render() {
@@ -115,6 +119,10 @@ namespace Project::States {
       if (topState->isActive()) {
         topState->render();
       }
+    }
+
+    if (globalEntitiesManager) {
+      globalEntitiesManager->render();
     }
   }
 

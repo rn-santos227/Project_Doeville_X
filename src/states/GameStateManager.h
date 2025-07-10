@@ -34,9 +34,7 @@ namespace Project::States {
     void cleanup();
     void cleanupCache();
 
-    std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const {
-      return globalEntitiesManager;
-    }
+    std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const { return globalEntitiesManager; }
 
   private:
     Project::Utilities::LogsManager& logsManager;
@@ -47,8 +45,9 @@ namespace Project::States {
     std::list<std::pair<std::string, std::unique_ptr<GameState>>> stateCache;
     std::unordered_map<std::string, decltype(stateCache.begin())> cacheMap;
 
-    std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager = std::make_shared<Project::Entities::EntitiesManager>();
     std::stack<GameState*> stateStack;
+
+    std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager = std::make_shared<Project::Entities::EntitiesManager>();
 
     GameState* retrieveFromCache(const std::string& name);
     void addToCache(const std::string& name, std::unique_ptr<GameState> state);

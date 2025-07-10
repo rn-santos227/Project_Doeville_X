@@ -34,6 +34,14 @@ namespace Project::Factories {
     return entityTemplates.find(entityName) != entityTemplates.end();
   }
 
+  bool EntitiesFactory::isEntityGlobal(const std::string& entityName) const {
+    auto it = entityTemplates.find(entityName);
+    if (it != entityTemplates.end()) {
+      return it->second->isGlobal();
+    }
+    return false;
+  }  
+
   std::unique_ptr<Entity> EntitiesFactory::cloneEntity(const std::string& entityName) {
     auto it = entityTemplates.find(entityName);
     if(logsManager.checkAndLogError(it == entityTemplates.end(), "Entity template not found: " + entityName)) {

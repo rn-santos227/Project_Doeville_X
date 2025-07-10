@@ -18,6 +18,7 @@ namespace Project::Factories {
     std::unique_ptr<Project::Entities::Entity> cloneEntity(const std::string& entityName);
 
     bool hasEntityTemplate(const std::string& entityName) const;
+    bool isEntityGlobal(const std::string& entityName) const;
 
   private:
     Project::Utilities::LogsManager& logsManager;

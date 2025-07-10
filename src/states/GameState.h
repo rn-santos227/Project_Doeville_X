@@ -47,6 +47,7 @@ namespace Project::States {
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
     void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { entitiesManager = std::move(manager); }
+    void setGlobalEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { globalEntitiesManager = std::move(manager); }
     void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
 
     void clearBackground();
@@ -75,6 +76,7 @@ namespace Project::States {
     bool active = false;
 
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
+    std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
 
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);

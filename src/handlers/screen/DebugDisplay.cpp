@@ -143,24 +143,35 @@ namespace Project::Handlers {
 
   size_t DebugDisplay::getProcessMemoryUsageMB() {
     #if defined(_WIN32)
-    PROCESS_MEMORY_COUNTERS pmc;
-    if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
-      return static_cast<size_t>(pmc.WorkingSetSize) / Constants::BYTES_PER_MEGABYTE;
-    }
-    return 0;
+      PROCESS_MEMORY_COUNTERS pmc;
+      if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
+        return static_cast<size_t>(pmc.WorkingSetSize) / Constants::BYTES_PER_MEGABYTE;
+      }
+      return 0;
 
     #elif defined(__APPLE__) && defined(__MACH__)
-    mach_task_basic_info info;
-    mach_msg_type_number_t infoCount = MACH_TASK_BASIC_INFO_COUNT;
-    if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO, reinterpret_cast<task_info_t>(&info), &infoCount) == KERN_SUCCESS) {
-      return static_cast<size_t>(info.resident_size) / Constants::BYTES_PER_MEGABYTE;
-    }
-    return 0;
+      mach_task_basic_info info;
+      mach_msg_type_number_t infoCount = MACH_TASK_BASIC_INFO_COUNT;
+      if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO, reinterpret_cast<task_info_t>(&info), &infoCount) == KERN_SUCCESS) {
+        return static_cast<size_t>(info.resident_size) / Constants::BYTES_PER_MEGABYTE;
+      }
+      return 0;
 
     #elif defined(__linux__)
+      long rss = 0
+      FILE* fp = fopen("/proc/self/statm", "r");
+      if (fp) {
+        if (fscanf(fp, "%*s%ld", &rss) != 1) {
+          rss = 0L;
+        }
+        fclose(fp);
+      }
+      long pageSize = sysconf(_SC_PAGESIZE);
+      size_t bytes = static_cast<size_t>(rss) * static_cast<size_t>(pageSize);
+      return bytes / Constants::BYTES_PER_MEG
 
     #else
-    return 0;
+      return 0;
 
     #endif
   }

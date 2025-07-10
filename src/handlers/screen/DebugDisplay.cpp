@@ -111,7 +111,10 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::renderProcessCount() {
-
+    SDL_Renderer* renderer = sdlManager.getRenderer();
+    size_t procCount = getProcessCount();
+    std::string procText = std::string(Constants::DEBUG_PROC_PREFIX) + std::to_string(procCount);
+    SDL_Texture* procTexture = fontHandler.renderText(renderer, procText, Constants::DEFAULT_FONT, debugTextColor);
   }
 
   void DebugDisplay::renderAxes() {

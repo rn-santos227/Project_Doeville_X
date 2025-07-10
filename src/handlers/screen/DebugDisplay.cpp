@@ -143,6 +143,11 @@ namespace Project::Handlers {
 
   size_t DebugDisplay::getProcessMemoryUsageMB() {
     #if defined(_WIN32)
+    PROCESS_MEMORY_COUNTERS pmc;
+    if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
+      return static_cast<size_t>(pmc.WorkingSetSize) / Constants::BYTES_PER_MEGABYTE;
+    }
+    return 0;
 
     #elif defined(__APPLE__) && defined(__MACH__)
 
@@ -150,7 +155,7 @@ namespace Project::Handlers {
 
     #else
     return 0;
-    
+
     #endif
   }
 }

@@ -26,6 +26,12 @@ namespace Project::Libraries::Keys {
   constexpr const char* PATH_SCRIPTS = "scripts";
   constexpr const char* GAME_SECTION = "Game";
   constexpr const char* GAME_INITIAL_STATE = "initial_state";
+  constexpr const char* DEBUG_SECTION = "Debug";
+  constexpr const char* DEBUG_TEXT_COLOR = "text_color";
+  constexpr const char* AXIS_SECTION = "Axis";
+  constexpr const char* AXIS_X_COLOR = "x_color";
+  constexpr const char* AXIS_Y_COLOR = "y_color";
+  constexpr const char* AXIS_Z_COLOR = "z_color";
 
   //Keys for lua entities and components
   constexpr const char* ACTIVE = "active";

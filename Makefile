@@ -13,6 +13,10 @@ LDFLAGS += `sdl2-config --libs` \
            -Llib/Lua/lua-5.4.6/src \
            -lSDL2 -lSDL2_image -lSDL2_ttf -llua
 
+ifeq ($(OS),Windows_NT)
+	LDFLAGS += -lpsapi
+endif
+
 SRC_DIR = src
 BUILD_DIR = build
 BIN_DIR = bin
@@ -61,4 +65,3 @@ clean:
 	@echo "Cleaned build directories."
 
 .PHONY: all clean debug
-

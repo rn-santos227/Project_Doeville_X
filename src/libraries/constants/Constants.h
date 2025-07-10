@@ -60,6 +60,8 @@ namespace Project::Libraries::Constants {
 
   // Debug strings
   constexpr const char* DEBUG_FPS_PREFIX = "FPS: ";
+  constexpr const char* DEBUG_FRAME_PREFIX = "FRAME: ";
+  constexpr const char* DEBUG_FRAME_SUFFIX = " MS";
   constexpr const char* DEBUG_MEM_PREFIX = "MEM: ";
   constexpr const char* DEBUG_MEM_SUFFIX = " MB";
   constexpr const char* DEBUG_PROC_PREFIX = "PROC: ";

@@ -41,11 +41,16 @@ namespace Project::Handlers {
     int gridSpacing = Project::Libraries::Constants::DEFAULT_GRID_SPACING;
     int fpsTextHeight = 0;
 
-    void renderAxes();  
-    void renderGrid(); 
     void renderFPS();
     void renderBenchmark();
+    void renderMemoryUsage();
+    void renderProcessCount();
     void renderMousePosition();
+    void renderAxes();
+    void renderGrid();
+
+    size_t getProcessMemoryUsageMB();
+    size_t getProcessCount();
   };
 }
 #endif

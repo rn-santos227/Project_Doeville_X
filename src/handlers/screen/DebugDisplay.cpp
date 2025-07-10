@@ -177,6 +177,15 @@ namespace Project::Handlers {
   }
 
   size_t DebugDisplay::getProcessCount() {
+    #if defined(_WIN32)
 
+    #elif defined(__APPLE__) && defined(__MACH__)
+
+    #elif defined(__linux__)
+
+    #else
+      return 0;
+
+    #endif
   }
 }

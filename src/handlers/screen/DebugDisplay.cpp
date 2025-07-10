@@ -89,7 +89,26 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::renderMemoryUsage() {
+    SDL_Renderer* renderer = sdlManager.getRenderer();
+    size_t memMB = getProcessMemoryUsageMB();
+    std::string memText = std::string(Constants::DEBUG_MEM_PREFIX) +
+                          std::to_string(memMB) + Constants::DEBUG_MEM_SUFFIX;
+    SDL_Texture* memTexture = fontHandler.renderText(renderer, memText, Constants::DEFAULT_FONT, debugTextColor);
 
+    if (memTexture) {
+      int textWidth, textHeight;
+      SDL_QueryTexture(memTexture, nullptr, nullptr, &textWidth, &textHeight);
+      memTextHeight = textHeight;
+
+      int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+      SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, Constants::DEBUG_TEXT_MARGIN + fpsTextHeight + Constants::DEBUG_LINE_SPACING, textWidth, textHeight};
+      SDL_RenderCopy(renderer, memTexture, nullptr, &destRect);
+      SDL_DestroyTexture(memTexture);
+    } else {
+      logsManager.logError("Failed to render memory usage.");
+    }
   }
 
   void DebugDisplay::renderAxes() {

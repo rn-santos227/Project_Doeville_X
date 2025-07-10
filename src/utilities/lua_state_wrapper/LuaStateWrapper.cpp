@@ -24,7 +24,7 @@ namespace Project::Utilities {
   }
 
   bool LuaStateWrapper::loadScript(const std::string& scriptPath) {
-    if(logsManager.checkAndLogError(!isValid(), "Lua state is invalid. Cannot load script: " + scriptPath)) {
+    if (logsManager.checkAndLogError(!isValid(), "Lua state is invalid. Cannot load script: " + scriptPath)) {
       return false;
     }
 
@@ -68,7 +68,7 @@ namespace Project::Utilities {
   }
 
   bool LuaStateWrapper::loadScriptFromString(const std::string& code) {
-    if(logsManager.checkAndLogError(!isValid(), "Lua state is invalid. Cannot load script from string.")) {
+    if (logsManager.checkAndLogError(!isValid(), "Lua state is invalid. Cannot load script from string.")) {
       return false;
     }
 
@@ -169,7 +169,7 @@ namespace Project::Utilities {
     if (!isValid()) return defaultValue;
 
     lua_getglobal(luaState, tableName.c_str());
-    if( !lua_istable(luaState, -1)) {
+    if (!lua_istable(luaState, -1)) {
       lua_pop(luaState, 1);
       return defaultValue;
     }

@@ -47,7 +47,7 @@ namespace Project::Services {
       componentsFactory(componentsFactory), 
       entitiesFactory(logsManager, componentsFactory),
       gameStateFactory(logsManager, resourcesHandler, gameStateManager, entitiesFactory) {
-    if(logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
+    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       return;
     }
   }
@@ -127,7 +127,7 @@ namespace Project::Services {
       }
 
       case ScriptCategory::STATE: {
-        if(gameStateFactory.createStateFromLua(renderer, scriptPath)) {
+        if (gameStateFactory.createStateFromLua(renderer, scriptPath)) {
           logsManager.logMessage("State loaded from " + scriptPath);
         }
         break;

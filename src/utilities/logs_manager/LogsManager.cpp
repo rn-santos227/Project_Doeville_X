@@ -79,7 +79,7 @@ namespace Project::Utilities {
   }
 
   bool LogsManager::checkAndLogError(bool condition, const std::string& errorMsg) {
-    if(condition) {
+    if (condition) {
       logError(errorMsg);
     }
     return condition;

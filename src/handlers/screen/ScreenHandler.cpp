@@ -66,7 +66,7 @@ namespace Project::Handlers {
       renderer, logsManager, resourcesHandler, componentsFactory, gameStateManager
     );
 
-    if(logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {
+    if (logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {
       return false;
     }
 

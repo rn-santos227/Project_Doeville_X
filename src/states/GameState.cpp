@@ -196,7 +196,13 @@ namespace Project::States {
     entity->initialize();
     std::shared_ptr<Entity> shared = std::move(entity);
 
-    if (state->entitiesManager) {
+    if (isGlobal) {
+      if (state->globalEntitiesManager) {
+        state->globalEntitiesManager->addEntity(name, shared);
+      } else {
+        luaL_error(L, "Global EntitiesManager not set for this state.");
+      }
+    } else if (state->entitiesManager) {
       state->entitiesManager->addEntity(name, shared);
     } else {
       luaL_error(L, "EntitiesManager not set for this state.");

@@ -39,7 +39,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ACTIONS = "actions";
   constexpr const char* BINDING = "binding";
   constexpr const char* BINDINGS = "bindings";
-  constexpr const char* BOXES = "boxes";
+  constexpr const char* BOXES = "boxes"; 
   constexpr const char* CATEGORY = "category";  
   constexpr const char* CLASS = "class";
   constexpr const char* COLOR = "color";
@@ -56,6 +56,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* FONT_PATH = "font_path";
   constexpr const char* FRICTION = "friction";
   constexpr const char* FUNCTION = "function";
+  constexpr const char* GLOBAL = "global";
   constexpr const char* GROUP = "group";
   constexpr const char* H = "h";
   constexpr const char* HEIGHT = "height";

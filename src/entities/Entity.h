@@ -45,6 +45,9 @@ namespace Project::Entities {
     Project::Components::BaseComponent* getComponent(const std::string& componentName);
     std::vector<std::string> listComponentNames() const;
 
+    bool isGlobal() const { return global; }
+    void setGlobal(bool value) { global = value; }
+
     void setPosition(float newX, float newY) { x = newX; y = newY; }
     void setPosition(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ; }
 
@@ -62,6 +65,8 @@ namespace Project::Entities {
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
+
+    bool global = false;
   };
 }
 

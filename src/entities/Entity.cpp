@@ -62,6 +62,8 @@ namespace Project::Entities {
       return false;
     }
 
+    global = luaStateWrapper.getGlobalBoolean(Project::Libraries::Keys::GLOBAL, false);
+
     if (luaStateWrapper.isGlobalTable(Project::Libraries::Keys::COMPONENTS)) {
       luaStateWrapper.iterateGlobalTable(Project::Libraries::Keys::COMPONENTS, [this](lua_State* L, int index) {
         if (lua_istable(L, -1)) {

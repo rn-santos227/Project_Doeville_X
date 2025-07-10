@@ -186,6 +186,12 @@ namespace Project::Handlers {
       return 0;
 
     #elif defined(__APPLE__) && defined(__MACH__)
+      int mib[3] = {CTL_KERN, KERN_PROC, KERN_PROC_ALL};
+      size_t size = 0;
+      if (sysctl(mib, 3, nullptr, &size, nullptr, 0) == 0) {
+        return size / sizeof(struct kinfo_proc);
+      }
+      return 0;
 
     #elif defined(__linux__)
 

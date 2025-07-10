@@ -20,6 +20,8 @@ namespace Project::Entities {
       void addEntity(const std::string& id, std::shared_ptr<Entity> entity);
       void removeEntity(const std::string& id);
 
+      bool hasEntity(const std::string& id);
+
       void unloadSceneEntities();
       void optimizeEntities();
 

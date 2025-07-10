@@ -16,6 +16,11 @@ namespace Project::Entities {
     remove(id);
   }
 
+  bool EntitiesManager::hasEntity(const std::string& id) {
+    std::lock_guard<std::mutex> lock(managerMutex);
+    return objects.find(id) != objects.end();
+  }
+
   void EntitiesManager::unloadSceneEntities() {
     std::lock_guard<std::mutex> lock(managerMutex);
 

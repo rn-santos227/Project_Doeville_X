@@ -88,6 +88,10 @@ namespace Project::Handlers {
     }
   }
 
+  void DebugDisplay::renderMemoryUsage() {
+
+  }
+
   void DebugDisplay::renderAxes() {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     int screenWidth, screenHeight;

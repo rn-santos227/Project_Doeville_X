@@ -33,8 +33,10 @@ namespace Project::Core {
     void update(float deltaTime);
     void render();
     void handleFrameRate(Uint64 frameStartTime);
-    
+
     bool isRunning;
+    double maxFPS;
+
     Project::Utilities::LogsManager logsManager;
     Project::Utilities::FramesCounter framesCounter;
     Project::Utilities::ConfigReader configReader;

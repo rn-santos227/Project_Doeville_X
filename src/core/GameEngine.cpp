@@ -20,7 +20,7 @@ namespace Project::Core {
   namespace Keys = Project::Libraries::Keys;
 
   GameEngine::GameEngine() :
-  isRunning(false), framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
+  isRunning(false), maxFPS(Constants::DEFAULT_MAX_FPS), framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   componentsFactory(std::make_unique<ComponentsFactory>(configReader, logsManager, *resourcesHandler)),
   gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager)),
@@ -86,20 +86,26 @@ namespace Project::Core {
   }
 
   void GameEngine::run() {
+    double accumulator = 0.0;
+    const double fixedDelta = 1.0 / Constants::TARGET_FPS;
+    
     while (isRunning) {
       Uint64 frameStartTime = SDL_GetPerformanceCounter();
 
       framesCounter.update();
-      double deltaTime = framesCounter.getDeltaTime();
+      accumulator += framesCounter.getDeltaTime();
 
       handleEvents();
       if (!isRunning) {
         break;
       }
+  
+      while (accumulator >= fixedDelta) {
+        update(static_cast<float>(fixedDelta));
+        accumulator -= fixedDelta;
+      }
 
-      update(static_cast<float>(deltaTime));
       render();
-
       handleFrameRate(frameStartTime);
     }
   }
@@ -142,7 +148,7 @@ namespace Project::Core {
 
   void GameEngine::handleFrameRate(Uint64 frameStartTime) {
     const double BASE_VALUE = 1.0;
-    const double targetFrameDuration = BASE_VALUE / Constants::TARGET_FPS;
+    const double targetFrameDuration = BASE_VALUE / maxFPS;
 
     Uint64 frameEndTime = SDL_GetPerformanceCounter();
     Uint64 frequency = SDL_GetPerformanceFrequency();

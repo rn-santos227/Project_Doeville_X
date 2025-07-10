@@ -1,5 +1,18 @@
 #include "DebugDisplay.h"
 
+#include <cstdio>
+#if defined(_WIN32)
+#include <windows.h>
+#include <psapi.h>
+
+#elif defined(__APPLE__) && defined(__MACH__)
+#include <mach/mach.h>
+#include <sys/sysctl.h>
+#elif defined(__linux__)
+#include <unistd.h>
+#include <dirent.h>
+#endif
+
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Utilities::FramesCounter;
@@ -129,6 +142,15 @@ namespace Project::Handlers {
   }
 
   size_t DebugDisplay::getProcessMemoryUsageMB() {
+    #if defined(_WIN32)
 
+    #elif defined(__APPLE__) && defined(__MACH__)
+
+    #elif defined(__linux__)
+
+    #else
+    return 0;
+    
+    #endif
   }
 }

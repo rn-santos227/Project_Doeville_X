@@ -115,6 +115,20 @@ namespace Project::Handlers {
     size_t procCount = getProcessCount();
     std::string procText = std::string(Constants::DEBUG_PROC_PREFIX) + std::to_string(procCount);
     SDL_Texture* procTexture = fontHandler.renderText(renderer, procText, Constants::DEFAULT_FONT, debugTextColor);
+
+    if (procTexture) {
+      int textWidth, textHeight;
+      SDL_QueryTexture(procTexture, nullptr, nullptr, &textWidth, &textHeight);
+
+      int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+      SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, Constants::DEBUG_TEXT_MARGIN + fpsTextHeight + Constants::DEBUG_LINE_SPACING + memTextHeight + Constants::DEBUG_LINE_SPACING, textWidth, textHeight};
+      SDL_RenderCopy(renderer, procTexture, nullptr, &destRect);
+      SDL_DestroyTexture(procTexture);
+    } else {
+      logsManager.logError("Failed to render process count.");
+    }
   }
 
   void DebugDisplay::renderAxes() {

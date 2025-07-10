@@ -127,4 +127,8 @@ namespace Project::Handlers {
       logsManager.logError("Failed to render mouse position text.");
     }
   }
+
+  size_t DebugDisplay::getProcessMemoryUsageMB() {
+
+  }
 }

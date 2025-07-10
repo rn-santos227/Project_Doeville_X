@@ -194,6 +194,22 @@ namespace Project::Handlers {
       return 0;
 
     #elif defined(__linux__)
+      size_t count = 0;
+      DIR* dir = opendir("/proc");
+      if (dir) {
+        struct dirent* entry;
+        while ((entry = readdir(dir)) != nullptr) {
+          if (entry->d_type == DT_DIR) {
+            char* endptr;
+            strtol(entry->d_name, &endptr, 10);
+            if (*endptr == '\0') {
+              ++count;
+            }
+          }
+        }
+        closedir(dir);
+      }
+      return count;
 
     #else
       return 0;

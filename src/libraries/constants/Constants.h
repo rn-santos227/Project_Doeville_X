@@ -25,22 +25,27 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_SCREEN_HEIGHT = 600;
 
   // Numeric values
-  constexpr int DEFAULT_CURSOR_SIZE = 32;
-  constexpr int DEFAULT_COMPONENT_SIZE = 32;
+  constexpr int DEBUG_FONT_SIZE = 14;
+  constexpr int DEBUG_LINE_SPACING = 5;
   constexpr int DEBUG_TEXT_MARGIN = 10;
   constexpr int DEBUG_TEXT_HEIGHT_OFFSET = 5;
+
+  constexpr int DEFAULT_CURSOR_SIZE = 32;
+  constexpr int DEFAULT_COMPONENT_SIZE = 32;
   constexpr int DEFAULT_FONT_SIZE = 24;
   constexpr int DEFAULT_BASE_FONT_SIZE = 16;
   constexpr int DEFAULT_GRID_SPACING = 32;
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
 
-  constexpr Uint8 FULL_ALPHA = 255;
   constexpr int TIME_YEAR_OFFSET = 1900;
   constexpr int TIME_MONTH_OFFSET = 1;
   constexpr int MILLISECONDS_PER_SECOND = 1000;
   constexpr int LOG_FLUSH_WAIT_MS = 10;
   constexpr double TARGET_FPS = 60.0;
   constexpr double DEFAULT_MAX_FPS = 120.0;
+  
+  constexpr Uint8 FULL_ALPHA = 255;  
+  constexpr size_t BYTES_PER_MEGABYTE = 1024 * 1024;
 
   // Physics constants
   constexpr float GRAVITY = 9.81f;
@@ -52,6 +57,15 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_BOUNCE_FACTOR = 0.5f;
   constexpr float DEFAULT_DAMPING = 0.1f;
   constexpr float DEFAULT_COLLISION_THRESHOLD = 0.1f;
+
+  // Debug strings
+  constexpr const char* DEBUG_FPS_PREFIX = "FPS: ";
+  constexpr const char* DEBUG_MEM_PREFIX = "MEM: ";
+  constexpr const char* DEBUG_MEM_SUFFIX = " MB";
+  constexpr const char* DEBUG_PROC_PREFIX = "PROC: ";
+  constexpr const char* DEBUG_MOUSE_PREFIX = "Mouse: (";
+  constexpr const char* DEBUG_MOUSE_SEPARATOR = ", ";
+  constexpr const char* DEBUG_MOUSE_SUFFIX = ")";
 
   // Colors
   constexpr SDL_Color DEFAULT_DEBUG_TEXT_COLOR{144, 238, 144, 255};

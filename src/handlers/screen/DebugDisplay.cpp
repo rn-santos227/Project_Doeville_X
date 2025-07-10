@@ -175,4 +175,8 @@ namespace Project::Handlers {
 
     #endif
   }
+
+  size_t DebugDisplay::getProcessCount() {
+
+  }
 }

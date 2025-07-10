@@ -46,8 +46,8 @@ namespace Project::Handlers {
   void DebugDisplay::renderFPS() {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     int fps = framesCounter.getFPS();
-    std::string fpsText = "FPS: " + std::to_string(fps);
-    SDL_Texture* fpsTexture = fontHandler.renderText(renderer, fpsText, "system", debugTextColor);
+    std::string fpsText = std::string(Constants::DEBUG_FPS_PREFIX) + std::to_string(fps);
+    SDL_Texture* fpsTexture = fontHandler.renderText(renderer, fpsText, Constants::DEFAULT_FONT, debugTextColor);
 
     if (fpsTexture) {
       int textWidth, textHeight;
@@ -68,31 +68,8 @@ namespace Project::Handlers {
 
   void DebugDisplay::renderBenchmark() {
     SDL_Renderer* renderer = sdlManager.getRenderer();
-    double frameTime = framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND;
-    std::string benchmarkText = "Frame: " + std::to_string(static_cast<int>(frameTime)) + " ms";
-    SDL_Texture* benchmarkTexture = fontHandler.renderText(renderer, benchmarkText, "system", debugTextColor);
-
-    if (benchmarkTexture) {
-      int textWidth, textHeight;
-      SDL_QueryTexture(benchmarkTexture, nullptr, nullptr, &textWidth, &textHeight);
-
-      int screenWidth, screenHeight;
-      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
-      int yPosition = Constants::DEBUG_TEXT_MARGIN + fpsTextHeight + Constants::DEBUG_TEXT_HEIGHT_OFFSET;
-      SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, yPosition, textWidth, textHeight};
-
-      SDL_RenderCopy(renderer, benchmarkTexture, nullptr, &destRect);
-      SDL_DestroyTexture(benchmarkTexture);
-    } else {
-      logsManager.logError("Failed to render benchmark text.");
-    }
-  }
-
-  void DebugDisplay::renderMemoryUsage() {
-    SDL_Renderer* renderer = sdlManager.getRenderer();
     size_t memMB = getProcessMemoryUsageMB();
-    std::string memText = std::string(Constants::DEBUG_MEM_PREFIX) +
-                          std::to_string(memMB) + Constants::DEBUG_MEM_SUFFIX;
+    std::string memText = std::string(Constants::DEBUG_MEM_PREFIX) + std::to_string(memMB) + Constants::DEBUG_MEM_SUFFIX;
     SDL_Texture* memTexture = fontHandler.renderText(renderer, memText, Constants::DEFAULT_FONT, debugTextColor);
 
     if (memTexture) {
@@ -109,6 +86,32 @@ namespace Project::Handlers {
     } else {
       logsManager.logError("Failed to render memory usage.");
     }
+  }
+
+  void DebugDisplay::renderMemoryUsage() {
+    SDL_Renderer* renderer = sdlManager.getRenderer();
+    size_t memMB = getProcessMemoryUsageMB();
+    std::string memText = std::string(Constants::DEBUG_MEM_PREFIX) + std::to_string(memMB) + Constants::DEBUG_MEM_SUFFIX;
+    SDL_Texture* memTexture = fontHandler.renderText(renderer, memText, Constants::DEFAULT_FONT, debugTextColor);
+
+    if (memTexture) {
+      int textWidth, textHeight;
+      SDL_QueryTexture(memTexture, nullptr, nullptr, &textWidth, &textHeight);
+      memTextHeight = textHeight;
+
+      int screenWidth, screenHeight;
+      SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+      SDL_Rect destRect = {screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN, Constants::DEBUG_TEXT_MARGIN + fpsTextHeight + Constants::DEBUG_LINE_SPACING, textWidth, textHeight};
+      SDL_RenderCopy(renderer, memTexture, nullptr, &destRect);
+      SDL_DestroyTexture(memTexture);
+    } else {
+      logsManager.logError("Failed to render memory usage.");
+    }
+  }
+
+  void DebugDisplay::renderProcessCount() {
+
   }
 
   void DebugDisplay::renderAxes() {

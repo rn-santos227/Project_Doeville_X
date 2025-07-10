@@ -178,6 +178,12 @@ namespace Project::Handlers {
 
   size_t DebugDisplay::getProcessCount() {
     #if defined(_WIN32)
+      DWORD processes[1024];
+      DWORD bytesNeeded = 0;
+      if (EnumProcesses(processes, sizeof(processes), &bytesNeeded)) {
+        return bytesNeeded / sizeof(DWORD);
+      }
+      return 0;
 
     #elif defined(__APPLE__) && defined(__MACH__)
 
@@ -185,7 +191,7 @@ namespace Project::Handlers {
 
     #else
       return 0;
-
+      
     #endif
   }
 }

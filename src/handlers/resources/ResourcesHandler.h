@@ -15,6 +15,7 @@
 
 #include "AsyncResourceLoader.h"
 
+#include "interfaces/cleanup_interface/Cleanable.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Handlers {
@@ -24,12 +25,12 @@ namespace Project::Handlers {
     std::promise<SDL_Texture*> promise;
   };
 
-  class ResourcesHandler {
+  class ResourcesHandler : public Project::Interfaces::Cleanable {
   public:
     explicit ResourcesHandler(Project::Utilities::LogsManager& logsManager);
     ~ResourcesHandler();
 
-    void cleanup();
+    void cleanup() override;
 
     std::string getResourcePath(const std::string& relativePath);
     

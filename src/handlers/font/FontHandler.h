@@ -8,17 +8,19 @@
 #include <SDL_ttf.h>
 #include <SDL.h>
 
+#include "interfaces/cleanup_interface/Cleanable.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Handlers {
-  class FontHandler {
+  class FontHandler : public Project::Interfaces::Cleanable {
   public:
     FontHandler(Project::Utilities::LogsManager& logsManager);
     ~FontHandler();
 
+    void cleanup() override;
+
     bool loadFont(const std::string& fontId, const std::string& path, int fontSize);
     SDL_Texture* renderText(SDL_Renderer* renderer, const std::string& text, const std::string& fontId, SDL_Color color);
-    void cleanup();
 
   private:
     Project::Utilities::LogsManager& logsManager;

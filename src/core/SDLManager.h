@@ -4,14 +4,17 @@
 #include <SDL2/SDL.h>
 #include <string>
 
+#include "interfaces/cleanup_interface/Cleanable.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Core {
-  class SDLManager {
+  class SDLManager : public Project::Interfaces::Cleanable {
   public:
     SDLManager(Project::Utilities::LogsManager& logsManager);
     ~SDLManager();
-
+    
+    void cleanup() override;
+    
     bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync);
     void clear();
     void present();
@@ -23,7 +26,7 @@ namespace Project::Core {
     void requestExit();
     bool isExitRequested() const;
     void clearExitRequest();
-
+    
   private:
     Project::Utilities::LogsManager& logsManager;
 
@@ -33,8 +36,6 @@ namespace Project::Core {
     bool exitRequested;
     bool initialized;
     bool vsyncEnabled;
-
-    void cleanup();
   };
 }
 

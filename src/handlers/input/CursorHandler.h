@@ -9,12 +9,15 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "interfaces/cleanup_interface/Cleanable.h"
 #include "utilities/logs_manager/LogsManager.h"
 namespace Project::Handlers {
-  class CursorHandler {
+  class CursorHandler : public Project::Interfaces::Cleanable {
   public:
     CursorHandler(Project::Utilities::LogsManager& logsManager);
     ~CursorHandler();
+
+    void cleanup() override;
 
     CursorState getCursorState() const;
     SDL_Texture* getCursorTexture(CursorState state) const;
@@ -23,9 +26,7 @@ namespace Project::Handlers {
     
     void setCursorState(CursorState state);
     void setRenderer(SDL_Renderer* renderer);
-
     void resetToDefaultCursor();
-    void cleanup();
 
   private:
     std::unordered_map<CursorState, SDL_Cursor*> cursors;

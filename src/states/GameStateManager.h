@@ -10,13 +10,17 @@
 #include <unordered_map>
 
 #include "entities/EntitiesManager.h"
+#include "interfaces/cleanup_interface/Cleanable.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "utilities/logs_manager/LogsManager.h"
+
 namespace Project::States {
-  class GameStateManager {
+  class GameStateManager : public Project::Interfaces::Cleanable {
   public:
     GameStateManager(size_t cacheLimit, Project::Utilities::LogsManager& logsManager);
     ~GameStateManager() = default;
+
+    void cleanup() override;
 
     void addState(const std::string& name, std::unique_ptr<GameState> state);
     void changeState(const std::string& name);
@@ -31,7 +35,6 @@ namespace Project::States {
     void enableStates(const std::vector<std::string>& names);
     void disableStates(const std::vector<std::string>& names);
     
-    void cleanup();
     void cleanupCache();
 
     std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const { return globalEntitiesManager; }

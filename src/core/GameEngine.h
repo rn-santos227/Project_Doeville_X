@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <mutex>
+#include <utility>
+#include <vector>
 
 #include "core/SDLManager.h"
 #include "factories/component/ComponentsFactory.h"
@@ -12,6 +14,7 @@
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
+#include "interfaces/cleanup_interface/Cleanable.h"
 #include "states/GameStateManager.h"
 #include "utilities/config_reader/ConfigReader.h"
 #include "utilities/logs_manager/LogsManager.h"
@@ -53,6 +56,7 @@ namespace Project::Core {
     std::unique_ptr<Project::Handlers::ScreenHandler> screenHandler;
 
     std::mutex updateMutex;
+    std::vector<std::pair<Project::Interfaces::Cleanable*, std::string>> cleanupHandlers;
   };
 }
 

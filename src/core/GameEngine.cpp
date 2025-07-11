@@ -35,7 +35,13 @@ namespace Project::Core {
     *componentsFactory, *gameStateManager,
     *cursorHandler, *fontHandler, *keyHandler,
     *mouseHandler, *resourcesHandler))
-  {}
+  {
+    cleanupHandlers.emplace_back(&sdlManager, "SDLManager is null.");
+    cleanupHandlers.emplace_back(gameStateManager.get(), "GameStateManager is null.");
+    cleanupHandlers.emplace_back(cursorHandler.get(), "CursorHandler is null.");
+    cleanupHandlers.emplace_back(fontHandler.get(), "FontHandler is null.");
+    cleanupHandlers.emplace_back(resourcesHandler.get(), "ResourcesHandler is null.");
+  }
   
   GameEngine::~GameEngine() {
     if (isRunning) {
@@ -207,10 +213,11 @@ namespace Project::Core {
   void GameEngine::clean() {
     logsManager.logMessage("Cleaning up game engine...");
 
-    gameStateManager->cleanup();
-    cursorHandler->cleanup();
-    fontHandler->cleanup();
-    resourcesHandler->cleanup();
+    for (const auto& item : cleanupHandlers) {
+      if (Project::Helpers::checkNotNull(logsManager, item.first, item.second)) {
+        item.first->cleanup();
+      }
+    }
     
     IMG_Quit();
     isRunning = false;

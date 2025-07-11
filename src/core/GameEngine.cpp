@@ -51,8 +51,9 @@ namespace Project::Core {
     int screenWidth = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_WIDTH, Constants::DEFAULT_SCREEN_WIDTH);
     int screenHeight = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_HEIGHT, Constants::DEFAULT_SCREEN_HEIGHT);
     bool isFullscreen = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_FULLSCREEN, false);
+    bool vsync = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_VSYNC, true);
 
-    if (!sdlManager.initialize(title, screenWidth, screenHeight, isFullscreen)) {
+    if (!sdlManager.init(title, screenWidth, screenHeight, isFullscreen, vsync)) {
       logsManager.logError("Failed to initialize SDLManager.");
       return;
     }

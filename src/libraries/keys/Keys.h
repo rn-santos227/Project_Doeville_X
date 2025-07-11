@@ -11,6 +11,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* WINDOW_WIDTH = "width";
   constexpr const char* WINDOW_HEIGHT = "height";
   constexpr const char* WINDOW_FULLSCREEN = "fullscreen";
+  constexpr const char* WINDOW_VSYNC = "vsync";
   constexpr const char* FONT_SECTION = "Font";
   constexpr const char* FONT_DEFAULT_PATH = "default_path";
   constexpr const char* FONT_DEFAULT_SIZE = "default_size";

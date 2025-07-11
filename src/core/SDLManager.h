@@ -12,7 +12,7 @@ namespace Project::Core {
     SDLManager(Project::Utilities::LogsManager& logsManager);
     ~SDLManager();
 
-    bool initialize(const std::string& title, int width, int height, bool fullscreen);
+    bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync);
     void clear();
     void present();
 
@@ -32,6 +32,8 @@ namespace Project::Core {
 
     bool exitRequested;
     bool initialized;
+    bool vsyncEnabled;
+
     void cleanup();
   };
 }

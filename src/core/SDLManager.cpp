@@ -7,13 +7,13 @@ namespace Project::Core {
   using Project::Utilities::LogsManager;
 
   SDLManager::SDLManager(LogsManager& logsManager)
-    : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false), exitRequested(false) {}
+    : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false), exitRequested(false), vsyncEnabled(false) {}
 
   SDLManager::~SDLManager() {
     cleanup();
   }
 
-  bool SDLManager::initialize(const std::string& title, int width, int height, bool fullscreen) {
+  bool SDLManager::init(const std::string& title, int width, int height, bool fullscreen, bool vsync) {
     if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0,
     "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
@@ -32,7 +32,13 @@ namespace Project::Core {
     logsManager.logMessage("Window and renderer validated. Mode: " + mode + ", Size: " + std::to_string(width) + "x" + std::to_string(height));
 
    
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
+    vsyncEnabled = vsync;
+    if (vsyncEnabled) {
+      rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, rendererFlags);
     if (logsManager.checkAndLogError(!renderer, "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }

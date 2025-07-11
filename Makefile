@@ -1,6 +1,6 @@
 # Compiler and Flags
 CXX = g++
-CXXFLAGS += -Isrc \
+CXXFLAGS += -O2 -Isrc \
             -Ilib/SDL2/SDL2-2.26.5/include \
 			-Ilib/SDL2_image/SDL2_image-2.6.3 \
             -Ilib/SDL2_ttf/SDL2_ttf-2.20.1 \
@@ -34,7 +34,7 @@ DEBUG_TARGET = $(BIN_DIR)/project_doeville_x_debug
 
 all: $(TARGET) copy_config
 
-debug: CXXFLAGS += -g
+debug: CXXFLAGS += -g -O0
 debug: LDFLAGS += -mconsole
 debug: $(DEBUG_TARGET) copy_config
 

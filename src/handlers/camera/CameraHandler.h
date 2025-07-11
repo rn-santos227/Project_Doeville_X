@@ -23,4 +23,5 @@ namespace Project::Handlers {
       SDL_Rect cameraRect{0,0,0,0};
   };
 }
+
 #endif

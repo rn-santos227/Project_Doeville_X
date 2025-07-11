@@ -12,4 +12,5 @@ namespace Project::Factories {
     static ComponentType resolve(const std::string& name);
   };
 }
+
 #endif

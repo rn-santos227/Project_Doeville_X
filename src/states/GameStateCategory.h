@@ -74,5 +74,6 @@ namespace Project::States {
     return GameStateCategory::DEBUG_STATE;
   }
 }
+
 #endif
 

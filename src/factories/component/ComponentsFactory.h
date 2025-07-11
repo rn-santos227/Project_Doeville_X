@@ -62,4 +62,5 @@ namespace Project::Factories {
     int getLuaGlobalInt(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& name, int defaultValue);
   };
 }
+
 #endif

@@ -76,4 +76,5 @@ namespace Project::Handlers {
     int cursorHeight;
   };
 }
+
 #endif

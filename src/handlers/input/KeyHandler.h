@@ -52,4 +52,5 @@ namespace Project::Handlers {
     void immediateExit();
   };
 }
+
 #endif

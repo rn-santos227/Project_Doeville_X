@@ -79,4 +79,5 @@ namespace Project::Handlers {
     IMMEDIATE_EXIT,
   };
 }
+
 #endif

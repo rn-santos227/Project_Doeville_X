@@ -28,4 +28,5 @@ namespace Project::Factories {
     Project::Factories::EntitiesFactory& entitiesFactory;
   };
 }
+
 #endif

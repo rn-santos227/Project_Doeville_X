@@ -20,4 +20,5 @@ namespace Project::Utilities {
     LuaStateWrapper luaStateWrapper;
   };
 }
+
 #endif

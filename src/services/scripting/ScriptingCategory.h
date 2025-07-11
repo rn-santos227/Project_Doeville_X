@@ -15,4 +15,5 @@ namespace Project::Services {
     INVALID
   };
 }
+
 #endif

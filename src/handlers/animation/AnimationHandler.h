@@ -31,4 +31,5 @@ namespace Project::Handlers {
       std::unordered_map<std::string, Animation> animations;
   };
 }
+
 #endif

@@ -31,4 +31,5 @@ namespace Project::Components {
     std::unordered_map<Project::Handlers::KeyAction, std::string> actionCallbacks;
   };
 }
+
 #endif

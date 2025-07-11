@@ -28,4 +28,5 @@ namespace Project::Components {
     float speed;
   };
 }
+
 #endif

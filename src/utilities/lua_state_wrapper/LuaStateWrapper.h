@@ -107,4 +107,5 @@ namespace Project::Utilities {
     std::unordered_map<std::string, std::vector<char>> compiledScriptCache;
   };
 }
+
 #endif

@@ -8,5 +8,4 @@ namespace Project::Components {
     virtual void setEntityPosition(int x, int y) = 0;
   };
 }
-
 #endif

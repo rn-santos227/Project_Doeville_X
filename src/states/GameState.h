@@ -83,4 +83,5 @@ namespace Project::States {
     static int lua_spawnEntity(lua_State* L);
   };
 }
+
 #endif

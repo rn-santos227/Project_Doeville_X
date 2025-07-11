@@ -136,20 +136,11 @@ namespace Project::Utilities {
     return luaLogFilePath;
   }
 
-  void LogsManager::openLogFileInEditor() const {
+  void LogsManager::openLogFileInEditor(const std::string& filePath) const {
   #ifdef _WIN32
     std::string command = "notepad " + logFilePath;
   #else
     std::string command = "xdg-open " + logFilePath;
-  #endif
-    std::system(command.c_str());
-  }
-
-  void LogsManager::openLuaLogFileInEditor() const {
-  #ifdef _WIN32
-    std::string command = "notepad " + luaLogFilePath;
-  #else
-    std::string command = "xdg-open " + luaLogFilePath;
   #endif
     std::system(command.c_str());
   }

@@ -71,7 +71,7 @@ namespace Project::Services {
 
       if (logsManager.checkAndLogError(!validateScript(scriptPath), "Failed to validate script: " + scriptPath)) {
         logsManager.flushLogs();
-        logsManager.openLogFileInEditor();
+        logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
         return;
       }
 
@@ -103,7 +103,7 @@ namespace Project::Services {
       lua_pop(tempState, 1);
       lua_close(tempState);
       logsManager.flushLogs();
-      logsManager.openLogFileInEditor();
+      logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
       return false;
     }
 
@@ -141,7 +141,7 @@ namespace Project::Services {
     if (result != LUA_OK) {
       luaStateWrapper.handleLuaError(result);
       logsManager.flushLogs();
-      logsManager.openLogFileInEditor();
+      logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
       return;
     }
 

@@ -89,8 +89,17 @@ namespace Project::Core {
       return;
     }
 
-    componentsFactory->setRenderer(screenHandler->getRenderer());
-    keyHandler->setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
+    if (Project::Utilities::checkNotNull(logsManager, componentsFactory.get(), "ComponentsFactory is null.")) {
+      componentsFactory->setRenderer(screenHandler->getRenderer());
+    } else {
+      return;
+    }
+
+    if (Project::Utilities::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
+      keyHandler->setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
+    } else {
+      return;
+    }
 
     logsManager.logMessage("Game Engine has been initialized successfully.");
     logsManager.flushLogs();

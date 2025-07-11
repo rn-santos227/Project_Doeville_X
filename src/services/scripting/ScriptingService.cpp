@@ -1,5 +1,6 @@
 #include "ScriptingService.h"
 
+#include <lua.hpp>
 #include <vector>
 #include <unordered_map>
 
@@ -84,6 +85,26 @@ namespace Project::Services {
   }
 
   bool ScriptingService::validateScript(const std::string& scriptPath) {
+    lua_State* tempState = luaL_newstate();
+    if (!tempState) {
+      logsManager.logError("Failed to create temporary Lua state for validation");
+      return false;
+    }
+
+    luaL_openlibs(tempState);
+    int status = luaL_loadfile(tempState, scriptPath.c_str());
+    if (status != LUA_OK) {
+      const char* errorMessage = lua_tostring(tempState, -1);
+      logsManager.logError(
+        "Lua validation error in " + scriptPath + ": " +
+        (errorMessage ? std::string(errorMessage) : std::string("Unknown error")));
+      lua_pop(tempState, 1);
+      lua_close(tempState);
+      return false;
+    }
+
+    lua_pop(tempState, 1);
+    lua_close(tempState);
     return true;
   }
 

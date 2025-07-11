@@ -18,6 +18,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LOGS_SECTION = "Logs";
   constexpr const char* LOGS_DIRECTORY = "directory";
   constexpr const char* LOG_FILE_PATH = "log_file_path";
+  constexpr const char* LOG_LUA_LOG_FILE_PATH = "lua_log_file_path";
   constexpr const char* CURSOR_SECTION = "Cursor";
   constexpr const char* CURSOR_DEFAULT_PATH = "default_path";
   constexpr const char* CURSOR_H = "height";

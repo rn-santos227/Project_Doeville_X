@@ -4,7 +4,7 @@
 #include <string>
 #include "utilities/logs_manager/LogsManager.h"
 
-namespace Project::Interfaces {
+namespace Project::Helpers {
   template <typename T>
   inline bool checkNotNull(Project::Utilities::LogsManager& logsManager, T* ptr, const std::string& errorMsg) {
     if (!ptr) {

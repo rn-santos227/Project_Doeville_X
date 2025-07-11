@@ -12,7 +12,6 @@
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
-#include "interfaces/null_checker/NullChecker.h"
 #include "states/GameStateManager.h"
 #include "utilities/config_reader/ConfigReader.h"
 #include "utilities/logs_manager/LogsManager.h"

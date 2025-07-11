@@ -10,8 +10,8 @@
 #include <unordered_map>
 
 #include "entities/EntitiesManager.h"
+#include "helpers/objects_manager/ObjectsManager.h"
 #include "utilities/logs_manager/LogsManager.h"
-#include "interfaces/objects_manager/ObjectsManager.h"
 namespace Project::States {
   class GameStateManager {
   public:
@@ -37,7 +37,7 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const { return globalEntitiesManager; }
 
   private:
-    Project::Interfaces::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;
+    Project::Helpers::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;
     Project::Utilities::LogsManager& logsManager;
     size_t cacheLimit;
 

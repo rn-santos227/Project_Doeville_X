@@ -6,7 +6,7 @@
 #include <memory>
 #include <mutex>
 
-namespace Project::Interfaces {
+namespace Project::Helpers {
   template<typename T, typename Ptr = std::shared_ptr<T>>
   class ObjectsManager {
   public:

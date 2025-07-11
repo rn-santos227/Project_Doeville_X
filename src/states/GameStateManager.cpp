@@ -1,8 +1,8 @@
 #include "GameStateManager.h"
 
 namespace Project::States {
-  using Project::Interfaces::ObjectsManager;
   using Project::Utilities::LogsManager;
+  using Project::Helpers::ObjectsManager;
 
   GameStateManager::GameStateManager(size_t cacheLimit, LogsManager& logsManager)
     : cacheLimit(cacheLimit), logsManager(logsManager) {}

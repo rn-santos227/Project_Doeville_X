@@ -41,8 +41,11 @@ namespace Project::Handlers {
       SDL_Scancode key = event.key.keysym.scancode;
       setKeyPressed(key);
 
-      if (functionKeyActions.find(key) != functionKeyActions.end()) {
-        functionKeyActions[key]();
+      if (event.key.repeat == 0) {
+        auto actionIt = functionKeyActions.find(key);
+        if (actionIt != functionKeyActions.end()) {
+          actionIt->second();
+        }
       }
 
     } else if (event.type == SDL_KEYUP) {

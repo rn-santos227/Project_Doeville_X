@@ -155,12 +155,21 @@ namespace Project::Core {
   }
 
   void GameEngine::update(float deltaTime) {
-    if (keyHandler->isGameFrozen()) {
+    if (Project::Interfaces::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
+      if (keyHandler->isGameFrozen()) {
+        return;
+      }
+    } else {
       return;
     }
 
     std::lock_guard<std::mutex> lock(updateMutex);
-    gameStateManager->update(deltaTime);
+    if (Project::Interfaces::checkNotNull(logsManager, gameStateManager.get(), "GameStateManager is null.")) {
+      gameStateManager->update(deltaTime);
+    } else {
+      return;
+    }
+    
     sdlManager.clear();
   }
 

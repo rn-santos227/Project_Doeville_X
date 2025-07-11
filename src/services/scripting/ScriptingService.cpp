@@ -70,7 +70,9 @@ namespace Project::Services {
       }
 
       if (logsManager.checkAndLogError(!validateScript(scriptPath), "Failed to validate script: " + scriptPath)) {
-        continue;
+        logsManager.flushLogs();
+        logsManager.openLogFileInEditor();
+        return;
       }
 
       categorizedScripts[category].push_back(scriptPath);
@@ -100,6 +102,8 @@ namespace Project::Services {
         (errorMessage ? std::string(errorMessage) : std::string("Unknown error")));
       lua_pop(tempState, 1);
       lua_close(tempState);
+      logsManager.flushLogs();
+      logsManager.openLogFileInEditor();
       return false;
     }
 
@@ -136,6 +140,8 @@ namespace Project::Services {
     int result = luaL_dofile(luaStateWrapper.get(), scriptPath.c_str());
     if (result != LUA_OK) {
       luaStateWrapper.handleLuaError(result);
+      logsManager.flushLogs();
+      logsManager.openLogFileInEditor();
       return;
     }
 

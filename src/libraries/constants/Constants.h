@@ -27,6 +27,7 @@ namespace Project::Libraries::Constants {
   // Numeric values
   constexpr int DEBUG_FONT_SIZE = 14;
   constexpr int DEBUG_LINE_SPACING = 5;
+  constexpr int DEBUG_PREFIX_WIDTH = 7;
   constexpr int DEBUG_TEXT_MARGIN = 10;
   constexpr int DEBUG_TEXT_HEIGHT_OFFSET = 5;
   constexpr int DEBUG_VALUE_WIDTH = 5;

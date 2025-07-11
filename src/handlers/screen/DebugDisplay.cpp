@@ -48,7 +48,9 @@ namespace Project::Handlers {
 
     auto formatLine = [](const std::string& prefix, auto value, const std::string& suffix = "") {
       std::ostringstream oss;
-      oss << prefix << std::right << std::setw(Constants::DEBUG_VALUE_WIDTH) << value << suffix;
+      oss << std::left << std::setw(Constants::DEBUG_PREFIX_WIDTH) << prefix
+          << std::right << std::setw(Constants::DEBUG_LINE_SPACING) << value
+          << suffix;
       return oss.str();
     };
 

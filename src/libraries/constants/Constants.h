@@ -25,12 +25,15 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_SCREEN_HEIGHT = 600;
 
   // Numeric values
+  constexpr int DEBUG_COLUMN_SPACING = 20;
   constexpr int DEBUG_FONT_SIZE = 14;
   constexpr int DEBUG_LINE_SPACING = 5;
-  constexpr int DEBUG_PREFIX_WIDTH = 7;
+  constexpr int DEBUG_PREFIX_WIDTH = 8;
   constexpr int DEBUG_TEXT_MARGIN = 10;
   constexpr int DEBUG_TEXT_HEIGHT_OFFSET = 5;
   constexpr int DEBUG_VALUE_WIDTH = 5;
+  constexpr int DEBUG_VALUE_COL_OFFSET_FROM_RIGHT = 10;
+  constexpr int DEBUG_PREFIX_COL_OFFSET_FROM_RIGHT = 90;
 
   constexpr int DEFAULT_CURSOR_SIZE = 32;
   constexpr int DEFAULT_COMPONENT_SIZE = 32;

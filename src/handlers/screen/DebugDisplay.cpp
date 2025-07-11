@@ -46,43 +46,52 @@ namespace Project::Handlers {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     int yOffset = Constants::DEBUG_TEXT_MARGIN;
 
-    auto formatLine = [](const std::string& prefix, auto value, const std::string& suffix = "") {
-      std::ostringstream oss;
-      oss << std::left << std::setw(Constants::DEBUG_PREFIX_WIDTH) << prefix
-          << std::right << std::setw(Constants::DEBUG_LINE_SPACING) << value
-          << suffix;
-      return oss.str();
+    const std::vector<std::pair<std::string, std::string>> debugLines = {
+      {Constants::DEBUG_FPS_PREFIX, std::to_string(framesCounter.getFPS())},
+      {Constants::DEBUG_FRAME_PREFIX, std::to_string(static_cast<int>(framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND)) + Constants::DEBUG_FRAME_SUFFIX},
+      {Constants::DEBUG_MEM_PREFIX, std::to_string(getProcessMemoryUsageMB()) + Constants::DEBUG_MEM_SUFFIX},
+      {Constants::DEBUG_PROC_PREFIX, std::to_string(getProcessCount())}
     };
 
-    const std::vector<std::string> debugLines = {
-      formatLine(Constants::DEBUG_FPS_PREFIX, framesCounter.getFPS()),
-      formatLine(Constants::DEBUG_FRAME_PREFIX, static_cast<int>(framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND), Constants::DEBUG_FRAME_SUFFIX),
-      formatLine(Constants::DEBUG_MEM_PREFIX, getProcessMemoryUsageMB(), Constants::DEBUG_MEM_SUFFIX),
-      formatLine(Constants::DEBUG_PROC_PREFIX, getProcessCount())
-    };
+    for (const auto& [prefix, value] : debugLines) {
+      SDL_Texture* prefixTex = fontHandler.renderText(renderer, prefix, Constants::DEFAULT_FONT, debugTextColor);
+      SDL_Texture* valueTex  = fontHandler.renderText(renderer, value, Constants::DEFAULT_FONT, debugTextColor);
 
-    for (const std::string& text : debugLines) {
-      SDL_Texture* texture = fontHandler.renderText(renderer, text, Constants::DEFAULT_FONT, debugTextColor);
-      if (texture) {
-        int textWidth, textHeight;
-        SDL_QueryTexture(texture, nullptr, nullptr, &textWidth, &textHeight);
+      if (prefixTex && valueTex) {
+        int prefixW, prefixH, valueW, valueH;
+        SDL_QueryTexture(prefixTex, nullptr, nullptr, &prefixW, &prefixH);
+        SDL_QueryTexture(valueTex, nullptr, nullptr, &valueW, &valueH);
 
         int screenWidth, screenHeight;
         SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
-        SDL_Rect destRect = {
-          screenWidth - textWidth - Constants::DEBUG_TEXT_MARGIN,
+        int totalWidth = prefixW + Constants::DEBUG_COLUMN_SPACING + valueW;
+
+        SDL_Rect prefixRect = {
+          screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT - prefixW,
           yOffset,
-          textWidth,
-          textHeight
+          prefixW,
+          prefixH
         };
 
-        SDL_RenderCopy(renderer, texture, nullptr, &destRect);
-        SDL_DestroyTexture(texture);
+        SDL_Rect valueRect = {
+          screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT - valueW,
+          yOffset,
+          valueW,
+          valueH
+        };
 
-        yOffset += textHeight + Constants::DEBUG_LINE_SPACING;
+        SDL_RenderCopy(renderer, prefixTex, nullptr, &prefixRect);
+        SDL_RenderCopy(renderer, valueTex, nullptr, &valueRect);
+
+        SDL_DestroyTexture(prefixTex);
+        SDL_DestroyTexture(valueTex);
+
+        yOffset += std::max(prefixH, valueH) + Constants::DEBUG_LINE_SPACING;
       } else {
-        logsManager.logError("Failed to render debug text: " + text);
+        logsManager.logError("Failed to render debug text: " + prefix + " " + value);
+        if (prefixTex) SDL_DestroyTexture(prefixTex);
+        if (valueTex) SDL_DestroyTexture(valueTex);
       }
     }
 

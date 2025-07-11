@@ -39,9 +39,6 @@ namespace Project::Handlers {
     SDL_Color gridColor = Project::Libraries::Constants::DEFAULT_GRID_COLOR;
 
     int gridSpacing = Project::Libraries::Constants::DEFAULT_GRID_SPACING;
-    int fpsTextHeight = 0;
-    int benchmarkTextHeight = 0;
-    int memTextHeight = 0;
 
     void renderMousePosition();
     void renderAxes();

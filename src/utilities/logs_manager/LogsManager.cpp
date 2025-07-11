@@ -1,5 +1,7 @@
 #include "LogsManager.h"
 
+#include <cstdlib>
+
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
@@ -39,7 +41,7 @@ namespace Project::Utilities {
   }
 
   LogsManager::LogsManager() {
-    std::string logFilePath = Constants::DEFAULT_LOG_FILE_PATH;
+    logFilePath = Constants::DEFAULT_LOG_FILE_PATH;
     std::filesystem::create_directories(Constants::DEFAULT_LOGS_DIRECTORY);
     logFile.open(logFilePath, std::ios_base::app);
     
@@ -111,6 +113,19 @@ namespace Project::Utilities {
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[WARNING] " + timestamp + " - " + sanitizedMessage + "\n";
     enqueueLog(logMessage, &std::cout);
+  }
+
+  const std::string& LogsManager::getLogFilePath() const {
+    return logFilePath;
+  }
+
+  void LogsManager::openLogFileInEditor() const {
+  #ifdef _WIN32
+    std::string command = "notepad " + logFilePath;
+  #else
+    std::string command = "xdg-open " + logFilePath;
+  #endif
+    std::system(command.c_str());
   }
 
   void LogsManager::printConsoleOnly(const std::string& message) {

@@ -19,6 +19,7 @@ namespace Project::Utilities {
   struct LogEntry {
     std::string message;
     std::ostream* stream;
+    std::ofstream* file;
   };
 
   class LogsManager {
@@ -28,7 +29,7 @@ namespace Project::Utilities {
 
     bool checkAndLogError(bool condition, const std::string& errorMsg);
 
-    void enqueueLog(const std::string& message, std::ostream* stream);
+    void enqueueLog(const std::string& message, std::ostream* stream, std::ofstream* file);
     void flushLogs();
     
     void logError(const std::string& message);
@@ -36,10 +37,14 @@ namespace Project::Utilities {
     void logMessage(const std::string& message);
     void logWarning(const std::string& message);
 
+    const std::string& getLogFilePath() const;
+    void openLogFileInEditor() const;
+
     void printConsoleOnly(const std::string& message);
 
   private:
     std::ofstream logFile;
+    std::string logFilePath;
 
     std::string getCurrentTimestamp();
     std::string sanitizePath(const std::string& path);

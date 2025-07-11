@@ -15,7 +15,7 @@ namespace Project::Utilities {
   static std::atomic<bool> loggingActive{true};
   static std::thread logThread;
 
-  static void logWorker(std::ofstream* file) {
+  static void logWorker() {
     while (loggingActive || !logQueue.empty()) {
       std::unique_lock<std::mutex> lock(logMutex);
       logCv.wait(lock, [] { return !logQueue.empty() || !loggingActive; });
@@ -30,9 +30,9 @@ namespace Project::Utilities {
           entry.stream->flush();
         }
 
-        if (file && file->is_open()) {
-          (*file) << entry.message;
-          file->flush();
+        if (entry.file && entry.file->is_open()) {
+          (*entry.file) << entry.message;
+          entry.file->flush();
         }
 
         lock.lock();

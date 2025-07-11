@@ -1,6 +1,9 @@
 #include "DebugDisplay.h"
 
 #include <cstdio>
+#include <iomanip>
+#include <sstream>
+
 #if defined(_WIN32)
 #include <windows.h>
 #include <psapi.h>
@@ -43,11 +46,17 @@ namespace Project::Handlers {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     int yOffset = Constants::DEBUG_TEXT_MARGIN;
 
+    auto formatLine = [](const std::string& prefix, auto value, const std::string& suffix = "") {
+      std::ostringstream oss;
+      oss << prefix << std::right << std::setw(Constants::DEBUG_VALUE_WIDTH) << value << suffix;
+      return oss.str();
+    };
+
     const std::vector<std::string> debugLines = {
-      Constants::DEBUG_FPS_PREFIX + std::to_string(framesCounter.getFPS()),
-      Constants::DEBUG_FRAME_PREFIX + std::to_string(static_cast<int>(framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND)) + Constants::DEBUG_FRAME_SUFFIX,
-      Constants::DEBUG_MEM_PREFIX + std::to_string(getProcessMemoryUsageMB()) + Constants::DEBUG_MEM_SUFFIX,
-      Constants::DEBUG_PROC_PREFIX + std::to_string(getProcessCount())
+      formatLine(Constants::DEBUG_FPS_PREFIX, framesCounter.getFPS()),
+      formatLine(Constants::DEBUG_FRAME_PREFIX, static_cast<int>(framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND), Constants::DEBUG_FRAME_SUFFIX),
+      formatLine(Constants::DEBUG_MEM_PREFIX, getProcessMemoryUsageMB(), Constants::DEBUG_MEM_SUFFIX),
+      formatLine(Constants::DEBUG_PROC_PREFIX, getProcessCount())
     };
 
     for (const std::string& text : debugLines) {

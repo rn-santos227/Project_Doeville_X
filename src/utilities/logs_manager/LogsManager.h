@@ -38,13 +38,18 @@ namespace Project::Utilities {
     void logWarning(const std::string& message);
 
     const std::string& getLogFilePath() const;
+    const std::string& getLuaLogFilePath() const;
     void openLogFileInEditor() const;
+    void openLuaLogFileInEditor() const;
 
     void printConsoleOnly(const std::string& message);
 
   private:
     std::ofstream logFile;
+    std::ofstream luaLogFile;
     std::string logFilePath;
+    std::string luaLogFilePath;
+
 
     std::string getCurrentTimestamp();
     std::string sanitizePath(const std::string& path);

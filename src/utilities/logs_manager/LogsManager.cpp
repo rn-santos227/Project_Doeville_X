@@ -42,9 +42,11 @@ namespace Project::Utilities {
 
   LogsManager::LogsManager() {
     logFilePath = Constants::DEFAULT_LOG_FILE_PATH;
+    luaLogFilePath = Constants::DEFAULT_LUA_LOG_FILE_PATH;
     std::filesystem::create_directories(Constants::DEFAULT_LOGS_DIRECTORY);
     logFile.open(logFilePath, std::ios_base::app);
-    
+    luaLogFile.open(luaLogFilePath, std::ios_base::app);
+
     if (!logFile.is_open()) {
       logFile.open(logFilePath, std::ios_base::out);
       if (!logFile.is_open()) {
@@ -52,10 +54,17 @@ namespace Project::Utilities {
       }
     }
 
+    if (!luaLogFile.is_open()) {
+      luaLogFile.open(luaLogFilePath, std::ios_base::out);
+      if (!luaLogFile.is_open()) {
+        std::cerr << "Failed to create lua log file: " << luaLogFilePath << std::endl;
+      }
+    }
+  
     static std::once_flag flag;
-    std::call_once(flag, [this] {
+    std::call_once(flag, [] {
       loggingActive = true;
-      logThread = std::thread(logWorker, &logFile);
+      logThread = std::thread(logWorker);
     });
   }
 
@@ -69,13 +78,17 @@ namespace Project::Utilities {
 
     if (logFile.is_open()) {
       logFile.close();
-    };
+    }
+
+    if (luaLogFile.is_open()) {
+      luaLogFile.close();
+    }
   }
 
-  void LogsManager::enqueueLog(const std::string& message, std::ostream* stream) {
+  void LogsManager::enqueueLog(const std::string& message, std::ostream* stream, std::ofstream* file) {
     {
       std::lock_guard<std::mutex> lock(logMutex);
-      logQueue.push(LogEntry{message, stream});
+      logQueue.push(LogEntry{message, stream, file});
     }
     logCv.notify_one();
   }
@@ -91,32 +104,36 @@ namespace Project::Utilities {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[ERROR] " + timestamp + " - " + sanitizedMessage + "\n";
-    enqueueLog(logMessage, &std::cerr);
+    enqueueLog(logMessage, &std::cout, &logFile);
   }
 
   void LogsManager::logLuaMessage(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[LUA] " + timestamp + " - " + sanitizedMessage + "\n";
-    enqueueLog(logMessage, &std::cout);
+    enqueueLog(logMessage, &std::cout, &logFile);
   }
 
   void LogsManager::logMessage(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[INFO] " + timestamp + " - " + sanitizedMessage + "\n";
-    enqueueLog(logMessage, &std::cout);
+    enqueueLog(logMessage, &std::cout, &logFile);
   }
 
   void LogsManager::logWarning(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[WARNING] " + timestamp + " - " + sanitizedMessage + "\n";
-    enqueueLog(logMessage, &std::cout);
+    enqueueLog(logMessage, &std::cout, &logFile);
   }
 
   const std::string& LogsManager::getLogFilePath() const {
     return logFilePath;
+  }
+
+  const std::string& LogsManager::getLuaLogFilePath() const {
+    return luaLogFilePath;
   }
 
   void LogsManager::openLogFileInEditor() const {
@@ -143,9 +160,9 @@ namespace Project::Utilities {
       lock.lock();
     }
 
-    if (logFile.is_open()) {
-      logFile.flush();
-      logFile.clear();
+    if (luaLogFile.is_open()) {
+      luaLogFile.flush();
+      luaLogFile.clear();
     }
   }
 

@@ -145,6 +145,15 @@ namespace Project::Utilities {
     std::system(command.c_str());
   }
 
+  void LogsManager::openLuaLogFileInEditor() const {
+  #ifdef _WIN32
+    std::string command = "notepad " + luaLogFilePath;
+  #else
+    std::string command = "xdg-open " + luaLogFilePath;
+  #endif
+    std::system(command.c_str());
+  }
+
   void LogsManager::printConsoleOnly(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);

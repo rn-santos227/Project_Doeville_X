@@ -23,6 +23,7 @@ namespace Project::Handlers {
       Project::Handlers::MouseHandler& mouseHandler);
     ~DebugDisplay() = default;
 
+    void init();
     void render();
 
   private:

@@ -76,6 +76,7 @@ namespace Project::Handlers {
     std::string initialState = configReader.getValue(Keys::GAME_SECTION, Keys::GAME_INITIAL_STATE, Constants::DEFAULT_INITIAL_STATE);
     gameStateManager.setInitialState(initialState);
 
+    debugDisplay.init();
     running = true;
     return true;
   }

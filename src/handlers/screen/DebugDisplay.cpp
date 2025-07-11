@@ -33,7 +33,9 @@ namespace Project::Handlers {
     FramesCounter& framesCounter, ConfigReader& configReader,
     SDLManager& sdlManager, FontHandler& fontHandler, MouseHandler& mouseHandler)
     : logsManager(logsManager), framesCounter(framesCounter), configReader(configReader),
-      sdlManager(sdlManager), fontHandler(fontHandler), mouseHandler(mouseHandler) {
+      sdlManager(sdlManager), fontHandler(fontHandler), mouseHandler(mouseHandler) {}
+
+  void DebugDisplay::init() {
     debugTextColor = configReader.getColorValue(Keys::DEBUG_SECTION, Keys::DEBUG_TEXT_COLOR, debugTextColor);
     axisXColor = configReader.getColorValue(Keys::AXIS_SECTION, Keys::AXIS_X_COLOR, axisXColor);
     axisYColor = configReader.getColorValue(Keys::AXIS_SECTION, Keys::AXIS_Y_COLOR, axisYColor);
@@ -68,7 +70,7 @@ namespace Project::Handlers {
         int totalWidth = prefixW + Constants::DEBUG_COLUMN_SPACING + valueW;
 
         SDL_Rect prefixRect = {
-          screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT - prefixW,
+          screenWidth - Constants::DEBUG_PREFIX_COL_OFFSET_FROM_RIGHT - prefixW,
           yOffset,
           prefixW,
           prefixH

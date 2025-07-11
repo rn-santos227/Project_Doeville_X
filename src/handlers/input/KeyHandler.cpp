@@ -68,7 +68,9 @@ namespace Project::Handlers {
   }
 
   void KeyHandler::setKeyPressed(SDL_Scancode key) {
-    keyPressed.push_back(key);
+    if (std::find(keyPressed.begin(), keyPressed.end(), key) == keyPressed.end()) {
+      keyPressed.push_back(key);
+    }
   }
 
   void KeyHandler::setKeyReleased(SDL_Scancode key) {

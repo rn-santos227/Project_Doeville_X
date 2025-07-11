@@ -414,7 +414,8 @@ namespace Project::Utilities {
       logMessage += "\n";
       logMessage += traceback;
     }
-
+    
+    logsManager.logLuaMessage(logMessage);
     logsManager.logError(logMessage);
     lua_pop(luaState, 2);
   }
@@ -432,6 +433,8 @@ namespace Project::Utilities {
       }
       lua_pop(luaState, 2);
     }
+
+    logsManager.logLuaMessage(logMessage);
     logsManager.logError(logMessage);
   }
 }

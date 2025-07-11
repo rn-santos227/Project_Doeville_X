@@ -169,15 +169,22 @@ namespace Project::Core {
     } else {
       return;
     }
-    
+
     sdlManager.clear();
   }
 
   void GameEngine::render() {
-    if (keyHandler->isGameFrozen()) {
+    if (Project::Interfaces::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
+      if (keyHandler->isGameFrozen()) {
+        return;
+      }
+    } else {
       return;
     }
-    screenHandler->render();
+    
+    if (Project::Interfaces::checkNotNull(logsManager, screenHandler.get(), "ScreenHandler is null.")) {
+      screenHandler->render();
+    }
   }
 
   void GameEngine::handleFrameRate(Uint64 frameStartTime) {

@@ -61,12 +61,12 @@ namespace Project::Core {
 
     SDL_ShowCursor(SDL_DISABLE);
     std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
-    if (!Project::Utilities::checkNotNull(logsManager, resourcesHandler.get(), "ResourcesHandler is null.")) {
+    if (!Project::Interfaces ::checkNotNull(logsManager, resourcesHandler.get(), "ResourcesHandler is null.")) {
       return;
     }
     std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
 
-    if (!Project::Utilities::checkNotNull(logsManager, screenHandler.get(), "ScreenHandler is null.")) {
+    if (!Project::Interfaces ::checkNotNull(logsManager, screenHandler.get(), "ScreenHandler is null.")) {
       return;
     }
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
@@ -75,7 +75,7 @@ namespace Project::Core {
       return;
     }
 
-    if (!Project::Utilities::checkNotNull(logsManager, fontHandler.get(), "FontHandler is null.")) {
+    if (!Project::Interfaces ::checkNotNull(logsManager, fontHandler.get(), "FontHandler is null.")) {
       return;
     }
 
@@ -89,13 +89,13 @@ namespace Project::Core {
       return;
     }
 
-    if (Project::Utilities::checkNotNull(logsManager, componentsFactory.get(), "ComponentsFactory is null.")) {
+    if (Project::Interfaces ::checkNotNull(logsManager, componentsFactory.get(), "ComponentsFactory is null.")) {
       componentsFactory->setRenderer(screenHandler->getRenderer());
     } else {
       return;
     }
 
-    if (Project::Utilities::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
+    if (Project::Interfaces ::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
       keyHandler->setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
     } else {
       return;
@@ -134,8 +134,12 @@ namespace Project::Core {
   void GameEngine::handleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
-      keyHandler->handleInput(event);
-      mouseHandler->handleEvent(event);
+      if (Project::Interfaces::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
+        keyHandler->handleInput(event);
+      }
+      if (Project::Interfaces::checkNotNull(logsManager, mouseHandler.get(), "MouseHandler is null.")) {
+        mouseHandler->handleEvent(event);
+      }
 
       if (event.type == SDL_QUIT) {
         logsManager.logMessage("Quit event received");

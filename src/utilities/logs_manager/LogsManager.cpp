@@ -39,8 +39,8 @@ namespace Project::Utilities {
   }
 
   LogsManager::LogsManager() {
-    std::string logFilePath = Keys::LOG_FILE_PATH;
-    std::filesystem::create_directories(Keys::LOGS_DIRECTORY);
+    std::string logFilePath = Constants::DEFAULT_LOG_FILE_PATH;
+    std::filesystem::create_directories(Constants::DEFAULT_LOGS_DIRECTORY);
     logFile.open(logFilePath, std::ios_base::app);
     
     if (!logFile.is_open()) {

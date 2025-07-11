@@ -96,6 +96,10 @@ namespace Project::Handlers {
       return;
     }
 
+    if (isFrozen) {
+      freezeGame();
+    }
+
     logsManager.logMessage("Exiting immediately.");
     logsManager.flushLogs();
     sdlManager.requestExit();

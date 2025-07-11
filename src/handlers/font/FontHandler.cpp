@@ -1,10 +1,10 @@
 #include "FontHandler.h"
 
-#include "utilities/resource_cleaner/ResourceCleaner.h"
+#include "interfaces/resource_cleaner/ResourceCleaner.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
-  using Project::Utilities::ResourceCleaner;
+  using Project::Interfaces::ResourceCleaner;
 
   FontHandler::FontHandler(LogsManager& logsManager) : logsManager(logsManager) {
     logsManager.checkAndLogError(TTF_Init() == -1, "Failed to initialize SDL_ttf: " + std::string(TTF_GetError()));

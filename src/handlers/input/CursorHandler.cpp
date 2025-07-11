@@ -1,10 +1,10 @@
 #include "CursorHandler.h"
 
-#include "utilities/resource_cleaner/ResourceCleaner.h"
+#include "interfaces/resource_cleaner/ResourceCleaner.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
-  using Project::Utilities::ResourceCleaner;
+  using Project::Interfaces::ResourceCleaner;
 
   CursorHandler::CursorHandler(LogsManager& logsManager) 
     : logsManager(logsManager), renderer(nullptr), currentCursorTexture(nullptr), currentState(CursorState::DEFAULT) {

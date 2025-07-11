@@ -11,7 +11,7 @@
 
 #include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
-#include "utilities/objects_manager/ObjectsManager.h"
+#include "interfaces/objects_manager/ObjectsManager.h"
 namespace Project::States {
   class GameStateManager {
   public:
@@ -37,8 +37,8 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const { return globalEntitiesManager; }
 
   private:
+    Project::Interfaces::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;
     Project::Utilities::LogsManager& logsManager;
-    Project::Utilities::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;
     size_t cacheLimit;
 
     std::mutex gameStateMutex;

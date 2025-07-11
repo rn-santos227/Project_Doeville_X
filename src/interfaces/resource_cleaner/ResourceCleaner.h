@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace Project::Utilities {
+namespace Project::Interfaces {
   struct ResourceCleaner {
     template<typename AssocContainer, typename Deleter>
     static void cleanupMap(AssocContainer& container, Deleter deleter) {

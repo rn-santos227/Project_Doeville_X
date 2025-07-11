@@ -9,10 +9,10 @@
 #include <string>
 #include <mutex>
 
-#include "utilities/objects_manager/ObjectsManager.h"
+#include "interfaces/objects_manager/ObjectsManager.h"
 
 namespace Project::Entities {
-  class EntitiesManager : public Project::Utilities::ObjectsManager<Entity> {
+  class EntitiesManager : public Project::Interfaces::ObjectsManager<Entity> {
     public:
       EntitiesManager() = default;
       ~EntitiesManager() = default;

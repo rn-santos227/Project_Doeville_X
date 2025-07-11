@@ -1,11 +1,11 @@
 #include "ResourcesHandler.h"
 #include "AsyncResourceLoader.h"
 
-#include "utilities/resource_cleaner/ResourceCleaner.h"
+#include "interfaces/resource_cleaner/ResourceCleaner.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
-  using Project::Utilities::ResourceCleaner;
+  using Project::Interfaces::ResourceCleaner;
 
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
     : logsManager(logsManager), asyncLoader(logsManager) {

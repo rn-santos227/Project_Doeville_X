@@ -8,6 +8,8 @@
 #include <SDL.h>
 
 namespace Project::Entities {
+  using Project::Interfaces::ObjectsManager;
+
   void EntitiesManager::addEntity(const std::string& id, std::shared_ptr<Entity> entity) {
     add(id, std::move(entity));
   }

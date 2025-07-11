@@ -49,4 +49,5 @@ namespace Project::Components  {
     std::string pendingTexturePath;
   };
 }
+
 #endif

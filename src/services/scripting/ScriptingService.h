@@ -48,4 +48,6 @@ namespace Project::Services {
     ScriptCategory determineScriptType(const std::string& scriptName);
     void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);
   };
+}
 
+#endif

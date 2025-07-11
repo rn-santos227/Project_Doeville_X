@@ -1,4 +1,5 @@
 #include "GameEngine.h"
+
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
@@ -60,11 +61,21 @@ namespace Project::Core {
 
     SDL_ShowCursor(SDL_DISABLE);
     std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
+    if (!Project::Utilities::checkNotNull(logsManager, resourcesHandler.get(), "ResourcesHandler is null.")) {
+      return;
+    }
     std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
-    
+
+    if (!Project::Utilities::checkNotNull(logsManager, screenHandler.get(), "ScreenHandler is null.")) {
+      return;
+    }
     if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
       isRunning = false;
       logsManager.flushLogs();
+      return;
+    }
+
+    if (!Project::Utilities::checkNotNull(logsManager, fontHandler.get(), "FontHandler is null.")) {
       return;
     }
 

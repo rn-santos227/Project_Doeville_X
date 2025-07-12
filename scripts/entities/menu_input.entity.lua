@@ -12,7 +12,7 @@ components = {
   }
 }
 
-function action_1()
+function enter()
   changeState("GameState")
 end
 

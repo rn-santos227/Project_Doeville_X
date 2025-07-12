@@ -11,6 +11,12 @@ namespace Project::Components {
   void KeysComponent::update(float deltaTime) {
     if (!keyHandler || !owner) return;
 
+    for (const auto& [action, func] : functionCallbacks) {
+      if (keyHandler->isActionTriggered(action)) {
+        func();
+      }
+    }
+
     for (const auto& [action, func] : actionCallbacks) {
       if (keyHandler->isActionTriggered(action)) {
         owner->callLuaFunction(func);
@@ -28,5 +34,9 @@ namespace Project::Components {
 
   void KeysComponent::addActionCallback(KeyAction action, const std::string& functionName) {
     actionCallbacks[action] = functionName;
+  }
+
+  void KeysComponent::addActionCallback(KeyAction action, std::function<void()> callback) {
+    functionCallbacks[action] = std::move(callback);
   }
 }

@@ -3,6 +3,7 @@
 
 #include "components/BaseComponent.h"
 
+#include <functional>
 #include <string>
 #include <unordered_map>
 
@@ -23,12 +24,15 @@ namespace Project::Components {
     bool isKeyPressed(SDL_Scancode key) const;
 
     void addActionCallback(Project::Handlers::KeyAction action, const std::string& functionName);
+    void addActionCallback(Project::Handlers::KeyAction action, std::function<void()> callback);
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
     
   private:
     Project::Handlers::KeyHandler* keyHandler = nullptr;
     Project::Entities::Entity* owner = nullptr;
+    
     std::unordered_map<Project::Handlers::KeyAction, std::string> actionCallbacks;
+    std::unordered_map<Project::Handlers::KeyAction, std::function<void()>> functionCallbacks;
   };
 }
 

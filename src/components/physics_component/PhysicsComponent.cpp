@@ -122,8 +122,7 @@ namespace Project::Components {
                   velocityX = otherPhysics->getVelocityX() * bounce;
                   velocityY = otherPhysics->getVelocityY() * bounce;
                   otherPhysics->setVelocity(tmpX * bounce, tmpY * bounce);
-                  otherPhysics->setVelocity(otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                                            otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
+                  otherPhysics->setVelocity(otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric), otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
                 } else {
                   velocityX = -velocityX * bounce;
                   velocityY = -velocityY * bounce;
@@ -170,6 +169,7 @@ namespace Project::Components {
               }
             }
           }
+          
           for (const auto& r1 : myBox->getBoxes()) {
             for (const auto& c2 : otherBox->getCircles()) {
               if (Project::Utilities::PhysicsUtils::checkCollision(r1, c2)) {

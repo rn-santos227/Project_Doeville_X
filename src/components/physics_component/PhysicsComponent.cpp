@@ -66,15 +66,41 @@ namespace Project::Components {
           auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent("BoundingBoxComponent"));
           if (!otherBox || !otherBox->isSolid()) continue;
           
-          for (const auto& a : myBox->getBoxes()) {
-            for (const auto& b : otherBox->getBoxes()) {
-              if (Project::Utilities::PhysicsUtils::checkCollision(a, b)) {
+          for (const auto& r1 : myBox->getBoxes()) {
+            for (const auto& r2 : otherBox->getBoxes()) {
+              if (Project::Utilities::PhysicsUtils::checkCollision(r1, r2)) {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getSnapOffset(r1, r2, velocityX * deltaTime, velocityY * deltaTime);
 
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getSnapOffset(a, b, velocityX * deltaTime, velocityY * deltaTime);
+                float snapX = newX + offset.x;
+                float snapY = newY + offset.y;
+                owner->setPosition(snapX, snapY);
+                for (const std::string& n : owner->listComponentNames()) {
+                  if (auto* c = owner->getComponent(n)) {
+                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
+                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
+                    }
+                  }
+                }
+
+                velocityX = -velocityX * bounce;
+                velocityY = -velocityY * bounce;
+                velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                return;
+              }
+            }
+
+            for (const auto& c2 : otherBox->getCircles()) {
+              if (Project::Utilities::PhysicsUtils::checkCollision(r1, c2)) {
+                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
+                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
+
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getRectCircleSnapOffset(r1, c2, velocityX * deltaTime, velocityY * deltaTime);
 
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;
@@ -103,8 +129,13 @@ namespace Project::Components {
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                if (otherPhysics && pushForce > 0.0f) {
+                  float pushX = velocityX * pushForce;
+                  float pushY = velocityY * pushForce;
+                  otherPhysics->addVelocity(pushX, pushY);
+                }
 
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleSnapOffset(c1, c2);
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleSnapOffset(c1, c2, velocityX * deltaTime, velocityY * deltaTime);
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;
                 owner->setPosition(snapX, snapY);
@@ -116,17 +147,8 @@ namespace Project::Components {
                   }
                 }
 
-                if (otherPhysics) {
-                  float tmpX = velocityX;
-                  float tmpY = velocityY;
-                  velocityX = otherPhysics->getVelocityX() * bounce;
-                  velocityY = otherPhysics->getVelocityY() * bounce;
-                  otherPhysics->setVelocity(tmpX * bounce, tmpY * bounce);
-                  otherPhysics->setVelocity(otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric), otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
-                } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                }
+                velocityX = -velocityX * bounce;
+                velocityY = -velocityY * bounce;
                 velocityX *= (Constants::DEFAULT_WHOLE - fric);
                 velocityY *= (Constants::DEFAULT_WHOLE - fric);
                 return;
@@ -137,47 +159,9 @@ namespace Project::Components {
               if (Project::Utilities::PhysicsUtils::checkCollision(r2, c1)) {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
                 
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleRectSnapOffset(c1, r2);
-                float snapX = newX + offset.x;
-                float snapY = newY + offset.y;
-                owner->setPosition(snapX, snapY);
-                for (const std::string& n : owner->listComponentNames()) {
-                  if (auto* c = owner->getComponent(n)) {
-                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
-                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
-                    }
-                  }
-                }
-
-                if (otherPhysics) {
-                  float tmpX = velocityX;
-                  float tmpY = velocityY;
-                  velocityX = otherPhysics->getVelocityX() * bounce;
-                  velocityY = otherPhysics->getVelocityY() * bounce;
-                  otherPhysics->setVelocity(tmpX * bounce, tmpY * bounce);
-                  otherPhysics->setVelocity(otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                                            otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
-                } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                }
-                velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                return;
-              }
-            }
-          }
-          
-          for (const auto& r1 : myBox->getBoxes()) {
-            for (const auto& c2 : otherBox->getCircles()) {
-              if (Project::Utilities::PhysicsUtils::checkCollision(r1, c2)) {
-                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
-                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
-
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getRectCircleSnapOffset(r1, c2);
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleRectSnapOffset(c1, r2, velocityX * deltaTime, velocityY * deltaTime);
 
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;
@@ -190,24 +174,14 @@ namespace Project::Components {
                   }
                 }
 
-                if (otherPhysics) {
-                  float tmpX = velocityX;
-                  float tmpY = velocityY;
-                  velocityX = otherPhysics->getVelocityX() * bounce;
-                  velocityY = otherPhysics->getVelocityY() * bounce;
-                  otherPhysics->setVelocity(tmpX * bounce, tmpY * bounce);
-                  otherPhysics->setVelocity(otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                                            otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
-                } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                }
+                velocityX = -velocityX * bounce;
+                velocityY = -velocityY * bounce;
                 velocityX *= (Constants::DEFAULT_WHOLE - fric);
                 velocityY *= (Constants::DEFAULT_WHOLE - fric);
                 return;
               }
             }
-          }    
+          } 
         }
       }
     }

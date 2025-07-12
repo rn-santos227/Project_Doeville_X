@@ -18,9 +18,9 @@ namespace Project::Utilities {
 		static void clampVelocity(SDL_FPoint& velocity, float maxSpeed);
 		
     static SDL_FPoint getSnapOffset(const SDL_Rect& moving, const SDL_Rect& other, float dx, float dy);
-    static SDL_FPoint getCircleSnapOffset(const Project::Utilities::Circle& moving, const Project::Utilities::Circle& other);
-    static SDL_FPoint getCircleRectSnapOffset(const Project::Utilities::Circle& moving, const SDL_Rect& other);
-    static SDL_FPoint getRectCircleSnapOffset(const SDL_Rect& moving, const Project::Utilities::Circle& other);
+    static SDL_FPoint getCircleSnapOffset(const Project::Utilities::Circle& moving, const Project::Utilities::Circle& other, float dx, float dy);
+    static SDL_FPoint getCircleRectSnapOffset(const Project::Utilities::Circle& moving, const SDL_Rect& other, float dx, float dy);
+    static SDL_FPoint getRectCircleSnapOffset(const SDL_Rect& moving, const Project::Utilities::Circle& other, float dx, float dy);
 	};
 }
 

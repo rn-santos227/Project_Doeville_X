@@ -8,11 +8,13 @@
 #include "entities/EntitiesManager.h"
 #include "libraries/components/Components.h"
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
   namespace Components = Project::Libraries::Components;
   namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
   PhysicsComponent::PhysicsComponent(Project::Utilities::LogsManager& logsManager)
     : BaseComponent(logsManager),
@@ -283,5 +285,19 @@ namespace Project::Components {
         }
       }
     }
+  }
+
+  void PhysicsComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
+    setActive(active);
+
+    float force = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FORCE, Constants::DEFAULT_PUSH_FORCE));
+    setPushForce(force);
+
+    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
+    setFriction(fric);
+
+    float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
+    setRestitution(rest);
   }
 }

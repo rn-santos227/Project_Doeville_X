@@ -16,6 +16,7 @@ namespace Project::Components {
 
     void update(float deltaTime) override;
     void render() override {}
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 

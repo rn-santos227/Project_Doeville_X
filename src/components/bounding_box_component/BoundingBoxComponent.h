@@ -18,6 +18,7 @@ namespace Project::Components {
 
     void update(float deltaTime) override;
     void render() override;
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void addBox(const SDL_Rect& rect);
     void addCircle(int x, int y, int r);

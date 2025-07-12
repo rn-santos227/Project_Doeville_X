@@ -12,15 +12,17 @@
 
 #include "handlers/animation/AnimationHandler.h"
 #include "utilities/logs_manager/LogsManager.h"
+#include "utilities/config_reader/ConfigReader.h"
 
 namespace Project::Components {
   class TextComponent : public BaseComponent, public PositionableComponent, public TextureHolder {
   public:
-    TextComponent(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, Project::Utilities::LogsManager& logsManager);
+    TextComponent(SDL_Renderer* renderer, Project::Utilities::ConfigReader& configReader, Project::Utilities::LogsManager& logsManager);
     ~TextComponent() override;
 
     void update(float deltaTime) override;
     void render() override;
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void setText(const std::string& newText);
     void setColor(SDL_Color newColor);
@@ -37,6 +39,7 @@ namespace Project::Components {
 
   private:
     Project::Handlers::AnimationHandler animationHandler;
+    Project::Utilities::ConfigReader& configReader;
 
     SDL_Renderer* renderer;
     TTF_Font* font;

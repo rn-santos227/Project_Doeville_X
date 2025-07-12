@@ -19,6 +19,7 @@ namespace Project::Components {
 
     void update(float deltaTime) override;
     void render() override {};
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     bool isActionTriggered(Project::Handlers::KeyAction action) const;
     bool isKeyPressed(SDL_Scancode key) const;

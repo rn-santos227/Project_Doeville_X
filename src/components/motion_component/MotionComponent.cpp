@@ -9,6 +9,7 @@
 #include "entities/EntitiesManager.h"
 #include "libraries/components/Components.h"
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 #include "utilities/geometry/GeometryUtils.h"
 #include "utilities/physics/PhysicsUtils.h"
 
@@ -19,6 +20,7 @@ namespace Project::Components {
 
   namespace Components = Project::Libraries::Components;
   namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
   MotionComponent::MotionComponent(Project::Utilities::LogsManager& logsManager, KeyHandler* keyHandler, float speed)
     : BaseComponent(logsManager), keyHandler(keyHandler), maxSpeed(speed) {}
@@ -274,6 +276,22 @@ namespace Project::Components {
       velocityX = localVelX;
       velocityY = localVelY;
     }
+  }
+
+  void MotionComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    maxSpeed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPEED, Constants::DEFAULT_MOTION_SPEED));
+
+    bool useAccel = luaStateWrapper.getTableBoolean(tableName, Keys::USE_ACCELERATION, false);
+    setAccelerationEnabled(useAccel);
+
+    float accel = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ACCELERATION, Constants::DEFAULT_ACCELERATION));
+    setAcceleration(accel);
+
+    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
+    setFriction(fric);
+
+    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
+    setActive(active);
   }
 
   float MotionComponent::getCurrentSpeed() const {

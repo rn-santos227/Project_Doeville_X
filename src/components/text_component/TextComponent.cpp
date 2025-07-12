@@ -1,27 +1,29 @@
 #include "TextComponent.h"
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::LogsManager;
   using Project::Utilities::ColorUtils;
+  using Project::Utilities::ConfigReader;
   using Project::Handlers::Animation;
   using Project::Handlers::AnimationHandler;
 
   namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
-  TextComponent::TextComponent(SDL_Renderer* renderer, TTF_Font* font,  SDL_Color color, const std::string& text, const std::string& fontPath, int fontSize, LogsManager& logsManager)
+  TextComponent::TextComponent(SDL_Renderer* renderer, Project::Utilities::ConfigReader& configReader, LogsManager& logsManager)
   : BaseComponent(logsManager),
     animationHandler(renderer, logsManager),
-    renderer(renderer), 
-    font(font),
-    color(color),
-    rect{0, 0, 0, 0}, 
-    currentText(text),
-    fontPath(fontPath),
-    fontSize(fontSize) {
-    createTexture();
-  }
+    renderer(renderer),
+    font(nullptr),
+    configReader(configReader),
+    color(Constants::DEFAULT_DEBUG_TEXT_COLOR),
+    rect{0, 0, 0, 0},
+    currentText(Constants::DEFAULT_TEXT),
+    fontPath(Constants::DEFAULT_FONT_PATH),
+    fontSize(Constants::DEFAULT_FONT_SIZE) {}
 
   TextComponent::~TextComponent() {
     destroyTexture();
@@ -29,6 +31,32 @@ namespace Project::Components {
       TTF_CloseFont(font);
       font = nullptr;
     }
+  }
+
+  void TextComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
+    Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_COLOR_ALPHA, Constants::FULL_ALPHA));
+    color = Project::Utilities::ColorUtils::hexToRGB(colorHex, alpha);
+
+    currentText = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::DEFAULT_TEXT);
+
+    std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
+    fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
+
+    int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);
+    fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
+
+    if (font) {
+      TTF_CloseFont(font);
+    }
+    font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    if (logsManager.checkAndLogError(font == nullptr, std::string("Failed to load font: ") + fontPath)) {
+      return;
+    }
+
+    createTexture();
+    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
+    setActive(active);
   }
 
   void TextComponent::setText(const std::string& newText) {

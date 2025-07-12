@@ -43,26 +43,6 @@ namespace Project::Factories {
     Project::Utilities::ConfigReader& configReader;
     Project::Utilities::LogsManager& logsManager;
     Project::Handlers::ResourcesHandler& resourcesHandler;
-
-    //Components Builder
-    std::unique_ptr<Project::Components::BaseComponent> createBoundingBoxComponent(
-      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    std::unique_ptr<Project::Components::BaseComponent> createGraphicsComponent(
-      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    std::unique_ptr<Project::Components::BaseComponent> createKeysComponent(
-      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    std::unique_ptr<Project::Components::BaseComponent> createMotionComponent(
-      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    std::unique_ptr<Project::Components::BaseComponent> createPhysicsComponent(
-      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-    std::unique_ptr<Project::Components::BaseComponent> createTextComponent(
-      Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
-
-    //Utilities
-    SDL_Color getLuaSDLColor(Project::Utilities::LuaStateWrapper& luaStateWrapper);
-    Uint8 getLuaColorChannel(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue = Constants::FULL_ALPHA);
-    std::string getLuaGlobalString(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& name, const std::string& defaultValue);
-    int getLuaGlobalInt(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& name, int defaultValue);
   };
 }
 

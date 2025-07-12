@@ -17,11 +17,12 @@
 namespace Project::Components  {
   class GraphicsComponent : public BaseComponent, public PositionableComponent, public TextureHolder {
   public:
-    GraphicsComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager);
+    GraphicsComponent(SDL_Renderer* renderer, Project::Handlers::ResourcesHandler* resourcesHandler, Project::Utilities::LogsManager& logsManager);
     ~GraphicsComponent();
     
     void update(float deltaTime) override;
     void render() override;
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     bool setTexture(Project::Handlers::ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setShape(int width, int height, SDL_Color color);
@@ -37,6 +38,7 @@ namespace Project::Components  {
 
   private:
     SDL_Renderer* renderer;
+    Project::Handlers::ResourcesHandler* resourcesHandler;
     Project::Utilities::LogsManager& logsManager;
 
     std::unique_ptr<Project::Handlers::AnimationHandler> animationHandler;

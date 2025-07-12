@@ -40,13 +40,13 @@ namespace Project::Services {
   }
 
   ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ResourcesHandler& resourcesHandler, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
-    : renderer(renderer), 
+    : renderer(renderer),
       logsManager(logsManager), 
       luaStateWrapper(logsManager),
       resourcesHandler(resourcesHandler),
-      gameStateManager(gameStateManager), 
-      componentsFactory(componentsFactory), 
-      entitiesFactory(logsManager, componentsFactory),
+      gameStateManager(gameStateManager),
+      componentsFactory(componentsFactory),
+      entitiesFactory(logsManager, componentsFactory, gameStateManager),
       gameStateFactory(logsManager, resourcesHandler, gameStateManager, entitiesFactory) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       return;

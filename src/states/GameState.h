@@ -11,13 +11,13 @@
 #include <SDL2/SDL_image.h>
 
 #include "entities/EntitiesManager.h"
-#include "factories/entity/EntitiesFactory.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
+namespace Project::Factories { class EntitiesFactory; }
 namespace Project::States {
   class GameStateManager;
   class GameState : public Project::Utilities::LuaScriptable, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {

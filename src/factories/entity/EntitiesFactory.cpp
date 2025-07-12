@@ -1,17 +1,37 @@
 #include "EntitiesFactory.h"
+
 #include <filesystem>
+
+#include "states/GameStateManager.h"
 
 namespace Project::Factories {
   using Project::Utilities::LogsManager;
   using Project::Entities::Entity;
   using Project::Entities::EntityCategory;
   using Project::Factories::EntitiesFactory;
+  using Project::States::GameStateManager;
 
-  EntitiesFactory::EntitiesFactory(LogsManager& logsManager, ComponentsFactory& componentsFactory)
-    : logsManager(logsManager), componentsFactory(componentsFactory) {}
+  EntitiesFactory::EntitiesFactory(LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
+    : logsManager(logsManager), componentsFactory(componentsFactory), gameStateManager(gameStateManager) {}
 
   EntitiesFactory::~EntitiesFactory() {
     entityTemplates.clear();
+  }
+
+  int EntitiesFactory::lua_changeState(lua_State* L) {
+    auto* manager = static_cast<States::GameStateManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!manager) {
+      return luaL_error(L, "Invalid GameStateManager reference in lua_changeState.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected a state name string.");
+      return 0;
+    }
+
+    manager->changeState(name);
+    return 0;
   }
 
   std::unique_ptr<Entity> EntitiesFactory::createEntityFromLua(const std::string& scriptPath) {
@@ -56,11 +76,16 @@ namespace Project::Factories {
     if (templateState) {
       auto pathIt = entityScriptPaths.find(entityName);
       std::string scriptPath = (pathIt != entityScriptPaths.end()) ? pathIt->second : "";
-      if (!scriptPath.empty()) { 
+      if (!scriptPath.empty()) {
         clone->attachLuaScript(scriptPath);
       } else {
         logsManager.logWarning("Script path for entity '" + entityName + "' not found. Using default path.");
         clone->attachLuaScript("scripts/entities/" + entityName + ".entity.lua");
+      }
+
+      lua_State* L = clone->getLuaState();
+      if (L) {
+        clone->getLuaStateWrapper().registerFunction("changeState", lua_changeState, &gameStateManager);
       }
     }
 

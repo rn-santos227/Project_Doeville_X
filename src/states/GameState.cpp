@@ -1,6 +1,7 @@
 #include "GameState.h"
 #include "GameStateManager.h"
 
+#include "factories/entity/EntitiesFactory.h"
 #include "libraries/keys/Keys.h"
 
 #include <future>

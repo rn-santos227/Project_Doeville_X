@@ -111,7 +111,7 @@ namespace Project::Utilities {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
     std::string logMessage = "[LUA] " + timestamp + " - " + sanitizedMessage + "\n";
-    enqueueLog(logMessage, &std::cout, &logFile);
+    enqueueLog(logMessage, &std::cout, &luaLogFile);
   }
 
   void LogsManager::logMessage(const std::string& message) {

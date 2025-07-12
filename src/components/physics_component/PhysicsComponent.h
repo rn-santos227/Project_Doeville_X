@@ -9,7 +9,32 @@ namespace Project { namespace Entities { class Entity; } }
 namespace Project::Components {
   class PhysicsComponent : public BaseComponent {
   public:
+    explicit PhysicsComponent(Project::Utilities::LogsManager& logsManager);
+    ~PhysicsComponent() override = default;
 
+    void update(float deltaTime) override;
+    void render() override {}
+
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+
+    void setVelocity(float vx, float vy) { velocityX = vx; velocityY = vy; }
+    void addVelocity(float vx, float vy) { velocityX += vx; velocityY += vy; }
+    
+    float getVelocityX() const { return velocityX; }
+    float getVelocityY() const { return velocityY; }
+
+    void setAcceleration(float ax, float ay) { accelerationX = ax; accelerationY = ay; }
+    void addAcceleration(float ax, float ay) { accelerationX += ax; accelerationY += ay; }
+    
+    float getAccelerationX() const { return accelerationX; }
+    float getAccelerationY() const { return accelerationY; }
+
+    void setFriction(float f) { friction = f; }
+    float getFriction() const { return friction; }
+
+    void setRestitution(float r) { restitution = r; }
+    float getRestitution() const { return restitution; }
+    
   private:
     Project::Entities::Entity* owner = nullptr;
     

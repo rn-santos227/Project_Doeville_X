@@ -1,13 +1,15 @@
 #include "EntitiesManager.h"
 
+#include <algorithm>
+
+#include <SDL.h>
+
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/keys/Keys.h"
-
-#include <SDL.h>
 
 namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
@@ -26,10 +28,17 @@ namespace Project::Entities {
     }
     
     add(finalId, std::move(entity));
+    std::string group = objects[finalId]->getGroup();
+    if (!group.empty()) {
+      entityGroups[group].push_back(finalId);
+    }
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
     remove(id);
+    for (auto& [group, ids] : entityGroups) {
+      ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
+    }
   }
 
   bool EntitiesManager::hasEntity(const std::string& id) {
@@ -53,6 +62,7 @@ namespace Project::Entities {
       cachedEntities[id] = entity;
     }
     objects.clear();
+    entityGroups.clear();
   }
 
   void EntitiesManager::optimizeEntities() {
@@ -79,9 +89,33 @@ namespace Project::Entities {
 
   void EntitiesManager::reset() {
     std::lock_guard<std::mutex> lock(managerMutex);
-    objects.clear();
     initialized = false;
+    
+    objects.clear();
     idCounters.clear();
+    entityGroups.clear();
+  }
+
+  std::vector<std::shared_ptr<Entity>> EntitiesManager::getEntitiesByGroup(const std::string& group) {
+    std::vector<std::shared_ptr<Entity>> result;
+    auto it = entityGroups.find(group);
+    if (it != entityGroups.end()) {
+      for (const auto& id : it->second) {
+        auto ent = getEntity(id);
+        if (ent) result.push_back(ent);
+      }
+    }
+    return result;
+  }
+
+  void EntitiesManager::clearGroup(const std::string& group) {
+    auto it = entityGroups.find(group);
+    if (it != entityGroups.end()) {
+      for (const auto& id : it->second) {
+        remove(id);
+      }
+      entityGroups.erase(it);
+    }
   }
 
   void EntitiesManager::registerEntityLuaFunctions(Entity* entity) {

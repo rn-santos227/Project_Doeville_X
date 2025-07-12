@@ -2,6 +2,8 @@ x = 15
 y = 15
 z = 0
 
+group = "ui"
+
 components = {
   TextComponent = {
     text = "Sample Text",

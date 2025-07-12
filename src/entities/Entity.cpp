@@ -4,12 +4,16 @@
 #include "components/keys_component/KeysComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
 namespace Project::Entities {
   using Project::Utilities::LogsManager;
   using Project::Factories::ComponentsFactory;
   using Project::Components::BaseComponent;
+  
+  namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
   : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),
@@ -18,11 +22,11 @@ namespace Project::Entities {
   Entity::~Entity() = default;
 
   void Entity::initialize() {
-    x = luaStateWrapper.getGlobalNumber(Project::Libraries::Keys::X, 0.0f);
-    y = luaStateWrapper.getGlobalNumber(Project::Libraries::Keys::Y, 0.0f);
-    z = luaStateWrapper.getGlobalNumber(Project::Libraries::Keys::Z, 0.0f);
+    x = luaStateWrapper.getGlobalNumber(Keys::X, 0.0f);
+    y = luaStateWrapper.getGlobalNumber(Keys::Y, 0.0f);
+    z = luaStateWrapper.getGlobalNumber(Keys::Z, 0.0f);
 
-    luaStateWrapper.callFunctionIfExists(Project::Libraries::Keys::INITIALIZE);
+    luaStateWrapper.callFunctionIfExists(Keys::INITIALIZE);
 
     auto positionComponent = [this](BaseComponent* comp) {
       if (auto* positionable = dynamic_cast<Components::PositionableComponent*>(comp)) {
@@ -39,8 +43,8 @@ namespace Project::Entities {
   }
 
   void Entity::update(float deltaTime) {
-    luaStateWrapper.setGlobalNumber(Project::Libraries::Keys::DELTA_TIME, deltaTime);
-    luaStateWrapper.callFunctionIfExists(Project::Libraries::Keys::UPDATE);
+    luaStateWrapper.setGlobalNumber(Keys::DELTA_TIME, deltaTime);
+    luaStateWrapper.callFunctionIfExists(Keys::UPDATE);
 
     for (auto& [name, component] : components) {
       if (component && component->isActive()) {
@@ -50,7 +54,7 @@ namespace Project::Entities {
   }
 
   void Entity::render() {
-    luaStateWrapper.callFunctionIfExists(Project::Libraries::Keys::RENDER);
+    luaStateWrapper.callFunctionIfExists(Keys::RENDER);
     for (auto& [name, component] : components) {
       if (component && component->isActive()) {
         component->render();
@@ -63,10 +67,11 @@ namespace Project::Entities {
       return false;
     }
 
-    global = luaStateWrapper.getGlobalBoolean(Project::Libraries::Keys::GLOBAL, false);
+    global = luaStateWrapper.getGlobalBoolean(Keys::GLOBAL, false);
+    entityGroup = luaStateWrapper.getGlobalString(Keys::GROUP, Constants::EMPTY_STRING);
 
-    if (luaStateWrapper.isGlobalTable(Project::Libraries::Keys::COMPONENTS)) {
-      luaStateWrapper.iterateGlobalTable(Project::Libraries::Keys::COMPONENTS, [this](lua_State* L, int index) {
+    if (luaStateWrapper.isGlobalTable(Keys::COMPONENTS)) {
+      luaStateWrapper.iterateGlobalTable(Keys::COMPONENTS, [this](lua_State* L, int index) {
         if (lua_istable(L, -1)) {
           std::string componentName = lua_tostring(L, -2);
 
@@ -94,7 +99,7 @@ namespace Project::Entities {
     if (auto* keys = dynamic_cast<Components::KeysComponent*>(component.get())) {
       keys->setEntityReference(this);
     }
-    
+
     if (auto* motion = dynamic_cast<Components::MotionComponent*>(component.get())) {
       motion->setEntityReference(this);
     }

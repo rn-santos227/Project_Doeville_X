@@ -2,6 +2,8 @@ x = 640
 y = 360
 z = 0
 
+group = "gamplay"
+
 components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",

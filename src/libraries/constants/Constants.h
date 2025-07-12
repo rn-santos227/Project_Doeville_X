@@ -21,6 +21,8 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_STATE_SCRIPT_FOLDER = "scripts/states/";
   constexpr const char* DEFAULT_TEXT = "Default Text";
 
+  constexpr const char* EMPTY_STRING = "";
+
   // Screen defaults
   constexpr int DEFAULT_SCREEN_WIDTH = 800;
   constexpr int DEFAULT_SCREEN_HEIGHT = 600;

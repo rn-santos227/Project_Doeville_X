@@ -35,6 +35,8 @@ namespace Project::Entities {
       void render();
       void reset();
 
+      std::vector<std::shared_ptr<Entity>> getEntitiesByGroup(const std::string& group);
+      void clearGroup(const std::string& group);
       void registerEntityLuaFunctions(Entity* entity);
       
       static int lua_getEntitySpeed(lua_State* L);
@@ -42,6 +44,7 @@ namespace Project::Entities {
 
     private:
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
+      std::unordered_map<std::string, std::vector<std::string>> entityGroups;
       std::unordered_map<std::string, int> idCounters;
       
       bool initialized = false;

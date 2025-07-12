@@ -3,22 +3,26 @@
 #include <algorithm>
 #include <cctype>
 
+#include "libraries/components/Components.h"
+
 namespace Project::Factories {
   using Project::Factories::ComponentType;
+  namespace Components = Project::Libraries::Components;
+
   ComponentType ComponentTypeResolver::resolve(const std::string& name) {
     static const std::unordered_map<std::string, ComponentType> map = {
-      {"boundingboxcomponent", ComponentType::BOUNDING_BOX},
-      {"boundingbox", ComponentType::BOUNDING_BOX},
-      {"graphicscomponent", ComponentType::GRAPHICS},
-      {"graphics", ComponentType::GRAPHICS},
-      {"keyscomponent", ComponentType::KEYS},
-      {"keys", ComponentType::KEYS},
-      {"motioncomponent", ComponentType::MOTION},
-      {"motion", ComponentType::MOTION},
-      {"physicscomponent", ComponentType::PHYSICS},
-      {"physics", ComponentType::PHYSICS},
-      {"textcomponent", ComponentType::TEXT},
-      {"text", ComponentType::TEXT},
+      {std::string(Components::BOUNDING_BOX), ComponentType::BOUNDING_BOX},
+      {std::string(Components::BOUNDING_BOX) + Components::SUFFIX, ComponentType::BOUNDING_BOX},
+      {std::string(Components::GRAPHICS), ComponentType::GRAPHICS},
+      {std::string(Components::GRAPHICS) + Components::SUFFIX, ComponentType::GRAPHICS},
+      {std::string(Components::KEYS), ComponentType::KEYS},
+      {std::string(Components::KEYS) + Components::SUFFIX, ComponentType::KEYS},
+      {std::string(Components::MOTION), ComponentType::MOTION},
+      {std::string(Components::MOTION) + Components::SUFFIX, ComponentType::MOTION},
+      {std::string(Components::PHYSICS), ComponentType::PHYSICS},
+      {std::string(Components::PHYSICS) + Components::SUFFIX, ComponentType::PHYSICS},
+      {std::string(Components::TEXT), ComponentType::TEXT},
+      {std::string(Components::TEXT) + Components::SUFFIX, ComponentType::TEXT},
     };
 
     std::string key = name;

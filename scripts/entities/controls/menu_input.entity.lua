@@ -1,3 +1,5 @@
+group = "controls"
+
 components = {
   KeysComponent = {
     component = "KeysComponent",

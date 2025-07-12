@@ -15,6 +15,8 @@ namespace Project::Factories {
       {"keys", ComponentType::KEYS},
       {"motioncomponent", ComponentType::MOTION},
       {"motion", ComponentType::MOTION},
+      {"physicscomponent", ComponentType::PHYSICS},
+      {"physics", ComponentType::PHYSICS},
       {"textcomponent", ComponentType::TEXT},
       {"text", ComponentType::TEXT},
     };

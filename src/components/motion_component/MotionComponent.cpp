@@ -8,6 +8,7 @@
 #include "utilities/physics/PhysicsUtils.h"
 
 #include "components/keys_component/KeysComponent.h"
+#include "components/physics_component/PhysicsComponent.h"
 
 namespace Project::Components {
   using Project::Handlers::KeyAction;
@@ -19,6 +20,10 @@ namespace Project::Components {
 
   void MotionComponent::update(float deltaTime) {
     if (!owner) return;
+
+    auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent("PhysicsComponent"));
+    float localVelX = physics ? physics->getVelocityX() : velocityX;
+    float localVelY = physics ? physics->getVelocityY() : velocityY;
 
     KeysComponent* keys = nullptr;
     for (const std::string& name : owner->listComponentNames()) {
@@ -34,39 +39,39 @@ namespace Project::Components {
 
     if (accelerationEnabled) {
       if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
-        velocityX -= acceleration * deltaTime;
-        if (velocityX < -maxSpeed) velocityX = -maxSpeed;
+        localVelX -= acceleration * deltaTime;
+        if (localVelX < -maxSpeed) localVelX = -maxSpeed;
       } else if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
-        velocityX += acceleration * deltaTime;
-        if (velocityX > maxSpeed) velocityX = maxSpeed;
+        localVelX += acceleration * deltaTime;
+        if (localVelX > maxSpeed) localVelX = maxSpeed;
       } else {
-        if (velocityX > 0.0f) {
-          velocityX -= friction * deltaTime;
-          if (velocityX < 0.0f) velocityX = 0.0f;
-        } else if (velocityX < 0.0f) {
-          velocityX += friction * deltaTime;
-          if (velocityX > 0.0f) velocityX = 0.0f;
+        if (localVelX > 0.0f) {
+          localVelX -= friction * deltaTime;
+          if (localVelX < 0.0f) localVelX = 0.0f;
+        } else if (localVelX < 0.0f) {
+          localVelX += friction * deltaTime;
+          if (localVelX > 0.0f) localVelX = 0.0f;
         }
       }
 
       if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
-        velocityY -= acceleration * deltaTime;
-        if (velocityY < -maxSpeed) velocityY = -maxSpeed;
+        localVelY -= acceleration * deltaTime;
+        if (localVelY < -maxSpeed) localVelY = -maxSpeed;
       } else if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
-        velocityY += acceleration * deltaTime;
-        if (velocityY > maxSpeed) velocityY = maxSpeed;
+        localVelY += acceleration * deltaTime;
+        if (localVelY > maxSpeed) localVelY = maxSpeed;
       } else {
-        if (velocityY > 0.0f) {
-          velocityY -= friction * deltaTime;
-          if (velocityY < 0.0f) velocityY = 0.0f;
-        } else if (velocityY < 0.0f) {
-          velocityY += friction * deltaTime;
-          if (velocityY > 0.0f) velocityY = 0.0f;
+        if (localVelY > 0.0f) {
+          localVelY -= friction * deltaTime;
+          if (localVelY < 0.0f) localVelY = 0.0f;
+        } else if (localVelY < 0.0f) {
+          localVelY += friction * deltaTime;
+          if (localVelY > 0.0f) localVelY = 0.0f;
         }
       }
 
-      dx = velocityX * deltaTime;
-      dy = velocityY * deltaTime;
+      dx = localVelX * deltaTime;
+      dy = localVelY * deltaTime;
     } else {
       if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
         dx -= maxSpeed * deltaTime;
@@ -117,10 +122,10 @@ namespace Project::Components {
                     }
                   }
                 }
-                velocityX = -velocityX * bounce;
-                velocityY = -velocityY * bounce;
-                velocityX *= (1.0f - fric);
-                velocityY *= (1.0f - fric);
+                localVelX = -localVelX * bounce;
+                localVelY = -localVelY * bounce;
+                localVelX *= (1.0f - fric);
+                localVelY *= (1.0f - fric);
                 return;
               }
             }
@@ -128,9 +133,23 @@ namespace Project::Components {
         }
       }
     }
+
+    if (physics) {
+      physics->setVelocity(localVelX, localVelY);
+    } else {
+      velocityX = localVelX;
+      velocityY = localVelY;
+    }
   }
 
   float MotionComponent::getCurrentSpeed() const {
+    if (owner) {
+      if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent("PhysicsComponent"))) {
+        float vx = physics->getVelocityX();
+        float vy = physics->getVelocityY();
+        return std::sqrt(vx * vx + vy * vy);
+      }
+    }
     return std::sqrt(velocityX * velocityX + velocityY * velocityY);
   }
 }

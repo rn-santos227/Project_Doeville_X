@@ -1,8 +1,9 @@
 #include "Entity.h"
 
 #include "components/PositionableComponent.h"
-#include "components/motion_component/MotionComponent.h"
 #include "components/keys_component/KeysComponent.h"
+#include "components/motion_component/MotionComponent.h"
+#include "components/physics_component/PhysicsComponent.h"
 #include "libraries/keys/Keys.h"
 
 namespace Project::Entities {
@@ -90,13 +91,18 @@ namespace Project::Entities {
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
     if (!component) return;
     
-    if (auto* motion = dynamic_cast<Components::MotionComponent*>(component.get())) {
-      motion->setEntityReference(this);
-    }
-    
     if (auto* keys = dynamic_cast<Components::KeysComponent*>(component.get())) {
       keys->setEntityReference(this);
     }
+    
+    if (auto* motion = dynamic_cast<Components::MotionComponent*>(component.get())) {
+      motion->setEntityReference(this);
+    }
+
+    if (auto* physics = dynamic_cast<Components::PhysicsComponent*>(component.get())) {
+      physics->setEntityReference(this);
+    }
+
     components[componentName] = std::move(component);
   }
 

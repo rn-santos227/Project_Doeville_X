@@ -12,6 +12,7 @@ namespace Project::Factories {
   using Project::Components::GraphicsComponent;
   using Project::Components::KeysComponent;
   using Project::Components::MotionComponent;
+  using Project::Components::PhysicsComponent;
   using Project::Components::TextComponent;
   using Project::Handlers::ResourcesHandler;
   using Project::Utilities::ColorUtils;
@@ -45,6 +46,9 @@ namespace Project::Factories {
 
       case ComponentType::MOTION:
         return createMotionComponent(luaStateWrapper, tableName);
+
+      case ComponentType::PHYSICS:
+        return createPhysicsComponent(luaStateWrapper, tableName);
 
       case ComponentType::TEXT:
         return createTextComponent(luaStateWrapper, tableName);
@@ -207,10 +211,21 @@ namespace Project::Factories {
     
     float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
     motionComponent->setFriction(fric);
-    
+
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
     motionComponent->setActive(active);
     return motionComponent;
+  }
+
+  std::unique_ptr<BaseComponent> ComponentsFactory::createPhysicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    auto physics = std::make_unique<Components::PhysicsComponent>(logsManager);
+    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
+    float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
+    physics->setFriction(fric);
+    physics->setRestitution(rest);
+    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
+    physics->setActive(active);
+    return physics;
   }
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createTextComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
@@ -236,7 +251,7 @@ namespace Project::Factories {
     textComponent->setActive(active);
     return textComponent;
   }
-
+  
   // Utilities Section
   Uint8 ComponentsFactory::getLuaColorChannel(LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue) {
     return static_cast<Uint8>(luaStateWrapper.getGlobalNumber(globalName, static_cast<float>(defaultValue)));

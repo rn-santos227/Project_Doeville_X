@@ -35,6 +35,13 @@ components = {
       action_1 = "action_1"
     }
   },
+
+  PhysicsComponent = {
+    component = "PhysicsComponent",
+    active = true,
+    friction = 0.2,
+    restitution = 0.5
+  },
   
   MotionComponent = {
     component = "MotionComponent",

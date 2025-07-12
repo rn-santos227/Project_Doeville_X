@@ -2,11 +2,13 @@ stateName = "MainMenuState"
 stateCategory = "MAIN_MENU_STATE"
 
 sampleText = dofile("scripts/entities/sample_text.entity.lua")
+menuInput = dofile("scripts/entities/menu_input.entity.lua")
 
 function initialize()
   print("Initializing MainMenuState")
   setBackgroundColor(34, 45, 50, 255)
   spawnEntity("sample_text")
+  spawnEntity("menu_input")
 end
 
 function onEnter()

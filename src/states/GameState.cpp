@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "GameStateManager.h"
 
 #include "libraries/keys/Keys.h"
 
@@ -208,6 +209,25 @@ namespace Project::States {
       luaL_error(L, "EntitiesManager not set for this state.");
     }
 
+    return 0;
+  }
+
+  int Project::States::GameState::lua_changeState(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_changeState.");
+    }
+    if (!state->gameStateManager) {
+      return luaL_error(L, "GameStateManager not set for this state.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected a state name string.");
+      return 0;
+    }
+
+    state->gameStateManager->changeState(name);
     return 0;
   }
 }

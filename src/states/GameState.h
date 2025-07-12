@@ -19,6 +19,7 @@
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Project::States {
+  class GameStateManager;
   class GameState : public Project::Utilities::LuaScriptable, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
   public:
     explicit GameState(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager, Project::Handlers::ResourcesHandler& resourcesHandler);
@@ -51,6 +52,7 @@ namespace Project::States {
     void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { entitiesManager = std::move(manager); }
     void setGlobalEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { globalEntitiesManager = std::move(manager); }
     void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
+    void setGameStateManager(Project::States::GameStateManager* manager) { gameStateManager = manager; }
 
     void clearBackground();
 
@@ -77,12 +79,14 @@ namespace Project::States {
     bool initialized = false;
     bool active = false;
 
+    Project::States::GameStateManager* gameStateManager = nullptr;
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
 
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);
     static int lua_spawnEntity(lua_State* L);
+    static int lua_changeState(lua_State* L);
   };
 }
 

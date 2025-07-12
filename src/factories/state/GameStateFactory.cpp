@@ -46,6 +46,7 @@ namespace Project::Factories {
     newState->setEntitiesManager(std::make_shared<Project::Entities::EntitiesManager>());
     newState->setGlobalEntitiesManager(gameStateManager.getGlobalEntitiesManager());
     newState->setEntitiesFactory(&entitiesFactory);
+    newState->setGameStateManager(&gameStateManager);
 
     gameStateManager.addState(stateName, std::move(newState));
     gameStateManager.pushState(stateName);

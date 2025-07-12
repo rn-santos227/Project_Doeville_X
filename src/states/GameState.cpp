@@ -20,6 +20,7 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
+    luaStateWrapper.registerFunction("changeState", lua_changeState, this);
     luaStateWrapper.registerFunction("setBackgroundColor", lua_setBackgroundColor, this);
     luaStateWrapper.registerFunction("setBackgroundImage", lua_setBackgroundImage, this);
     luaStateWrapper.registerFunction("spawnEntity", lua_spawnEntity, this);

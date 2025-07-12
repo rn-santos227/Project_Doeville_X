@@ -1,7 +1,10 @@
 #include "PhysicsComponent.h"
 
 #include "components/PositionableComponent.h"
+#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "entities/Entity.h"
+#include "entities/EntitiesManager.h"
+#include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
   PhysicsComponent::PhysicsComponent(Project::Utilities::LogsManager& logsManager)
@@ -51,6 +54,50 @@ namespace Project::Components {
         if (auto* comp = owner->getComponent(name)) {
           if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
             pos->setEntityPosition(static_cast<int>(newX), static_cast<int>(newY));
+          }
+        }
+      }
+
+      auto* manager = owner->getEntitiesManager();
+      auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent("BoundingBoxComponent"));
+      if (manager && myBox && myBox->isSolid()) {
+        for (const auto& [id, entity] : manager->getAllEntities()) {
+          if (!entity || entity.get() == owner) continue;
+          auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent("BoundingBoxComponent"));
+          if (!otherBox || !otherBox->isSolid()) continue;
+          for (const auto& a : myBox->getBoxes()) {
+            for (const auto& b : otherBox->getBoxes()) {
+              if (Project::Utilities::PhysicsUtils::checkCollision(a, b)) {
+                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
+                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
+
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getSnapOffset(a, b, velocityX * deltaTime, velocityY * deltaTime);
+
+                float snapX = newX + offset.x;
+                float snapY = newY + offset.y;
+                owner->setPosition(snapX, snapY);
+                for (const std::string& n : owner->listComponentNames()) {
+                  if (auto* c = owner->getComponent(n)) {
+                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
+                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
+                    }
+                  }
+                }
+
+                if (otherPhysics) {
+                  velocityX = 0.0f;
+                  velocityY = 0.0f;
+                } else {
+                  velocityX = -velocityX * bounce;
+                  velocityY = -velocityY * bounce;
+                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                }
+                return;
+              }
+            }
           }
         }
       }

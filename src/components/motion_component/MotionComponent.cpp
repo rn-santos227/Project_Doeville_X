@@ -122,11 +122,17 @@ namespace Project::Components {
                   otherPhysics->addVelocity(pushX, pushY);
                 }
 
-                owner->setPosition(oldX, oldY);
+                SDL_FPoint offset{0.0f, 0.0f};
+                offset = Project::Utilities::PhysicsUtils::getSnapOffset(a, b, dx, dy);
+
+                float snapX = newX + offset.x;
+                float snapY = newY + offset.y;
+                owner->setPosition(snapX, snapY);
+
                 for (const std::string& n : owner->listComponentNames()) {
                   if (auto* c = owner->getComponent(n)) {
                     if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
-                      pos->setEntityPosition(static_cast<int>(oldX), static_cast<int>(oldY));
+                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
                     }
                   }
                 }

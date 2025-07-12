@@ -30,4 +30,34 @@ namespace Project::Utilities {
       velocity.y *= scale;
     }
   }
+
+  SDL_FPoint PhysicsUtils::getSnapOffset(const SDL_Rect& moving, const SDL_Rect& other, float dx, float dy) {
+    SDL_Rect inter;
+    SDL_FPoint result{0.0f, 0.0f};
+    if (!SDL_IntersectRect(&moving, &other, &inter)) {
+      return result;
+    }
+
+    if (inter.w < inter.h) {
+      if (dx > 0) {
+        result.x = -static_cast<float>(inter.w);
+      } else if (dx < 0) {
+        result.x = static_cast<float>(inter.w);
+      } else {
+        result.x = (moving.x < other.x) ? -static_cast<float>(inter.w)
+                                        : static_cast<float>(inter.w);
+      }
+    } else {
+      if (dy > 0) {
+        result.y = -static_cast<float>(inter.h);
+      } else if (dy < 0) {
+        result.y = static_cast<float>(inter.h);
+      } else {
+        result.y = (moving.y < other.y) ? -static_cast<float>(inter.h)
+                                        : static_cast<float>(inter.h);
+      }
+    }
+
+    return result;
+  }
 }

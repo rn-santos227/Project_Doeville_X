@@ -13,6 +13,7 @@ namespace Project::Utilities {
 
 		static SDL_FPoint applyGravity(SDL_FPoint velocity, float deltaTime);
 		static void clampVelocity(SDL_FPoint& velocity, float maxSpeed);
+		static SDL_FPoint getSnapOffset(const SDL_Rect& moving, const SDL_Rect& other, float dx, float dy);
 	};
 }
 

@@ -65,6 +65,7 @@ namespace Project::Components {
           if (!entity || entity.get() == owner) continue;
           auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent("BoundingBoxComponent"));
           if (!otherBox || !otherBox->isSolid()) continue;
+          
           for (const auto& a : myBox->getBoxes()) {
             for (const auto& b : otherBox->getBoxes()) {
               if (Project::Utilities::PhysicsUtils::checkCollision(a, b)) {
@@ -103,8 +104,9 @@ namespace Project::Components {
 
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
 
-                float snapX = oldX;
-                float snapY = oldY;
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleSnapOffset(c1, c2);
+                float snapX = newX + offset.x;
+                float snapY = newY + offset.y;
                 owner->setPosition(snapX, snapY);
                 for (const std::string& n : owner->listComponentNames()) {
                   if (auto* c = owner->getComponent(n)) {
@@ -136,11 +138,11 @@ namespace Project::Components {
               if (Project::Utilities::PhysicsUtils::checkCollision(r2, c1)) {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
-
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
-
-                float snapX = oldX;
-                float snapY = oldY;
+                
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleRectSnapOffset(c1, r2);
+                float snapX = newX + offset.x;
+                float snapY = newY + offset.y;
                 owner->setPosition(snapX, snapY);
                 for (const std::string& n : owner->listComponentNames()) {
                   if (auto* c = owner->getComponent(n)) {
@@ -175,10 +177,7 @@ namespace Project::Components {
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
-
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getSnapOffset(r1,
-                  Project::Utilities::GeometryUtils::makeRect(c2.x - c2.r, c2.y - c2.r, c2.r * 2, c2.r * 2),
-                  velocityX * deltaTime, velocityY * deltaTime);
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getRectCircleSnapOffset(r1, c2);
 
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;

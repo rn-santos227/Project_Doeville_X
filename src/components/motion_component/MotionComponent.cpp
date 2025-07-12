@@ -159,8 +159,9 @@ namespace Project::Components {
                   otherPhysics->addVelocity(pushX, pushY);
                 }
 
-                float snapX = oldX;
-                float snapY = oldY;
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleSnapOffset(c1, c2);
+                float snapX = newX + offset.x;
+                float snapY = newY + offset.y;
                 owner->setPosition(snapX, snapY);
                 for (const std::string& n : owner->listComponentNames()) {
                   if (auto* c = owner->getComponent(n)) {
@@ -199,8 +200,10 @@ namespace Project::Components {
                   float pushY = localVelY * physics->getPushForce();
                   otherPhysics->addVelocity(pushX, pushY);
                 }
-                float snapX = oldX;
-                float snapY = oldY;
+
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleRectSnapOffset(c1, r2);
+                float snapX = newX + offset.x;
+                float snapY = newY + offset.y;
                 owner->setPosition(snapX, snapY);
                 for (const std::string& n : owner->listComponentNames()) {
                   if (auto* c = owner->getComponent(n)) {
@@ -242,9 +245,7 @@ namespace Project::Components {
                   otherPhysics->addVelocity(pushX, pushY);
                 }
 
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getSnapOffset(r1,
-                  Project::Utilities::GeometryUtils::makeRect(c2.x - c2.r, c2.y - c2.r, c2.r * 2, c2.r * 2),
-                  localVelX * deltaTime, localVelY * deltaTime);
+                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getRectCircleSnapOffset(r1, c2);
 
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;

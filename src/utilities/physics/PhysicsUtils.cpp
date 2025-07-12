@@ -74,7 +74,65 @@ namespace Project::Utilities {
                                         : static_cast<float>(inter.h);
       }
     }
-
     return result;
+  }
+
+  SDL_FPoint PhysicsUtils::getCircleSnapOffset(const Circle& moving, const Circle& other) {
+    SDL_FPoint result{0.0f, 0.0f};
+    float dx = static_cast<float>(moving.x - other.x);
+    float dy = static_cast<float>(moving.y - other.y);
+    float distance = std::sqrt(dx * dx + dy * dy);
+    float minDist = static_cast<float>(moving.r + other.r);
+
+    float overlap = minDist - distance;
+    if (overlap > 0.0f) {
+      if (distance == 0.0f) {
+        result.x = overlap;
+        result.y = 0.0f;
+      } else {
+        result.x = (dx / distance) * overlap;
+        result.y = (dy / distance) * overlap;
+      }
+    }
+    return result;
+  }
+
+  SDL_FPoint PhysicsUtils::getCircleRectSnapOffset(const Circle& moving, const SDL_Rect& other) {
+    SDL_FPoint result{0.0f, 0.0f};
+    float closestX = std::clamp(static_cast<float>(moving.x), static_cast<float>(other.x), static_cast<float>(other.x + other.w));
+    float closestY = std::clamp(static_cast<float>(moving.y), static_cast<float>(other.y), static_cast<float>(other.y + other.h));
+    float dx = static_cast<float>(moving.x) - closestX;
+    float dy = static_cast<float>(moving.y) - closestY;
+    float distance = std::sqrt(dx * dx + dy * dy);
+    float overlap = static_cast<float>(moving.r) - distance;
+    if (overlap > 0.0f) {
+      if (distance == 0.0f) {
+        float leftDist = static_cast<float>(moving.x - other.x);
+        float rightDist = static_cast<float>(other.x + other.w - moving.x);
+        float topDist = static_cast<float>(moving.y - other.y);
+        float bottomDist = static_cast<float>(other.y + other.h - moving.y);
+        float minDist = std::min({leftDist, rightDist, topDist, bottomDist});
+        if (minDist == leftDist) {
+          result.x = -(static_cast<float>(moving.r) - leftDist);
+        } else if (minDist == rightDist) {
+          result.x = static_cast<float>(moving.r) - rightDist;
+        } else if (minDist == topDist) {
+          result.y = -(static_cast<float>(moving.r) - topDist);
+        } else {
+          result.y = static_cast<float>(moving.r) - bottomDist;
+        }
+      } else {
+        result.x = (dx / distance) * overlap;
+        result.y = (dy / distance) * overlap;
+      }
+    }
+    return result;
+  }
+
+  SDL_FPoint PhysicsUtils::getRectCircleSnapOffset(const SDL_Rect& moving, const Circle& other) {
+    SDL_FPoint offset = getCircleRectSnapOffset(other, moving);
+    offset.x = -offset.x;
+    offset.y = -offset.y;
+    return offset;
   }
 }

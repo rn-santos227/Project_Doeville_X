@@ -19,6 +19,10 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_LUA_LOG_FILE_PATH = "resources/logs/lua_logs.txt";
   constexpr const char* DEFAULT_SCRIPT_PATH = "scripts/";
   constexpr const char* DEFAULT_STATE_SCRIPT_FOLDER = "scripts/states/";
+  
+  constexpr const char* DEFAULT_ENTITY_NAME = "Default Entity";
+  constexpr const char* DEFAULT_LAYER_NAME = "Default Layer";
+  constexpr const char* DEFAULT_STATE = "Default State";
   constexpr const char* DEFAULT_TEXT = "Default Text";
 
   constexpr const char* EMPTY_STRING = "";

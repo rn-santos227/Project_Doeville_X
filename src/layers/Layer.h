@@ -24,14 +24,14 @@ namespace Project::Layers {
     bool isActive() const { return active; }
     void setActive(bool value) { active = value; }
 
-    std::shared_ptr<Project::Entities::EntitiesManager> getEntitiesManager() const { return manager; }
-    void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> mgr) { manager = std::move(mgr); }
+    std::shared_ptr<Project::Entities::EntitiesManager> getEntitiesManager() const { return entitiesManager; }
+    void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> mgr) { entitiesManager = std::move(mgr); }
 
     void update(float deltaTime) override;
     void render() override;
 
   private:
-    std::shared_ptr<Project::Entities::EntitiesManager> manager;
+    std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     LayerCategory category = LayerCategory::CUSTOM;
     std::string name;
     

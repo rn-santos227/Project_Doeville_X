@@ -36,6 +36,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* AXIS_Z_COLOR = "z_color";
 
   //Keys for lua entities and components
+  constexpr const char* ACCELERATION = "acceleration";
   constexpr const char* ACTIVE = "active";
   constexpr const char* ACTION = "action";
   constexpr const char* ACTIONS = "actions";
@@ -88,6 +89,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* TIME = "time";
   constexpr const char* TYPE = "type";
   constexpr const char* UPDATE = "update";
+  constexpr const char* USE_ACCELERATION = "use_acceleration";
   constexpr const char* VALUE = "value";
   constexpr const char* VISIBLE = "visible";
   constexpr const char* W = "w";

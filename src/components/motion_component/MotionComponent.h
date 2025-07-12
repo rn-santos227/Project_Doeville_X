@@ -19,13 +19,26 @@ namespace Project::Components {
     void render() override {}
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
-    void setSpeed(float newSpeed) { speed = newSpeed; }
-    float getSpeed() const { return speed; }
+    void setSpeed(float newSpeed) { maxSpeed = newSpeed; }
+    float getSpeed() const { return maxSpeed; }
+
+    void setAccelerationEnabled(bool enabled) { accelerationEnabled = enabled; }
+    bool isAccelerationEnabled() const { return accelerationEnabled; }
+    void setAcceleration(float a) { acceleration = a; }
+    float getAcceleration() const { return acceleration; }
+    float getCurrentSpeed() const;
 
   private:
     Project::Handlers::KeyHandler* keyHandler = nullptr;
     Project::Entities::Entity* owner = nullptr;
-    float speed;
+
+    float maxSpeed;
+    float acceleration = Project::Libraries::Constants::DEFAULT_ACCELERATION;
+    float velocityX = 0.0f;
+    float velocityY = 0.0f;
+
+    
+    bool accelerationEnabled = false;
   };
 }
 

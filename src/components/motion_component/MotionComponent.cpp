@@ -1,6 +1,8 @@
 #include "MotionComponent.h"
 #include "entities/Entity.h"
 
+#include <cmath>
+
 #include "components/keys_component/KeysComponent.h"
 
 namespace Project::Components {
@@ -9,7 +11,7 @@ namespace Project::Components {
   using Project::Entities::Entity;
 
   MotionComponent::MotionComponent(Project::Utilities::LogsManager& logsManager, KeyHandler* keyHandler, float speed)
-    : BaseComponent(logsManager), keyHandler(keyHandler), speed(speed) {}
+    : BaseComponent(logsManager), keyHandler(keyHandler), maxSpeed(speed) {}
 
   void MotionComponent::update(float deltaTime) {
     if (!owner) return;
@@ -23,21 +25,45 @@ namespace Project::Components {
     }
 
     if (!keys) return;
-
     float dx = 0.0f;
     float dy = 0.0f;
 
-    if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
-      dx -= speed * deltaTime;
-    }
-    if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
-      dx += speed * deltaTime;
-    }
-    if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
-      dy -= speed * deltaTime;
-    }
-    if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
-      dy += speed * deltaTime;
+    if (accelerationEnabled) {
+      if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
+        velocityX -= acceleration * deltaTime;
+        if (velocityX < -maxSpeed) velocityX = -maxSpeed;
+      } else if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
+        velocityX += acceleration * deltaTime;
+        if (velocityX > maxSpeed) velocityX = maxSpeed;
+      } else {
+        velocityX = 0.0f;
+      }
+
+      if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
+        velocityY -= acceleration * deltaTime;
+        if (velocityY < -maxSpeed) velocityY = -maxSpeed;
+      } else if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
+        velocityY += acceleration * deltaTime;
+        if (velocityY > maxSpeed) velocityY = maxSpeed;
+      } else {
+        velocityY = 0.0f;
+      }
+
+      dx = velocityX * deltaTime;
+      dy = velocityY * deltaTime;
+    } else {
+      if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
+        dx -= maxSpeed * deltaTime;
+      }
+      if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
+        dx += maxSpeed * deltaTime;
+      }
+      if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
+        dy -= maxSpeed * deltaTime;
+      }
+      if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
+        dy += maxSpeed * deltaTime;
+      }
     }
 
     if (dx != 0.0f || dy != 0.0f) {
@@ -53,5 +79,9 @@ namespace Project::Components {
         }
       }
     }
+  }
+
+  float MotionComponent::getCurrentSpeed() const {
+    return std::sqrt(velocityX * velocityX + velocityY * velocityY);
   }
 }

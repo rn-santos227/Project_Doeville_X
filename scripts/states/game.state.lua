@@ -3,7 +3,7 @@ stateCategory = "STATIC_GAME_STATE"
 
 function initialize()
   print("Initializing GameState")
-  setBackgroundColor(34, 45, 50, 255)
+  setBackgroundColor(50, 45, 34, 255)
   spawnEntity("player")
 
   math.randomseed(os.time())

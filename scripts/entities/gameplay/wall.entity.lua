@@ -2,7 +2,7 @@ x = 400
 y = 360
 z = 0
 
-group = "gamplay"
+group = "gameplay"
 
 components = {
   BoundingBoxComponent = {
@@ -13,7 +13,7 @@ components = {
       { x = 0, y = 0, w = 64, h = 32 }
     },
     restitution = 0.0,
-    friction = 0.2
+    friction = 0.0
   },
 
   GraphicsComponent = {

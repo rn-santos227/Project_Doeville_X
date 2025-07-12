@@ -2,7 +2,7 @@ x = 0
 y = 0
 z = 0
 
-group = "gamplay"
+group = "gameplay"
 
 components = {
   BoundingBoxComponent = {

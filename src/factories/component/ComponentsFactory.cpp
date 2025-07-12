@@ -193,6 +193,14 @@ namespace Project::Factories {
     float speed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPEED, Constants::DEFAULT_MOTION_SPEED));
     auto motionComponent = std::make_unique<Components::MotionComponent>(logsManager, keyHandler, speed);
 
+    float accel = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ACCELERATION, Constants::DEFAULT_ACCELERATION));
+    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
+    bool useAccel = luaStateWrapper.getTableBoolean(tableName, Keys::USE_ACCELERATION, false);
+
+    motionComponent->setAcceleration(accel);
+    motionComponent->setAccelerationEnabled(useAccel);
+    motionComponent->setFriction(fric);
+
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
     motionComponent->setActive(active);
     return motionComponent;

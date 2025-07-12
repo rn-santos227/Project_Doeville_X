@@ -3,11 +3,12 @@
 
 #include "Entity.h"
 
+#include <lua.hpp>
+#include <memory>
+#include <mutex>
+#include <string>
 #include <unordered_map>
 #include <vector>
-#include <memory>
-#include <string>
-#include <mutex>
 
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "interfaces/render_interface/Renderable.h"
@@ -23,6 +24,7 @@ namespace Project::Entities {
       void removeEntity(const std::string& id);
 
       bool hasEntity(const std::string& id);
+      std::shared_ptr<Entity> getEntity(const std::string& id);
 
       void unloadSceneEntities();
       void optimizeEntities();
@@ -31,6 +33,11 @@ namespace Project::Entities {
       void update(float deltaTime);
       void render();
       void reset();
+
+      void registerEntityLuaFunctions(Entity* entity);
+      
+      static int lua_getEntitySpeed(lua_State* L);
+      static int lua_setEntityText(lua_State* L);
 
     private:
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;

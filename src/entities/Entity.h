@@ -4,6 +4,7 @@
 #include "EntityCategory.h"
 
 #include <functional>
+#include <lua.hpp>
 #include <memory>
 #include <string>
 #include <type_traits>
@@ -17,6 +18,7 @@
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Project::Entities {
+  class EntitiesManager;
   class Entity : public Project::Utilities::LuaScriptable, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
   public:
     explicit Entity(EntityCategory entityCategory, 
@@ -33,6 +35,17 @@ namespace Project::Entities {
     const EntityCategory& getEntityCategory() const { return entityCategory; }
     const std::string& getEntityName() const { return entityName; }
     void setEntityName(const std::string& name) { entityName = name; }
+
+    void setEntitiesManager(Project::Entities::EntitiesManager* manager) { entitiesManager = manager; }
+    Project::Entities::EntitiesManager* getEntitiesManager() const { return entitiesManager; }
+
+    void registerLuaFunction(const std::string& name, lua_CFunction function) {
+      luaStateWrapper.registerFunction(name, function);
+    }
+
+    void registerLuaFunction(const std::string& name, lua_CFunction function, void* data) {
+      luaStateWrapper.registerFunction(name, function, data);
+    }
 
     void initialize();
     void update(float deltaTime);
@@ -63,6 +76,8 @@ namespace Project::Entities {
 
     std::unordered_map<std::string, std::unique_ptr<Project::Components::BaseComponent>> components;
     std::string entityName;
+
+    Project::Entities::EntitiesManager* entitiesManager = nullptr;
 
     float x = 0.0f;
     float y = 0.0f;

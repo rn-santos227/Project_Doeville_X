@@ -36,7 +36,13 @@ namespace Project::Components {
         velocityX += acceleration * deltaTime;
         if (velocityX > maxSpeed) velocityX = maxSpeed;
       } else {
-        velocityX = 0.0f;
+        if (velocityX > 0.0f) {
+          velocityX -= friction * deltaTime;
+          if (velocityX < 0.0f) velocityX = 0.0f;
+        } else if (velocityX < 0.0f) {
+          velocityX += friction * deltaTime;
+          if (velocityX > 0.0f) velocityX = 0.0f;
+        }
       }
 
       if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
@@ -46,7 +52,13 @@ namespace Project::Components {
         velocityY += acceleration * deltaTime;
         if (velocityY > maxSpeed) velocityY = maxSpeed;
       } else {
-        velocityY = 0.0f;
+        if (velocityY > 0.0f) {
+          velocityY -= friction * deltaTime;
+          if (velocityY < 0.0f) velocityY = 0.0f;
+        } else if (velocityY < 0.0f) {
+          velocityY += friction * deltaTime;
+          if (velocityY > 0.0f) velocityY = 0.0f;
+        }
       }
 
       dx = velocityX * deltaTime;

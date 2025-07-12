@@ -1,5 +1,5 @@
-x = 50
-y = 50
+x = 15
+y = 15
 z = 0
 
 components = {
@@ -13,6 +13,13 @@ components = {
   }
 }
 
+function update(deltaTime)
+  local speed = getEntitySpeed("player")
+  if speed then
+    setEntityText("sample_text", string.format("Speed: %.2f", speed))
+  end
+end
+
 return {
-  name = "sample_text"
+  name = "speed_text"
 }

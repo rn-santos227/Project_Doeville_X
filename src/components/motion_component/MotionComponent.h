@@ -22,10 +22,15 @@ namespace Project::Components {
     void setSpeed(float newSpeed) { maxSpeed = newSpeed; }
     float getSpeed() const { return maxSpeed; }
 
-    void setAccelerationEnabled(bool enabled) { accelerationEnabled = enabled; }
-    bool isAccelerationEnabled() const { return accelerationEnabled; }
     void setAcceleration(float a) { acceleration = a; }
     float getAcceleration() const { return acceleration; }
+    
+    void setFriction(float f) { friction = f; }
+    float getFriction() const { return friction; }
+    
+    void setAccelerationEnabled(bool enabled) { accelerationEnabled = enabled; }
+    bool isAccelerationEnabled() const { return accelerationEnabled; }
+    
     float getCurrentSpeed() const;
 
   private:
@@ -34,10 +39,10 @@ namespace Project::Components {
 
     float maxSpeed;
     float acceleration = Project::Libraries::Constants::DEFAULT_ACCELERATION;
+    float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
     float velocityX = 0.0f;
     float velocityY = 0.0f;
 
-    
     bool accelerationEnabled = false;
   };
 }

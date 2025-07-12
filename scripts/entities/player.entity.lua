@@ -39,7 +39,10 @@ components = {
   MotionComponent = {
     component = "MotionComponent",
     active = true,
-    speed = 100.0
+    speed = 100.0,
+    acceleration = 50.0,
+    friction = 20.0,
+    use_acceleration = true
   },
 }
 

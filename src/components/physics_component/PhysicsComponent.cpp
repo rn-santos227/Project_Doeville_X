@@ -28,5 +28,19 @@ namespace Project::Components {
         if (velocityY > 0.0f) velocityY = 0.0f;
       }
     }
+
+    if (owner) {
+      float newX = owner->getX() + velocityX * deltaTime;
+      float newY = owner->getY() + velocityY * deltaTime;
+      owner->setPosition(newX, newY);
+
+      for (const std::string& name : owner->listComponentNames()) {
+        if (auto* comp = owner->getComponent(name)) {
+          if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
+            pos->setEntityPosition(static_cast<int>(newX), static_cast<int>(newY));
+          }
+        }
+      }
+    }
   }
 }

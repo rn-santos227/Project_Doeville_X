@@ -1,11 +1,28 @@
 #include "PhysicsUtils.h"
 
+#include <algorithm>
 #include <cmath>
 
 namespace Project::Utilities {
   bool PhysicsUtils::checkCollision(const SDL_Rect& a, const SDL_Rect& b) {
     SDL_Rect intersection;
     return SDL_IntersectRect(&a, &b, &intersection);
+  }
+
+  bool PhysicsUtils::checkCollision(const Project::Utilities::Circle& a, const Project::Utilities::Circle& b) {
+    float distX = static_cast<float>(a.x - b.x);
+    float distY = static_cast<float>(a.y - b.y);
+    float distSq = distX * distX + distY * distY;
+    int radiusSum = a.r + b.r;
+    return distSq <= static_cast<float>(radiusSum * radiusSum);
+  }
+
+  bool PhysicsUtils::checkCollision(const SDL_Rect& rect, const Project::Utilities::Circle& c) {
+    int closestX = std::clamp(c.x, rect.x, rect.x + rect.w);
+    int closestY = std::clamp(c.y, rect.y, rect.y + rect.h);
+    int dx = c.x - closestX;
+    int dy = c.y - closestY;
+    return (dx * dx + dy * dy) <= (c.r * c.r);
   }
 
   float PhysicsUtils::calculateDistance(float x1, float y1, float x2, float y2) {

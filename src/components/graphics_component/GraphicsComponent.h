@@ -25,6 +25,7 @@ namespace Project::Components  {
 
     bool setTexture(Project::Handlers::ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setShape(int width, int height, SDL_Color color);
+    void setCircle(int radius, SDL_Color color);
     void setPosition(int x, int y, int width, int height);
     void setEntityPosition(int x, int y) override;
 
@@ -43,6 +44,8 @@ namespace Project::Components  {
     SDL_Color shapeColor = Project::Libraries::Constants::DEFAULT_SHAPE_COLOR;
     SDL_Rect destRect{0, 0, 0, 0};
 
+    int radius = 0;    
+    bool isCircle = false;
     bool drawShape = false;
 
     std::future<SDL_Texture*> textureFuture;

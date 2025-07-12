@@ -62,8 +62,20 @@ namespace Project::Components {
       SDL_RenderCopy(renderer, textureToRender, nullptr, &destRect);
     } else if (drawShape) {
       SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
-      SDL_RenderFillRect(renderer, &destRect);
-    }  
+      if (isCircle) {
+        for (int w = 0; w < radius * 2; ++w) {
+          for (int h = 0; h < radius * 2; ++h) {
+            int dx = radius - w;
+            int dy = radius - h;
+            if ((dx * dx + dy * dy) <= (radius * radius)) {
+              SDL_RenderDrawPoint(renderer, destRect.x + dx + radius, destRect.y + dy + radius);
+            }
+          }
+        }
+      } else {
+        SDL_RenderFillRect(renderer, &destRect);
+      }
+    }
   }
 
   bool GraphicsComponent::setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath) {
@@ -83,6 +95,20 @@ namespace Project::Components {
     destRect.h = height;
     shapeColor = color;
     drawShape = true;
+    isCircle = false;
+    radius = 0;
+  }
+
+  void GraphicsComponent::setCircle(int r, SDL_Color color) {
+    destroyTexture();
+    textureFuture = std::future<SDL_Texture*>();
+    pendingTexturePath.clear();
+    destRect.w = r * 2;
+    destRect.h = r * 2;
+    shapeColor = color;
+    drawShape = true;
+    isCircle = true;
+    radius = r;
   }
 
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {

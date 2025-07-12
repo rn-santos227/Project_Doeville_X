@@ -73,7 +73,7 @@ namespace Project::Factories {
         lua_pushnil(L);
         while (lua_next(L, -2)) {
           if (lua_istable(L, -1)) {
-            int x = 0, y = 0, w = 0, h = 0;
+            int x = 0, y = 0, w = 0, h = 0, r = 0;
             lua_getfield(L, -1, Keys::X);
             if (lua_isnumber(L, -1)) x = static_cast<int>(lua_tonumber(L, -1));
             lua_pop(L, 1);
@@ -86,8 +86,15 @@ namespace Project::Factories {
             lua_getfield(L, -1, Keys::H);
             if (lua_isnumber(L, -1)) h = static_cast<int>(lua_tonumber(L, -1));
             lua_pop(L, 1);
-            SDL_Rect rect{x, y, w, h};
-            boxComponent->addBox(rect);
+            lua_getfield(L, -1, Keys::RADIUS);
+            if (lua_isnumber(L, -1)) r = static_cast<int>(lua_tonumber(L, -1));
+            lua_pop(L, 1);
+            if (r > 0) {
+              boxComponent->addCircle(x, y, r);
+            } else {
+              SDL_Rect rect{x, y, w, h};
+              boxComponent->addBox(rect);
+            }
           }
           lua_pop(L, 1);
         }
@@ -121,12 +128,17 @@ namespace Project::Factories {
     if (!imagePath.empty()) {
       graphicsComponent->setTexture(resourcesHandler, imagePath);
     } else {
-      int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
-      int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
+      int radius = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::RADIUS, 0));
       std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
       Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
       SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
-      graphicsComponent->setShape(width, height, color);
+      if (radius > 0) {
+        graphicsComponent->setCircle(radius, color);
+      } else {
+        int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
+        int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
+        graphicsComponent->setShape(width, height, color);
+      }
     }
 
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
@@ -225,7 +237,7 @@ namespace Project::Factories {
 
     float force = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FORCE, Constants::DEFAULT_PUSH_FORCE));
     physics->setPushForce(force);
-    
+
     float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
     physics->setFriction(fric);
     

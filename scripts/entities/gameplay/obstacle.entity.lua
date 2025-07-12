@@ -10,7 +10,7 @@ components = {
     active = true,
     solid = true,
     boxes = {
-      { x = 0, y = 0, w = 32, h = 32 }
+      { x = 16, y = 16, radius = 16 }
     },
     restitution = 0.0,
     friction = 0.2
@@ -19,8 +19,7 @@ components = {
   GraphicsComponent = {
     component = "GraphicsComponent",
     active = true,
-    width = 32,
-    height = 32,
+    radius = 16,
     color_hex = "808080",
     color_alpha = 255
   },

@@ -86,19 +86,68 @@ namespace Project::Components {
                   }
                 }
 
-                if (otherPhysics) {
-                  velocityX = 0.0f;
-                  velocityY = 0.0f;
-                } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                }
+                velocityX = -velocityX * bounce;
+                velocityY = -velocityY * bounce;
+                velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                velocityY *= (Constants::DEFAULT_WHOLE - fric);
                 return;
               }
             }
           }
+
+          for (const auto& c1 : myBox->getCircles()) {
+            for (const auto& c2 : otherBox->getCircles()) {
+              if (Project::Utilities::PhysicsUtils::checkCollision(c1, c2)) {
+                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
+                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
+
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+
+                float snapX = oldX;
+                float snapY = oldY;
+                owner->setPosition(snapX, snapY);
+                for (const std::string& n : owner->listComponentNames()) {
+                  if (auto* c = owner->getComponent(n)) {
+                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
+                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
+                    }
+                  }
+                }
+
+                velocityX = -velocityX * bounce;
+                velocityY = -velocityY * bounce;
+                velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                return;
+              }
+            }
+
+            for (const auto& r2 : otherBox->getBoxes()) {
+              if (Project::Utilities::PhysicsUtils::checkCollision(r2, c1)) {
+                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
+                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
+
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+
+                float snapX = oldX;
+                float snapY = oldY;
+                owner->setPosition(snapX, snapY);
+                for (const std::string& n : owner->listComponentNames()) {
+                  if (auto* c = owner->getComponent(n)) {
+                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
+                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
+                    }
+                  }
+                }
+
+                velocityX = -velocityX * bounce;
+                velocityY = -velocityY * bounce;
+                velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                return;
+              }
+            }
+          }        
         }
       }
     }

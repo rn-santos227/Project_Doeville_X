@@ -10,16 +10,10 @@ namespace Project::Handlers {
 
   KeyHandler::KeyHandler(LogsManager& logsManager, SDLManager& sdlManager)
     : logsManager(logsManager), sdlManager(sdlManager) {
-    keyBindings[KeyAction::MOVE_UP] = Project::Libraries::Constants::KEY_MOVE_UP;
-    keyBindings[KeyAction::MOVE_DOWN] = Project::Libraries::Constants::KEY_MOVE_DOWN;
-    keyBindings[KeyAction::MOVE_LEFT] = Project::Libraries::Constants::KEY_MOVE_LEFT;
-    keyBindings[KeyAction::MOVE_RIGHT] = Project::Libraries::Constants::KEY_MOVE_RIGHT;
-    keyBindings[KeyAction::ESCAPE] = Project::Libraries::Constants::KEY_ESCAPE;
-    keyBindings[KeyAction::ENTER] = Project::Libraries::Constants::KEY_ENTER;
-    keyBindings[KeyAction::ACTION_1] = Project::Libraries::Constants::KEY_ACTION_1;
-    keyBindings[KeyAction::ACTION_2] = Project::Libraries::Constants::KEY_ACTION_2;
-    keyBindings[KeyAction::ACTION_3] = Project::Libraries::Constants::KEY_ACTION_3;
-    keyBindings[KeyAction::ACTION_4] = Project::Libraries::Constants::KEY_ACTION_4;
+    for (int i = static_cast<int>(KeyAction::NONE);
+         i <= static_cast<int>(KeyAction::IMMEDIATE_EXIT); ++i) {
+      keyBindings[static_cast<KeyAction>(i)] = SDL_SCANCODE_UNKNOWN;
+    }
 
     bindFunctionKeys();
     isFrozen = false;

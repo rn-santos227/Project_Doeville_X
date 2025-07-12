@@ -25,10 +25,14 @@ components = {
     component = "KeysComponent",
     active = true,
     keys = {
-      { key = "w", action = "move_up" },
-      { key = "a", action = "move_left" },
-      { key = "s", action = "move_down" },
-      { key = "d", action = "move_right" }
+      { key = "up", action = "move_up" },
+      { key = "left", action = "move_left" },
+      { key = "down", action = "move_down" },
+      { key = "right", action = "move_right" },
+      { key = "z", action = "action_1" },
+    },
+    bindings = {
+      action_1 = "action_1"
     }
   },
   
@@ -38,6 +42,10 @@ components = {
     speed = 100.0
   },
 }
+
+function action_1()
+  print("Action 1 placeholder")
+end
 
 return {
   name = "player"

@@ -219,12 +219,19 @@ namespace Project::Factories {
 
   std::unique_ptr<BaseComponent> ComponentsFactory::createPhysicsComponent(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     auto physics = std::make_unique<Components::PhysicsComponent>(logsManager);
-    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
-    float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
-    physics->setFriction(fric);
-    physics->setRestitution(rest);
+    
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
     physics->setActive(active);
+
+    float force = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FORCE, Constants::DEFAULT_PUSH_FORCE));
+    physics->setPushForce(force);
+    
+    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
+    physics->setFriction(fric);
+    
+    float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
+    physics->setRestitution(rest);
+
     return physics;
   }
 
@@ -251,7 +258,7 @@ namespace Project::Factories {
     textComponent->setActive(active);
     return textComponent;
   }
-  
+
   // Utilities Section
   Uint8 ComponentsFactory::getLuaColorChannel(LuaStateWrapper& luaStateWrapper, const std::string& globalName, Uint8 defaultValue) {
     return static_cast<Uint8>(luaStateWrapper.getGlobalNumber(globalName, static_cast<float>(defaultValue)));

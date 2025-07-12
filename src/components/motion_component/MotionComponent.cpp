@@ -112,8 +112,8 @@ namespace Project::Components {
           for (const auto& a : myBox->getBoxes()) {
             for (const auto& b : otherBox->getBoxes()) {
               if (Project::Utilities::PhysicsUtils::checkCollision(a, b)) {
-                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / 2.0f;
-                float fric = (myBox->getFriction() + otherBox->getFriction()) / 2.0f;
+                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
+                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
                 owner->setPosition(oldX, oldY);
                 for (const std::string& n : owner->listComponentNames()) {
                   if (auto* c = owner->getComponent(n)) {
@@ -124,8 +124,8 @@ namespace Project::Components {
                 }
                 localVelX = -localVelX * bounce;
                 localVelY = -localVelY * bounce;
-                localVelX *= (1.0f - fric);
-                localVelY *= (1.0f - fric);
+                localVelX *= (Constants::DEFAULT_WHOLE - fric);
+                localVelY *= (Constants::DEFAULT_WHOLE - fric);
                 return;
               }
             }

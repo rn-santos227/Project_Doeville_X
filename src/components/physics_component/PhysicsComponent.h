@@ -34,7 +34,12 @@ namespace Project::Components {
 
     void setRestitution(float r) { restitution = r; }
     float getRestitution() const { return restitution; }
-    
+
+    void setPushForce(float f) { pushForce = f; }
+    float getPushForce() const { return pushForce; }
+
+    void applyForce(float fx, float fy) { velocityX += fx; velocityY += fy; }
+
   private:
     Project::Entities::Entity* owner = nullptr;
     
@@ -43,6 +48,7 @@ namespace Project::Components {
     float accelerationX = 0.0f;
     float accelerationY = 0.0f;
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
+    float pushForce = Project::Libraries::Constants::DEFAULT_PUSH_FORCE;
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
   };
 }

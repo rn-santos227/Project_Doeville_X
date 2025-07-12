@@ -13,6 +13,8 @@ namespace Project::States {
   using Project::Entities::Entity;
   using Project::Handlers::ResourcesHandler;
 
+  namespace Keys = Project::Libraries::Keys;
+
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
   : LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {}
 
@@ -180,6 +182,13 @@ namespace Project::States {
       return 0;
     }
 
+    bool hasX = lua_gettop(L) >= 2 && lua_isnumber(L, 2);
+    bool hasY = lua_gettop(L) >= 3 && lua_isnumber(L, 3);
+    float posX = 0.0f;
+    float posY = 0.0f;
+    if (hasX) posX = static_cast<float>(lua_tonumber(L, 2));
+    if (hasY) posY = static_cast<float>(lua_tonumber(L, 3));
+
     if (!state->entitiesFactory) {
       luaL_error(L, "EntitiesFactory not set for this state.");
       return 0;
@@ -195,6 +204,9 @@ namespace Project::States {
       luaL_error(L, ("Failed to clone entity: " + std::string(name)).c_str());
       return 0;
     }
+
+    if (hasX) entity->getLuaStateWrapper().setGlobalNumber(Keys::X, posX);
+    if (hasY) entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, posY);
 
     entity->initialize();
     std::shared_ptr<Entity> shared = std::move(entity);

@@ -18,7 +18,14 @@ namespace Project::Entities {
     if (!entity) return;
     entity->setEntitiesManager(this);
     registerEntityLuaFunctions(entity.get());
-    add(id, std::move(entity));
+    
+    std::string finalId = id;
+    if (objects.find(finalId) != objects.end()) {
+      int& counter = idCounters[id];
+      finalId = id + "_" + std::to_string(counter++);
+    }
+    
+    add(finalId, std::move(entity));
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
@@ -74,6 +81,7 @@ namespace Project::Entities {
     std::lock_guard<std::mutex> lock(managerMutex);
     objects.clear();
     initialized = false;
+    idCounters.clear();
   }
 
   void EntitiesManager::registerEntityLuaFunctions(Entity* entity) {

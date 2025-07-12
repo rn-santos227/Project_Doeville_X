@@ -30,8 +30,10 @@ namespace Project::Components {
     }
 
     if (owner) {
-      float newX = owner->getX() + velocityX * deltaTime;
-      float newY = owner->getY() + velocityY * deltaTime;
+      float oldX = owner->getX();
+      float oldY = owner->getY();
+      float newX = oldX + velocityX * deltaTime;
+      float newY = oldY + velocityY * deltaTime;
       owner->setPosition(newX, newY);
 
       for (const std::string& name : owner->listComponentNames()) {

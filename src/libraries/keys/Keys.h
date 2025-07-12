@@ -57,6 +57,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* FONT_COLOR_ALPHA = "font_color_alpha";
   constexpr const char* FONT_SIZE = "font_size";
   constexpr const char* FONT_PATH = "font_path";
+  constexpr const char* FORCE = "force";
   constexpr const char* FRICTION = "friction";
   constexpr const char* FUNCTION = "function";
   constexpr const char* GLOBAL = "global";

@@ -42,6 +42,8 @@ namespace Project::Entities {
 
     private:
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
+      std::unordered_map<std::string, int> idCounters;
+      
       bool initialized = false;
   };
 }

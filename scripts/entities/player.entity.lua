@@ -6,7 +6,7 @@ components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
     active = true,
-    solid = false,
+    solid = true,
     boxes = {
       { x = 0, y = 0, w = 32, h = 32 }
     }
@@ -40,7 +40,8 @@ components = {
     component = "PhysicsComponent",
     active = true,
     friction = 0.2,
-    restitution = 0.5
+    restitution = 0.5,
+    force = 1.0
   },
   
   MotionComponent = {

@@ -6,7 +6,7 @@ components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
     active = true,
-    solid = false,
+    solid = true,
     boxes = {
       { x = 0, y = 0, w = 32, h = 32 }
     }

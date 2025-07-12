@@ -32,13 +32,22 @@ namespace Project::Components {
     void setFriction(float f) { friction = f; }
     float getFriction() const { return friction; }
 
-    void setRestitution(float r) { restitution = r; }
-    float getRestitution() const { return restitution; }
-
     void setPushForce(float f) { pushForce = f; }
     float getPushForce() const { return pushForce; }
 
-    void applyForce(float fx, float fy) { velocityX += fx; velocityY += fy; }
+    void setDensity(float d) { density = d; }
+    float getDensity() const { return density; }
+
+    void setRestitution(float r) { restitution = r; }
+    float getRestitution() const { return restitution; }
+
+    void setWeight(float w) { weight = w; }
+    float getWeight() const { return weight; }
+
+    void applyForce(float fx, float fy) {
+      accelerationX += fx / weight;
+      accelerationY += fy / weight;
+    }
 
   private:
     Project::Entities::Entity* owner = nullptr;
@@ -48,8 +57,10 @@ namespace Project::Components {
     float accelerationX = 0.0f;
     float accelerationY = 0.0f;
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
+    float density = Project::Libraries::Constants::DEFAULT_DENSITY;
     float pushForce = Project::Libraries::Constants::DEFAULT_PUSH_FORCE;
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
+    float weight = Project::Libraries::Constants::DEFAULT_WEIGHT;
   };
 }
 

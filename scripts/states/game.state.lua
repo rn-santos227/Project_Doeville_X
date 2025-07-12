@@ -5,7 +5,7 @@ function initialize()
   print("Initializing GameState")
   setBackgroundColor(34, 45, 50, 255)
   spawnEntity("player")
-  
+
   math.randomseed(os.time())
   for i = 1, 5 do
     local x = math.random(0, 768)
@@ -13,6 +13,7 @@ function initialize()
     spawnEntity("obstacle", x, y)
   end
 
+  spawnEntity("wall")
   spawnEntity("speed_text")
 end
 

@@ -52,6 +52,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* COMPONENTS = "components";
   constexpr const char* DEFAULT = "default";
   constexpr const char* DELTA_TIME = "deltaTime";
+  constexpr const char* DENSITY = "density";
   constexpr const char* ENABLED = "enabled";
   constexpr const char* FONT_COLOR_HEX = "font_color_hex";
   constexpr const char* FONT_COLOR_ALPHA = "font_color_alpha";
@@ -95,6 +96,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* VALUE = "value";
   constexpr const char* VISIBLE = "visible";
   constexpr const char* W = "w";
+  constexpr const char* WEIGHT = "weight";
   constexpr const char* WIDTH = "width";
   constexpr const char* X = "x";
   constexpr const char* Y = "y";

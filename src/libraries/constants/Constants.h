@@ -64,6 +64,8 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_DAMPING = 0.1f;
   constexpr float DEFAULT_COLLISION_THRESHOLD = 0.1f;
   constexpr float DEFAULT_PUSH_FORCE = 1.0f;
+  constexpr float DEFAULT_WEIGHT = 1.0f;
+  constexpr float DEFAULT_DENSITY = 0.1f;
 
   // Math constants
   constexpr float DEFAULT_DENOMINATOR = 2.0f;

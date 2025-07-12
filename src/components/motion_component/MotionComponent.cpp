@@ -114,6 +114,14 @@ namespace Project::Components {
               if (Project::Utilities::PhysicsUtils::checkCollision(a, b)) {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
+
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                if (physics && physics->getPushForce() > 0.0f && otherPhysics) {
+                  float pushX = localVelX * physics->getPushForce();
+                  float pushY = localVelY * physics->getPushForce();
+                  otherPhysics->addVelocity(pushX, pushY);
+                }
+
                 owner->setPosition(oldX, oldY);
                 for (const std::string& n : owner->listComponentNames()) {
                   if (auto* c = owner->getComponent(n)) {
@@ -122,10 +130,16 @@ namespace Project::Components {
                     }
                   }
                 }
-                localVelX = -localVelX * bounce;
-                localVelY = -localVelY * bounce;
-                localVelX *= (Constants::DEFAULT_WHOLE - fric);
-                localVelY *= (Constants::DEFAULT_WHOLE - fric);
+
+                if (otherPhysics) {
+                  localVelX = 0.0f;
+                  localVelY = 0.0f;
+                } else {
+                  localVelX = -localVelX * bounce;
+                  localVelY = -localVelY * bounce;
+                  localVelX *= (Constants::DEFAULT_WHOLE - fric);
+                  localVelY *= (Constants::DEFAULT_WHOLE - fric);
+                }
                 return;
               }
             }

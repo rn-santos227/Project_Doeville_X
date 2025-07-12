@@ -5,11 +5,15 @@
 
 namespace Project::Components {
   PhysicsComponent::PhysicsComponent(Project::Utilities::LogsManager& logsManager)
-    : BaseComponent(logsManager) {}
+    : BaseComponent(logsManager),
+     weight(Project::Libraries::Constants::DEFAULT_WEIGHT),
+     density(Project::Libraries::Constants::DEFAULT_DENSITY) {}
 
   void PhysicsComponent::update(float deltaTime) {
     velocityX += accelerationX * deltaTime;
     velocityY += accelerationY * deltaTime;
+    accelerationX = 0.0f;
+    accelerationY = 0.0f;
 
     if (friction > 0.0f) {
       float decel = friction * deltaTime;
@@ -27,6 +31,13 @@ namespace Project::Components {
         velocityY += decel;
         if (velocityY > 0.0f) velocityY = 0.0f;
       }
+    }
+
+    if (density > 0.0f) {
+      float factor = Constants::DEFAULT_WHOLE - density * deltaTime;
+      if (factor < 0.0f) factor = 0.0f;
+      velocityX *= factor;
+      velocityY *= factor;
     }
 
     if (owner) {

@@ -100,6 +100,12 @@ namespace Project::Factories {
     bool solid = luaStateWrapper.getTableBoolean(tableName, Keys::SOLID, false);
     boxComponent->setSolid(solid);
 
+    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
+    boxComponent->setFriction(fric);
+    
+    float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
+    boxComponent->setRestitution(rest);
+
     return boxComponent;
  }
 
@@ -193,14 +199,15 @@ namespace Project::Factories {
     float speed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPEED, Constants::DEFAULT_MOTION_SPEED));
     auto motionComponent = std::make_unique<Components::MotionComponent>(logsManager, keyHandler, speed);
 
-    float accel = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ACCELERATION, Constants::DEFAULT_ACCELERATION));
-    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
     bool useAccel = luaStateWrapper.getTableBoolean(tableName, Keys::USE_ACCELERATION, false);
-
-    motionComponent->setAcceleration(accel);
     motionComponent->setAccelerationEnabled(useAccel);
-    motionComponent->setFriction(fric);
 
+    float accel = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ACCELERATION, Constants::DEFAULT_ACCELERATION));
+    motionComponent->setAcceleration(accel);
+    
+    float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
+    motionComponent->setFriction(fric);
+    
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
     motionComponent->setActive(active);
     return motionComponent;

@@ -5,6 +5,7 @@ function initialize()
   print("Initializing GameState")
   setBackgroundColor(34, 45, 50, 255)
   spawnEntity("player")
+  spawnEntity("obstacle")
   spawnEntity("speed_text")
 end
 

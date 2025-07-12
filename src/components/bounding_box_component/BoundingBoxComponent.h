@@ -24,6 +24,12 @@ namespace Project::Components {
     void setSolid(bool solidEnabled);
     bool isSolid() const;
 
+    void setFriction(float value) { friction = value; }
+    float getFriction() const { return friction; }
+    
+    void setRestitution(float value) { restitution = value; }
+    float getRestitution() const { return restitution; }
+
     void setEntityPosition(int x, int y) override;
 
   private:
@@ -35,10 +41,14 @@ namespace Project::Components {
 
     SDL_Color debugColor = Project::Libraries::Constants::DEFAULT_BOUNDING_BOX_COLOR;
 
+    float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
+    float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
+
     int entityX = 0;
     int entityY = 0;
+    
     bool solid = false;
-
+    
     void updateWorldBoxes();
   };
 }

@@ -16,7 +16,7 @@ components = {
 function update(deltaTime)
   local speed = getEntitySpeed("player")
   if speed then
-    setEntityText("sample_text", string.format("Speed: %.2f", speed))
+    setEntityText("speed_text", string.format("Speed: %.2f", speed))
   end
 end
 

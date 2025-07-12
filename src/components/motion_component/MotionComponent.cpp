@@ -1,7 +1,11 @@
 #include "MotionComponent.h"
-#include "entities/Entity.h"
 
 #include <cmath>
+
+#include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "entities/Entity.h"
+#include "entities/EntitiesManager.h"
+#include "utilities/physics/PhysicsUtils.h"
 
 #include "components/keys_component/KeysComponent.h"
 
@@ -79,14 +83,47 @@ namespace Project::Components {
     }
 
     if (dx != 0.0f || dy != 0.0f) {
-      float newX = owner->getX() + dx;
-      float newY = owner->getY() + dy;
+      float oldX = owner->getX();
+      float oldY = owner->getY();
+      float newX = oldX + dx;
+      float newY = oldY + dy;
       owner->setPosition(newX, newY);
 
       for (const std::string& name : owner->listComponentNames()) {
         if (auto* comp = owner->getComponent(name)) {
           if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
             pos->setEntityPosition(static_cast<int>(newX), static_cast<int>(newY));
+          }
+        }
+      }
+
+      auto* manager = owner->getEntitiesManager();
+      auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent("BoundingBoxComponent"));
+      if (manager && myBox && myBox->isSolid()) {
+        for (const auto& [id, entity] : manager->getAllEntities()) {
+          if (!entity || entity.get() == owner) continue;
+          auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent("BoundingBoxComponent"));
+          if (!otherBox || !otherBox->isSolid()) continue;
+          for (const auto& a : myBox->getBoxes()) {
+            for (const auto& b : otherBox->getBoxes()) {
+              if (Project::Utilities::PhysicsUtils::checkCollision(a, b)) {
+                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / 2.0f;
+                float fric = (myBox->getFriction() + otherBox->getFriction()) / 2.0f;
+                owner->setPosition(oldX, oldY);
+                for (const std::string& n : owner->listComponentNames()) {
+                  if (auto* c = owner->getComponent(n)) {
+                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
+                      pos->setEntityPosition(static_cast<int>(oldX), static_cast<int>(oldY));
+                    }
+                  }
+                }
+                velocityX = -velocityX * bounce;
+                velocityY = -velocityY * bounce;
+                velocityX *= (1.0f - fric);
+                velocityY *= (1.0f - fric);
+                return;
+              }
+            }
           }
         }
       }

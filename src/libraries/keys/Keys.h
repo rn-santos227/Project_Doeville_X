@@ -75,6 +75,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* RADIUS = "radius";
   constexpr const char* RECT = "rect";
   constexpr const char* RENDER = "render";
+  constexpr const char* RESTITUTION = "restitution";
   constexpr const char* ROTATION = "rotation";
   constexpr const char* SCALE = "scale";
   constexpr const char* SECONDS = "seconds";

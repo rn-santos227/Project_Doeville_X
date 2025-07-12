@@ -25,6 +25,7 @@ namespace Project::Entities {
 
       bool hasEntity(const std::string& id);
       std::shared_ptr<Entity> getEntity(const std::string& id);
+      const std::unordered_map<std::string, std::shared_ptr<Entity>>& getAllEntities() const { return objects; }
 
       void unloadSceneEntities();
       void optimizeEntities();

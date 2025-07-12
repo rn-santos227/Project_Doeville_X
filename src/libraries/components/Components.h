@@ -11,6 +11,14 @@ namespace Project::Libraries::Components {
   constexpr const char* MOTION = "motion";
   constexpr const char* PHYSICS = "physics";
   constexpr const char* TEXT = "text";
+
+  constexpr const char* CAMERA_COMPONENT = "CameraComponent";
+  constexpr const char* BOUNDING_BOX_COMPONENT = "BoundingBoxComponent";
+  constexpr const char* GRAPHICS_COMPONENT = "GraphicsComponent";
+  constexpr const char* KEYS_COMPONENT = "KeysComponent";
+  constexpr const char* MOTION_COMPONENT = "MotionComponent";
+  constexpr const char* PHYSICS_COMPONENT = "PhysicsComponent";
+  constexpr const char* TEXT_COMPONENT = "TextComponent";
 }
 
 #endif

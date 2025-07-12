@@ -7,6 +7,8 @@
 #include "components/physics_component/PhysicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
+#include "libraries/components/Components.h"
+#include "libraries/constants/Constants.h"
 #include "utilities/geometry/GeometryUtils.h"
 #include "utilities/physics/PhysicsUtils.h"
 
@@ -14,6 +16,9 @@ namespace Project::Components {
   using Project::Handlers::KeyAction;
   using Project::Handlers::KeyHandler;
   using Project::Entities::Entity;
+
+  namespace Components = Project::Libraries::Components;
+  namespace Constants = Project::Libraries::Constants;
 
   MotionComponent::MotionComponent(Project::Utilities::LogsManager& logsManager, KeyHandler* keyHandler, float speed)
     : BaseComponent(logsManager), keyHandler(keyHandler), maxSpeed(speed) {}
@@ -103,11 +108,11 @@ namespace Project::Components {
       }
 
       auto* manager = owner->getEntitiesManager();
-      auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent("BoundingBoxComponent"));
+      auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
       if (manager && myBox && myBox->isSolid()) {
         for (const auto& [id, entity] : manager->getAllEntities()) {
           if (!entity || entity.get() == owner) continue;
-          auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent("BoundingBoxComponent"));
+          auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
           if (!otherBox || !otherBox->isSolid()) continue;
           
           for (const auto& r1 : myBox->getBoxes()) {
@@ -116,7 +121,7 @@ namespace Project::Components {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
                 float pushX = 0.0f;
                 float pushY = 0.0f;
                 if (physics && physics->getPushForce() > 0.0f && otherPhysics) {
@@ -153,7 +158,7 @@ namespace Project::Components {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
                 float pushX = 0.0f;
                 float pushY = 0.0f;
                 if (physics && physics->getPushForce() > 0.0f && otherPhysics) {
@@ -191,7 +196,7 @@ namespace Project::Components {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
                 float pushX = 0.0f;
                 float pushY = 0.0f;
                 if (physics && physics->getPushForce() > 0.0f && otherPhysics) {
@@ -227,7 +232,7 @@ namespace Project::Components {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent("PhysicsComponent"));
+                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
                 float pushX = 0.0f;
                 float pushY = 0.0f;
                 if (physics && physics->getPushForce() > 0.0f && otherPhysics) {

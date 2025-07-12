@@ -12,6 +12,8 @@ namespace Project::Components {
     explicit PhysicsComponent(Project::Utilities::LogsManager& logsManager);
     ~PhysicsComponent() override = default;
 
+    void resolveCollisionWith(PhysicsComponent* other, float restitution);
+
     void update(float deltaTime) override;
     void render() override {}
 

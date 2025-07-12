@@ -1,9 +1,12 @@
 #ifndef BASE_COMPONENT_H
 #define BASE_COMPONENT_H
 
+#include "interfaces/render_interface/Renderable.h"
+#include "interfaces/update_interface/Updatable.h"
 #include "utilities/logs_manager/LogsManager.h"
+
 namespace Project::Components {
-  class BaseComponent {
+  class BaseComponent : public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
   public:
     explicit BaseComponent(Project::Utilities::LogsManager& logsManager) : logsManager(logsManager) {}
     virtual ~BaseComponent() = default;

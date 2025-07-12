@@ -11,11 +11,13 @@
 
 #include "entities/EntitiesManager.h"
 #include "interfaces/cleanup_interface/Cleanable.h"
+#include "interfaces/render_interface/Renderable.h"
+#include "interfaces/update_interface/Updatable.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::States {
-  class GameStateManager : public Project::Interfaces::Cleanable {
+  class GameStateManager : public Project::Interfaces::Cleanable, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
   public:
     GameStateManager(size_t cacheLimit, Project::Utilities::LogsManager& logsManager);
     ~GameStateManager() = default;

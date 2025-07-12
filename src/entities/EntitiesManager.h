@@ -10,9 +10,11 @@
 #include <mutex>
 
 #include "helpers/objects_manager/ObjectsManager.h"
+#include "interfaces/render_interface/Renderable.h"
+#include "interfaces/update_interface/Updatable.h"
 
 namespace Project::Entities {
-  class EntitiesManager : public Project::Helpers::ObjectsManager<Entity> {
+  class EntitiesManager : public Project::Helpers::ObjectsManager<Entity>, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
     public:
       EntitiesManager() = default;
       ~EntitiesManager() = default;

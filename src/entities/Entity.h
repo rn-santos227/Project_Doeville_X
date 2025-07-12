@@ -11,11 +11,13 @@
 #include <unordered_map>
 
 #include "components/BaseComponent.h"
+#include "interfaces/render_interface/Renderable.h"
+#include "interfaces/update_interface/Updatable.h"
 #include "factories/component/ComponentsFactory.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Project::Entities {
-  class Entity : public Project::Utilities::LuaScriptable {
+  class Entity : public Project::Utilities::LuaScriptable, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
   public:
     explicit Entity(EntityCategory entityCategory, 
       Project::Utilities::LogsManager& logsManager, 

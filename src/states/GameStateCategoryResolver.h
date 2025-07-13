@@ -2,6 +2,7 @@
 #define GAME_STATE_CATEGORY_RESOLVER_H
 
 #include "GameStateCategory.h"
+#include <string>
 
 namespace Project::States {
   class GameStateCategoryResolver {

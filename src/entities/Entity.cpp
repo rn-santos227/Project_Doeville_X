@@ -4,6 +4,7 @@
 #include "components/keys_component/KeysComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "components/transform_component/TransformComponent.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
@@ -106,6 +107,10 @@ namespace Project::Entities {
 
     if (auto* physics = dynamic_cast<Components::PhysicsComponent*>(component.get())) {
       physics->setEntityReference(this);
+    }
+
+    if (auto* transform = dynamic_cast<Components::TransformComponent*>(component.get())) {
+      transform->setEntityReference(this);
     }
 
     components[componentName] = std::move(component);

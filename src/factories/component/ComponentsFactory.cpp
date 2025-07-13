@@ -14,6 +14,7 @@ namespace Project::Factories {
   using Project::Components::MotionComponent;
   using Project::Components::PhysicsComponent;
   using Project::Components::TextComponent;
+  using Project::Components::TransformComponent;
   using Project::Handlers::ResourcesHandler;
   using Project::Utilities::ColorUtils;
   using Project::Utilities::ConfigReader;
@@ -69,6 +70,12 @@ namespace Project::Factories {
 
       case ComponentType::TEXT: {
         auto component = std::make_unique<TextComponent>(renderer, configReader, logsManager);
+        component->build(luaStateWrapper, tableName);
+        return component;
+      }
+
+      case ComponentType::TRANSFORM: {
+        auto component = std::make_unique<TransformComponent>(logsManager);
         component->build(luaStateWrapper, tableName);
         return component;
       }

@@ -68,6 +68,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* MOTION_COMPONENT = "MotionComponent";
     constexpr const char* PHYSICS_COMPONENT = "PhysicsComponent";
     constexpr const char* TEXT_COMPONENT = "TextComponent";
+    constexpr const char* TRANSFORM_COMPONENT = "TransformComponent";
   }
 
   namespace Layers {

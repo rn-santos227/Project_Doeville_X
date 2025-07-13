@@ -23,6 +23,8 @@ namespace Project::Factories {
       {std::string(Components::PHYSICS) + Components::SUFFIX, ComponentType::PHYSICS},
       {std::string(Components::TEXT), ComponentType::TEXT},
       {std::string(Components::TEXT) + Components::SUFFIX, ComponentType::TEXT},
+      {std::string(Components::TRANSFORM), ComponentType::TRANSFORM},
+      {std::string(Components::TRANSFORM) + Components::SUFFIX, ComponentType::TRANSFORM}
     };
 
     std::string key = name;

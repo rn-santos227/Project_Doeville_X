@@ -13,6 +13,9 @@
 namespace Project::Layers {
   class Layer : public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
   public:
+    explicit Layer(const std::string& name, LayerCategory category);
+
+    //overloading constructor
     explicit Layer(const std::string& name, LayerCategory category, std::shared_ptr<Project::Entities::EntitiesManager> entityManager);
     
     const std::string& getName() const { return name; }

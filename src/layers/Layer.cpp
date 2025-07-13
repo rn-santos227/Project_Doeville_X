@@ -5,8 +5,11 @@
 namespace Project::Layers {
   namespace Constants = Project::Libraries::Constants;
 
+  Layer::Layer(const std::string& name, LayerCategory category)
+    : Layer(name, category, std::make_shared<Project::Entities::EntitiesManager>()) {}
+
   Layer::Layer(const std::string& layerName,  LayerCategory category, std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager)
-  : name(name), category(category), visible(true), active(true), entitiesManager(std::move(entitiesManager)) {
+    : name(layerName), category(category), visible(true), active(true), entitiesManager(std::move(entitiesManager)) {
     switch (category) {
       case LayerCategory::HUD:
         followCamera = false;

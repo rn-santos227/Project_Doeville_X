@@ -9,6 +9,22 @@ namespace Project::Layers {
   namespace Layers = Project::Libraries::Categories::Layers;
   namespace Constants = Project::Libraries::Constants;
 
+  void LayersManager::update(float deltaTime) {
+    for (auto& layer : layers) {
+      if (layer.getEntitiesManager()) {
+        layer.getEntitiesManager()->update(deltaTime);
+      }
+    }
+  }
+
+  void LayersManager::render() {
+    for (auto& layer : layers) {
+      if (layer.getEntitiesManager()) {
+        layer.getEntitiesManager()->render();
+      }
+    }
+  }
+
   void LayersManager::addLayer(const std::string& name, LayerCategory category) {
     if (category == LayerCategory::CUSTOM) {
       layers.emplace_back(name, category);
@@ -21,7 +37,7 @@ namespace Project::Layers {
       if (it->getCategory() == LayerCategory::CUSTOM) continue;
       if (categoryOrder(it->getCategory()) > order) break;
     }
-    
+
     layers.emplace(it, name, category);
   }
 

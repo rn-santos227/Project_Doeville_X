@@ -29,6 +29,22 @@ namespace Project::Layers {
     }
   }
 
+  void LayersManager::addLayer(Layer layer) {
+    if (layer.getCategory() == LayerCategory::CUSTOM) {
+      layers.emplace_back(std::move(layer));
+      return;
+    }
+
+    int order = categoryOrder(layer.getCategory());
+    auto it = layers.begin();
+    for (; it != layers.end(); ++it) {
+      if (it->getCategory() == LayerCategory::CUSTOM) continue;
+      if (categoryOrder(it->getCategory()) > order) break;
+    }
+
+    layers.emplace(it, std::move(layer));
+  }
+
   void LayersManager::addLayer(const std::string& name, LayerCategory category) {
     if (category == LayerCategory::CUSTOM) {
       layers.emplace_back(name, category);

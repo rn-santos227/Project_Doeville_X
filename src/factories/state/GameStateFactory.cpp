@@ -4,6 +4,7 @@
 #include <string>
 
 #include "factories/layer/LayersFactory.h"
+#include "libraries/categories/Categories.h"
 #include "libraries/keys/Keys.h"
 #include "layers/LayersManager.h"
 #include "layers/LayerCategory.h"
@@ -16,11 +17,13 @@ namespace Project::Factories {
   using Project::States::GameStateCategoryResolver;
   using Project::States::GameStateManager;
   using Project::Factories::EntitiesFactory;
+  using Project::Factories::LayersFactory;
 
   namespace Keys = Project::Libraries::Keys;
+  namespace Layers = Project::Libraries::Categories::Layers;
 
-  GameStateFactory::GameStateFactory(LogsManager& logsManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory)
-  : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory) {}
+  GameStateFactory::GameStateFactory(LogsManager& logsManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory, LayersFactory& layersFactory)
+  : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory), layersFactory(layersFactory) {}
 
   bool GameStateFactory::createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath) {
     auto newState = std::make_unique<GameState>(renderer, logsManager, resourcesHandler);
@@ -58,6 +61,27 @@ namespace Project::Factories {
     newState->setGameStateManager(&gameStateManager);
 
     auto layersManager = std::make_unique<Project::Layers::LayersManager>();
+
+    lua_getglobal(L, Keys::LAYER_SCRIPTS);
+    if (lua_istable(L, -1)) {
+      size_t len = lua_rawlen(L, -1);
+      for (size_t i = 1; i <= len; ++i) {
+        lua_rawgeti(L, -1, i);
+        const char* path = lua_tostring(L, -1);
+        if (path) {
+          auto layer = layersFactory.cloneLayerFromPath(path);
+          if (layer) {
+            layersManager->addLayer(std::move(*layer));
+          }
+        }
+      }
+      lua_pop(L, 1);
+    } else {
+      layersManager->addLayer(std::string(Layers::BACKGROUND), Project::Layers::LayerCategory::BACKGROUND);
+      layersManager->addLayer(std::string(Layers::GAME), Project::Layers::LayerCategory::MIDGROUND);
+      layersManager->addLayer(std::string(Layers::HUD), Project::Layers::LayerCategory::HUD);
+    }
+    lua_pop(L, 1);
 
     gameStateManager.addState(stateName, std::move(newState));
     gameStateManager.pushState(stateName);

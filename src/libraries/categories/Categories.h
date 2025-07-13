@@ -78,6 +78,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* BACKGROUND = "background";
     constexpr const char* CINEMATIC = "cinematic";
     constexpr const char* CUSTOM = "custom";
+    constexpr const char* GAME = "game";
   }
 
   namespace Scripts {

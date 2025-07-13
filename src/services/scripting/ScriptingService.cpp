@@ -53,7 +53,7 @@ namespace Project::Services {
       componentsFactory(componentsFactory),
       entitiesFactory(logsManager, componentsFactory, gameStateManager),
       layersFactory(logsManager),
-      gameStateFactory(logsManager, resourcesHandler, gameStateManager, entitiesFactory) {
+      gameStateFactory(logsManager, resourcesHandler, gameStateManager, entitiesFactory, layersFactory) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       return;
     }

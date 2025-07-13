@@ -21,8 +21,9 @@ namespace Project::Layers {
     void update(float deltaTime) override;
     void render() override;
 
-    void addLayer(const std::string& name, LayerCategory category = LayerCategory::CUSTOM);
+    void addLayer(Layer layer);
     void addLayer(LayerCategory category);
+    void addLayer(const std::string& name, LayerCategory category = LayerCategory::CUSTOM);
     void removeLayer(const std::string& name);
 
     bool hasLayer(const std::string& name) const;

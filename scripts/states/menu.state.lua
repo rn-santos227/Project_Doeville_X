@@ -1,5 +1,5 @@
-stateName = "MainMenuState"
-stateCategory = "MAIN_MENU_STATE"
+state_name = "MainMenuState"
+state_category = "MAIN_MENU_STATE"
 
 function initialize()
   print("Initializing MainMenuState")

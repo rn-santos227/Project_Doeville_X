@@ -225,7 +225,13 @@ namespace Project::States {
         luaL_error(L, "Global EntitiesManager not set for this state.");
       }
     } else if (state->layersManager) {
-      auto mgr = state->layersManager->getFirstLayer();
+      std::shared_ptr<Project::Entities::EntitiesManager> mgr;
+      if (!targetLayer.empty()) {
+        mgr = state->layersManager->getLayer(targetLayer);
+      } else {
+        mgr = state->layersManager->getFirstLayer();
+      }
+      
       if (mgr) {
         mgr->addEntity(name, shared);
       } else {

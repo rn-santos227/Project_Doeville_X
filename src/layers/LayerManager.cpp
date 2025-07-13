@@ -10,18 +10,22 @@ namespace Project::Layers {
   namespace Constants = Project::Libraries::Constants;
 
   void LayersManager::update(float deltaTime) {
+    bool cinematicOnly = hasActiveCinematic();
     for (auto& layer : layers) {
-      if (layer.getEntitiesManager()) {
-        layer.getEntitiesManager()->update(deltaTime);
+      if (cinematicOnly && layer.getCategory() != LayerCategory::CINEMATIC) {
+        continue;
       }
+      layer.update(deltaTime);
     }
   }
 
   void LayersManager::render() {
+    bool cinematicOnly = hasActiveCinematic();
     for (auto& layer : layers) {
-      if (layer.getEntitiesManager()) {
-        layer.getEntitiesManager()->render();
+      if (cinematicOnly && layer.getCategory() != LayerCategory::CINEMATIC) {
+        continue;
       }
+      layer.render();
     }
   }
 

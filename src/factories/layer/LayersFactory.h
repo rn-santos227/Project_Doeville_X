@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "layers/Layer.h"
 #include "layers/LayerCategoryResolver.h"
@@ -14,9 +15,17 @@ namespace Project::Factories {
   public:
     explicit LayersFactory(Project::Utilities::LogsManager& logsManager);
     std::unique_ptr<Project::Layers::Layer> createLayerFromLua(const std::string& scriptPath);
-
+    std::unique_ptr<Project::Layers::Layer> cloneLayer(const std::string& layerName);
+    std::unique_ptr<Project::Layers::Layer> cloneLayerFromPath(const std::string& scriptPath);
+    
+    bool hasLayerTemplate(const std::string& layerName) const;
+    
   private:
     Project::Utilities::LogsManager& logsManager;
+    std::unordered_map<std::string, std::unique_ptr<Project::Layers::Layer>> layerTemplates;
+    std::unordered_map<std::string, std::string> layerScriptPaths;
+
+    std::unique_ptr<Project::Layers::Layer> loadLayerTemplateFromLua(const std::string& scriptPath);
   };
 }
 

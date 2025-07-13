@@ -1,6 +1,12 @@
 #include "GameStateFactory.h"
 
+#include <lua.hpp>
 #include <string>
+
+#include "factories/layer/LayersFactory.h"
+#include "libraries/keys/Keys.h"
+#include "layers/LayersManager.h"
+#include "layers/LayerCategory.h"
 
 namespace Project::Factories {
   using Project::Utilities::LogsManager;
@@ -10,6 +16,8 @@ namespace Project::Factories {
   using Project::States::GameStateCategoryResolver;
   using Project::States::GameStateManager;
   using Project::Factories::EntitiesFactory;
+
+  namespace Keys = Project::Libraries::Keys;
 
   GameStateFactory::GameStateFactory(LogsManager& logsManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory)
   : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory) {}
@@ -23,7 +31,7 @@ namespace Project::Factories {
     }
     
     lua_State* L = newState->getLuaState();
-    lua_getglobal(L, "stateName");
+    lua_getglobal(L, Keys::STATE_NAME);
 
     if (!lua_isstring(L, -1)) {
       logsManager.logError("Lua script is missing 'stateName': " + scriptPath);
@@ -34,7 +42,7 @@ namespace Project::Factories {
     newState->setStateName(stateName);
     lua_pop(L, 1);
 
-    lua_getglobal(L, "stateCategory");
+    lua_getglobal(L, Keys::STATE_CATEGORY);
     if (lua_isstring(L, -1)) {
       std::string categoryStr = lua_tostring(L, -1);
       newState->setGameStateCategory(Project::States::GameStateCategoryResolver::resolve(categoryStr));
@@ -48,6 +56,8 @@ namespace Project::Factories {
     newState->setGlobalEntitiesManager(gameStateManager.getGlobalEntitiesManager());
     newState->setEntitiesFactory(&entitiesFactory);
     newState->setGameStateManager(&gameStateManager);
+
+    auto layersManager = std::make_unique<Project::Layers::LayersManager>();
 
     gameStateManager.addState(stateName, std::move(newState));
     gameStateManager.pushState(stateName);

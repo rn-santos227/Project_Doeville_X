@@ -1,12 +1,12 @@
-x = 640
-y = 360
+x = 470
+y = 350
 z = 0
 
 group = "ui"
 
 components = {
   TextComponent = {
-    text = "Sample Text",
+    text = "Press Enter to Play",
     component = "TextComponent",
     active = true,
     font_alpha = 255,

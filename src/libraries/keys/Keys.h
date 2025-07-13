@@ -77,6 +77,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LAYER = "layer";
   constexpr const char* LAYER_CATEGORY = "layer_category";
   constexpr const char* LAYER_NAME = "layer_name";
+  constexpr const char* LAYER_SCRIPTS = "layer_scripts";
   constexpr const char* NAME = "name"; 
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";
@@ -89,6 +90,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* SIZE = "size";
   constexpr const char* SOLID = "solid";
   constexpr const char* SPEED = "speed";
+  constexpr const char* STATE = "state";
+  constexpr const char* STATE_NAME = "state_name";
+  constexpr const char* STATE_CATEGORY = "speed";
   constexpr const char* TAG = "tag";  
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";

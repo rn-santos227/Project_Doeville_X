@@ -1,5 +1,10 @@
-stateName = "GameState"
-stateCategory = "STATIC_GAME_STATE"
+state_name = "GameState"
+state_category = "STATIC_GAME_STATE"
+
+layer_scripts = {
+  "scripts/layers/gameplay/game.layer.lua",
+  "scripts/layers/gameplay/hud.layer.lua"
+}
 
 function initialize()
   print("Initializing GameState")

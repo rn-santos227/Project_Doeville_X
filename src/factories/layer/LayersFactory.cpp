@@ -14,6 +14,51 @@ namespace Project::Factories {
     : logsManager(logsManager) {}
 
   std::unique_ptr<Layer> LayersFactory::createLayerFromLua(const std::string& scriptPath) {
+    std::unique_ptr<Layer> layer = loadLayerTemplateFromLua(scriptPath);
+    if (!layer) {
+      return nullptr;
+    }
+
+    std::string name = layer->getName();
+    if (logsManager.checkAndLogError(name.empty(), "Layer name is empty after loading from Lua: " + scriptPath)) {
+      return nullptr;
+    }
+
+    layerTemplates[name] = std::move(layer);
+    layerScriptPaths[name] = scriptPath;
+    return cloneLayer(name);
+  }
+
+  bool LayersFactory::hasLayerTemplate(const std::string& layerName) const {
+    return layerTemplates.find(layerName) != layerTemplates.end();
+  }
+
+  std::unique_ptr<Layer> LayersFactory::cloneLayer(const std::string& layerName) {
+    auto it = layerTemplates.find(layerName);
+    if (logsManager.checkAndLogError(it == layerTemplates.end(), "Layer template not found: " + layerName)) {
+      return nullptr;
+    }
+
+    const Layer& tmpl = *it->second;
+    auto clone = std::make_unique<Layer>(tmpl.getName(), tmpl.getCategory());
+    clone->setVisible(tmpl.isVisible());
+    clone->setActive(tmpl.isActive());
+    clone->setInteractable(tmpl.isInteractable());
+    clone->setFollowCamera(tmpl.followsCamera());
+    return clone;
+  }
+
+  std::unique_ptr<Layer> LayersFactory::cloneLayerFromPath(const std::string& scriptPath) {
+    for (const auto& [name, path] : layerScriptPaths) {
+      if (path == scriptPath) {
+        return cloneLayer(name);
+      }
+    }
+    logsManager.logError("Layer template for path '" + scriptPath + "' not found.");
+    return nullptr;
+  }
+
+  std::unique_ptr<Layer> LayersFactory::loadLayerTemplateFromLua(const std::string& scriptPath) {
     Project::Utilities::LuaStateWrapper lua(logsManager);
     if (!lua.loadScript(scriptPath)) {
       logsManager.logError("Failed to load layer script: " + scriptPath);

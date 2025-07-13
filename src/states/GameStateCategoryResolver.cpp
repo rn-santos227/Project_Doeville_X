@@ -1,10 +1,14 @@
 #include "GameStateCategoryResolver.h"
 
+#include <algorithm>
+#include <cctype>
+#include <unordered_map>
+
 #include "libraries/categories/Categories.h"
 
 namespace Project::States {
   namespace States = Project::Libraries::Categories::States;
-  GameStateCategory GameStateCategoryResolver::resolve(const std::string& value) {
+  GameStateCategory GameStateCategoryResolver::resolve(const std::string& name) {
     static const std::unordered_map<std::string, GameStateCategory> map = {
       {std::string(States::MAIN_MENU_STATE), GameStateCategory::MAIN_MENU_STATE},
       {std::string(States::SETTINGS_STATE), GameStateCategory::SETTINGS_STATE},
@@ -32,7 +36,12 @@ namespace Project::States {
       {std::string(States::EDITOR_STATE), GameStateCategory::EDITOR_STATE}
     };
 
-    auto it = map.find(value);
+    std::string key = name;
+    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
+      return std::toupper(c);
+    });
+
+    auto it = map.find(key);
     if (it != map.end()) return it->second;
     return GameStateCategory::DEBUG_STATE;
   }

@@ -7,7 +7,7 @@
 #include "components/physics_component/PhysicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
-#include "libraries/components/Components.h"
+#include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/geometry/GeometryUtils.h"
@@ -18,7 +18,7 @@ namespace Project::Components {
   using Project::Handlers::KeyHandler;
   using Project::Entities::Entity;
 
-  namespace Components = Project::Libraries::Components;
+  namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 

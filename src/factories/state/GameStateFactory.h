@@ -7,6 +7,8 @@
 
 #include "handlers/resources/ResourcesHandler.h"
 #include "states/GameState.h"
+#include "states/GameStateCategory.h"
+#include "states/GameStateCategoryResolver.h"
 #include "states/GameStateManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 

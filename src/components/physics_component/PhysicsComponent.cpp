@@ -6,13 +6,13 @@
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
-#include "libraries/components/Components.h"
+#include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
-  namespace Components = Project::Libraries::Components;
+  namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 

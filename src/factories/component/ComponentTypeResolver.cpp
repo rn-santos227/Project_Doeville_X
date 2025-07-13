@@ -3,11 +3,11 @@
 #include <algorithm>
 #include <cctype>
 
-#include "libraries/components/Components.h"
+#include "libraries/categories/Categories.h"
 
 namespace Project::Factories {
   using Project::Factories::ComponentType;
-  namespace Components = Project::Libraries::Components;
+  namespace Components = Project::Libraries::Categories::Components;
 
   ComponentType ComponentTypeResolver::resolve(const std::string& name) {
     static const std::unordered_map<std::string, ComponentType> map = {

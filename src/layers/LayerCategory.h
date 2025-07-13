@@ -4,6 +4,7 @@
 namespace Project::Layers {
   enum class LayerCategory {
     HUD,
+    OVERLAY,
     FOREGROUND,
     MIDGROUND,
     BACKGROUND,

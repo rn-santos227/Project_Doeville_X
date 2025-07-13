@@ -18,6 +18,9 @@ namespace Project::Layers {
     LayersManager() = default;
     ~LayersManager() = default;
 
+    void update(float deltaTime) override;
+    void render() override;
+
     void addLayer(const std::string& name, LayerCategory category = LayerCategory::CUSTOM);
     void addLayer(LayerCategory category);
 
@@ -31,7 +34,7 @@ namespace Project::Layers {
     std::shared_ptr<Project::Entities::EntitiesManager> getLayer(const std::string& name);
     std::shared_ptr<Project::Entities::EntitiesManager> getLayer(LayerCategory category);
     std::shared_ptr<Project::Entities::EntitiesManager> getFirstLayer();
-    
+
   private:
     std::vector<Layer> layers;
   };

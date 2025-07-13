@@ -23,20 +23,24 @@ namespace Project::Layers {
 
     void addLayer(const std::string& name, LayerCategory category = LayerCategory::CUSTOM);
     void addLayer(LayerCategory category);
+    void removeLayer(const std::string& name);
 
     bool hasLayer(const std::string& name) const;
     bool hasLayer(LayerCategory category) const;
-
-    void setLayerVisible(const std::string& name, bool visible);
-    void setLayerActive(const std::string& name, bool active);
-    void removeLayer(const std::string& name);
 
     std::shared_ptr<Project::Entities::EntitiesManager> getLayer(const std::string& name);
     std::shared_ptr<Project::Entities::EntitiesManager> getLayer(LayerCategory category);
     std::shared_ptr<Project::Entities::EntitiesManager> getFirstLayer();
     std::shared_ptr<Project::Entities::EntitiesManager> getLastLayer();
 
+    void setLayerActive(const std::string& name, bool active);
+    void setFollowCamera(const std::string& name, bool active);
+    void setLayerInteractable(const std::string& name, bool active);
+    void setLayerVisible(const std::string& name, bool visible);
+
   private:
+    int categoryOrder(LayerCategory category) const;
+    bool hasActiveCinematic() const;
     std::vector<Layer> layers;
   };
 }

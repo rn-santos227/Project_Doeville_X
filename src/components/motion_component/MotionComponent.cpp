@@ -28,7 +28,8 @@ namespace Project::Components {
   void MotionComponent::update(float deltaTime) {
     if (!owner) return;
 
-    auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent("PhysicsComponent"));
+    auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT));
+    if (physics && rotationEnabled) physics->setRotationEnabled(true);
     float localVelX = physics ? physics->getVelocityX() : velocityX;
     float localVelY = physics ? physics->getVelocityY() : velocityY;
 
@@ -289,6 +290,9 @@ namespace Project::Components {
 
     float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
     setFriction(fric);
+
+    bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
+    setRotationEnabled(rotate);
 
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
     setActive(active);

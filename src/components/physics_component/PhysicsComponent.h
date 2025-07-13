@@ -40,6 +40,21 @@ namespace Project::Components {
 
     void setDensity(float d) { density = d; }
     float getDensity() const { return density; }
+    
+    void setRotationEnabled(bool enabled) { rotationEnabled = enabled; }
+    bool isRotationEnabled() const { return rotationEnabled; }
+    
+    void setRotation(float r) { rotation = r; }
+    float getRotation() const { return rotation; }
+    
+    void setAngularVelocity(float av) { angularVelocity = av; }
+    float getAngularVelocity() const { return angularVelocity; }
+    
+    void addAngularVelocity(float av) { angularVelocity += av; }
+    void addAngularAcceleration(float aa) { angularAcceleration += aa; }
+
+    void setAngularAcceleration(float aa) { angularAcceleration = aa; }
+    float getAngularAcceleration() const { return angularAcceleration; }
 
     void setRestitution(float r) { restitution = r; }
     float getRestitution() const { return restitution; }
@@ -55,15 +70,21 @@ namespace Project::Components {
   private:
     Project::Entities::Entity* owner = nullptr;
     
-    float velocityX = 0.0f;
-    float velocityY = 0.0f;
     float accelerationX = 0.0f;
     float accelerationY = 0.0f;
+    float angularAcceleration = 0.0f;
+    float angularVelocity = 0.0f;
+    float rotation = 0.0f;
+    float velocityX = 0.0f;
+    float velocityY = 0.0f;
+
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
     float density = Project::Libraries::Constants::DEFAULT_DENSITY;
     float pushForce = Project::Libraries::Constants::DEFAULT_PUSH_FORCE;
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
-    float weight = Project::Libraries::Constants::DEFAULT_WEIGHT;
+    float weight = Project::Libraries::Constants::DEFAULT_WEIGHT; 
+
+    bool rotationEnabled = false;
   };
 }
 

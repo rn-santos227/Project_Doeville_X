@@ -1,6 +1,7 @@
 #include "GraphicsComponent.h"
 
 #include <chrono>
+#include <cmath>
 #include <future>
 
 #include <SDL_image.h>
@@ -63,12 +64,16 @@ namespace Project::Components {
     }
 
     if (textureToRender) {
-      SDL_RenderCopy(renderer, textureToRender, nullptr, &destRect);
+      if (rotationEnabled) {
+        SDL_RenderCopyEx(renderer, textureToRender, nullptr, &destRect, rotation, nullptr, SDL_FLIP_NONE);
+      } else {
+        SDL_RenderCopy(renderer, textureToRender, nullptr, &destRect);
+      }
     } else if (drawShape) {
       SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
       if (isCircle) {
-        for (int w = 0; w < radius * 2; ++w) {
-          for (int h = 0; h < radius * 2; ++h) {
+        for (int w = 0; w < radius * Constants::DEFAULT_DOUBLE; ++w) {
+          for (int h = 0; h < radius * Constants::DEFAULT_DOUBLE; ++h) {
             int dx = radius - w;
             int dy = radius - h;
             if ((dx * dx + dy * dy) <= (radius * radius)) {
@@ -77,7 +82,35 @@ namespace Project::Components {
           }
         }
       } else {
-        SDL_RenderFillRect(renderer, &destRect);
+        if (rotationEnabled) {
+          float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
+          float cosA = std::cos(angleRad);
+          float sinA = std::sin(angleRad);
+          float cx = destRect.x + destRect.w * Constants::DEFAULT_HALF;
+          float cy = destRect.y + destRect.h * Constants::DEFAULT_HALF;
+          SDL_FPoint pts[Constants::INDEX_FIVE];
+          SDL_FPoint corners[Constants::INDEX_FOUR] = {
+            {static_cast<float>(destRect.x), static_cast<float>(destRect.y)},
+            {static_cast<float>(destRect.x + destRect.w), static_cast<float>(destRect.y)},
+            {static_cast<float>(destRect.x + destRect.w), static_cast<float>(destRect.y + destRect.h)},
+            {static_cast<float>(destRect.x), static_cast<float>(destRect.y + destRect.h)}
+          };
+          for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
+            float rx = corners[i].x - cx;
+            float ry = corners[i].y - cy;
+            pts[i].x = rx * cosA - ry * sinA + cx;
+            pts[i].y = rx * sinA + ry * cosA + cy;
+          }
+          pts[Constants::INDEX_FOUR] = pts[0];
+          SDL_Point drawPts[Constants::INDEX_FIVE];
+          for (int i = 0; i < Constants::INDEX_FIVE; ++i) {
+            drawPts[i].x = static_cast<int>(pts[i].x);
+            drawPts[i].y = static_cast<int>(pts[i].y);
+          }
+          SDL_RenderDrawLines(renderer, drawPts, Constants::INDEX_FIVE);
+        } else {
+          SDL_RenderFillRect(renderer, &destRect);
+        }
       }
     }
   }
@@ -105,6 +138,10 @@ namespace Project::Components {
 
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
     setActive(active);
+
+    bool rotation = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
+    setRotationEnabled(rotation);
+
     onAttach();
   }
 

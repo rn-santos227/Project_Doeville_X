@@ -1,17 +1,18 @@
 #ifndef BOUNDING_BOX_COMPONENT_H
 #define BOUNDING_BOX_COMPONENT_H
 
+#include <SDL.h>
+#include <vector>
+
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "libraries/constants/Constants.h"
 #include "handlers/input/KeyHandler.h"
+#include "interfaces/rotation_interface/Rotatable.h"
 #include "utilities/geometry/GeometryUtils.h"
 
-#include <SDL.h>
-#include <vector>
-
 namespace Project::Components {
-  class BoundingBoxComponent : public BaseComponent, public PositionableComponent {
+  class BoundingBoxComponent : public BaseComponent, public PositionableComponent, public Project::Interfaces::Rotatable {
   public:
     using Circle = Project::Utilities::Circle;
     explicit BoundingBoxComponent(Project::Utilities::LogsManager& logsManager, SDL_Renderer* renderer, Project::Handlers::KeyHandler* keyHandler, SDL_Color debugColor);
@@ -31,11 +32,19 @@ namespace Project::Components {
 
     void setFriction(float value) { friction = value; }
     float getFriction() const { return friction; }
+
+    void setRotation(float angle) { rotation = angle; updateWorldBoxes(); }
+    float getRotation() const { return rotation; }
+
+    void setRotationEnabled(bool value) { rotationEnabled = value; updateWorldBoxes(); }
+    bool isRotationEnabled() const { return rotationEnabled; }
     
     void setRestitution(float value) { restitution = value; }
     float getRestitution() const { return restitution; }
 
     void setEntityPosition(int x, int y) override;
+    void setEntityRotation(float angle) override;
+
     void clearShapes();
 
   private:
@@ -51,10 +60,12 @@ namespace Project::Components {
 
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
+    float rotation = 0.0f;
 
-    int entityX = 0;
-    int entityY = 0;
+    float entityX = 0;
+    float entityY = 0;
     
+    bool rotationEnabled = false;
     bool solid = false;
 
     void updateWorldBoxes();

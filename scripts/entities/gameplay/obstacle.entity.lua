@@ -12,8 +12,9 @@ components = {
     boxes = {
       { x = 0, y = 0, w = 32, h = 32 }
     },
-    restitution = 0.0,
-    friction = 0.2
+    friction = 0.2,
+    rotation = true,
+    restitution = 0.0
   },
 
   GraphicsComponent = {
@@ -22,6 +23,7 @@ components = {
     width = 32,
     height = 32,
     color_hex = "808080",
+    rotation = true,
     color_alpha = 255
   },
 

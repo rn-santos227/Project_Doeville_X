@@ -1,5 +1,9 @@
 #include "BoundingBoxComponent.h"
 
+#include <cmath>
+#include <limits>
+
+#include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
 namespace Project::Components {
@@ -7,6 +11,7 @@ namespace Project::Components {
   using Project::Utilities::GeometryUtils;
   using Project::Handlers::KeyHandler;
 
+  namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
   
   BoundingBoxComponent::BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor)
@@ -70,6 +75,9 @@ namespace Project::Components {
 
     float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR));
     setRestitution(rest);
+
+    bool rot = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
+    setRotationEnabled(rot);
   }
 
   void BoundingBoxComponent::addBox(const SDL_Rect& rect) {
@@ -111,15 +119,52 @@ namespace Project::Components {
     updateWorldBoxes();
   }
 
+  void BoundingBoxComponent::setEntityRotation(float angle) {
+    rotation = angle;
+    updateWorldBoxes();
+  }
+
   void BoundingBoxComponent::updateWorldBoxes() {
     worldBoxes.resize(boxes.size());
     worldCircles.resize(circles.size());
 
     for (size_t i = 0; i < boxes.size(); ++i) {
-      worldBoxes[i].x = boxes[i].x + entityX;
-      worldBoxes[i].y = boxes[i].y + entityY;
-      worldBoxes[i].w = boxes[i].w;
-      worldBoxes[i].h = boxes[i].h;
+      if (rotationEnabled) {
+        float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
+        float cosA = std::cos(angleRad);
+        float sinA = std::sin(angleRad);
+        float cx = boxes[i].x + boxes[i].w * Constants::DEFAULT_HALF;
+        float cy = boxes[i].y + boxes[i].h * Constants::DEFAULT_HALF;
+        SDL_FPoint points[Constants::INDEX_FOUR] = {
+          {static_cast<float>(boxes[i].x), static_cast<float>(boxes[i].y)},
+          {static_cast<float>(boxes[i].x + boxes[i].w), static_cast<float>(boxes[i].y)},
+          {static_cast<float>(boxes[i].x + boxes[i].w), static_cast<float>(boxes[i].y + boxes[i].h)},
+          {static_cast<float>(boxes[i].x), static_cast<float>(boxes[i].y + boxes[i].h)}
+        };
+        float minX = std::numeric_limits<float>::max();
+        float minY = std::numeric_limits<float>::max();
+        float maxX = std::numeric_limits<float>::lowest();
+        float maxY = std::numeric_limits<float>::lowest();
+        for (auto& p : points) {
+          float rx = p.x - cx;
+          float ry = p.y - cy;
+          float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
+          float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
+          if (newX < minX) minX = newX;
+          if (newY < minY) minY = newY;
+          if (newX > maxX) maxX = newX;
+          if (newY > maxY) maxY = newY;
+        }
+        worldBoxes[i].x = static_cast<int>(minX);
+        worldBoxes[i].y = static_cast<int>(minY);
+        worldBoxes[i].w = static_cast<int>(maxX - minX);
+        worldBoxes[i].h = static_cast<int>(maxY - minY);
+      } else {
+        worldBoxes[i].x = boxes[i].x + entityX;
+        worldBoxes[i].y = boxes[i].y + entityY;
+        worldBoxes[i].w = boxes[i].w;
+        worldBoxes[i].h = boxes[i].h;
+      }
     }
 
     for (size_t i = 0; i < circles.size(); ++i) {

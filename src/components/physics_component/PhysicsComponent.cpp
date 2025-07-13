@@ -6,6 +6,7 @@
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
+#include "interfaces/rotation_interface/Rotatable.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
@@ -60,6 +61,12 @@ namespace Project::Components {
     other->velocityX += impulseX * invMass2;
     other->velocityY += impulseY * invMass2;
 
+    if (rotationEnabled || other->rotationEnabled) {
+      float torque = impulseX * ny - impulseY * nx;
+      if (rotationEnabled) angularVelocity -= torque * invMass1;
+      if (other->rotationEnabled) other->angularVelocity += torque * invMass2;
+    }
+
     SDL_FPoint vel1{velocityX, velocityY};
     SDL_FPoint vel2{other->velocityX, other->velocityY};
     Project::Utilities::PhysicsUtils::clampVelocity(vel1, Project::Libraries::Constants::TERMINAL_VELOCITY);
@@ -76,6 +83,22 @@ namespace Project::Components {
     velocityY += accelerationY * deltaTime;
     accelerationX = 0.0f;
     accelerationY = 0.0f;
+
+    if (rotationEnabled) {
+      angularVelocity += angularAcceleration * deltaTime;
+      angularAcceleration = 0.0f;
+      if (friction > 0.0f) {
+        float decelR = friction * deltaTime;
+        if (angularVelocity > 0.0f) {
+          angularVelocity -= decelR;
+          if (angularVelocity < 0.0f) angularVelocity = 0.0f;
+        } else if (angularVelocity < 0.0f) {
+          angularVelocity += decelR;
+          if (angularVelocity > 0.0f) angularVelocity = 0.0f;
+        }
+      }
+      rotation += angularVelocity * deltaTime;
+    }
 
     if (friction > 0.0f) {
       float decel = friction * deltaTime;
@@ -284,6 +307,19 @@ namespace Project::Components {
           } 
         }
       }
+
+      if (rotationEnabled) {
+        for (const std::string& n : owner->listComponentNames()) {
+          if (auto* c = owner->getComponent(n)) {
+            if (auto* rot = dynamic_cast<Project::Interfaces::Rotatable*>(c)) {
+              if (auto* box = dynamic_cast<BoundingBoxComponent*>(rot)) {
+                box->setRotationEnabled(true);
+              }
+              rot->setEntityRotation(rotation);
+            }
+          }
+        }
+      }
     }
   }
 
@@ -299,5 +335,8 @@ namespace Project::Components {
 
     float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
     setRestitution(rest);
+
+    bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
+    setRotationEnabled(rotate);
   }
 }

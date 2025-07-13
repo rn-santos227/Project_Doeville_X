@@ -31,6 +31,9 @@ namespace Project::Components {
     
     void setAccelerationEnabled(bool enabled) { accelerationEnabled = enabled; }
     bool isAccelerationEnabled() const { return accelerationEnabled; }
+
+    void setRotationEnabled(bool enabled) { rotationEnabled = enabled; }
+    bool isRotationEnabled() const { return rotationEnabled; }
     
     float getCurrentSpeed() const;
 
@@ -45,6 +48,7 @@ namespace Project::Components {
     float velocityY = 0.0f;
 
     bool accelerationEnabled = false;
+    bool rotationEnabled = false;
   };
 }
 

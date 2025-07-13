@@ -62,6 +62,28 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_BASE_FONT_SIZE = 16;
   constexpr int DEFAULT_GRID_SPACING = 32;
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
+  constexpr int DEFAULT_DOUBLE = 2;
+
+  // Angle constants in degrees
+  constexpr float ANGLE_0_DEG = 0.0f;
+  constexpr float ANGLE_30_DEG = 30.0f;
+  constexpr float ANGLE_45_DEG = 45.0f;
+  constexpr float ANGLE_60_DEG = 60.0f;
+  constexpr float ANGLE_90_DEG = 90.0f;
+  constexpr float ANGLE_120_DEG = 120.0f;
+  constexpr float ANGLE_135_DEG = 135.0f;
+  constexpr float ANGLE_180_DEG = 180.0f;
+  constexpr float ANGLE_225_DEG = 225.0f;
+  constexpr float ANGLE_270_DEG = 270.0f;
+  constexpr float ANGLE_315_DEG = 315.0f;
+  constexpr float ANGLE_360_DEG = 360.0f;
+
+  // Angle constants in radians (for use with std::sin, std::cos, etc.)
+  constexpr float ANGLE_PI_RAD = 3.14159265358979f;
+  constexpr float ANGLE_HALF_PI_RAD = ANGLE_PI_RAD / 2.0f;
+  constexpr float ANGLE_TWO_PI_RAD = ANGLE_PI_RAD * 2.0f;
+  constexpr float DEG_TO_RAD = ANGLE_PI_RAD / 180.0f;
+  constexpr float RAD_TO_DEG = 180.0f / ANGLE_PI_RAD;
 
   constexpr int TIME_YEAR_OFFSET = 1900;
   constexpr int TIME_MONTH_OFFSET = 1;
@@ -72,7 +94,6 @@ namespace Project::Libraries::Constants {
   
   constexpr Uint8 FULL_ALPHA = 255;  
   constexpr size_t BYTES_PER_MEGABYTE = 1024 * 1024;
-
 
   // Physics constants
   constexpr float GRAVITY = 9.81f;
@@ -91,6 +112,7 @@ namespace Project::Libraries::Constants {
   // Math constants
   constexpr float DEFAULT_DENOMINATOR = 2.0f;
   constexpr float DEFAULT_WHOLE = 1.0f;
+  constexpr float DEFAULT_HALF = 0.5f;
 
   // Debug strings
   constexpr const char* DEBUG_FPS_PREFIX = "FPS: ";

@@ -12,6 +12,10 @@
 #include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Components {
+  struct OrientedBox {
+    SDL_FPoint corners[Project::Libraries::Constants::INDEX_FOUR];
+  };
+
   class BoundingBoxComponent : public BaseComponent, public PositionableComponent, public Project::Interfaces::Rotatable {
   public:
     using Circle = Project::Utilities::Circle;
@@ -26,6 +30,7 @@ namespace Project::Components {
     
     const std::vector<SDL_Rect>& getBoxes() const;
     const std::vector<Circle>& getCircles() const;
+    const std::vector<OrientedBox>& getOrientedBoxes() const { return orientedBoxes; }
 
     void setSolid(bool solidEnabled);
     bool isSolid() const;
@@ -52,6 +57,7 @@ namespace Project::Components {
     std::vector<SDL_Rect> worldBoxes;
     std::vector<Circle> circles;
     std::vector<Circle> worldCircles;
+    std::vector<OrientedBox> orientedBoxes;
 
     SDL_Renderer* renderer = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;

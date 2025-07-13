@@ -26,8 +26,20 @@ namespace Project::Components {
 
     SDL_SetRenderDrawColor(renderer, debugColor.r, debugColor.g, debugColor.b, debugColor.a);
 
-    for (const auto& rect : worldBoxes) {
-      SDL_RenderDrawRect(renderer, &rect);
+    if (rotationEnabled) {
+      for (const auto& box : orientedBoxes) {
+        for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
+          const SDL_FPoint& p1 = box.corners[i];
+          const SDL_FPoint& p2 = box.corners[(i + 1) % Constants::INDEX_FOUR];
+          SDL_RenderDrawLine(renderer,
+            static_cast<int>(p1.x), static_cast<int>(p1.y),
+            static_cast<int>(p2.x), static_cast<int>(p2.y));
+        }
+      }
+    } else {
+      for (const auto& rect : worldBoxes) {
+        SDL_RenderDrawRect(renderer, &rect);
+      }
     }
 
     for (const auto& circle : worldCircles) {
@@ -112,6 +124,7 @@ namespace Project::Components {
     worldBoxes.clear();
     circles.clear();
     worldCircles.clear();
+    orientedBoxes.clear();
   }
 
   const std::vector<SDL_Rect>& BoundingBoxComponent::getBoxes() const {
@@ -143,6 +156,7 @@ namespace Project::Components {
 
   void BoundingBoxComponent::updateWorldBoxes() {
     worldBoxes.resize(boxes.size());
+    orientedBoxes.resize(boxes.size());
     worldCircles.resize(circles.size());
 
     for (size_t i = 0; i < boxes.size(); ++i) {
@@ -162,11 +176,12 @@ namespace Project::Components {
         float minY = std::numeric_limits<float>::max();
         float maxX = std::numeric_limits<float>::lowest();
         float maxY = std::numeric_limits<float>::lowest();
-        for (auto& p : points) {
-          float rx = p.x - cx;
-          float ry = p.y - cy;
+        for (int j = 0; j < Constants::INDEX_FOUR; ++j) {
+          float rx = points[j].x - cx;
+          float ry = points[j].y - cy;
           float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
           float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
+          orientedBoxes[i].corners[j] = {newX, newY};
           if (newX < minX) minX = newX;
           if (newY < minY) minY = newY;
           if (newX > maxX) maxX = newX;
@@ -181,6 +196,10 @@ namespace Project::Components {
         worldBoxes[i].y = boxes[i].y + entityY;
         worldBoxes[i].w = boxes[i].w;
         worldBoxes[i].h = boxes[i].h;
+        orientedBoxes[i].corners[0] = {static_cast<float>(worldBoxes[i].x), static_cast<float>(worldBoxes[i].y)};
+        orientedBoxes[i].corners[1] = {static_cast<float>(worldBoxes[i].x + worldBoxes[i].w), static_cast<float>(worldBoxes[i].y)};
+        orientedBoxes[i].corners[2] = {static_cast<float>(worldBoxes[i].x + worldBoxes[i].w), static_cast<float>(worldBoxes[i].y + worldBoxes[i].h)};
+        orientedBoxes[i].corners[3] = {static_cast<float>(worldBoxes[i].x), static_cast<float>(worldBoxes[i].y + worldBoxes[i].h)};
       }
     }
 

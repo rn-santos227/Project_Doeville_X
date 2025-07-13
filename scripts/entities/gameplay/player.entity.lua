@@ -9,6 +9,7 @@ components = {
     component = "BoundingBoxComponent",
     active = true,
     solid = true,
+    rotation = true,
     boxes = {
       { x = 0, y = 0, w = 32, h = 32 }
     }
@@ -20,7 +21,8 @@ components = {
     width = 32,
     height = 32,
     color_hex = "ADD8E6",
-    color_alpha = 255
+    color_alpha = 255,
+    rotation = true
   },
   
   KeysComponent = {
@@ -43,7 +45,8 @@ components = {
     active = true,
     friction = 0.2,
     restitution = 0.5,
-    force = 1.0
+    force = 1.0,
+    rotation = true
   },
   
   MotionComponent = {
@@ -52,7 +55,8 @@ components = {
     speed = 100.0,
     acceleration = 50.0,
     friction = 20.0,
-    use_acceleration = true
+    use_acceleration = true,
+    rotation = true
   },
 }
 

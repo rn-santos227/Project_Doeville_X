@@ -88,26 +88,30 @@ namespace Project::Components {
           float sinA = std::sin(angleRad);
           float cx = destRect.x + destRect.w * Constants::DEFAULT_HALF;
           float cy = destRect.y + destRect.h * Constants::DEFAULT_HALF;
-          SDL_FPoint pts[Constants::INDEX_FIVE];
           SDL_FPoint corners[Constants::INDEX_FOUR] = {
             {static_cast<float>(destRect.x), static_cast<float>(destRect.y)},
             {static_cast<float>(destRect.x + destRect.w), static_cast<float>(destRect.y)},
             {static_cast<float>(destRect.x + destRect.w), static_cast<float>(destRect.y + destRect.h)},
             {static_cast<float>(destRect.x), static_cast<float>(destRect.y + destRect.h)}
           };
+          SDL_Vertex verts[Constants::INDEX_FOUR];
           for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
             float rx = corners[i].x - cx;
             float ry = corners[i].y - cy;
-            pts[i].x = rx * cosA - ry * sinA + cx;
-            pts[i].y = rx * sinA + ry * cosA + cy;
+            verts[i].position.x = rx * cosA - ry * sinA + cx;
+            verts[i].position.y = rx * sinA + ry * cosA + cy;
+            verts[i].color = shapeColor;
+            verts[i].tex_coord = {0.0f, 0.0f};
           }
-          pts[Constants::INDEX_FOUR] = pts[0];
-          SDL_Point drawPts[Constants::INDEX_FIVE];
-          for (int i = 0; i < Constants::INDEX_FIVE; ++i) {
-            drawPts[i].x = static_cast<int>(pts[i].x);
-            drawPts[i].y = static_cast<int>(pts[i].y);
-          }
-          SDL_RenderDrawLines(renderer, drawPts, Constants::INDEX_FIVE);
+          int indices[Constants::INDEX_SIX] = {
+            Constants::INDEX_ZERO,
+            Constants::INDEX_ONE,
+            Constants::INDEX_TWO,
+            Constants::INDEX_TWO,
+            Constants::INDEX_THREE,
+            Constants::INDEX_ZERO
+          };
+          SDL_RenderGeometry(renderer, nullptr, verts, Constants::INDEX_FOUR, indices, Constants::INDEX_SIX);
         } else {
           SDL_RenderFillRect(renderer, &destRect);
         }

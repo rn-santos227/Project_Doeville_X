@@ -33,12 +33,14 @@ components = {
     speed = 100.0,
     acceleration = 50.0,
     friction = 20.0,
-    use_acceleration = true
+    use_acceleration = true,
+    rotation = true,
   },
 
   PhysicsComponent = {
     component = "PhysicsComponent",
     active = true,
+    rotation = true,
     friction = 0.2,
     restitution = 0.0,
     weight = 1.0,

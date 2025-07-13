@@ -41,7 +41,6 @@ components = {
     component = "PhysicsComponent",
     active = true,
     rotation = true,
-    rotation_speed = 10.0,
     friction = 0.2,
     restitution = 0.0,
     weight = 1.0,

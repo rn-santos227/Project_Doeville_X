@@ -4,6 +4,7 @@
 
 #include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "components/graphics_component/GraphicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "interfaces/rotation_interface/Rotatable.h"
@@ -303,34 +304,40 @@ namespace Project::Components {
     }
 
     if (rotationEnabled) {
-      if (collisionOccurred) {
-        angularVelocity += angularAcceleration * deltaTime;
-        angularAcceleration = 0.0f;
-        if (friction > 0.0f) {
-          float decelR = friction * deltaTime;
-          if (angularVelocity > 0.0f) {
-            angularVelocity -= decelR;
-            if (angularVelocity < 0.0f) angularVelocity = 0.0f;
-          } else if (angularVelocity < 0.0f) {
-            angularVelocity += decelR;
-            if (angularVelocity > 0.0f) angularVelocity = 0.0f;
-          }
-        }
-        rotation += angularVelocity * deltaTime;
-      } else {
-        angularVelocity = 0.0f;
-        angularAcceleration = 0.0f;
+      if (collisionOccurred && rotationSpeed != 0.0f) {
+        angularVelocity = rotationSpeed;
       }
 
+      angularVelocity += angularAcceleration * deltaTime;
+      angularAcceleration = 0.0f;
+
+      if (friction > 0.0f) {
+        float decelR = friction * deltaTime;
+        if (angularVelocity > 0.0f) {
+          angularVelocity -= decelR;
+          if (angularVelocity < 0.0f) angularVelocity = 0.0f;
+        } else if (angularVelocity < 0.0f) {
+          angularVelocity += decelR;
+          if (angularVelocity > 0.0f) angularVelocity = 0.0f;
+        }
+      }
+
+      rotation += angularVelocity * deltaTime;
       for (const std::string& n : owner->listComponentNames()) {
         if (auto* c = owner->getComponent(n)) {
           if (auto* rot = dynamic_cast<Project::Interfaces::Rotatable*>(c)) {
             if (auto* box = dynamic_cast<BoundingBoxComponent*>(rot)) {
-              box->setRotationEnabled(collisionOccurred);
+              box->setRotationEnabled(rotationEnabled);
+            } else if (auto* gfx = dynamic_cast<GraphicsComponent*>(rot)) {
+              gfx->setRotationEnabled(rotationEnabled);
             }
             rot->setEntityRotation(rotation);
           }
         }
+      }
+      
+      if (velocityX == 0.0f && velocityY == 0.0f) {
+        angularVelocity = 0.0f;
       }
     }
   }
@@ -347,9 +354,9 @@ namespace Project::Components {
 
     float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
     setRestitution(rest);
-
-    float rotSpeed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ROTATION_SPEED, 0.0f));
-    setAngularVelocity(rotSpeed);
+    
+    float rotSpeed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ROTATION_SPEED, Constants::DEFAULT_ROTATION_SPEED));
+    setRotationSpeed(rotSpeed);
 
     bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotate);

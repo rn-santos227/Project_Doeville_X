@@ -158,6 +158,26 @@ namespace Project::Libraries::Constants {
   constexpr SDL_Scancode KEY_FUNC_FREEZE = SDL_SCANCODE_F3;
   constexpr SDL_Scancode KEY_FUNC_RESTART = SDL_SCANCODE_F4;
   constexpr SDL_Scancode KEY_FUNC_EXIT = SDL_SCANCODE_F5;
+
+  // Generic programming script suffixes
+  constexpr const char* SCRIPT_LUA_SUFFIX = ".lua";
+  constexpr const char* SCRIPT_PYTHON_SUFFIX = ".py";
+  constexpr const char* SCRIPT_JAVASCRIPT_SUFFIX = ".js";
+  constexpr const char* SCRIPT_TYPESCRIPT_SUFFIX = ".ts";
+  constexpr const char* SCRIPT_RUBY_SUFFIX = ".rb";
+  constexpr const char* SCRIPT_BASH_SUFFIX = ".sh";
+  constexpr const char* SCRIPT_JSON_SUFFIX = ".json";
+  constexpr const char* SCRIPT_XML_SUFFIX = ".xml";
+  constexpr const char* SCRIPT_YAML_SUFFIX = ".yaml";
+  constexpr const char* SCRIPT_TOML_SUFFIX = ".toml";
+  constexpr const char* SCRIPT_SQL_SUFFIX = ".sql";
+  constexpr const char* SCRIPT_HTML_SUFFIX = ".html";
+  constexpr const char* SCRIPT_CSS_SUFFIX = ".css";
+  constexpr const char* SCRIPT_TEXT_SUFFIX = ".txt";
+  constexpr const char* SCRIPT_INI_SUFFIX = ".ini";
+
+  // Optional: Fallback
+  constexpr const char* SCRIPT_GENERIC_SUFFIX        = ".script";
 } 
 
 #endif 

@@ -4,10 +4,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
-
-namespace Constants = Project::Libraries::Constants;
-namespace fs = std::filesystem;
 
 namespace Project::Services {
   using Project::Utilities::LogsManager;
@@ -16,26 +14,33 @@ namespace Project::Services {
   using Project::Factories::ComponentsFactory;
   using Project::States::GameStateManager;
   using Project::Factories::EntitiesFactory;
+  using Project::Factories::LayersFactory;
   using Project::Factories::GameStateFactory;
+
+  namespace Constants = Project::Libraries::Constants;
+  namespace Scripts = Project::Libraries::Categories::Scripts;
+  namespace fs = std::filesystem;
 
   inline const std::vector<ScriptCategory> loadOrder = {
     ScriptCategory::ENTITY,
     ScriptCategory::ITEM,
     ScriptCategory::ANIMATION,
     ScriptCategory::MAP,
+    ScriptCategory::LAYER,
     ScriptCategory::STATE,
     ScriptCategory::OTHER
   };
 
   static std::string categoryToString(ScriptCategory category) {
     switch (category) {
-      case ScriptCategory::ENTITY: return "ENTITY";
-      case ScriptCategory::ITEM: return "ITEM";
-      case ScriptCategory::ANIMATION: return "ANIMATION";
-      case ScriptCategory::MAP: return "MAP";
-      case ScriptCategory::STATE: return "STATE";
-      case ScriptCategory::OTHER: return "OTHER";
-      default: return "INVALID";
+      case ScriptCategory::ENTITY: return Scripts::ENTITY;
+      case ScriptCategory::ITEM: return Scripts::ITEM;
+      case ScriptCategory::ANIMATION: return Scripts::ANIMATION;
+      case ScriptCategory::MAP: return Scripts::MAP;
+      case ScriptCategory::LAYER: return Scripts::LAYER;
+      case ScriptCategory::STATE: return Scripts::STATE;
+      case ScriptCategory::OTHER: return Scripts::OTHER;
+      default: return Scripts::INVALID;
     }
   }
 
@@ -47,6 +52,7 @@ namespace Project::Services {
       gameStateManager(gameStateManager),
       componentsFactory(componentsFactory),
       entitiesFactory(logsManager, componentsFactory, gameStateManager),
+      layersFactory(logsManager),
       gameStateFactory(logsManager, resourcesHandler, gameStateManager, entitiesFactory) {
     if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
       return;
@@ -62,7 +68,7 @@ namespace Project::Services {
       const std::string scriptPath = entry.path().string();
       const std::string scriptName = entry.path().filename().string();
 
-      if (scriptName.find(".lua") == std::string::npos) continue;
+      if (scriptName.find(Constants::SCRIPT_LUA_SUFFIX) == std::string::npos) continue;
 
       ScriptCategory category = determineScriptType(scriptName);
       if (logsManager.checkAndLogError(category == ScriptCategory::INVALID, "Invalid script type for file: " + scriptPath)) {
@@ -115,6 +121,7 @@ namespace Project::Services {
   ScriptCategory ScriptingService::determineScriptType(const std::string& scriptName) {
     static const std::unordered_map<std::string, ScriptCategory> extensionMap = {
       {Constants::LUA_STATE_SUFFIX, ScriptCategory::STATE},
+      {Constants::LUA_LAYER_SUFFIX, ScriptCategory::LAYER},
       {Constants::LUA_ENTITY_SUFFIX, ScriptCategory::ENTITY},
       {Constants::LUA_MAP_SUFFIX, ScriptCategory::MAP},
       {Constants::LUA_ITEM_SUFFIX, ScriptCategory::ITEM},
@@ -153,6 +160,14 @@ namespace Project::Services {
         break;
       }
 
+      case ScriptCategory::LAYER: {
+        auto layer = layersFactory.createLayerFromLua(scriptPath);
+        if (layer) {
+          logsManager.logMessage("Layer loaded from " + scriptPath);
+        }
+        break;
+      }
+
       case ScriptCategory::STATE: {
         if (gameStateFactory.createStateFromLua(renderer, scriptPath)) {
           logsManager.logMessage("State loaded from " + scriptPath);
@@ -162,7 +177,7 @@ namespace Project::Services {
 
       default: {
         logsManager.logMessage("Script loaded from " + scriptPath + " with category " + categoryToString(category));
-        break; 
+        break;
       }
     }
   }

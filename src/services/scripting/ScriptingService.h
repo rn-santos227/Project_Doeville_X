@@ -13,6 +13,7 @@
 
 #include "factories/component/ComponentsFactory.h"
 #include "factories/entity/EntitiesFactory.h"
+#include "factories/layer/LayersFactory.h"
 #include "factories/state/GameStateFactory.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "states/GameStateManager.h"
@@ -43,6 +44,7 @@ namespace Project::Services {
     SDL_Renderer* renderer;
 
     Project::Factories::EntitiesFactory entitiesFactory;
+    Project::Factories::LayersFactory layersFactory;
     Project::Factories::GameStateFactory gameStateFactory;
 
     ScriptCategory determineScriptType(const std::string& scriptName);

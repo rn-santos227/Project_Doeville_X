@@ -6,11 +6,12 @@
 
 namespace Project::Services {
   enum class ScriptCategory {
+    STATE,
+    LAYER,
     ENTITY,
     ITEM,
     ANIMATION,
     MAP,
-    STATE,
     OTHER,
     INVALID
   };

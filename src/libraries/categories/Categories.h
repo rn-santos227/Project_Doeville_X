@@ -79,6 +79,17 @@ namespace Project::Libraries::Categories {
     constexpr const char* CINEMATIC = "cinematic";
     constexpr const char* CUSTOM = "custom";
   }
+
+  namespace Scripts {
+    constexpr const char* ENTITY = "ENTITY";
+    constexpr const char* ITEM = "ITEM";
+    constexpr const char* ANIMATION = "ANIMATION";
+    constexpr const char* MAP = "MAP";
+    constexpr const char* LAYER = "LAYER";
+    constexpr const char* STATE = "STATE";
+    constexpr const char* OTHER = "OTHER";
+    constexpr const char* INVALID = "INVALID";
+  }
 }
 
 #endif

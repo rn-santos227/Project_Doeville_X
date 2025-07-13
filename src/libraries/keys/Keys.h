@@ -54,6 +54,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* DELTA_TIME = "deltaTime";
   constexpr const char* DENSITY = "density";
   constexpr const char* ENABLED = "enabled";
+  constexpr const char* FOLLOW_CAMERA = "follow_camera";
   constexpr const char* FONT_COLOR_HEX = "font_color_hex";
   constexpr const char* FONT_COLOR_ALPHA = "font_color_alpha";
   constexpr const char* FONT_SIZE = "font_size";
@@ -69,6 +70,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* IMAGE = "image";
   constexpr const char* IMAGE_PATH = "image_path";
   constexpr const char* INITIALIZE = "initialize";
+  constexpr const char* INTERACTABLE = "interactable";
   constexpr const char* KEY = "key";
   constexpr const char* KEYS = "keys";
   constexpr const char* LAYER = "layer";

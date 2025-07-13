@@ -5,6 +5,7 @@
 #include <string>
 
 #include "layers/Layer.h"
+#include "layers/LayerCategoryResolver.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 

@@ -2,6 +2,8 @@
 #define CONSTANTS_H
 
 #include <SDL.h>
+
+#include <cstdint>
 #include <string>
 
 namespace Project::Libraries::Constants {
@@ -26,6 +28,18 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_TEXT = "Default Text";
 
   constexpr const char* EMPTY_STRING = "";
+
+  // Indexes used for Arrangements
+  constexpr const uint8_t INDEX_ZERO = 0;
+  constexpr const uint8_t INDEX_ONE = 1;
+  constexpr const uint8_t INDEX_TWO = 2;
+  constexpr const uint8_t INDEX_THREE = 3;
+  constexpr const uint8_t INDEX_FOUR = 4;
+  constexpr const uint8_t INDEX_FIVE = 5;
+  constexpr const uint8_t INDEX_SIX = 6;
+  constexpr const uint8_t INDEX_SEVEN = 7;
+  constexpr const uint8_t INDEX_EIGHT = 8;
+  constexpr const uint8_t INDEX_NINE = 9;
 
   // Screen defaults
   constexpr int DEFAULT_SCREEN_WIDTH = 800;
@@ -58,6 +72,7 @@ namespace Project::Libraries::Constants {
   
   constexpr Uint8 FULL_ALPHA = 255;  
   constexpr size_t BYTES_PER_MEGABYTE = 1024 * 1024;
+
 
   // Physics constants
   constexpr float GRAVITY = 9.81f;
@@ -103,6 +118,32 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_BOUNDING_BOX_COLOR_HEX = "#000000";
   constexpr const char* DEFAULT_SHAPE_COLOR_HEX = "#FFFFFF";
 
+  // Named Primary Colors
+  constexpr SDL_Color COLOR_RED{255, 0, 0, 255};
+  constexpr SDL_Color COLOR_GREEN{0, 255, 0, 255};
+  constexpr SDL_Color COLOR_BLUE{0, 0, 255, 255};
+
+  // Named Secondary Colors
+  constexpr SDL_Color COLOR_YELLOW{255, 255, 0, 255};
+  constexpr SDL_Color COLOR_CYAN{0, 255, 255, 255};
+  constexpr SDL_Color COLOR_MAGENTA{255, 0, 255, 255};
+
+  // Named Grayscale Colors
+  constexpr SDL_Color COLOR_BLACK{0, 0, 0, 255};
+  constexpr SDL_Color COLOR_WHITE{255, 255, 255, 255};
+  constexpr SDL_Color COLOR_GRAY{128, 128, 128, 255};
+
+  // Hex equivalents (optional - useful for tools or debugging)
+  constexpr const char* COLOR_HEX_RED = "#FF0000";
+  constexpr const char* COLOR_HEX_GREEN = "#00FF00";
+  constexpr const char* COLOR_HEX_BLUE = "#0000FF";
+  constexpr const char* COLOR_HEX_YELLOW = "#FFFF00";
+  constexpr const char* COLOR_HEX_CYAN = "#00FFFF";
+  constexpr const char* COLOR_HEX_MAGENTA = "#FF00FF";
+  constexpr const char* COLOR_HEX_BLACK = "#000000";
+  constexpr const char* COLOR_HEX_WHITE = "#FFFFFF";
+  constexpr const char* COLOR_HEX_GRAY = "#808080";
+
   // Lua script suffixes
   constexpr const char* LUA_STATE_SUFFIX = ".state.lua";
   constexpr const char* LUA_LAYER_SUFFIX = ".layer.lua";
@@ -112,17 +153,6 @@ namespace Project::Libraries::Constants {
   constexpr const char* LUA_ANIMATION_SUFFIX = ".animation.lua";
 
   // Default key bindings
-  constexpr SDL_Scancode KEY_MOVE_UP = SDL_SCANCODE_W;
-  constexpr SDL_Scancode KEY_MOVE_DOWN = SDL_SCANCODE_S;
-  constexpr SDL_Scancode KEY_MOVE_LEFT = SDL_SCANCODE_A;
-  constexpr SDL_Scancode KEY_MOVE_RIGHT = SDL_SCANCODE_D;
-  constexpr SDL_Scancode KEY_ESCAPE = SDL_SCANCODE_ESCAPE;
-  constexpr SDL_Scancode KEY_ENTER = SDL_SCANCODE_RETURN;
-  constexpr SDL_Scancode KEY_ACTION_1 = SDL_SCANCODE_Z;
-  constexpr SDL_Scancode KEY_ACTION_2 = SDL_SCANCODE_Y;
-  constexpr SDL_Scancode KEY_ACTION_3 = SDL_SCANCODE_Q;
-  constexpr SDL_Scancode KEY_ACTION_4 = SDL_SCANCODE_E;
-
   constexpr SDL_Scancode KEY_FUNC_HELP = SDL_SCANCODE_F1;
   constexpr SDL_Scancode KEY_FUNC_DEBUG = SDL_SCANCODE_F2;
   constexpr SDL_Scancode KEY_FUNC_FREEZE = SDL_SCANCODE_F3;

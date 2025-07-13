@@ -1,6 +1,7 @@
 #include "TransformComponent.h"
 
 #include "components/PositionableComponent.h"
+#include "components/graphics_component/GraphicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "libraries/keys/Keys.h"
@@ -62,6 +63,7 @@ namespace Project::Components {
     if (transformed) return;
     auto* myBox = owner ? dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT)) : nullptr;
     auto* myPhys = owner ? dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT)) : nullptr;
+    auto* gfx = owner ? dynamic_cast<GraphicsComponent*>(owner->getComponent(Components::GRAPHICS_COMPONENT)) : nullptr;
     if (!myBox) return;
 
     originalBoxes = myBox->getBoxes();
@@ -80,8 +82,14 @@ namespace Project::Components {
       int nr = static_cast<int>(c.r * flexibility);
       myBox->addCircle(c.x, c.y, nr);
     }
-    if (myPhys && spin != 0.0f) {
-      myPhys->setAngularVelocity(spin);
+    if (myPhys) {
+      if (spin != 0.0f) {
+        myPhys->setAngularVelocity(spin);
+      }
+      myPhys->setRotationEnabled(true);
+    }
+    if (gfx) {
+      gfx->setRotationEnabled(true);
     }
     transformed = true;
   }
@@ -90,6 +98,7 @@ namespace Project::Components {
     if (!transformed) return;
     auto* myBox = owner ? dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT)) : nullptr;
     auto* myPhys = owner ? dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT)) : nullptr;
+    auto* gfx = owner ? dynamic_cast<GraphicsComponent*>(owner->getComponent(Components::GRAPHICS_COMPONENT)) : nullptr;
     if (!myBox) return;
 
     myBox->clearShapes();
@@ -101,6 +110,10 @@ namespace Project::Components {
     }
     if (myPhys) {
       myPhys->setAngularVelocity(0.0f);
+      myPhys->setRotationEnabled(false);
+    }
+    if (gfx) {
+      gfx->setRotationEnabled(false);
     }
     transformed = false;
   }

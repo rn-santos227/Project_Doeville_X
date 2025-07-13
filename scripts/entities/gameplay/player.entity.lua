@@ -56,7 +56,8 @@ components = {
     acceleration = 50.0,
     friction = 20.0,
     use_acceleration = true,
-    rotation = true
+    rotation = true,
+    rotation_speed = 10.0
   },
 }
 

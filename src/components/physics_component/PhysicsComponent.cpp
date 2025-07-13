@@ -84,21 +84,7 @@ namespace Project::Components {
     accelerationX = 0.0f;
     accelerationY = 0.0f;
 
-    if (rotationEnabled) {
-      angularVelocity += angularAcceleration * deltaTime;
-      angularAcceleration = 0.0f;
-      if (friction > 0.0f) {
-        float decelR = friction * deltaTime;
-        if (angularVelocity > 0.0f) {
-          angularVelocity -= decelR;
-          if (angularVelocity < 0.0f) angularVelocity = 0.0f;
-        } else if (angularVelocity < 0.0f) {
-          angularVelocity += decelR;
-          if (angularVelocity > 0.0f) angularVelocity = 0.0f;
-        }
-      }
-      rotation += angularVelocity * deltaTime;
-    }
+    bool collisionOccurred = false;
 
     if (friction > 0.0f) {
       float decel = friction * deltaTime;
@@ -147,14 +133,17 @@ namespace Project::Components {
 
       auto* manager = owner->getEntitiesManager();
       auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+      bool exitLoops = false;
       if (manager && myBox && myBox->isSolid()) {
         for (const auto& [id, entity] : manager->getAllEntities()) {
+          if (exitLoops) break;
           if (!entity || entity.get() == owner) continue;
           auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
           if (!otherBox || !otherBox->isSolid()) continue;
           
           for (const auto& r1 : myBox->getBoxes()) {
             for (const auto& r2 : otherBox->getBoxes()) {
+              if (exitLoops) break;
               if (Project::Utilities::PhysicsUtils::checkCollision(r1, r2)) {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
@@ -186,7 +175,8 @@ namespace Project::Components {
                   velocityX *= (Constants::DEFAULT_WHOLE - fric);
                   velocityY *= (Constants::DEFAULT_WHOLE - fric);
                 }
-                return;
+                collisionOccurred = true;
+                break;
               }
             }
 
@@ -222,7 +212,8 @@ namespace Project::Components {
                   velocityX *= (Constants::DEFAULT_WHOLE - fric);
                   velocityY *= (Constants::DEFAULT_WHOLE - fric);
                 }
-                return;
+                collisionOccurred = true;
+                break;
               }
             }
           }
@@ -265,7 +256,8 @@ namespace Project::Components {
                   velocityX *= (Constants::DEFAULT_WHOLE - fric);
                   velocityY *= (Constants::DEFAULT_WHOLE - fric);
                 }
-                return;
+                collisionOccurred = true;
+                break;
               }
             }
 
@@ -301,22 +293,42 @@ namespace Project::Components {
                   velocityX *= (Constants::DEFAULT_WHOLE - fric);
                   velocityY *= (Constants::DEFAULT_WHOLE - fric);
                 }
-                return;
+                collisionOccurred = true;
+                break;
               }
             }
           } 
         }
       }
+    }
 
-      if (rotationEnabled) {
-        for (const std::string& n : owner->listComponentNames()) {
-          if (auto* c = owner->getComponent(n)) {
-            if (auto* rot = dynamic_cast<Project::Interfaces::Rotatable*>(c)) {
-              if (auto* box = dynamic_cast<BoundingBoxComponent*>(rot)) {
-                box->setRotationEnabled(true);
-              }
-              rot->setEntityRotation(rotation);
+    if (rotationEnabled) {
+      if (collisionOccurred) {
+        angularVelocity += angularAcceleration * deltaTime;
+        angularAcceleration = 0.0f;
+        if (friction > 0.0f) {
+          float decelR = friction * deltaTime;
+          if (angularVelocity > 0.0f) {
+            angularVelocity -= decelR;
+            if (angularVelocity < 0.0f) angularVelocity = 0.0f;
+          } else if (angularVelocity < 0.0f) {
+            angularVelocity += decelR;
+            if (angularVelocity > 0.0f) angularVelocity = 0.0f;
+          }
+        }
+        rotation += angularVelocity * deltaTime;
+      } else {
+        angularVelocity = 0.0f;
+        angularAcceleration = 0.0f;
+      }
+
+      for (const std::string& n : owner->listComponentNames()) {
+        if (auto* c = owner->getComponent(n)) {
+          if (auto* rot = dynamic_cast<Project::Interfaces::Rotatable*>(c)) {
+            if (auto* box = dynamic_cast<BoundingBoxComponent*>(rot)) {
+              box->setRotationEnabled(collisionOccurred);
             }
+            rot->setEntityRotation(rotation);
           }
         }
       }

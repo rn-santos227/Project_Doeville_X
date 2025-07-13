@@ -14,6 +14,7 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "interfaces/render_interface/Renderable.h"
+#include "layers/LayersManager.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
@@ -53,7 +54,9 @@ namespace Project::States {
     void setGlobalEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { globalEntitiesManager = std::move(manager); }
     void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
     void setGameStateManager(Project::States::GameStateManager* manager) { gameStateManager = manager; }
-
+    void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) { layersManager = std::move(manager); }
+    
+    Project::Layers::LayersManager* getLayersManager() const { return layersManager.get(); }
     void clearBackground();
 
     //overload functions
@@ -82,6 +85,7 @@ namespace Project::States {
     Project::States::GameStateManager* gameStateManager = nullptr;
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
+    std::unique_ptr<Project::Layers::LayersManager> layersManager;
 
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);

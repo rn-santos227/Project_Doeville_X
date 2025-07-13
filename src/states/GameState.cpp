@@ -48,7 +48,9 @@ namespace Project::States {
   }
 
   void GameState::update(float deltaTime) {
-    if (entitiesManager) {
+    if (layersManager) {
+      layersManager->update(deltaTime);
+    } else if (entitiesManager) {
       entitiesManager->update(deltaTime);
     }
 
@@ -86,7 +88,9 @@ namespace Project::States {
       SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     }
     
-    if (entitiesManager) {
+    if (layersManager) {
+      layersManager->render();
+    } else if (entitiesManager) {
       entitiesManager->render();
     }
 
@@ -184,10 +188,13 @@ namespace Project::States {
 
     bool hasX = lua_gettop(L) >= 2 && lua_isnumber(L, 2);
     bool hasY = lua_gettop(L) >= 3 && lua_isnumber(L, 3);
+    bool hasLayer = lua_gettop(L) >= 4 && lua_isstring(L, 4);
     float posX = 0.0f;
     float posY = 0.0f;
     if (hasX) posX = static_cast<float>(lua_tonumber(L, 2));
     if (hasY) posY = static_cast<float>(lua_tonumber(L, 3));
+    std::string targetLayer;
+    if (hasLayer) targetLayer = lua_tostring(L, 4);
 
     if (!state->entitiesFactory) {
       luaL_error(L, "EntitiesFactory not set for this state.");
@@ -216,6 +223,13 @@ namespace Project::States {
         state->globalEntitiesManager->addEntity(name, shared);
       } else {
         luaL_error(L, "Global EntitiesManager not set for this state.");
+      }
+    } else if (state->layersManager) {
+      auto mgr = state->layersManager->getFirstLayer();
+      if (mgr) {
+        mgr->addEntity(name, shared);
+      } else {
+        luaL_error(L, "No layers available in LayersManager.");
       }
     } else if (state->entitiesManager) {
       state->entitiesManager->addEntity(name, shared);

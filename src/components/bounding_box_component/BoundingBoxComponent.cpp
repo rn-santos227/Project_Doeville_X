@@ -21,7 +21,24 @@ namespace Project::Components {
 
   void BoundingBoxComponent::update(float /*deltaTime*/) {}
 
-  void BoundingBoxComponent::render() {}
+  void BoundingBoxComponent::render() {
+    if (!renderer || !keyHandler || !keyHandler->isGameDebugMode()) return;
+
+    SDL_SetRenderDrawColor(renderer, debugColor.r, debugColor.g, debugColor.b, debugColor.a);
+
+    for (const auto& rect : worldBoxes) {
+      SDL_RenderDrawRect(renderer, &rect);
+    }
+
+    for (const auto& circle : worldCircles) {
+      for (int angle = 0; angle < Constants::ANGLE_360_DEG; ++angle) {
+        float rad = angle * Constants::DEG_TO_RAD;
+        int px = static_cast<int>(circle.x + circle.r * std::cos(rad));
+        int py = static_cast<int>(circle.y + circle.r * std::sin(rad));
+        SDL_RenderDrawPoint(renderer, px, py);
+      }
+    }
+  }
 
   void BoundingBoxComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     lua_State* L = luaStateWrapper.get();

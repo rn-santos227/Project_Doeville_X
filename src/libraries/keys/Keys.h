@@ -71,7 +71,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* INITIALIZE = "initialize";
   constexpr const char* KEY = "key";
   constexpr const char* KEYS = "keys";
-  constexpr const char* LAYER = "layer";  
+  constexpr const char* LAYER = "layer";
+  constexpr const char* LAYER_CATEGORY = "layer_category";
+  constexpr const char* LAYER_NAME = "layer_name";
   constexpr const char* NAME = "name"; 
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";

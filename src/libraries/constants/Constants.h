@@ -105,6 +105,7 @@ namespace Project::Libraries::Constants {
 
   // Lua script suffixes
   constexpr const char* LUA_STATE_SUFFIX = ".state.lua";
+  constexpr const char* LUA_LAYER_SUFFIX = ".layer.lua";
   constexpr const char* LUA_ENTITY_SUFFIX = ".entity.lua";
   constexpr const char* LUA_MAP_SUFFIX = ".map.lua";
   constexpr const char* LUA_ITEM_SUFFIX = ".item.lua";

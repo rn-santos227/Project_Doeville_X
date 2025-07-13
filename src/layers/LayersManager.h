@@ -34,6 +34,7 @@ namespace Project::Layers {
     std::shared_ptr<Project::Entities::EntitiesManager> getLayer(const std::string& name);
     std::shared_ptr<Project::Entities::EntitiesManager> getLayer(LayerCategory category);
     std::shared_ptr<Project::Entities::EntitiesManager> getFirstLayer();
+    std::shared_ptr<Project::Entities::EntitiesManager> getLastLayer();
 
   private:
     std::vector<Layer> layers;

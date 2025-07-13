@@ -92,7 +92,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* SPEED = "speed";
   constexpr const char* STATE = "state";
   constexpr const char* STATE_NAME = "state_name";
-  constexpr const char* STATE_CATEGORY = "speed";
+  constexpr const char* STATE_CATEGORY = "state_category";
   constexpr const char* TAG = "tag";  
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";

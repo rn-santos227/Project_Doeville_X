@@ -231,7 +231,7 @@ namespace Project::States {
       } else {
         mgr = state->layersManager->getFirstLayer();
       }
-      
+
       if (mgr) {
         mgr->addEntity(name, shared);
       } else {
@@ -263,5 +263,19 @@ namespace Project::States {
 
     state->gameStateManager->changeState(name);
     return 0;
+  }
+
+  std::shared_ptr<Project::Entities::Entity> GameState::findEntity(const std::string& name) {
+    if (layersManager) {
+      auto ent = layersManager->findEntity(name);
+      if (ent) return ent;
+    } else if (entitiesManager) {
+      auto ent = entitiesManager->getEntity(name);
+      if (ent) return ent;
+    }
+    if (globalEntitiesManager) {
+      return globalEntitiesManager->getEntity(name);
+    }
+    return nullptr;
   }
 }

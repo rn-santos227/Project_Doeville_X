@@ -50,12 +50,20 @@ namespace Project::States {
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
-    void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { entitiesManager = std::move(manager); }
+    void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) {
+      entitiesManager = std::move(manager);
+      if (entitiesManager) entitiesManager->setGameState(this);
+    }
+
     void setGlobalEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { globalEntitiesManager = std::move(manager); }
     void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
     void setGameStateManager(Project::States::GameStateManager* manager) { gameStateManager = manager; }
-    void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) { layersManager = std::move(manager); }
-    
+    void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) {
+      layersManager = std::move(manager);
+      if (layersManager) layersManager->setGameState(this);
+    }
+
+    std::shared_ptr<Project::Entities::Entity> findEntity(const std::string& name);
     Project::Layers::LayersManager* getLayersManager() const { return layersManager.get(); }
     void clearBackground();
 

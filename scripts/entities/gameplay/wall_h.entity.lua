@@ -27,5 +27,5 @@ components = {
 }
 
 return {
-  name = "wall"
+  name = "wall_h"
 }

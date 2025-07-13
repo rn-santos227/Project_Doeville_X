@@ -155,6 +155,26 @@ namespace Project::Layers {
     }
   }
 
+  std::shared_ptr<Project::Entities::Entity> LayersManager::findEntity(const std::string& name) {
+    for (auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) {
+        auto ent = mgr->getEntity(name);
+        if (ent) return ent;
+      }
+    }
+    return nullptr;
+  }
+
+  void LayersManager::setGameState(Project::States::GameState* state) {
+    gameState = state;
+    for (auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) mgr->setGameState(state);
+    }
+  }
+
+
   int LayersManager::categoryOrder(LayerCategory category) const {
     switch (category) {
       case LayerCategory::BACKGROUND: return Constants::INDEX_ZERO;

@@ -61,6 +61,7 @@ namespace Project::Factories {
     newState->setGameStateManager(&gameStateManager);
 
     auto layersManager = std::make_unique<Project::Layers::LayersManager>();
+    bool hasLayers = false;
 
     lua_getglobal(L, Keys::LAYER_SCRIPTS);
     if (lua_istable(L, -1)) {
@@ -72,17 +73,17 @@ namespace Project::Factories {
           auto layer = layersFactory.cloneLayerFromPath(path);
           if (layer) {
             layersManager->addLayer(std::move(*layer));
+            hasLayers = true;
           }
         }
+        lua_pop(L, 1);
       }
-      lua_pop(L, 1);
-    } else {
-      layersManager->addLayer(std::string(Layers::BACKGROUND), Project::Layers::LayerCategory::BACKGROUND);
-      layersManager->addLayer(std::string(Layers::GAME), Project::Layers::LayerCategory::MIDGROUND);
-      layersManager->addLayer(std::string(Layers::HUD), Project::Layers::LayerCategory::HUD);
     }
     lua_pop(L, 1);
 
+    if (hasLayers) {
+      newState->setLayersManager(std::move(layersManager));
+    }
     gameStateManager.addState(stateName, std::move(newState));
     gameStateManager.pushState(stateName);
     logsManager.logMessage("Successfully created and registered state: " + stateName);

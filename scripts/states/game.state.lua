@@ -24,7 +24,18 @@ function initialize()
     spawnEntity("ball", x, y, "game")
   end
 
-  spawnEntity("wall", nil, nil, "game")
+  for i = 1, 8 do
+    local x = math.random(0, 1000)
+    local y = math.random(0, 600)
+    spawnEntity("wall_v", x, y, "game")
+  end
+
+  for i = 1, 8 do
+    local x = math.random(0, 1000)
+    local y = math.random(0, 600)
+    spawnEntity("wall_h", x, y, "game")
+  end
+
   spawnEntity("speed_text", nil, nil, "hud")
 end
 

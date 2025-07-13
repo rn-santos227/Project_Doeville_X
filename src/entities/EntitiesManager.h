@@ -14,11 +14,16 @@
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
 
+namespace Project::States { class GameState; }
+
 namespace Project::Entities {
   class EntitiesManager : public Project::Helpers::ObjectsManager<Entity>, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
     public:
       EntitiesManager() = default;
       ~EntitiesManager() = default;
+
+      void setGameState(Project::States::GameState* state) { gameState = state; }
+      Project::States::GameState* getGameState() const { return gameState; }
 
       void addEntity(const std::string& id, std::shared_ptr<Entity> entity);
       void removeEntity(const std::string& id);
@@ -47,6 +52,7 @@ namespace Project::Entities {
       std::unordered_map<std::string, std::vector<std::string>> entityGroups;
       std::unordered_map<std::string, int> idCounters;
       
+      Project::States::GameState* gameState = nullptr;
       bool initialized = false;
   };
 }

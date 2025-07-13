@@ -12,6 +12,9 @@
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
 
+namespace Project::Entities { class Entity; class EntitiesManager; }
+namespace Project::States { class GameState; }
+
 namespace Project::Layers {
   class LayersManager : public Project::Interfaces::Renderable,  public Project::Interfaces::Updatable {
   public:
@@ -33,6 +36,10 @@ namespace Project::Layers {
     std::shared_ptr<Project::Entities::EntitiesManager> getLayer(LayerCategory category);
     std::shared_ptr<Project::Entities::EntitiesManager> getFirstLayer();
     std::shared_ptr<Project::Entities::EntitiesManager> getLastLayer();
+    
+    std::shared_ptr<Project::Entities::Entity> findEntity(const std::string& name);
+    void setGameState(Project::States::GameState* state);
+    Project::States::GameState* getGameState() const { return gameState; }
 
     void setLayerActive(const std::string& name, bool active);
     void setFollowCamera(const std::string& name, bool active);
@@ -40,9 +47,11 @@ namespace Project::Layers {
     void setLayerVisible(const std::string& name, bool visible);
 
   private:
+    Project::States::GameState* gameState = nullptr;
+    std::vector<Layer> layers;
+
     int categoryOrder(LayerCategory category) const;
     bool hasActiveCinematic() const;
-    std::vector<Layer> layers;
   };
 }
 

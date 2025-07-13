@@ -1,5 +1,7 @@
 #include "LayersFactory.h"
 
+#include <filesystem>
+
 #include "libraries/categories/Categories.h"
 #include "libraries/keys/Keys.h"
 
@@ -14,7 +16,10 @@ namespace Project::Factories {
     : logsManager(logsManager) {}
 
   std::unique_ptr<Layer> LayersFactory::createLayerFromLua(const std::string& scriptPath) {
-    std::unique_ptr<Layer> layer = loadLayerTemplateFromLua(scriptPath);
+    std::filesystem::path canonicalPath = std::filesystem::weakly_canonical(scriptPath);
+    std::string normalizedPath = canonicalPath.string();
+
+    std::unique_ptr<Layer> layer = loadLayerTemplateFromLua(normalizedPath);
     if (!layer) {
       return nullptr;
     }
@@ -25,7 +30,7 @@ namespace Project::Factories {
     }
 
     layerTemplates[name] = std::move(layer);
-    layerScriptPaths[name] = scriptPath;
+    layerScriptPaths[name] = normalizedPath;
     return cloneLayer(name);
   }
 
@@ -49,8 +54,12 @@ namespace Project::Factories {
   }
 
   std::unique_ptr<Layer> LayersFactory::cloneLayerFromPath(const std::string& scriptPath) {
+    std::filesystem::path canonicalRequested = std::filesystem::weakly_canonical(scriptPath);
+    std::string normalizedRequested = canonicalRequested.string();
+
     for (const auto& [name, path] : layerScriptPaths) {
-      if (path == scriptPath) {
+      std::filesystem::path storedCanonical = std::filesystem::weakly_canonical(path);
+      if (storedCanonical == canonicalRequested || path == normalizedRequested) {
         return cloneLayer(name);
       }
     }

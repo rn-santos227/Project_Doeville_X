@@ -10,6 +10,7 @@
 #include "components/text_component/TextComponent.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/keys/Keys.h"
+#include "states/GameState.h"
 
 namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
@@ -132,6 +133,10 @@ namespace Project::Entities {
       return 1;
     }
     auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
     if (!entity) {
       lua_pushnil(L);
       return 1;
@@ -153,6 +158,10 @@ namespace Project::Entities {
       return 0;
     }
     auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
     if (!entity) return 0;
     auto* textComp = dynamic_cast<Project::Components::TextComponent*>(entity->getComponent("TextComponent"));
     if (!textComp) return 0;

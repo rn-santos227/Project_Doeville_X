@@ -41,6 +41,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ACTIVE = "active";
   constexpr const char* ACTION = "action";
   constexpr const char* ACTIONS = "actions";
+  constexpr const char* ALLOW_REVERT = "allow_revert";
   constexpr const char* BINDING = "binding";
   constexpr const char* BINDINGS = "bindings";
   constexpr const char* BOXES = "boxes"; 
@@ -62,6 +63,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* FONT_PATH = "font_path";
   constexpr const char* FORCE = "force";
   constexpr const char* FRICTION = "friction";
+  constexpr const char* FLEXIBILITY = "flexibility";
   constexpr const char* FUNCTION = "function";
   constexpr const char* GLOBAL = "global";
   constexpr const char* GROUP = "group";
@@ -91,6 +93,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* SIZE = "size";
   constexpr const char* SOLID = "solid";
   constexpr const char* SPEED = "speed";
+  constexpr const char* SPIN = "spin";
   constexpr const char* STATE = "state";
   constexpr const char* STATE_NAME = "state_name";
   constexpr const char* STATE_CATEGORY = "state_category";

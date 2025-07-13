@@ -1,0 +1,107 @@
+#include "TransformComponent.h"
+
+#include "components/PositionableComponent.h"
+#include "entities/Entity.h"
+#include "entities/EntitiesManager.h"
+#include "libraries/keys/Keys.h"
+#include "utilities/physics/PhysicsUtils.h"
+
+namespace Project::Components {
+  using Project::Utilities::LogsManager;
+  
+  namespace Components = Project::Libraries::Categories::Components;
+  namespace Keys = Project::Libraries::Keys;
+
+  TransformComponent::TransformComponent(LogsManager& logsManager, float flexibility, float spin, bool allowRevert)
+    : BaseComponent(logsManager), flexibility(flexibility), spin(spin), allowRevert(allowRevert) {}
+
+  void TransformComponent::update(float deltaTime) {
+    if (!owner) return;
+    auto* manager = owner->getEntitiesManager();
+    auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    auto* myPhys = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT));
+
+    bool collideHeavier = false;
+    if (manager && myBox && myBox->isSolid()) {
+      for (const auto& [id, entity] : manager->getAllEntities()) {
+        if (!entity || entity.get() == owner) continue;
+        auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+        if (!otherBox || !otherBox->isSolid()) continue;
+        for (const auto& r1 : myBox->getBoxes()) {
+          for (const auto& r2 : otherBox->getBoxes()) {
+            if (Project::Utilities::PhysicsUtils::checkCollision(r1, r2)) {
+              auto* otherPhys = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
+              float otherWeight = otherPhys ? otherPhys->getWeight() : Project::Libraries::Constants::DEFAULT_WEIGHT;
+              float myWeight = myPhys ? myPhys->getWeight() : Project::Libraries::Constants::DEFAULT_WEIGHT;
+              if (otherWeight > myWeight) collideHeavier = true;
+              break;
+            }
+          }
+          if (collideHeavier) break;
+        }
+        if (collideHeavier) break;
+      }
+    }
+
+    if (collideHeavier) {
+      transform();
+    } else if (transformed && allowRevert) {
+      revert();
+    }
+  }
+
+  void TransformComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    flexibility = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FLEXIBILITY, Project::Libraries::Constants::DEFAULT_HALF));
+    spin = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPIN, 0.0));
+    allowRevert = luaStateWrapper.getTableBoolean(tableName, Keys::ALLOW_REVERT, true);
+    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
+    setActive(active);
+  }
+
+  void TransformComponent::transform() {
+    if (transformed) return;
+    auto* myBox = owner ? dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT)) : nullptr;
+    auto* myPhys = owner ? dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT)) : nullptr;
+    if (!myBox) return;
+
+    originalBoxes = myBox->getBoxes();
+    originalCircles = myBox->getCircles();
+
+    myBox->clearShapes();
+    for (const auto& b : originalBoxes) {
+      SDL_Rect n;
+      n.w = static_cast<int>(b.w * flexibility);
+      n.h = static_cast<int>(b.h * flexibility);
+      n.x = b.x + (b.w - n.w) / 2;
+      n.y = b.y + (b.h - n.h) / 2;
+      myBox->addBox(n);
+    }
+    for (const auto& c : originalCircles) {
+      int nr = static_cast<int>(c.r * flexibility);
+      myBox->addCircle(c.x, c.y, nr);
+    }
+    if (myPhys && spin != 0.0f) {
+      myPhys->setAngularVelocity(spin);
+    }
+    transformed = true;
+  }
+
+  void TransformComponent::revert() {
+    if (!transformed) return;
+    auto* myBox = owner ? dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT)) : nullptr;
+    auto* myPhys = owner ? dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT)) : nullptr;
+    if (!myBox) return;
+
+    myBox->clearShapes();
+    for (const auto& b : originalBoxes) {
+      myBox->addBox(b);
+    }
+    for (const auto& c : originalCircles) {
+      myBox->addCircle(c.x, c.y, c.r);
+    }
+    if (myPhys) {
+      myPhys->setAngularVelocity(0.0f);
+    }
+    transformed = false;
+  }
+}

@@ -6,11 +6,14 @@
 
 #include <SDL_image.h>
 
+#include "handlers/camera/CameraHandler.h"
 #include "libraries/keys/Keys.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Components {
+  Project::Handlers::CameraHandler* GraphicsComponent::cameraHandler = nullptr;
+
   using Project::Utilities::LogsManager;
   using Project::Utilities::ColorUtils;
   using Project::Handlers::ResourcesHandler;
@@ -28,6 +31,10 @@ namespace Project::Components {
     destroyTexture();
     textureFuture = std::future<SDL_Texture*>();
     pendingTexturePath.clear();
+  }
+
+  void GraphicsComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {
+    cameraHandler = handler;
   }
 
   void GraphicsComponent::update(float deltaTime) {

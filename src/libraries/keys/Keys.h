@@ -137,12 +137,16 @@ namespace Project::Libraries::Keys {
   constexpr const char* STATE_PRINT = "print";
 
   //lua function names
+  constexpr const char* LUA_SET_ACTIVE_CAMERA = "setActiveCamera";
+  constexpr const char* LUA_SET_BACKGROUND_COLOR = "setBackgroundColor";
+  constexpr const char* LUA_SET_BACKGROUND_IMAGE = "setBackgroundImage";
   constexpr const char* LUA_GET_ENTITY_SPEED = "getEntitySpeed";
   constexpr const char* LUA_SET_ENTITY_SPEED = "setEntitySpeed";
   constexpr const char* LUA_GET_ENTITY_TEXT = "getEntityText";
   constexpr const char* LUA_SET_ENTITY_TEXT = "setEntityText";
   constexpr const char* LUA_FUNC_PRINT = "print";
   constexpr const char* LUA_SPAWN_ENTITY = "spawnEntity";
+  constexpr const char* LUA_CHANGE_STATE = "changeState";
 }
 
 #endif

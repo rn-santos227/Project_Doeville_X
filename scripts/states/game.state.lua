@@ -10,6 +10,7 @@ function initialize()
   print("Initializing GameState")
   setBackgroundColor(50, 45, 34, 255)
   spawnEntity("player", nil, nil, "game")
+  setActiveCamera("player")
 
   math.randomseed(os.time())
   for i = 1, 5 do

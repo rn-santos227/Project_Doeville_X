@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "components/camera_component/CameraComponent.h"
 #include "entities/EntitiesManager.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/update_interface/Updatable.h"
@@ -49,6 +50,9 @@ namespace Project::States {
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+    void setActiveCamera(Project::Components::CameraComponent* camera);
+    Project::Components::CameraComponent* getActiveCamera() const { return activeCamera; }
 
     void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) {
       entitiesManager = std::move(manager);
@@ -95,6 +99,9 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
 
+    Project::Components::CameraComponent* activeCamera = nullptr;
+
+    static int lua_setActiveCamera(lua_State* L);
     static int lua_setBackgroundImage(lua_State* L);
     static int lua_setBackgroundColor(lua_State* L);
     static int lua_spawnEntity(lua_State* L);

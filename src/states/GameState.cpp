@@ -23,10 +23,11 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    luaStateWrapper.registerFunction("changeState", lua_changeState, this);
-    luaStateWrapper.registerFunction("setBackgroundColor", lua_setBackgroundColor, this);
-    luaStateWrapper.registerFunction("setBackgroundImage", lua_setBackgroundImage, this);
-    luaStateWrapper.registerFunction("spawnEntity", lua_spawnEntity, this);
+    luaStateWrapper.registerFunction(Keys::LUA_SET_ACTIVE_CAMERA, lua_setActiveCamera, this);
+    luaStateWrapper.registerFunction(Keys::LUA_CHANGE_STATE, lua_changeState, this);
+    luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_COLOR, lua_setBackgroundColor, this);
+    luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_IMAGE, lua_setBackgroundImage, this);
+    luaStateWrapper.registerFunction(Keys::LUA_SPAWN_ENTITY, lua_spawnEntity, this);
 
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
@@ -126,6 +127,26 @@ namespace Project::States {
       std::to_string(b) + ", " +
       std::to_string(a) + ")"
     );
+  }
+
+  void GameState::setActiveCamera(Project::Components::CameraComponent* camera) {
+    if (activeCamera) activeCamera->setActive(false);
+    activeCamera = camera;
+    if (activeCamera) activeCamera->setActive(true);
+  }
+
+  std::shared_ptr<Project::Entities::Entity> GameState::findEntity(const std::string& name) {
+    if (layersManager) {
+      auto ent = layersManager->findEntity(name);
+      if (ent) return ent;
+    } else if (entitiesManager) {
+      auto ent = entitiesManager->getEntity(name);
+      if (ent) return ent;
+    }
+    if (globalEntitiesManager) {
+      return globalEntitiesManager->getEntity(name);
+    }
+    return nullptr;
   }
 
   void GameState::clearBackground() {
@@ -265,17 +286,24 @@ namespace Project::States {
     return 0;
   }
 
-  std::shared_ptr<Project::Entities::Entity> GameState::findEntity(const std::string& name) {
-    if (layersManager) {
-      auto ent = layersManager->findEntity(name);
-      if (ent) return ent;
-    } else if (entitiesManager) {
-      auto ent = entitiesManager->getEntity(name);
-      if (ent) return ent;
+  int GameState::lua_setActiveCamera(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!state || !name) {
+      return luaL_error(L, "Invalid parameters for setActiveCamera");
     }
-    if (globalEntitiesManager) {
-      return globalEntitiesManager->getEntity(name);
+
+    auto entity = state->findEntity(name);
+    if (!entity) {
+      state->logsManager.logError(std::string("Camera entity not found: ") + name);
+      return 0;
     }
-    return nullptr;
+    auto* cam = dynamic_cast<Project::Components::CameraComponent*>(entity->getComponent("CameraComponent"));
+    if (!cam) {
+      state->logsManager.logError(std::string("Entity has no CameraComponent: ") + name);
+      return 0;
+    }
+    state->setActiveCamera(cam);
+    return 0;
   }
 }

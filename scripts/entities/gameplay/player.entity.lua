@@ -5,6 +5,11 @@ z = 0
 group = "gameplay"
 
 components = {
+  CameraComponent = {
+    component = "CameraComponent",
+    active = true
+  },
+
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
     active = true,

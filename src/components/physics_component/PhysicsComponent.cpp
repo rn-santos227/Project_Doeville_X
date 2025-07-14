@@ -90,7 +90,8 @@ namespace Project::Components {
     if (!isKinematic && gravityEnabled) {
       applyForce(
         Constants::DEFAULT_GRAVITY_DIRECTION.x * getWeight() * gravityScale,
-        Constants::DEFAULT_GRAVITY_DIRECTION.y * getWeight() * gravityScale);
+        Constants::DEFAULT_GRAVITY_DIRECTION.y * getWeight() * gravityScale
+      );
     }
 
     accelerationX += forceX / mass;

@@ -41,7 +41,6 @@ components = {
     component = "PhysicsComponent",
     active = true,
     rotation = true,
-    gravity = true,
     static = false,
     kinematic = false,
     density = 0.2,

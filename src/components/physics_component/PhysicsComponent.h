@@ -59,15 +59,17 @@ namespace Project::Components {
     void setRestitution(float r) { restitution = r; }
     float getRestitution() const { return restitution; }
 
-    void setWeight(float w) { weight = w; }
-    float getWeight() const { return weight; }
+    void setMass(float m) { mass = m; }
+    float getMass() const { return mass; }
+    
+    float getWeight() const { return mass * Project::Libraries::Constants::GRAVITY; }
 
     void addAngularVelocity(float av) { angularVelocity += av; }
     void addAngularAcceleration(float aa) { angularAcceleration += aa; }
 
     void applyForce(float fx, float fy) {
-      accelerationX += fx / weight;
-      accelerationY += fy / weight;
+      accelerationX += fx / mass;
+      accelerationY += fy / mass;
     }
 
   private:
@@ -83,9 +85,9 @@ namespace Project::Components {
 
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
     float density = Project::Libraries::Constants::DEFAULT_DENSITY;
+    float mass = Project::Libraries::Constants::DEFAULT_MASS;
     float pushForce = Project::Libraries::Constants::DEFAULT_PUSH_FORCE;
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
-    float weight = Project::Libraries::Constants::DEFAULT_WEIGHT;
     float rotationSpeed = Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
 
     bool rotationEnabled = false;

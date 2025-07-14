@@ -46,6 +46,7 @@ components = {
     friction = 0.2,
     restitution = 0.5,
     force = 1.0,
+    mass = 1.0,
     rotation = true
   },
   

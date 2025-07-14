@@ -80,6 +80,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LAYER_CATEGORY = "layer_category";
   constexpr const char* LAYER_NAME = "layer_name";
   constexpr const char* LAYER_SCRIPTS = "layer_scripts";
+  constexpr const char* MASS = "mass";
   constexpr const char* NAME = "name"; 
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";
@@ -109,7 +110,6 @@ namespace Project::Libraries::Keys {
   constexpr const char* VALUE = "value";
   constexpr const char* VISIBLE = "visible";
   constexpr const char* W = "w";
-  constexpr const char* WEIGHT = "weight";
   constexpr const char* WIDTH = "width";
   constexpr const char* X = "x";
   constexpr const char* Y = "y";

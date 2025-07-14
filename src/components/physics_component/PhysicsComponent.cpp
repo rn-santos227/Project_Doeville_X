@@ -20,7 +20,7 @@ namespace Project::Components {
 
   PhysicsComponent::PhysicsComponent(Project::Utilities::LogsManager& logsManager)
     : BaseComponent(logsManager),
-     weight(Project::Libraries::Constants::DEFAULT_WEIGHT),
+     mass(Project::Libraries::Constants::DEFAULT_MASS),
      density(Project::Libraries::Constants::DEFAULT_DENSITY) {}
 
   void PhysicsComponent::resolveCollisionWith(PhysicsComponent* other, float restitution) {
@@ -48,8 +48,8 @@ namespace Project::Components {
     float velAlongNormal = relVelX * nx + relVelY * ny;
     if (velAlongNormal > 0.0f) return;
 
-    float invMass1 = (weight > 0.0f) ? Constants::DEFAULT_WHOLE / weight : 0.0f;
-    float invMass2 = (other->weight > 0.0f) ? Constants::DEFAULT_WHOLE / other->weight : 0.0f;
+    float invMass1 = (mass > 0.0f) ? Constants::DEFAULT_WHOLE / mass : 0.0f;
+    float invMass2 = (other->mass > 0.0f) ? Constants::DEFAULT_WHOLE / other->mass : 0.0f;
 
     float j = -(Constants::DEFAULT_WHOLE + restitution) * velAlongNormal;
     j /= (invMass1 + invMass2);
@@ -351,6 +351,9 @@ namespace Project::Components {
 
     float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
     setFriction(fric);
+
+    float mass = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::MASS, Project::Libraries::Constants::DEFAULT_MASS));
+    setMass(mass);
 
     float rest = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RESTITUTION, Constants::DEFAULT_BOUNCE_FACTOR));
     setRestitution(rest);

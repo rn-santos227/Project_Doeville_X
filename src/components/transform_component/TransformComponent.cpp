@@ -32,9 +32,9 @@ namespace Project::Components {
           for (const auto& r2 : otherBox->getBoxes()) {
             if (Project::Utilities::PhysicsUtils::checkCollision(r1, r2)) {
               auto* otherPhys = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-              float otherWeight = otherPhys ? otherPhys->getWeight() : Project::Libraries::Constants::DEFAULT_WEIGHT;
-              float myWeight = myPhys ? myPhys->getWeight() : Project::Libraries::Constants::DEFAULT_WEIGHT;
-              if (otherWeight > myWeight) collideHeavier = true;
+              float otherMass = otherPhys ? otherPhys->getMass() : Project::Libraries::Constants::DEFAULT_MASS;
+              float myMass = myPhys ? myPhys->getMass() : Project::Libraries::Constants::DEFAULT_MASS;
+              if (otherMass > myMass) collideHeavier = true;
               break;
             }
           }

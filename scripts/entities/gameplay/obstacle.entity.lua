@@ -43,7 +43,7 @@ components = {
     rotation = true,
     friction = 0.2,
     restitution = 0.0,
-    weight = 1.0,
+    mass = 1.0,
     density = 0.2
   }
 }

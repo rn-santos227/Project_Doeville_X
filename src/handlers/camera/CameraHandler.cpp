@@ -10,4 +10,18 @@ namespace Project::Handlers {
     cameraRect.x = x;
     cameraRect.y = y;
   }
+
+  void CameraHandler::setCullingOffset(int x, int y) {
+    cullingOffset.x = x;
+    cullingOffset.y = y;
+  }
+
+  SDL_Rect CameraHandler::getCullingRect() const {
+    SDL_Rect rect = cameraRect;
+    rect.x -= cullingOffset.x;
+    rect.y -= cullingOffset.y;
+    rect.w += cullingOffset.x * 2;
+    rect.h += cullingOffset.y * 2;
+    return rect;
+  }
 }

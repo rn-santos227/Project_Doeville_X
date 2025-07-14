@@ -25,6 +25,47 @@ namespace Project::Utilities {
     return (dx * dx + dy * dy) <= (c.r * c.r);
   }
 
+  bool PhysicsUtils::checkCollision(const Project::Components::OrientedBox& a, const Project::Components::OrientedBox& b) {
+    auto overlapOnAxis = [](const SDL_FPoint* pts1, const SDL_FPoint* pts2, SDL_FPoint axis) {
+      float minA = std::numeric_limits<float>::max();
+      float maxA = std::numeric_limits<float>::lowest();
+      for (int i = 0; i < Project::Libraries::Constants::INDEX_FOUR; ++i) {
+        float proj = pts1[i].x * axis.x + pts1[i].y * axis.y;
+        if (proj < minA) minA = proj;
+        if (proj > maxA) maxA = proj;
+      }
+      float minB = std::numeric_limits<float>::max();
+      float maxB = std::numeric_limits<float>::lowest();
+      for (int i = 0; i < Project::Libraries::Constants::INDEX_FOUR; ++i) {
+        float proj = pts2[i].x * axis.x + pts2[i].y * axis.y;
+        if (proj < minB) minB = proj;
+        if (proj > maxB) maxB = proj;
+      }
+      return !(maxA < minB || maxB < minA);
+    };
+
+    SDL_FPoint axes[Project::Libraries::Constants::INDEX_FOUR];
+    axes[0].x = -(a.corners[1].y - a.corners[0].y);
+    axes[0].y = a.corners[1].x - a.corners[0].x;
+    axes[1].x = -(a.corners[2].y - a.corners[1].y);
+    axes[1].y = a.corners[2].x - a.corners[1].x;
+    axes[2].x = -(b.corners[1].y - b.corners[0].y);
+    axes[2].y = b.corners[1].x - b.corners[0].x;
+    axes[3].x = -(b.corners[2].y - b.corners[1].y);
+    axes[3].y = b.corners[2].x - b.corners[1].x;
+
+    for (SDL_FPoint& axis : axes) {
+      float len = std::sqrt(axis.x * axis.x + axis.y * axis.y);
+      if (len == 0.0f) continue;
+      axis.x /= len;
+      axis.y /= len;
+      if (!overlapOnAxis(a.corners, b.corners, axis)) return false;
+    }
+
+    return true;
+  }
+
+
   float PhysicsUtils::calculateDistance(float x1, float y1, float x2, float y2) {
     float dx = x2 - x1;
     float dy = y2 - y1;

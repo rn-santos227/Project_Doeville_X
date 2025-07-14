@@ -9,6 +9,8 @@ namespace Project::Handlers {
     PLATFORMER,
     BIRDS_EYE,
     FIRST_PERSON,
+    THIRD_PERSON,
+    OVER_SHOULDER,
   };
 }
 

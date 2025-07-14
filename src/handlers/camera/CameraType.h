@@ -7,6 +7,8 @@ namespace Project::Handlers {
     SIDE_SCROLLER,
     ISOMETRIC,
     PLATFORMER,
+    BIRDS_EYE,
+    FIRST_PERSON,
   };
 }
 

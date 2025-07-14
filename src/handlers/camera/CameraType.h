@@ -1,0 +1,10 @@
+#ifndef CAMERA_TYPE_H
+#define CAMERA_TYPE_H
+
+namespace Project::Handlers {
+  enum class CameraType {
+
+  };
+}
+
+#endif

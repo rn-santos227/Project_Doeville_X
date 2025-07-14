@@ -182,6 +182,11 @@ namespace Project::Components {
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
+                if (otherPhysics && pushForce > 0.0f) {
+                  float pushX = velocityX * pushForce;
+                  float pushY = velocityY * pushForce;
+                  otherPhysics->addVelocity(pushX, pushY);
+                }
                 SDL_FPoint offset = Project::Utilities::PhysicsUtils::getSnapOffset(r1, r2, velocityX * deltaTime, velocityY * deltaTime);
 
                 float snapX = newX + offset.x;

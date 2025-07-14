@@ -107,7 +107,7 @@ namespace Project::Components {
     float gravityScale = Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE;
 
     bool rotationEnabled = false;
-    bool gravityEnabled = true;
+    bool gravityEnabled = false;
     bool isStatic = false;
     bool isKinematic = false;
   };

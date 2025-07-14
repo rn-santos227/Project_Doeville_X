@@ -97,7 +97,7 @@ namespace Project::Libraries::Constants {
 
   // Physics constants
   constexpr float GRAVITY = 9.81f;
-  constexpr float TERMINAL_VELOCITY = 100.0f;
+  constexpr float TERMINAL_VELOCITY = 500.0f;
   constexpr float DEFAULT_MOTION_SPEED = 100.0f;
   constexpr float DEFAULT_ROTATION_SPEED = 90.0f;
   constexpr float DEFAULT_ACCELERATION = 10.0f;

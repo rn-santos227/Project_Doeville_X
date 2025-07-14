@@ -13,6 +13,8 @@ namespace Project::Handlers {
     OVER_SHOULDER,
     FIXED,
     TWO_POINT_FIVE_D,
+    FREE_ROAMING,
+    VR
   };
 }
 

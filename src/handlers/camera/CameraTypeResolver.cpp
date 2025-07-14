@@ -23,5 +23,10 @@ namespace Project::Handlers {
       {std::string(Cameras::FREE_ROAMING), CameraType::FREE_ROAMING},
       {std::string(Cameras::VR), CameraType::VR}
     };
+
+    std::string key = name;
+    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
+      return std::toupper(c);
+    });
   };
 }

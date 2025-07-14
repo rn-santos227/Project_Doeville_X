@@ -8,6 +8,7 @@
 #include "components/PositionableComponent.h"
 #include "libraries/constants/Constants.h"
 #include "handlers/input/KeyHandler.h"
+#include "handlers/camera/CameraHandler.h"
 #include "interfaces/rotation_interface/Rotatable.h"
 #include "utilities/geometry/GeometryUtils.h"
 
@@ -20,6 +21,7 @@ namespace Project::Components {
   public:
     using Circle = Project::Utilities::Circle;
     explicit BoundingBoxComponent(Project::Utilities::LogsManager& logsManager, SDL_Renderer* renderer, Project::Handlers::KeyHandler* keyHandler, SDL_Color debugColor);
+    static void setCameraHandler(Project::Handlers::CameraHandler* handler);
 
     void update(float deltaTime) override;
     void render() override;
@@ -53,6 +55,8 @@ namespace Project::Components {
     void clearShapes();
 
   private:
+    static Project::Handlers::CameraHandler* cameraHandler;
+    
     std::vector<SDL_Rect> boxes;
     std::vector<SDL_Rect> worldBoxes;
     std::vector<Circle> circles;

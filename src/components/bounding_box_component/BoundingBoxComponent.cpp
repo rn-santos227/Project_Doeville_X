@@ -3,10 +3,13 @@
 #include <cmath>
 #include <limits>
 
+#include "handlers/camera/CameraHandler.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
 namespace Project::Components {
+   Project::Handlers::CameraHandler* BoundingBoxComponent::cameraHandler = nullptr;
+
   using Project::Utilities::LogsManager;
   using Project::Utilities::GeometryUtils;
   using Project::Handlers::KeyHandler;
@@ -19,10 +22,20 @@ namespace Project::Components {
     logsManager.logMessage("BoundingBoxComponent initialized.");
   }
 
+  void BoundingBoxComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {
+    cameraHandler = handler;
+  }
+
   void BoundingBoxComponent::update(float /*deltaTime*/) {}
 
   void BoundingBoxComponent::render() {
     if (!renderer || !keyHandler || !keyHandler->isGameDebugMode()) return;
+    int camX = 0;
+    int camY = 0;
+    if (cameraHandler) {
+      camX = cameraHandler->getX();
+      camY = cameraHandler->getY();
+    }
 
     SDL_SetRenderDrawColor(renderer, debugColor.r, debugColor.g, debugColor.b, debugColor.a);
 
@@ -32,21 +45,22 @@ namespace Project::Components {
           const SDL_FPoint& p1 = box.corners[i];
           const SDL_FPoint& p2 = box.corners[(i + 1) % Constants::INDEX_FOUR];
           SDL_RenderDrawLine(renderer,
-            static_cast<int>(p1.x), static_cast<int>(p1.y),
-            static_cast<int>(p2.x), static_cast<int>(p2.y));
+            static_cast<int>(p1.x - camX), static_cast<int>(p1.y - camY),
+            static_cast<int>(p2.x - camX), static_cast<int>(p2.y - camY));
         }
       }
     } else {
       for (const auto& rect : worldBoxes) {
-        SDL_RenderDrawRect(renderer, &rect);
+        SDL_Rect r = {rect.x - camX, rect.y - camY, rect.w, rect.h};
+        SDL_RenderDrawRect(renderer, &r);
       }
     }
 
     for (const auto& circle : worldCircles) {
       for (int angle = 0; angle < Constants::ANGLE_360_DEG; ++angle) {
         float rad = angle * Constants::DEG_TO_RAD;
-        int px = static_cast<int>(circle.x + circle.r * std::cos(rad));
-        int py = static_cast<int>(circle.y + circle.r * std::sin(rad));
+        int px = static_cast<int>(circle.x + circle.r * std::cos(rad) - camX);
+        int py = static_cast<int>(circle.y + circle.r * std::sin(rad) - camY);
         SDL_RenderDrawPoint(renderer, px, py);
       }
     }

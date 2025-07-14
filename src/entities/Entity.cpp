@@ -1,6 +1,7 @@
 #include "Entity.h"
 
 #include "components/PositionableComponent.h"
+#include "components/camera_component/CameraComponent.h"
 #include "components/keys_component/KeysComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
@@ -96,6 +97,10 @@ namespace Project::Entities {
 
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
     if (!component) return;
+
+    if (auto* camera = dynamic_cast<Components::CameraComponent*>(component.get())) {
+      camera->setEntityReference(this);
+    }
     
     if (auto* keys = dynamic_cast<Components::KeysComponent*>(component.get())) {
       keys->setEntityReference(this);

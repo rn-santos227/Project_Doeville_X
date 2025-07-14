@@ -9,6 +9,7 @@
 #include "ComponentTypeResolver.h"
 
 #include "components/BaseComponent.h"
+#include "components/camera_component/CameraComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/keys_component/KeysComponent.h"
@@ -34,12 +35,15 @@ namespace Project::Factories {
 
     std::unique_ptr<Project::Components::BaseComponent> create(const std::string& componentName, Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
 
-    void setKeyHandler(Project::Handlers::KeyHandler* keyHandler);
     void setRenderer(SDL_Renderer* renderer);
+    void setCameraHandler(Project::Handlers::CameraHandler* handler);
+    void setKeyHandler(Project::Handlers::KeyHandler* keyHandler);
 
   private:
-    Project::Handlers::KeyHandler* keyHandler = nullptr;
     SDL_Renderer* renderer = nullptr;
+    
+    Project::Handlers::CameraHandler* cameraHandler = nullptr;
+    Project::Handlers::KeyHandler* keyHandler = nullptr;
 
     Project::Utilities::ConfigReader& configReader;
     Project::Utilities::LogsManager& logsManager;

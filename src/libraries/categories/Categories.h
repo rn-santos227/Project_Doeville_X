@@ -20,6 +20,7 @@ namespace Project::Libraries::Categories {
   namespace Components {
     constexpr const char* SUFFIX = "component";
 
+    constexpr const char* CAMERA = "camera";
     constexpr const char* BOUNDING_BOX = "boundingbox";
     constexpr const char* BUTTON = "button";
     constexpr const char* CURSOR = "cursor";

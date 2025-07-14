@@ -11,6 +11,8 @@ namespace Project::Factories {
 
   ComponentType ComponentTypeResolver::resolve(const std::string& name) {
     static const std::unordered_map<std::string, ComponentType> map = {
+      {std::string(Components::CAMERA), ComponentType::CAMERA},
+      {std::string(Components::CAMERA) + Components::SUFFIX, ComponentType::CAMERA},
       {std::string(Components::BOUNDING_BOX), ComponentType::BOUNDING_BOX},
       {std::string(Components::BOUNDING_BOX) + Components::SUFFIX, ComponentType::BOUNDING_BOX},
       {std::string(Components::GRAPHICS), ComponentType::GRAPHICS},

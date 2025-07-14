@@ -65,7 +65,7 @@ namespace Project::Handlers {
     cameraHandler.setCullingOffset(Constants::DEFAULT_CAMERA_CULL_OFFSET, Constants::DEFAULT_CAMERA_CULL_OFFSET);
     Project::Components::GraphicsComponent::setCameraHandler(&cameraHandler);
     Project::Components::BoundingBoxComponent::setCameraHandler(&cameraHandler);
-
+    componentsFactory.setCameraHandler(&cameraHandler);
 
     cursorWidth = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_W, Constants::DEFAULT_CURSOR_SIZE);
     cursorHeight = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_H, Constants::DEFAULT_CURSOR_SIZE);

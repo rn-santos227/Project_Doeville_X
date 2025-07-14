@@ -7,6 +7,7 @@
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Factories {
+  using Project::Components::CameraComponent;
   using Project::Components::BaseComponent;
   using Project::Components::BoundingBoxComponent;
   using Project::Components::GraphicsComponent;
@@ -34,8 +35,14 @@ namespace Project::Factories {
 
     std::string resolvedName = luaStateWrapper.getTableString(tableName, Keys::COMPONENT, componentName);
     ComponentType type = ComponentTypeResolver::resolve(resolvedName);
-    
+
     switch (type) {
+      case ComponentType::CAMERA: {
+        auto component = std::make_unique<CameraComponent>(logsManager, cameraHandler);
+        component->build(luaStateWrapper, tableName);
+        return component;
+      }
+
       case ComponentType::BOUNDING_BOX: {
         SDL_Color defaultColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
         SDL_Color debugColor = configReader.getColorValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_COLOR, defaultColor);
@@ -90,6 +97,10 @@ namespace Project::Factories {
   // Getters and Setters Section
   void ComponentsFactory::setRenderer(SDL_Renderer* renderer) {
     this->renderer = renderer;
+  }
+
+  void ComponentsFactory::setCameraHandler(Handlers::CameraHandler* handler) {
+    this->cameraHandler = handler;
   }
 
   void ComponentsFactory::setKeyHandler(Handlers::KeyHandler* keyHandler) {

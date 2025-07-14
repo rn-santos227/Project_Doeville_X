@@ -32,7 +32,8 @@ namespace Project::Utilities {
   }
 
   SDL_FPoint PhysicsUtils::applyGravity(SDL_FPoint velocity, float deltaTime) {
-    velocity.y += Project::Libraries::Constants::GRAVITY * deltaTime;
+    velocity.x += Project::Libraries::Constants::DEFAULT_GRAVITY_DIRECTION.x * Project::Libraries::Constants::GRAVITY * deltaTime;
+    velocity.y += Project::Libraries::Constants::DEFAULT_GRAVITY_DIRECTION.y * Project::Libraries::Constants::GRAVITY * deltaTime;
     if (velocity.y > Project::Libraries::Constants::TERMINAL_VELOCITY) {
       velocity.y = Project::Libraries::Constants::TERMINAL_VELOCITY;
     }

@@ -114,6 +114,7 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_DENOMINATOR = 2.0f;
   constexpr float DEFAULT_WHOLE = 1.0f;
   constexpr float DEFAULT_HALF = 0.5f;
+  constexpr SDL_FPoint DEFAULT_GRAVITY_DIRECTION{0.0f, 1.0f};
 
   // Debug strings
   constexpr const char* DEBUG_FPS_PREFIX = "FPS: ";
@@ -200,7 +201,7 @@ namespace Project::Libraries::Constants {
   constexpr const char* SCRIPT_INI_SUFFIX = ".ini";
 
   // Optional: Fallback
-  constexpr const char* SCRIPT_GENERIC_SUFFIX        = ".script";
+  constexpr const char* SCRIPT_GENERIC_SUFFIX = ".script";
 } 
 
 #endif 

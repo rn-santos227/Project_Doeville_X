@@ -88,7 +88,9 @@ namespace Project::Components {
     }
 
     if (!isKinematic && gravityEnabled) {
-      applyForce(0.0f, getWeight() * gravityScale);
+      applyForce(
+        Constants::DEFAULT_GRAVITY_DIRECTION.x * getWeight() * gravityScale,
+        Constants::DEFAULT_GRAVITY_DIRECTION.y * getWeight() * gravityScale);
     }
 
     accelerationX += forceX / mass;
@@ -378,7 +380,6 @@ namespace Project::Components {
 
     bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotate);
-
 
     float gScale = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::GRAVITY_SCALE, Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE));
     setGravityScale(gScale);

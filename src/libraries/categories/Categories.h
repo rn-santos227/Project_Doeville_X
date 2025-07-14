@@ -2,6 +2,47 @@
 #define CATEGORIES_H
 
 namespace Project::Libraries::Categories {
+  namespace Cameras {
+    constexpr const char* TOP_DOWN = "TOP_DOWN";
+    constexpr const char* SIDE_SCROLLER = "SIDE_SCROLLER";
+    constexpr const char* ISOMETRIC = "ISOMETRIC";
+    constexpr const char* PLATFORMER = "PLATFORMER";
+    constexpr const char* BIRDS_EYE = "BIRDS_EYE";
+    constexpr const char* FIRST_PERSON = "FIRST_PERSON";
+    constexpr const char* THIRD_PERSON = "THIRD_PERSON";
+    constexpr const char* OVER_SHOULDER = "OVER_SHOULDER";
+    constexpr const char* FIXED = "FIXED";
+    constexpr const char* TWO_POINT_FIVE_D = "TWO_POINT_FIVE_D";
+    constexpr const char* FREE_ROAMING = "FREE_ROAMING";
+    constexpr const char* VR = "VR";
+  }
+
+  namespace Components {
+    constexpr const char* SUFFIX = "component";
+
+    constexpr const char* BOUNDING_BOX = "boundingbox";
+    constexpr const char* BUTTON = "button";
+    constexpr const char* CURSOR = "cursor";
+    constexpr const char* GRAPHICS = "graphics";
+    constexpr const char* HUD = "hud";
+    constexpr const char* INPUT = "input";
+    constexpr const char* KEYS = "keys";
+    constexpr const char* MOTION = "motion";
+    constexpr const char* PHYSICS = "physics";
+    constexpr const char* TEXT = "text";
+    constexpr const char* TRANSFORM = "transform";
+    constexpr const char* UNKNOWN = "unknown";
+
+    constexpr const char* CAMERA_COMPONENT = "CameraComponent";
+    constexpr const char* BOUNDING_BOX_COMPONENT = "BoundingBoxComponent";
+    constexpr const char* GRAPHICS_COMPONENT = "GraphicsComponent";
+    constexpr const char* KEYS_COMPONENT = "KeysComponent";
+    constexpr const char* MOTION_COMPONENT = "MotionComponent";
+    constexpr const char* PHYSICS_COMPONENT = "PhysicsComponent";
+    constexpr const char* TEXT_COMPONENT = "TextComponent";
+    constexpr const char* TRANSFORM_COMPONENT = "TransformComponent";
+  }
+
   namespace Entities {
     constexpr const char* PLAYER = "player";
     constexpr const char* ENEMY = "enemy";
@@ -16,6 +57,28 @@ namespace Project::Libraries::Categories {
     constexpr const char* CHECKPOINT = "checkpoint";
     constexpr const char* CAMERA = "camera";
     constexpr const char* UI_ELEMENT = "ui_element";
+  }
+
+  namespace Layers {
+    constexpr const char* HUD = "hud";
+    constexpr const char* OVERLAY = "overlay";
+    constexpr const char* FOREGROUND = "foreground";
+    constexpr const char* MIDGROUND = "midground";
+    constexpr const char* BACKGROUND = "background";
+    constexpr const char* CINEMATIC = "cinematic";
+    constexpr const char* CUSTOM = "custom";
+    constexpr const char* GAME = "game";
+  }
+
+  namespace Scripts {
+    constexpr const char* ENTITY = "ENTITY";
+    constexpr const char* ITEM = "ITEM";
+    constexpr const char* ANIMATION = "ANIMATION";
+    constexpr const char* MAP = "MAP";
+    constexpr const char* LAYER = "LAYER";
+    constexpr const char* STATE = "STATE";
+    constexpr const char* OTHER = "OTHER";
+    constexpr const char* INVALID = "INVALID";
   }
 
   namespace States {
@@ -45,53 +108,6 @@ namespace Project::Libraries::Categories {
     constexpr const char* EDITOR_STATE = "EDITOR_STATE";
   }
 
-  namespace Components {
-    constexpr const char* SUFFIX = "component";
-
-    constexpr const char* BOUNDING_BOX = "boundingbox";
-    constexpr const char* BUTTON = "button";
-    constexpr const char* CURSOR = "cursor";
-    constexpr const char* GRAPHICS = "graphics";
-    constexpr const char* HUD = "hud";
-    constexpr const char* INPUT = "input";
-    constexpr const char* KEYS = "keys";
-    constexpr const char* MOTION = "motion";
-    constexpr const char* PHYSICS = "physics";
-    constexpr const char* TEXT = "text";
-    constexpr const char* TRANSFORM = "transform";
-    constexpr const char* UNKNOWN = "unknown";
-
-    constexpr const char* CAMERA_COMPONENT = "CameraComponent";
-    constexpr const char* BOUNDING_BOX_COMPONENT = "BoundingBoxComponent";
-    constexpr const char* GRAPHICS_COMPONENT = "GraphicsComponent";
-    constexpr const char* KEYS_COMPONENT = "KeysComponent";
-    constexpr const char* MOTION_COMPONENT = "MotionComponent";
-    constexpr const char* PHYSICS_COMPONENT = "PhysicsComponent";
-    constexpr const char* TEXT_COMPONENT = "TextComponent";
-    constexpr const char* TRANSFORM_COMPONENT = "TransformComponent";
-  }
-
-  namespace Layers {
-    constexpr const char* HUD = "hud";
-    constexpr const char* OVERLAY = "overlay";
-    constexpr const char* FOREGROUND = "foreground";
-    constexpr const char* MIDGROUND = "midground";
-    constexpr const char* BACKGROUND = "background";
-    constexpr const char* CINEMATIC = "cinematic";
-    constexpr const char* CUSTOM = "custom";
-    constexpr const char* GAME = "game";
-  }
-
-  namespace Scripts {
-    constexpr const char* ENTITY = "ENTITY";
-    constexpr const char* ITEM = "ITEM";
-    constexpr const char* ANIMATION = "ANIMATION";
-    constexpr const char* MAP = "MAP";
-    constexpr const char* LAYER = "LAYER";
-    constexpr const char* STATE = "STATE";
-    constexpr const char* OTHER = "OTHER";
-    constexpr const char* INVALID = "INVALID";
-  }
 }
 
 #endif

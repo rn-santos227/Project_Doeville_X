@@ -61,6 +61,12 @@ namespace Project::Components {
       pendingTexturePath.clear();
     }
 
+    if (cameraHandler) {
+      SDL_Rect cullRect = cameraHandler->getCullingRect();
+      if (!SDL_HasIntersection(&destRect, &cullRect)) {
+        return;
+      }
+    }
     SDL_Texture* textureToRender = texture;
 
     if (animationHandler && animationHandler->isAnimationActive()) {
@@ -70,11 +76,17 @@ namespace Project::Components {
       }
     }
 
+    SDL_Rect renderRect = destRect;
+    if (cameraHandler) {
+      renderRect.x -= cameraHandler->getX();
+      renderRect.y -= cameraHandler->getY();
+    }
+
     if (textureToRender) {
       if (rotationEnabled) {
-        SDL_RenderCopyEx(renderer, textureToRender, nullptr, &destRect, rotation, nullptr, SDL_FLIP_NONE);
+        SDL_RenderCopyEx(renderer, textureToRender, nullptr, &renderRect, rotation, nullptr, SDL_FLIP_NONE);
       } else {
-        SDL_RenderCopy(renderer, textureToRender, nullptr, &destRect);
+        SDL_RenderCopy(renderer, textureToRender, nullptr, &renderRect);
       }
     } else if (drawShape) {
       SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
@@ -84,7 +96,7 @@ namespace Project::Components {
             int dx = radius - w;
             int dy = radius - h;
             if ((dx * dx + dy * dy) <= (radius * radius)) {
-              SDL_RenderDrawPoint(renderer, destRect.x + dx + radius, destRect.y + dy + radius);
+              SDL_RenderDrawPoint(renderer, renderRect.x + dx + radius, renderRect.y + dy + radius);
             }
           }
         }
@@ -93,13 +105,13 @@ namespace Project::Components {
           float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
           float cosA = std::cos(angleRad);
           float sinA = std::sin(angleRad);
-          float cx = destRect.x + destRect.w * Constants::DEFAULT_HALF;
-          float cy = destRect.y + destRect.h * Constants::DEFAULT_HALF;
+          float cx = renderRect.x + renderRect.w * Constants::DEFAULT_HALF;
+          float cy = renderRect.y + renderRect.h * Constants::DEFAULT_HALF;
           SDL_FPoint corners[Constants::INDEX_FOUR] = {
-            {static_cast<float>(destRect.x), static_cast<float>(destRect.y)},
-            {static_cast<float>(destRect.x + destRect.w), static_cast<float>(destRect.y)},
-            {static_cast<float>(destRect.x + destRect.w), static_cast<float>(destRect.y + destRect.h)},
-            {static_cast<float>(destRect.x), static_cast<float>(destRect.y + destRect.h)}
+            {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y)},
+            {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y)},
+            {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y + renderRect.h)},
+            {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y + renderRect.h)}
           };
           SDL_Vertex verts[Constants::INDEX_FOUR];
           for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
@@ -120,7 +132,7 @@ namespace Project::Components {
           };
           SDL_RenderGeometry(renderer, nullptr, verts, Constants::INDEX_FOUR, indices, Constants::INDEX_SIX);
         } else {
-          SDL_RenderFillRect(renderer, &destRect);
+          SDL_RenderFillRect(renderer, &renderRect);
         }
       }
     }

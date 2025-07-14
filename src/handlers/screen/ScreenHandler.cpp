@@ -1,5 +1,7 @@
 #include "ScreenHandler.h"
 
+#include "components/graphics_component/GraphicsComponent.h"
+#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
@@ -52,7 +54,14 @@ namespace Project::Handlers {
     int screenWidth = 0;
     int screenHeight = 0;
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
-    cameraHandler.setSize(screenWidth, screenHeight);
+    double scale = configReader.getDoubleValue(Keys::WINDOW_SECTION, Keys::WINDOW_SCALE_FACTORY, 1.0);
+    int camW = static_cast<int>(screenWidth * scale);
+    int camH = static_cast<int>(screenHeight * scale);
+    cameraHandler.setSize(camW, camH);
+    cameraHandler.setCullingOffset(Constants::DEFAULT_CAMERA_CULL_OFFSET, Constants::DEFAULT_CAMERA_CULL_OFFSET);
+    Project::Components::GraphicsComponent::setCameraHandler(&cameraHandler);
+    Project::Components::BoundingBoxComponent::setCameraHandler(&cameraHandler);
+
 
     cursorWidth = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_W, Constants::DEFAULT_CURSOR_SIZE);
     cursorHeight = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_H, Constants::DEFAULT_CURSOR_SIZE);
@@ -129,6 +138,10 @@ namespace Project::Handlers {
 
   bool ScreenHandler::isRunning() const {
     return running;
+  }
+
+  CameraHandler* ScreenHandler::getCameraHandler() const {
+    return const_cast<CameraHandler*>(&cameraHandler);
   }
   
   SDL_Renderer* ScreenHandler::getRenderer() const {

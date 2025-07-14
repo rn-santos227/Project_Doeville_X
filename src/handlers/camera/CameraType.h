@@ -3,7 +3,8 @@
 
 namespace Project::Handlers {
   enum class CameraType {
-
+    TOP_DOWN,
+    SIDE_SCROLLER,
   };
 }
 

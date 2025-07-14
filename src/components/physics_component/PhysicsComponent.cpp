@@ -160,10 +160,24 @@ namespace Project::Components {
           auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
           if (!otherBox || !otherBox->isSolid()) continue;
           
-          for (const auto& r1 : myBox->getBoxes()) {
-            for (const auto& r2 : otherBox->getBoxes()) {
+          const auto& myRects = myBox->getBoxes();
+          const auto& otherRects = otherBox->getBoxes();
+          const auto& myOBB = myBox->getOrientedBoxes();
+          const auto& otherOBB = otherBox->getOrientedBoxes();
+          for (size_t i = 0; i < myRects.size(); ++i) {
+            const SDL_Rect& r1 = myRects[i];
+            for (size_t j = 0; j < otherRects.size(); ++j) {
+              const SDL_Rect& r2 = otherRects[j];
               if (exitLoops) break;
-              if (Project::Utilities::PhysicsUtils::checkCollision(r1, r2)) {
+              
+              bool collides = false;
+              if (myBox->isRotationEnabled() || otherBox->isRotationEnabled()) {
+                collides = Project::Utilities::PhysicsUtils::checkCollision(myOBB[i], otherOBB[j]);
+              } else {
+                collides = Project::Utilities::PhysicsUtils::checkCollision(r1, r2);
+              }
+
+              if (collides) {
                 float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 

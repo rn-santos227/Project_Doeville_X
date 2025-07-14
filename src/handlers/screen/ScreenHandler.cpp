@@ -2,6 +2,8 @@
 
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "handlers/camera/CameraTypeResolver.h"
+#include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
@@ -58,6 +60,8 @@ namespace Project::Handlers {
     int camW = static_cast<int>(screenWidth * scale);
     int camH = static_cast<int>(screenHeight * scale);
     cameraHandler.setSize(camW, camH);
+    std::string camTypeStr = configReader.getValue(Keys::CAMERA_SECTION, Keys::CAMERA_TYPE, Project::Libraries::Categories::Cameras::FREE_ROAMING);
+    cameraHandler.setCameraType(CameraTypeResolver::resolve(camTypeStr));
     cameraHandler.setCullingOffset(Constants::DEFAULT_CAMERA_CULL_OFFSET, Constants::DEFAULT_CAMERA_CULL_OFFSET);
     Project::Components::GraphicsComponent::setCameraHandler(&cameraHandler);
     Project::Components::BoundingBoxComponent::setCameraHandler(&cameraHandler);

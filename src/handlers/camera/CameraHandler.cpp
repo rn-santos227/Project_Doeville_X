@@ -24,4 +24,8 @@ namespace Project::Handlers {
     rect.h += cullingOffset.y * 2;
     return rect;
   }
+
+  void CameraHandler::setCameraType(CameraType type) {
+    cameraType = type;
+  }
 }

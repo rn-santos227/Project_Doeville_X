@@ -1,6 +1,8 @@
 #ifndef CAMERA_HANDLER_H
 #define CAMERA_HANDLER_H
 
+#include "CameraType.h"
+
 #include <SDL2/SDL.h>
 
 namespace Project::Handlers {
@@ -14,6 +16,8 @@ namespace Project::Handlers {
     void setCullingOffset(int x, int y);
     SDL_Rect getCullingRect() const;
 
+    void setCameraType(CameraType type);
+    CameraType getCameraType() const { return cameraType; }
 
     int getWidth() const { return cameraRect.w; }
     int getHeight() const { return cameraRect.h; }
@@ -25,6 +29,8 @@ namespace Project::Handlers {
     int getOffsetY() const { return cullingOffset.y; }
 
   private:
+    CameraType cameraType = CameraType::FREE_ROAMING;
+    
     SDL_Rect cameraRect{0,0,0,0};
     SDL_Point cullingOffset{0,0};
   };

@@ -28,5 +28,9 @@ namespace Project::Handlers {
     std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
       return std::toupper(c);
     });
+
+    auto it = map.find(key);
+    if (it != map.end()) return it->second;
+    return CameraType::FREE_ROAMING;
   };
 }

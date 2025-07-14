@@ -53,6 +53,9 @@ namespace Project::Components {
     void setAngularAcceleration(float aa) { angularAcceleration = aa; }
     float getAngularAcceleration() const { return angularAcceleration; }
 
+    void setGravityEnabled(bool enabled) { gravityEnabled = enabled; }
+    bool isGravityEnabled() const { return gravityEnabled; }
+
     void setRotationSpeed(float rs) { rotationSpeed = rs; }
     float getRotationSpeed() const { return rotationSpeed; }
 
@@ -90,6 +93,7 @@ namespace Project::Components {
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
     float rotationSpeed = Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
 
+    bool gravityEnabled = true;
     bool rotationEnabled = false;
   };
 }

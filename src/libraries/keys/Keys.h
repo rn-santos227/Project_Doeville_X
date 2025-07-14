@@ -66,6 +66,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* FLEXIBILITY = "flexibility";
   constexpr const char* FUNCTION = "function";
   constexpr const char* GLOBAL = "global";
+  constexpr const char* GRAVITY = "gravity";
   constexpr const char* GROUP = "group";
   constexpr const char* H = "h";
   constexpr const char* HEIGHT = "height";

@@ -80,6 +80,10 @@ namespace Project::Components {
   }
 
   void PhysicsComponent::update(float deltaTime) {
+    if (gravityEnabled) {
+      applyForce(0.0f, getWeight());
+    }
+    
     velocityX += accelerationX * deltaTime;
     velocityY += accelerationY * deltaTime;
     accelerationX = 0.0f;

@@ -11,6 +11,9 @@ namespace Project::Handlers {
 
     void setSize(int width, int height);
     void setPosition(int x, int y);
+    void setCullingOffset(int x, int y);
+    SDL_Rect getCullingRect() const;
+
 
     int getWidth() const { return cameraRect.w; }
     int getHeight() const { return cameraRect.h; }
@@ -18,9 +21,12 @@ namespace Project::Handlers {
     int getY() const { return cameraRect.y; }
     
     const SDL_Rect& getRect() const { return cameraRect; }
+    int getOffsetX() const { return cullingOffset.x; }
+    int getOffsetY() const { return cullingOffset.y; }
 
-    private:
-      SDL_Rect cameraRect{0,0,0,0};
+  private:
+    SDL_Rect cameraRect{0,0,0,0};
+    SDL_Point cullingOffset{0,0};
   };
 }
 

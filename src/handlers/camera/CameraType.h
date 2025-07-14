@@ -11,6 +11,8 @@ namespace Project::Handlers {
     FIRST_PERSON,
     THIRD_PERSON,
     OVER_SHOULDER,
+    FIXED,
+    TWO_POINT_FIVE_D,
   };
 }
 

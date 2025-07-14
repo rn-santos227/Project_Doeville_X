@@ -10,6 +10,7 @@
 #include "components/PositionableComponent.h"
 #include "components/TextureHolder.h"
 #include "handlers/animation/AnimationHandler.h"
+#include "handlers/camera/CameraHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/rotation_interface/Rotatable.h"
 #include "libraries/constants/Constants.h"
@@ -20,6 +21,8 @@ namespace Project::Components {
   public:
     GraphicsComponent(SDL_Renderer* renderer, Project::Handlers::ResourcesHandler* resourcesHandler, Project::Utilities::LogsManager& logsManager);
     ~GraphicsComponent();
+
+    static void setCameraHandler(Project::Handlers::CameraHandler* handler);
     
     void update(float deltaTime) override;
     void render() override;
@@ -45,6 +48,8 @@ namespace Project::Components {
     Project::Handlers::AnimationHandler* getAnimationHandler() { return animationHandler.get(); }
 
   private:
+    static Project::Handlers::CameraHandler* cameraHandler;
+    
     SDL_Renderer* renderer;
     Project::Handlers::ResourcesHandler* resourcesHandler;
     Project::Utilities::LogsManager& logsManager;

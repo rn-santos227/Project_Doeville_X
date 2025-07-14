@@ -41,10 +41,14 @@ components = {
     component = "PhysicsComponent",
     active = true,
     rotation = true,
+    gravity = true,
+    static = false,
+    kinematic = false,
+    density = 0.2,
     friction = 0.2,
-    restitution = 0.0,
     mass = 1.0,
-    density = 0.2
+    gravity_scale = 1.0,
+    restitution = 0.0
   }
 }
 

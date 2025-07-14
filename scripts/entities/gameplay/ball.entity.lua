@@ -19,31 +19,35 @@ components = {
 
   GraphicsComponent = {
     component = "GraphicsComponent",
-    active = true,
-    radius = 16,
     color_hex = "808080",
+    active = true,
     rotation = true,
-    color_alpha = 255
+    color_alpha = 255,
+    radius = 16
   },
 
   MotionComponent = {
     component = "MotionComponent",
     active = true,
-    speed = 100.0,
-    acceleration = 50.0,
-    friction = 20.0,
     use_acceleration = true,
     rotation = true,
+    speed = 100.0,
+    acceleration = 50.0,
+    friction = 20.0
   },
 
   PhysicsComponent = {
     component = "PhysicsComponent",
     active = true,
     rotation = true,
+    gravity = true,
+    static = false,
+    kinematic = false,
+    density = 0.2,
     friction = 0.2,
-    restitution = 0.0,
     mass = 1.0,
-    density = 0.2
+    gravity_scale = 1.0,
+    restitution = 0.0
   }
 }
 

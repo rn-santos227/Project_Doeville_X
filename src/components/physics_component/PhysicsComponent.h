@@ -56,6 +56,15 @@ namespace Project::Components {
     void setGravityEnabled(bool enabled) { gravityEnabled = enabled; }
     bool isGravityEnabled() const { return gravityEnabled; }
 
+    void setGravityScale(float scale) { gravityScale = scale; }
+    float getGravityScale() const { return gravityScale; }
+
+    void setStatic(bool s) { isStatic = s; }
+    bool getStatic() const { return isStatic; }
+
+    void setKinematic(bool k) { isKinematic = k; }
+    bool isKinematicBody() const { return isKinematic; }
+
     void setRotationSpeed(float rs) { rotationSpeed = rs; }
     float getRotationSpeed() const { return rotationSpeed; }
 
@@ -71,12 +80,15 @@ namespace Project::Components {
     void addAngularAcceleration(float aa) { angularAcceleration += aa; }
 
     void applyForce(float fx, float fy) {
-      accelerationX += fx / mass;
-      accelerationY += fy / mass;
+      forceX += fx;
+      forceY += fy;
     }
 
   private:
     Project::Entities::Entity* owner = nullptr;
+
+    float forceX = 0.0f;
+    float forceY = 0.0f;
     
     float accelerationX = 0.0f;
     float accelerationY = 0.0f;
@@ -92,9 +104,12 @@ namespace Project::Components {
     float pushForce = Project::Libraries::Constants::DEFAULT_PUSH_FORCE;
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
     float rotationSpeed = Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
+    float gravityScale = Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE;
 
-    bool gravityEnabled = true;
     bool rotationEnabled = false;
+    bool gravityEnabled = true;
+    bool isStatic = false;
+    bool isKinematic = false;
   };
 }
 

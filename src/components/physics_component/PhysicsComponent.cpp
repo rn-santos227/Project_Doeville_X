@@ -20,8 +20,9 @@ namespace Project::Components {
 
   PhysicsComponent::PhysicsComponent(Project::Utilities::LogsManager& logsManager)
     : BaseComponent(logsManager),
-     mass(Project::Libraries::Constants::DEFAULT_MASS),
-     density(Project::Libraries::Constants::DEFAULT_DENSITY) {}
+      mass(Project::Libraries::Constants::DEFAULT_MASS),
+      density(Project::Libraries::Constants::DEFAULT_DENSITY),
+      gravityScale(Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE) {}
 
   void PhysicsComponent::resolveCollisionWith(PhysicsComponent* other, float restitution) {
     if (!other || !owner || !other->owner) return;
@@ -80,10 +81,20 @@ namespace Project::Components {
   }
 
   void PhysicsComponent::update(float deltaTime) {
-    if (gravityEnabled) {
-      applyForce(0.0f, getWeight());
+    if (isStatic) {
+      forceX = forceY = 0.0f;
+      accelerationX = accelerationY = 0.0f;
+      return;
     }
-    
+
+    if (!isKinematic && gravityEnabled) {
+      applyForce(0.0f, getWeight() * gravityScale);
+    }
+
+    accelerationX += forceX / mass;
+    accelerationY += forceY / mass;
+    forceX = forceY = 0.0f;
+
     velocityX += accelerationX * deltaTime;
     velocityY += accelerationY * deltaTime;
     accelerationX = 0.0f;
@@ -91,7 +102,7 @@ namespace Project::Components {
 
     bool collisionOccurred = false;
 
-    if (friction > 0.0f) {
+    if (!isKinematic && friction > 0.0f) {
       float decel = friction * deltaTime;
       if (velocityX > 0.0f) {
         velocityX -= decel;
@@ -109,7 +120,7 @@ namespace Project::Components {
       }
     }
 
-    if (density > 0.0f) {
+    if (!isKinematic && density > 0.0f) {
       float factor = Constants::DEFAULT_WHOLE - density * deltaTime;
       if (factor < 0.0f) factor = 0.0f;
       velocityX *= factor;
@@ -367,5 +378,15 @@ namespace Project::Components {
 
     bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotate);
+
+
+    float gScale = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::GRAVITY_SCALE, Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE));
+    setGravityScale(gScale);
+
+    bool stat = luaStateWrapper.getTableBoolean(tableName, Keys::STATIC, false);
+    setStatic(stat);
+
+    bool kine = luaStateWrapper.getTableBoolean(tableName, Keys::KINEMATIC, false);
+    setKinematic(kine);
   }
 }

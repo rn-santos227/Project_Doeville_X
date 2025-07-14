@@ -108,6 +108,7 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_PUSH_FORCE = 1.0f;
   constexpr float DEFAULT_MASS = 1.0f;
   constexpr float DEFAULT_DENSITY = 0.1f;
+  constexpr float DEFAULT_GRAVITY_SCALE = 1.0f;
 
   // Math constants
   constexpr float DEFAULT_DENOMINATOR = 2.0f;

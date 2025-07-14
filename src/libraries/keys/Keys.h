@@ -67,6 +67,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* FUNCTION = "function";
   constexpr const char* GLOBAL = "global";
   constexpr const char* GRAVITY = "gravity";
+  constexpr const char* GRAVITY_SCALE = "gravity_scale";
   constexpr const char* GROUP = "group";
   constexpr const char* H = "h";
   constexpr const char* HEIGHT = "height";
@@ -77,6 +78,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* INTERACTABLE = "interactable";
   constexpr const char* KEY = "key";
   constexpr const char* KEYS = "keys";
+  constexpr const char* KINEMATIC = "kinematic";
   constexpr const char* LAYER = "layer";
   constexpr const char* LAYER_CATEGORY = "layer_category";
   constexpr const char* LAYER_NAME = "layer_name";
@@ -99,6 +101,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* STATE = "state";
   constexpr const char* STATE_NAME = "state_name";
   constexpr const char* STATE_CATEGORY = "state_category";
+  constexpr const char* STATIC = "static";
   constexpr const char* TAG = "tag";  
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";

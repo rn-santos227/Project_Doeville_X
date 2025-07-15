@@ -23,6 +23,8 @@ namespace Project::Entities {
 
     void update(float deltaTime) override;
 
+    void setDistribution(Distribution distFunc) { distribution = std::move(distFunc); }
+
     void setPlayer(std::shared_ptr<Entity> player);
     void addEntityTemplate(const std::string& name);
     void setSpawnRadius(float radius) { spawnRadius = radius; }

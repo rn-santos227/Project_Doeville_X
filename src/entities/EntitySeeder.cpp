@@ -31,37 +31,35 @@ namespace Project::Entities {
     entityTemplates.push_back(name);
   }
 
-  float EntitySeeder::distanceSquared(float x1, float y1, float x2, float y2) const {
-    float dx = x1 - x2;
-    float dy = y1 - y2;
-    return MathUtils::dot(dx, dx, dy, dy);
+  long long EntitySeeder::key(int x, int y) const {
+    return (static_cast<long long>(x) << 32) ^ static_cast<unsigned int>(y);
   }
 
-  void EntitySeeder::spawnEntity() {
-    if (entityTemplates.empty()) return;
-    auto p = player.lock();
-    if (!p) return;
+  void EntitySeeder::loadChunk(int cx, int cy) {
+    long long k = key(cx, cy);
+    Chunk& chunk = chunks[k];
+    if (!chunk.ids.empty()) return;
 
-    std::string tmpl = entityTemplates[idCounter % entityTemplates.size()];
-    std::unique_ptr<Entity> entity = factory.cloneEntity(tmpl);
-    if (!entity) return;
+    size_t count = distribution(rng);
+    std::uniform_real_distribution<float> pos(0.0f, chunkSize);
+      for (size_t i = 0; i < count; ++i) {
+      if (entityTemplates.empty()) break;
+      std::string tmpl = entityTemplates[idCounter % entityTemplates.size()];
+      std::unique_ptr<Entity> entity = factory.cloneEntity(tmpl);
+      if (!entity) continue;
 
-    float px = p->getX();
-    float py = p->getY();
+      float ex = cx * chunkSize + pos(rng);
+      float ey = cy * chunkSize + pos(rng);
 
-    float angle = dist(rng) * Constants::ANGLE_TWO_PI_RAD;
-    float radius = spawnRadius * (Constants::DEFAULT_HALF + Constants::DEFAULT_HALF * dist(rng));
-    float ex = px + std::cos(angle) * radius;
-    float ey = py + std::sin(angle) * radius;
+      entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::X, ex);
+      entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::Y, ey);
+      entity->initialize();
 
-    entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
-    entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
-    entity->initialize();
-
-    std::shared_ptr<Entity> shared = std::move(entity);
-    std::string id = tmpl + std::string(Constants::SEED) + std::to_string(idCounter++);
-    manager.addEntity(id, shared);
-    spawnedIds.push_back(id);
+      std::shared_ptr<Entity> shared = std::move(entity);
+      std::string id = tmpl + std::string(Constants::SEED) + std::to_string(idCounter++);
+      manager.addEntity(id, shared);
+      chunk.ids.push_back(id);
+    }
   }
 
   void EntitySeeder::update(float deltaTime) {

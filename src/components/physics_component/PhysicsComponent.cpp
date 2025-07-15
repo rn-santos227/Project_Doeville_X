@@ -12,8 +12,10 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/physics/PhysicsUtils.h"
+#include "utilities/math/MathUtils.h"
 
 namespace Project::Components {
+  using Project::Utilities::MathUtils;
   using Project::Utilities::PhysicsUtils;
 
   namespace Components = Project::Libraries::Categories::Components;
@@ -31,7 +33,7 @@ namespace Project::Components {
 
     float nx = other->owner->getX() - owner->getX();
     float ny = other->owner->getY() - owner->getY();
-    float dist = std::sqrt(nx * nx + ny * ny);
+    float dist = MathUtils::magnitude(nx, ny);
     if (dist == 0.0f) {
       if (std::abs(velocityX) > std::abs(velocityY)) {
         nx = (velocityX > 0.0f) ? Constants::DEFAULT_WHOLE : -Constants::DEFAULT_WHOLE;
@@ -43,12 +45,13 @@ namespace Project::Components {
       dist = Constants::DEFAULT_WHOLE;
     }
 
-    nx /= dist;
-    ny /= dist;
+    SDL_FPoint norm = MathUtils::normalize(nx, ny);
+    nx = norm.x;
+    ny = norm.y;
 
     float relVelX = other->velocityX - velocityX;
     float relVelY = other->velocityY - velocityY;
-    float velAlongNormal = relVelX * nx + relVelY * ny;
+    float velAlongNormal = MathUtils::dot(relVelX, relVelY, nx, ny);
     if (velAlongNormal > 0.0f) return;
 
     float invMass1 = (mass > 0.0f) ? Constants::DEFAULT_WHOLE / mass : 0.0f;
@@ -66,15 +69,15 @@ namespace Project::Components {
     other->velocityY += impulseY * invMass2;
 
     if (rotationEnabled || other->rotationEnabled) {
-      float torque = impulseX * ny - impulseY * nx;
+      float torque = MathUtils::cross(impulseX, impulseY, nx, ny);
       if (rotationEnabled) angularVelocity -= torque * invMass1;
       if (other->rotationEnabled) other->angularVelocity += torque * invMass2;
     }
 
     SDL_FPoint vel1{velocityX, velocityY};
     SDL_FPoint vel2{other->velocityX, other->velocityY};
-    Project::Utilities::PhysicsUtils::clampVelocity(vel1, Project::Libraries::Constants::TERMINAL_VELOCITY);
-    Project::Utilities::PhysicsUtils::clampVelocity(vel2, Project::Libraries::Constants::TERMINAL_VELOCITY);
+    PhysicsUtils::clampVelocity(vel1, Constants::TERMINAL_VELOCITY);
+    PhysicsUtils::clampVelocity(vel2, Constants::TERMINAL_VELOCITY);
 
     velocityX = vel1.x;
     velocityY = vel1.y;

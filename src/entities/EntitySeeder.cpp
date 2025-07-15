@@ -23,5 +23,14 @@ namespace Project::Entities {
     player = p;
   }
 
+  void EntitySeeder::addEntityTemplate(const std::string& name) {
+    entityTemplates.push_back(name);
+  }
+
+  float EntitySeeder::distanceSquared(float x1, float y1, float x2, float y2) const {
+    float dx = x1 - x2;
+    float dy = y1 - y2;
+    return MathUtils::dot(dx, dx, dy, dy);
+  }
 }
 

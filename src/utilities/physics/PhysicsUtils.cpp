@@ -90,6 +90,21 @@ namespace Project::Utilities {
     }
   }
 
+  void PhysicsUtils::applyForces(
+    float& velocityX, float& velocityY,
+    float& accelerationX, float& accelerationY,
+    float& forceX, float& forceY,
+    float mass, float deltaTime) {
+    accelerationX += forceX / mass;
+    accelerationY += forceY / mass;
+    forceX = forceY = 0.0f;
+
+    velocityX += accelerationX * deltaTime;
+    velocityY += accelerationY * deltaTime;
+    accelerationX = 0.0f;
+    accelerationY = 0.0f;
+  }
+
   SDL_FPoint PhysicsUtils::getSnapOffset(const SDL_Rect& moving, const SDL_Rect& other, float dx, float dy) {
     SDL_Rect inter;
     SDL_FPoint result{0.0f, 0.0f};

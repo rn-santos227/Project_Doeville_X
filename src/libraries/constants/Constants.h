@@ -64,6 +64,9 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
   constexpr int DEFAULT_DOUBLE = 2;
 
+  // Default Floats
+  constexpr float DEFAULT_SPAWN_RADIUS = 300.0;
+
   // Angle constants in degrees
   constexpr float ANGLE_0_DEG = 0.0f;
   constexpr float ANGLE_30_DEG = 30.0f;

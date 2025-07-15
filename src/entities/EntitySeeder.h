@@ -7,6 +7,7 @@
 #include <random>
 
 #include "interfaces/update_interface/Updatable.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::Factories { class EntitiesFactory; }
 namespace Project::Entities {
@@ -22,7 +23,6 @@ namespace Project::Entities {
     void setPlayer(std::shared_ptr<Entity> player);
     void addEntityTemplate(const std::string& name);
     void setSpawnRadius(float radius) { spawnRadius = radius; }
-    void setMaxEntities(size_t max) { maxEntities = max; }
 
   private:
     std::weak_ptr<Entity> player;
@@ -33,10 +33,9 @@ namespace Project::Entities {
     std::vector<std::string> spawnedIds;
 
     std::mt19937 rng;
-    std::uniform_real_distribution<float> dist{-1.0f, 1.0f};
+    std::uniform_real_distribution<float> dist{-Project::Libraries::Constants::DEFAULT_WHOLE, Project::Libraries::Constants::DEFAULT_WHOLE};
 
-    float spawnRadius = 300.0f;
-    size_t maxEntities = 10;
+    float spawnRadius = Project::Libraries::Constants::DEFAULT_SPAWN_RADIUS;
     size_t idCounter = 0;
 
     void spawnEntity();

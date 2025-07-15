@@ -17,6 +17,13 @@ namespace Project::Entities {
   public:
     EntitySeeder(EntitiesManager& manager, Project::Factories::EntitiesFactory& factory);
 
+    void update(float deltaTime) override;
+
+    void setPlayer(std::shared_ptr<Entity> player);
+    void addEntityTemplate(const std::string& name);
+    void setSpawnRadius(float radius) { spawnRadius = radius; }
+    void setMaxEntities(size_t max) { maxEntities = max; }
+
   private:
     std::weak_ptr<Entity> player;
     EntitiesManager& manager;

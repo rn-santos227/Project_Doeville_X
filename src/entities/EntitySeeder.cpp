@@ -73,27 +73,23 @@ namespace Project::Entities {
   void EntitySeeder::update(float deltaTime) {
     auto p = player.lock();
     if (!p) return;
+
     float px = p->getX();
     float py = p->getY();
 
-    auto it = spawnedIds.begin();
-    while (it != spawnedIds.end()) {
-      auto ent = manager.getEntity(*it);
-      if (!ent) {
-        it = spawnedIds.erase(it);
-        continue;
-      }
-      float ex = ent->getX();
-      float ey = ent->getY();
-      if (distanceSquared(px, py, ex, ey) > spawnRadius * spawnRadius * 4.0f) {
-        manager.removeEntity(*it);
-        it = spawnedIds.erase(it);
-      } else {
-        ++it;
+    int pcx = static_cast<int>(std::floor(px / chunkSize));
+    int pcy = static_cast<int>(std::floor(py / chunkSize));
+
+    for (int dx = -chunkRadius; dx <= chunkRadius; ++dx) {
+      for (int dy = -chunkRadius; dy <= chunkRadius; ++dy) {
+        int cx = pcx + dx;
+        int cy = pcy + dy;
+        long long k = key(cx, cy);
+        if (!chunks.count(k)) {
+          loadChunk(cx, cy);
+        }
       }
     }
-
-    spawnEntity();
   }
 }
 

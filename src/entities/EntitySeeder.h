@@ -1,6 +1,7 @@
 #ifndef ENTITY_SEEDER_H
 #define ENTITY_SEEDER_H
 
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <random>
@@ -26,6 +27,10 @@ namespace Project::Entities {
     void setDistribution(Distribution distFunc) { distribution = std::move(distFunc); }
 
     void setPlayer(std::shared_ptr<Entity> player);
+
+    void setSeed(size_t seed);
+    void setSeedString(const std::string& seedStr);
+
     void addEntityTemplate(const std::string& name);
     void setSpawnRadius(float radius) { spawnRadius = radius; }
     void setChunkSize(float size) { chunkSize = size; }
@@ -52,6 +57,7 @@ namespace Project::Entities {
     float spawnRadius = Project::Libraries::Constants::DEFAULT_SPAWN_RADIUS;
     float chunkSize =  Project::Libraries::Constants::DEFAULT_CHUNK_SIZE;
     int chunkRadius = Project::Libraries::Constants::INT_ONE;
+    size_t baseSeed = 0;
     size_t idCounter = 0;
 
     long long key(int x, int y) const;

@@ -3,7 +3,11 @@
 #include <algorithm>
 #include <cmath>
 
+#include "libraries/constants/Constants.h"
+
 namespace Project::Utilities {
+  namespace Constants = Project::Libraries::Constants;
+
   bool PhysicsUtils::checkCollision(const SDL_Rect& a, const SDL_Rect& b) {
     SDL_Rect intersection;
     return SDL_IntersectRect(&a, &b, &intersection);
@@ -103,6 +107,36 @@ namespace Project::Utilities {
     velocityY += accelerationY * deltaTime;
     accelerationX = 0.0f;
     accelerationY = 0.0f;
+  }
+
+  void PhysicsUtils::applyResistance(
+    float& velocityX, float& velocityY,
+    float friction, float density,
+    bool isKinematic, float deltaTime) {
+    if (!isKinematic && friction > 0.0f) {
+      float decel = friction * deltaTime;
+      if (velocityX > 0.0f) {
+        velocityX -= decel;
+        if (velocityX < 0.0f) velocityX = 0.0f;
+      } else if (velocityX < 0.0f) {
+        velocityX += decel;
+        if (velocityX > 0.0f) velocityX = 0.0f;
+      }
+      if (velocityY > 0.0f) {
+        velocityY -= decel;
+        if (velocityY < 0.0f) velocityY = 0.0f;
+      } else if (velocityY < 0.0f) {
+        velocityY += decel;
+        if (velocityY > 0.0f) velocityY = 0.0f;
+      }
+    }
+
+    if (!isKinematic && density > 0.0f) {
+      float factor = Constants::DEFAULT_WHOLE - density * deltaTime;
+      if (factor < 0.0f) factor = 0.0f;
+      velocityX *= factor;
+      velocityY *= factor;
+    }
   }
 
   SDL_FPoint PhysicsUtils::getSnapOffset(const SDL_Rect& moving, const SDL_Rect& other, float dx, float dy) {

@@ -1,11 +1,11 @@
 #include "GameState.h"
 #include "GameStateManager.h"
 
-#include "factories/entity/EntitiesFactory.h"
-#include "libraries/keys/Keys.h"
-
 #include <future>
 #include <chrono>
+
+#include "factories/entity/EntitiesFactory.h"
+#include "libraries/keys/Keys.h"
 
 namespace Project::States {
   using Project::Utilities::LogsManager;

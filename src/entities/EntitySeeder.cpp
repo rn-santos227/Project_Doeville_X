@@ -1,6 +1,5 @@
 #include "EntitySeeder.h"
 
-#include <algorithm>
 #include <cmath>
 #include <string>
 
@@ -60,6 +59,15 @@ namespace Project::Entities {
       manager.addEntity(id, shared);
       chunk.ids.push_back(id);
     }
+  }
+
+  void EntitySeeder::unloadChunk(long long k) {
+    auto it = chunks.find(k);
+    if (it == chunks.end()) return;
+    for (const std::string& id : it->second.ids) {
+      manager.removeEntity(id);
+    }
+    chunks.erase(it);
   }
 
   void EntitySeeder::update(float deltaTime) {

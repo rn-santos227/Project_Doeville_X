@@ -14,6 +14,8 @@
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
+  using Project::Utilities::PhysicsUtils;
+
   namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
@@ -94,11 +96,25 @@ namespace Project::Components {
       );
     }
 
-    applyForces(deltaTime);
+    PhysicsUtils::applyForces(
+      velocityX, velocityY,
+      accelerationX, accelerationY,
+      forceX, forceY,
+      mass, deltaTime
+    );
     bool collisionOccurred = false;
 
-    applyResistance(deltaTime);
-    clampVelocity();
+    PhysicsUtils::applyResistance(
+      velocityX, velocityY,
+      friction, density,
+      isKinematic, deltaTime
+    );
+
+    SDL_FPoint vel{velocityX, velocityY};
+    Project::Utilities::PhysicsUtils::clampVelocity(
+    vel, Project::Libraries::Constants::TERMINAL_VELOCITY);
+    velocityX = vel.x;
+    velocityY = vel.y;
 
     if (owner) {
       float oldX = owner->getX();

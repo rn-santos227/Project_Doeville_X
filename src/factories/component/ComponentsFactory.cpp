@@ -37,16 +37,16 @@ namespace Project::Factories {
     ComponentType type = ComponentTypeResolver::resolve(resolvedName);
 
     switch (type) {
-      case ComponentType::CAMERA: {
-        auto component = std::make_unique<CameraComponent>(logsManager, cameraHandler);
-        component->build(luaStateWrapper, tableName);
-        return component;
-      }
-
       case ComponentType::BOUNDING_BOX: {
         SDL_Color defaultColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
         SDL_Color debugColor = configReader.getColorValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_COLOR, defaultColor);
         auto component = std::make_unique<BoundingBoxComponent>(logsManager, renderer, keyHandler, debugColor);
+        component->build(luaStateWrapper, tableName);
+        return component;
+      }
+
+      case ComponentType::CAMERA: {
+        auto component = std::make_unique<CameraComponent>(logsManager, cameraHandler);
         component->build(luaStateWrapper, tableName);
         return component;
       }

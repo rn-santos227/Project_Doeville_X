@@ -3,9 +3,9 @@
 
 namespace Project::Factories {
   enum class ComponentType {
-    CAMERA,
     BOUNDING_BOX,
     BUTTON,
+    CAMERA,
     CURSOR,
     GRAPHICS,
     HUD,

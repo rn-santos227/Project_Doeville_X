@@ -26,6 +26,8 @@ namespace Project::Entities {
     void setPlayer(std::shared_ptr<Entity> player);
     void addEntityTemplate(const std::string& name);
     void setSpawnRadius(float radius) { spawnRadius = radius; }
+    void setChunkSize(float size) { chunkSize = size; }
+    void setChunkRadius(int radius) { chunkRadius = radius; }
 
   private:
     struct Chunk {
@@ -46,6 +48,8 @@ namespace Project::Entities {
     std::uniform_real_distribution<float> dist{0.0f, Project::Libraries::Constants::DEFAULT_WHOLE};
 
     float spawnRadius = Project::Libraries::Constants::DEFAULT_SPAWN_RADIUS;
+    float chunkSize =  Project::Libraries::Constants::DEFAULT_CHUNK_SIZE;
+    int chunkRadius = Project::Libraries::Constants::INT_ONE;
     size_t idCounter = 0;
 
     void spawnEntity();

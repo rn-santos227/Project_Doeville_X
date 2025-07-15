@@ -63,9 +63,12 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_GRID_SPACING = 32;
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
   constexpr int DEFAULT_DOUBLE = 2;
+  
+  constexpr int INT_ONE = 1;
 
   // Default Floats
-  constexpr float DEFAULT_SPAWN_RADIUS = 300.0;
+  constexpr float DEFAULT_CHUNK_SIZE = 512.0f;
+  constexpr float DEFAULT_SPAWN_RADIUS = 300.0f;
 
   // Angle constants in degrees
   constexpr float ANGLE_0_DEG = 0.0f;

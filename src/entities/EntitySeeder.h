@@ -54,8 +54,9 @@ namespace Project::Entities {
     int chunkRadius = Project::Libraries::Constants::INT_ONE;
     size_t idCounter = 0;
 
-    void spawnEntity();
-    float distanceSquared(float x1, float y1, float x2, float y2) const;
+    long long key(int x, int y) const;
+    void loadChunk(int cx, int cy);
+    void unloadChunk(long long k);
   };
 }
 

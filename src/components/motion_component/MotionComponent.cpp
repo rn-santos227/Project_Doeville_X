@@ -11,12 +11,14 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/geometry/GeometryUtils.h"
+#include "utilities/math/MathUtils.h"
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
   using Project::Handlers::KeyAction;
   using Project::Handlers::KeyHandler;
   using Project::Entities::Entity;
+  using Project::Utilities::MathUtils;
 
   namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
@@ -140,12 +142,12 @@ namespace Project::Components {
 
   float MotionComponent::getCurrentSpeed() const {
     if (owner) {
-      if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent("PhysicsComponent"))) {
+      if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
         float vx = physics->getVelocityX();
         float vy = physics->getVelocityY();
-        return std::sqrt(vx * vx + vy * vy);
+        return MathUtils::magnitude(vx, vy);
       }
     }
-    return std::sqrt(velocityX * velocityX + velocityY * velocityY);
+    return MathUtils::magnitude(velocityX, velocityY);
   }
 }

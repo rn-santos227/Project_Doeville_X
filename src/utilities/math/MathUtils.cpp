@@ -15,4 +15,11 @@ namespace Project::Utilities {
     return std::sqrt(x * x + y * y);
   }
 
+  SDL_FPoint MathUtils::normalize(float x, float y) {
+    float mag = magnitude(x, y);
+    if (mag == 0.0f) {
+      return {0.0f, 0.0f};
+    }
+    return {x / mag, y / mag};
+  }
 }

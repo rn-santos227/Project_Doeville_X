@@ -15,11 +15,13 @@ namespace Project::Entities {
 
   class EntitySeeder : public Project::Interfaces::Updatable {
   public:
-
+    EntitySeeder(EntitiesManager& manager, Project::Factories::EntitiesFactory& factory);
 
   private:
+    std::weak_ptr<Entity> player;
+    EntitiesManager& manager;
+    Project::Factories::EntitiesFactory& factory;
 
-  
   };
 }
 

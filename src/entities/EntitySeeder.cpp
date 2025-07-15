@@ -90,6 +90,18 @@ namespace Project::Entities {
         }
       }
     }
+
+    std::vector<long long> remove;
+    for (const auto& [k, _] : chunks) {
+      int cx = static_cast<int>(k >> 32);
+      int cy = static_cast<int>(static_cast<int>(k));
+      if (std::abs(cx - pcx) > chunkRadius || std::abs(cy - pcy) > chunkRadius) {
+        remove.push_back(k);
+      }
+    }
+    for (long long k : remove) {
+      unloadChunk(k);
+    }
   }
 }
 

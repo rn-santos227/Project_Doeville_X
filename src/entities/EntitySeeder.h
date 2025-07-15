@@ -33,7 +33,10 @@ namespace Project::Entities {
     std::vector<std::string> spawnedIds;
 
     std::mt19937 rng;
-    std::uniform_real_distribution<float> dist{-Project::Libraries::Constants::DEFAULT_WHOLE, Project::Libraries::Constants::DEFAULT_WHOLE};
+    std::uniform_real_distribution<float> dist{
+      -Project::Libraries::Constants::DEFAULT_WHOLE, 
+      Project::Libraries::Constants::DEFAULT_WHOLE
+    };
 
     float spawnRadius = Project::Libraries::Constants::DEFAULT_SPAWN_RADIUS;
     size_t idCounter = 0;

@@ -4,8 +4,12 @@
 #include <cmath>
 
 #include "libraries/constants/Constants.h"
+#include "utilities/math/MathUtils.h"
+
 
 namespace Project::Utilities {
+  using Project::Utilities::MathUtils;
+
   namespace Constants = Project::Libraries::Constants;
 
   bool PhysicsUtils::checkCollision(const SDL_Rect& a, const SDL_Rect& b) {
@@ -34,14 +38,14 @@ namespace Project::Utilities {
       float minA = std::numeric_limits<float>::max();
       float maxA = std::numeric_limits<float>::lowest();
       for (int i = 0; i < Project::Libraries::Constants::INDEX_FOUR; ++i) {
-        float proj = pts1[i].x * axis.x + pts1[i].y * axis.y;
+        float proj = MathUtils::dot(pts1[i].x, pts1[i].y, axis.x, axis.y);
         if (proj < minA) minA = proj;
         if (proj > maxA) maxA = proj;
       }
       float minB = std::numeric_limits<float>::max();
       float maxB = std::numeric_limits<float>::lowest();
       for (int i = 0; i < Project::Libraries::Constants::INDEX_FOUR; ++i) {
-        float proj = pts2[i].x * axis.x + pts2[i].y * axis.y;
+        float proj = MathUtils::dot(pts2[i].x, pts2[i].y, axis.x, axis.y);
         if (proj < minB) minB = proj;
         if (proj > maxB) maxB = proj;
       }
@@ -59,10 +63,10 @@ namespace Project::Utilities {
     axes[3].y = b.corners[2].x - b.corners[1].x;
 
     for (SDL_FPoint& axis : axes) {
-      float len = std::sqrt(axis.x * axis.x + axis.y * axis.y);
+      float len = MathUtils::magnitude(axis.x, axis.y);
       if (len == 0.0f) continue;
-      axis.x /= len;
-      axis.y /= len;
+      SDL_FPoint norm = MathUtils::normalize(axis.x, axis.y);
+      axis = norm;
       if (!overlapOnAxis(a.corners, b.corners, axis)) return false;
     }
 
@@ -86,7 +90,7 @@ namespace Project::Utilities {
   }
 
   void PhysicsUtils::clampVelocity(SDL_FPoint& velocity, float maxSpeed) {
-    float speed = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+    float speed = MathUtils::magnitude(velocity.x, velocity.y);
     if (speed > maxSpeed) {
       float scale = maxSpeed / speed;
       velocity.x *= scale;
@@ -170,7 +174,7 @@ namespace Project::Utilities {
     SDL_FPoint result{0.0f, 0.0f};
     float cx = static_cast<float>(moving.x - other.x);
     float cy = static_cast<float>(moving.y - other.y);
-    float distance = std::sqrt(cx * cx + cy * cy);
+    float distance = MathUtils::magnitude(cx, cy);
     float minDist = static_cast<float>(moving.r + other.r);
 
     float overlap = minDist - distance;
@@ -195,7 +199,7 @@ namespace Project::Utilities {
     float closestY = std::clamp(static_cast<float>(moving.y), static_cast<float>(other.y), static_cast<float>(other.y + other.h));
     float cx = static_cast<float>(moving.x) - closestX;
     float cy = static_cast<float>(moving.y) - closestY;
-    float distance = std::sqrt(cx * cx + cy * cy);
+    float distance = MathUtils::magnitude(cx, cy);
     float overlap = static_cast<float>(moving.r) - distance;
     
     if (overlap > 0.0f) {

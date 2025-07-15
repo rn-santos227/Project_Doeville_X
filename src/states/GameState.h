@@ -6,12 +6,14 @@
 #include <future>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include "components/camera_component/CameraComponent.h"
 #include "entities/EntitiesManager.h"
+#include "entities/EntitySeeder.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "interfaces/render_interface/Renderable.h"
@@ -77,6 +79,16 @@ namespace Project::States {
     };
 
   protected:
+    static int lua_setActiveCamera(lua_State* L);
+    static int lua_setBackgroundImage(lua_State* L);
+    static int lua_setBackgroundColor(lua_State* L);
+    static int lua_spawnEntity(lua_State* L);
+    static int lua_changeState(lua_State* L);
+
+    void addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder) {
+      entitySeeders.emplace_back(std::move(seeder));
+    }
+    
     Project::Handlers::ResourcesHandler& resourcesHandler;
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
     
@@ -98,14 +110,9 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
+    std::vector<std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
 
     Project::Components::CameraComponent* activeCamera = nullptr;
-
-    static int lua_setActiveCamera(lua_State* L);
-    static int lua_setBackgroundImage(lua_State* L);
-    static int lua_setBackgroundColor(lua_State* L);
-    static int lua_spawnEntity(lua_State* L);
-    static int lua_changeState(lua_State* L);
   };
 }
 

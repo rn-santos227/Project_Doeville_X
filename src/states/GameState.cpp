@@ -55,6 +55,10 @@ namespace Project::States {
       entitiesManager->update(deltaTime);
     }
 
+    for (auto& seeder : entitySeeders) {
+      if (seeder) seeder->update(deltaTime);
+    }
+
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_UPDATE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'update'");
     }

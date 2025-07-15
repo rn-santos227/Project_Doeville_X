@@ -8,22 +8,29 @@
 #include "factories/entity/EntitiesFactory.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
-#include "utilities/math/MathUtils.h"
 
 namespace Project::Entities {
-  using Project::Utilities::MathUtils;
-
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
   EntitySeeder::EntitySeeder(EntitiesManager& mgr, Project::Factories::EntitiesFactory& fac)
   : manager(mgr), factory(fac) {
     std::random_device rd;
-    rng.seed(rd());
+    baseSeed = rd();
+    rng.seed(baseSeed);
   }
 
   void EntitySeeder::setPlayer(std::shared_ptr<Entity> p) {
     player = p;
+  }
+
+  void EntitySeeder::setSeed(size_t seed) {
+    baseSeed = seed;
+    rng.seed(baseSeed);
+  }
+
+  void EntitySeeder::setSeedString(const std::string& seedStr) {
+    setSeed(std::hash<std::string>{}(seedStr));
   }
 
   void EntitySeeder::addEntityTemplate(const std::string& name) {
@@ -39,7 +46,10 @@ namespace Project::Entities {
     Chunk& chunk = chunks[k];
     if (!chunk.ids.empty()) return;
 
-    size_t count = distribution(rng);
+    size_t chunkSeed = std::hash<long long>{}(static_cast<long long>(baseSeed) ^ k);
+    std::mt19937 localRng(chunkSeed);
+
+    size_t count = distribution(localRng);
     std::uniform_real_distribution<float> pos(0.0f, chunkSize);
       for (size_t i = 0; i < count; ++i) {
       if (entityTemplates.empty()) break;
@@ -47,8 +57,8 @@ namespace Project::Entities {
       std::unique_ptr<Entity> entity = factory.cloneEntity(tmpl);
       if (!entity) continue;
 
-      float ex = cx * chunkSize + pos(rng);
-      float ey = cy * chunkSize + pos(rng);
+      float ex = cx * chunkSize + pos(localRng);
+      float ey = cy * chunkSize + pos(localRng);
 
       entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::X, ex);
       entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::Y, ey);

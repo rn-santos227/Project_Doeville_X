@@ -43,6 +43,7 @@ components = {
     rotation = true,
     static = false,
     kinematic = true,
+    gravity = false,
     density = 0.2,
     friction = 0.2,
     mass = 1.0,

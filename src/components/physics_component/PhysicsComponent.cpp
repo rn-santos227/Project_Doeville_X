@@ -94,61 +94,18 @@ namespace Project::Components {
       );
     }
 
-    accelerationX += forceX / mass;
-    accelerationY += forceY / mass;
-    forceX = forceY = 0.0f;
-
-    velocityX += accelerationX * deltaTime;
-    velocityY += accelerationY * deltaTime;
-    accelerationX = 0.0f;
-    accelerationY = 0.0f;
-
+    applyForces(deltaTime);
     bool collisionOccurred = false;
 
-    if (!isKinematic && friction > 0.0f) {
-      float decel = friction * deltaTime;
-      if (velocityX > 0.0f) {
-        velocityX -= decel;
-        if (velocityX < 0.0f) velocityX = 0.0f;
-      } else if (velocityX < 0.0f) {
-        velocityX += decel;
-        if (velocityX > 0.0f) velocityX = 0.0f;
-      }
-      if (velocityY > 0.0f) {
-        velocityY -= decel;
-        if (velocityY < 0.0f) velocityY = 0.0f;
-      } else if (velocityY < 0.0f) {
-        velocityY += decel;
-        if (velocityY > 0.0f) velocityY = 0.0f;
-      }
-    }
-
-    if (!isKinematic && density > 0.0f) {
-      float factor = Constants::DEFAULT_WHOLE - density * deltaTime;
-      if (factor < 0.0f) factor = 0.0f;
-      velocityX *= factor;
-      velocityY *= factor;
-    }
-
-    SDL_FPoint vel{velocityX, velocityY};
-    Project::Utilities::PhysicsUtils::clampVelocity(vel, Project::Libraries::Constants::TERMINAL_VELOCITY);
-    velocityX = vel.x;
-    velocityY = vel.y;
+    applyResistance(deltaTime);
+    clampVelocity();
 
     if (owner) {
       float oldX = owner->getX();
       float oldY = owner->getY();
       float newX = oldX + velocityX * deltaTime;
       float newY = oldY + velocityY * deltaTime;
-      owner->setPosition(newX, newY);
-
-      for (const std::string& name : owner->listComponentNames()) {
-        if (auto* comp = owner->getComponent(name)) {
-          if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
-            pos->setEntityPosition(static_cast<int>(newX), static_cast<int>(newY));
-          }
-        }
-      }
+      syncPositionWithComponents(newX, newY);
 
       auto* manager = owner->getEntitiesManager();
       auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
@@ -191,15 +148,8 @@ namespace Project::Components {
 
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;
-                owner->setPosition(snapX, snapY);
-                for (const std::string& n : owner->listComponentNames()) {
-                  if (auto* c = owner->getComponent(n)) {
-                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
-                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
-                    }
-                  }
-                }
-
+                syncPositionWithComponents(snapX, snapY);
+                
                 if (otherPhysics) {
                   resolveCollisionWith(otherPhysics, bounce);
                   velocityX *= (Constants::DEFAULT_WHOLE - fric);
@@ -228,14 +178,7 @@ namespace Project::Components {
 
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;
-                owner->setPosition(snapX, snapY);
-                for (const std::string& n : owner->listComponentNames()) {
-                  if (auto* c = owner->getComponent(n)) {
-                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
-                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
-                    }
-                  }
-                }
+                syncPositionWithComponents(snapX, snapY);
 
                 if (otherPhysics) {
                   resolveCollisionWith(otherPhysics, bounce);
@@ -272,14 +215,7 @@ namespace Project::Components {
                 SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleSnapOffset(c1, c2, velocityX * deltaTime, velocityY * deltaTime);
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;
-                owner->setPosition(snapX, snapY);
-                for (const std::string& n : owner->listComponentNames()) {
-                  if (auto* c = owner->getComponent(n)) {
-                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
-                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
-                    }
-                  }
-                }
+                syncPositionWithComponents(snapX, snapY);
 
                 if (otherPhysics) {
                   resolveCollisionWith(otherPhysics, bounce);
@@ -309,14 +245,7 @@ namespace Project::Components {
 
                 float snapX = newX + offset.x;
                 float snapY = newY + offset.y;
-                owner->setPosition(snapX, snapY);
-                for (const std::string& n : owner->listComponentNames()) {
-                  if (auto* c = owner->getComponent(n)) {
-                    if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
-                      pos->setEntityPosition(static_cast<int>(snapX), static_cast<int>(snapY));
-                    }
-                  }
-                }
+                syncPositionWithComponents(snapX, snapY);
 
                 if (otherPhysics) {
                   resolveCollisionWith(otherPhysics, bounce);
@@ -341,41 +270,7 @@ namespace Project::Components {
     }
 
     if (rotationEnabled) {
-      if (collisionOccurred && rotationSpeed != 0.0f) {
-        angularVelocity = rotationSpeed;
-      }
-
-      angularVelocity += angularAcceleration * deltaTime;
-      angularAcceleration = 0.0f;
-
-      if (friction > 0.0f) {
-        float decelR = friction * deltaTime;
-        if (angularVelocity > 0.0f) {
-          angularVelocity -= decelR;
-          if (angularVelocity < 0.0f) angularVelocity = 0.0f;
-        } else if (angularVelocity < 0.0f) {
-          angularVelocity += decelR;
-          if (angularVelocity > 0.0f) angularVelocity = 0.0f;
-        }
-      }
-
-      rotation += angularVelocity * deltaTime;
-      for (const std::string& n : owner->listComponentNames()) {
-        if (auto* c = owner->getComponent(n)) {
-          if (auto* rot = dynamic_cast<Project::Interfaces::Rotatable*>(c)) {
-            if (auto* box = dynamic_cast<BoundingBoxComponent*>(rot)) {
-              box->setRotationEnabled(rotationEnabled);
-            } else if (auto* gfx = dynamic_cast<GraphicsComponent*>(rot)) {
-              gfx->setRotationEnabled(rotationEnabled);
-            }
-            rot->setEntityRotation(rotation);
-          }
-        }
-      }
-      
-      if (velocityX == 0.0f && velocityY == 0.0f) {
-        angularVelocity = 0.0f;
-      }
+      updateRotationState(deltaTime, collisionOccurred);
     }
   }
 
@@ -409,5 +304,99 @@ namespace Project::Components {
 
     bool kine = luaStateWrapper.getTableBoolean(tableName, Keys::KINEMATIC, false);
     setKinematic(kine);
+  }
+
+  void PhysicsComponent::applyForces(float deltaTime) {
+    accelerationX += forceX / mass;
+    accelerationY += forceY / mass;
+    forceX = forceY = 0.0f;
+
+    velocityX += accelerationX * deltaTime;
+    velocityY += accelerationY * deltaTime;
+    accelerationX = 0.0f;
+    accelerationY = 0.0f;
+  }
+
+  void PhysicsComponent::applyResistance(float deltaTime) {
+    if (!isKinematic && friction > 0.0f) {
+      float decel = friction * deltaTime;
+      if (velocityX > 0.0f) {
+        velocityX -= decel;
+        if (velocityX < 0.0f) velocityX = 0.0f;
+      } else if (velocityX < 0.0f) {
+        velocityX += decel;
+        if (velocityX > 0.0f) velocityX = 0.0f;
+      }
+      if (velocityY > 0.0f) {
+        velocityY -= decel;
+        if (velocityY < 0.0f) velocityY = 0.0f;
+      } else if (velocityY < 0.0f) {
+        velocityY += decel;
+        if (velocityY > 0.0f) velocityY = 0.0f;
+      }
+    }
+
+    if (!isKinematic && density > 0.0f) {
+      float factor = Constants::DEFAULT_WHOLE - density * deltaTime;
+      if (factor < 0.0f) factor = 0.0f;
+      velocityX *= factor;
+      velocityY *= factor;
+    }
+  }
+
+  void PhysicsComponent::clampVelocity() {
+    SDL_FPoint vel{velocityX, velocityY};
+    Project::Utilities::PhysicsUtils::clampVelocity(vel, Project::Libraries::Constants::TERMINAL_VELOCITY);
+    velocityX = vel.x;
+    velocityY = vel.y;
+  }
+
+  void PhysicsComponent::syncPositionWithComponents(float x, float y) {
+    owner->setPosition(x, y);
+    for (const std::string& n : owner->listComponentNames()) {
+      if (auto* c = owner->getComponent(n)) {
+        if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
+          pos->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+        }
+      }
+    }
+  }
+
+  void PhysicsComponent::updateRotationState(float deltaTime, bool collisionOccurred) {
+    if (collisionOccurred && rotationSpeed != 0.0f) {
+      angularVelocity = rotationSpeed;
+    }
+
+    angularVelocity += angularAcceleration * deltaTime;
+    angularAcceleration = 0.0f;
+
+    if (friction > 0.0f) {
+      float decelR = friction * deltaTime;
+      if (angularVelocity > 0.0f) {
+        angularVelocity -= decelR;
+        if (angularVelocity < 0.0f) angularVelocity = 0.0f;
+      } else if (angularVelocity < 0.0f) {
+        angularVelocity += decelR;
+        if (angularVelocity > 0.0f) angularVelocity = 0.0f;
+      }
+    }
+
+    rotation += angularVelocity * deltaTime;
+    for (const std::string& n : owner->listComponentNames()) {
+      if (auto* c = owner->getComponent(n)) {
+        if (auto* rot = dynamic_cast<Project::Interfaces::Rotatable*>(c)) {
+          if (auto* box = dynamic_cast<BoundingBoxComponent*>(rot)) {
+            box->setRotationEnabled(rotationEnabled);
+          } else if (auto* gfx = dynamic_cast<GraphicsComponent*>(rot)) {
+            gfx->setRotationEnabled(rotationEnabled);
+          }
+          rot->setEntityRotation(rotation);
+        }
+      }
+    }
+
+    if (velocityX == 0.0f && velocityY == 0.0f) {
+      angularVelocity = 0.0f;
+    }
   }
 }

@@ -9,5 +9,18 @@
 #include "interfaces/update_interface/Updatable.h"
 
 namespace Project::Factories { class EntitiesFactory; }
+namespace Project::Entities {
+  class Entity;
+  class EntitiesManager;
+
+  class EntitySeeder : public Project::Interfaces::Updatable {
+  public:
+
+
+  private:
+
+  
+  };
+}
 
 #endif

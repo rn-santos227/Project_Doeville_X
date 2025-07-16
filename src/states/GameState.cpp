@@ -24,6 +24,7 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
+    luaStateWrapper.registerFunction(Keys::LUA_ADD_ENTITY_TO_SEEDER, lua_addEntityToSeed, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_ACTIVE_CAMERA, lua_setActiveCamera, this);
     luaStateWrapper.registerFunction(Keys::LUA_CHANGE_STATE, lua_changeState, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_COLOR, lua_setBackgroundColor, this);
@@ -197,6 +198,12 @@ namespace Project::States {
     addEntitySeeder(std::move(seeder));
   }
 
+  void GameState::addEntityToSeed(const std::string& name) {
+    if (entitySeeders.empty()) return;
+    auto& seeder = entitySeeders.back();
+    if (seeder) seeder->addEntityTemplate(name);
+  }
+
   int GameState::lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {
@@ -354,6 +361,22 @@ namespace Project::States {
     }
 
     state->startEntitySeeder(seed);
+    return 0;
+  }
+
+  int GameState::lua_addEntityToSeed(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_addEntityToSeed.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected entity template name.");
+      return 0;
+    }
+
+    state->addEntityToSeed(name);
     return 0;
   }
 }

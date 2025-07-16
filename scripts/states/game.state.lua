@@ -12,6 +12,11 @@ function initialize()
   spawnEntity("player", nil, nil, "game")
   setActiveCamera("player")
 
+  addEntityToSeed("ball")
+  addEntityToSeed("obstacle")
+  addEntityToSeed("wall_v")
+  addEntityToSeed("wall_h")
+
   startEntitySeeder()
   spawnEntity("speed_text", nil, nil, "hud")
 end

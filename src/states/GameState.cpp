@@ -29,6 +29,7 @@ namespace Project::States {
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_COLOR, lua_setBackgroundColor, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_IMAGE, lua_setBackgroundImage, this);
     luaStateWrapper.registerFunction(Keys::LUA_SPAWN_ENTITY, lua_spawnEntity, this);
+    luaStateWrapper.registerFunction(Keys::LUA_START_ENTITY_SEEDER, lua_startEntitySeeder, this);
     luaStateWrapper.registerFunction(Keys::LUA_ADD_ENTITY_TO_SEEDER, lua_addEntityToSeed, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_PLAYER_ENTITY, lua_setPlayerEntity, this);
 
@@ -207,9 +208,26 @@ namespace Project::States {
   }
 
   std::string GameState::addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id) {
+    std::string finalId = id;
+    if (finalId.empty()) {
+      do {
+        finalId = "seeder_" + std::to_string(nextSeederId++);
+      } while (entitySeeders.count(finalId));
+    } else if (entitySeeders.count(finalId)) {
+      entitySeeders.erase(finalId);
+    }
+    lastSeederId = finalId;
+    entitySeeders[finalId] = std::move(seeder);
+    return finalId;
+  }
+
+  void GameState::addEntityToSeed(const std::string& name, const std::string& seederId) {
     if (entitySeeders.empty()) return;
-    auto& seeder = entitySeeders.back();
-    if (seeder) seeder->addEntityTemplate(name);
+    std::string id = seederId.empty() ? lastSeederId : seederId;
+    auto it = entitySeeders.find(id);
+    if (it != entitySeeders.end() && it->second) {
+      it->second->addEntityTemplate(name);
+    }
   }
 
   void GameState::setPlayerEntity(const std::string& name) {
@@ -405,6 +423,12 @@ namespace Project::States {
     }
 
     state->addEntityToSeed(name);
+    std::string sid;
+    if (lua_gettop(L) >= 2 && lua_isstring(L, 2)) {
+      sid = lua_tostring(L, 2);
+    }
+
+    state->addEntityToSeed(name, sid);
     return 0;
   }
 

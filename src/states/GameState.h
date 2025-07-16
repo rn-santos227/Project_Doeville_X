@@ -115,7 +115,6 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
-    std::vector<std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
     std::unordered_map<std::string, std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
 
     std::string startEntitySeeder(

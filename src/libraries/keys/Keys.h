@@ -147,7 +147,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_ENTITY_TEXT = "setEntityText";
   constexpr const char* LUA_SET_PLAYER_ENTITY = "setPlayerEntity";
   constexpr const char* LUA_FUNC_PRINT = "print";
-  constexpr const char* LUA_ADD_ENTITY_TO_SEEDER = "addEntityToSeeder";
+  constexpr const char* LUA_ADD_ENTITY_TO_SEEDER = "addEntityToSeed";
   constexpr const char* LUA_SPAWN_ENTITY = "spawnEntity";
   constexpr const char* LUA_START_ENTITY_SEEDER = "startEntitySeeder";
   constexpr const char* LUA_CHANGE_STATE = "changeState";

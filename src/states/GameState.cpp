@@ -189,6 +189,11 @@ namespace Project::States {
         seeder->setSeedString(seed);
       }
     }
+
+    auto playerEntity = findEntity("player");
+    if (playerEntity) seeder->setPlayer(playerEntity);
+
+    addEntitySeeder(std::move(seeder));
   }
 
   int GameState::lua_setBackgroundImage(lua_State* L) {

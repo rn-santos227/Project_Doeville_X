@@ -342,6 +342,14 @@ namespace Project::States {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_startEntitySeeder.");
     }
-
+    
+    std::string seed;
+    if (lua_gettop(L) >= 1) {
+      if (lua_isnumber(L, 1)) {
+        seed = std::to_string(static_cast<size_t>(lua_tonumber(L, 1)));
+      } else if (lua_isstring(L, 1)) {
+        seed = lua_tostring(L, 1);
+      }
+    }
   }
 }

@@ -12,31 +12,7 @@ function initialize()
   spawnEntity("player", nil, nil, "game")
   setActiveCamera("player")
 
-  math.randomseed(os.time())
-  for i = 1, 5 do
-    local x = math.random(0, 768)
-    local y = math.random(0, 568)
-    spawnEntity("obstacle", x, y, "game")
-  end
-
-  for i = 1, 8 do
-    local x = math.random(0, 768)
-    local y = math.random(0, 568)
-    spawnEntity("ball", x, y, "game")
-  end
-
-  for i = 1, 8 do
-    local x = math.random(0, 1000)
-    local y = math.random(0, 600)
-    spawnEntity("wall_v", x, y, "game")
-  end
-
-  for i = 1, 8 do
-    local x = math.random(0, 1000)
-    local y = math.random(0, 600)
-    spawnEntity("wall_h", x, y, "game")
-  end
-
+  startEntitySeeder()
   spawnEntity("speed_text", nil, nil, "hud")
 end
 

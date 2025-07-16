@@ -177,7 +177,9 @@ namespace Project::States {
     } else {
       mgr = entitiesManager;
     }
+    
     if (!mgr || !entitiesFactory) return;
+    auto seeder = std::make_unique<Project::Entities::EntitySeeder>(*mgr, *entitiesFactory);
   }
 
   int GameState::lua_setBackgroundImage(lua_State* L) {

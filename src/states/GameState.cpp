@@ -24,12 +24,12 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    luaStateWrapper.registerFunction(Keys::LUA_ADD_ENTITY_TO_SEEDER, lua_addEntityToSeed, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_ACTIVE_CAMERA, lua_setActiveCamera, this);
     luaStateWrapper.registerFunction(Keys::LUA_CHANGE_STATE, lua_changeState, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_COLOR, lua_setBackgroundColor, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_IMAGE, lua_setBackgroundImage, this);
     luaStateWrapper.registerFunction(Keys::LUA_SPAWN_ENTITY, lua_spawnEntity, this);
+    luaStateWrapper.registerFunction(Keys::LUA_ADD_ENTITY_TO_SEEDER, lua_addEntityToSeed, this);
 
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");

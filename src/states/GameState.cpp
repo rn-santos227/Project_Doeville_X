@@ -177,6 +177,7 @@ namespace Project::States {
     } else {
       mgr = entitiesManager;
     }
+    if (!mgr || !entitiesFactory) return;
   }
 
   int GameState::lua_setBackgroundImage(lua_State* L) {

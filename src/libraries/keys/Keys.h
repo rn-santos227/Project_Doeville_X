@@ -87,6 +87,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LAYER_SCRIPTS = "layer_scripts";
   constexpr const char* MASS = "mass";
   constexpr const char* NAME = "name"; 
+  constexpr const char* PLAYER = "player";
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";
   constexpr const char* RECT = "rect";
@@ -144,6 +145,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_ENTITY_SPEED = "setEntitySpeed";
   constexpr const char* LUA_GET_ENTITY_TEXT = "getEntityText";
   constexpr const char* LUA_SET_ENTITY_TEXT = "setEntityText";
+  constexpr const char* LUA_SET_PLAYER_ENTITY = "setPlayerEntity";
   constexpr const char* LUA_FUNC_PRINT = "print";
   constexpr const char* LUA_ADD_ENTITY_TO_SEEDER = "addEntityToSeeder";
   constexpr const char* LUA_SPAWN_ENTITY = "spawnEntity";

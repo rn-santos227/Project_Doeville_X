@@ -30,6 +30,7 @@ namespace Project::States {
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_IMAGE, lua_setBackgroundImage, this);
     luaStateWrapper.registerFunction(Keys::LUA_SPAWN_ENTITY, lua_spawnEntity, this);
     luaStateWrapper.registerFunction(Keys::LUA_ADD_ENTITY_TO_SEEDER, lua_addEntityToSeed, this);
+    luaStateWrapper.registerFunction(Keys::LUA_SET_PLAYER_ENTITY, lua_setPlayerEntity, this);
 
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
@@ -58,7 +59,7 @@ namespace Project::States {
     }
 
     for (auto& pair : entitySeeders) {
-      if (pair.second) pair.second->update(deltaTime);
+      if (pair.second) pair.second->update(deltaTime);if (pair.second) pair.second->update(deltaTime);
     }
 
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_UPDATE)) {
@@ -172,15 +173,20 @@ namespace Project::States {
     return true;
   }
 
-  void GameState::startEntitySeeder(const std::string& seed) {
+  std::string GameState::startEntitySeeder(const std::string& seed, const std::string& layer, const std::string& id) {
     std::shared_ptr<Project::Entities::EntitiesManager> mgr;
     if (layersManager) {
-      mgr = layersManager->getFirstLayer();
+      if (!layer.empty()) {
+        mgr = layersManager->getLayer(layer);
+      }
+      if (!mgr) {
+        mgr = layersManager->getFirstLayer();
+      }
     } else {
       mgr = entitiesManager;
     }
 
-    if (!mgr || !entitiesFactory) return;
+    if (!mgr || !entitiesFactory) return "";
     auto seeder = std::make_unique<Project::Entities::EntitySeeder>(*mgr, *entitiesFactory);
 
     if (!seed.empty()) {
@@ -192,16 +198,28 @@ namespace Project::States {
       }
     }
 
-    auto playerEntity = findEntity("player");
+    auto playerEntity = getPlayerEntity();
+    if (!playerEntity) playerEntity = findEntity(Keys::PLAYER);
+
     if (playerEntity) seeder->setPlayer(playerEntity);
 
-    addEntitySeeder(std::move(seeder));
+    return addEntitySeeder(std::move(seeder), id);
   }
 
-  void GameState::addEntityToSeed(const std::string& name) {
+  std::string GameState::addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id) {
     if (entitySeeders.empty()) return;
     auto& seeder = entitySeeders.back();
     if (seeder) seeder->addEntityTemplate(name);
+  }
+
+  void GameState::setPlayerEntity(const std::string& name) {
+    playerEntity.reset();
+    auto ent = findEntity(name);
+    if (ent) playerEntity = ent;
+  }
+
+  std::shared_ptr<Project::Entities::Entity> GameState::getPlayerEntity() const {
+    return playerEntity.lock();
   }
 
   int GameState::lua_setBackgroundImage(lua_State* L) {
@@ -351,17 +369,27 @@ namespace Project::States {
       return luaL_error(L, "Invalid GameState reference in lua_startEntitySeeder.");
     }
 
+    int top = lua_gettop(L);
     std::string seed;
-    if (lua_gettop(L) >= 1) {
+    std::string layer;
+    std::string id;
+    if (top >= 1 && !lua_isnil(L, 1)) {
       if (lua_isnumber(L, 1)) {
         seed = std::to_string(static_cast<size_t>(lua_tonumber(L, 1)));
       } else if (lua_isstring(L, 1)) {
         seed = lua_tostring(L, 1);
       }
     }
+    if (top >= 2 && lua_isstring(L, 2)) {
+      layer = lua_tostring(L, 2);
+    }
+    if (top >= 3 && lua_isstring(L, 3)) {
+      id = lua_tostring(L, 3);
+    }
 
-    state->startEntitySeeder(seed);
-    return 0;
+    std::string seederId = state->startEntitySeeder(seed, layer, id);
+    lua_pushstring(L, seederId.c_str());
+    return 1;
   }
 
   int GameState::lua_addEntityToSeed(lua_State* L) {
@@ -377,6 +405,22 @@ namespace Project::States {
     }
 
     state->addEntityToSeed(name);
+    return 0;
+  }
+
+  int GameState::lua_setPlayerEntity(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_setPlayerEntity.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected entity name.");
+      return 0;
+    }
+
+    state->setPlayerEntity(name);
     return 0;
   }
 }

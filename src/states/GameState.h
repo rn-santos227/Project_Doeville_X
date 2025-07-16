@@ -87,9 +87,11 @@ namespace Project::States {
     static int lua_changeState(lua_State* L);
     static int lua_startEntitySeeder(lua_State* L);
     static int lua_addEntityToSeed(lua_State* L);
+    static int lua_setPlayerEntity(lua_State* L);
     
     Project::Handlers::ResourcesHandler& resourcesHandler;
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
+    std::weak_ptr<Project::Entities::Entity> playerEntity;
     
     Project::Components::CameraComponent* activeCamera = nullptr;
     Project::Factories::EntitiesFactory* entitiesFactory = nullptr;
@@ -116,10 +118,17 @@ namespace Project::States {
     std::vector<std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
     std::unordered_map<std::string, std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
 
-    std::string startEntitySeeder(const std::string& seed = "", const std::string& layer = "", const std::string& id = "");
-    std::string addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id = "");
-    void addEntityToSeed(const std::string& name, const std::string& seederId = "");
+    std::string startEntitySeeder(
+      const std::string& seed = Project::Libraries::Constants::EMPTY_STRING, 
+      const std::string& layer =  Project::Libraries::Constants::EMPTY_STRING, 
+      const std::string& id =  Project::Libraries::Constants::EMPTY_STRING
+    );
 
+    std::string addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id =  Project::Libraries::Constants::EMPTY_STRING);
+    void addEntityToSeed(const std::string& name, const std::string& seederId = Project::Libraries::Constants::EMPTY_STRING);
+
+    void setPlayerEntity(const std::string& name);
+    std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
   };
 }
 

@@ -10,14 +10,15 @@ function initialize()
   print("Initializing GameState")
   setBackgroundColor(50, 45, 34, 255)
   spawnEntity("player", nil, nil, "game")
-  setActiveCamera("player")
+  setPlayerEntity("player")
+
 
   local seeder_id = startEntitySeeder(nil, "game")
   addEntityToSeed("ball", seeder_id)
   addEntityToSeed("obstacle", seeder_id)
   addEntityToSeed("wall_v", seeder_id)
   addEntityToSeed("wall_h", seeder_id)
-  
+
   spawnEntity("speed_text", nil, nil, "hud")
 end
 

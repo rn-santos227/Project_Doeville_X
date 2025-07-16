@@ -171,7 +171,12 @@ namespace Project::States {
   }
 
   void GameState::startEntitySeeder(const std::string& seed) {
-
+    std::shared_ptr<Project::Entities::EntitiesManager> mgr;
+    if (layersManager) {
+      mgr = layersManager->getFirstLayer();
+    } else {
+      mgr = entitiesManager;
+    }
   }
 
   int GameState::lua_setBackgroundImage(lua_State* L) {

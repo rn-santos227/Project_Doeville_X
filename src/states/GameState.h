@@ -84,6 +84,7 @@ namespace Project::States {
     static int lua_setBackgroundColor(lua_State* L);
     static int lua_spawnEntity(lua_State* L);
     static int lua_changeState(lua_State* L);
+    static int lua_startEntitySeeder(lua_State* L);
 
     void addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder) {
       entitySeeders.emplace_back(std::move(seeder));
@@ -92,6 +93,7 @@ namespace Project::States {
     Project::Handlers::ResourcesHandler& resourcesHandler;
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
     
+    Project::Components::CameraComponent* activeCamera = nullptr;
     Project::Factories::EntitiesFactory* entitiesFactory = nullptr;
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
@@ -112,7 +114,8 @@ namespace Project::States {
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
     std::vector<std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
 
-    Project::Components::CameraComponent* activeCamera = nullptr;
+    void startEntitySeeder(const std::string& seed = "");
+
   };
 }
 

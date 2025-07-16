@@ -25,7 +25,6 @@ namespace Project::Entities {
     void update(float deltaTime) override;
 
     void setDistribution(Distribution distFunc) { distribution = std::move(distFunc); }
-
     void setPlayer(std::shared_ptr<Entity> player);
 
     void setSeed(size_t seed);

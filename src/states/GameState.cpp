@@ -337,5 +337,8 @@ namespace Project::States {
     return 0;
   }
 
-  
+  int GameState::lua_startEntitySeeder(lua_State* L) {
+
+
+  }
 }

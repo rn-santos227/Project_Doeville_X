@@ -182,7 +182,7 @@ namespace Project::States {
     auto seeder = std::make_unique<Project::Entities::EntitySeeder>(*mgr, *entitiesFactory);
 
     if (!seed.empty()) {
-
+      bool numeric = std::all_of(seed.begin(), seed.end(), ::isdigit);
     }
   }
 

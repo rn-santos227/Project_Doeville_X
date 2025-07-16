@@ -1,8 +1,9 @@
 #include "GameState.h"
 #include "GameStateManager.h"
 
-#include <future>
 #include <chrono>
+#include <future>
+#include <string>
 
 #include "factories/entity/EntitiesFactory.h"
 #include "libraries/keys/Keys.h"
@@ -342,7 +343,7 @@ namespace Project::States {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_startEntitySeeder.");
     }
-    
+
     std::string seed;
     if (lua_gettop(L) >= 1) {
       if (lua_isnumber(L, 1)) {
@@ -351,5 +352,8 @@ namespace Project::States {
         seed = lua_tostring(L, 1);
       }
     }
+
+    state->startEntitySeeder(seed);
+    return 0;
   }
 }

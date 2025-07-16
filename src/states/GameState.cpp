@@ -183,6 +183,11 @@ namespace Project::States {
 
     if (!seed.empty()) {
       bool numeric = std::all_of(seed.begin(), seed.end(), ::isdigit);
+      if (numeric) {
+        seeder->setSeed(static_cast<size_t>(std::stoull(seed)));
+      } else {
+        seeder->setSeedString(seed);
+      }
     }
   }
 

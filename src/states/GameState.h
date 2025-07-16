@@ -6,6 +6,7 @@
 #include <future>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include <SDL2/SDL.h>
@@ -86,19 +87,16 @@ namespace Project::States {
     static int lua_changeState(lua_State* L);
     static int lua_startEntitySeeder(lua_State* L);
     static int lua_addEntityToSeed(lua_State* L);
-
-    void addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder) {
-      entitySeeders.emplace_back(std::move(seeder));
-    }
     
     Project::Handlers::ResourcesHandler& resourcesHandler;
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
     
     Project::Components::CameraComponent* activeCamera = nullptr;
     Project::Factories::EntitiesFactory* entitiesFactory = nullptr;
+    Project::States::GameStateManager* gameStateManager = nullptr;
+    
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
-    
     SDL_Color backgroundColor = Project::Libraries::Constants::DEFAULT_BACKGROUND_COLOR;
     
     std::future<SDL_Texture*> backgroundFuture;
@@ -109,14 +107,18 @@ namespace Project::States {
     bool initialized = false;
     bool active = false;
 
-    Project::States::GameStateManager* gameStateManager = nullptr;
+    size_t nextSeederId = 0;
+    std::string lastSeederId;
+
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
     std::vector<std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
+    std::unordered_map<std::string, std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
 
-    void addEntityToSeed(const std::string& name);
-    void startEntitySeeder(const std::string& seed = "");
+    std::string startEntitySeeder(const std::string& seed = "", const std::string& layer = "", const std::string& id = "");
+    std::string addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id = "");
+    void addEntityToSeed(const std::string& name, const std::string& seederId = "");
 
   };
 }

@@ -170,7 +170,11 @@ namespace Project::States {
     return true;
   }
 
-  int Project::States::GameState::lua_setBackgroundImage(lua_State* L) {
+  void GameState::startEntitySeeder(const std::string& seed) {
+
+  }
+
+  int GameState::lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_setBackgroundImage.");
@@ -189,7 +193,7 @@ namespace Project::States {
     return 0;
   }
 
-  int Project::States::GameState::lua_setBackgroundColor(lua_State* L) {
+  int GameState::lua_setBackgroundColor(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     Uint8 r = static_cast<Uint8>(luaL_checkinteger(L, 1));
     Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, 2));
@@ -199,7 +203,7 @@ namespace Project::States {
     return 0;
   }
 
-  int Project::States::GameState::lua_spawnEntity(lua_State* L) {
+  int GameState::lua_spawnEntity(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_spawnEntity.");
@@ -271,7 +275,7 @@ namespace Project::States {
     return 0;
   }
 
-  int Project::States::GameState::lua_changeState(lua_State* L) {
+  int GameState::lua_changeState(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_changeState.");

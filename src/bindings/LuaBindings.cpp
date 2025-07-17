@@ -19,6 +19,9 @@ namespace Project::Bindings::LuaBindings {
   int lua_setActiveCamera(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);
+    if (!state || !name) {
+      return luaL_error(L, "Invalid parameters for setActiveCamera");
+    }
   }
 
   int lua_setBackgroundImage(lua_State* L) {

@@ -23,27 +23,11 @@ namespace Project::Bindings::LuaBindings {
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
-  int lua_setActiveCamera(lua_State* L) {
+  int lua_addEntityToSeed(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
-    const char* name = luaL_checkstring(L, 1);
-    if (!state || !name) {
-      return luaL_error(L, "Invalid parameters for setActiveCamera");
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_addEntityToSeed.");
     }
-
-    auto entity = state->findEntity(name);
-    if (!entity) {
-      state->getLogsManager().logError(std::string("Camera entity not found: ") + name);
-      return 0;
-    }
-
-    auto* cam = dynamic_cast<Project::Components::CameraComponent*>(entity->getComponent(Components::CAMERA_COMPONENT));
-    if (!cam) {
-       state->getLogsManager().logError(std::string("Entity has no CameraComponent: ") + name);
-       return 0;
-    }
-
-    state->setActiveCamera(cam);
-    return 0;
   }
 
   int lua_changeState(lua_State* L) {
@@ -138,6 +122,30 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
   
+  int lua_setActiveCamera(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!state || !name) {
+      return luaL_error(L, "Invalid parameters for setActiveCamera");
+    }
+
+    auto entity = state->findEntity(name);
+    if (!entity) {
+      state->getLogsManager().logError(std::string("Camera entity not found: ") + name);
+      return 0;
+    }
+
+    auto* cam = dynamic_cast<Project::Components::CameraComponent*>(entity->getComponent(Components::CAMERA_COMPONENT));
+    if (!cam) {
+       state->getLogsManager().logError(std::string("Entity has no CameraComponent: ") + name);
+       return 0;
+    }
+
+    state->setActiveCamera(cam);
+    return 0;
+  }
+
+
   int lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

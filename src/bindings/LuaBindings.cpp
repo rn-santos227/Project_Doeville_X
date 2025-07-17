@@ -16,4 +16,7 @@ namespace Project::Bindings::LuaBindings {
   using Project::Factories::EntitiesFactory;
   using Project::Entities::Entity;
 
+  int lua_setBackgroundImage(lua_State* L) {
+
+  }
 }

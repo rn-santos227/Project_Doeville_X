@@ -47,6 +47,19 @@ namespace Project::Bindings::LuaBindings {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_changeState.");
     }
+
+    if (!state->getGameStateManager()) {
+      return luaL_error(L, "GameStateManager not set for this state.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected a state name string.");
+      return 0;
+    }
+
+    state->getGameStateManager()->changeState(name);
+    return 0;
   }
   
   int lua_setBackgroundImage(lua_State* L) {

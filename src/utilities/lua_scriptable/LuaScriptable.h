@@ -13,6 +13,9 @@ namespace Project::Utilities {
     lua_State* getLuaState() const { return luaStateWrapper.get(); }
     LuaStateWrapper& getLuaStateWrapper() { return luaStateWrapper; }
 
+    Project::Utilities::LogsManager& getLogsManager() { return logsManager; }
+    const Project::Utilities::LogsManager& getLogsManager() const { return logsManager; }
+
     virtual bool attachLuaScript(const std::string& scriptPath);
     virtual bool callLuaFunction(const std::string& functionName);
 

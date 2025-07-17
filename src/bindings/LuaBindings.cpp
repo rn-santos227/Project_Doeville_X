@@ -22,6 +22,14 @@ namespace Project::Bindings::LuaBindings {
     if (!state || !name) {
       return luaL_error(L, "Invalid parameters for setActiveCamera");
     }
+
+    auto entity = state->findEntity(name);
+    if (!entity) {
+      state->getLogsManager().logError(std::string("Camera entity not found: ") + name);
+      return 0;
+    }
+
+
   }
 
   int lua_setBackgroundImage(lua_State* L) {

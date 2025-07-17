@@ -99,15 +99,6 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
 
   protected:
-    static int lua_setActiveCamera(lua_State* L);
-    static int lua_setBackgroundImage(lua_State* L);
-    static int lua_setBackgroundColor(lua_State* L);
-    static int lua_spawnEntity(lua_State* L);
-    static int lua_changeState(lua_State* L);
-    static int lua_startEntitySeeder(lua_State* L);
-    static int lua_addEntityToSeed(lua_State* L);
-    static int lua_setPlayerEntity(lua_State* L);
-    
     Project::Handlers::ResourcesHandler& resourcesHandler;
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
     std::weak_ptr<Project::Entities::Entity> playerEntity;

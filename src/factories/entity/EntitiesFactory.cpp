@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include "bindings/LuaBindings.h"
+#include "libraries/keys/Keys.h"
 #include "states/GameStateManager.h"
 
 namespace Project::Factories {
@@ -16,22 +18,6 @@ namespace Project::Factories {
 
   EntitiesFactory::~EntitiesFactory() {
     entityTemplates.clear();
-  }
-
-  int EntitiesFactory::lua_changeState(lua_State* L) {
-    auto* manager = static_cast<States::GameStateManager*>(lua_touserdata(L, lua_upvalueindex(1)));
-    if (!manager) {
-      return luaL_error(L, "Invalid GameStateManager reference in lua_changeState.");
-    }
-
-    const char* name = luaL_checkstring(L, 1);
-    if (!name) {
-      luaL_error(L, "Expected a state name string.");
-      return 0;
-    }
-
-    manager->changeState(name);
-    return 0;
   }
 
   std::unique_ptr<Entity> EntitiesFactory::createEntityFromLua(const std::string& scriptPath) {
@@ -85,7 +71,11 @@ namespace Project::Factories {
 
       lua_State* L = clone->getLuaState();
       if (L) {
-        clone->getLuaStateWrapper().registerFunction("changeState", lua_changeState, &gameStateManager);
+        clone->getLuaStateWrapper().registerFunction(
+          Project::Libraries::Keys::LUA_CHANGE_STATE,
+          Project::Bindings::LuaBindings::lua_factoryChangeState, 
+          &gameStateManager
+        );
       }
     }
 

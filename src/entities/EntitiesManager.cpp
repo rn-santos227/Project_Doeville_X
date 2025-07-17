@@ -4,6 +4,7 @@
 
 #include <SDL.h>
 
+#include "bindings/LuaBindings.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/motion_component/MotionComponent.h"
@@ -16,6 +17,7 @@ namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
 
   namespace Keys = Project::Libraries::Keys;
+  namespace LuaBindings = Project::Bindings::LuaBindings;
 
   void EntitiesManager::addEntity(const std::string& id, std::shared_ptr<Entity> entity) {
     if (!entity) return;
@@ -121,51 +123,7 @@ namespace Project::Entities {
 
   void EntitiesManager::registerEntityLuaFunctions(Entity* entity) {
     if (!entity) return;
-    entity->registerLuaFunction(Keys::LUA_GET_ENTITY_SPEED, lua_getEntitySpeed, this);
-    entity->registerLuaFunction(Keys::LUA_SET_ENTITY_TEXT, lua_setEntityText, this);
-  }
-
-  int EntitiesManager::lua_getEntitySpeed(lua_State* L) {
-    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
-    const char* name = luaL_checkstring(L, 1);
-    if (!manager || !name) {
-      lua_pushnil(L);
-      return 1;
-    }
-    auto entity = manager->getEntity(name);
-    if (!entity && manager->getGameState()) {
-      entity = manager->getGameState()->findEntity(name);
-    }
-
-    if (!entity) {
-      lua_pushnil(L);
-      return 1;
-    }
-    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent("MotionComponent"));
-    if (!motion) {
-      lua_pushnil(L);
-      return 1;
-    }
-    lua_pushnumber(L, motion->getCurrentSpeed());
-    return 1;
-  }
-
-  int EntitiesManager::lua_setEntityText(lua_State* L) {
-    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
-    const char* name = luaL_checkstring(L, 1);
-    const char* text = luaL_checkstring(L, 2);
-    if (!manager || !name || !text) {
-      return 0;
-    }
-    auto entity = manager->getEntity(name);
-    if (!entity && manager->getGameState()) {
-      entity = manager->getGameState()->findEntity(name);
-    }
-
-    if (!entity) return 0;
-    auto* textComp = dynamic_cast<Project::Components::TextComponent*>(entity->getComponent("TextComponent"));
-    if (!textComp) return 0;
-    textComp->setText(text);
-    return 0;
+    entity->registerLuaFunction(Keys::LUA_GET_ENTITY_SPEED, LuaBindings::lua_getEntitySpeed, this);
+    entity->registerLuaFunction(Keys::LUA_SET_ENTITY_TEXT, LuaBindings::lua_setEntityText, this);
   }
 }

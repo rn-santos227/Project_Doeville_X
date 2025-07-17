@@ -31,8 +31,6 @@ namespace Project::Factories {
     std::unordered_map<std::string, std::string> entityScriptPaths;
 
     std::unique_ptr<Project::Entities::Entity> loadEntityTemplateFromLua(const std::string& scriptPath);
-
-    static int lua_changeState(lua_State* L);
   };
 }
 

@@ -223,15 +223,76 @@ namespace Project::Bindings::LuaBindings {
         seed = lua_tostring(L, Constants::INDEX_ONE);
       }
     }
-    if (top >= 2 && lua_isstring(L, Constants::INDEX_TWO)) {
+    if (top >= Constants::INDEX_TWO && lua_isstring(L, Constants::INDEX_TWO)) {
       layer = lua_tostring(L, Constants::INDEX_TWO);
     }
-    if (top >= 3 && lua_isstring(L, Constants::INDEX_THREE)) {
+    if (top >= Constants::INDEX_THREE && lua_isstring(L, Constants::INDEX_THREE)) {
       id = lua_tostring(L, Constants::INDEX_THREE);
     }
 
     std::string seederId = state->startEntitySeeder(seed, layer, id);
     lua_pushstring(L, seederId.c_str());
     return 1;
+  }
+
+  int lua_getEntitySpeed(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return 1;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return 1;
+
+    }
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) {
+      lua_pushnil(L);
+      return 1;
+    }
+    lua_pushnumber(L, motion->getCurrentSpeed());
+    return 1;
+  }
+
+  int lua_setEntityText(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* text = luaL_checkstring(L, 2);
+    if (!manager || !name || !text) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* textComp = dynamic_cast<Project::Components::TextComponent*>(entity->getComponent(Components::TEXT_COMPONENT));
+    if (!textComp) return 0;
+    textComp->setText(text);
+    return 0;
+  }
+
+  int lua_factoryChangeState(lua_State* L) {
+    auto* manager = static_cast<GameStateManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!manager) {
+      return luaL_error(L, "Invalid GameStateManager reference in lua_changeState.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected a state name string.");
+      return 0;
+    }
+
+    manager->changeState(name);
+    return 0;
   }
 }

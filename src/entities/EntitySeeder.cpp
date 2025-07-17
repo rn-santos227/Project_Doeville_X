@@ -87,6 +87,30 @@ namespace Project::Entities {
     float px = p->getX();
     float py = p->getY();
 
+    for (auto& [k, chunk] : chunks) {
+      int cx = static_cast<int>(k >> 32);
+      int cy = static_cast<int>(static_cast<unsigned int>(k));
+      auto it = chunk.ids.begin();
+      while (it != chunk.ids.end()) {
+        auto ent = manager.getEntity(*it);
+        if (!ent) {
+          it = chunk.ids.erase(it);
+          continue;
+        }
+
+        int ecx = static_cast<int>(std::floor(ent->getX() / chunkSize));
+        int ecy = static_cast<int>(std::floor(ent->getY() / chunkSize));
+        long long nk = key(ecx, ecy);
+
+        if (nk != k) {
+          chunks[nk].ids.push_back(*it);
+          it = chunk.ids.erase(it);
+        } else {
+          ++it;
+        }
+      }
+    }
+
     int pcx = static_cast<int>(std::floor(px / chunkSize));
     int pcy = static_cast<int>(std::floor(py / chunkSize));
 

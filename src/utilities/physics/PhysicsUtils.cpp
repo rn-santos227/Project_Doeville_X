@@ -37,14 +37,14 @@ namespace Project::Utilities {
     auto overlapOnAxis = [](const SDL_FPoint* pts1, const SDL_FPoint* pts2, SDL_FPoint axis) {
       float minA = std::numeric_limits<float>::max();
       float maxA = std::numeric_limits<float>::lowest();
-      for (int i = 0; i < Project::Libraries::Constants::INDEX_FOUR; ++i) {
+      for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
         float proj = MathUtils::dot(pts1[i].x, pts1[i].y, axis.x, axis.y);
         if (proj < minA) minA = proj;
         if (proj > maxA) maxA = proj;
       }
       float minB = std::numeric_limits<float>::max();
       float maxB = std::numeric_limits<float>::lowest();
-      for (int i = 0; i < Project::Libraries::Constants::INDEX_FOUR; ++i) {
+      for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
         float proj = MathUtils::dot(pts2[i].x, pts2[i].y, axis.x, axis.y);
         if (proj < minB) minB = proj;
         if (proj > maxB) maxB = proj;
@@ -52,15 +52,15 @@ namespace Project::Utilities {
       return !(maxA < minB || maxB < minA);
     };
 
-    SDL_FPoint axes[Project::Libraries::Constants::INDEX_FOUR];
-    axes[0].x = -(a.corners[1].y - a.corners[0].y);
-    axes[0].y = a.corners[1].x - a.corners[0].x;
-    axes[1].x = -(a.corners[2].y - a.corners[1].y);
-    axes[1].y = a.corners[2].x - a.corners[1].x;
-    axes[2].x = -(b.corners[1].y - b.corners[0].y);
-    axes[2].y = b.corners[1].x - b.corners[0].x;
-    axes[3].x = -(b.corners[2].y - b.corners[1].y);
-    axes[3].y = b.corners[2].x - b.corners[1].x;
+    SDL_FPoint axes[Constants::INDEX_FOUR];
+    axes[Constants::INDEX_ZERO].x = -(a.corners[Constants::INDEX_ONE].y - a.corners[Constants::INDEX_ZERO].y);
+    axes[Constants::INDEX_ZERO].y = a.corners[Constants::INDEX_ONE].x - a.corners[Constants::INDEX_ZERO].x;
+    axes[Constants::INDEX_ONE].x = -(a.corners[Constants::INDEX_TWO].y - a.corners[Constants::INDEX_ONE].y);
+    axes[Constants::INDEX_ONE].y = a.corners[Constants::INDEX_TWO].x - a.corners[Constants::INDEX_ONE].x;
+    axes[Constants::INDEX_TWO].x = -(b.corners[Constants::INDEX_ONE].y - b.corners[Constants::INDEX_ZERO].y);
+    axes[Constants::INDEX_TWO].y = b.corners[Constants::INDEX_ONE].x - b.corners[Constants::INDEX_ZERO].x;
+    axes[Constants::INDEX_THREE].x = -(b.corners[Constants::INDEX_TWO].y - b.corners[Constants::INDEX_ONE].y);
+    axes[Constants::INDEX_THREE].y = b.corners[Constants::INDEX_TWO].x - b.corners[Constants::INDEX_ONE].x;
 
     for (SDL_FPoint& axis : axes) {
       float len = MathUtils::magnitude(axis.x, axis.y);
@@ -81,10 +81,10 @@ namespace Project::Utilities {
   }
 
   SDL_FPoint PhysicsUtils::applyGravity(SDL_FPoint velocity, float deltaTime) {
-    velocity.x += Project::Libraries::Constants::DEFAULT_GRAVITY_DIRECTION.x * Project::Libraries::Constants::GRAVITY * deltaTime;
-    velocity.y += Project::Libraries::Constants::DEFAULT_GRAVITY_DIRECTION.y * Project::Libraries::Constants::GRAVITY * deltaTime;
-    if (velocity.y > Project::Libraries::Constants::TERMINAL_VELOCITY) {
-      velocity.y = Project::Libraries::Constants::TERMINAL_VELOCITY;
+    velocity.x += Constants::DEFAULT_GRAVITY_DIRECTION.x * Constants::GRAVITY * deltaTime;
+    velocity.y += Constants::DEFAULT_GRAVITY_DIRECTION.y * Constants::GRAVITY * deltaTime;
+    if (velocity.y > Constants::TERMINAL_VELOCITY) {
+      velocity.y = Constants::TERMINAL_VELOCITY;
     }
     return velocity;
   }

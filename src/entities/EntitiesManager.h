@@ -43,9 +43,6 @@ namespace Project::Entities {
       std::vector<std::shared_ptr<Entity>> getEntitiesByGroup(const std::string& group);
       void clearGroup(const std::string& group);
       void registerEntityLuaFunctions(Entity* entity);
-      
-      static int lua_getEntitySpeed(lua_State* L);
-      static int lua_setEntityText(lua_State* L);
 
     private:
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;

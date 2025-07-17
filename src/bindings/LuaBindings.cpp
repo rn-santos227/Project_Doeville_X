@@ -1,0 +1,19 @@
+#include "LuaBindings.h"
+
+#include "components/camera_component/CameraComponent.h"
+#include "components/motion_component/MotionComponent.h"
+#include "components/text_component/TextComponent.h"
+#include "entities/EntitiesManager.h"
+#include "factories/entity/EntitiesFactory.h"
+#include "handlers/resources/ResourcesHandler.h"
+#include "states/GameState.h"
+#include "states/GameStateManager.h"
+
+namespace Project::Bindings::LuaBindings {
+  using Project::States::GameState;
+  using Project::States::GameStateManager;
+  using Project::Entities::EntitiesManager;
+  using Project::Factories::EntitiesFactory;
+  using Project::Entities::Entity;
+
+}

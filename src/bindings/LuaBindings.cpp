@@ -204,4 +204,34 @@ namespace Project::Bindings::LuaBindings {
     state->setPlayerEntity(name);
     return 0;
   }
+
+  int lua_startEntitySeeder(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_startEntitySeeder.");
+    }
+
+    int top = lua_gettop(L);
+    std::string seed;
+    std::string layer;
+    std::string id;
+
+    if (top >= Constants::INDEX_ONE && !lua_isnil(L, Constants::INDEX_ONE)) {
+      if (lua_isnumber(L, Constants::INDEX_ONE)) {
+        seed = std::to_string(static_cast<size_t>(lua_tonumber(L, Constants::INDEX_ONE)));
+      } else if (lua_isstring(L, Constants::INDEX_ONE)) {
+        seed = lua_tostring(L, Constants::INDEX_ONE);
+      }
+    }
+    if (top >= 2 && lua_isstring(L, Constants::INDEX_TWO)) {
+      layer = lua_tostring(L, Constants::INDEX_TWO);
+    }
+    if (top >= 3 && lua_isstring(L, Constants::INDEX_THREE)) {
+      id = lua_tostring(L, Constants::INDEX_THREE);
+    }
+
+    std::string seederId = state->startEntitySeeder(seed, layer, id);
+    lua_pushstring(L, seederId.c_str());
+    return 1;
+  }
 }

@@ -12,7 +12,8 @@ namespace Project::Bindings {
     int lua_setBackgroundImage(lua_State* L);
     int lua_setBackgroundColor(lua_State* L);
     int lua_spawnEntity(lua_State* L);
-
+    int lua_changeState(lua_State* L);
+    int lua_startEntitySeeder(lua_State* L);
   }
 }
 

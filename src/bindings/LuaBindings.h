@@ -8,21 +8,21 @@ extern "C" {
 namespace Project::Bindings {
   namespace LuaBindings {
     //Gamestate Bindings
-    int lua_setActiveCamera(lua_State* L);
-    int lua_setBackgroundImage(lua_State* L);
-    int lua_setBackgroundColor(lua_State* L);
-    int lua_spawnEntity(lua_State* L);
-    int lua_changeState(lua_State* L);
-    int lua_startEntitySeeder(lua_State* L);
     int lua_addEntityToSeed(lua_State* L);
+    int lua_changeState(lua_State* L);
+    int lua_spawnEntity(lua_State* L);
+    int lua_setActiveCamera(lua_State* L);
+    int lua_setBackgroundColor(lua_State* L);
+    int lua_setBackgroundImage(lua_State* L);
     int lua_setPlayerEntity(lua_State* L);
+    int lua_startEntitySeeder(lua_State* L);
 
     // EntitiesManager Bindings
     int lua_getEntitySpeed(lua_State* L);
     int lua_setEntityText(lua_State* L);
 
     // EntitiesFactory bindings
-    int lua_factory_changeState(lua_State* L);
+    int lua_factoryChangeState(lua_State* L);
   }
 }
 

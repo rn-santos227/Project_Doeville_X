@@ -42,6 +42,10 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_changeState(lua_State* L) {
+
+  }
+  
   int lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

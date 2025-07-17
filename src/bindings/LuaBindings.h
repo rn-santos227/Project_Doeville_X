@@ -14,6 +14,8 @@ namespace Project::Bindings {
     int lua_spawnEntity(lua_State* L);
     int lua_changeState(lua_State* L);
     int lua_startEntitySeeder(lua_State* L);
+    int lua_addEntityToSeed(lua_State* L);
+    int lua_setPlayerEntity(lua_State* L);
   }
 }
 

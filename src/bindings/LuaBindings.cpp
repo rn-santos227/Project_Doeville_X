@@ -17,7 +17,8 @@ namespace Project::Bindings::LuaBindings {
   using Project::Entities::Entity;
 
   int lua_setActiveCamera(lua_State* L) {
-
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
   }
 
   int lua_setBackgroundImage(lua_State* L) {

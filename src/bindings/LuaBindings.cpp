@@ -188,4 +188,20 @@ namespace Project::Bindings::LuaBindings {
 
     return 0;
   }
+
+  int lua_setPlayerEntity(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_setPlayerEntity.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected entity name.");
+      return 0;
+    }
+
+    state->setPlayerEntity(name);
+    return 0;
+  }
 }

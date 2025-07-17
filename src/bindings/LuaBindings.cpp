@@ -38,6 +38,8 @@ namespace Project::Bindings::LuaBindings {
        return 0;
     }
 
+    state->setActiveCamera(cam);
+    return 0;
   }
 
   int lua_setBackgroundImage(lua_State* L) {

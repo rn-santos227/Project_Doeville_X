@@ -28,6 +28,21 @@ namespace Project::Bindings::LuaBindings {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_addEntityToSeed.");
     }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected entity template name.");
+      return 0;
+    }
+
+    state->addEntityToSeed(name);
+    std::string sid;
+    if (lua_gettop(L) >= 2 && lua_isstring(L, 2)) {
+      sid = lua_tostring(L, 2);
+    }
+
+    state->addEntityToSeed(name, sid);
+    return 0;
   }
 
   int lua_changeState(lua_State* L) {

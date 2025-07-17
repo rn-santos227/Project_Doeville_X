@@ -7,6 +7,9 @@ extern "C" {
 
 namespace Project::Bindings {
   namespace LuaBindings {
+    //Gamestate Bindings
+    int lua_setActiveCamera(lua_State* L);
+    int lua_setBackgroundImage(lua_State* L);
 
   }
 }

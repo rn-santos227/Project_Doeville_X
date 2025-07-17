@@ -61,10 +61,17 @@ namespace Project::States {
       entitiesManager = std::move(manager);
       if (entitiesManager) entitiesManager->setGameState(this);
     }
+    Project::Entities::EntitiesManager* getEntitiesManager() const { return entitiesManager.get(); }
 
     void setGlobalEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { globalEntitiesManager = std::move(manager); }
-    void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
+    Project::Entities::EntitiesManager* getGlobalEntitiesManager() const { return globalEntitiesManager.get(); }
+
     void setGameStateManager(Project::States::GameStateManager* manager) { gameStateManager = manager; }
+    Project::States::GameStateManager* getGameStateManager() const { return gameStateManager; }
+    
+    void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
+    Project::Factories::EntitiesFactory* getEntitiesFactory() const { return entitiesFactory; }
+     
     void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) {
       layersManager = std::move(manager);
       if (layersManager) layersManager->setGameState(this);
@@ -78,6 +85,18 @@ namespace Project::States {
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
       setBackgroundColor(r, g, b, Project::Libraries::Constants::FULL_ALPHA);
     };
+
+    std::string startEntitySeeder(
+      const std::string& seed = Project::Libraries::Constants::EMPTY_STRING, 
+      const std::string& layer =  Project::Libraries::Constants::EMPTY_STRING, 
+      const std::string& id =  Project::Libraries::Constants::EMPTY_STRING
+    );
+
+    std::string addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id =  Project::Libraries::Constants::EMPTY_STRING);
+    void addEntityToSeed(const std::string& name, const std::string& seederId = Project::Libraries::Constants::EMPTY_STRING);
+
+    void setPlayerEntity(const std::string& name);
+    std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
 
   protected:
     static int lua_setActiveCamera(lua_State* L);
@@ -116,18 +135,6 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
     std::unordered_map<std::string, std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
-
-    std::string startEntitySeeder(
-      const std::string& seed = Project::Libraries::Constants::EMPTY_STRING, 
-      const std::string& layer =  Project::Libraries::Constants::EMPTY_STRING, 
-      const std::string& id =  Project::Libraries::Constants::EMPTY_STRING
-    );
-
-    std::string addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id =  Project::Libraries::Constants::EMPTY_STRING);
-    void addEntityToSeed(const std::string& name, const std::string& seederId = Project::Libraries::Constants::EMPTY_STRING);
-
-    void setPlayerEntity(const std::string& name);
-    std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
   };
 }
 

@@ -27,5 +27,11 @@ namespace Project::Bindings::LuaBindings {
       luaL_error(L, "Expected a valid image path string.");
       return 0;
     }
+
+    if (!state->setBackgroundImage(path)) {
+      luaL_error(L, ("Failed to set background image: " + std::string(path)).c_str());
+    }
+
+    return 0;
   }
 }

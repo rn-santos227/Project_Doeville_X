@@ -6,6 +6,7 @@
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "handlers/resources/ResourcesHandler.h"
+#include "libraries/categories/Categories.h"
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
 
@@ -15,6 +16,8 @@ namespace Project::Bindings::LuaBindings {
   using Project::Entities::EntitiesManager;
   using Project::Factories::EntitiesFactory;
   using Project::Entities::Entity;
+
+  namespace Components = Project::Libraries::Categories::Components;
 
   int lua_setActiveCamera(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
@@ -29,6 +32,11 @@ namespace Project::Bindings::LuaBindings {
       return 0;
     }
 
+    auto* cam = dynamic_cast<Project::Components::CameraComponent*>(entity->getComponent(Components::CAMERA_COMPONENT));
+    if (!cam) {
+       state->getLogsManager().logError(std::string("Entity has no CameraComponent: ") + name);
+       return 0;
+    }
 
   }
 

@@ -21,5 +21,11 @@ namespace Project::Bindings::LuaBindings {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_setBackgroundImage.");
     }
+
+    const char* path = luaL_checkstring(L, 1);
+    if (!path) {
+      luaL_error(L, "Expected a valid image path string.");
+      return 0;
+    }
   }
 }

@@ -160,6 +160,15 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_setBackgroundColor(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    Uint8 r = static_cast<Uint8>(luaL_checkinteger(L, Constants::INDEX_ONE));
+    Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, Constants::INDEX_TWO));
+    Uint8 b = static_cast<Uint8>(luaL_checkinteger(L, Constants::INDEX_THREE));
+    Uint8 a = static_cast<Uint8>(luaL_optinteger(L, Constants::INDEX_FOUR, Constants::FULL_ALPHA));
+    state->setBackgroundColor(r, g, b, a);
+    return 0; 
+  }
 
   int lua_setBackgroundImage(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));

@@ -201,6 +201,20 @@ namespace Project::States {
     }
   }
 
+  size_t GameStateManager::getActiveEntityCount() const {
+    size_t count = 0;
+    if (!stateStack.empty()) {
+      GameState* topState = stateStack.top();
+      if (topState) {
+        count += topState->getEntityCount();
+      }
+    }
+    if (globalEntitiesManager) {
+      count += globalEntitiesManager->getEntityCount();
+    }
+    return count;
+  }
+
   void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
     if (!state) {
       logsManager.logWarning("Attempted to cache null state '" + name + "'.");

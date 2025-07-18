@@ -38,6 +38,7 @@ namespace Project::States {
     void disableStates(const std::vector<std::string>& names);
     
     void cleanupCache();
+    size_t getActiveEntityCount() const;
 
     std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const { return globalEntitiesManager; }
 
@@ -53,9 +54,9 @@ namespace Project::States {
     std::stack<GameState*> stateStack;
 
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager = std::make_shared<Project::Entities::EntitiesManager>();
-
-    GameState* retrieveFromCache(const std::string& name);
+    
     void addToCache(const std::string& name, std::unique_ptr<GameState> state);
+    GameState* retrieveFromCache(const std::string& name);
   };
 }
 

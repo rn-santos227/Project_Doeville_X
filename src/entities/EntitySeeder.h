@@ -22,6 +22,7 @@ namespace Project::Entities {
     using Distribution = std::function<size_t(std::mt19937&)>;
     EntitySeeder(EntitiesManager& manager, Project::Factories::EntitiesFactory& factory);
 
+    size_t getTemplateCount() const { return entityTemplates.size(); }
     void update(float deltaTime) override;
 
     void setDistribution(Distribution distFunc) { distribution = std::move(distFunc); }
@@ -31,6 +32,8 @@ namespace Project::Entities {
     void setSeedString(const std::string& seedStr);
 
     void addEntityTemplate(const std::string& name);
+    void addEntityTemplate(const std::string& name, size_t count);
+
     void setSpawnRadius(float radius) { spawnRadius = radius; }
     void setChunkSize(float size) { chunkSize = size; }
     void setChunkRadius(int radius) { chunkRadius = radius; }

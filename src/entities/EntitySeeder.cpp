@@ -37,6 +37,10 @@ namespace Project::Entities {
     entityTemplates.push_back(name);
   }
 
+  void EntitySeeder::addEntityTemplate(const std::string& name, size_t count) {
+
+  }
+
   long long EntitySeeder::key(int x, int y) const {
     return (static_cast<long long>(x) << 32) ^ static_cast<unsigned int>(y);
   }

@@ -126,4 +126,8 @@ namespace Project::Entities {
     entity->registerLuaFunction(Keys::LUA_GET_ENTITY_SPEED, LuaBindings::lua_getEntitySpeed, this);
     entity->registerLuaFunction(Keys::LUA_SET_ENTITY_TEXT, LuaBindings::lua_setEntityText, this);
   }
+
+  size_t EntitiesManager::getEntityCount() const {
+    return ObjectsManager<Entity>::count();
+  }
 }

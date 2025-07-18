@@ -44,6 +44,8 @@ namespace Project::Entities {
       void clearGroup(const std::string& group);
       void registerEntityLuaFunctions(Entity* entity);
 
+      size_t getEntityCount() const;
+
     private:
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
       std::unordered_map<std::string, std::vector<std::string>> entityGroups;

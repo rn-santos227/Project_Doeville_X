@@ -242,4 +242,17 @@ namespace Project::States {
   std::shared_ptr<Project::Entities::Entity> GameState::getPlayerEntity() const {
     return playerEntity.lock();
   }
+
+  size_t GameState::getEntityCount() const {
+    size_t count = 0;
+    if (layersManager) {
+      count += layersManager->getTotalEntityCount();
+    } else if (entitiesManager) {
+      count += entitiesManager->getEntityCount();
+    }
+    if (globalEntitiesManager) {
+      count += globalEntitiesManager->getEntityCount();
+    }
+    return count;
+  }
 }

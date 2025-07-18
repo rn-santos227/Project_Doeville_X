@@ -52,15 +52,44 @@ namespace Project::Utilities {
       return !(maxA < minB || maxB < minA);
     };
 
+    auto computeAABB = [](const Project::Components::OrientedBox& box, float& minX, float& maxX, float& minY, float& maxY) {
+      minX = std::numeric_limits<float>::max();
+      minY = std::numeric_limits<float>::max();
+      maxX = std::numeric_limits<float>::lowest();
+      maxY = std::numeric_limits<float>::lowest();
+      for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
+        float x = box.corners[i].x;
+        float y = box.corners[i].y;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    };
+
+    float minAx, maxAx, minAy, maxAy;
+    float minBx, maxBx, minBy, maxBy;
+    computeAABB(a, minAx, maxAx, minAy, maxAy);
+    computeAABB(b, minBx, maxBx, minBy, maxBy);
+
+    if (maxAx < minBx || maxBx < minAx || maxAy < minBy || maxBy < minAy) {
+      return false;
+    }
+
     SDL_FPoint axes[Constants::INDEX_FOUR];
-    axes[Constants::INDEX_ZERO].x = -(a.corners[Constants::INDEX_ONE].y - a.corners[Constants::INDEX_ZERO].y);
-    axes[Constants::INDEX_ZERO].y = a.corners[Constants::INDEX_ONE].x - a.corners[Constants::INDEX_ZERO].x;
-    axes[Constants::INDEX_ONE].x = -(a.corners[Constants::INDEX_TWO].y - a.corners[Constants::INDEX_ONE].y);
-    axes[Constants::INDEX_ONE].y = a.corners[Constants::INDEX_TWO].x - a.corners[Constants::INDEX_ONE].x;
-    axes[Constants::INDEX_TWO].x = -(b.corners[Constants::INDEX_ONE].y - b.corners[Constants::INDEX_ZERO].y);
-    axes[Constants::INDEX_TWO].y = b.corners[Constants::INDEX_ONE].x - b.corners[Constants::INDEX_ZERO].x;
-    axes[Constants::INDEX_THREE].x = -(b.corners[Constants::INDEX_TWO].y - b.corners[Constants::INDEX_ONE].y);
-    axes[Constants::INDEX_THREE].y = b.corners[Constants::INDEX_TWO].x - b.corners[Constants::INDEX_ONE].x;
+    for (int i = 0; i < 2; ++i) {
+      const SDL_FPoint& p1 = a.corners[i];
+      const SDL_FPoint& p2 = a.corners[(i + 1) % Constants::INDEX_FOUR];
+      axes[i].x = -(p2.y - p1.y);
+      axes[i].y = p2.x - p1.x;
+    }
+    
+    for (int i = 0; i < 2; ++i) {
+      const SDL_FPoint& p1 = b.corners[i];
+      const SDL_FPoint& p2 = b.corners[(i + 1) % Constants::INDEX_FOUR];
+      axes[i + 2].x = -(p2.y - p1.y);
+      axes[i + 2].y = p2.x - p1.x;
+    }
 
     for (SDL_FPoint& axis : axes) {
       float len = MathUtils::magnitude(axis.x, axis.y);

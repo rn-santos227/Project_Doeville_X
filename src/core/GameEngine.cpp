@@ -195,8 +195,16 @@ namespace Project::Core {
   }
 
   void GameEngine::handleFrameRate(Uint64 frameStartTime) {
-    const double BASE_VALUE = 1.0;
-    const double targetFrameDuration = BASE_VALUE / maxFPS;
+    double currentMaxFPS = maxFPS;
+    if (gameStateManager) {
+      size_t entityCount = gameStateManager->getActiveEntityCount();
+      if (entityCount > Constants::ENTITY_OPTIMIZATION_THRESHOLD) {
+        double factor = static_cast<double>(entityCount) /
+                        Constants::ENTITY_OPTIMIZATION_THRESHOLD;
+        currentMaxFPS = maxFPS / factor;
+      }
+    }
+    const double targetFrameDuration = Constants::DEFAULT_WHOLE / currentMaxFPS;
 
     Uint64 frameEndTime = SDL_GetPerformanceCounter();
     Uint64 frequency = SDL_GetPerformanceFrequency();

@@ -191,6 +191,7 @@ namespace Project::States {
 
     if (!mgr || !entitiesFactory) return "";
     auto seeder = std::make_unique<Project::Entities::EntitySeeder>(*mgr, *entitiesFactory);
+    seeder->setChunkSize(chunkSize);
 
     if (!seed.empty()) {
       bool numeric = std::all_of(seed.begin(), seed.end(), ::isdigit);

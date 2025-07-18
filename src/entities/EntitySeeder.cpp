@@ -38,7 +38,9 @@ namespace Project::Entities {
   }
 
   void EntitySeeder::addEntityTemplate(const std::string& name, size_t count) {
-
+    for (size_t i = 0; i < count; ++i) {
+      entityTemplates.push_back(name);
+    }
   }
 
   long long EntitySeeder::key(int x, int y) const {

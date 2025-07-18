@@ -63,14 +63,17 @@ namespace Project::States {
     }
     Project::Entities::EntitiesManager* getEntitiesManager() const { return entitiesManager.get(); }
 
+    void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
+    Project::Factories::EntitiesFactory* getEntitiesFactory() const { return entitiesFactory; }
+
     void setGlobalEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> manager) { globalEntitiesManager = std::move(manager); }
     Project::Entities::EntitiesManager* getGlobalEntitiesManager() const { return globalEntitiesManager.get(); }
 
     void setGameStateManager(Project::States::GameStateManager* manager) { gameStateManager = manager; }
     Project::States::GameStateManager* getGameStateManager() const { return gameStateManager; }
-    
-    void setEntitiesFactory(Project::Factories::EntitiesFactory* factory) { entitiesFactory = factory; }
-    Project::Factories::EntitiesFactory* getEntitiesFactory() const { return entitiesFactory; }
+
+    void setPlayerEntity(const std::string& name);
+    std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
      
     void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) {
       layersManager = std::move(manager);
@@ -100,8 +103,7 @@ namespace Project::States {
       size_t count = Project::Libraries::Constants::INT_ONE
     );
 
-    void setPlayerEntity(const std::string& name);
-    std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
+    size_t getEntityCount() const;
 
   protected:
     Project::Handlers::ResourcesHandler& resourcesHandler;

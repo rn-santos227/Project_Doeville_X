@@ -37,12 +37,17 @@ namespace Project::Helpers {
       }
     }
 
+    size_t count() const {
+      std::lock_guard<std::mutex> lock(managerMutex);
+      return objects.size();
+    }
+
     std::unordered_map<std::string, Ptr>& getObjects() { return objects; }
     const std::unordered_map<std::string, Ptr>& getObjects() const { return objects; }
 
   protected:
     std::unordered_map<std::string, Ptr> objects;
-    std::mutex managerMutex;
+    mutable std::mutex managerMutex;
   };
 }
 

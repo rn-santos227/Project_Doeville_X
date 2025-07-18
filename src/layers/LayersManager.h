@@ -46,6 +46,8 @@ namespace Project::Layers {
     void setLayerInteractable(const std::string& name, bool active);
     void setLayerVisible(const std::string& name, bool visible);
 
+    size_t getTotalEntityCount() const;
+
   private:
     Project::States::GameState* gameState = nullptr;
     std::vector<Layer> layers;

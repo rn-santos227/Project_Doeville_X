@@ -192,4 +192,15 @@ namespace Project::Layers {
       return l.getCategory() == LayerCategory::CINEMATIC && l.isActive();
     });
   }
+
+  size_t LayersManager::getTotalEntityCount() const {
+    size_t count = 0;
+    for (const auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) {
+        count += mgr->getEntityCount();
+      }
+    }
+    return count;
+  }
 }

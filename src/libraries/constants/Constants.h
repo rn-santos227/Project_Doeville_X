@@ -100,6 +100,7 @@ namespace Project::Libraries::Constants {
   
   constexpr Uint8 FULL_ALPHA = 255;  
   constexpr size_t BYTES_PER_MEGABYTE = 1024 * 1024;
+  constexpr size_t ENTITY_OPTIMIZATION_THRESHOLD = 200;
 
   // Physics constants
   constexpr float GRAVITY = 9.81f;

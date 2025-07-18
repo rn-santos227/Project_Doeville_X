@@ -87,7 +87,28 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::render() {
-    ObjectsManager<Entity>::render();
+    SDL_Rect cullRect{0,0,0,0};
+    bool useCull = false;
+    auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
+    if (camHandler) {
+      cullRect = camHandler->getCullingRect();
+      useCull = true;
+    }
+
+    std::lock_guard<std::mutex> lock(managerMutex);
+    for (auto& [id, obj] : objects) {
+      if (useCull) {
+        auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(
+          obj->getComponent(Project::Libraries::Categories::Components::GRAPHICS));
+        if (gfx) {
+          SDL_Rect rect = gfx->getRect();
+          if (!SDL_HasIntersection(&rect, &cullRect)) {
+            continue;
+          }
+        }
+      }
+      obj->render();
+    }
   }
 
   void EntitiesManager::reset() {

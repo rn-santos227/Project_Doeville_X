@@ -94,7 +94,11 @@ namespace Project::States {
     );
 
     std::string addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id =  Project::Libraries::Constants::EMPTY_STRING);
-    void addEntityToSeed(const std::string& name, const std::string& seederId = Project::Libraries::Constants::EMPTY_STRING);
+    void addEntityToSeed(
+      const std::string& name, 
+      const std::string& seederId = Project::Libraries::Constants::EMPTY_STRING,
+      size_t count = Project::Libraries::Constants::INT_ONE
+    );
 
     void setPlayerEntity(const std::string& name);
     std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;

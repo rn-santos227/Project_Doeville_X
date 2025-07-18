@@ -3,6 +3,9 @@
 #include <cmath>
 #include <string>
 
+#include <SDL.h>
+
+#include "components/graphics_component/GraphicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
@@ -54,12 +57,27 @@ namespace Project::Entities {
     int pcx = static_cast<int>(std::floor(px / chunkSize));
     int pcy = static_cast<int>(std::floor(py / chunkSize));
 
+    SDL_Rect cullRect{0,0,0,0};
+    bool useCull = false;
+    auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
+    if (camHandler) {
+      cullRect = camHandler->getCullingRect();
+      useCull = true;
+    }
+
     for (int dx = -chunkRadius; dx <= chunkRadius; ++dx) {
       for (int dy = -chunkRadius; dy <= chunkRadius; ++dy) {
         int cx = pcx + dx;
         int cy = pcy + dy;
         long long k = key(cx, cy);
         if (!chunks.count(k)) {
+          if (useCull) {
+            SDL_Rect chunkRect{ static_cast<int>(cx * chunkSize), static_cast<int>(cy * chunkSize),
+                               static_cast<int>(chunkSize), static_cast<int>(chunkSize) };
+            if (!SDL_HasIntersection(&chunkRect, &cullRect)) {
+              continue;
+            }
+          }
           loadChunk(cx, cy);
         }
       }

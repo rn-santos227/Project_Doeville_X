@@ -375,6 +375,10 @@ namespace Project::Utilities {
 
   void LuaStateWrapper::registerFunction(const std::string& name, lua_CFunction function) {
     if (!isValid()) return;
+    if (registeredFunctions.count(name)) {
+      return;
+    }
+
 
     lua_register(luaState, name.c_str(), function);
     if (lua_gettop(luaState) > 0 && lua_isstring(luaState, -1)) {
@@ -383,11 +387,15 @@ namespace Project::Utilities {
       lua_pop(luaState, 1);
     } else {
       logsManager.logMessage("Registered Lua function: " + name);
+      registeredFunctions.insert(name);
     }
   }
 
   void LuaStateWrapper::registerFunction(const std::string& name, lua_CFunction function, void* userData) {
     if (!isValid()) return;
+    if (registeredFunctions.count(name)) {
+      return;
+    }
 
     lua_pushlightuserdata(luaState, userData);
     lua_pushcclosure(luaState, function, 1);
@@ -399,6 +407,7 @@ namespace Project::Utilities {
       lua_pop(luaState, 1);
     } else {
       logsManager.logMessage("Registered Lua function with userdata: " + name);
+      registeredFunctions.insert(name);
     }
   }
 

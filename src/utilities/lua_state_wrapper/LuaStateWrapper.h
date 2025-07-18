@@ -7,6 +7,7 @@
 #include <optional>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "utilities/logs_manager/LogsManager.h"
 namespace Project::Utilities {
@@ -105,6 +106,7 @@ namespace Project::Utilities {
     LogsManager& logsManager;
 
     std::unordered_map<std::string, std::vector<char>> compiledScriptCache;
+    std::unordered_set<std::string> registeredFunctions;
   };
 }
 

@@ -24,24 +24,26 @@ namespace Project::Bindings::LuaBindings {
   namespace Keys = Project::Libraries::Keys;
 
   int lua_addEntityToSeed(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_addEntityToSeed.");
     }
 
-    const char* name = luaL_checkstring(L, 1);
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
     if (!name) {
       luaL_error(L, "Expected entity template name.");
       return 0;
     }
 
-    state->addEntityToSeed(name);
     std::string sid;
-    if (lua_gettop(L) >= 2 && lua_isstring(L, 2)) {
-      sid = lua_tostring(L, 2);
+    if (lua_gettop(L) >= Constants::INDEX_TWO && lua_isstring(L, Constants::INDEX_TWO)) {
+      sid = lua_tostring(L, Constants::INDEX_TWO);
     }
 
-    state->addEntityToSeed(name, sid);
+    size_t count = Project::Libraries::Constants::INT_ONE;
+    if (lua_gettop(L) >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE)) {
+      count = static_cast<size_t>(lua_tonumber(L, Constants::INDEX_THREE));
+    }
     return 0;
   }
 

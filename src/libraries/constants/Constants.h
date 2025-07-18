@@ -98,7 +98,7 @@ namespace Project::Libraries::Constants {
   constexpr int SEEDER_KEY = 32;
   constexpr double TARGET_FPS = 60.0;
   constexpr double DEFAULT_MAX_FPS = 120.0;
-  constexpr long DEFAULT_SEEDER = 0x9e3779b97f4a7c15;
+  constexpr std::uint64_t DEFAULT_SEEDER = 0x9e3779b97f4a7c15ULL;
   
   constexpr Uint8 FULL_ALPHA = 255;  
   constexpr size_t BYTES_PER_MEGABYTE = 1024 * 1024;

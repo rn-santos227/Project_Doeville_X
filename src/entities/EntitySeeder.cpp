@@ -104,7 +104,9 @@ namespace Project::Entities {
   }
 
   size_t EntitySeeder::generateChunkSeed(size_t base, long long key) {
-    base ^= static_cast<size_t>(key) + Constants::DEFAULT_SEEDER + (base << Constants::INDEX_SIX) + (base >> Constants::INDEX_TWO);
+    base ^= static_cast<size_t>(key) +
+            static_cast<size_t>(Constants::DEFAULT_SEEDER) +
+            (base << Constants::INDEX_SIX) + (base >> Constants::INDEX_TWO);
     return std::hash<size_t>{}(base);
   }
 
@@ -150,6 +152,4 @@ namespace Project::Entities {
     }
     chunks.erase(it);
   }
-
-
 }

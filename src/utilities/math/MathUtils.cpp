@@ -40,4 +40,11 @@ namespace Project::Utilities {
     }
     return {x / mag, y / mag};
   }
+
+  SDL_FPoint MathUtils::rotate(float x, float y, float angleDeg) {
+    float rad = angleDeg * Project::Libraries::Constants::DEG_TO_RAD;
+    float cosA = std::cos(rad);
+    float sinA = std::sin(rad);
+    return {x * cosA - y * sinA, x * sinA + y * cosA};
+  }
 }

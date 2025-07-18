@@ -29,6 +29,10 @@ namespace Project::Utilities {
     return x1 * x2 + y1 * y2;
   }
 
+  float MathUtils::lerp(float a, float b, float t) {
+    return a + t * (b - a);
+  }
+
   float MathUtils::magnitude(float x, float y) {
     return std::sqrt(x * x + y * y);
   }

@@ -95,8 +95,10 @@ namespace Project::Libraries::Constants {
   constexpr int TIME_MONTH_OFFSET = 1;
   constexpr int MILLISECONDS_PER_SECOND = 1000;
   constexpr int LOG_FLUSH_WAIT_MS = 10;
+  constexpr int SEEDER_KEY = 32;
   constexpr double TARGET_FPS = 60.0;
   constexpr double DEFAULT_MAX_FPS = 120.0;
+  constexpr long DEFAULT_SEEDER = 0x9e3779b97f4a7c15;
   
   constexpr Uint8 FULL_ALPHA = 255;  
   constexpr size_t BYTES_PER_MEGABYTE = 1024 * 1024;

@@ -43,6 +43,8 @@ namespace Project::Entities {
       std::vector<std::string> ids;
     };
 
+    static size_t generateChunkSeed(size_t base, long long key);
+
     Distribution distribution = [](std::mt19937& r) { return static_cast<size_t>(1 + (r() % 3)); };
     
     std::weak_ptr<Entity> player;

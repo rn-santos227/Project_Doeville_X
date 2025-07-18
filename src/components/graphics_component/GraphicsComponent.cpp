@@ -37,6 +37,10 @@ namespace Project::Components {
     cameraHandler = handler;
   }
 
+  Project::Handlers::CameraHandler* GraphicsComponent::getCameraHandler() {
+    return cameraHandler;
+  }
+
   void GraphicsComponent::update(float deltaTime) {
     if (animationHandler) {
       animationHandler->update(static_cast<Uint32>(deltaTime * Constants::MILLISECONDS_PER_SECOND));

@@ -41,6 +41,8 @@ namespace Project::Entities {
     for (size_t i = 0; i < count; ++i) {
       entityTemplates.push_back(name);
     }
+    size_t total = entityTemplates.size();
+    distribution = [total](std::mt19937&) { return total; };
   }
 
   long long EntitySeeder::key(int x, int y) const {

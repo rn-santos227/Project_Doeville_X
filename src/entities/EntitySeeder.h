@@ -43,9 +43,8 @@ namespace Project::Entities {
       std::vector<std::string> ids;
     };
 
-    static size_t generateChunkSeed(size_t base, long long key);
-
-    Distribution distribution = [](std::mt19937& r) { return static_cast<size_t>(1 + (r() % 3)); };
+    Distribution distribution;
+    std::uniform_int_distribution<size_t> countDistribution{Project::Libraries::Constants::INDEX_ONE, Project::Libraries::Constants::INDEX_THREE};
     
     std::weak_ptr<Entity> player;
     EntitiesManager& manager;
@@ -61,8 +60,12 @@ namespace Project::Entities {
     float spawnRadius = Project::Libraries::Constants::DEFAULT_SPAWN_RADIUS;
     float chunkSize =  Project::Libraries::Constants::DEFAULT_CHUNK_SIZE;
     int chunkRadius = Project::Libraries::Constants::INT_ONE;
+    
     size_t baseSeed = 0;
     size_t idCounter = 0;
+    size_t sessionSalt = 0;
+
+    size_t generateChunkSeed(size_t base, long long key);
 
     long long key(int x, int y) const;
     void loadChunk(int cx, int cy);

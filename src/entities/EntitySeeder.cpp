@@ -20,7 +20,9 @@ namespace Project::Entities {
   : manager(mgr), factory(fac) {
     std::random_device rd;
     baseSeed = rd();
-    rng.seed(baseSeed);
+    sessionSalt = rd();
+    rng.seed(baseSeed ^ sessionSalt);
+    distribution = [this](std::mt19937& r) { return countDistribution(r); };
   }
 
   void EntitySeeder::update(float deltaTime) {
@@ -102,7 +104,7 @@ namespace Project::Entities {
 
   void EntitySeeder::setSeed(size_t seed) {
     baseSeed = seed;
-    rng.seed(baseSeed);
+    rng.seed(baseSeed ^ sessionSalt);
   }
 
   void EntitySeeder::setSeedString(const std::string& seedStr) {
@@ -118,13 +120,16 @@ namespace Project::Entities {
       entityTemplates.push_back(name);
     }
     size_t total = entityTemplates.size();
-    distribution = [total](std::mt19937&) { return total; };
+    countDistribution = std::uniform_int_distribution<size_t>(Constants::INDEX_ONE, total);
+    distribution = [this](std::mt19937& r) { return countDistribution(r); };
   }
 
   size_t EntitySeeder::generateChunkSeed(size_t base, long long key) {
     base ^= static_cast<size_t>(key) +
             static_cast<size_t>(Constants::DEFAULT_SEEDER) +
             (base << Constants::INDEX_SIX) + (base >> Constants::INDEX_TWO);
+    base ^= sessionSalt +
+            (base << Constants::INDEX_THREE) + (base >> Constants::INDEX_FIVE);
     return std::hash<size_t>{}(base);
   }
 
@@ -142,9 +147,11 @@ namespace Project::Entities {
 
     size_t count = distribution(localRng);
     std::uniform_real_distribution<float> pos(0.0f, chunkSize);
-      for (size_t i = 0; i < count; ++i) {
+    std::uniform_int_distribution<size_t> templateIndex(0, entityTemplates.empty() ? 0 : entityTemplates.size() - 1);
+    
+    for (size_t i = 0; i < count; ++i) {
       if (entityTemplates.empty()) break;
-      std::string tmpl = entityTemplates[idCounter % entityTemplates.size()];
+      std::string tmpl = entityTemplates[templateIndex(localRng)];
       std::unique_ptr<Entity> entity = factory.cloneEntity(tmpl);
       if (!entity) continue;
 

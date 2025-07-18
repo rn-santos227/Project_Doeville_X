@@ -208,7 +208,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_startEntitySeeder(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_startEntitySeeder.");
     }

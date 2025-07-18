@@ -176,7 +176,7 @@ namespace Project::States {
     return true;
   }
 
-  std::string GameState::startEntitySeeder(const std::string& seed, const std::string& layer, const std::string& id) {
+  std::string GameState::startEntitySeeder(const std::string& seed, const std::string& layer, const std::string& id, float chunkSize) {
     std::shared_ptr<Project::Entities::EntitiesManager> mgr;
     if (layersManager) {
       if (!layer.empty()) {

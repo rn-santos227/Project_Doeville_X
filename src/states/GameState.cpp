@@ -224,12 +224,12 @@ namespace Project::States {
     return finalId;
   }
 
-  void GameState::addEntityToSeed(const std::string& name, const std::string& seederId) {
+  void GameState::addEntityToSeed(const std::string& name, const std::string& seederId, size_t count) {
     if (entitySeeders.empty()) return;
     std::string id = seederId.empty() ? lastSeederId : seederId;
     auto it = entitySeeders.find(id);
     if (it != entitySeeders.end() && it->second) {
-      it->second->addEntityTemplate(name);
+      it->second->addEntityTemplate(name, count);
     }
   }
 

@@ -44,6 +44,8 @@ namespace Project::Bindings::LuaBindings {
     if (lua_gettop(L) >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE)) {
       count = static_cast<size_t>(lua_tonumber(L, Constants::INDEX_THREE));
     }
+
+    state->addEntityToSeed(name, sid, count);
     return 0;
   }
 

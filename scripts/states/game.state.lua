@@ -14,10 +14,10 @@ function initialize()
 
 
   local seeder_id = startEntitySeeder(nil, "game", nil, 256)
-  addEntityToSeed("ball", seeder_id, 10)
-  addEntityToSeed("obstacle", seeder_id, 10)
-  addEntityToSeed("wall_v", seeder_id, 10)
-  addEntityToSeed("wall_h", seeder_id, 10)
+  addEntityToSeed("ball", seeder_id, 2)
+  addEntityToSeed("obstacle", seeder_id, 2)
+  addEntityToSeed("wall_v", seeder_id, 2)
+  addEntityToSeed("wall_h", seeder_id, 2)
 
   spawnEntity("speed_text", nil, nil, "hud")
 end

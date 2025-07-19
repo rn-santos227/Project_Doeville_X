@@ -215,6 +215,10 @@ namespace Project::Libraries::Constants {
 
   // Optional: Fallback
   constexpr const char* SCRIPT_GENERIC_SUFFIX = ".script";
+
+  // Regex Rules
+  constexpr const char* REGEX_CSS_RULE = "(\\.[\\w-]+)\\s*\\{([^}]+)\\}";
+  constexpr const char* REGEX_CSS_PROP = "([\\w-]+)\\s*:\\s*([^;]+);";
 } 
 
 #endif 

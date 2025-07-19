@@ -1,17 +1,17 @@
 # Compiler and Flags
 CXX = g++
 CXXFLAGS += -O2 -Isrc \
-            -Ilib/SDL2/SDL2-2.26.5/include \
-			-Ilib/SDL2_image/SDL2_image-2.6.3 \
-            -Ilib/SDL2_ttf/SDL2_ttf-2.20.1 \
-            -Ilib/Lua/lua-5.4.6/src
+            -Ilib/SDL2/include \
+			      -Ilib/SDL2_image \
+            -Ilib/SDL2_ttf \
+            -Ilib/Lua/src
 
 LDFLAGS += `sdl2-config --libs` \
-           -Llib/SDL2/SDL2-2.26.5/lib \
-		   -Llib/SDL2_image/SDL2_image-2.6.3 \
-           -Llib/SDL2_ttf/SDL2_ttf-2.20.1 \
-           -Llib/Lua/lua-5.4.6/src \
-           -lSDL2 -lSDL2_image -lSDL2_ttf -llua
+            -Llib/SDL2/lib \
+		        -Llib/SDL2_image/ \
+            -Llib/SDL2_ttf/ \
+            -Llib/Lua/src \
+            -lSDL2 -lSDL2_image -lSDL2_ttf -llua
 
 ifeq ($(OS),Windows_NT)
 	LDFLAGS += -lpsapi

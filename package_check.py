@@ -13,9 +13,16 @@ def load_packages(path):
 def check_installed(packages):
   results = {}
   for name, info in packages.items():
-    out_dir = info.get("output_dir") or info.get("source_dir")
-    path = os.path.join(BASE_DIR, out_dir)
-    results[name] = os.path.exists(path)
+    out_dir = info.get("output_dir")
+    source_dir = info.get("source_dir")
+
+    build_path = os.path.join(BASE_DIR, out_dir) if out_dir else None
+    source_path = os.path.join(BASE_DIR, source_dir)
+
+    build_exists = build_path and os.path.isdir(build_path) and any(os.scandir(build_path))
+    source_exists = os.path.isdir(source_path) and any(os.scandir(source_path))
+
+    results[name] = build_exists or source_exists
   return results
 
 def main():

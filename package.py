@@ -39,10 +39,10 @@ def main():
       print(f"Error processing {package_name}: {e}")
       continue
 
-    results = check_installed(packages)
-    for name, ok in results.items():
-      status = "OK" if ok else "MISSING"
-      print(f"[{status}] {name}")
+  results = check_installed(packages)
+  for name, ok in results.items():
+    status = "OK" if ok else "MISSING"
+    print(f"[{status}] {name}")
 
 if __name__ == "__main__":
   main()

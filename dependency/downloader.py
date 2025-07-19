@@ -1,7 +1,13 @@
 import os
-import ssl
 import shutil
-import urllib.request
+import subprocess
+
+CERT_BUNDLE = os.path.join(os.path.dirname(__file__), "cacert.pem")
+
+try:
+  import certifi
+except ImportError:
+  certifi = None
 
 class HTTPDownloader:
   def download(self, url: str, destination: str):
@@ -11,11 +17,32 @@ class HTTPDownloader:
     try:
       if not url.startswith("https://"):
         raise ValueError("Insecure URL: only HTTPS is supported")
-  
-      context = ssl.create_default_context()
-      with urllib.request.urlopen(url, context=context) as response:
-        with open(destination, "wb") as out_file:
-          shutil.copyfileobj(response, out_file)
+      
+      curl = shutil.which("curl")
+      if not curl:
+        raise RuntimeError("curl not found")
+
+      cafile = None
+      if certifi:
+        cafile = certifi.where()
+      elif os.path.exists(CERT_BUNDLE):
+        cafile = CERT_BUNDLE
+
+      cmd = [
+        curl,
+        "--fail",
+        "--location",
+        "--proto", "=https",
+        "--tlsv1.2",
+        "--output", destination,
+        url,
+      ]
+
+      if cafile:
+        cmd.extend(["--cacert", cafile])
+
+      print(f"Running: {' '.join(cmd)}")
+      subprocess.run(cmd, check=True)
       print(f"Downloaded: {destination}")
 
     except Exception as e:

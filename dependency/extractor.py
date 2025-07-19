@@ -50,10 +50,20 @@ class TarGzExtractor:
   def _maybe_strip_top_dir(self, dest_folder: str):
     entries = os.listdir(dest_folder)
     if len(entries) != 1:
-      return
+        print(f"Multiple entries found in {dest_folder}, skipping top-level strip.")
+        return
+
     only_entry = os.path.join(dest_folder, entries[0])
     if not os.path.isdir(only_entry):
-      return
+        print(f"Only entry {only_entry} is not a directory.")
+        return
+
+    # Move all files out
     for name in os.listdir(only_entry):
-      shutil.move(os.path.join(only_entry, name), dest_folder)
+        src = os.path.join(only_entry, name)
+        dst = os.path.join(dest_folder, name)
+        shutil.move(src, dst)
+
+    # Remove the now-empty folder
     os.rmdir(only_entry)
+    print(f"Stripped top-level directory: {only_entry}")

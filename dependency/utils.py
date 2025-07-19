@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 
 def ensure_folder_exists(folder_path):
   if not os.path.exists(folder_path):
@@ -26,3 +27,12 @@ def remove_file(filepath):
 
   except OSError as e:
     print(f"Error removing file {filepath}: {e}")
+
+def remove_dir(dirpath):
+  """Remove a directory tree if it exists."""
+  try:
+    if os.path.isdir(dirpath):
+      shutil.rmtree(dirpath)
+      print(f"Removed directory: {dirpath}")
+  except OSError as e:
+    print(f"Error removing directory {dirpath}: {e}")

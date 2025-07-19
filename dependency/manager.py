@@ -2,7 +2,7 @@ import os
 from dependency.downloader import HTTPDownloader
 from dependency.extractor import TarGzExtractor
 from dependency.builder import Builder
-from dependency.utils import ensure_folder_exists, archive_exists
+from dependency.utils import archive_exists, remove_dir
 
 class DependencyManager:
   def __init__(self, downloader, extractor):
@@ -22,6 +22,7 @@ class DependencyManager:
       self._verify_installation(output_dir)
 
     except Exception as e:
+      remove_dir(output_dir)
       print(f"Failed to process dependency {url}: {e}")
       raise e
 

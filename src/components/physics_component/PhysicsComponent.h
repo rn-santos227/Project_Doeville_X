@@ -1,6 +1,8 @@
 #ifndef PHYSICS_COMPONENT_H
 #define PHYSICS_COMPONENT_H
 
+#include "SurfaceType.h"
+
 #include "components/BaseComponent.h"
 #include "libraries/constants/Constants.h"
 
@@ -73,6 +75,9 @@ namespace Project::Components {
 
     void setMass(float m) { mass = m; }
     float getMass() const { return mass; }
+
+    void setSurfaceType(Project::Components::Physics::SurfaceType type) { surfaceType = type; }
+    Project::Components::Physics::SurfaceType getSurfaceType() const { return surfaceType; }
     
     float getWeight() const { return mass * Project::Libraries::Constants::GRAVITY; }
 
@@ -92,6 +97,7 @@ namespace Project::Components {
     void updateRotationState(float deltaTime, bool collisionOccurred);
     
     Project::Entities::Entity* owner = nullptr;
+    Project::Components::Physics::SurfaceType surfaceType = Project::Components::Physics::SurfaceType::REST;
 
     float forceX = 0.0f;
     float forceY = 0.0f;

@@ -1,10 +1,12 @@
 #include "PhysicsComponent.h"
 
 #include <cmath>
+#include <string>
 
 #include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
+#include "components/physics_component/SurfaceTypeResolver.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "interfaces/rotation_interface/Rotatable.h"
@@ -17,6 +19,8 @@
 namespace Project::Components {
   using Project::Utilities::MathUtils;
   using Project::Utilities::PhysicsUtils;
+  using Project::Components::Physics::SurfaceType;
+  using Project::Components::Physics::SurfaceTypeResolver;
 
   namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
@@ -158,7 +162,7 @@ namespace Project::Components {
                 float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
 
                 PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-                if (otherPhysics && pushForce > 0.0f) {
+                if (otherPhysics && pushForce > 0.0f && !otherPhysics->getStatic()) {
                   float pushX = velocityX * pushForce;
                   float pushY = velocityY * pushForce;
                   otherPhysics->addVelocity(pushX, pushY);
@@ -170,17 +174,44 @@ namespace Project::Components {
                 syncPositionWithComponents(snapX, snapY);
                 
                 if (otherPhysics) {
-                  resolveCollisionWith(otherPhysics, bounce);
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  otherPhysics->setVelocity(
-                    otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                    otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
+                  if (otherPhysics->getStatic()) {
+                    auto surface = otherPhysics->getSurfaceType();
+                    if (surface == SurfaceType::SLIDE) {
+                      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    } else if (surface == SurfaceType::STICK) {
+                      velocityX = 0.0f;
+                      velocityY = 0.0f;
+                    } else {
+                      velocityX = -velocityX * bounce;
+                      velocityY = -velocityY * bounce;
+                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    }
+                  } else {
+                    resolveCollisionWith(otherPhysics, bounce);
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    otherPhysics->setVelocity(
+                      otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
+                      otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
+                  }
                 } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  auto surface = otherBox->getSurfaceType();
+                  if (surface == SurfaceType::SLIDE) {
+                    if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  } else if (surface == SurfaceType::STICK) {
+                    velocityX = 0.0f;
+                    velocityY = 0.0f;
+                  } else {
+                    velocityX = -velocityX * bounce;
+                    velocityY = -velocityY * bounce;
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  }
                 }
                 collisionOccurred = true;
                 break;
@@ -200,12 +231,7 @@ namespace Project::Components {
                 syncPositionWithComponents(snapX, snapY);
 
                 if (otherPhysics) {
-                  resolveCollisionWith(otherPhysics, bounce);
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  otherPhysics->setVelocity(
-                    otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                    otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
+
                 } else {
                   velocityX = -velocityX * bounce;
                   velocityY = -velocityY * bounce;
@@ -237,17 +263,44 @@ namespace Project::Components {
                 syncPositionWithComponents(snapX, snapY);
 
                 if (otherPhysics) {
-                  resolveCollisionWith(otherPhysics, bounce);
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  otherPhysics->setVelocity(
-                    otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                    otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
+                  if (otherPhysics->getStatic()) {
+                    auto surface = otherPhysics->getSurfaceType();
+                    if (surface == SurfaceType::SLIDE) {
+                      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    } else if (surface == SurfaceType::STICK) {
+                      velocityX = 0.0f;
+                      velocityY = 0.0f;
+                    } else {
+                      velocityX = -velocityX * bounce;
+                      velocityY = -velocityY * bounce;
+                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    }
+                  } else {
+                    resolveCollisionWith(otherPhysics, bounce);
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    otherPhysics->setVelocity(
+                      otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
+                      otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
+                  }
                 } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  auto surface = otherBox->getSurfaceType();
+                  if (surface == SurfaceType::SLIDE) {
+                    if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  } else if (surface == SurfaceType::STICK) {
+                    velocityX = 0.0f;
+                    velocityY = 0.0f;
+                  } else {
+                    velocityX = -velocityX * bounce;
+                    velocityY = -velocityY * bounce;
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  }
                 }
                 collisionOccurred = true;
                 break;
@@ -267,17 +320,45 @@ namespace Project::Components {
                 syncPositionWithComponents(snapX, snapY);
 
                 if (otherPhysics) {
-                  resolveCollisionWith(otherPhysics, bounce);
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  otherPhysics->setVelocity(
-                    otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                    otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
+                  if (otherPhysics->getStatic()) {
+                    auto surface = otherPhysics->getSurfaceType();
+                    if (surface == SurfaceType::SLIDE) {
+                      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    } else if (surface == SurfaceType::STICK) {
+                      velocityX = 0.0f;
+                      velocityY = 0.0f;
+                    } else {
+                      velocityX = -velocityX * bounce;
+                      velocityY = -velocityY * bounce;
+                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    }
+                  } else {
+                    resolveCollisionWith(otherPhysics, bounce);
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                    otherPhysics->setVelocity(
+                      otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
+                      otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric)
+                    );
+                  }
                 } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  auto surface = otherBox->getSurfaceType();
+                  if (surface == SurfaceType::SLIDE) {
+                    if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  } else if (surface == SurfaceType::STICK) {
+                    velocityX = 0.0f;
+                    velocityY = 0.0f;
+                  } else {
+                    velocityX = -velocityX * bounce;
+                    velocityY = -velocityY * bounce;
+                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
+                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
+                  }
                 }
                 collisionOccurred = true;
                 break;

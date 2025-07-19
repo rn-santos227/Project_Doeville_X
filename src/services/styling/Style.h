@@ -4,7 +4,12 @@
 #include <SDL.h>
 
 namespace Project::Services {
-
+  struct Style {
+    SDL_Color gradientStart{0, 0, 0, 0};
+    SDL_Color gradientEnd{0, 0, 0, 0};
+    int margin{0};
+    int padding{0};
+  };
 }
 
 #endif

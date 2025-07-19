@@ -145,7 +145,22 @@ namespace Project::Entities {
     size_t chunkSeed = generateChunkSeed(baseSeed, k);
     std::mt19937 localRng(chunkSeed);
 
-    size_t count = distribution(localRng);
+    float speedFactor = Constants::DEFAULT_WHOLE;
+    if (auto p = player.lock()) {
+      auto* motion = dynamic_cast<Project::Components::MotionComponent*>(
+          p->getComponent(Project::Libraries::Categories::Components::MOTION_COMPONENT));
+      if (motion) {
+        float maxSpeed = motion->getSpeed();
+        float currentSpeed = motion->getCurrentSpeed();
+        if (maxSpeed > 0.0f) {
+          speedFactor += currentSpeed / maxSpeed;
+        }
+      }
+    }
+
+    size_t baseCount = distribution(localRng);
+    size_t count = static_cast<size_t>(std::round(baseCount * speedFactor));
+    if (count < 1) count = 1;
     std::uniform_real_distribution<float> pos(0.0f, chunkSize);
     std::uniform_int_distribution<size_t> templateIndex(0, entityTemplates.empty() ? 0 : entityTemplates.size() - 1);
     

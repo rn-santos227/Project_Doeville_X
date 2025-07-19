@@ -44,6 +44,10 @@ namespace Project::Services {
   }
 
   Style StyleManager::getStyle(const std::string& selector) const {
-
+    auto it = styles.find(selector);
+    if (it != styles.end()) {
+      return it->second;
+    }
+    return Style{};
   }
 }

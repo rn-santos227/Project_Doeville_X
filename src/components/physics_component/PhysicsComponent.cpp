@@ -133,6 +133,35 @@ namespace Project::Components {
       auto* manager = owner->getEntitiesManager();
       auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
       bool exitLoops = false;
+      auto handleSurface = [&](SurfaceType surface, Project::Entities::Entity* target, const SDL_FPoint& offset, float bounce, float fric) -> bool {
+        if (surface == SurfaceType::GHOST_PASS) {
+          syncPositionWithComponents(newX, newY);
+          return false;
+        }
+        if (surface == SurfaceType::SLIDE) {
+          if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+          velocityX *= (Constants::DEFAULT_WHOLE - fric);
+          velocityY *= (Constants::DEFAULT_WHOLE - fric);
+        } else if (surface == SurfaceType::STICK || surface == SurfaceType::REST) {
+          velocityX = 0.0f;
+          velocityY = 0.0f;
+        } else if (surface == SurfaceType::DESTROY_ON_HIT) {
+          if (target) {
+            for (const std::string& n : target->listComponentNames()) {
+              if (auto* c = target->getComponent(n)) c->setActive(false);
+            }
+          }
+        } else if (surface == SurfaceType::TRIGGER_EVENT) {
+          if (target) target->getLuaStateWrapper().callFunctionIfExists(Keys::LUA_ON_TRIGGER);
+        } else {
+          velocityX = -velocityX * bounce;
+          velocityY = -velocityY * bounce;
+          velocityX *= (Constants::DEFAULT_WHOLE - fric);
+          velocityY *= (Constants::DEFAULT_WHOLE - fric);
+        }
+        return true;
+      };
+    
       if (manager && myBox && myBox->isSolid()) {
         for (const auto& [id, entity] : manager->getAllEntities()) {
           if (exitLoops) break;
@@ -176,19 +205,7 @@ namespace Project::Components {
                 if (otherPhysics) {
                   if (otherPhysics->getStatic()) {
                     auto surface = otherPhysics->getSurfaceType();
-                    if (surface == SurfaceType::SLIDE) {
-                      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
-                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    } else if (surface == SurfaceType::STICK) {
-                      velocityX = 0.0f;
-                      velocityY = 0.0f;
-                    } else {
-                      velocityX = -velocityX * bounce;
-                      velocityY = -velocityY * bounce;
-                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    }
+                    if (!handleSurface(static_cast<SurfaceType>(surface), entity.get(), offset, bounce, fric)) continue;
                   } else {
                     resolveCollisionWith(otherPhysics, bounce);
                     velocityX *= (Constants::DEFAULT_WHOLE - fric);
@@ -199,19 +216,7 @@ namespace Project::Components {
                   }
                 } else {
                   auto surface = otherBox->getSurfaceType();
-                  if (surface == SurfaceType::SLIDE) {
-                    if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  } else if (surface == SurfaceType::STICK) {
-                    velocityX = 0.0f;
-                    velocityY = 0.0f;
-                  } else {
-                    velocityX = -velocityX * bounce;
-                    velocityY = -velocityY * bounce;
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  }
+                  if (!handleSurface(surface, entity.get(), offset, bounce, fric)) continue;
                 }
                 collisionOccurred = true;
                 break;
@@ -265,19 +270,7 @@ namespace Project::Components {
                 if (otherPhysics) {
                   if (otherPhysics->getStatic()) {
                     auto surface = otherPhysics->getSurfaceType();
-                    if (surface == SurfaceType::SLIDE) {
-                      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
-                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    } else if (surface == SurfaceType::STICK) {
-                      velocityX = 0.0f;
-                      velocityY = 0.0f;
-                    } else {
-                      velocityX = -velocityX * bounce;
-                      velocityY = -velocityY * bounce;
-                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    }
+                    if (!handleSurface(static_cast<SurfaceType>(surface), entity.get(), offset, bounce, fric)) continue;
                   } else {
                     resolveCollisionWith(otherPhysics, bounce);
                     velocityX *= (Constants::DEFAULT_WHOLE - fric);
@@ -288,19 +281,7 @@ namespace Project::Components {
                   }
                 } else {
                   auto surface = otherBox->getSurfaceType();
-                  if (surface == SurfaceType::SLIDE) {
-                    if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  } else if (surface == SurfaceType::STICK) {
-                    velocityX = 0.0f;
-                    velocityY = 0.0f;
-                  } else {
-                    velocityX = -velocityX * bounce;
-                    velocityY = -velocityY * bounce;
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  }
+                  if (!handleSurface(surface, entity.get(), offset, bounce, fric)) continue;
                 }
                 collisionOccurred = true;
                 break;
@@ -321,20 +302,8 @@ namespace Project::Components {
 
                 if (otherPhysics) {
                   if (otherPhysics->getStatic()) {
-                    auto surface = otherPhysics->getSurfaceType();
-                    if (surface == SurfaceType::SLIDE) {
-                      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
-                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    } else if (surface == SurfaceType::STICK) {
-                      velocityX = 0.0f;
-                      velocityY = 0.0f;
-                    } else {
-                      velocityX = -velocityX * bounce;
-                      velocityY = -velocityY * bounce;
-                      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                      velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    }
+                    auto surface = otherBox->getSurfaceType();
+                    if (!handleSurface(surface, entity.get(), offset, bounce, fric)) continue;
                   } else {
                     resolveCollisionWith(otherPhysics, bounce);
                     velocityX *= (Constants::DEFAULT_WHOLE - fric);
@@ -346,19 +315,7 @@ namespace Project::Components {
                   }
                 } else {
                   auto surface = otherBox->getSurfaceType();
-                  if (surface == SurfaceType::SLIDE) {
-                    if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  } else if (surface == SurfaceType::STICK) {
-                    velocityX = 0.0f;
-                    velocityY = 0.0f;
-                  } else {
-                    velocityX = -velocityX * bounce;
-                    velocityY = -velocityY * bounce;
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                  }
+                  if (!handleSurface(surface, entity.get(), offset, bounce, fric)) continue;
                 }
                 collisionOccurred = true;
                 break;

@@ -5,6 +5,7 @@ from dependency.downloader import HTTPDownloader
 from dependency.extractor import TarGzExtractor
 from dependency.manager import DependencyManager
 from dependency.utils import ensure_folder_exists, load_packages, remove_file
+from package_check import check_installed
 
 def main():
   root_dir = os.path.abspath(os.path.dirname(__file__))
@@ -37,6 +38,11 @@ def main():
     except Exception as e:
       print(f"Error processing {package_name}: {e}")
       continue
+
+    results = check_installed(packages)
+    for name, ok in results.items():
+      status = "OK" if ok else "MISSING"
+      print(f"[{status}] {name}")
 
 if __name__ == "__main__":
   main()

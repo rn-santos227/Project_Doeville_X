@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 
 class Builder:
@@ -14,10 +15,15 @@ class Builder:
       cmakelists = os.path.join(self.source_dir, "CMakeLists.txt")
 
       if os.path.isfile(configure_script):
-        subprocess.run(["chmod", "+x", configure_script], check=True)
+        os.chmod(configure_script, 0o755)
         subprocess.run([configure_script, f"--prefix={install_prefix}"], cwd=self.source_dir, check=True)
-        subprocess.run(["make", "-j"], cwd=self.source_dir, check=True)
-        subprocess.run(["make", "install"], cwd=self.source_dir, check=True)
+
+        make_cmd = shutil.which("make") or "make"
+        if os.name == "nt":
+          make_cmd = shutil.which("mingw32-make") or shutil.which("nmake") or make_cmd
+
+        subprocess.run([make_cmd, "-j"], cwd=self.source_dir, check=True)
+        subprocess.run([make_cmd, "install"], cwd=self.source_dir, check=True)
 
       elif os.path.isfile(cmakelists):
         build_dir = os.path.join(self.source_dir, "build")
@@ -27,7 +33,11 @@ class Builder:
           "..",
           f"-DCMAKE_INSTALL_PREFIX={install_prefix}"
         ], cwd=build_dir, check=True)
-        subprocess.run(["cmake", "--build", ".", "--target", "install"], cwd=build_dir, check=True)
+
+        build_cmd = ["cmake", "--build", ".", "--target", "install"]
+        if os.name == "nt":
+          build_cmd += ["--config", "Release"]
+        subprocess.run(build_cmd, cwd=build_dir, check=True)
 
       else:
         raise RuntimeError(f"No build system found in {self.source_dir}")

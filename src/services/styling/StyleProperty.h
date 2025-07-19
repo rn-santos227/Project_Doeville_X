@@ -11,6 +11,10 @@ namespace Project::Services {
 
     FRONT_SIZE,
     FRONT_WEIGHT,
+    MARGIN,
+    PADDING,
+
+    RADIUS
   };
 }
 

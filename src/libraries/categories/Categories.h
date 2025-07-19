@@ -109,7 +109,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* EDITOR_STATE = "EDITOR_STATE";
   }
 
-  namespace Surface {
+  namespace Surfaces {
     constexpr const char* BOUNCE = "BOUNCE";
     constexpr const char* DESTROY_ON_HIT = "DESTROY_ON_HIT";
     constexpr const char* GHOST_PASS = "GHOST_PASS";

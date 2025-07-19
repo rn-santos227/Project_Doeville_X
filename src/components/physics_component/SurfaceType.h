@@ -1,8 +1,8 @@
-#ifndef STATIC_COLLISION_BEHAVIOR
-#define STATIC_COLLISION_BEHAVIOR
+#ifndef SURFACE_TYPE
+#define SURFACE_TYPE
 
 namespace Project::Components::Physics {
-  enum class StaticCollisionBehavior {
+  enum class SurfaceType {
     BOUNCE,
     DESTROY_ON_HIT,
     GHOST_PASS,

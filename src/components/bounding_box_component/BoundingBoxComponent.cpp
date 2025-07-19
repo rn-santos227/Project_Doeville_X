@@ -3,7 +3,9 @@
 #include <cmath>
 #include <limits>
 
+#include "components/physics_component/SurfaceTypeResolver.h"
 #include "handlers/camera/CameraHandler.h"
+#include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
@@ -14,8 +16,11 @@ namespace Project::Components {
   using Project::Utilities::GeometryUtils;
   using Project::Handlers::KeyHandler;
 
+  using Project::Components::Physics::SurfaceTypeResolver;
+
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
+  namespace Surfaces = Project::Libraries::Categories::Surfaces;
   
   BoundingBoxComponent::BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor)
     : BaseComponent(logsManager), PositionableComponent(), renderer(renderer), keyHandler(keyHandler), debugColor(debugColor) {
@@ -106,6 +111,9 @@ namespace Project::Components {
     } else {
       lua_pop(L, 1);
     }
+
+    std::string surfaceStr = luaStateWrapper.getTableString(tableName, Keys::SURFACE, Surfaces::REST);
+    setSurfaceType(SurfaceTypeResolver::resolve(surfaceStr));
 
     bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
     setActive(active);

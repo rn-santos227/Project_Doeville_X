@@ -14,7 +14,7 @@ components = {
     },
     restitution = 0.0,
     friction = 0.0,
-    surface_type = "slide"
+    surface = "bounce"
   },
 
   GraphicsComponent = {

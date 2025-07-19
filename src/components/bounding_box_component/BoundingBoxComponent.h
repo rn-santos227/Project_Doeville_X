@@ -6,6 +6,7 @@
 
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
+#include "components/physics_component/SurfaceType.h"
 #include "libraries/constants/Constants.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/camera/CameraHandler.h"
@@ -52,10 +53,14 @@ namespace Project::Components {
     void setEntityPosition(int x, int y) override;
     void setEntityRotation(float angle) override;
 
+    void setSurfaceType(Project::Components::Physics::SurfaceType type) { surfaceType = type; }
+    Project::Components::Physics::SurfaceType getSurfaceType() const { return surfaceType; }
+
     void clearShapes();
 
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
+    Project::Components::Physics::SurfaceType surfaceType = Project::Components::Physics::SurfaceType::REST;
     
     std::vector<SDL_Rect> boxes;
     std::vector<SDL_Rect> worldBoxes;

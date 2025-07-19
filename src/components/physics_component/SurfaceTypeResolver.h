@@ -1,13 +1,13 @@
 #ifndef STATIC_COLLISION_BEHAVIOR_RESOLVER
 #define STATIC_COLLISION_BEHAVIOR_RESOLVER
 
-#include "StaticCollisionBehavior.h"
+#include "SurfaceType.h"
 #include <string>
 
 namespace Project::Components::Physics {
-  class StaticCollisionBehaviorResolver {
+  class SurfaceTypeResolver {
   public:
-    static StaticCollisionBehavior resolve(const std::string& name);
+    static SurfaceType resolve(const std::string& name);
   };
 }
 

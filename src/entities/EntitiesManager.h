@@ -13,6 +13,7 @@
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::States { class GameState; }
 
@@ -25,7 +26,7 @@ namespace Project::Entities {
       void setGameState(Project::States::GameState* state) { gameState = state; }
       Project::States::GameState* getGameState() const { return gameState; }
 
-      void addEntity(const std::string& id, std::shared_ptr<Entity> entity);
+      std::string addEntity(std::shared_ptr<Entity> entity, const std::string& id = Project::Libraries::Constants::EMPTY_STRING);
       void removeEntity(const std::string& id);
 
       bool hasEntity(const std::string& id);

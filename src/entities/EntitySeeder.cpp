@@ -179,8 +179,8 @@ namespace Project::Entities {
 
       std::shared_ptr<Entity> shared = std::move(entity);
       std::string id = tmpl + std::string(Constants::SEED) + std::to_string(idCounter++);
-      manager.addEntity(id, shared);
-      chunk.ids.push_back(id);
+      std::string finalId = manager.addEntity(shared, id);
+      chunk.ids.push_back(finalId);
     }
   }
 

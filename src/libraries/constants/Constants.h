@@ -136,8 +136,9 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEBUG_MOUSE_SEPARATOR = ", ";
   constexpr const char* DEBUG_MOUSE_SUFFIX = ")";
 
-  // Texts
+  // Texts Objects
   constexpr const char* SEED =  "_seed_";
+  constexpr const char* ENTITY =  "entity";
 
   // Colors
   constexpr SDL_Color DEFAULT_DEBUG_TEXT_COLOR{144, 238, 144, 255};

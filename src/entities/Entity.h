@@ -32,30 +32,36 @@ namespace Project::Entities {
     Entity(Entity&&) noexcept = default;
     Entity& operator = (Entity&&) noexcept = default;
 
-    const EntityCategory& getEntityCategory() const { return entityCategory; }
-    const std::string& getEntityName() const { return entityName; }
-    void setEntityName(const std::string& name) { entityName = name; }
-
-    void setEntitiesManager(Project::Entities::EntitiesManager* manager) { entitiesManager = manager; }
-    Project::Entities::EntitiesManager* getEntitiesManager() const { return entitiesManager; }
-
-    void registerLuaFunction(const std::string& name, lua_CFunction function) {
-      luaStateWrapper.registerFunction(name, function);
-    }
-
-    void registerLuaFunction(const std::string& name, lua_CFunction function, void* data) {
-      luaStateWrapper.registerFunction(name, function, data);
-    }
-
     void initialize();
     void update(float deltaTime);
     void render();
+
+    const EntityCategory& getEntityCategory() const { return entityCategory; }
+
+    const std::string& getEntityID() const { return entityID; }
+    void setEntityID(const std::string& _id) { entityID = _id; }
     
-    bool attachLuaScript(const std::string& scriptPath);
+    const std::string& getEntityClass() const { return entityClass; }
+    void setEntityClass(const std::string& _class) { entityClass = _class; }
 
     const std::string& getGroup() const { return entityGroup; }
-    void setGroup(const std::string& group) { entityGroup = group; }
+    void setGroup(const std::string& _group) { entityGroup = _group; }
 
+    const std::string& getEntityName() const { return entityName; }
+    void setEntityName(const std::string& _name) { entityName = _name; }
+    
+    void setEntitiesManager(Project::Entities::EntitiesManager* _manager) { entitiesManager = _manager; }
+    Project::Entities::EntitiesManager* getEntitiesManager() const { return entitiesManager; }
+
+    void registerLuaFunction(const std::string& _name, lua_CFunction _function) {
+      luaStateWrapper.registerFunction(_name, _function);
+    }
+
+    void registerLuaFunction(const std::string& _name, lua_CFunction _function, void* _data) {
+      luaStateWrapper.registerFunction(_name, _function, _data);
+    }
+    
+    bool attachLuaScript(const std::string& scriptPath);
     void addComponent(const std::string& componentName, std::unique_ptr<Project::Components::BaseComponent> component);
     void removeComponent(const std::string& componentName);
     bool hasComponent(const std::string& componentName) const;
@@ -64,10 +70,10 @@ namespace Project::Entities {
     std::vector<std::string> listComponentNames() const;
 
     bool isGlobal() const { return global; }
-    void setGlobal(bool value) { global = value; }
+    void setGlobal(bool _value) { global = _value; }
 
-    void setPosition(float newX, float newY) { x = newX; y = newY; }
-    void setPosition(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ; }
+    void setPosition(float _newX, float _newY) { x = _newX; y = _newY; }
+    void setPosition(float _newX, float _newY, float _newZ) { x = _newX; y = _newY; z = _newZ; }
 
     float getX() const { return x; }
     float getY() const { return y; }
@@ -78,6 +84,9 @@ namespace Project::Entities {
     EntityCategory entityCategory;
 
     std::unordered_map<std::string, std::unique_ptr<Project::Components::BaseComponent>> components;
+    
+    std::string entityID;
+    std::string entityClass;
     std::string entityGroup;
     std::string entityName;
     

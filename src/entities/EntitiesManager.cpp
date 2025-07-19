@@ -10,31 +10,43 @@
 #include "components/motion_component/MotionComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "handlers/camera/CameraHandler.h"
+#include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"
 
 namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
 
+  namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
   namespace LuaBindings = Project::Bindings::LuaBindings;
 
-  void EntitiesManager::addEntity(const std::string& id, std::shared_ptr<Entity> entity) {
-    if (!entity) return;
+  std::string EntitiesManager::addEntity(std::shared_ptr<Entity> entity, const std::string& id) {
+    if (!entity) return Constants::EMPTY_STRING;
+
     entity->setEntitiesManager(this);
     registerEntityLuaFunctions(entity.get());
     
-    std::string finalId = id;
+    std::string baseId = id.empty() ? entity->getEntityName() : id;
+    if (baseId.empty()) baseId = Constants::ENTITY;
+
+    std::string finalId = baseId;
+
     if (objects.find(finalId) != objects.end()) {
-      int& counter = idCounters[id];
-      finalId = id + "_" + std::to_string(counter++);
+      int& counter = idCounters[baseId];
+      do {
+        finalId = baseId + "_" + std::to_string(counter++);
+      } while (objects.find(finalId) != objects.end());
     }
     
+    entity->setEntityID(finalId);
     add(finalId, std::move(entity));
     std::string group = objects[finalId]->getGroup();
     if (!group.empty()) {
       entityGroups[group].push_back(finalId);
     }
+
+    return finalId;
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {

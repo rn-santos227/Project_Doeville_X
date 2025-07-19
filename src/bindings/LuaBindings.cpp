@@ -137,7 +137,7 @@ namespace Project::Bindings::LuaBindings {
 
     if (isGlobal) {
       if (state->getGlobalEntitiesManager()) {
-        state->getGlobalEntitiesManager()->addEntity(name, shared);
+        state->getGlobalEntitiesManager()->addEntity(shared, name);
       } else {
         luaL_error(L, "Global EntitiesManager not set for this state.");
       }
@@ -150,12 +150,12 @@ namespace Project::Bindings::LuaBindings {
       }
 
       if (mgr) {
-        mgr->addEntity(name, shared);
+        mgr->addEntity(shared, name);
       } else {
         luaL_error(L, "No layers available in LayersManager.");
       }
     } else if (state->getEntitiesManager()) {
-      state->getEntitiesManager()->addEntity(name, shared);
+      state->getEntitiesManager()->addEntity(shared, name);
     } else {
       luaL_error(L, "EntitiesManager not set for this state.");
     }

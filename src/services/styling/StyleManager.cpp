@@ -11,4 +11,8 @@ namespace Project::Services {
     static StyleManager instance;
     return instance;
   }
+
+  std::regex ruleRegex("(\\.[\\w-]+)\\s*\\{([^}]+)\\}");
+  std::smatch match;
+  std::string::const_iterator searchStart(css.cbegin());
 }

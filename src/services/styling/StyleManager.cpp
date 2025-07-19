@@ -12,7 +12,9 @@ namespace Project::Services {
     return instance;
   }
 
-  std::regex ruleRegex("(\\.[\\w-]+)\\s*\\{([^}]+)\\}");
-  std::smatch match;
-  std::string::const_iterator searchStart(css.cbegin());
+  bool StyleManager::loadFromString(const std::string& css) {
+    std::regex ruleRegex("(\\.[\\w-]+)\\s*\\{([^}]+)\\}");
+    std::smatch match;
+    std::string::const_iterator searchStart(css.cbegin());
+  }
 }

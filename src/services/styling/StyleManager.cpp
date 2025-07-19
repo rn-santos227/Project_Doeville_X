@@ -5,10 +5,12 @@
 #include <sstream>
 
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Services {
   namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 
   StyleManager& StyleManager::getInstance() {
     static StyleManager instance;
@@ -28,6 +30,10 @@ namespace Project::Services {
       std::regex propRegex(Constants::REGEX_CSS_RULE);
       std::smatch propMatch;
       std::string::const_iterator propStart(body.cbegin());
+      while (std::regex_search(propStart, body.cend(), propMatch, propRegex)) {
+        std::string prop = propMatch[1].str();
+        std::string value = propMatch[2].str();
+      }
     }
   }
 }

@@ -154,6 +154,11 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_START_ENTITY_SEEDER = "startEntitySeeder";
   constexpr const char* LUA_CHANGE_STATE = "changeState";
   constexpr const char* LUA_ON_TRIGGER = "onTrigger";
+
+  //css props
+  constexpr const char* BACKGROUND = "background";
+  constexpr const char* MARGIN = "margin";
+  constexpr const char* PADDING = "padding";
 }
 
 #endif

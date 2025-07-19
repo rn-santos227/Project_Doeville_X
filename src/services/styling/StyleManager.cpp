@@ -33,7 +33,13 @@ namespace Project::Services {
       while (std::regex_search(propStart, body.cend(), propMatch, propRegex)) {
         std::string prop = propMatch[1].str();
         std::string value = propMatch[2].str();
+
+        
       }
+    
+      styles[selector] = style;
+      searchStart = match.suffix().first;
     }
+    return true;
   }
 }

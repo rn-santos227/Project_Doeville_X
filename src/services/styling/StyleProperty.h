@@ -3,7 +3,14 @@
 
 namespace Project::Services {
   enum class StyleProperty {
+    BACKGROUND,
+    BORDER_COLOR,
+    FOREGROUND,
+    GRADIENT_START,
+    GRADIENT_END,
 
+    FRONT_SIZE,
+    FRONT_WEIGHT,
   };
 }
 

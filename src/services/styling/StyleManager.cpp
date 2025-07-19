@@ -42,4 +42,8 @@ namespace Project::Services {
     }
     return true;
   }
+
+  Style StyleManager::getStyle(const std::string& selector) const {
+
+  }
 }

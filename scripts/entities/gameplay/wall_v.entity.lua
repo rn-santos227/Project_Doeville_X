@@ -13,7 +13,8 @@ components = {
       { x = 0, y = 0, w = 32, h = 64 }
     },
     restitution = 0.0,
-    friction = 0.0
+    friction = 0.0,
+    surface_type = "slide"
   },
 
   GraphicsComponent = {

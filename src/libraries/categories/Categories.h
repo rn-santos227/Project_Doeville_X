@@ -109,6 +109,15 @@ namespace Project::Libraries::Categories {
     constexpr const char* EDITOR_STATE = "EDITOR_STATE";
   }
 
+  namespace Surface {
+    constexpr const char* BOUNCE = "BOUNCE";
+    constexpr const char* DESTROY_ON_HIT = "DESTROY_ON_HIT";
+    constexpr const char* GHOST_PASS = "GHOST_PASS";
+    constexpr const char* REST = "REST";
+    constexpr const char* SLIDE = "SLIDE";
+    constexpr const char* STICK = "STICK";
+    constexpr const char* TRIGGER_EVENT = "TRIGGER_EVENT";
+  }
 }
 
 #endif

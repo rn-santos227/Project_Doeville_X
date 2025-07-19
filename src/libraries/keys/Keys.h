@@ -105,6 +105,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* STATE_NAME = "state_name";
   constexpr const char* STATE_CATEGORY = "state_category";
   constexpr const char* STATIC = "static";
+  constexpr const char* SURFACE_TYPE = "surface_type";
   constexpr const char* TAG = "tag";  
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";

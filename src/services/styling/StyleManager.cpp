@@ -1,13 +1,18 @@
 #include "StyleManager.h"
+#include "StylePropertyResolver.h"
 
+#include <algorithm>
 #include <regex>
 #include <sstream>
+#include <vector>
 
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Services {
+  using Project::Services::StylePropertyResolver;
+
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
@@ -26,7 +31,7 @@ namespace Project::Services {
       std::string body = match[2].str();
       Style style;
 
-      std::regex propRegex(Constants::REGEX_CSS_RULE);
+      std::regex propRegex(Constants::REGEX_CSS_PROP);
       std::smatch propMatch;
       std::string::const_iterator propStart(body.cbegin());
       while (std::regex_search(propStart, body.cend(), propMatch, propRegex)) {

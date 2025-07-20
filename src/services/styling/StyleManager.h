@@ -8,6 +8,7 @@
 
 namespace Project::Services {
   class StyleManager {
+  public:
     static StyleManager& getInstance();
 
     bool loadFromString(const std::string& css);

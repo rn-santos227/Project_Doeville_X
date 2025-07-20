@@ -11,6 +11,8 @@
 #include <SDL_ttf.h>
 
 #include "handlers/animation/AnimationHandler.h"
+#include "services/styling/Style.h"
+#include "services/styling/StyleManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/config_reader/ConfigReader.h"
 
@@ -39,6 +41,8 @@ namespace Project::Components {
 
   private:
     Project::Handlers::AnimationHandler animationHandler;
+    Project::Services::Style style{};
+    
     Project::Utilities::ConfigReader& configReader;
 
     SDL_Renderer* renderer;
@@ -51,6 +55,7 @@ namespace Project::Components {
     std::string fontPath;
     int fontSize;
 
+    void applyStyle();
     void createTexture();
   };
 }

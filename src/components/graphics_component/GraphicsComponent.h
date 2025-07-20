@@ -14,6 +14,8 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/rotation_interface/Rotatable.h"
 #include "libraries/constants/Constants.h"
+#include "services/styling/Style.h"
+#include "services/styling/StyleManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Components {
@@ -50,10 +52,11 @@ namespace Project::Components {
 
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
-    
+
     SDL_Renderer* renderer;
     Project::Handlers::ResourcesHandler* resourcesHandler;
     Project::Utilities::LogsManager& logsManager;
+    Project::Services::Style style{};
 
     std::unique_ptr<Project::Handlers::AnimationHandler> animationHandler;
 
@@ -69,6 +72,8 @@ namespace Project::Components {
 
     std::future<SDL_Texture*> textureFuture;
     std::string pendingTexturePath;
+
+    void applyStyle();
   };
 }
 

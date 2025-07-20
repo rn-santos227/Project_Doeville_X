@@ -12,6 +12,15 @@ namespace Project::Services {
     STICKY
   };
 
+  enum class GradientType {
+    HORIZONTAL,
+    VERTICAL,
+    DIAGONAL_LEFT,
+    DIAGONAL_RIGHT,
+    RADIAL,
+    INVERSE
+  };
+
   enum class DisplayType {
     NONE,
     BLOCK,
@@ -51,16 +60,18 @@ namespace Project::Services {
 
     int fontSize{0};
     int fontWeight{0};
-    std::string fontFamily { "system" };
+    std::string fontFamily {"system"};
 
     int top{0};
     int right{0};
     int bottom{0};
     int left{0};
     int zIndex{0};
-    PositionType position{PositionType::STATIC};
-    DisplayType display{DisplayType::BLOCK};
 
+    DisplayType display{DisplayType::BLOCK};
+    GradientType gradient{GradientType::HORIZONTAL};
+    PositionType position{PositionType::STATIC};
+    
     int shadowOffsetX{0};
     int shadowOffsetY{0};
     int shadowBlur{0};
@@ -71,7 +82,7 @@ namespace Project::Services {
     int translateX{0};
     int translateY{0};
 
-    std::string cursor{ "system" };
+    std::string cursor{"system"};
     float opacity{1.0f};
 
     bool hasGradient{false};

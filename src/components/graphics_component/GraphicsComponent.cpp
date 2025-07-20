@@ -183,6 +183,17 @@ namespace Project::Components {
         shapeColor = s.background;
         drawShape = true;
       }
+
+      if (s.opacity != Constants::DEFAULT_WHOLE) {
+        float opacity = s.opacity;
+        Uint8 alpha = 0;
+        if (opacity > Constants::DEFAULT_WHOLE) {
+          alpha = static_cast<Uint8>(std::min(opacity, static_cast<float>(Project::Libraries::Constants::FULL_ALPHA)));
+        } else {
+          alpha = static_cast<Uint8>(opacity * Project::Libraries::Constants::FULL_ALPHA);
+        }
+        shapeColor.a = alpha;
+      }
     }
   }
 

@@ -67,9 +67,21 @@ namespace Project::Components {
       Project::Services::Style s = Project::Services::StyleManager::getInstance().getStyle(selector);
       if (s.fontColor.a != 0) {
         color = s.fontColor;
+      }
+
+      if (s.opacity != Constants::DEFAULT_WHOLE) {
+        float opacity = s.opacity;
+        if (opacity > Constants::DEFAULT_WHOLE) {
+          color.a = static_cast<Uint8>(std::min(opacity, static_cast<float>(Project::Libraries::Constants::FULL_ALPHA)));
+        } else {
+          color.a = static_cast<Uint8>(opacity * Project::Libraries::Constants::FULL_ALPHA);
+        }
+      }
+
+      if (s.fontColor.a != 0 || s.opacity != Constants::DEFAULT_WHOLE) {
         createTexture();
       }
-      
+
       if (s.fontSize > 0 && fontPath.size() > 0) {
         if (font) {
           TTF_CloseFont(font);

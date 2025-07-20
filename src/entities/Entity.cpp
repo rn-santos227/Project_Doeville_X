@@ -118,6 +118,14 @@ namespace Project::Entities {
       transform->setEntityReference(this);
     }
 
+    if (component->getClass().empty()) {
+      if (!entityClass.empty()) {
+        component->setClass(entityClass);
+      } else {
+        component->setClass(entityName);
+      }
+    }
+
     components[componentName] = std::move(component);
   }
 

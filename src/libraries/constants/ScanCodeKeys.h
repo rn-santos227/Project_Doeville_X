@@ -1,5 +1,5 @@
-#ifndef SCRIPT_CONSTANTS_H
-#define SCRIPT_CONSTANTS_H
+#ifndef SCAN_CODE_CONSTANTS_H
+#define SCAN_CODE_CONSTANTS_H
 
 #include <SDL.h>
 

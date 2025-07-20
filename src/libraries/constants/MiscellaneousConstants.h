@@ -1,5 +1,5 @@
-#ifndef TIME_CONSTANTS_H
-#define TIME_CONSTANTS_H
+#ifndef MISCELLANEOUS_CONSTANTS_H
+#define MISCELLANEOUS_CONSTANTS_H
 
 #include <cstdint>
 #include <SDL.h>

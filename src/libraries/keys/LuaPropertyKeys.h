@@ -2,7 +2,7 @@
 #define LUA_PROPERTY_KEYS_H
 
 namespace Project::Libraries::Keys {
-    //Keys for lua entities and components
+  //Keys for lua entities and components
   constexpr const char* ACCELERATION = "acceleration";
   constexpr const char* ACTIVE = "active";
   constexpr const char* ACTION = "action";

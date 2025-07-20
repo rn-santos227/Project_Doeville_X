@@ -1,6 +1,8 @@
 #ifndef BASE_COMPONENT_H
 #define BASE_COMPONENT_H
 
+#include <string>
+
 #include "interfaces/build_interface/Buildable.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
@@ -19,11 +21,15 @@ namespace Project::Components {
     virtual void onAttach() {}
     virtual void onDetach() {}
 
-    void setActive(bool isActive) { active = isActive; }
+    void setClass(const std::string& _classs) { componentClass = _classs; }
+    const std::string& getClass() const { return componentClass; }
+
+    void setActive(bool _active) { active = _active; }
     bool isActive() const { return active; }
 
   protected:
     Project::Utilities::LogsManager& logsManager;
+    std::string componentClass;
     bool active = true;
   };
 }

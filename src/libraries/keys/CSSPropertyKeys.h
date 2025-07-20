@@ -90,6 +90,13 @@ namespace Project::Libraries::Keys {
   constexpr const char* GRAD_DIAG_RIGHT = "diagonal-right";
   constexpr const char* GRAD_RADIAL = "radial";
   constexpr const char* GRAD_INVERSE = "inverse";
+
+  constexpr const char* DIS_NONE = "none";
+  constexpr const char* DIS_BLOCK = "block";
+  constexpr const char* DIS_INLINE = "inline";
+  constexpr const char* DIS_FLEX = "flex";
+  constexpr const char* DIS_GRID = "grid";
+  constexpr const char* DIS_INLINE_B = "inline-block";
 }
 
 #endif

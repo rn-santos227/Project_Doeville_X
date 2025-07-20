@@ -332,9 +332,6 @@ namespace Project::Components {
   }
 
   void PhysicsComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
-
     float force = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FORCE, Constants::DEFAULT_PUSH_FORCE));
     setPushForce(force);
 

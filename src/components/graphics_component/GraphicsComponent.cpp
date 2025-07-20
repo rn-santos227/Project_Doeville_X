@@ -163,9 +163,6 @@ namespace Project::Components {
       }
     }
 
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
-
     bool rotation = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotation);
 

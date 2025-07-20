@@ -55,8 +55,6 @@ namespace Project::Components {
     }
 
     createTexture();
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
   }
 
   void TextComponent::setText(const std::string& newText) {

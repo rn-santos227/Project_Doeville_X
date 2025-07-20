@@ -86,9 +86,6 @@ namespace Project::Components {
     } else {
       lua_pop(L, 1);
     }
-
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
   }
 
   bool KeysComponent::isActionTriggered(KeyAction action) const {

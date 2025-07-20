@@ -135,9 +135,6 @@ namespace Project::Components {
 
     bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotate);
-
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
   }
 
   float MotionComponent::getCurrentSpeed() const {

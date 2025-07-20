@@ -17,7 +17,6 @@ namespace Project::Components {
   }
 
   void CameraComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
+    //saving this for something else.
   }
 }

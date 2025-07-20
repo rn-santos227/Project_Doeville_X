@@ -115,9 +115,6 @@ namespace Project::Components {
     std::string surfaceStr = luaStateWrapper.getTableString(tableName, Keys::SURFACE, Surfaces::REST);
     setSurfaceType(SurfaceTypeResolver::resolve(surfaceStr));
 
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
-
     bool solidValue = luaStateWrapper.getTableBoolean(tableName, Keys::SOLID, false);
     setSolid(solidValue);
 

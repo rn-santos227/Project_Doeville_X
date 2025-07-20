@@ -55,8 +55,6 @@ namespace Project::Components {
     flexibility = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FLEXIBILITY, Project::Libraries::Constants::DEFAULT_HALF));
     spin = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPIN, 0.0));
     allowRevert = luaStateWrapper.getTableBoolean(tableName, Keys::ALLOW_REVERT, true);
-    bool active = luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true);
-    setActive(active);
   }
 
   void TransformComponent::transform() {

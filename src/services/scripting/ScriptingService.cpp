@@ -9,6 +9,7 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Services {
+  using Project::Core::SDLManager;
   using Project::Utilities::LogsManager;
   using Project::Utilities::LuaStateWrapper;
   using Project::Handlers::ResourcesHandler;
@@ -22,6 +23,24 @@ namespace Project::Services {
   namespace Constants = Project::Libraries::Constants;
   namespace Scripts = Project::Libraries::Categories::Scripts;
   namespace fs = std::filesystem;
+
+  ScriptingService::ScriptingService(SDL_Renderer* renderer,
+    SDLManager& sdlManager,
+    LogsManager& logsManager,
+    ResourcesHandler& resourcesHandler,
+    ComponentsFactory& componentsFactory,
+    GameStateManager& gameStateManager)
+    : sdlManager(sdlManager),
+      logsManager(logsManager),
+      componentsFactory(componentsFactory),
+      gameStateManager(gameStateManager),
+      resourcesHandler(resourcesHandler),
+      luaStateWrapper(logsManager),
+      renderer(renderer),
+      entitiesFactory(logsManager, componentsFactory, gameStateManager),
+      layersFactory(logsManager),
+      gameStateFactory(logsManager, resourcesHandler, gameStateManager,
+      entitiesFactory, layersFactory) {}
 
   inline const std::vector<ScriptCategory> loadOrder = {
     ScriptCategory::ENTITY,
@@ -50,8 +69,7 @@ namespace Project::Services {
       }
 
       if (logsManager.checkAndLogError(!validateScript(scriptPath), "Failed to validate script: " + scriptPath)) {
-        logsManager.flushLogs();
-        logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
+        handleLuaFailure();
         return;
       }
 
@@ -82,8 +100,7 @@ namespace Project::Services {
         (errorMessage ? std::string(errorMessage) : std::string("Unknown error")));
       lua_pop(tempState, 1);
       lua_close(tempState);
-      logsManager.flushLogs();
-      logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
+      handleLuaFailure();
       return false;
     }
 
@@ -154,5 +171,14 @@ namespace Project::Services {
         break;
       }
     }
+  }
+
+  void ScriptingService::handleLuaFailure() {
+    logsManager.flushLogs();
+    logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
+    SDL_Event quitEvent{};
+    quitEvent.type = SDL_QUIT;
+    SDL_PushEvent(&quitEvent);
+    sdlManager.requestExit();
   }
 }

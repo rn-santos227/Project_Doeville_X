@@ -11,6 +11,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "core/SDLManager.h"
 #include "factories/component/ComponentsFactory.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "factories/layer/LayersFactory.h"
@@ -24,7 +25,8 @@ namespace Project::Services {
 
   class ScriptingService {
   public:
-    explicit ScriptingService(SDL_Renderer* renderer, 
+    explicit ScriptingService(SDL_Renderer* renderer,
+      Project::Core::SDLManager& sdlManager,
       Project::Utilities::LogsManager& logsManager, 
       Project::Handlers::ResourcesHandler& resourcesHandler, 
       Project::Factories::ComponentsFactory& componentsFactory, 
@@ -35,6 +37,7 @@ namespace Project::Services {
     void loadScriptsFromFolder(const std::string& folderPath);
 
   private:
+    Project::Core::SDLManager& sdlManager;
     Project::Utilities::LogsManager& logsManager;
     Project::Factories::ComponentsFactory& componentsFactory;
     Project::States::GameStateManager& gameStateManager;
@@ -49,6 +52,7 @@ namespace Project::Services {
 
     ScriptCategory determineScriptType(const std::string& scriptName);
     void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);
+    void handleLuaFailure();
   };
 }
 

@@ -20,6 +20,7 @@ namespace Project::Handlers {
   using Project::Handlers::MouseHandler;
   using Project::Handlers::ResourcesHandler;
   using Project::Services::ScriptingService;
+  using Project::Services::StyleService;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
@@ -76,9 +77,9 @@ namespace Project::Handlers {
     cursorHandler.setCursorState(CursorState::DEFAULT);
 
     scriptingService = std::make_unique<ScriptingService>(
-      renderer, logsManager, resourcesHandler, componentsFactory, gameStateManager
+      renderer, sdlManager, logsManager, resourcesHandler, componentsFactory, gameStateManager
     );
-    styleService = std::make_unique<Project::Services::StyleService>(logsManager, resourcesHandler);
+    styleService = std::make_unique<StyleService>(logsManager, resourcesHandler);
 
     if (logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {
       return false;

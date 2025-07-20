@@ -8,8 +8,8 @@ components = {
   TextComponent = {
     text = "Sample Text",
     component = "TextComponent",
-    class = "text"
-    active = true,
+    class = "text",
+    active = true
   }
 }
 

@@ -2,33 +2,39 @@
   width: 32;
   height: 32;
   background-color: #ADD8E6;
+  opacity: 255;
 }
 
 .ball {
   width: 32;
   height: 32;
   background-color: #808080;
+  opacity: 255;
 }
 
 .obstacle {
   width: 32;
   height: 32;
   background-color: #808080;
+  opacity: 255;
 }
 
 .wall_h {
   width: 64;
   height: 32;
   background-color: #8B4513;
+  opacity: 255;
 }
 
 .wall_v {
   width: 32;
   height: 64;
   background-color: #8B4513;
+  opacity: 255;
 }
 
 .text {
   font-color: #FFFFFF;
   font-size: 24;
+  opacity: 255;
 }

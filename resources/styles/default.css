@@ -1,0 +1,10 @@
+.player {
+  width: 64;
+  height: 64;
+  background-color: #FF0000;
+}
+
+.text {
+  font-color: #FFFFFF;
+  font-size: 24;
+}

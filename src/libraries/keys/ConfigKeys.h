@@ -29,6 +29,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LOG_LUA_LOG_FILE_PATH = "lua_log_file_path";
   constexpr const char* PATHS_SECTION = "Paths";
   constexpr const char* PATH_SCRIPTS = "scripts";
+  constexpr const char* PATH_STYLES = "styles";
   constexpr const char* DEBUG_SECTION = "Debug";
   constexpr const char* DEBUG_TEXT_COLOR = "text_color";
   constexpr const char* AXIS_SECTION = "Axis";

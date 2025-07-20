@@ -17,6 +17,7 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "libraries/constants/Constants.h"
 #include "services/scripting/ScriptingService.h"
+#include "services/styling/StyleService.h"
 #include "states/GameStateManager.h"
 #include "utilities/config_reader/ConfigReader.h"
 #include "utilities/frames_counter/FramesCounter.h"
@@ -64,6 +65,7 @@ namespace Project::Handlers {
     Project::Handlers::ResourcesHandler& resourcesHandler;
 
     std::unique_ptr<Project::Services::ScriptingService> scriptingService;
+    std::unique_ptr<Project::Services::StyleService> styleService;
 
     std::mutex renderMutex;
     std::mutex eventMutex;

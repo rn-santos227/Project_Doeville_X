@@ -20,20 +20,6 @@
     "output_dir": "SDL2_image_build"
   },
 
-  "libcss": {
-    "url": "https://download.netsurf-browser.org/libs/releases/libcss-0.9.1-src.tar.gz",
-    "archive": "libcss-0.9.1-src.tar.gz",
-    "source_dir": "libcss",
-    "output_dir": "libcss_build"
-  },
-
-  "libwapcaplet": {
-    "url": "https://download.netsurf-browser.org/libs/releases/libwapcaplet-0.4.1-src.tar.gz",
-    "archive": "libwapcaplet-0.4.1-src.tar.gz",
-    "source_dir": "libwapcaplet",
-    "output_dir": "libwapcaplet_build"
-  },
-
   "Lua": {
     "url": "https://www.lua.org/ftp/lua-5.4.6.tar.gz",
     "archive": "lua-5.4.6.tar.gz",

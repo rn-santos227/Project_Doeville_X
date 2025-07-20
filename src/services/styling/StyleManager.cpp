@@ -1,7 +1,6 @@
 #include "StyleManager.h"
 
 #include <regex>
-#include <libcss/libcss.h>
 #include <sstream>
 
 #include "libraries/constants/Constants.h"

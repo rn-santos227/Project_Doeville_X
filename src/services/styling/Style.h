@@ -2,21 +2,79 @@
 #define STYLE_H
 
 #include <SDL.h>
-
+#include <string>
 namespace Project::Services {
+  enum class PositionType {
+    STATIC,
+    RELATIVE,
+    ABSOLUTE,
+    FIXED,
+    STICKY
+  };
+
+  enum class DisplayType {
+    NONE,
+    BLOCK,
+    INLINE,
+    FLEX,
+    GRID,
+    INLINE_BLOCK
+  };
+  
   struct Style {
     SDL_Color background{0, 0, 0, 0};
-    SDL_Color borderColor{0, 0, 0, 0};
     SDL_Color foreground{0, 0, 0, 0};
+    SDL_Color borderColor{0, 0, 0, 0};
     SDL_Color gradientStart{0, 0, 0, 0};
     SDL_Color gradientEnd{0, 0, 0, 0};
+    SDL_Color fontColor{0, 0, 0, 0};
 
-    int margin{0};
-    int padding{0};
+    int width{0};
+    int height{0};
+    int minWidth{0};
+    int minHeight{0};
+    int maxWidth{0};
+    int maxHeight{0};
+
+    int borderWidth{0};
+    float borderRadius{0.0f};
+
+    int marginTop{0};
+    int marginRight{0};
+    int marginBottom{0};
+    int marginLeft{0};
+
+    int paddingTop{0};
+    int paddingRight{0};
+    int paddingBottom{0};
+    int paddingLeft{0};
+
     int fontSize{0};
     int fontWeight{0};
-    
-    float radius{0.0f};
+    std::string fontFamily { "system" };
+
+    int top{0};
+    int right{0};
+    int bottom{0};
+    int left{0};
+    int zIndex{0};
+    PositionType position{PositionType::STATIC};
+    DisplayType display{DisplayType::BLOCK};
+
+    int shadowOffsetX{0};
+    int shadowOffsetY{0};
+    int shadowBlur{0};
+    SDL_Color shadowColor{0, 0, 0, 0};
+
+    float rotate{0.0f};
+    float scale{1.0f};
+    int translateX{0};
+    int translateY{0};
+
+    std::string cursor{ "system" };
+    float opacity{1.0f};
+
+    bool hasGradient{false};
   };
 }
 

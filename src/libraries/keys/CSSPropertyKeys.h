@@ -76,6 +76,13 @@ namespace Project::Libraries::Keys {
   constexpr const char* CSS_WEIGHT = "weight"; 
   constexpr const char* CSS_ANIMATION = "animation";
   constexpr const char* CSS_HOVER_COLOR = "hover-color";
+
+  constexpr const char* POS_STATIC = "static";
+  constexpr const char* POS_RELATIVE = "relative"; 
+  constexpr const char* POS_ABSOLUTE = "absolute"; 
+  constexpr const char* POS_FIXED = "fixed"; 
+  constexpr const char* POS_STICKY = "static"; 
+
 }
 
 #endif

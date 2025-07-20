@@ -10,7 +10,7 @@ components = {
     active = true,
     solid = true,
     boxes = {
-      { x = 0, y = 0, w = 64, h = 32 }
+      { x = 0, y = 0, w = 128, h = 32 }
     },
     restitution = 1.0,
     friction = 0.0,

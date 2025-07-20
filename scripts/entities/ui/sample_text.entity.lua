@@ -8,10 +8,8 @@ components = {
   TextComponent = {
     text = "Press Enter to Play",
     component = "TextComponent",
-    active = true,
-    font_alpha = 255,
-    font_color_hex = "FFFFFF",
-    font_size = 24
+    class = "text",
+    active = true
   }
 }
 

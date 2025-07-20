@@ -23,10 +23,6 @@ components = {
   GraphicsComponent = {
     component = "GraphicsComponent",
     active = true,
-    width = 32,
-    height = 32,
-    color_hex = "ADD8E6",
-    color_alpha = 255,
     rotation = true
   },
   

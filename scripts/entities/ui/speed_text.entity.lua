@@ -8,10 +8,8 @@ components = {
   TextComponent = {
     text = "Sample Text",
     component = "TextComponent",
+    class = "text"
     active = true,
-    font_alpha = 255,
-    font_color_hex = "FFFFFF",
-    font_size = 24
   }
 }
 

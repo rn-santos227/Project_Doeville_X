@@ -19,10 +19,8 @@ components = {
 
   GraphicsComponent = {
     component = "GraphicsComponent",
-    color_hex = "808080",
     active = true,
     rotation = true,
-    color_alpha = 255,
     radius = 16
   },
 

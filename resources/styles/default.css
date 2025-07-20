@@ -1,7 +1,31 @@
 .player {
+  width: 32;
+  height: 32;
+  background-color: #ADD8E6;
+}
+
+.ball {
+  width: 32;
+  height: 32;
+  background-color: #808080;
+}
+
+.obstacle {
+  width: 32;
+  height: 32;
+  background-color: #808080;
+}
+
+.wall_h {
   width: 64;
+  height: 32;
+  background-color: #8B4513;
+}
+
+.wall_v {
+  width: 32;
   height: 64;
-  background-color: #FF0000;
+  background-color: #8B4513;
 }
 
 .text {

@@ -42,30 +42,35 @@ namespace Project::Factories {
         SDL_Color debugColor = configReader.getColorValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_COLOR, defaultColor);
         auto component = std::make_unique<BoundingBoxComponent>(logsManager, renderer, keyHandler, debugColor);
         component->build(luaStateWrapper, tableName);
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
         return component;
       }
 
       case ComponentType::CAMERA: {
         auto component = std::make_unique<CameraComponent>(logsManager, cameraHandler);
         component->build(luaStateWrapper, tableName);
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
         return component;
       }
 
       case ComponentType::GRAPHICS: {
         auto component = std::make_unique<GraphicsComponent>(renderer, &resourcesHandler, logsManager);
         component->build(luaStateWrapper, tableName);
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
         return component;
       }
 
       case ComponentType::KEYS: {
         auto component = std::make_unique<KeysComponent>(logsManager, keyHandler);
         component->build(luaStateWrapper, tableName);
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
         return component;
       }
 
       case ComponentType::MOTION: {
         auto component = std::make_unique<MotionComponent>(logsManager, keyHandler);
         component->build(luaStateWrapper, tableName);
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
         return component;
       }
 
@@ -78,12 +83,14 @@ namespace Project::Factories {
       case ComponentType::TEXT: {
         auto component = std::make_unique<TextComponent>(renderer, configReader, logsManager);
         component->build(luaStateWrapper, tableName);
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
         return component;
       }
 
       case ComponentType::TRANSFORM: {
         auto component = std::make_unique<TransformComponent>(logsManager);
         component->build(luaStateWrapper, tableName);
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
         return component;
       }
 

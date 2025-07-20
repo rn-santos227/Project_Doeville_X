@@ -1,5 +1,5 @@
-#ifndef STATIC_COLLISION_BEHAVIOR_RESOLVER
-#define STATIC_COLLISION_BEHAVIOR_RESOLVER
+#ifndef SURFACE_TYPE_RESOLVER_H
+#define SURFACE_TYPE_RESOLVER_H
 
 #include "SurfaceType.h"
 #include <string>

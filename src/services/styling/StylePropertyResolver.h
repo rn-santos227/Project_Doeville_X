@@ -1,5 +1,5 @@
-#ifndef STYLE_PROPERTY_RESOLVER
-#define STYLE_PROPERTY_RESOLVER
+#ifndef STYLE_PROPERTY_RESOLVER_H
+#define STYLE_PROPERTY_RESOLVER_H
 
 #include "StyleProperty.h"
 

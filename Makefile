@@ -9,11 +9,11 @@ CXXFLAGS += -O2 -Isrc \
 
 LDFLAGS += `sdl2-config --libs` \
             -Llib/SDL2/lib \
-		        -Llib/SDL2_image/ \
+			      -Llib/SDL2_image/ \
             -Llib/SDL2_ttf/ \
             -Llib/libcss/ \
             -Llib/Lua/src \
-            -lSDL2 -lSDL2_image -lSDL2_ttf -llua
+            -lSDL2 -lSDL2_image -lSDL2_ttf -llibcss -llua
 
 ifeq ($(OS),Windows_NT)
 	LDFLAGS += -lpsapi

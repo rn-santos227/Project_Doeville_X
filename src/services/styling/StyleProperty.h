@@ -1,5 +1,5 @@
-#ifndef STYLE_PROPERTY
-#define STYLE_PROPERTY
+#ifndef STYLE_PROPERTY_H
+#define STYLE_PROPERTY_H
 
 namespace Project::Services {
   enum class StyleProperty {

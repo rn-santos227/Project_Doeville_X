@@ -1,5 +1,5 @@
-#ifndef SURFACE_TYPE
-#define SURFACE_TYPE
+#ifndef SURFACE_TYPE_H
+#define SURFACE_TYPE_H
 
 namespace Project::Components::Physics {
   enum class SurfaceType {

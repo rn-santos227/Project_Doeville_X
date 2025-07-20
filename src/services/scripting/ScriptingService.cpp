@@ -1,4 +1,5 @@
 #include "ScriptingService.h"
+#include "ScriptingCategoryResolver.h"
 
 #include <lua.hpp>
 #include <vector>
@@ -12,6 +13,7 @@ namespace Project::Services {
   using Project::Utilities::LuaStateWrapper;
   using Project::Handlers::ResourcesHandler;
   using Project::Factories::ComponentsFactory;
+  using Project::Services::ScriptingCategoryResolver;
   using Project::States::GameStateManager;
   using Project::Factories::EntitiesFactory;
   using Project::Factories::LayersFactory;
@@ -30,34 +32,6 @@ namespace Project::Services {
     ScriptCategory::STATE,
     ScriptCategory::OTHER
   };
-
-  static std::string categoryToString(ScriptCategory category) {
-    switch (category) {
-      case ScriptCategory::ENTITY: return Scripts::ENTITY;
-      case ScriptCategory::ITEM: return Scripts::ITEM;
-      case ScriptCategory::ANIMATION: return Scripts::ANIMATION;
-      case ScriptCategory::MAP: return Scripts::MAP;
-      case ScriptCategory::LAYER: return Scripts::LAYER;
-      case ScriptCategory::STATE: return Scripts::STATE;
-      case ScriptCategory::OTHER: return Scripts::OTHER;
-      default: return Scripts::INVALID;
-    }
-  }
-
-  ScriptingService::ScriptingService(SDL_Renderer* renderer,  LogsManager& logsManager, ResourcesHandler& resourcesHandler, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
-    : renderer(renderer),
-      logsManager(logsManager), 
-      luaStateWrapper(logsManager),
-      resourcesHandler(resourcesHandler),
-      gameStateManager(gameStateManager),
-      componentsFactory(componentsFactory),
-      entitiesFactory(logsManager, componentsFactory, gameStateManager),
-      layersFactory(logsManager),
-      gameStateFactory(logsManager, resourcesHandler, gameStateManager, entitiesFactory, layersFactory) {
-    if (logsManager.checkAndLogError(!luaStateWrapper.isValid(), "Failed to create Lua state")) {
-      return;
-    }
-  }
 
   void ScriptingService::loadScriptsFromFolder(const std::string& folderPath) {
     std::unordered_map<ScriptCategory, std::vector<std::string>> categorizedScripts;
@@ -130,7 +104,7 @@ namespace Project::Services {
 
     for (const auto& [suffix, category] : extensionMap) {
       if (scriptName.size() >= suffix.size() && scriptName.compare(scriptName.size() - suffix.size(), suffix.size(), suffix) == 0) {
-        logsManager.logMessage("Script '" + scriptName + "' categorized as " + categoryToString(category));
+        logsManager.logMessage("Script '" + scriptName + "' categorized as " + ScriptingCategoryResolver::categoryToString(category));
         return category;
       }
     }
@@ -176,7 +150,7 @@ namespace Project::Services {
       }
 
       default: {
-        logsManager.logMessage("Script loaded from " + scriptPath + " with category " + categoryToString(category));
+        logsManager.logMessage("Script loaded from " + scriptPath + " with category " + ScriptingCategoryResolver::categoryToString(category));
         break;
       }
     }

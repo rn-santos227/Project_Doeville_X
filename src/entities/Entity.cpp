@@ -5,6 +5,7 @@
 #include "components/keys_component/KeysComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "components/timer_component/TimerComponent.h"
 #include "components/transform_component/TransformComponent.h"
 #include "interfaces/style_interface/Stylable.h"
 #include "libraries/constants/Constants.h"
@@ -121,6 +122,10 @@ namespace Project::Entities {
 
     if (auto* physics = dynamic_cast<Components::PhysicsComponent*>(component.get())) {
       physics->setEntityReference(this);
+    }
+
+    if (auto* timer = dynamic_cast<Components::TimerComponent*>(component.get())) {
+      timer->setEntityReference(this);
     }
 
     if (auto* transform = dynamic_cast<Components::TransformComponent*>(component.get())) {

@@ -20,6 +20,8 @@ namespace Project::Bindings {
     // EntitiesManager Bindings
     int lua_getEntitySpeed(lua_State* L);
     int lua_setEntityText(lua_State* L);
+    int lua_setTimerActive(lua_State* L);
+    int lua_stopTimer(lua_State* L);
     int lua_destroyEntity(lua_State* L);
 
     // EntitiesFactory bindings

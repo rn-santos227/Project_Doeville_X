@@ -159,6 +159,8 @@ namespace Project::Entities {
     entity->registerLuaFunction(Keys::LUA_GET_ENTITY_SPEED, LuaBindings::lua_getEntitySpeed, this);
     entity->registerLuaFunction(Keys::LUA_SET_ENTITY_TEXT, LuaBindings::lua_setEntityText, this);
     entity->registerLuaFunction(Keys::LUA_DESTROY_ENTITY, LuaBindings::lua_destroyEntity, this);
+    entity->registerLuaFunction(Keys::LUA_SET_TIMER_ACTIVE, LuaBindings::lua_setTimerActive, this);
+    entity->registerLuaFunction(Keys::LUA_STOP_TIMER, LuaBindings::lua_stopTimer, this);
     if (gameState) {
       entity->registerLuaFunction(Keys::LUA_SPAWN_ENTITY, LuaBindings::lua_spawnEntity, gameState);
     }

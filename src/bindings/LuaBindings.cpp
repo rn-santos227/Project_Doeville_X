@@ -306,6 +306,48 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_setTimerActive(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    int active = lua_toboolean(L, 2);
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* timer = dynamic_cast<Project::Components::TimerComponent*>(entity->getComponent(Components::TIMER_COMPONENT));
+    if (!timer) return 0;
+
+    timer->setActive(active != 0);
+    if (active) {
+      timer->reset();
+    }
+    return 0;
+  }
+
+  int lua_stopTimer(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* timer = dynamic_cast<Project::Components::TimerComponent*>(entity->getComponent(Components::TIMER_COMPONENT));
+    if (!timer) return 0;
+
+    timer->stop();
+    return 0;
+  }
+
   int lua_factoryChangeState(lua_State* L) {
     auto* manager = static_cast<GameStateManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!manager) {

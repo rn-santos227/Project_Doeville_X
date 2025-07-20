@@ -15,6 +15,7 @@ namespace Project::Factories {
   using Project::Components::MotionComponent;
   using Project::Components::PhysicsComponent;
   using Project::Components::TextComponent;
+  using Project::Components::TimerComponent;
   using Project::Components::TransformComponent;
   using Project::Handlers::ResourcesHandler;
   using Project::Utilities::ColorUtils;
@@ -44,7 +45,7 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);    
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         return component;
       }
@@ -54,7 +55,7 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         return component;
       }
@@ -64,7 +65,7 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         return component;
       }
@@ -74,7 +75,7 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         return component;
       }
@@ -84,7 +85,7 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         return component;
       }
@@ -94,7 +95,7 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         return component;
       }
@@ -104,8 +105,18 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
+        return component;
+      }
+
+      case ComponentType::TIMER: {
+        auto component = std::make_unique<TimerComponent>(logsManager);
+
+        component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+
         return component;
       }
 
@@ -114,7 +125,7 @@ namespace Project::Factories {
         
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, ""));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         return component;
       }

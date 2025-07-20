@@ -10,7 +10,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_ENTITY_SPEED = "setEntitySpeed";
   constexpr const char* LUA_GET_ENTITY_TEXT = "getEntityText";
   constexpr const char* LUA_SET_ENTITY_TEXT = "setEntityText";
+  constexpr const char* LUA_SET_TIMER_ACTIVE = "setTimerActive";
   constexpr const char* LUA_SET_PLAYER_ENTITY = "setPlayerEntity";
+  constexpr const char* LUA_STOP_TIMER = "stopTimer";
   constexpr const char* LUA_FUNC_PRINT = "print";
   constexpr const char* LUA_ADD_ENTITY_TO_SEEDER = "addEntityToSeed";
   constexpr const char* LUA_SPAWN_ENTITY = "spawnEntity";

@@ -8,13 +8,12 @@ namespace Project::Services {
     FOREGROUND,
     GRADIENT_START,
     GRADIENT_END,
-
     FRONT_SIZE,
     FRONT_WEIGHT,
     MARGIN,
     PADDING,
-
-    RADIUS
+    RADIUS,
+    UNKNOWN,
   };
 }
 

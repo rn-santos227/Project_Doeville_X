@@ -83,6 +83,13 @@ namespace Project::Libraries::Keys {
   constexpr const char* POS_FIXED = "fixed"; 
   constexpr const char* POS_STICKY = "static"; 
 
+  constexpr const char* GRAD_NONE = "none";
+  constexpr const char* GRAD_HORIZONTAL = "horizontal";
+  constexpr const char* GRAD_VERTICAL = "vertical";
+  constexpr const char* GRAD_DIAG_LEFT = "diagonal-left";
+  constexpr const char* GRAD_DIAG_RIGHT = "diagonal-right";
+  constexpr const char* GRAD_RADIAL = "radial";
+  constexpr const char* GRAD_INVERSE = "inverse";
 }
 
 #endif

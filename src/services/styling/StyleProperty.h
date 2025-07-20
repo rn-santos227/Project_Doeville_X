@@ -11,6 +11,7 @@ namespace Project::Services {
   };
 
   enum class GradientType {
+    NONE,
     HORIZONTAL,
     VERTICAL,
     DIAGONAL_LEFT,

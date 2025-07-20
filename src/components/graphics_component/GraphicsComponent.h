@@ -13,13 +13,14 @@
 #include "handlers/camera/CameraHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/rotation_interface/Rotatable.h"
+#include "interfaces/style_interface/Stylable.h"
 #include "libraries/constants/Constants.h"
 #include "services/styling/Style.h"
 #include "services/styling/StyleManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Components {
-  class GraphicsComponent : public BaseComponent, public PositionableComponent, public TextureHolder, public Project::Interfaces::Rotatable {
+  class GraphicsComponent : public BaseComponent, public PositionableComponent, public TextureHolder, public Project::Interfaces::Rotatable, public Project::Interfaces::Stylable  {
   public:
     GraphicsComponent(SDL_Renderer* renderer, Project::Handlers::ResourcesHandler* resourcesHandler, Project::Utilities::LogsManager& logsManager);
     ~GraphicsComponent();
@@ -30,6 +31,7 @@ namespace Project::Components {
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+    void applyStyle() override;
 
     bool setTexture(Project::Handlers::ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setShape(int width, int height, SDL_Color color);
@@ -72,8 +74,6 @@ namespace Project::Components {
 
     std::future<SDL_Texture*> textureFuture;
     std::string pendingTexturePath;
-
-    void applyStyle();
   };
 }
 

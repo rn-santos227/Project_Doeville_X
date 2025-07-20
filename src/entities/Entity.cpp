@@ -6,6 +6,7 @@
 #include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "components/transform_component/TransformComponent.h"
+#include "interfaces/style_interface/Stylable.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
@@ -36,10 +37,18 @@ namespace Project::Entities {
       }
     };
 
+    auto applyComponentStyle = [](Components::BaseComponent* comp) {
+      if (auto* stylable = dynamic_cast<Project::Interfaces::Stylable*>(comp)) {
+        stylable->applyStyle();
+      }
+    };
+
+
     for (auto& [name, component] : components) {
       if (component) {
         component->onAttach();
         positionComponent(component.get());
+        applyComponentStyle(component.get());
       }
     }
   }

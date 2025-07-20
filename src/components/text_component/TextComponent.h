@@ -11,13 +11,14 @@
 #include <SDL_ttf.h>
 
 #include "handlers/animation/AnimationHandler.h"
+#include "interfaces/style_interface/Stylable.h"
 #include "services/styling/Style.h"
 #include "services/styling/StyleManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/config_reader/ConfigReader.h"
 
 namespace Project::Components {
-  class TextComponent : public BaseComponent, public PositionableComponent, public TextureHolder {
+  class TextComponent : public BaseComponent, public PositionableComponent, public TextureHolder, public Project::Interfaces::Stylable {
   public:
     TextComponent(SDL_Renderer* renderer, Project::Utilities::ConfigReader& configReader, Project::Utilities::LogsManager& logsManager);
     ~TextComponent() override;
@@ -25,6 +26,7 @@ namespace Project::Components {
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+    void applyStyle() override;
 
     void setText(const std::string& newText);
     void setColor(SDL_Color newColor);
@@ -55,7 +57,6 @@ namespace Project::Components {
     std::string fontPath;
     int fontSize;
 
-    void applyStyle();
     void createTexture();
   };
 }

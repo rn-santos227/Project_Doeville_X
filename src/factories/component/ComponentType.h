@@ -14,6 +14,7 @@ namespace Project::Factories {
     MOTION,
     PHYSICS,
     TEXT,
+    TIMER,
     TRANSFORM,
     UNKNOWN
   };

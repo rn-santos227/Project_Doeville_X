@@ -25,6 +25,8 @@ namespace Project::Factories {
       {std::string(Components::PHYSICS) + Components::SUFFIX, ComponentType::PHYSICS},
       {std::string(Components::TEXT), ComponentType::TEXT},
       {std::string(Components::TEXT) + Components::SUFFIX, ComponentType::TEXT},
+      {std::string(Components::TIMER), ComponentType::TIMER},
+      {std::string(Components::TIMER) + Components::SUFFIX, ComponentType::TIMER},
       {std::string(Components::TRANSFORM), ComponentType::TRANSFORM},
       {std::string(Components::TRANSFORM) + Components::SUFFIX, ComponentType::TRANSFORM}
     };

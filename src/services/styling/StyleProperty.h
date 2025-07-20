@@ -3,16 +3,74 @@
 
 namespace Project::Services {
   enum class StyleProperty {
+    // Background & Foreground
     BACKGROUND,
-    BORDER_COLOR,
+    BACKGROUND_COLOR,
     FOREGROUND,
+    OPACITY,
+
+    // Borders
+    BORDER_COLOR,
+    BORDER_WIDTH,
+    BORDER_RADIUS,
+
+    // Gradients
+    GRADIENT,
     GRADIENT_START,
     GRADIENT_END,
-    FRONT_SIZE,
-    FRONT_WEIGHT,
+
+    // Font/Text
+    FONT_COLOR,
+    FONT_SIZE,
+    FONT_WEIGHT,
+    FONT_FAMILY,
+    TEXT_ALIGN,
+
+    // Layout
+    WIDTH,
+    HEIGHT,
+    MIN_WIDTH,
+    MIN_HEIGHT,
+    MAX_WIDTH,
+    MAX_HEIGHT,
+
+    POSITION,
+    TOP,
+    RIGHT,
+    BOTTOM,
+    LEFT,
+    Z_INDEX,
+    DISPLAY,
+
+    // Margin & Padding
     MARGIN,
+    MARGIN_TOP,
+    MARGIN_RIGHT,
+    MARGIN_BOTTOM,
+    MARGIN_LEFT,
+
     PADDING,
-    RADIUS,
+    PADDING_TOP,
+    PADDING_RIGHT,
+    PADDING_BOTTOM,
+    PADDING_LEFT,
+
+    // Shadow
+    BOX_SHADOW,
+    TEXT_SHADOW,
+
+    // Transform
+    TRANSFORM,
+    ROTATE,
+    SCALE,
+    TRANSLATE_X,
+    TRANSLATE_Y,
+
+    // Cursor & Effects
+    CURSOR,
+    HOVER_COLOR,
+
+    // Fallback
     UNKNOWN,
   };
 }

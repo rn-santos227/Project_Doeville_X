@@ -18,6 +18,7 @@ namespace Project::Services {
     GRADIENT,
     GRADIENT_START,
     GRADIENT_END,
+    GRADIENT_STYLE,
 
     // Font/Text
     FONT_COLOR,

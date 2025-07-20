@@ -1,6 +1,7 @@
 #include "TextComponent.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
+#include "services/styling/StyleManager.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Components {
@@ -9,6 +10,7 @@ namespace Project::Components {
   using Project::Utilities::ConfigReader;
   using Project::Handlers::Animation;
   using Project::Handlers::AnimationHandler;
+  using Project::Services::StyleManager;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
@@ -55,6 +57,32 @@ namespace Project::Components {
     }
 
     createTexture();
+  }
+
+  void TextComponent::applyStyle() {
+    std::istringstream classes(getClass());
+    std::string cls;
+    while (classes >> cls) {
+      std::string selector = "." + cls;
+      Project::Services::Style s = Project::Services::StyleManager::getInstance().getStyle(selector);
+      if (s.fontColor.a != 0) {
+        color = s.fontColor;
+        createTexture();
+      }
+      
+      if (s.fontSize > 0 && fontPath.size() > 0) {
+        if (font) {
+          TTF_CloseFont(font);
+        }
+        fontSize = s.fontSize;
+        font = TTF_OpenFont(fontPath.c_str(), fontSize);
+        if (!font) {
+          logsManager.logError(std::string("Failed to load font: ") + fontPath);
+          return;
+        }
+        createTexture();
+      }
+    }
   }
 
   void TextComponent::setText(const std::string& newText) {

@@ -36,6 +36,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* CSS_GRADIENT  = "gradient";
   constexpr const char* CSS_GRADIENT_START= "gradient-start";
   constexpr const char* CSS_GRADIENT_END = "gradient-end";
+  constexpr const char* CSS_GRADIENT_STYLE = "gradient-style";
 
   // Text & Font
   constexpr const char* CSS_FONT_FAMILY= "font-family";

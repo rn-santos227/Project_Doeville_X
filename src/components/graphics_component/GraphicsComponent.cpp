@@ -9,6 +9,7 @@
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/keys/Keys.h"
 #include "libraries/constants/Constants.h"
+#include "services/styling/StyleManager.h"
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Components {
@@ -18,6 +19,7 @@ namespace Project::Components {
   using Project::Utilities::ColorUtils;
   using Project::Handlers::ResourcesHandler;
   using Project::Handlers::AnimationHandler;
+  using Project::Services::StyleManager;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
@@ -167,6 +169,21 @@ namespace Project::Components {
     setRotationEnabled(rotation);
 
     onAttach();
+  }
+
+  void GraphicsComponent::applyStyle() {
+    std::istringstream classes(getClass());
+    std::string cls;
+    while (classes >> cls) {
+      std::string selector = "." + cls;
+      Project::Services::Style s = Project::Services::StyleManager::getInstance().getStyle(selector);
+      if (s.width > 0) destRect.w = s.width;
+      if (s.height > 0) destRect.h = s.height;
+      if (s.background.a != 0) {
+        shapeColor = s.background;
+        drawShape = true;
+      }
+    }
   }
 
   bool GraphicsComponent::setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath) {

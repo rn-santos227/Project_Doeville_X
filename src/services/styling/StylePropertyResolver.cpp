@@ -11,7 +11,7 @@ namespace Project::Services {
   StyleProperty StylePropertyResolver::resolve(const std::string& property) {
    static const std::unordered_map<std::string, StyleProperty> map = {
       {Keys::CSS_BACKGROUND, StyleProperty::BACKGROUND},
-      {Keys::CSS_BACKGROUND_COLOR,   StyleProperty::BACKGROUND_COLOR},
+      {Keys::CSS_BACKGROUND_COLOR, StyleProperty::BACKGROUND_COLOR},
       {Keys::CSS_FOREGROUND, StyleProperty::FOREGROUND},
       {Keys::CSS_OPACITY, StyleProperty::OPACITY},
       {Keys::CSS_BORDER_COLOR, StyleProperty::BORDER_COLOR},
@@ -20,6 +20,7 @@ namespace Project::Services {
       {Keys::CSS_GRADIENT, StyleProperty::GRADIENT},
       {Keys::CSS_GRADIENT_START, StyleProperty::GRADIENT_START},
       {Keys::CSS_GRADIENT_END,StyleProperty::GRADIENT_END},
+      {Keys::CSS_GRADIENT_STYLE, StyleProperty::GRADIENT_STYLE},
       {Keys::CSS_FONT_COLOR, StyleProperty::FONT_COLOR},
       {Keys::CSS_FONT_SIZE, StyleProperty::FONT_SIZE},
       {Keys::CSS_FONT_WEIGHT, StyleProperty::FONT_WEIGHT},

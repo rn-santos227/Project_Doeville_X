@@ -17,6 +17,9 @@ namespace Project::Services {
   private:
     StyleManager() = default;
     std::unordered_map<std::string, Style> styles;
+
+    static std::string stripComments(const std::string& css);
+    static bool hasBalancedBraces(const std::string& css);
   };
 }
 

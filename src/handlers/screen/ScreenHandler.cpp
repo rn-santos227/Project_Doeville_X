@@ -75,23 +75,25 @@ namespace Project::Handlers {
     std::string cursorPath = resourcesHandler.getResourcePath(Constants::DEFAULT_CURSOR_PATH);
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);
-
+    
+    styleService = std::make_unique<StyleService>(logsManager, resourcesHandler);
     scriptingService = std::make_unique<ScriptingService>(
       renderer, sdlManager, logsManager, resourcesHandler, componentsFactory, gameStateManager
     );
-    styleService = std::make_unique<StyleService>(logsManager, resourcesHandler);
 
     if (logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {
       return false;
     }
 
+    if (logsManager.checkAndLogError(!styleService, "Failed to validate style sheet.")) {
+      return false;
+    }
+
+    std::string stylePath = configReader.getValue(Keys::PATHS_SECTION, Keys::PATH_STYLES, Constants::DEFAULT_STYLE_PATH);
+    styleService->loadStylesFromFolder(stylePath);
+
     std::string scriptPath = configReader.getValue(Keys::PATHS_SECTION, Keys::PATH_SCRIPTS, Constants::DEFAULT_SCRIPT_PATH);
     scriptingService->loadScriptsFromFolder(scriptPath);
-
-     if (styleService) {
-      std::string stylePath = configReader.getValue(Keys::PATHS_SECTION, Keys::PATH_STYLES, Constants::DEFAULT_STYLE_PATH);
-      styleService->loadStylesFromFolder(stylePath);
-    }   
 
     std::string initialState = configReader.getValue(Keys::GAME_SECTION, Keys::GAME_INITIAL_STATE, Constants::DEFAULT_INITIAL_STATE);
     gameStateManager.setInitialState(initialState);

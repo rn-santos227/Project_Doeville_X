@@ -12,7 +12,7 @@ components = {
     boxes = {
       { x = 0, y = 0, w = 64, h = 32 }
     },
-    restitution = 0.0,
+    restitution = 1.0,
     friction = 0.0,
     surface = "bounce"
   },

@@ -2,6 +2,7 @@
 #include "StylePropertyResolver.h"
 
 #include <algorithm>
+#include <iostream>
 #include <regex>
 #include <sstream>
 #include <vector>
@@ -25,11 +26,17 @@ namespace Project::Services {
   }
 
   bool StyleManager::loadFromString(const std::string& css) {
+    std::string cleaned = stripComments(css);
+    if (!hasBalancedBraces(cleaned)) {
+      std::cerr << "Unbalanced braces in CSS.\n";
+      return false;
+    }
+
     std::regex ruleRegex(Constants::REGEX_CSS_RULE);
     std::smatch match;
     std::string::const_iterator searchStart(css.cbegin());
 
-    while (std::regex_search(searchStart, css.cend(), match, ruleRegex)) {
+    while (std::regex_search(searchStart, cleaned.cend(), match, ruleRegex)) {
       std::string selector = match[1].str();
       std::string body = match[2].str();
       Style style;
@@ -234,5 +241,16 @@ namespace Project::Services {
       return it->second;
     }
     return Style{};
+  }
+
+  std::string StyleManager::stripComments(const std::string& css) {
+    std::regex commentRegex(Constants::REGEX_CSS_COMMENTS);
+    return std::regex_replace(css, commentRegex, Constants::EMPTY_STRING);
+  }
+
+  bool StyleManager::hasBalancedBraces(const std::string& css) {
+    size_t openCount = std::count(css.begin(), css.end(), '{');
+    size_t closeCount = std::count(css.begin(), css.end(), '}');
+    return openCount == closeCount;
   }
 }

@@ -1,35 +1,11 @@
 #ifndef STYLE_H
 #define STYLE_H
 
+#include "StyleProperty.h"
+
 #include <SDL.h>
 #include <string>
 namespace Project::Services {
-  enum class PositionType {
-    STATIC,
-    RELATIVE,
-    ABSOLUTE,
-    FIXED,
-    STICKY
-  };
-
-  enum class GradientType {
-    HORIZONTAL,
-    VERTICAL,
-    DIAGONAL_LEFT,
-    DIAGONAL_RIGHT,
-    RADIAL,
-    INVERSE
-  };
-
-  enum class DisplayType {
-    NONE,
-    BLOCK,
-    INLINE,
-    FLEX,
-    GRID,
-    INLINE_BLOCK
-  };
-  
   struct Style {
     SDL_Color background{0, 0, 0, 0};
     SDL_Color foreground{0, 0, 0, 0};

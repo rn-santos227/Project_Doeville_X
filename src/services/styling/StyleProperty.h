@@ -2,6 +2,32 @@
 #define STYLE_PROPERTY_H
 
 namespace Project::Services {
+  enum class PositionType {
+    STATIC,
+    RELATIVE,
+    ABSOLUTE,
+    FIXED,
+    STICKY
+  };
+
+  enum class GradientType {
+    HORIZONTAL,
+    VERTICAL,
+    DIAGONAL_LEFT,
+    DIAGONAL_RIGHT,
+    RADIAL,
+    INVERSE
+  };
+
+  enum class DisplayType {
+    NONE,
+    BLOCK,
+    INLINE,
+    FLEX,
+    GRID,
+    INLINE_BLOCK
+  };
+  
   enum class StyleProperty {
     // Background & Foreground
     BACKGROUND,

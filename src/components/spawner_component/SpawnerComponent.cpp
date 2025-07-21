@@ -35,5 +35,11 @@ namespace Project::Components {
 
     std::unique_ptr<Entity> ent = factory->cloneEntity(templateName);
     if (!ent) return;
+
+    float x = owner->getX() + offsetX;
+    float y = owner->getY() + offsetY;
+    ent->getLuaStateWrapper().setGlobalNumber(Keys::X, x);
+    ent->getLuaStateWrapper().setGlobalNumber(Keys::Y, y);
+    ent->initialize();
   }
 }

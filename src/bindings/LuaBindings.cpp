@@ -2,6 +2,7 @@
 
 #include "components/camera_component/CameraComponent.h"
 #include "components/motion_component/MotionComponent.h"
+#include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"

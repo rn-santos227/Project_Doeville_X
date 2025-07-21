@@ -26,6 +26,9 @@ namespace Project::Bindings {
 
     // EntitiesFactory bindings
     int lua_factoryChangeState(lua_State* L);
+
+    // SpawnerComponent bindings
+    int lua_spawn(lua_State* L);
   }
 }
 

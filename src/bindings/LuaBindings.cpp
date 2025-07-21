@@ -364,4 +364,8 @@ namespace Project::Bindings::LuaBindings {
     manager->changeState(name);
     return 0;
   }
+
+  int lua_spawn(lua_State* L) {
+
+  }
 }

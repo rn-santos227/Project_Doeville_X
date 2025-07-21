@@ -18,4 +18,8 @@ namespace Project::Components {
   void SpawnerComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     templateName = luaStateWrapper.getTableString(tableName, Keys::TEMPLATE, Constants::EMPTY_STRING);
   }
+
+  void SpawnerComponent::spawn(float offsetX, float offsetY) {
+
+  }
 }

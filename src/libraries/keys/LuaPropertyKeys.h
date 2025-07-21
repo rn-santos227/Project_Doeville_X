@@ -71,7 +71,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* STATE_CATEGORY = "state_category";
   constexpr const char* STATIC = "static";
   constexpr const char* SURFACE = "surface";
-  constexpr const char* TAG = "tag";  
+  constexpr const char* TAG = "tag";
+  constexpr const char* TEMPLATE = "template";
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";
   constexpr const char* TEXTURE_PATH = "texture_path";

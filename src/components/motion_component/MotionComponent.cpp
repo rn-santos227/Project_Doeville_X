@@ -152,4 +152,19 @@ namespace Project::Components {
     }
     return MathUtils::magnitude(velocityX, velocityY);
   }
+
+  void MotionComponent::brake() {
+    if (!owner) {
+      velocityX = 0.0f;
+      velocityY = 0.0f;
+      return;
+    }
+
+    if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
+      physics->setVelocity(0.0f, 0.0f);
+    } else {
+      velocityX = 0.0f;
+      velocityY = 0.0f;
+    }
+  }
 }

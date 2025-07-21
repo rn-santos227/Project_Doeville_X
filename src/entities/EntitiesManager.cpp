@@ -161,6 +161,7 @@ namespace Project::Entities {
     entity->registerLuaFunction(Keys::LUA_DESTROY_ENTITY, LuaBindings::lua_destroyEntity, this);
     entity->registerLuaFunction(Keys::LUA_SET_TIMER_ACTIVE, LuaBindings::lua_setTimerActive, this);
     entity->registerLuaFunction(Keys::LUA_STOP_TIMER, LuaBindings::lua_stopTimer, this);
+    entity->registerLuaFunction(Keys::LUA_BRAKE_ENTITY, LuaBindings::lua_brakeEntity, this);
     if (gameState) {
       entity->registerLuaFunction(Keys::LUA_SPAWN_ENTITY, LuaBindings::lua_spawnEntity, gameState);
     }

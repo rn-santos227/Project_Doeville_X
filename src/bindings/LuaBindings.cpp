@@ -349,6 +349,25 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_brakeEntity(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) return 0;
+
+    motion->brake();
+    return 0;
+  }
+  
   int lua_factoryChangeState(lua_State* L) {
     auto* manager = static_cast<GameStateManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!manager) {

@@ -14,6 +14,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_PLAYER_ENTITY = "setPlayerEntity";
   constexpr const char* LUA_STOP_TIMER = "stopTimer";
   constexpr const char* LUA_ADD_ENTITY_TO_SEEDER = "addEntityToSeed";
+  constexpr const char* LUA_BRAKE_ENTITY = "brakeEntity";
   constexpr const char* LUA_SPAWN_ENTITY = "spawnEntity";
   constexpr const char* LUA_DESTROY_ENTITY = "destroyEntity";
   constexpr const char* LUA_START_ENTITY_SEEDER = "startEntitySeeder";

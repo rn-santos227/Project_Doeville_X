@@ -57,9 +57,11 @@ namespace Project::Handlers {
     int screenWidth = 0;
     int screenHeight = 0;
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    
     double scale = configReader.getDoubleValue(Keys::WINDOW_SECTION, Keys::WINDOW_SCALE_FACTORY, 1.0);
     int camW = static_cast<int>(screenWidth * scale);
     int camH = static_cast<int>(screenHeight * scale);
+
     cameraHandler.setSize(camW, camH);
     std::string camTypeStr = configReader.getValue(Keys::CAMERA_SECTION, Keys::CAMERA_TYPE, Project::Libraries::Categories::Cameras::FREE_ROAMING);
     cameraHandler.setCameraType(CameraTypeResolver::resolve(camTypeStr));

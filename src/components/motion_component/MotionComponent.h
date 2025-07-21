@@ -36,6 +36,7 @@ namespace Project::Components {
     bool isRotationEnabled() const { return rotationEnabled; }
     
     float getCurrentSpeed() const;
+    void speedBreak();
 
   private:
     Project::Handlers::KeyHandler* keyHandler = nullptr;

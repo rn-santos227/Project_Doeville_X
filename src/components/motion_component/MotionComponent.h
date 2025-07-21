@@ -23,11 +23,14 @@ namespace Project::Components {
     void setSpeed(float newSpeed) { maxSpeed = newSpeed; }
     float getSpeed() const { return maxSpeed; }
 
-    void setAcceleration(float a) { acceleration = a; }
+    void setAcceleration(float _acceleration) { acceleration = _acceleration; }
     float getAcceleration() const { return acceleration; }
     
-    void setFriction(float f) { friction = f; }
+    void setFriction(float _friction) { friction = _friction; }
     float getFriction() const { return friction; }
+
+    void setBrakePower(float _power) { brakePower = _power; }
+    float getBrakePower() const { return brakePower; }
     
     void setAccelerationEnabled(bool enabled) { accelerationEnabled = enabled; }
     bool isAccelerationEnabled() const { return accelerationEnabled; }
@@ -36,7 +39,7 @@ namespace Project::Components {
     bool isRotationEnabled() const { return rotationEnabled; }
     
     float getCurrentSpeed() const;
-    void speedBreak();
+    void brake();
 
   private:
     Project::Handlers::KeyHandler* keyHandler = nullptr;
@@ -44,6 +47,7 @@ namespace Project::Components {
 
     float maxSpeed;
     float acceleration = Project::Libraries::Constants::DEFAULT_ACCELERATION;
+    float brakePower = Project::Libraries::Constants::DEFAULT_BRAKE_POWER;
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
     float velocityX = 0.0f;
     float velocityY = 0.0f;

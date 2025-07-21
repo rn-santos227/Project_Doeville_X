@@ -9,8 +9,9 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_MOTION_SPEED = 100.0f;
   constexpr float DEFAULT_ROTATION_SPEED = 90.0f;
   constexpr float DEFAULT_ACCELERATION = 10.0f;
-  constexpr float DEFAULT_FRICTION = 0.1f;
   constexpr float DEFAULT_BOUNCE_FACTOR = 0.5f;
+  constexpr float DEFAULT_BRAKE_POWER = 1.0f;
+  constexpr float DEFAULT_FRICTION = 0.1f;
   constexpr float DEFAULT_DAMPING = 0.1f;
   constexpr float DEFAULT_COLLISION_THRESHOLD = 0.1f;
   constexpr float DEFAULT_PUSH_FORCE = 1.0f;

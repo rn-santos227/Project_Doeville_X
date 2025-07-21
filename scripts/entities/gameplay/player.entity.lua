@@ -35,9 +35,11 @@ components = {
       { key = "down", action = "move_down" },
       { key = "right", action = "move_right" },
       { key = "z", action = "action_1" },
+      { key = "x", action = "action_2" }
     },
     bindings = {
-      action_1 = "action_1"
+      action_1 = "action_1",
+      action_2 = "brake"
     }
   },
 
@@ -54,7 +56,8 @@ components = {
   MotionComponent = {
     component = "MotionComponent",
     active = true,
-    speed = 120.0,
+    speed = 200.0,
+    speed_brake = 0.5,
     acceleration = 50.0,
     friction = 20.0,
     use_acceleration = true,
@@ -65,6 +68,10 @@ components = {
 
 function action_1()
   print("Action 1 placeholder")
+end
+
+function brake()
+  brakeEntity("player")
 end
 
 return {

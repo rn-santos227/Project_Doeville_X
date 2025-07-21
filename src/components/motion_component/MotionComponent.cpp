@@ -138,6 +138,9 @@ namespace Project::Components {
     float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
     setFriction(fric);
 
+    float bPower = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::BRAKE_POWER, Constants::DEFAULT_BRAKE_POWER));
+    setBrakePower(bPower);
+
     bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotate);
   }
@@ -155,16 +158,32 @@ namespace Project::Components {
 
   void MotionComponent::brake() {
     if (!owner) {
-      velocityX = 0.0f;
-      velocityY = 0.0f;
+      if (brakePower >= Constants::DEFAULT_WHOLE) {
+        velocityX = 0.0f;
+        velocityY = 0.0f;
+      } else {
+        velocityX *= (Constants::DEFAULT_WHOLE - brakePower);
+        velocityY *= (Constants::DEFAULT_WHOLE - brakePower);
+      }
       return;
     }
 
     if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
-      physics->setVelocity(0.0f, 0.0f);
+      if (brakePower >= Constants::DEFAULT_WHOLE) {
+        physics->setVelocity(0.0f, 0.0f);
+      } else {
+        float newVX = physics->getVelocityX() * (Constants::DEFAULT_WHOLE - brakePower);
+        float newVY = physics->getVelocityY() * (Constants::DEFAULT_WHOLE - brakePower);
+        physics->setVelocity(newVX, newVY);
+      }
     } else {
-      velocityX = 0.0f;
-      velocityY = 0.0f;
+      if (brakePower >= Constants::DEFAULT_WHOLE) {
+        velocityX = 0.0f;
+        velocityY = 0.0f;
+      } else {
+        velocityX *= (Constants::DEFAULT_WHOLE - brakePower);
+        velocityY *= (Constants::DEFAULT_WHOLE- brakePower);
+      }
     }
   }
 }

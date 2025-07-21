@@ -366,6 +366,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_spawn(lua_State* L) {
-
+    auto* comp = static_cast<Project::Components::SpawnerComponent*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!comp) return 0;
   }
 }

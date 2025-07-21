@@ -389,5 +389,8 @@ namespace Project::Bindings::LuaBindings {
     if (lua_gettop(L) >= Constants::INDEX_FOUR && lua_isnumber(L, Constants::INDEX_FOUR)) {
       velY = static_cast<float>(lua_tonumber(L, Constants::INDEX_FOUR));
     }
+
+    comp->spawn(offX, offY, velX, velY);
+    return 0;
   }
 }

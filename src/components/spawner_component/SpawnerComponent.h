@@ -21,8 +21,8 @@ namespace Project::Components {
     void setEntityReference(Project::Entities::Entity* entity);
     void setTemplate(const std::string& _name) { templateName = _name; }
 
-    void spawn(float offsetX = 0.0f, float offsetY = 0.0f);
-    
+    void spawn(float _offsetX, float _offsetY, float _velocityX, float _velocityY);
+
   private:
     Project::Entities::Entity* owner = nullptr;
     std::string templateName;

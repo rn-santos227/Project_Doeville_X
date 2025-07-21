@@ -11,7 +11,8 @@ namespace Project { namespace Entities { class Entity; } }
 namespace Project::Components {
   class SpawnerComponent : public BaseComponent {
   public:
-
+    explicit SpawnerComponent(Project::Utilities::LogsManager& logsManager);
+    ~SpawnerComponent() override = default;
 
   private:
     Project::Entities::Entity* owner = nullptr;

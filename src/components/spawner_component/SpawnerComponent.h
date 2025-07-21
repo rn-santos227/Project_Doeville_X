@@ -18,6 +18,11 @@ namespace Project::Components {
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
+    void setEntityReference(Project::Entities::Entity* entity);
+    void setTemplate(const std::string& _name) { templateName = _name; }
+
+    void spawn(float offsetX = 0.0f, float offsetY = 0.0f);
+    
   private:
     Project::Entities::Entity* owner = nullptr;
     std::string templateName;

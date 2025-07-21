@@ -54,6 +54,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* PLAYER = "player";
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";
+  constexpr const char* RATE = "rate";
   constexpr const char* RECT = "rect";
   constexpr const char* RENDER = "render";
   constexpr const char* REPEAT = "repeat";

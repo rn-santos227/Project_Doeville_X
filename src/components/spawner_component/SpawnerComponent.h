@@ -13,7 +13,7 @@ namespace Project::Components {
     explicit SpawnerComponent(Project::Utilities::LogsManager& logsManager);
     ~SpawnerComponent() override = default;
 
-    void update(float) override {}
+    void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
@@ -25,6 +25,9 @@ namespace Project::Components {
   private:
     Project::Entities::Entity* owner = nullptr;
     std::string templateName;
+
+    float rate = 0.0f;
+    float cooldown = 0.0f;
   };
 }
 

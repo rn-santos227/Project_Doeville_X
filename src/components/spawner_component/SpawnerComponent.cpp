@@ -32,5 +32,8 @@ namespace Project::Components {
     if (!factory) return;
 
     if (templateName.empty()) return;
+
+    std::unique_ptr<Entity> ent = factory->cloneEntity(templateName);
+    if (!ent) return;
   }
 }

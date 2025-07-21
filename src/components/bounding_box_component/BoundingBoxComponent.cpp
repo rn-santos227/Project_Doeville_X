@@ -172,6 +172,37 @@ namespace Project::Components {
            surface == SurfaceType::GHOST_PASS;
   }
 
+  bool BoundingBoxComponent::handleSurfaceInteraction(
+    SurfaceType surface, Project::Entities::Entity* target,
+    const SDL_FPoint& offset, float bounce, float fric,
+    float& velocityX, float& velocityY) {
+    if (surface == SurfaceType::GHOST_PASS) {
+      return false;
+    }
+    if (surface == SurfaceType::SLIDE) {
+      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
+      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+    } else if (surface == SurfaceType::STICK || surface == SurfaceType::REST) {
+      velocityX = 0.0f;
+      velocityY = 0.0f;
+    } else if (surface == SurfaceType::DESTROY_ON_HIT) {
+      if (target) {
+        for (const std::string& n : target->listComponentNames()) {
+          if (auto* c = target->getComponent(n)) c->setActive(false);
+        }
+      }
+    } else if (surface == SurfaceType::TRIGGER_EVENT) {
+      if (target) target->getLuaStateWrapper().callFunctionIfExists(Keys::LUA_ON_TRIGGER);
+    } else {
+      velocityX = -velocityX * bounce;
+      velocityY = -velocityY * bounce;
+      velocityX *= (Constants::DEFAULT_WHOLE - fric);
+      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+    }
+    return true;
+  }
+
   void BoundingBoxComponent::setEntityPosition(int x, int y) {
     entityX = x;
     entityY = y;

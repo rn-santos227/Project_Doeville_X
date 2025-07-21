@@ -7,6 +7,7 @@
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/physics_component/SurfaceType.h"
+#include "entities/Entity.h"
 #include "libraries/constants/Constants.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/camera/CameraHandler.h"
@@ -37,8 +38,15 @@ namespace Project::Components {
 
     void setSolid(bool solidEnabled);
     bool isSolid() const;
-
     bool isInteractive() const;
+
+    bool handleSurfaceInteraction(
+      Project::Components::Physics::SurfaceType surface,
+      Project::Entities::Entity* target,
+      const SDL_FPoint& offset,
+      float bounce, float friction,
+      float& velocityX, float& velocityY
+    );
 
     void setFriction(float value) { friction = value; }
     float getFriction() const { return friction; }

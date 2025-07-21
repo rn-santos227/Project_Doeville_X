@@ -20,6 +20,17 @@ namespace Project::Components {
   }
 
   void SpawnerComponent::spawn(float offsetX, float offsetY) {
+    if (!owner) return;
+    
+    EntitiesManager* manager = owner->getEntitiesManager();
+    if (!manager) return;
+    
+    GameState* state = manager->getGameState();
+    if (!state) return;
+    
+    EntitiesFactory* factory = state->getEntitiesFactory();
+    if (!factory) return;
 
+    if (templateName.empty()) return;
   }
 }

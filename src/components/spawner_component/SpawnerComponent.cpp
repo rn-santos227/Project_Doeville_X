@@ -41,5 +41,8 @@ namespace Project::Components {
     ent->getLuaStateWrapper().setGlobalNumber(Keys::X, x);
     ent->getLuaStateWrapper().setGlobalNumber(Keys::Y, y);
     ent->initialize();
+
+    std::shared_ptr<Entity> shared = std::move(ent);
+    manager->addEntity(shared);
   }
 }

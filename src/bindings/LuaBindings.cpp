@@ -368,5 +368,10 @@ namespace Project::Bindings::LuaBindings {
   int lua_spawn(lua_State* L) {
     auto* comp = static_cast<Project::Components::SpawnerComponent*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!comp) return 0;
+
+    float offX = 0.0f;
+    float offY = 0.0f;
+    float velX = 0.0f;
+    float velY = 0.0f;
   }
 }

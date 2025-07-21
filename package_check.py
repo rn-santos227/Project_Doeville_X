@@ -1,14 +1,11 @@
-import json
 import os
 import argparse
 import sys
 
+from dependency.utils import load_packages
+
 BASE_DIR = os.path.join(os.path.dirname(__file__), "lib")
 PACKAGES_FILE = os.path.join(os.path.dirname(__file__), "packages.json")
-
-def load_packages(path):
-  with open(path, "r") as f:
-    return json.load(f)
 
 def check_installed(packages):
   results = {}

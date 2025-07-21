@@ -1,5 +1,4 @@
 import os
-import json
 
 from dependency.downloader import HTTPDownloader
 from dependency.extractor import TarGzExtractor

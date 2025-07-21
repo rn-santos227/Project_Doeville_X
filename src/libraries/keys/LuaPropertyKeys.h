@@ -11,7 +11,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* BINDING = "binding";
   constexpr const char* BINDINGS = "bindings";
   constexpr const char* BOXES = "boxes";
-  constexpr const char* BRAKE_POWER  = "break_power"; 
+  constexpr const char* BRAKE_POWER  = "brake_power"; 
   constexpr const char* CATEGORY = "category";  
   constexpr const char* CLASS = "class";
   constexpr const char* COLOR = "color";

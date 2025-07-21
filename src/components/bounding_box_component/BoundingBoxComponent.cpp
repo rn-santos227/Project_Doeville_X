@@ -3,6 +3,7 @@
 #include <cmath>
 #include <limits>
 
+#include "components/physics_component/SurfaceType.h"
 #include "components/physics_component/SurfaceTypeResolver.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/categories/Categories.h"
@@ -16,6 +17,7 @@ namespace Project::Components {
   using Project::Utilities::GeometryUtils;
   using Project::Handlers::KeyHandler;
 
+  using Project::Components::Physics::SurfaceType;
   using Project::Components::Physics::SurfaceTypeResolver;
 
   namespace Constants = Project::Libraries::Constants;
@@ -160,6 +162,14 @@ namespace Project::Components {
 
   bool BoundingBoxComponent::isSolid() const {
     return solid;
+  }
+
+  bool BoundingBoxComponent::isInteractive() const {
+    if (solid) return true;
+    auto surface = getSurfaceType();
+    return surface == SurfaceType::DESTROY_ON_HIT || 
+           surface == SurfaceType::TRIGGER_EVENT ||
+           surface == SurfaceType::GHOST_PASS;
   }
 
   void BoundingBoxComponent::setEntityPosition(int x, int y) {

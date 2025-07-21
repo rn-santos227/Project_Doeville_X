@@ -38,6 +38,8 @@ namespace Project::Components {
     void setSolid(bool solidEnabled);
     bool isSolid() const;
 
+    bool isInteractive() const;
+
     void setFriction(float value) { friction = value; }
     float getFriction() const { return friction; }
 

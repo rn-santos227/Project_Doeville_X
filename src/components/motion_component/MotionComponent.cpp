@@ -83,18 +83,23 @@ namespace Project::Components {
       dx = localVelX * deltaTime;
       dy = localVelY * deltaTime;
     } else {
+      localVelX = 0.0f;
+      localVelY = 0.0f;
+
       if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
-        dx -= maxSpeed * deltaTime;
+        localVelX = -maxSpeed;
+      } else if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
+        localVelX = maxSpeed;
       }
-      if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
-        dx += maxSpeed * deltaTime;
-      }
+
       if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
-        dy -= maxSpeed * deltaTime;
+        localVelY = -maxSpeed;
+      } else if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
+        localVelY = maxSpeed;
       }
-      if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
-        dy += maxSpeed * deltaTime;
-      }
+
+      dx = localVelX * deltaTime;
+      dy = localVelY * deltaTime;
     }
 
     if (!physics && (dx != 0.0f || dy != 0.0f)) {

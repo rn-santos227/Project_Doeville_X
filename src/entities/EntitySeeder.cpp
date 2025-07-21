@@ -72,17 +72,29 @@ namespace Project::Entities {
         int cx = pcx + dx;
         int cy = pcy + dy;
         long long k = key(cx, cy);
-        if (!chunks.count(k)) {
+        if (!chunks.count(k) && scheduledChunks.insert(k).second) {
           if (useCull) {
             SDL_Rect chunkRect{ static_cast<int>(cx * chunkSize), static_cast<int>(cy * chunkSize),
                                static_cast<int>(chunkSize), static_cast<int>(chunkSize) };
             if (!SDL_HasIntersection(&chunkRect, &cullRect)) {
+              scheduledChunks.erase(k);
               continue;
             }
           }
-          loadChunk(cx, cy);
+          pendingChunks.push(k);
         }
       }
+    }
+
+    size_t loaded = 0;
+    while (!pendingChunks.empty() && loaded < maxChunksPerFrame) {
+      long long k = pendingChunks.front();
+      pendingChunks.pop();
+      scheduledChunks.erase(k);
+      int cx = static_cast<int>(k >> 32);
+      int cy = static_cast<int>(static_cast<unsigned int>(k));
+      loadChunk(cx, cy);
+      ++loaded;
     }
 
     std::vector<long long> remove;

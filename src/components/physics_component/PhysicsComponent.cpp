@@ -360,51 +360,6 @@ namespace Project::Components {
     setKinematic(kine);
   }
 
-  void PhysicsComponent::applyForces(float deltaTime) {
-    accelerationX += forceX / mass;
-    accelerationY += forceY / mass;
-    forceX = forceY = 0.0f;
-
-    velocityX += accelerationX * deltaTime;
-    velocityY += accelerationY * deltaTime;
-    accelerationX = 0.0f;
-    accelerationY = 0.0f;
-  }
-
-  void PhysicsComponent::applyResistance(float deltaTime) {
-    if (!isKinematic && friction > 0.0f) {
-      float decel = friction * deltaTime;
-      if (velocityX > 0.0f) {
-        velocityX -= decel;
-        if (velocityX < 0.0f) velocityX = 0.0f;
-      } else if (velocityX < 0.0f) {
-        velocityX += decel;
-        if (velocityX > 0.0f) velocityX = 0.0f;
-      }
-      if (velocityY > 0.0f) {
-        velocityY -= decel;
-        if (velocityY < 0.0f) velocityY = 0.0f;
-      } else if (velocityY < 0.0f) {
-        velocityY += decel;
-        if (velocityY > 0.0f) velocityY = 0.0f;
-      }
-    }
-
-    if (!isKinematic && density > 0.0f) {
-      float factor = Constants::DEFAULT_WHOLE - density * deltaTime;
-      if (factor < 0.0f) factor = 0.0f;
-      velocityX *= factor;
-      velocityY *= factor;
-    }
-  }
-
-  void PhysicsComponent::clampVelocity() {
-    SDL_FPoint vel{velocityX, velocityY};
-    Project::Utilities::PhysicsUtils::clampVelocity(vel, Project::Libraries::Constants::TERMINAL_VELOCITY);
-    velocityX = vel.x;
-    velocityY = vel.y;
-  }
-
   void PhysicsComponent::syncPositionWithComponents(float x, float y) {
     owner->setPosition(x, y);
     for (const std::string& n : owner->listComponentNames()) {

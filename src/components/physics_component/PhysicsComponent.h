@@ -90,9 +90,6 @@ namespace Project::Components {
     }
 
   private:
-    void applyForces(float deltaTime);
-    void applyResistance(float deltaTime);
-    void clampVelocity();
     void syncPositionWithComponents(float x, float y);
     void updateRotationState(float deltaTime, bool collisionOccurred);
     

@@ -4,9 +4,11 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <queue>
 #include <random>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "interfaces/update_interface/Updatable.h"
@@ -49,6 +51,9 @@ namespace Project::Entities {
     std::weak_ptr<Entity> player;
     EntitiesManager& manager;
     Project::Factories::EntitiesFactory& factory;
+
+    std::queue<long long> pendingChunks;
+    std::unordered_set<long long> scheduledChunks;
     
     std::unordered_map<long long, Chunk> chunks;
     std::vector<std::string> entityTemplates;
@@ -64,6 +69,7 @@ namespace Project::Entities {
     size_t baseSeed = 0;
     size_t idCounter = 0;
     size_t sessionSalt = 0;
+    size_t maxChunksPerFrame = 1;
 
     size_t generateChunkSeed(size_t base, long long key);
 

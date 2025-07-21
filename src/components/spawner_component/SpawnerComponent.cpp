@@ -18,6 +18,9 @@ namespace Project::Components {
   namespace Components = Project::Libraries::Categories::Components;
   namespace Keys = Project::Libraries::Keys;
 
+  SpawnerComponent::SpawnerComponent(Project::Utilities::LogsManager& logsManager)
+    : BaseComponent(logsManager) {}
+
   void SpawnerComponent::update(float deltaTime) {
     if (!isActive()) return;
     if (cooldown > 0.0f) {

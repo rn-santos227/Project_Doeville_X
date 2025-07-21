@@ -373,5 +373,21 @@ namespace Project::Bindings::LuaBindings {
     float offY = 0.0f;
     float velX = 0.0f;
     float velY = 0.0f;
+
+    if (lua_gettop(L) >= Constants::INDEX_ONE && lua_isnumber(L, Constants::INDEX_ONE)) {
+      offX = static_cast<float>(lua_tonumber(L, Constants::INDEX_ONE));
+    }
+    
+    if (lua_gettop(L) >= Constants::INDEX_TWO && lua_isnumber(L, Constants::INDEX_TWO)) {
+      offY = static_cast<float>(lua_tonumber(L, Constants::INDEX_TWO));
+    }
+    
+    if (lua_gettop(L) >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE)) {
+      velX = static_cast<float>(lua_tonumber(L, Constants::INDEX_THREE));
+    }
+    
+    if (lua_gettop(L) >= Constants::INDEX_FOUR && lua_isnumber(L, Constants::INDEX_FOUR)) {
+      velY = static_cast<float>(lua_tonumber(L, Constants::INDEX_FOUR));
+    }
   }
 }

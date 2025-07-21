@@ -2,10 +2,12 @@
 #include "StylePropertyResolver.h"
 
 #include <algorithm>
+#include <cctype>
 #include <iostream>
 #include <regex>
 #include <sstream>
 #include <vector>
+#include <unordered_map>
 
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
@@ -19,6 +21,16 @@ namespace Project::Services {
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
+
+  inline const std::unordered_map<std::string, GradientType> gradientMap = {
+    {std::string(Keys::GRAD_NONE), GradientType::NONE},
+    {std::string(Keys::GRAD_HORIZONTAL), GradientType::HORIZONTAL},
+    {std::string(Keys::GRAD_VERTICAL), GradientType::VERTICAL},
+    {std::string(Keys::GRAD_DIAG_LEFT), GradientType::DIAGONAL_LEFT},
+    {std::string(Keys::GRAD_DIAG_RIGHT), GradientType::DIAGONAL_RIGHT},
+    {std::string(Keys::GRAD_RADIAL), GradientType::RADIAL},
+    {std::string(Keys::GRAD_INVERSE), GradientType::INVERSE}
+  };
 
   StyleManager& StyleManager::getInstance() {
     static StyleManager instance;
@@ -62,6 +74,37 @@ namespace Project::Services {
           case StyleProperty::FONT_SIZE:
             style.fontSize = AdvanceParser::parseInt(value);
             break;
+
+          case StyleProperty::GRADIENT: {
+            std::smatch gradMatch;
+            std::regex gradRegex(Constants::REGEX_CSS_GRAD);
+            if (std::regex_match(value, gradMatch, gradRegex)) {
+              style.gradientStart = ColorUtils::hexToRGB(gradMatch[1].str());
+              style.gradientEnd = ColorUtils::hexToRGB(gradMatch[2].str());
+              style.hasGradient = true;
+            }            
+            break;
+          }
+
+          case StyleProperty::GRADIENT_START:
+            style.gradientStart = ColorUtils::hexToRGB(value);
+            style.hasGradient = true;
+            break;
+          
+          case StyleProperty::GRADIENT_END:
+            style.gradientEnd = ColorUtils::hexToRGB(value);
+            style.hasGradient = true;
+            break;
+
+          case StyleProperty::GRADIENT_STYLE: {
+            std::string key = value;
+            std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
+              return std::tolower(c);
+            });
+
+            auto it = gradientMap.find(key);
+            style.gradient = (it != gradientMap.end()) ? it->second : GradientType::NONE;
+          }
 
           case StyleProperty::WIDTH:
             style.width = AdvanceParser::parseInt(value);

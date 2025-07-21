@@ -18,12 +18,21 @@ namespace Project::Components {
   namespace Components = Project::Libraries::Categories::Components;
   namespace Keys = Project::Libraries::Keys;
 
+  void SpawnerComponent::update(float deltaTime) {
+    if (!isActive()) return;
+    if (cooldown > 0.0f) {
+      cooldown -= deltaTime;
+      if (cooldown < 0.0f) cooldown = 0.0f;
+    }
+  }
+
   void SpawnerComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     templateName = luaStateWrapper.getTableString(tableName, Keys::TEMPLATE, Constants::EMPTY_STRING);
+    rate = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RATE, rate));
   }
 
   void SpawnerComponent::spawn(float _offsetX, float _offsetY, float _velocityX, float _velocityY) {
-    if (!owner) return;
+    if (!owner || cooldown > 0.0f) return;
     
     EntitiesManager* manager = owner->getEntitiesManager();
     if (!manager) return;
@@ -51,6 +60,7 @@ namespace Project::Components {
 
     std::shared_ptr<Entity> shared = std::move(ent);
     manager->addEntity(shared);
+    cooldown = rate;
   }
 
   void SpawnerComponent::setEntityReference(Entity* entity) {

@@ -1,5 +1,6 @@
 #include "SpawnerComponent.h"
 
+#include "bindings/LuaBindings.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
@@ -50,5 +51,12 @@ namespace Project::Components {
 
     std::shared_ptr<Entity> shared = std::move(ent);
     manager->addEntity(shared);
+  }
+
+  void SpawnerComponent::setEntityReference(Entity* entity) {
+    owner = entity;
+    if (owner) {
+      owner->registerLuaFunction(Keys::LUA_FUNC_SPAWN, Project::Bindings::LuaBindings::lua_spawn, this);
+    }
   }
 }

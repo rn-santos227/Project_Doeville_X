@@ -13,6 +13,7 @@ namespace Project::Factories {
     KEYS,
     MOTION,
     PHYSICS,
+    SPAWNER,
     TEXT,
     TIMER,
     TRANSFORM,

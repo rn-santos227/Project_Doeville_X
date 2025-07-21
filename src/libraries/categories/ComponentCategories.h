@@ -15,6 +15,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* KEYS = "keys";
     constexpr const char* MOTION = "motion";
     constexpr const char* PHYSICS = "physics";
+    constexpr const char* SPAWNER = "spawner";
     constexpr const char* TEXT = "text";
     constexpr const char* TIMER = "timer";
     constexpr const char* TRANSFORM = "transform";
@@ -26,6 +27,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* KEYS_COMPONENT = "KeysComponent";
     constexpr const char* MOTION_COMPONENT = "MotionComponent";
     constexpr const char* PHYSICS_COMPONENT = "PhysicsComponent";
+    constexpr const char* SPAWNER_COMPONENT = "SpawnerComponent";
     constexpr const char* TEXT_COMPONENT = "TextComponent";
     constexpr const char* TIMER_COMPONENT = "TimerComponent";
     constexpr const char* TRANSFORM_COMPONENT = "TransformComponent";

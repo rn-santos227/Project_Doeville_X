@@ -3,7 +3,6 @@
 
 #include "components/BaseComponent.h"
 
-#include <lua.hpp>
 #include <string>
 
 namespace Project { namespace Entities { class Entity; } }

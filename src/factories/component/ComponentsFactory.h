@@ -15,6 +15,7 @@
 #include "components/keys_component/KeysComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "components/timer_component/TimerComponent.h"
 #include "components/transform_component/TransformComponent.h"

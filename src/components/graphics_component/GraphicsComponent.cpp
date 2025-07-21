@@ -194,6 +194,14 @@ namespace Project::Components {
         drawShape = true;
       }
 
+      if (s.hasGradient) {
+        gradientStart = s.gradientStart;
+        gradientEnd = s.gradientEnd;
+        gradient = s.gradient;
+        useGradient = true;
+        drawShape = true;
+      }
+
       if (s.opacity != Constants::DEFAULT_WHOLE) {
         float opacity = s.opacity;
         Uint8 alpha = 0;

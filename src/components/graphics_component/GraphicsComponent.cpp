@@ -95,8 +95,8 @@ namespace Project::Components {
         SDL_RenderCopy(renderer, textureToRender, nullptr, &renderRect);
       }
     } else if (drawShape) {
-      SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
       if (isCircle) {
+        SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
         for (int w = 0; w < radius * Constants::DEFAULT_DOUBLE; ++w) {
           for (int h = 0; h < radius * Constants::DEFAULT_DOUBLE; ++h) {
             int dx = radius - w;
@@ -107,7 +107,8 @@ namespace Project::Components {
           }
         }
       } else {
-        if (rotationEnabled) {
+        bool complex = rotationEnabled || useGradient;
+        if (complex) {
           float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
           float cosA = std::cos(angleRad);
           float sinA = std::sin(angleRad);
@@ -123,9 +124,17 @@ namespace Project::Components {
           for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
             float rx = corners[i].x - cx;
             float ry = corners[i].y - cy;
-            verts[i].position.x = rx * cosA - ry * sinA + cx;
-            verts[i].position.y = rx * sinA + ry * cosA + cy;
-            verts[i].color = shapeColor;
+            verts[i].position.x = rotationEnabled ? rx * cosA - ry * sinA + cx : corners[i].x;
+            verts[i].position.y = rotationEnabled ? rx * sinA + ry * cosA + cy : corners[i].y;
+            SDL_Color col = shapeColor;
+            if (useGradient) {
+              if (gradient == Project::Services::GradientType::VERTICAL) {
+                col = (i < 2) ? gradientStart : gradientEnd;
+              } else {
+                col = (i == 0 || i == 3) ? gradientStart : gradientEnd;
+              }
+            }
+            verts[i].color = col;
             verts[i].tex_coord = {0.0f, 0.0f};
           }
           int indices[Constants::INDEX_SIX] = {
@@ -138,6 +147,7 @@ namespace Project::Components {
           };
           SDL_RenderGeometry(renderer, nullptr, verts, Constants::INDEX_FOUR, indices, Constants::INDEX_SIX);
         } else {
+          SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
           SDL_RenderFillRect(renderer, &renderRect);
         }
       }

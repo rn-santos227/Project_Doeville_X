@@ -17,6 +17,7 @@
 #include "libraries/constants/Constants.h"
 #include "services/styling/Style.h"
 #include "services/styling/StyleManager.h"
+#include "services/styling/StyleProperty.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Components {
@@ -56,13 +57,19 @@ namespace Project::Components {
     static Project::Handlers::CameraHandler* cameraHandler;
 
     SDL_Renderer* renderer;
+    
     Project::Handlers::ResourcesHandler* resourcesHandler;
     Project::Utilities::LogsManager& logsManager;
+    
+    Project::Services::GradientType gradient = Project::Services::GradientType::NONE;
     Project::Services::Style style{};
 
     std::unique_ptr<Project::Handlers::AnimationHandler> animationHandler;
 
     SDL_Color shapeColor = Project::Libraries::Constants::DEFAULT_SHAPE_COLOR;
+    SDL_Color gradientStart{0, 0, 0, 0};
+    SDL_Color gradientEnd{0, 0, 0, 0};
+    
     SDL_Rect destRect{0, 0, 0, 0};
 
     float radius = 0;
@@ -71,6 +78,7 @@ namespace Project::Components {
     bool rotationEnabled = false;
     bool isCircle = false;
     bool drawShape = false;
+    bool useGradient = false;
 
     std::future<SDL_Texture*> textureFuture;
     std::string pendingTexturePath;

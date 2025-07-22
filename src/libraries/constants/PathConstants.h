@@ -10,9 +10,10 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_LOGS_DIRECTORY = "resources/logs";
   constexpr const char* DEFAULT_LOG_FILE_PATH = "resources/logs/logs.txt";
   constexpr const char* DEFAULT_LUA_LOG_FILE_PATH = "resources/logs/lua_logs.txt";
+  constexpr const char* DEFAULT_RESOURCES_FOLDER = "resources"; 
   constexpr const char* DEFAULT_SCRIPT_PATH = "scripts/";
   constexpr const char* DEFAULT_STYLE_PATH = "resources/css";
-  constexpr const char* DEFAULT_STATE_SCRIPT_FOLDER = "scripts/states/";  
+  constexpr const char* DEFAULT_STATE_SCRIPT_FOLDER = "scripts/states/";
 }
 
 #endif

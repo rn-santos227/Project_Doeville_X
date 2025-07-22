@@ -1,6 +1,6 @@
 # Compiler and Flags
 CXX = g++
-CXXFLAGS += -O2 -Isrc \
+CXXFLAGS += -std=c++17 -O2 -Isrc \
             -Ilib/SDL2/include \
 			-Ilib/SDL2_image \
             -Ilib/SDL2_ttf \

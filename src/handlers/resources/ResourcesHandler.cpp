@@ -2,6 +2,7 @@
 #include "AsyncResourceLoader.h"
 
 #include "helpers/resource_cleaner/ResourceCleaner.h"
+#include "libraries/constants/PathConstants.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
@@ -36,13 +37,30 @@ namespace Project::Handlers {
   }
 
   std::string ResourcesHandler::getResourcePath(const std::string& relativePath) {
-    std::string basePath = getBasePath();
+    namespace fs = std::filesystem;
 
-    if (basePath.back() == '\\') {
+    if (relativePath.empty() || relativePath[0] == '/' || relativePath.find("..") != std::string::npos) {
+      logsManager.logError("Invalid resource path: " + relativePath);
+      return "";
+    }
+
+    std::string basePath = getBasePath();
+    if (!basePath.empty() && basePath.back() == '\\') {
       basePath.pop_back();
     }
 
-    return basePath + "/" + relativePath;
+    fs::path resourceDir = fs::weakly_canonical(fs::path(basePath) / Project::Libraries::Constants::DEFAULT_RESOURCES_FOLDER);
+    fs::path absPath = fs::weakly_canonical(fs::path(basePath) / relativePath);
+
+    std::string resStr = resourceDir.string();
+    std::string absStr = absPath.string();
+
+    if (absStr.rfind(resStr, 0) != 0) {
+      logsManager.logError("Resource path outside resources directory: " + relativePath);
+      return "";
+    }
+
+    return absStr;
   }
 
   SDL_Texture* ResourcesHandler::loadTexture(SDL_Renderer* renderer, const std::string& imagePath) {

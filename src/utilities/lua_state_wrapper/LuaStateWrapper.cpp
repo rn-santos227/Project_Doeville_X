@@ -19,6 +19,22 @@ namespace Project::Utilities {
     return luaState;
   }
 
+  void LuaStateWrapper::reset() {
+    if (luaState) {
+      lua_close(luaState);
+    }
+
+    luaState = luaL_newstate();
+    if (!luaState) {
+      logsManager.logError("Failed to recreate Lua state");
+      return;
+    }
+
+    luaL_openlibs(luaState);
+    registeredFunctions.clear();
+    compiledScriptCache.clear();
+  }
+
   bool LuaStateWrapper::isValid() const {
     return luaState != nullptr;
   }

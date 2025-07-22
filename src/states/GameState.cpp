@@ -122,11 +122,11 @@ namespace Project::States {
   }
 
   void GameState::reset() {
-      playerEntity.reset();
-      activeCamera = nullptr;
-      nextSeederId = 0;
-      lastSeederId.clear();
-      entitySeeders.clear();
+    playerEntity.reset();
+    activeCamera = nullptr;
+    nextSeederId = 0;
+    lastSeederId.clear();
+    entitySeeders.clear();
 
     if (layersManager) {
       layersManager->reset();
@@ -137,6 +137,7 @@ namespace Project::States {
 
     clearBackground();
 
+    luaStateWrapper.reset();
     if (!luaScriptPath.empty()) {
       luaStateWrapper.loadScript(luaScriptPath);
     }

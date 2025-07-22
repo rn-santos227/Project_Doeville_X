@@ -9,9 +9,11 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "interfaces/reset_interface/Resetable.h"
 #include "utilities/logs_manager/LogsManager.h"
+
 namespace Project::Utilities {
-  class LuaStateWrapper {
+  class LuaStateWrapper : public Project::Interfaces::Resetable {
   public:
     LuaStateWrapper(LogsManager& logsManager);
     ~LuaStateWrapper();
@@ -57,6 +59,7 @@ namespace Project::Utilities {
     }
 
     lua_State* get() const;
+    void reset();
     
     bool isValid() const;
     bool loadScript(const std::string& scriptPath);

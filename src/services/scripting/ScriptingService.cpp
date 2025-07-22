@@ -91,7 +91,7 @@ namespace Project::Services {
       return false;
     }
 
-    luaL_openlibs(tempState);
+    LuaStateWrapper::initializeSafeState(tempState);
     int status = luaL_loadfile(tempState, scriptPath.c_str());
     if (status != LUA_OK) {
       const char* errorMessage = lua_tostring(tempState, -1);

@@ -18,6 +18,8 @@ namespace Project::Utilities {
     LuaStateWrapper(LogsManager& logsManager);
     ~LuaStateWrapper();
 
+    static void initializeSafeState(lua_State* state);
+
     // Generic argument-based function call
     template<typename... Args>
     bool callGlobalFunctionWithArgs(const std::string& name, int nresults, Args... args) {

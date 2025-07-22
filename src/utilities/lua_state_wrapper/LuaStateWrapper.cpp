@@ -5,7 +5,7 @@ namespace Project::Utilities {
     if (logsManager.checkAndLogError(!luaState, "Failed to create Lua state")) {
       return;
     }
-    luaL_openlibs(luaState);  
+    initializeSafeState(luaState);
   }
 
   LuaStateWrapper::~LuaStateWrapper() {
@@ -13,6 +13,42 @@ namespace Project::Utilities {
       lua_close(luaState);
       luaState = nullptr;
     }
+  }
+
+  void LuaStateWrapper::initializeSafeState(lua_State* state) {
+    if (!state) return;
+
+    static const struct luaL_Reg safeLibs[] = {
+      {"_G", luaopen_base},
+      {LUA_TABLIBNAME, luaopen_table},
+      {LUA_STRLIBNAME, luaopen_string},
+      {LUA_MATHLIBNAME, luaopen_math},
+      {LUA_COLIBNAME, luaopen_coroutine},
+      {LUA_UTF8LIBNAME, luaopen_utf8},
+      {nullptr, nullptr}
+    };
+
+    for (const luaL_Reg* lib = safeLibs; lib->func; ++lib) {
+      luaL_requiref(state, lib->name, lib->func, 1);
+      lua_pop(state, 1);
+    }
+
+    const char* blocked[] = {"dofile", "loadfile", "load", "loadstring", "require", nullptr};
+    for (const char** name = blocked; *name; ++name) {
+      lua_pushnil(state);
+      lua_setglobal(state, *name);
+    }
+
+    lua_getglobal(state, "os");
+    if (lua_istable(state, -1)) {
+      const char* osBlocked[] = {"execute", "remove", "rename", "tmpname", "exit", "setlocale", "getenv", nullptr};
+      for (const char** name = osBlocked; *name; ++name) {
+        lua_pushnil(state);
+        lua_setfield(state, -2, *name);
+      }
+    }
+
+    lua_pop(state, 1);
   }
 
   lua_State* LuaStateWrapper::get() const {
@@ -30,7 +66,7 @@ namespace Project::Utilities {
       return;
     }
 
-    luaL_openlibs(luaState);
+    initializeSafeState(luaState);
     registeredFunctions.clear();
     compiledScriptCache.clear();
   }

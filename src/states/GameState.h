@@ -17,6 +17,7 @@
 #include "entities/EntitySeeder.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/update_interface/Updatable.h"
+#include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "layers/LayersManager.h"
 #include "libraries/constants/Constants.h"
@@ -25,7 +26,11 @@
 namespace Project::Factories { class EntitiesFactory; }
 namespace Project::States {
   class GameStateManager;
-  class GameState : public Project::Utilities::LuaScriptable, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
+  class GameState : 
+  public Project::Utilities::LuaScriptable, 
+  public Project::Interfaces::Renderable,
+  public Project::Interfaces::Resetable,
+  public Project::Interfaces::Updatable {
   public:
     explicit GameState(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager, Project::Handlers::ResourcesHandler& resourcesHandler);
     virtual ~GameState();
@@ -35,6 +40,7 @@ namespace Project::States {
     virtual void onExit();
     virtual void update(float deltaTime);
     virtual void render();
+    virtual void reset();
     virtual void handleInput();
     
     virtual std::string getStateName() const { return stateName; }

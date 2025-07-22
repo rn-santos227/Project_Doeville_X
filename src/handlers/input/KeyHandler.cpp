@@ -1,15 +1,13 @@
 #include "KeyHandler.h"
 
 #include "libraries/constants/Constants.h"
-
+#include "states/GameStateManager.h"
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Core::SDLManager;
 
-
-
-  KeyHandler::KeyHandler(LogsManager& logsManager, SDLManager& sdlManager)
-    : logsManager(logsManager), sdlManager(sdlManager) {
+  KeyHandler::KeyHandler(LogsManager& logsManager, SDLManager& sdlManager, Project::States::GameStateManager* gameStateManager)
+    : logsManager(logsManager), sdlManager(sdlManager), gameStateManager(gameStateManager) {
     for (int i = static_cast<int>(KeyAction::NONE);
          i <= static_cast<int>(KeyAction::IMMEDIATE_EXIT); ++i) {
       keyBindings[static_cast<KeyAction>(i)] = SDL_SCANCODE_UNKNOWN;
@@ -87,6 +85,11 @@ namespace Project::Handlers {
 
   void KeyHandler::restartGame() {
     logsManager.logMessage("Game restarted.");
+    if (gameStateManager) {
+      gameStateManager->reset();
+    } else {
+      logsManager.logWarning("GameStateManager not available for restart.");
+    }
   }
 
   void KeyHandler::immediateExit() {

@@ -12,14 +12,17 @@
 #include "core/SDLManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+namespace Project::States { class GameStateManager; }
 namespace Project::Handlers {
   class KeyHandler {
   public:
-    KeyHandler(Project::Utilities::LogsManager& logsManager, Project::Core::SDLManager& sdlManager);
+    KeyHandler(Project::Utilities::LogsManager& logsManager, Project::Core::SDLManager& sdlManager, Project::States::GameStateManager* gameStateManager = nullptr);
     ~KeyHandler();
 
     void handleInput(SDL_Event& event);
     void setKeyBinding(KeyAction action, SDL_Scancode key);
+
+    void setGameStateManager(Project::States::GameStateManager* _manager) { gameStateManager = _manager; }
     
     bool isKeyPressed(SDL_Scancode key) const;
     bool isActionTriggered(KeyAction action) const;
@@ -34,8 +37,9 @@ namespace Project::Handlers {
 
     KeyAction currentAction;
 
-    Project::Utilities::LogsManager& logsManager;
     Project::Core::SDLManager& sdlManager;
+    Project::Utilities::LogsManager& logsManager;
+    Project::States::GameStateManager* gameStateManager;
 
     bool isFrozen;
     bool isDebugMode;

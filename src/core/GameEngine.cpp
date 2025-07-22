@@ -28,7 +28,7 @@ namespace Project::Core {
   gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager)),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)),
   fontHandler(std::make_unique<FontHandler>(logsManager)),
-  keyHandler(std::make_unique<KeyHandler>(logsManager, sdlManager)),
+  keyHandler(std::make_unique<KeyHandler>(logsManager, sdlManager, gameStateManager.get())),
   mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   screenHandler(std::make_unique<ScreenHandler>(
     logsManager, framesCounter, configReader, sdlManager,

@@ -140,6 +140,10 @@ namespace Project::States {
         pair.second->reset();
       }
     }
+
+    if (globalEntitiesManager) {
+      globalEntitiesManager->reset();
+    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

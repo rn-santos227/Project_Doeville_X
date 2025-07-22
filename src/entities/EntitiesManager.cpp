@@ -111,13 +111,43 @@ namespace Project::Entities {
     std::lock_guard<std::mutex> lock(managerMutex);
     for (auto& [id, obj] : objects) {
       if (useCull) {
-        auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(
-          obj->getComponent(Project::Libraries::Categories::Components::GRAPHICS));
-        if (gfx) {
-          SDL_Rect rect = gfx->getRect();
-          if (!SDL_HasIntersection(&rect, &cullRect)) {
-            continue;
+        SDL_Rect rect{0,0,0,0};
+        bool hasRect = false;
+
+        auto* bbox = dynamic_cast<Project::Components::BoundingBoxComponent*>(
+          obj->getComponent(Project::Libraries::Categories::Components::BOUNDING_BOX_COMPONENT)
+        );
+
+        if (bbox) {
+          const auto& boxes = bbox->getBoxes();
+          if (!boxes.empty()) {
+            rect = boxes.front();
+            for (size_t i = 1; i < boxes.size(); ++i) {
+              const SDL_Rect& b = boxes[i];
+              int minX = std::min(rect.x, b.x);
+              int minY = std::min(rect.y, b.y);
+              int maxX = std::max(rect.x + rect.w, b.x + b.w);
+              int maxY = std::max(rect.y + rect.h, b.y + b.h);
+              rect.x = minX;
+              rect.y = minY;
+              rect.w = maxX - minX;
+              rect.h = maxY - minY;
+            }
+            hasRect = true;
           }
+        }
+
+        if (!hasRect) {
+          auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(
+            obj->getComponent(Project::Libraries::Categories::Components::GRAPHICS));
+          if (gfx) {
+            rect = gfx->getRect();
+            hasRect = true;
+          }
+        }
+
+        if (hasRect && !SDL_HasIntersection(&rect, &cullRect)) {
+          continue;
         }
       }
       obj->render();

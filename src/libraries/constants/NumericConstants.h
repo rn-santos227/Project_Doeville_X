@@ -11,7 +11,7 @@ namespace Project::Libraries::Constants {
   constexpr int DEBUG_VALUE_WIDTH = 5;
   constexpr int DEBUG_VALUE_COL_OFFSET_FROM_RIGHT = 10;
   constexpr int DEBUG_PREFIX_COL_OFFSET_FROM_RIGHT = 90;
-  constexpr int DEFAULT_CAMERA_CULL_OFFSET = 100;
+  constexpr int DEFAULT_CAMERA_CULL_OFFSET = 200;
   constexpr int DEFAULT_CURSOR_SIZE = 32;
   constexpr int DEFAULT_COMPONENT_SIZE = 32;
   constexpr int DEFAULT_FONT_SIZE = 24;

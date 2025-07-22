@@ -9,6 +9,7 @@
 #include "bindings/LuaBindings.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "libraries/keys/Keys.h"
+#include "libraries/constants/FloatConstants.h"
 #include "libraries/constants/NumericConstants.h"
 
 namespace Project::States {
@@ -59,16 +60,9 @@ namespace Project::States {
   void GameState::update(float deltaTime) {
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
     if (camHandler) {
-      int offset = Project::Libraries::Constants::DEFAULT_CAMERA_CULL_OFFSET;
-      auto player = getPlayerEntity();
-      if (player) {
-        auto* motion = dynamic_cast<Project::Components::MotionComponent*>(
-          player->getComponent(Project::Libraries::Categories::Components::MOTION_COMPONENT));
-        if (motion) {
-          offset += static_cast<int>(motion->getCurrentSpeed());
-        }
-      }
-      camHandler->setCullingOffset(offset, offset);
+      int offsetX = camHandler->getWidth();
+      int offsetY = camHandler->getHeight();
+      camHandler->setCullingOffset(offsetX, offsetY);
     }
     
     if (layersManager) {

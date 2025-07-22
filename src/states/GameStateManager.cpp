@@ -128,6 +128,12 @@ namespace Project::States {
 
   void GameStateManager::reset() {
     std::lock_guard<std::mutex> lock(gameStateMutex);
+
+    for (auto& [name, state] : stateManager.getObjects()) {
+      if (state) {
+        state->reset();
+      }
+    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

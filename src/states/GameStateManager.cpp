@@ -149,6 +149,10 @@ namespace Project::States {
       stateStack.top()->onExit();
       stateStack.pop();
     }
+
+    if (!initialStateName.empty()) {
+      setInitialState(initialStateName);
+    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

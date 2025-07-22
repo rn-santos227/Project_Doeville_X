@@ -12,13 +12,17 @@
 
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "interfaces/render_interface/Renderable.h"
+#include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "libraries/constants/Constants.h"
 
 namespace Project::States { class GameState; }
 
 namespace Project::Entities {
-  class EntitiesManager : public Project::Helpers::ObjectsManager<Entity>, public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
+  class EntitiesManager : public Project::Helpers::ObjectsManager<Entity>, 
+    public Project::Interfaces::Renderable,
+    public Project::Interfaces::Resetable, 
+    public Project::Interfaces::Updatable {
     public:
       EntitiesManager() = default;
       ~EntitiesManager() = default;

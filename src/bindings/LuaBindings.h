@@ -10,6 +10,7 @@ namespace Project::Bindings {
     //Gamestate Bindings
     int lua_addEntityToSeed(lua_State* L);
     int lua_changeState(lua_State* L);
+    int lua_resetState(lua_State* L);
     int lua_spawnEntity(lua_State* L);
     int lua_setActiveCamera(lua_State* L);
     int lua_setBackgroundColor(lua_State* L);

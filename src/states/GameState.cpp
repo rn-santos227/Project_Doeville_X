@@ -31,6 +31,7 @@ namespace Project::States {
   void GameState::initialize() {
     luaStateWrapper.registerFunction(Keys::LUA_SET_ACTIVE_CAMERA, LuaBindings::lua_setActiveCamera, this);
     luaStateWrapper.registerFunction(Keys::LUA_CHANGE_STATE, LuaBindings::lua_changeState, this);
+    luaStateWrapper.registerFunction(Keys::LUA_RESET_STATE, LuaBindings::lua_resetState, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_COLOR, LuaBindings::lua_setBackgroundColor, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_IMAGE, LuaBindings::lua_setBackgroundImage, this);
     luaStateWrapper.registerFunction(Keys::LUA_SPAWN_ENTITY, LuaBindings::lua_spawnEntity, this);

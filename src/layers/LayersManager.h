@@ -10,19 +10,24 @@
 #include <optional>
 
 #include "interfaces/render_interface/Renderable.h"
+#include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
 
 namespace Project::Entities { class Entity; class EntitiesManager; }
 namespace Project::States { class GameState; }
 
 namespace Project::Layers {
-  class LayersManager : public Project::Interfaces::Renderable,  public Project::Interfaces::Updatable {
+  class LayersManager : 
+  public Project::Interfaces::Renderable,
+  public Project::Interfaces::Resetable,  
+  public Project::Interfaces::Updatable {
   public:
     LayersManager() = default;
     ~LayersManager() = default;
 
     void update(float deltaTime) override;
     void render() override;
+    void reset();
 
     void addLayer(Layer layer);
     void addLayer(LayerCategory category);

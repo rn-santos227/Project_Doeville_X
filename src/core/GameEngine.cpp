@@ -3,11 +3,12 @@
 #include "helpers/null_checker/NullChecker.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
+#include "utilities/exception/EngineException.h"
 
 namespace Project::Core {
   using Project::Utilities::LogsManager;
   using Project::Utilities::ConfigReader;
-  using Project::Utilities::FramesCounter;
+  using Project::Utilities::EngineException;
   using Project::Core::SDLManager;
   using Project::Handlers::ResourcesHandler;
   using Project::Factories::ComponentsFactory;
@@ -50,91 +51,106 @@ namespace Project::Core {
   }
 
   void GameEngine::init() {
-    if (logsManager.checkAndLogError(!configReader.loadConfig(Keys::CONFIG_FILE), "Failed to load config.ini")) {
+    try {
+      if (logsManager.checkAndLogError(!configReader.loadConfig(Keys::CONFIG_FILE), "Failed to load config.ini")) {
+        throw EngineException("Failed to load configuration", Project::Utilities::ErrorCategory::CONFIG);
+      }
+
+      std::string title = configReader.getValue(Keys::WINDOW_SECTION, Keys::WINDOW_TITLE, Constants::PROJECT_NAME);
+      int screenWidth = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_WIDTH, Constants::DEFAULT_SCREEN_WIDTH);
+      int screenHeight = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_HEIGHT, Constants::DEFAULT_SCREEN_HEIGHT);
+      bool isFullscreen = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_FULLSCREEN, false);
+      bool vsync = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_VSYNC, true);
+
+      if (!sdlManager.init(title, screenWidth, screenHeight, isFullscreen, vsync)) {
+        logsManager.logError("Failed to initialize SDLManager.");
+        throw EngineException("SDL initialization failed", Project::Utilities::ErrorCategory::SDL);
+      }
+
+      SDL_ShowCursor(SDL_DISABLE);
+      std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
+        if (!Project::Helpers::checkNotNull(logsManager, resourcesHandler.get(), "ResourcesHandler is null.")) {
+          throw EngineException("ResourcesHandler is null", Project::Utilities::ErrorCategory::RESOURCE);
+        }
+      std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
+
+      if (!Project::Helpers::checkNotNull(logsManager, screenHandler.get(), "ScreenHandler is null.")) {
+        throw EngineException("ScreenHandler is null", Project::Utilities::ErrorCategory::SDL);
+      }
+
+      if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
+        isRunning = false;
+        logsManager.flushLogs();
+        throw EngineException("Screen handler initialization failed", Project::Utilities::ErrorCategory::SDL);
+      }
+
+      if (!Project::Helpers::checkNotNull(logsManager, fontHandler.get(), "FontHandler is null.")) {
+        throw EngineException("FontHandler is null", Project::Utilities::ErrorCategory::RESOURCE);
+      }
+
+      if (logsManager.checkAndLogError(!fontHandler->loadFont(Constants::DEFAULT_FONT, fontPath.c_str(), Constants::DEFAULT_FONT_SIZE), "Failed to load required font 'system'!")) {
+        logsManager.flushLogs();
+        throw EngineException("Font load failed", Project::Utilities::ErrorCategory::RESOURCE);
+      }
+
+      if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+        logsManager.logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
+        throw EngineException("SDL_image initialization failed", Project::Utilities::ErrorCategory::SDL);
+      }
+
+      if (Project::Helpers::checkNotNull(logsManager, componentsFactory.get(), "ComponentsFactory is null.")) {
+        componentsFactory->setRenderer(screenHandler->getRenderer());
+      } else {
+        throw EngineException("ComponentsFactory is null", Project::Utilities::ErrorCategory::RESOURCE);
+      }
+
+      if (Project::Helpers::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
+        keyHandler->setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
+      } else {
+        throw EngineException("KeyHandler is null", Project::Utilities::ErrorCategory::INPUT);
+      }
+
+      logsManager.logMessage("Game Engine has been initialized successfully.");
       logsManager.flushLogs();
-      return;
-    }
-
-    std::string title = configReader.getValue(Keys::WINDOW_SECTION, Keys::WINDOW_TITLE, Constants::PROJECT_NAME);
-    int screenWidth = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_WIDTH, Constants::DEFAULT_SCREEN_WIDTH);
-    int screenHeight = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_HEIGHT, Constants::DEFAULT_SCREEN_HEIGHT);
-    bool isFullscreen = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_FULLSCREEN, false);
-    bool vsync = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_VSYNC, true);
-
-    if (!sdlManager.init(title, screenWidth, screenHeight, isFullscreen, vsync)) {
-      logsManager.logError("Failed to initialize SDLManager.");
-      return;
-    }
-
-    SDL_ShowCursor(SDL_DISABLE);
-    std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
-    if (!Project::Helpers::checkNotNull(logsManager, resourcesHandler.get(), "ResourcesHandler is null.")) {
-      return;
-    }
-    std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
-
-    if (!Project::Helpers::checkNotNull(logsManager, screenHandler.get(), "ScreenHandler is null.")) {
-      return;
-    }
-    if (logsManager.checkAndLogError(!screenHandler->init(), "Screen Handler initialization failed!")) {
+      isRunning = true;
+    } catch (const Project::Utilities::EngineException& e) {
+      logsManager.logError(e.what());
+      logsManager.flushLogs();
       isRunning = false;
+    } catch (const std::exception& e) {
+      logsManager.logError(std::string("Unhandled exception: ") + e.what());
       logsManager.flushLogs();
-      return;
+      isRunning = false;
     }
-
-    if (!Project::Helpers::checkNotNull(logsManager, fontHandler.get(), "FontHandler is null.")) {
-      return;
-    }
-
-    if (logsManager.checkAndLogError(!fontHandler->loadFont(Constants::DEFAULT_FONT, fontPath.c_str(), Constants::DEFAULT_FONT_SIZE), "Failed to load required font 'system'!")) {
-      logsManager.flushLogs();
-      return;
-    }
-
-    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-      logsManager.logError("Failed to initialize SDL_image for PNG: " + std::string(IMG_GetError()));
-      return;
-    }
-
-    if (Project::Helpers::checkNotNull(logsManager, componentsFactory.get(), "ComponentsFactory is null.")) {
-      componentsFactory->setRenderer(screenHandler->getRenderer());
-    } else {
-      return;
-    }
-
-    if (Project::Helpers::checkNotNull(logsManager, keyHandler.get(), "KeyHandler is null.")) {
-      keyHandler->setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
-    } else {
-      return;
-    }
-
-    logsManager.logMessage("Game Engine has been initialized successfully.");
-    logsManager.flushLogs();
-    isRunning = true;
   }
 
   void GameEngine::run() {
     double accumulator = 0.0;
     const double fixedDelta = 1.0 / Constants::TARGET_FPS;
+    try {
+      while (isRunning) {
+        Uint64 frameStartTime = SDL_GetPerformanceCounter();
+
+        framesCounter.update();
+        accumulator += framesCounter.getDeltaTime();
+
+        handleEvents();
+        if (!isRunning) {
+          break;
+        }
     
-    while (isRunning) {
-      Uint64 frameStartTime = SDL_GetPerformanceCounter();
+        while (accumulator >= fixedDelta) {
+          update(static_cast<float>(fixedDelta));
+          accumulator -= fixedDelta;
+        }
 
-      framesCounter.update();
-      accumulator += framesCounter.getDeltaTime();
-
-      handleEvents();
-      if (!isRunning) {
-        break;
+        render();
+        handleFrameRate(frameStartTime);
       }
-  
-      while (accumulator >= fixedDelta) {
-        update(static_cast<float>(fixedDelta));
-        accumulator -= fixedDelta;
-      }
-
-      render();
-      handleFrameRate(frameStartTime);
+    } catch (const std::exception& e) {
+      logsManager.logError(std::string("Runtime exception: ") + e.what());
+      logsManager.flushLogs();
+      clean();
     }
   }
 

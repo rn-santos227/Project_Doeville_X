@@ -126,6 +126,10 @@ namespace Project::States {
     }
   }
 
+  void GameStateManager::reset() {
+    std::lock_guard<std::mutex> lock(gameStateMutex);
+  }
+
   void GameStateManager::enableStates(const std::vector<std::string>& names) {
     std::lock_guard<std::mutex> lock(gameStateMutex);
     for (const auto& name : names) {
@@ -173,6 +177,7 @@ namespace Project::States {
     auto it = states.find(name);
     if (it != states.end()) {
       if (!it->second->isInitialized()) {
+        initialStateName = name;
         it->second->initialize();
         it->second->markInitialized();
       }
@@ -185,6 +190,7 @@ namespace Project::States {
 
       for (auto& [fallbackName, fallbackState] : states) {
         if (fallbackState) {
+          initialStateName = fallbackName;
           if (!fallbackState->isInitialized()) {
             fallbackState->initialize();
             fallbackState->markInitialized();

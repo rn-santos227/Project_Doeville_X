@@ -29,6 +29,15 @@ namespace Project::Layers {
     }
   }
 
+  void LayersManager::reset() {
+    for (auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) {
+        mgr->reset();
+      }
+    }
+  }
+
   void LayersManager::addLayer(Layer layer) {
     if (layer.getCategory() == LayerCategory::CUSTOM) {
       layers.emplace_back(std::move(layer));

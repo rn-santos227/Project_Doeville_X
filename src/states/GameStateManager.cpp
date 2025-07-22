@@ -134,6 +134,12 @@ namespace Project::States {
         state->reset();
       }
     }
+
+    for (auto& pair : stateCache) {
+      if (pair.second) {
+        pair.second->reset();
+      }
+    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

@@ -1,7 +1,7 @@
 #include "TimerComponent.h"
 
 #include "entities/Entity.h"
-#include "libraries/constants/TimeConstants.h"
+#include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
 namespace Project::Components {
@@ -30,7 +30,7 @@ namespace Project::Components {
       duration = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::TIME, duration));
     }
     
-    luaFunction = luaStateWrapper.getTableString(tableName, Keys::FUNCTION, Constants::EMPTY_STRING);
+    luaFunction = luaStateWrapper.getTableString(tableName, Keys::FUNCTION, Project::Libraries::Constants::EMPTY_STRING);
     repeat = luaStateWrapper.getTableBoolean(tableName, Keys::REPEAT, false);
   }
 

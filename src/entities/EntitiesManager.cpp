@@ -10,6 +10,7 @@
 #include "components/motion_component/MotionComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "handlers/camera/CameraHandler.h"
+#include "libraries/categories/ComponentCategories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"

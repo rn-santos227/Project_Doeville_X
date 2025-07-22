@@ -14,8 +14,11 @@
 #include "components/BaseComponent.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
-#include "factories/component/ComponentsFactory.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
+
+namespace Project::Factories {
+  class ComponentsFactory;
+}
 
 namespace Project::Entities {
   class EntitiesManager;

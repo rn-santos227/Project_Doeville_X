@@ -8,6 +8,7 @@
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/timer_component/TimerComponent.h"
 #include "components/transform_component/TransformComponent.h"
+#include "factories/component/ComponentsFactory.h"
 #include "interfaces/style_interface/Stylable.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"

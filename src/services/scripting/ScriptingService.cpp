@@ -139,7 +139,6 @@ namespace Project::Services {
     if (result != LUA_OK) {
       luaStateWrapper.handleLuaError(result);
       logsManager.flushLogs();
-      logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
       return;
     }
 
@@ -175,7 +174,6 @@ namespace Project::Services {
 
   void ScriptingService::handleLuaFailure() {
     logsManager.flushLogs();
-    logsManager.openLogFileInEditor(Constants::DEFAULT_LUA_LOG_FILE_PATH);
     SDL_Event quitEvent{};
     quitEvent.type = SDL_QUIT;
     SDL_PushEvent(&quitEvent);

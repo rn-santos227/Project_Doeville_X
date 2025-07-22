@@ -103,29 +103,31 @@ namespace Project::Utilities {
   void LogsManager::logError(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
-    std::string logMessage = "[ERROR] " + timestamp + " - " + sanitizedMessage + "\n";
+    std::string logMessage = Constants::LOG_ERROR + timestamp + " - " + sanitizedMessage + "\n";
     enqueueLog(logMessage, &std::cout, &logFile);
+    showErrorPopup(sanitizedMessage);
   }
 
   void LogsManager::logLuaMessage(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
-    std::string logMessage = "[LUA] " + timestamp + " - " + sanitizedMessage + "\n";
+    std::string logMessage = Constants::LOG_LUA + timestamp + " - " + sanitizedMessage + "\n";
     enqueueLog(logMessage, &std::cout, &luaLogFile);
   }
 
   void LogsManager::logMessage(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
-    std::string logMessage = "[INFO] " + timestamp + " - " + sanitizedMessage + "\n";
+    std::string logMessage = Constants::LOG_INFO + timestamp + " - " + sanitizedMessage + "\n";
     enqueueLog(logMessage, &std::cout, &logFile);
   }
 
   void LogsManager::logWarning(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
-    std::string logMessage = "[WARNING] " + timestamp + " - " + sanitizedMessage + "\n";
+    std::string logMessage = Constants::LOG_WARNING + timestamp + " - " + sanitizedMessage + "\n";
     enqueueLog(logMessage, &std::cout, &logFile);
+    showWarningPopup(sanitizedMessage);
   }
 
   const std::string& LogsManager::getLogFilePath() const {
@@ -136,19 +138,18 @@ namespace Project::Utilities {
     return luaLogFilePath;
   }
 
-  void LogsManager::openLogFileInEditor(const std::string& filePath) const {
-  #ifdef _WIN32
-    std::string command = "notepad " + logFilePath;
-  #else
-    std::string command = "xdg-open " + logFilePath;
-  #endif
-    std::system(command.c_str());
+  void LogsManager::showErrorPopup(const std::string& message) {
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, Constants::ERROR_POPUP_TITLE, message.c_str(), nullptr);
+  }
+
+  void LogsManager::showWarningPopup(const std::string& message) {
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, Constants::WARNING_POPUP_TITLE, message.c_str(), nullptr);
   }
 
   void LogsManager::printConsoleOnly(const std::string& message) {
     std::string timestamp = getCurrentTimestamp();
     std::string sanitizedMessage = sanitizePath(message);
-    std::string logMessage = "[CONSOLE] " + timestamp + " - " + sanitizedMessage + "\n";
+    std::string logMessage = Constants::LOG_CONSOLE + timestamp + " - " + sanitizedMessage + "\n";
     std::cout << logMessage << std::endl;
   }
 

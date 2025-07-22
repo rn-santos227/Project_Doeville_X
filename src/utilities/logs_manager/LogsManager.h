@@ -39,8 +39,9 @@ namespace Project::Utilities {
 
     const std::string& getLogFilePath() const;
     const std::string& getLuaLogFilePath() const;
-    void openLogFileInEditor(const std::string& filePath) const;
 
+    void showErrorPopup(const std::string& message);
+    void showWarningPopup(const std::string& message);
     void printConsoleOnly(const std::string& message);
 
   private:

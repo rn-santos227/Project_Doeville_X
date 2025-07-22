@@ -144,6 +144,11 @@ namespace Project::States {
     if (globalEntitiesManager) {
       globalEntitiesManager->reset();
     }
+
+    while (!stateStack.empty()) {
+      stateStack.top()->onExit();
+      stateStack.pop();
+    }
   }
 
   void GameStateManager::enableStates(const std::vector<std::string>& names) {

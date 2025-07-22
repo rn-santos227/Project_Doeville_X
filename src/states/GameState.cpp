@@ -120,6 +120,30 @@ namespace Project::States {
     }
   }
 
+  void GameState::reset() {
+      playerEntity.reset();
+      activeCamera = nullptr;
+      nextSeederId = 0;
+      lastSeederId.clear();
+      entitySeeders.clear();
+
+    if (layersManager) {
+      layersManager->reset();
+    }
+    if (entitiesManager) {
+      entitiesManager->reset();
+    }
+
+    clearBackground();
+
+    if (!luaScriptPath.empty()) {
+      luaStateWrapper.loadScript(luaScriptPath);
+    }
+
+    initialize();
+    markInitialized();
+  }
+
   void GameState::handleInput() {
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_HANDLE_INPUT)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'handleInput'");

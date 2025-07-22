@@ -127,6 +127,7 @@ namespace Project::States {
     std::future<SDL_Texture*> backgroundFuture;
     std::string pendingBackgroundPath;
     std::string stateName;
+    std::string luaScriptPath;
 
     bool useImageBackground = false;
     bool initialized = false;

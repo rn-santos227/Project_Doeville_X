@@ -48,4 +48,11 @@ namespace Project::Components {
       wasPressed = false;
     }
   }
+
+  void ButtonComponent::render() {
+    if (!renderer) return;
+    SDL_Color drawColor = hovered ? hoverColor : color;
+    SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, drawColor.a);
+    SDL_RenderFillRect(renderer, &rect);
+  }
 }

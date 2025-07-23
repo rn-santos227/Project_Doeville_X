@@ -21,6 +21,7 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_GRID_SPACING = 32;
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
   constexpr int DEFAULT_DOUBLE = 2;
+  constexpr int DEFAULT_MAX_CHANNEL = 255;
   
   constexpr int INT_ONE = 1;
 

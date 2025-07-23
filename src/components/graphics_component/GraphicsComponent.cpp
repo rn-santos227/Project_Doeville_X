@@ -11,12 +11,14 @@
 #include "libraries/constants/Constants.h"
 #include "services/styling/StyleManager.h"
 #include "utilities/color/ColorUtils.h"
+#include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Components {
   Project::Handlers::CameraHandler* GraphicsComponent::cameraHandler = nullptr;
 
   using Project::Utilities::LogsManager;
   using Project::Utilities::ColorUtils;
+  using Project::Utilities::GeometryUtils;
   using Project::Handlers::ResourcesHandler;
   using Project::Handlers::AnimationHandler;
   using Project::Services::StyleManager;
@@ -97,15 +99,12 @@ namespace Project::Components {
     } else if (drawShape) {
       if (isCircle) {
         SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
-        for (int w = 0; w < radius * Constants::DEFAULT_DOUBLE; ++w) {
-          for (int h = 0; h < radius * Constants::DEFAULT_DOUBLE; ++h) {
-            int dx = radius - w;
-            int dy = radius - h;
-            if ((dx * dx + dy * dy) <= (radius * radius)) {
-              SDL_RenderDrawPoint(renderer, renderRect.x + dx + radius, renderRect.y + dy + radius);
-            }
-          }
-        }
+        GeometryUtils::renderFilledCircle(
+          renderer,
+          renderRect.x + static_cast<int>(radius),
+          renderRect.y + static_cast<int>(radius),
+          static_cast<int>(radius)
+        );
       } else {
         bool complex = rotationEnabled || useGradient;
         if (complex) {

@@ -11,4 +11,9 @@ namespace Project::Components {
     : BaseComponent(logsManager) {}
 
   void NumericComponent::update(float /*deltaTime*/) {}
+
+  void NumericComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    lua_State* L = luaStateWrapper.get();
+    lua_getglobal(L, tableName.c_str());
+  }
 }

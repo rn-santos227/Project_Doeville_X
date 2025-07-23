@@ -14,4 +14,8 @@ namespace Project::Components {
   ButtonComponent::ButtonComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager,
     Project::Handlers::MouseHandler* mouseHandler, Project::Handlers::CursorHandler* cursorHandler)
       : BaseComponent(logsManager), mouseHandler(mouseHandler), cursorHandler(cursorHandler), renderer(renderer) {}
+
+   void ButtonComponent::update(float /*deltaTime*/) {
+    if (!mouseHandler || !cursorHandler) return;
+   }
 }

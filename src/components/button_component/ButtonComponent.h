@@ -7,6 +7,8 @@
 
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
+#include "handlers/input/CursorHandler.h"
+#include "handlers/input/MouseHandler.h"
 #include "interfaces/style_interface/Stylable.h"
 
 namespace Project { namespace Entities { class Entity; } }

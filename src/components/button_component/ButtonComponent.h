@@ -26,6 +26,13 @@ namespace Project::Components {
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void applyStyle() override;
+
+    void setEntityPosition(int x, int y) override;
+    void setSize(int w, int h);
+    void setColor(SDL_Color color);
+    void setHoverColor(SDL_Color color);
+    void setCallback(const std::string& functionName);
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
   
   private:
     SDL_Renderer* renderer = nullptr;

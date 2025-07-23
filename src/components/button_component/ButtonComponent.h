@@ -29,10 +29,14 @@ namespace Project::Components {
 
     void setEntityPosition(int x, int y) override;
     void setSize(int w, int h);
+    
     void setColor(SDL_Color color);
     void setHoverColor(SDL_Color color);
+    
     void setCallback(const std::string& functionName);
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+
+    const SDL_Rect& getRect() const { return rect; }
   
   private:
     SDL_Renderer* renderer = nullptr;

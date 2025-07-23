@@ -13,8 +13,16 @@ namespace Project { namespace Entities { class Entity; } }
 namespace Project { namespace Handlers { class MouseHandler; class CursorHandler; } }
 
 namespace Project::Components {
+  class ButtonComponent : public BaseComponent, public PositionableComponent, public Project::Interfaces::Stylable {
+  public:
 
+  
+  private:
+    Project::Handlers::CursorHandler* cursorHandler = nullptr;
+    Project::Handlers::MouseHandler* mouseHandler = nullptr;
 
+    
+  };
 }
 
 #endif

@@ -5,11 +5,14 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/color/ColorUtils.h"
+#include "services/styling/StyleManager.h"
 
 namespace Project::Components {
   using Project::Utilities::ColorUtils;
   using Project::Handlers::CursorHandler;
   using Project::Handlers::MouseHandler;
+  using Project::Services::Style;
+  using Project::Services::StyleManager;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
@@ -106,6 +109,34 @@ namespace Project::Components {
     createTextTexture(fontColor);
     luaFunction = luaStateWrapper.getTableString(tableName, Keys::FUNCTION, Constants::EMPTY_STRING);
     onAttach();
+  }
+
+  void ButtonComponent::applyStyle() {
+    std::istringstream classes(getClass());
+    std::string cls;
+    while (classes >> cls) {
+     std::string selector = "." + cls;
+      Style s = StyleManager::getInstance().getStyle(selector);
+      if (s.width > 0) rect.w = s.width;
+      if (s.height > 0) rect.h = s.height;
+      if (s.background.a != 0) color = s.background;
+      if (s.hoverColor.a != 0) hoverColor = s.hoverColor;
+      if (s.fontColor.a != 0) { fontColor = s.fontColor; }
+      if (s.fontHoverColor.a != 0) { fontHoverColor = s.fontHoverColor; }
+      if (s.fontSize > 0) {
+        if (font) TTF_CloseFont(font);
+        std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
+        font = TTF_OpenFont(defaultFontPath.c_str(), s.fontSize);
+        fontSize = s.fontSize;
+      }
+      if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
+        paddingTop = s.paddingTop; paddingRight = s.paddingRight; paddingBottom = s.paddingBottom; paddingLeft = s.paddingLeft;
+      }
+      if (s.marginTop || s.marginRight || s.marginBottom || s.marginLeft) {
+        marginTop = s.marginTop; marginRight = s.marginRight; marginBottom = s.marginBottom; marginLeft = s.marginLeft;
+      }
+    }
+    createTextTexture(hovered ? fontHoverColor : fontColor);
   }
 
   void ButtonComponent::createTextTexture(SDL_Color colorToUse) {

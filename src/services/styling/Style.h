@@ -13,6 +13,8 @@ namespace Project::Services {
     SDL_Color gradientStart{0, 0, 0, 0};
     SDL_Color gradientEnd{0, 0, 0, 0};
     SDL_Color fontColor{0, 0, 0, 0};
+    SDL_Color hoverColor{0, 0, 0, 0};
+    SDL_Color fontHoverColor{0, 0, 0, 0};
 
     int width{0};
     int height{0};

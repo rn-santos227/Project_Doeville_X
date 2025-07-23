@@ -88,6 +88,9 @@ namespace Project::Utilities {
   void LogsManager::enqueueLog(const std::string& message, std::ostream* stream, std::ofstream* file) {
     {
       std::lock_guard<std::mutex> lock(logMutex);
+      if (logQueue.size() >= Constants::LOG_QUEUE_MAX_SIZE) {
+        logQueue.pop();
+      }
       logQueue.push(LogEntry{message, stream, file});
     }
     logCv.notify_one();

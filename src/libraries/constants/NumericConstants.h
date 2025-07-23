@@ -1,6 +1,8 @@
 #ifndef NUMERIC_CONSTANTS_H
 #define NUMERIC_CONSTANTS_H
 
+#include <cstddef>
+
 namespace Project::Libraries::Constants {
   constexpr int DEBUG_COLUMN_SPACING = 20;
   constexpr int DEBUG_FONT_SIZE = 14;
@@ -19,7 +21,10 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_GRID_SPACING = 32;
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
   constexpr int DEFAULT_DOUBLE = 2;
+  
   constexpr int INT_ONE = 1;
+
+  constexpr size_t LOG_QUEUE_MAX_SIZE = 1000;
 }
 
 #endif

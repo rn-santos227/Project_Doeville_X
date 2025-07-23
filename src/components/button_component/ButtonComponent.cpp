@@ -87,7 +87,16 @@ namespace Project::Components {
     color = ColorUtils::hexToRGB(colorHex, alpha);
     hoverColor = color;
 
-    
+    text = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::DEFAULT_TEXT);
+
+    std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
+    std::string fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
+    int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);
+    fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
+    font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    if (!font) {
+      logsManager.logError(std::string("Failed to load font: ") + fontPath);
+    }
   }
 
   void ButtonComponent::createTextTexture(SDL_Color colorToUse) {

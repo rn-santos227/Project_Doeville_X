@@ -16,7 +16,23 @@ namespace Project::Components {
     lua_State* L = luaStateWrapper.get();
     lua_getglobal(L, tableName.c_str());
     if (lua_istable(L, -1)) {
-
+      lua_pushnil(L);
+      while (lua_next(L, -2)) {
+        if (lua_isstring(L, -2) && lua_istable(L, -1)) {
+          std::string key = lua_tostring(L, -2);
+          float value = 0.0f;
+          float limit = 0.0f;
+          lua_getfield(L, -1, Keys::VALUE);
+          if (lua_isnumber(L, -1)) value = static_cast<float>(lua_tonumber(L, -1));
+          lua_pop(L, 1);
+          lua_getfield(L, -1, Keys::LIMIT);
+          if (lua_isnumber(L, -1)) limit = static_cast<float>(lua_tonumber(L, -1));
+          lua_pop(L, 1);
+          values[key] = {value, limit};
+        }
+        lua_pop(L, 1);
+      }
+      lua_pop(L, 1);
     } else {
       lua_pop(L, 1);
     }

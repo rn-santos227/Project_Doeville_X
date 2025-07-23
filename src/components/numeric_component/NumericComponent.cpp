@@ -37,4 +37,11 @@ namespace Project::Components {
       lua_pop(L, 1);
     }
   }
+
+  void NumericComponent::setValue(const std::string& name, float value) {
+    values[name].value = value;
+    if (values[name].limit > 0.0f && values[name].value > values[name].limit) {
+      values[name].value = values[name].limit;
+    }
+  }
 }

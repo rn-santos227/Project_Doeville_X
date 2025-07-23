@@ -14,9 +14,22 @@ namespace Project::Components {
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
   
-  ButtonComponent::ButtonComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager,
+  ButtonComponent::ButtonComponent(
+    SDL_Renderer* renderer, 
+    Project::Utilities::LogsManager& logsManager, Project::Utilities::ConfigReader& configReader,
     Project::Handlers::MouseHandler* mouseHandler, Project::Handlers::CursorHandler* cursorHandler)
-      : BaseComponent(logsManager), mouseHandler(mouseHandler), cursorHandler(cursorHandler), renderer(renderer) {}
+      : BaseComponent(logsManager), renderer(renderer), configReader(configReader), mouseHandler(mouseHandler), cursorHandler(cursorHandler) {}
+
+  ButtonComponent::~ButtonComponent() {
+    if (textTexture) {
+      SDL_DestroyTexture(textTexture);
+      textTexture = nullptr;
+    }
+    if (font) {
+      TTF_CloseFont(font);
+      font = nullptr;
+    }
+  }
 
    void ButtonComponent::update(float /*deltaTime*/) {
     if (!mouseHandler || !cursorHandler) return;

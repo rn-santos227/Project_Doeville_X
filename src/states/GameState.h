@@ -13,6 +13,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "components/camera_component/CameraComponent.h"
+#include "entities/ChunkSize.h"
 #include "entities/EntitiesManager.h"
 #include "entities/EntitySeeder.h"
 #include "handlers/resources/ResourcesHandler.h"
@@ -96,10 +97,10 @@ namespace Project::States {
     };
 
     std::string startEntitySeeder(
-      const std::string& seed = Project::Libraries::Constants::EMPTY_STRING, 
-      const std::string& layer =  Project::Libraries::Constants::EMPTY_STRING, 
+      const std::string& seed = Project::Libraries::Constants::EMPTY_STRING,
+      const std::string& layer =  Project::Libraries::Constants::EMPTY_STRING,
       const std::string& id =  Project::Libraries::Constants::EMPTY_STRING,
-      float chunkSize = Project::Libraries::Constants::DEFAULT_CHUNK_SIZE
+      Project::Entities::ChunkSize chunkSize = {}
     );
 
     std::string addEntitySeeder(std::unique_ptr<Project::Entities::EntitySeeder> seeder, const std::string& id =  Project::Libraries::Constants::EMPTY_STRING);

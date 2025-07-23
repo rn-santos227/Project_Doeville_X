@@ -5,6 +5,7 @@
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "core/SDLManager.h"
+#include "entities/ChunkSize.h"
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "handlers/resources/ResourcesHandler.h"
@@ -267,6 +268,8 @@ namespace Project::Bindings::LuaBindings {
     std::string seed;
     std::string layer;
     std::string id;
+    Project::Entities::ChunkSize chunkSize;
+    
 
     if (top >= Constants::INDEX_ONE && !lua_isnil(L, Constants::INDEX_ONE)) {
       if (lua_isnumber(L, Constants::INDEX_ONE)) {
@@ -282,7 +285,25 @@ namespace Project::Bindings::LuaBindings {
       id = lua_tostring(L, Constants::INDEX_THREE);
     }
 
-    std::string seederId = state->startEntitySeeder(seed, layer, id);
+    if (top >= Constants::INDEX_FOUR && !lua_isnil(L, Constants::INDEX_FOUR)) {
+      if (lua_istable(L, Constants::INDEX_FOUR)) {
+        lua_getfield(L, Constants::INDEX_FOUR, Keys::X);
+        if (lua_isnumber(L, -1)) chunkSize.x = static_cast<float>(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+        lua_getfield(L, Constants::INDEX_FOUR, Keys::Y);
+        if (lua_isnumber(L, -1)) chunkSize.y = static_cast<float>(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+        lua_getfield(L, Constants::INDEX_FOUR, Keys::Z);
+        if (lua_isnumber(L, -1)) chunkSize.z = static_cast<float>(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+      } else if (lua_isnumber(L, Constants::INDEX_FOUR)) {
+        float val = static_cast<float>(lua_tonumber(L, Constants::INDEX_FOUR));
+        chunkSize.x = val;
+        chunkSize.y = val;
+      }
+    }
+
+    std::string seederId = state->startEntitySeeder(seed, layer, id, chunkSize);
     lua_pushstring(L, seederId.c_str());
     return 1;
   }

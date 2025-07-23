@@ -23,6 +23,7 @@ namespace Project::Utilities {
       return false;
     }
 
+    this->scriptPath = scriptPath;
     return true;
   }
 

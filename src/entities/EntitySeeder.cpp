@@ -43,8 +43,8 @@ namespace Project::Entities {
           continue;
         }
 
-        int ecx = static_cast<int>(std::floor(ent->getX() / chunkSize));
-        int ecy = static_cast<int>(std::floor(ent->getY() / chunkSize));
+        int ecx = static_cast<int>(std::floor(ent->getX() / chunkSize.x));
+        int ecy = static_cast<int>(std::floor(ent->getY() / chunkSize.y));
         long long nk = key(ecx, ecy);
 
         if (nk != k) {
@@ -56,8 +56,8 @@ namespace Project::Entities {
       }
     }
 
-    int pcx = static_cast<int>(std::floor(px / chunkSize));
-    int pcy = static_cast<int>(std::floor(py / chunkSize));
+    int pcx = static_cast<int>(std::floor(px / chunkSize.x));
+    int pcy = static_cast<int>(std::floor(py / chunkSize.y));
 
     SDL_Rect cullRect{0,0,0,0};
     bool useCull = false;
@@ -74,8 +74,12 @@ namespace Project::Entities {
         long long k = key(cx, cy);
         if (!chunks.count(k) && scheduledChunks.insert(k).second) {
           if (useCull) {
-            SDL_Rect chunkRect{ static_cast<int>(cx * chunkSize), static_cast<int>(cy * chunkSize),
-                               static_cast<int>(chunkSize), static_cast<int>(chunkSize) };
+            SDL_Rect chunkRect{ 
+              static_cast<int>(cx * chunkSize.x), 
+              static_cast<int>(cy * chunkSize.y),
+              static_cast<int>(chunkSize.x), 
+              static_cast<int>(chunkSize.y) 
+            };
             if (!SDL_HasIntersection(&chunkRect, &cullRect)) {
               scheduledChunks.erase(k);
               continue;
@@ -173,7 +177,8 @@ namespace Project::Entities {
     size_t baseCount = distribution(localRng);
     size_t count = static_cast<size_t>(std::round(baseCount * speedFactor));
     if (count < 1) count = 1;
-    std::uniform_real_distribution<float> pos(0.0f, chunkSize);
+    std::uniform_real_distribution<float> posX(0.0f, chunkSize.x);
+    std::uniform_real_distribution<float> posY(0.0f, chunkSize.y);
     std::uniform_int_distribution<size_t> templateIndex(0, entityTemplates.empty() ? 0 : entityTemplates.size() - 1);
     
     for (size_t i = 0; i < count; ++i) {
@@ -182,8 +187,8 @@ namespace Project::Entities {
       std::unique_ptr<Entity> entity = factory.cloneEntity(tmpl);
       if (!entity) continue;
 
-      float ex = cx * chunkSize + pos(localRng);
-      float ey = cy * chunkSize + pos(localRng);
+      float ex = cx * chunkSize.x + posX(localRng);
+      float ey = cy * chunkSize.y + posY(localRng);
 
       entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::X, ex);
       entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::Y, ey);

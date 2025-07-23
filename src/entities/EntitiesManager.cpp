@@ -187,13 +187,46 @@ namespace Project::Entities {
 
   void EntitiesManager::registerEntityLuaFunctions(Entity* entity) {
     if (!entity) return;
-    entity->registerLuaFunction(Keys::LUA_GET_ENTITY_SPEED, LuaBindings::lua_getEntitySpeed, this);
-    entity->registerLuaFunction(Keys::LUA_SET_ENTITY_TEXT, LuaBindings::lua_setEntityText, this);
-    entity->registerLuaFunction(Keys::LUA_DESTROY_ENTITY, LuaBindings::lua_destroyEntity, this);
-    entity->registerLuaFunction(Keys::LUA_SET_TIMER_ACTIVE, LuaBindings::lua_setTimerActive, this);
-    entity->registerLuaFunction(Keys::LUA_STOP_TIMER, LuaBindings::lua_stopTimer, this);
-    entity->registerLuaFunction(Keys::LUA_BRAKE_ENTITY, LuaBindings::lua_brakeEntity, this);
-    if (gameState) {
+    std::string path = entity->getScriptPath();
+    std::string code;
+    if (!path.empty()) {
+      std::ifstream in(path);
+      if (in) {
+        std::ostringstream ss;
+        ss << in.rdbuf();
+        code = ss.str();
+      }
+    }
+
+    auto contains = [&](const std::string& name) {
+      return code.find(name) != std::string::npos;
+    };
+
+    if (contains(Keys::LUA_GET_ENTITY_SPEED)) {
+      entity->registerLuaFunction(Keys::LUA_GET_ENTITY_SPEED, LuaBindings::lua_getEntitySpeed, this);
+    }
+    
+    if (contains(Keys::LUA_SET_ENTITY_TEXT)) {
+      entity->registerLuaFunction(Keys::LUA_SET_ENTITY_TEXT, LuaBindings::lua_setEntityText, this);
+    }
+
+    if (contains(Keys::LUA_DESTROY_ENTITY)) {
+      entity->registerLuaFunction(Keys::LUA_DESTROY_ENTITY, LuaBindings::lua_destroyEntity, this);
+    }
+
+    if (contains(Keys::LUA_SET_TIMER_ACTIVE)) {
+      entity->registerLuaFunction(Keys::LUA_SET_TIMER_ACTIVE, LuaBindings::lua_setTimerActive, this);
+    }
+
+    if (contains(Keys::LUA_STOP_TIMER)) {
+      entity->registerLuaFunction(Keys::LUA_STOP_TIMER, LuaBindings::lua_stopTimer, this);
+    }
+
+    if (contains(Keys::LUA_BRAKE_ENTITY)) {
+      entity->registerLuaFunction(Keys::LUA_BRAKE_ENTITY, LuaBindings::lua_brakeEntity, this);
+    }
+
+    if (gameState && contains(Keys::LUA_SPAWN_ENTITY)) {
       entity->registerLuaFunction(Keys::LUA_SPAWN_ENTITY, LuaBindings::lua_spawnEntity, gameState);
     }
   }

@@ -212,7 +212,7 @@ namespace Project::States {
     return true;
   }
 
-  std::string GameState::startEntitySeeder(const std::string& seed, const std::string& layer, const std::string& id, float chunkSize) {
+  std::string GameState::startEntitySeeder(const std::string& seed, const std::string& layer, const std::string& id, Project::Entities::ChunkSize chunkSize) {
     std::shared_ptr<Project::Entities::EntitiesManager> mgr;
     if (layersManager) {
       if (!layer.empty()) {
@@ -226,6 +226,15 @@ namespace Project::States {
     }
 
     if (!mgr || !entitiesFactory) return "";
+
+    int screenW = 0;
+    int screenH = 0;
+    if (renderer) {
+      SDL_GetRendererOutputSize(renderer, &screenW, &screenH);
+    }
+    if (chunkSize.x <= 0.0f) chunkSize.x = static_cast<float>(screenW);
+    if (chunkSize.y <= 0.0f) chunkSize.y = static_cast<float>(screenH);
+
     auto seeder = std::make_unique<Project::Entities::EntitySeeder>(*mgr, *entitiesFactory);
     seeder->setChunkSize(chunkSize);
 

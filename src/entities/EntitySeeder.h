@@ -1,6 +1,8 @@
 #ifndef ENTITY_SEEDER_H
 #define ENTITY_SEEDER_H
 
+#include "ChunkSize.h"
+
 #include <cstddef>
 #include <functional>
 #include <memory>
@@ -37,12 +39,18 @@ namespace Project::Entities {
     void addEntityTemplate(const std::string& name, size_t count);
 
     void setSpawnRadius(float radius) { spawnRadius = radius; }
-    void setChunkSize(float size) { chunkSize = size; }
+    void setChunkSize(const ChunkSize& _size) { chunkSize = _size; }
     void setChunkRadius(int radius) { chunkRadius = radius; }
 
   private:
     struct Chunk {
       std::vector<std::string> ids;
+    };
+
+    ChunkSize chunkSize{
+      Project::Libraries::Constants::DEFAULT_CHUNK_SIZE,
+      Project::Libraries::Constants::DEFAULT_CHUNK_SIZE,
+      0.0f
     };
 
     Distribution distribution;
@@ -63,7 +71,6 @@ namespace Project::Entities {
     std::uniform_real_distribution<float> dist{0.0f, Project::Libraries::Constants::DEFAULT_WHOLE};
 
     float spawnRadius = Project::Libraries::Constants::DEFAULT_SPAWN_RADIUS;
-    float chunkSize =  Project::Libraries::Constants::DEFAULT_CHUNK_SIZE;
     int chunkRadius = Project::Libraries::Constants::INT_ONE;
     
     size_t baseSeed = 0;

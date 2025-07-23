@@ -1,6 +1,8 @@
 #ifndef LUA_SCRIPTABLE_H
 #define LUA_SCRIPTABLE_H
 
+#include <string>
+
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/logs_manager/LogsManager.h"
 
@@ -18,10 +20,12 @@ namespace Project::Utilities {
 
     virtual bool attachLuaScript(const std::string& scriptPath);
     virtual bool callLuaFunction(const std::string& functionName);
-
+    const std::string& getScriptPath() const { return scriptPath; }
+    
   protected:
     Project::Utilities::LogsManager& logsManager;
     LuaStateWrapper luaStateWrapper;
+    std::string scriptPath;
   };
 }
 

@@ -50,4 +50,11 @@ namespace Project::Components {
     if (it != values.end()) return it->second.value;
     return 0.0f;
   }
+
+  void NumericComponent::setLimit(const std::string& name, float limit) {
+    values[name].limit = limit;
+    if (limit > 0.0f && values[name].value > limit) {
+      values[name].value = limit;
+    }
+  }
 }

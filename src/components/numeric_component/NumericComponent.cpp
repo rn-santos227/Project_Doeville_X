@@ -57,4 +57,10 @@ namespace Project::Components {
       values[name].value = limit;
     }
   }
+
+  float NumericComponent::getLimit(const std::string& name) const {
+    auto it = values.find(name);
+    if (it != values.end()) return it->second.limit;
+    return 0.0f;
+  }
 }

@@ -97,6 +97,11 @@ namespace Project::Components {
     if (!font) {
       logsManager.logError(std::string("Failed to load font: ") + fontPath);
     }
+
+    std::string fontColorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
+    SDL_Color tmpColor = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
+    fontColor = tmpColor;
+    fontHoverColor = fontColor;
   }
 
   void ButtonComponent::createTextTexture(SDL_Color colorToUse) {

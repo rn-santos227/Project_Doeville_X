@@ -67,8 +67,16 @@ namespace Project::Services {
             style.background = ColorUtils::hexToRGB(value);
             break;
 
+          case StyleProperty::HOVER_COLOR:
+            style.hoverColor = ColorUtils::hexToRGB(value);
+            break;
+
           case StyleProperty::FONT_COLOR:
             style.fontColor = ColorUtils::hexToRGB(value);
+            break;
+
+          case StyleProperty::FONT_HOVER_COLOR:
+            style.fontHoverColor = ColorUtils::hexToRGB(value);
             break;
 
           case StyleProperty::FONT_SIZE:
@@ -105,6 +113,82 @@ namespace Project::Services {
             auto it = gradientMap.find(key);
             style.gradient = (it != gradientMap.end()) ? it->second : GradientType::NONE;
           }
+
+          case StyleProperty::MARGIN: {
+            std::istringstream ss(value);
+            std::vector<int> vals; std::string tok;
+            while (ss >> tok) vals.push_back(AdvanceParser::parseInt(tok));
+            if (vals.size() == 1) {
+              style.marginTop = style.marginRight = style.marginBottom = style.marginLeft = vals[0];
+            } else if (vals.size() == 2) {
+              style.marginTop = style.marginBottom = vals[0];
+              style.marginRight = style.marginLeft = vals[1];
+            } else if (vals.size() == 3) {
+              style.marginTop = vals[0];
+              style.marginRight = style.marginLeft = vals[1];
+              style.marginBottom = vals[2];
+            } else if (vals.size() >= 4) {
+              style.marginTop = vals[0];
+              style.marginRight = vals[1];
+              style.marginBottom = vals[2];
+              style.marginLeft = vals[3];
+            }
+            break;
+          }
+
+          case StyleProperty::MARGIN_TOP:
+            style.marginTop = AdvanceParser::parseInt(value);
+            break;
+          
+          case StyleProperty::MARGIN_RIGHT:
+            style.marginRight = AdvanceParser::parseInt(value);
+            break;
+          
+          case StyleProperty::MARGIN_BOTTOM:
+            style.marginBottom = AdvanceParser::parseInt(value);
+            break;
+          
+          case StyleProperty::MARGIN_LEFT:
+            style.marginLeft = AdvanceParser::parseInt(value);
+            break;
+
+          case StyleProperty::PADDING: {
+            std::istringstream ss(value);
+            std::vector<int> vals; std::string tok;
+            while (ss >> tok) vals.push_back(AdvanceParser::parseInt(tok));
+            if (vals.size() == 1) {
+              style.paddingTop = style.paddingRight = style.paddingBottom = style.paddingLeft = vals[0];
+            } else if (vals.size() == 2) {
+              style.paddingTop = style.paddingBottom = vals[0];
+              style.paddingRight = style.paddingLeft = vals[1];
+            } else if (vals.size() == 3) {
+              style.paddingTop = vals[0];
+              style.paddingRight = style.paddingLeft = vals[1];
+              style.paddingBottom = vals[2];
+            } else if (vals.size() >= 4) {
+              style.paddingTop = vals[0];
+              style.paddingRight = vals[1];
+              style.paddingBottom = vals[2];
+              style.paddingLeft = vals[3];
+            }
+            break;
+          }
+
+          case StyleProperty::PADDING_TOP:
+            style.paddingTop = AdvanceParser::parseInt(value);
+            break;
+          
+          case StyleProperty::PADDING_RIGHT:
+            style.paddingRight = AdvanceParser::parseInt(value);
+            break;
+          
+          case StyleProperty::PADDING_BOTTOM:
+            style.paddingBottom = AdvanceParser::parseInt(value);
+            break;
+          
+          case StyleProperty::PADDING_LEFT:
+            style.paddingLeft = AdvanceParser::parseInt(value);
+            break;
 
           case StyleProperty::WIDTH:
             style.width = AdvanceParser::parseInt(value);

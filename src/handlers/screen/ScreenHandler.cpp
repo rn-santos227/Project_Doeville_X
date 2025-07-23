@@ -53,6 +53,8 @@ namespace Project::Handlers {
     SDL_Renderer* renderer = sdlManager.getRenderer();
     componentsFactory.setRenderer(renderer);
     componentsFactory.setKeyHandler(&keyHandler);
+    componentsFactory.setMouseHandler(&mouseHandler);
+    componentsFactory.setCursorHandler(&cursorHandler);
 
     int screenWidth = 0;
     int screenHeight = 0;
@@ -76,6 +78,8 @@ namespace Project::Handlers {
     cursorHandler.setRenderer(renderer);
     std::string cursorPath = resourcesHandler.getResourcePath(Constants::DEFAULT_CURSOR_PATH);
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
+    std::string handPath = resourcesHandler.getResourcePath(Constants::HAND_CURSOR_PATH);
+    cursorHandler.loadCursor(CursorState::HOVER, handPath.c_str());
     cursorHandler.setCursorState(CursorState::DEFAULT);
     
     styleService = std::make_unique<StyleService>(logsManager, resourcesHandler);
@@ -123,7 +127,7 @@ namespace Project::Handlers {
     mouseX = std::max(0, std::min(mouseX, screenWidth - cursorWidth));
     mouseY = std::max(0, std::min(mouseY, screenHeight - cursorHeight));
 
-    SDL_Texture* texture = cursorHandler.getCursorTexture(CursorState::DEFAULT);
+    SDL_Texture* texture = cursorHandler.getCursorTexture(cursorHandler.getCursorState());
     if (texture) {
       SDL_Rect dstRect = { mouseX, mouseY, cursorWidth, cursorHeight };
       SDL_RenderCopy(renderer, texture, nullptr, &dstRect);

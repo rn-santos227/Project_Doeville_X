@@ -49,6 +49,7 @@ namespace Project::Services {
 
     // Font/Text
     FONT_COLOR,
+    FONT_HOVER_COLOR,
     FONT_SIZE,
     FONT_WEIGHT,
     FONT_FAMILY,

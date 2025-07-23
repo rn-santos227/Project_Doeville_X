@@ -7,9 +7,10 @@
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Factories {
-  using Project::Components::CameraComponent;
   using Project::Components::BaseComponent;
   using Project::Components::BoundingBoxComponent;
+  using Project::Components::ButtonComponent;
+  using Project::Components::CameraComponent;
   using Project::Components::GraphicsComponent;
   using Project::Components::KeysComponent;
   using Project::Components::MotionComponent;
@@ -18,6 +19,10 @@ namespace Project::Factories {
   using Project::Components::TextComponent;
   using Project::Components::TimerComponent;
   using Project::Components::TransformComponent;
+  using Project::Handlers::CameraHandler;
+  using Project::Handlers::CursorHandler;
+  using Project::Handlers::KeyHandler;
+  using Project::Handlers::MouseHandler;
   using Project::Handlers::ResourcesHandler;
   using Project::Utilities::ColorUtils;
   using Project::Utilities::ConfigReader;
@@ -28,7 +33,10 @@ namespace Project::Factories {
   namespace Keys = Project::Libraries::Keys;
 
   ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-  : configReader(configReader), logsManager(logsManager), resourcesHandler(resourcesHandler), renderer(nullptr), keyHandler(nullptr) {}
+  : configReader(configReader), logsManager(logsManager),
+    resourcesHandler(resourcesHandler),
+    renderer(nullptr), keyHandler(nullptr),
+    mouseHandler(nullptr), cursorHandler(nullptr) {}
 
   std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     if (logsManager.checkAndLogError(!renderer, "Renderer is null for component: " + componentName)) {
@@ -44,6 +52,14 @@ namespace Project::Factories {
         SDL_Color debugColor = configReader.getColorValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_COLOR, defaultColor);
         auto component = std::make_unique<BoundingBoxComponent>(logsManager, renderer, keyHandler, debugColor);
         component->build(luaStateWrapper, tableName);    
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+        return component;
+      }
+
+      case ComponentType::BUTTON: {
+        auto component = std::make_unique<ButtonComponent>(renderer, logsManager, configReader, mouseHandler, cursorHandler);
+        component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         return component;
@@ -133,11 +149,19 @@ namespace Project::Factories {
     this->renderer = renderer;
   }
 
-  void ComponentsFactory::setCameraHandler(Handlers::CameraHandler* handler) {
-    this->cameraHandler = handler;
+  void ComponentsFactory::setCameraHandler(CameraHandler* _handler) {
+    this->cameraHandler = _handler;
   }
 
-  void ComponentsFactory::setKeyHandler(Handlers::KeyHandler* keyHandler) {
-    this->keyHandler = keyHandler;
+  void ComponentsFactory::setCursorHandler(CursorHandler* _handler) {
+    this->cursorHandler = _handler;
+  }
+
+  void ComponentsFactory::setKeyHandler(KeyHandler* _handler) {
+    this->keyHandler = _handler;
+  }
+
+  void ComponentsFactory::setMouseHandler(MouseHandler* _handler) {
+    this->mouseHandler = _handler;
   }
 }

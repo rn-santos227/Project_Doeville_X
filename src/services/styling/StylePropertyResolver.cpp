@@ -22,6 +22,7 @@ namespace Project::Services {
       {Keys::CSS_GRADIENT_END,StyleProperty::GRADIENT_END},
       {Keys::CSS_GRADIENT_STYLE, StyleProperty::GRADIENT_STYLE},
       {Keys::CSS_FONT_COLOR, StyleProperty::FONT_COLOR},
+      {Keys::CSS_FONT_HOVER_COLOR, StyleProperty::FONT_HOVER_COLOR},
       {Keys::CSS_FONT_SIZE, StyleProperty::FONT_SIZE},
       {Keys::CSS_FONT_WEIGHT, StyleProperty::FONT_WEIGHT},
       {Keys::CSS_FONT_FAMILY, StyleProperty::FONT_FAMILY},

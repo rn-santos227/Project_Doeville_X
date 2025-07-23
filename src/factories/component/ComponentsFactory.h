@@ -11,6 +11,7 @@
 #include "components/BaseComponent.h"
 #include "components/camera_component/CameraComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "components/button_component/ButtonComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/keys_component/KeysComponent.h"
 #include "components/motion_component/MotionComponent.h"
@@ -20,7 +21,9 @@
 #include "components/timer_component/TimerComponent.h"
 #include "components/transform_component/TransformComponent.h"
 #include "libraries/constants/Constants.h"
+#include "handlers/input/MouseHandler.h"
 #include "handlers/input/KeyHandler.h"
+#include "handlers/input/CursorHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
@@ -38,14 +41,18 @@ namespace Project::Factories {
     std::unique_ptr<Project::Components::BaseComponent> create(const std::string& componentName, Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
 
     void setRenderer(SDL_Renderer* renderer);
-    void setCameraHandler(Project::Handlers::CameraHandler* handler);
-    void setKeyHandler(Project::Handlers::KeyHandler* keyHandler);
+    void setCameraHandler(Project::Handlers::CameraHandler* _handler);
+    void setCursorHandler(Project::Handlers::CursorHandler* _handler);
+    void setKeyHandler(Project::Handlers::KeyHandler* _handler);
+    void setMouseHandler(Project::Handlers::MouseHandler* _handler);
 
   private:
     SDL_Renderer* renderer = nullptr;
     
     Project::Handlers::CameraHandler* cameraHandler = nullptr;
+    Project::Handlers::CursorHandler* cursorHandler = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;
+    Project::Handlers::MouseHandler* mouseHandler = nullptr;
 
     Project::Utilities::ConfigReader& configReader;
     Project::Utilities::LogsManager& logsManager;

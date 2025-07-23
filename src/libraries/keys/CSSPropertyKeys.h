@@ -42,6 +42,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* CSS_FONT_FAMILY= "font-family";
   constexpr const char* CSS_FONT_SIZE = "font-size";
   constexpr const char* CSS_FONT_COLOR = "font-color";
+  constexpr const char* CSS_FONT_HOVER_COLOR = "font-hover-color";
   constexpr const char* CSS_FONT_WEIGHT = "font-weight";
   constexpr const char* CSS_TEXT_ALIGN = "text-align";
 

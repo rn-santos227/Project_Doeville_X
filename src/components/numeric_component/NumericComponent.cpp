@@ -69,4 +69,8 @@ namespace Project::Components {
     v.value += amount;
     if (v.limit > 0.0f && v.value > v.limit) v.value = v.limit;
   }
+
+  bool NumericComponent::has(const std::string& name) const {
+    return values.find(name) != values.end();
+  }
 }

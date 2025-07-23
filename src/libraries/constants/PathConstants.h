@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_CURSOR_PATH = "resources/system/cursor_default.png";
+  constexpr const char* HAND_CURSOR_PATH = "resources/system/cursor_hand.png";
+  
   constexpr const char* DEFAULT_ENTITY_SCRIPT_FOLDER = "scripts/entities/";
   constexpr const char* DEFAULT_FONT = "system";
   constexpr const char* DEFAULT_FONT_PATH = "resources/fonts/system.ttf";

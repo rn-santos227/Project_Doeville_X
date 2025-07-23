@@ -139,6 +139,38 @@ namespace Project::Components {
     createTextTexture(hovered ? fontHoverColor : fontColor);
   }
 
+  void ButtonComponent::setEntityPosition(int x, int y) {
+    rect.x = x;
+    rect.y = y;
+    createTextTexture(hovered ? fontHoverColor : fontColor);
+  }
+
+  void ButtonComponent::setSize(int w, int h) {
+    rect.w = w;
+    rect.h = h;
+    createTextTexture(hovered ? fontHoverColor : fontColor);
+  }
+
+  void ButtonComponent::setColor(SDL_Color _color) {
+    color = _color;
+  }
+  
+  void ButtonComponent::setHoverColor(SDL_Color _color) {
+    hoverColor = _color;
+  }
+  
+  void ButtonComponent::setFontColor(SDL_Color _color) {
+    fontColor = _color; createTextTexture(hovered ? fontHoverColor : fontColor);
+  }
+  
+  void ButtonComponent::setFontHoverColor(SDL_Color _color) {
+    fontHoverColor = _color; createTextTexture(hovered ? fontHoverColor : fontColor);
+  }
+
+  void ButtonComponent::setCallback(const std::string& fn) {
+    luaFunction = fn;
+  }
+
   void ButtonComponent::createTextTexture(SDL_Color colorToUse) {
     if (!font || text.empty()) return;
     if (textTexture) {

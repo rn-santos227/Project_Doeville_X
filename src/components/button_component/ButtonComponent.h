@@ -38,11 +38,11 @@ namespace Project::Components {
     void setEntityPosition(int x, int y) override;
     void setSize(int w, int h);
     
-    void setColor(SDL_Color color);
-    void setHoverColor(SDL_Color color);
+    void setColor(SDL_Color _color);
+    void setHoverColor(SDL_Color _color);
 
-    void setFontColor(SDL_Color color);
-    void setFontHoverColor(SDL_Color color);
+    void setFontColor(SDL_Color _color);
+    void setFontHoverColor(SDL_Color _color);
     
     void setCallback(const std::string& functionName);
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }

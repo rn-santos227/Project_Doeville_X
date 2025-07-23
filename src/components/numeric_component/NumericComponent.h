@@ -18,6 +18,17 @@ namespace Project::Components {
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+
+    void setValue(const std::string& name, float value);
+    float getValue(const std::string& name) const;
+
+    void setLimit(const std::string& name, float limit);
+    float getLimit(const std::string& name) const;
+
+    void add(const std::string& name, float amount);
+    bool has(const std::string& name) const;
+
   private:
     struct NumericValue {
       float value = 0.0f;

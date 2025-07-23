@@ -21,6 +21,11 @@ namespace Project::Components {
       Project::Handlers::MouseHandler* mouseHandler,
       Project::Handlers::CursorHandler* cursorHandler
     );
+
+    void update(float deltaTime) override;
+    void render() override;
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+    void applyStyle() override;
   
   private:
     SDL_Renderer* renderer = nullptr;

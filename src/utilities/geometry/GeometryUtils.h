@@ -18,8 +18,9 @@ namespace Project::Utilities {
     static bool circleIntersect(const Circle& a, const Circle& b);
     static bool rectIntersect(const SDL_Rect& a, const SDL_Rect& b);
     static bool rectCircleIntersect(const SDL_Rect& rect, const Circle& c);
-
     static float distance(float x1, float y1, float x2, float y2);
+
+    static void renderFilledCircle(SDL_Renderer* renderer, int cx, int cy, int r);
   };
 }
 

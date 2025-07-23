@@ -1,4 +1,6 @@
 #include "LuaStateWrapper.h"
+#include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 
 namespace Project::Utilities {
   LuaStateWrapper::LuaStateWrapper(LogsManager& logsManager) : luaState(luaL_newstate()), logsManager(logsManager) {
@@ -49,6 +51,12 @@ namespace Project::Utilities {
     }
 
     lua_pop(state, 1);
+
+    lua_pushnumber(state, Project::Libraries::Constants::DEFAULT_SCREEN_CENTER_X);
+    lua_setglobal(state, Project::Libraries::Keys::CENTER_X);
+
+    lua_pushnumber(state, Project::Libraries::Constants::DEFAULT_SCREEN_CENTER_Y);
+    lua_setglobal(state, Project::Libraries::Keys::CENTER_Y);
   }
 
   lua_State* LuaStateWrapper::get() const {

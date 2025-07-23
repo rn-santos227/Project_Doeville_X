@@ -9,6 +9,9 @@ namespace Project::Libraries::Constants {
 
   constexpr int DEFAULT_SCREEN_WIDTH = 800;
   constexpr int DEFAULT_SCREEN_HEIGHT = 600;
+  
+  constexpr int DEFAULT_SCREEN_CENTER_X = DEFAULT_SCREEN_WIDTH / 2;
+  constexpr int DEFAULT_SCREEN_CENTER_Y = DEFAULT_SCREEN_HEIGHT / 2;
 }
 
 #endif

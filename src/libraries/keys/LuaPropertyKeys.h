@@ -13,7 +13,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* BOXES = "boxes";
   constexpr const char* BRAKE_POWER  = "brake_power"; 
   constexpr const char* CALLBACKS = "callbacks";
-  constexpr const char* CATEGORY = "category";  
+  constexpr const char* CATEGORY = "category";
+  constexpr const char* CENTER_X = "center_x";
+  constexpr const char* CENTER_Y = "center_y";
   constexpr const char* CLASS = "class";
   constexpr const char* COLOR = "color";
   constexpr const char* COLOR_ALPHA = "color_alpha";

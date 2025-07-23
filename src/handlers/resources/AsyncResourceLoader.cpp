@@ -30,6 +30,13 @@ namespace Project::Handlers {
     if (worker.joinable()) {
       worker.join();
     }
+    {
+      std::lock_guard<std::mutex> lock(tasksMutex);
+      while (!tasks.empty()) {
+        tasks.front().promise.set_value(nullptr);
+        tasks.pop();
+      }
+    }
   }
 
   void AsyncResourceLoader::workerLoop() {

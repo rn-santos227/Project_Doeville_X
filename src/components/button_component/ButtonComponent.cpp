@@ -11,4 +11,7 @@ namespace Project::Components {
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
   
+  ButtonComponent::ButtonComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager,
+    Project::Handlers::MouseHandler* mouseHandler, Project::Handlers::CursorHandler* cursorHandler)
+      : BaseComponent(logsManager), mouseHandler(mouseHandler), cursorHandler(cursorHandler), renderer(renderer) {}
 }

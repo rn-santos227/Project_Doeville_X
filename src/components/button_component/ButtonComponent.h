@@ -91,8 +91,10 @@ namespace Project::Components {
     };
     
     SDL_Rect textRect{0,0,0,0};
+    
     std::string luaFunction;
-
+    std::string text;
+    
     int paddingTop{0};
     int paddingRight{0};
     int paddingBottom{0};

@@ -37,8 +37,14 @@ namespace Project::Components {
     int x = mouseHandler->getMouseX();
     int y = mouseHandler->getMouseY();
     
+    SDL_Rect detectRect = {
+      rect.x - marginLeft, rect.y - marginTop,
+      rect.w + marginLeft + marginRight,
+      rect.h + marginTop + marginBottom
+    };
+    
     SDL_Point mousePoint = {x, y};
-    bool inside = SDL_PointInRect(&mousePoint, &rect);
+    bool inside = SDL_PointInRect(&mousePoint, &detectRect);
 
     if (inside) {
       if (!hovered) {
@@ -67,5 +73,22 @@ namespace Project::Components {
     SDL_Color drawColor = hovered ? hoverColor : color;
     SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, drawColor.a);
     SDL_RenderFillRect(renderer, &rect);
+  }
+
+  void ButtonComponent::createTextTexture(SDL_Color colorToUse) {
+    if (!font || text.empty()) return;
+    if (textTexture) {
+      SDL_DestroyTexture(textTexture);
+      textTexture = nullptr;
+    }
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), colorToUse);
+    if (surface) {
+      textTexture = SDL_CreateTextureFromSurface(renderer, surface);
+      textRect.w = surface->w;
+      textRect.h = surface->h;
+      SDL_FreeSurface(surface);
+      textRect.x = rect.x + paddingLeft + (rect.w - paddingLeft - paddingRight - textRect.w) / 2;
+      textRect.y = rect.y + paddingTop + (rect.h - paddingTop - paddingBottom - textRect.h) / 2;
+    }
   }
 }

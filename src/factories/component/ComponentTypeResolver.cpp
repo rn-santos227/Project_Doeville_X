@@ -23,6 +23,8 @@ namespace Project::Factories {
       {std::string(Components::KEYS) + Components::SUFFIX, ComponentType::KEYS},
       {std::string(Components::MOTION), ComponentType::MOTION},
       {std::string(Components::MOTION) + Components::SUFFIX, ComponentType::MOTION},
+      {std::string(Components::NUMERIC), ComponentType::NUMERIC},
+      {std::string(Components::NUMERIC) + Components::SUFFIX, ComponentType::NUMERIC},
       {std::string(Components::PHYSICS), ComponentType::PHYSICS},
       {std::string(Components::PHYSICS) + Components::SUFFIX, ComponentType::PHYSICS},
       {std::string(Components::SPAWNER), ComponentType::SPAWNER},

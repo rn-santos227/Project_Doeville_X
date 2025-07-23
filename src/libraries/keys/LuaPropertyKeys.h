@@ -52,6 +52,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LAYER_CATEGORY = "layer_category";
   constexpr const char* LAYER_NAME = "layer_name";
   constexpr const char* LAYER_SCRIPTS = "layer_scripts";
+  constexpr const char* LIMIT = "limit";
   constexpr const char* MASS = "mass";
   constexpr const char* NAME = "name"; 
   constexpr const char* PLAYER = "player";

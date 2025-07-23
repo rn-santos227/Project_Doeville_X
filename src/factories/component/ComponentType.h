@@ -12,6 +12,7 @@ namespace Project::Factories {
     INPUT,
     KEYS,
     MOTION,
+    NUMERIC,
     PHYSICS,
     SPAWNER,
     TEXT,

@@ -28,7 +28,18 @@ namespace Project::Components {
     bool inside = SDL_PointInRect(&mousePoint, &rect);
 
     if (inside) {
+      if (!hovered) {
+        hovered = true;
+        cursorHandler->setCursorState(Project::Handlers::CursorState::HOVER);
+      }
 
+      bool pressed = mouseHandler->isButtonDown(SDL_BUTTON_LEFT);
+      if (pressed && !wasPressed) {
+        if (owner && !luaFunction.empty()) {
+          owner->callLuaFunction(luaFunction);
+        }
+      }
+      wasPressed = pressed;
     }
   }
 }

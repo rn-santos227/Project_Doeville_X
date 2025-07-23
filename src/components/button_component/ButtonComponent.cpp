@@ -50,6 +50,7 @@ namespace Project::Components {
       if (!hovered) {
         hovered = true;
         cursorHandler->setCursorState(Project::Handlers::CursorState::HOVER);
+        createTextTexture(fontHoverColor);
       }
 
       bool pressed = mouseHandler->isButtonDown(SDL_BUTTON_LEFT);
@@ -63,6 +64,7 @@ namespace Project::Components {
       if (hovered) {
         hovered = false;
         cursorHandler->setCursorState(Project::Handlers::CursorState::DEFAULT);
+        createTextTexture(fontColor);
       }
       wasPressed = false;
     }
@@ -73,6 +75,19 @@ namespace Project::Components {
     SDL_Color drawColor = hovered ? hoverColor : color;
     SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, drawColor.a);
     SDL_RenderFillRect(renderer, &rect);
+  }
+
+  void ButtonComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
+    int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
+    setSize(width, height);
+
+    std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
+    Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
+    color = ColorUtils::hexToRGB(colorHex, alpha);
+    hoverColor = color;
+
+    
   }
 
   void ButtonComponent::createTextTexture(SDL_Color colorToUse) {

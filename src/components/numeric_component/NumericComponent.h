@@ -14,6 +14,10 @@ namespace Project::Components {
     explicit NumericComponent(Project::Utilities::LogsManager& logsManager);
     ~NumericComponent() override = default;
 
+    void update(float deltaTime) override;
+    void render() override {}
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+
   private:
     struct NumericValue {
       float value = 0.0f;

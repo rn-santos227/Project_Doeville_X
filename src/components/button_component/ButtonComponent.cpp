@@ -40,6 +40,12 @@ namespace Project::Components {
         }
       }
       wasPressed = pressed;
+    } else {
+      if (hovered) {
+        hovered = false;
+        cursorHandler->setCursorState(Project::Handlers::CursorState::DEFAULT);
+      }
+      wasPressed = false;
     }
   }
 }

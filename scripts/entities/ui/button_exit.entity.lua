@@ -1,5 +1,5 @@
-x = center_x + 30
-y = center_y + 10
+x = center_x + 110
+y = center_y + 40
 z = 0
 
 group = "ui"
@@ -18,5 +18,5 @@ function quit_game()
 end
 
 return {
-  name = "exit_button",
+  name = "button_exit",
 }

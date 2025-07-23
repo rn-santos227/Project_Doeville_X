@@ -7,7 +7,7 @@ function initialize()
   spawnEntity("sample_text")
   
   spawnEntity("button_start")
-  spawnEntity("button_setting")
+  spawnEntity("button_settings")
   spawnEntity("button_exit")
 
   spawnEntity("menu_input")

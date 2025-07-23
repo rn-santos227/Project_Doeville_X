@@ -18,5 +18,5 @@ function start_game()
 end
 
 return {
-  name = "start_button",
+  name = "button_settings",
 }

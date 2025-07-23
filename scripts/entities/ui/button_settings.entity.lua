@@ -1,5 +1,5 @@
-x = center_x + 30
-y = center_y - 30
+x = center_x + 110
+y = center_y + 90
 z = 0
 
 group = "ui"

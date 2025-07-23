@@ -14,6 +14,7 @@ namespace Project::Factories {
   using Project::Components::GraphicsComponent;
   using Project::Components::KeysComponent;
   using Project::Components::MotionComponent;
+  using Project::Components::NumericComponent;
   using Project::Components::PhysicsComponent;
   using Project::Components::SpawnerComponent;
   using Project::Components::TextComponent;
@@ -91,6 +92,14 @@ namespace Project::Factories {
 
       case ComponentType::MOTION: {
         auto component = std::make_unique<MotionComponent>(logsManager, keyHandler);
+        component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+        return component;
+      }
+
+      case ComponentType::NUMERIC: {
+        auto component = std::make_unique<NumericComponent>(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));

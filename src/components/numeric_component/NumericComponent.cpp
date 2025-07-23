@@ -63,4 +63,10 @@ namespace Project::Components {
     if (it != values.end()) return it->second.limit;
     return 0.0f;
   }
+
+  void NumericComponent::add(const std::string& name, float amount) {
+    auto& v = values[name];
+    v.value += amount;
+    if (v.limit > 0.0f && v.value > v.limit) v.value = v.limit;
+  }
 }

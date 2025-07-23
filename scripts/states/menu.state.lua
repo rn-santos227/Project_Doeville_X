@@ -5,7 +5,11 @@ function initialize()
   print("Initializing MainMenuState")
   setBackgroundColor(34, 45, 50, 255)
   spawnEntity("sample_text")
+  
   spawnEntity("button_start")
+  spawnEntity("button_setting")
+  spawnEntity("button_exit")
+
   spawnEntity("menu_input")
 end
 

@@ -4,6 +4,7 @@
 #include "components/motion_component/MotionComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
+#include "core/SDLManager.h"
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "handlers/resources/ResourcesHandler.h"
@@ -14,6 +15,7 @@
 #include "states/GameStateManager.h"
 
 namespace Project::Bindings::LuaBindings {
+  using Project::Core::SDLManager;
   using Project::States::GameState;
   using Project::States::GameStateManager;
   using Project::Entities::EntitiesManager;
@@ -171,6 +173,19 @@ namespace Project::Bindings::LuaBindings {
     }
 
     state->reset();
+    return 0;
+  }
+
+  int lua_exitGame(lua_State* L) {
+    auto* manager = static_cast<SDLManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!manager) {
+      return luaL_error(L, "Invalid SDLManager reference in lua_exitGame.");
+    }
+
+    SDL_Event quitEvent{};
+    quitEvent.type = SDL_QUIT;
+    SDL_PushEvent(&quitEvent);
+    manager->requestExit();
     return 0;
   }
 

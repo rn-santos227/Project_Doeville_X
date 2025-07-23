@@ -39,8 +39,8 @@ namespace Project::Services {
       renderer(renderer),
       entitiesFactory(logsManager, componentsFactory, gameStateManager),
       layersFactory(logsManager),
-      gameStateFactory(logsManager, resourcesHandler, gameStateManager,
-      entitiesFactory, layersFactory) {}
+      gameStateFactory(logsManager, sdlManager, resourcesHandler, 
+      gameStateManager, entitiesFactory, layersFactory) {}
 
   inline const std::vector<ScriptCategory> loadOrder = {
     ScriptCategory::ENTITY,

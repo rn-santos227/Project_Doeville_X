@@ -3,6 +3,7 @@
 #include <lua.hpp>
 #include <string>
 
+#include "bindings/LuaBindings.h"
 #include "factories/layer/LayersFactory.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/keys/Keys.h"
@@ -11,6 +12,7 @@
 
 namespace Project::Factories {
   using Project::Utilities::LogsManager;
+  using Project::Core::SDLManager;
   using Project::Handlers::ResourcesHandler;
   using Project::States::GameState;
   using Project::States::GameStateCategory;
@@ -22,8 +24,8 @@ namespace Project::Factories {
   namespace Keys = Project::Libraries::Keys;
   namespace Layers = Project::Libraries::Categories::Layers;
 
-  GameStateFactory::GameStateFactory(LogsManager& logsManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory, LayersFactory& layersFactory)
-  : logsManager(logsManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory), layersFactory(layersFactory) {}
+  GameStateFactory::GameStateFactory(LogsManager& logsManager, SDLManager& sdlManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory, LayersFactory& layersFactory)
+  : logsManager(logsManager), sdlManager(sdlManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory), layersFactory(layersFactory) {}
 
   bool GameStateFactory::createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath) {
     auto newState = std::make_unique<GameState>(renderer, logsManager, resourcesHandler);
@@ -32,6 +34,12 @@ namespace Project::Factories {
       logsManager.logError("Failed to load GameState from Lua script: " + scriptPath);
       return false;
     }
+
+    newState->getLuaStateWrapper().registerFunction(
+      Keys::LUA_EXIT_GAME,
+      Project::Bindings::LuaBindings::lua_exitGame,
+      &sdlManager
+    );
     
     lua_State* L = newState->getLuaState();
     lua_getglobal(L, Keys::STATE_NAME);

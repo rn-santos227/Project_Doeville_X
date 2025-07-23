@@ -29,13 +29,17 @@ namespace Project::Handlers {
   }
 
   void MouseHandler::handleEvent(const SDL_Event& event) {
-    switch (event.type) { 
+    switch (event.type) {
       case SDL_MOUSEBUTTONDOWN:
         buttonStates[event.button.button] = true;
+        mouseX = event.button.x;
+        mouseY = event.button.y;
         break;
 
       case SDL_MOUSEBUTTONUP:
         buttonStates[event.button.button] = false;
+        mouseX = event.button.x;
+        mouseY = event.button.y;
         break;
 
       case SDL_MOUSEMOTION:

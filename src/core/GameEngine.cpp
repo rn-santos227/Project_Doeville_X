@@ -37,6 +37,9 @@ namespace Project::Core {
     *cursorHandler, *fontHandler, *keyHandler,
     *mouseHandler, *resourcesHandler))
   {
+    if (gameStateManager && cursorHandler) {
+      gameStateManager->setCursorHandler(cursorHandler.get());
+    }
     cleanupHandlers.emplace_back(&sdlManager, "SDLManager is null.");
     cleanupHandlers.emplace_back(gameStateManager.get(), "GameStateManager is null.");
     cleanupHandlers.emplace_back(cursorHandler.get(), "CursorHandler is null.");
@@ -168,6 +171,10 @@ namespace Project::Core {
         logsManager.logMessage("Quit event received");
         clean();
       }
+    }
+
+    if (Project::Helpers::checkNotNull(logsManager, mouseHandler.get(), "MouseHandler is null.")) {
+      mouseHandler->updateMousePosition();
     }
 
     if (sdlManager.isExitRequested()) {

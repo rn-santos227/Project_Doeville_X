@@ -4,8 +4,8 @@ namespace Project::States {
   using Project::Utilities::LogsManager;
   using Project::Helpers::ObjectsManager;
 
-  GameStateManager::GameStateManager(size_t cacheLimit, LogsManager& logsManager)
-    : cacheLimit(cacheLimit), logsManager(logsManager) {}
+  GameStateManager::GameStateManager(size_t cacheLimit, LogsManager& logsManager, Project::Handlers::CursorHandler* cursorHandler)
+    : cacheLimit(cacheLimit), logsManager(logsManager), cursorHandler(cursorHandler) {}
 
   void GameStateManager::addState(const std::string& name, std::unique_ptr<GameState> state) {
     stateManager.add(name, std::move(state));
@@ -34,6 +34,7 @@ namespace Project::States {
       if (cachedState) {
         stateStack.push(cachedState);
         stateStack.top()->onEnter();
+        if (cursorHandler) cursorHandler->resetToDefaultCursor();
         return;
       }
 
@@ -48,6 +49,7 @@ namespace Project::States {
 
     stateStack.push(it->second.get());
     stateStack.top()->onEnter();
+    if (cursorHandler) cursorHandler->resetToDefaultCursor();
   }
 
   void GameStateManager::pushState(const std::string& name) {
@@ -70,6 +72,7 @@ namespace Project::States {
       if (cachedState) {
         stateStack.push(cachedState);
         stateStack.top()->onEnter();
+        if (cursorHandler) cursorHandler->resetToDefaultCursor();
       }
     }
   }
@@ -93,6 +96,7 @@ namespace Project::States {
 
     if (!stateStack.empty()) {
       stateStack.top()->onEnter();
+      if (cursorHandler) cursorHandler->resetToDefaultCursor();
     }
   }
 
@@ -209,6 +213,7 @@ namespace Project::States {
 
       stateStack.push(it->second.get());
       stateStack.top()->onEnter();
+      if (cursorHandler) cursorHandler->resetToDefaultCursor();
       logsManager.logMessage("Initial state '" + name + "' set and entered.");
     } else {
       logsManager.logWarning("Initial state '" + name + "' not found. Falling back to first available state.");
@@ -223,6 +228,7 @@ namespace Project::States {
 
           stateStack.push(fallbackState.get());
           fallbackState->onEnter();
+          if (cursorHandler) cursorHandler->resetToDefaultCursor();
           logsManager.logMessage("Fallback state '" + fallbackName + "' set and entered.");
           return;
         }

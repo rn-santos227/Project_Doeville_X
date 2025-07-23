@@ -14,6 +14,7 @@
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
+#include "handlers/input/CursorHandler.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
@@ -24,7 +25,7 @@ namespace Project::States {
   public Project::Interfaces::Resetable,
   public Project::Interfaces::Updatable {
   public:
-    GameStateManager(size_t cacheLimit, Project::Utilities::LogsManager& logsManager);
+    GameStateManager(size_t cacheLimit, Project::Utilities::LogsManager& logsManager, Project::Handlers::CursorHandler* cursorHandler = nullptr);
     ~GameStateManager() = default;
 
     void cleanup() override;
@@ -47,9 +48,12 @@ namespace Project::States {
     size_t getActiveEntityCount() const;
 
     std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const { return globalEntitiesManager; }
+    
+    void setCursorHandler(Project::Handlers::CursorHandler* handler) { cursorHandler = handler; }
 
   private:
     Project::Helpers::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;
+    Project::Handlers::CursorHandler* cursorHandler = nullptr;
     Project::Utilities::LogsManager& logsManager;
     size_t cacheLimit;
 

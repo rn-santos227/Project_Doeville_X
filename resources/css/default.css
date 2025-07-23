@@ -39,8 +39,14 @@
   opacity: 255;
 }
 
+.title {
+  font-color: #FFFFFF;
+  font-size: 36;
+  opacity: 255;
+}
+
 .button {
-  width: 120;
+  width: 250;
   height: 40;
   background-color: #444444;
   hover-color: #666666;

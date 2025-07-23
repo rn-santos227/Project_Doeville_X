@@ -78,6 +78,10 @@ namespace Project::Components {
     SDL_Color drawColor = hovered ? hoverColor : color;
     SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, drawColor.a);
     SDL_RenderFillRect(renderer, &rect);
+
+    if (textTexture) {
+      SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+    }
   }
 
   void ButtonComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

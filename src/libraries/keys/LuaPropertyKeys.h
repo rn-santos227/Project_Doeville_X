@@ -12,6 +12,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* BINDINGS = "bindings";
   constexpr const char* BOXES = "boxes";
   constexpr const char* BRAKE_POWER  = "brake_power"; 
+  constexpr const char* CALLBACKS = "callbacks";
   constexpr const char* CATEGORY = "category";  
   constexpr const char* CLASS = "class";
   constexpr const char* COLOR = "color";
@@ -31,7 +32,6 @@ namespace Project::Libraries::Keys {
   constexpr const char* FORCE = "force";
   constexpr const char* FRICTION = "friction";
   constexpr const char* FLEXIBILITY = "flexibility";
-  constexpr const char* FUNCTION = "function";
   constexpr const char* GLOBAL = "global";
   constexpr const char* GRAVITY = "gravity";
   constexpr const char* GRAVITY_SCALE = "gravity_scale";

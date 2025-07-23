@@ -30,7 +30,7 @@ namespace Project::Components {
       duration = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::TIME, duration));
     }
     
-    luaFunction = luaStateWrapper.getTableString(tableName, Keys::FUNCTION, Project::Libraries::Constants::EMPTY_STRING);
+    luaFunction = luaStateWrapper.getTableString(tableName, Keys::CALLBACKS, Project::Libraries::Constants::EMPTY_STRING);
     repeat = luaStateWrapper.getTableBoolean(tableName, Keys::REPEAT, false);
   }
 

@@ -95,6 +95,7 @@ namespace Project::Components {
     std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
     std::string fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
     int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);
+    
     fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
     font = TTF_OpenFont(fontPath.c_str(), fontSize);
     if (!font) {
@@ -107,7 +108,7 @@ namespace Project::Components {
     fontHoverColor = fontColor;
 
     createTextTexture(fontColor);
-    luaFunction = luaStateWrapper.getTableString(tableName, Keys::FUNCTION, Constants::EMPTY_STRING);
+    luaFunction = luaStateWrapper.getTableString(tableName, Keys::CALLBACKS, Constants::EMPTY_STRING);
     onAttach();
   }
 

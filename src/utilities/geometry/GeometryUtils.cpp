@@ -39,4 +39,23 @@ namespace Project::Utilities {
     float dy = y2 - y1;
     return std::sqrt(dx * dx + dy * dy);
   }
+
+  void GeometryUtils::renderFilledCircle(SDL_Renderer* renderer, int cx, int cy, int r) {
+    int x = r;
+    int y = 0;
+    int err = 1 - x;
+    while (x >= y) {
+      SDL_RenderDrawLine(renderer, cx - x, cy + y, cx + x, cy + y);
+      SDL_RenderDrawLine(renderer, cx - x, cy - y, cx + x, cy - y);
+      SDL_RenderDrawLine(renderer, cx - y, cy + x, cx + y, cy + x);
+      SDL_RenderDrawLine(renderer, cx - y, cy - x, cx + y, cy - x);
+      ++y;
+      if (err < 0) {
+        err += 2 * y + 1;
+      } else {
+        --x;
+        err += 2 * (y - x + 1);
+      }
+    }
+  }
 }

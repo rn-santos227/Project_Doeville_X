@@ -376,6 +376,81 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_addNumericValue(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* key = luaL_checkstring(L, 2);
+    if (!manager || !name || !key) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric) return 0;
+
+    float amount = static_cast<float>(luaL_checknumber(L, 3));
+    numeric->add(key, amount);
+    return 0;
+  }
+
+  int lua_setNumericValue(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* key = luaL_checkstring(L, 2);
+    if (!manager || !name || !key) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric) return 0;
+
+    float value = static_cast<float>(luaL_checknumber(L, 3));
+    float limit = 0.0f;
+    if (lua_gettop(L) >= 4 && lua_isnumber(L, 4)) {
+      limit = static_cast<float>(lua_tonumber(L, 4));
+      numeric->setLimit(key, limit);
+    }
+    numeric->setValue(key, value);
+    return 0;
+  }
+
+  int lua_getNumericValue(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* key = luaL_checkstring(L, 2);
+    if (!manager || !name || !key) {
+      lua_pushnil(L);
+      return 1;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return 1;
+    }
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric || !numeric->has(key)) {
+      lua_pushnil(L);
+      return 1;
+    }
+
+    lua_pushnumber(L, numeric->getValue(key));
+    return 1;
+  }
+
+
   int lua_stopTimer(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);

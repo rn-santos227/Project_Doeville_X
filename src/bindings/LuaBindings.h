@@ -23,6 +23,9 @@ namespace Project::Bindings {
     int lua_getEntitySpeed(lua_State* L);
     int lua_setEntityText(lua_State* L);
     int lua_setTimerActive(lua_State* L);
+    int lua_addNumericValue(lua_State* L);
+    int lua_setNumericValue(lua_State* L);
+    int lua_getNumericValue(lua_State* L);
     int lua_stopTimer(lua_State* L);
     int lua_brakeEntity(lua_State* L);
     int lua_destroyEntity(lua_State* L);

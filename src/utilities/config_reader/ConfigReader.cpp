@@ -1,5 +1,6 @@
 #include "ConfigReader.h"
 
+#include "libraries/constants/Constants.h"
 #include "utilities/color/ColorUtils.h"
 
 #include <fstream>
@@ -8,6 +9,8 @@
 
 namespace Project::Utilities {
   using Project::Utilities::LogsManager;
+
+  namespace Constants = Project::Libraries::Constants;
 
   ConfigReader::ConfigReader(LogsManager& logsManager) : logsManager(logsManager) {}
 
@@ -24,7 +27,7 @@ namespace Project::Utilities {
       if (line.empty() || line[0] == ';' || line[0] == '#') continue;
 
       if (line[0] == '[' && line.back() == ']') {
-        section = line.substr(1, line.size() - 2);
+        section = line.substr(Constants::INDEX_ONE, line.size() - 2);
         trim(section);
       } else {
         size_t delimiterPos = line.find('=');
@@ -68,10 +71,10 @@ namespace Project::Utilities {
 
     SDL_Color color = defaultValue;
     if (index >= 3) {
-      color.r = static_cast<Uint8>(channels[0]);
-      color.g = static_cast<Uint8>(channels[1]);
-      color.b = static_cast<Uint8>(channels[2]);
-      color.a = (index == 4) ? static_cast<Uint8>(channels[3]) : defaultValue.a;
+      color.r = static_cast<Uint8>(channels[Constants::INDEX_ZERO]);
+      color.g = static_cast<Uint8>(channels[Constants::INDEX_ONE]);
+      color.b = static_cast<Uint8>(channels[Constants::INDEX_TWO]);
+      color.a = (index == Constants::INDEX_FOUR) ? static_cast<Uint8>(channels[Constants::INDEX_THREE]) : defaultValue.a;
     }
 
     return color;

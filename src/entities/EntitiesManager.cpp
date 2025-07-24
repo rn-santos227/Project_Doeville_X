@@ -218,6 +218,18 @@ namespace Project::Entities {
       entity->registerLuaFunction(Keys::LUA_SET_TIMER_ACTIVE, LuaBindings::lua_setTimerActive, this);
     }
 
+    if (contains(Keys::LUA_ADD_NUMERIC_VALUE)) {
+      entity->registerLuaFunction(Keys::LUA_ADD_NUMERIC_VALUE, LuaBindings::lua_addNumericValue, this);
+    }
+
+    if (contains(Keys::LUA_SET_NUMERIC_VALUE)) {
+      entity->registerLuaFunction(Keys::LUA_SET_NUMERIC_VALUE, LuaBindings::lua_setNumericValue, this);
+    }
+
+    if (contains(Keys::LUA_GET_NUMERIC_VALUE)) {
+      entity->registerLuaFunction(Keys::LUA_GET_NUMERIC_VALUE, LuaBindings::lua_getNumericValue, this);
+    }
+
     if (contains(Keys::LUA_STOP_TIMER)) {
       entity->registerLuaFunction(Keys::LUA_STOP_TIMER, LuaBindings::lua_stopTimer, this);
     }

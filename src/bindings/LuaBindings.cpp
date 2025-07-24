@@ -450,7 +450,6 @@ namespace Project::Bindings::LuaBindings {
     return 1;
   }
 
-
   int lua_stopTimer(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);

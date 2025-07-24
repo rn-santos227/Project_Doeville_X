@@ -252,6 +252,44 @@ namespace Project::Components {
     }
   }
 
+  const std::vector<SDL_Rect>& BoundingBoxComponent::getBoxes() const {
+    if (worldBoxesDirty) {
+      const_cast<BoundingBoxComponent*>(this)->updateWorldBoxes();
+      worldBoxesDirty = false;
+    }
+    ensureUpdated();
+    return worldBoxes;
+  }
+
+  const std::vector<Project::Utilities::Circle>& BoundingBoxComponent::getCircles() const {
+    if (worldBoxesDirty) {
+      const_cast<BoundingBoxComponent*>(this)->updateWorldBoxes();
+      worldBoxesDirty = false;
+    }
+    ensureUpdated();
+    return worldCircles;
+  }
+
+  const std::vector<Project::Utilities::OrientedBox>& BoundingBoxComponent::getOrientedBoxes() const {
+    if (worldBoxesDirty) {
+      const_cast<BoundingBoxComponent*>(this)->updateWorldBoxes();
+      worldBoxesDirty = false;
+    }
+    ensureUpdated();
+    return orientedBoxes;
+  }
+
+  void BoundingBoxComponent::ensureUpdated() const {
+    if (worldBoxesDirty) {
+      const_cast<BoundingBoxComponent*>(this)->updateWorldBoxes();
+      worldBoxesDirty = false;
+    }
+  }
+
+  void BoundingBoxComponent::markDirty() {
+    worldBoxesDirty = true;
+  }
+
   void BoundingBoxComponent::updateWorldBoxes() {
     if (worldBoxes.size() != boxes.size()) {
       worldBoxes.resize(boxes.size());
@@ -318,7 +356,6 @@ namespace Project::Components {
           boxes[i].h
         };
         
-
         const float x = static_cast<float>(worldBoxes[i].x);
         const float y = static_cast<float>(worldBoxes[i].y);
         const float w = static_cast<float>(worldBoxes[i].w);
@@ -336,17 +373,5 @@ namespace Project::Components {
       worldCircles[i].y = circles[i].y + entityY;
       worldCircles[i].r = circles[i].r;
     }
-  }
-
-  void BoundingBoxComponent::markDirty() {
-    worldBoxesDirty = true;
-  }
-
-  const std::vector<SDL_Rect>& BoundingBoxComponent::getBoxes() const {
-    return worldBoxes;
-  }
-
-  const std::vector<Project::Utilities::Circle>& BoundingBoxComponent::getCircles() const {
-    return worldCircles;
   }
 }

@@ -29,7 +29,7 @@ namespace Project::Components {
     
     const std::vector<SDL_Rect>& getBoxes() const;
     const std::vector<Project::Utilities::Circle>& getCircles() const;
-    const std::vector<Project::Utilities::OrientedBox>& getOrientedBoxes() const { return orientedBoxes; }
+    const std::vector<Project::Utilities::OrientedBox>& getOrientedBoxes() const;
 
     void setSolid(bool solidEnabled);
     bool isSolid() const;
@@ -93,8 +93,9 @@ namespace Project::Components {
     bool rotationEnabled = false;
     bool solid = false;
 
-    void updateWorldBoxes();
+    void ensureUpdated() const;
     void markDirty();
+    void updateWorldBoxes();
   };
 }
 

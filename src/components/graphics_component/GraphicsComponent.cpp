@@ -105,6 +105,17 @@ namespace Project::Components {
           renderRect.y + static_cast<int>(radius),
           static_cast<int>(radius)
         );
+        if (borderWidth > 0) {
+          SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+          for (int i = 0; i < borderWidth; ++i) {
+            GeometryUtils::renderCircle(
+              renderer,
+              renderRect.x + static_cast<int>(radius),
+              renderRect.y + static_cast<int>(radius),
+              static_cast<int>(radius) - i
+            );
+          }
+        }
       } else {
         bool complex = rotationEnabled || useGradient;
         if (complex) {
@@ -148,6 +159,14 @@ namespace Project::Components {
         } else {
           SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
           SDL_RenderFillRect(renderer, &renderRect);
+        }
+
+        if (borderWidth > 0) {
+          SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+          for (int i = 0; i < borderWidth; ++i) {
+            SDL_Rect bRect = {renderRect.x + i, renderRect.y + i, renderRect.w - 2 * i, renderRect.h - 2 * i};
+            SDL_RenderDrawRect(renderer, &bRect);
+          }
         }
       }
     }
@@ -199,6 +218,14 @@ namespace Project::Components {
         gradient = s.gradient;
         useGradient = true;
         drawShape = true;
+      }
+
+      if (s.borderColor.a != 0) {
+        borderColor = s.borderColor;
+      }
+      
+      if (s.borderWidth > 0) {
+        borderWidth = s.borderWidth;
       }
 
       if (s.opacity != Constants::DEFAULT_WHOLE) {

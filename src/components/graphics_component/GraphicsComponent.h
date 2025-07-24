@@ -33,19 +33,23 @@ namespace Project::Components {
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void applyStyle() override;
-
+    
+    void setEntityPosition(int x, int y) override;
+    void setEntityRotation(float _angle) override { rotation = _angle; }
+    
     bool setTexture(Project::Handlers::ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setShape(int width, int height, SDL_Color color);
     void setCircle(int radius, SDL_Color color);
     void setPosition(int x, int y, int width, int height);
-    void setEntityPosition(int x, int y) override;
     
-    void setEntityRotation(float angle) override { rotation = angle; }
-    void setRotationEnabled(bool enabled) { rotationEnabled = enabled; }
+    void setRotationEnabled(bool _enabled) { rotationEnabled = _enabled; }
+    void setBorderColor(SDL_Color _color) { borderColor = _color; }
+    void setBorderWidth(int _width) { borderWidth = _width; }
+
     bool isRotationEnabled() const { return rotationEnabled; }
     
     float getRotation() const { return rotation; }
-    void setRotation(float angle) { rotation = angle; }
+    void setRotation(float _angle) { rotation = _angle; }
 
     const SDL_Rect& getRect() const { return destRect; }
     int getWidth() const { return destRect.w; }
@@ -67,10 +71,13 @@ namespace Project::Components {
     std::unique_ptr<Project::Handlers::AnimationHandler> animationHandler;
 
     SDL_Color shapeColor = Project::Libraries::Constants::DEFAULT_SHAPE_COLOR;
+    SDL_Color borderColor{0, 0, 0, 0};
     SDL_Color gradientStart{0, 0, 0, 0};
     SDL_Color gradientEnd{0, 0, 0, 0};
     
     SDL_Rect destRect{0, 0, 0, 0};
+
+    int borderWidth{0};
 
     float radius = 0;
     float rotation = 0.0f;

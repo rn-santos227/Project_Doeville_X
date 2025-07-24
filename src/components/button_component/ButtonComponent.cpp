@@ -79,6 +79,14 @@ namespace Project::Components {
     SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, drawColor.a);
     SDL_RenderFillRect(renderer, &rect);
 
+    if (borderWidth > 0) {
+      SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+      for (int i = 0; i < borderWidth; ++i) {
+        SDL_Rect bRect = {rect.x + i, rect.y + i, rect.w - 2 * i, rect.h - 2 * i};
+        SDL_RenderDrawRect(renderer, &bRect);
+      }
+    }
+
     if (textTexture) {
       SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
     }
@@ -134,6 +142,8 @@ namespace Project::Components {
         font = TTF_OpenFont(defaultFontPath.c_str(), s.fontSize);
         fontSize = s.fontSize;
       }
+      if (s.borderColor.a != 0) borderColor = s.borderColor;
+      if (s.borderWidth > 0) borderWidth = s.borderWidth;
       if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
         paddingTop = s.paddingTop; paddingRight = s.paddingRight; paddingBottom = s.paddingBottom; paddingLeft = s.paddingLeft;
       }

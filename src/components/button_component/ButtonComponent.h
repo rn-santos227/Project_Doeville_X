@@ -43,6 +43,9 @@ namespace Project::Components {
 
     void setFontColor(SDL_Color _color);
     void setFontHoverColor(SDL_Color _color);
+
+    void setBorderColor(SDL_Color _color) { borderColor = _color; }
+    void setBorderWidth(int _width) { borderWidth = _width; }
     
     void setCallback(const std::string& functionName);
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
@@ -63,6 +66,13 @@ namespace Project::Components {
     
     SDL_Rect rect{0,0,0,0};
     SDL_Color color{
+      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
+      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
+      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
+      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL
+    };
+
+    SDL_Color borderColor{
       Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
       Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
       Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
@@ -95,16 +105,15 @@ namespace Project::Components {
     std::string luaFunction;
     std::string text;
     
+    int borderWidth{0};
     int paddingTop{0};
     int paddingRight{0};
     int paddingBottom{0};
     int paddingLeft{0};
-
     int marginTop{0};
     int marginRight{0};
     int marginBottom{0};
     int marginLeft{0};
-
     int fontSize = 16;
 
     bool hovered = false;

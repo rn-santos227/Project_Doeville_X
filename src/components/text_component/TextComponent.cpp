@@ -35,6 +35,31 @@ namespace Project::Components {
     }
   }
 
+  void TextComponent::update(float deltaTime) {
+    animationHandler.update(static_cast<Uint32>(deltaTime * Constants::MILLISECONDS_PER_SECOND));
+  }
+
+  void TextComponent::render() {
+    if (animationHandler.isAnimationActive()) {
+      SDL_Texture* frame = animationHandler.getCurrentFrameTexture();
+      if (frame) {
+        SDL_RenderCopy(renderer, frame, nullptr, &rect);
+      }
+    }
+
+    if (texture) {
+      SDL_RenderCopy(renderer, texture, nullptr, &rect);
+    }
+
+    if (borderWidth > 0) {
+      SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+      for (int i = 0; i < borderWidth; ++i) {
+        SDL_Rect bRect = {rect.x + i, rect.y + i, rect.w - 2 * i, rect.h - 2 * i};
+        SDL_RenderDrawRect(renderer, &bRect);
+      }
+    }
+  }
+
   void TextComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
     Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_COLOR_ALPHA, Constants::FULL_ALPHA));
@@ -94,6 +119,14 @@ namespace Project::Components {
         }
         createTexture();
       }
+
+      if (s.borderColor.a != 0) {
+        borderColor = s.borderColor;
+      }
+      
+      if (s.borderWidth > 0) {
+        borderWidth = s.borderWidth;
+      }
     }
   }
 
@@ -119,23 +152,6 @@ namespace Project::Components {
 
   void TextComponent::setEntityPosition(int x, int y) {
     setPosition(x, y);
-  }
-
-  void TextComponent::update(float deltaTime) {
-    animationHandler.update(static_cast<Uint32>(deltaTime * Constants::MILLISECONDS_PER_SECOND));
-  }
-
-  void TextComponent::render() {
-    if (animationHandler.isAnimationActive()) {
-      SDL_Texture* frame = animationHandler.getCurrentFrameTexture();
-      if (frame) {
-        SDL_RenderCopy(renderer, frame, nullptr, &rect);
-      }
-    }
-
-    if (texture) {
-      SDL_RenderCopy(renderer, texture, nullptr, &rect);
-    }
   }
 
   void TextComponent::createTexture() {

@@ -27,12 +27,15 @@ namespace Project::Components {
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void applyStyle() override;
+    
+    void setEntityPosition(int x, int y) override;
 
     void setText(const std::string& newText);
     void setColor(SDL_Color newColor);
     void setColorHex(const std::string& hex);
     void setPosition(int x, int y);
-    void setEntityPosition(int x, int y) override;
+    void setBorderColor(SDL_Color _color) { borderColor = _color; }
+    void setBorderWidth(int _width) { borderWidth = _width; }
 
     const SDL_Rect& getRect() const { return rect; }
     int getWidth() const { return rect.w; }
@@ -50,11 +53,14 @@ namespace Project::Components {
     SDL_Renderer* renderer;
     TTF_Font* font;
 
+    SDL_Color borderColor{0,0,0,0};
     SDL_Color color;
     SDL_Rect rect;
 
     std::string currentText;
     std::string fontPath;
+    
+    int borderWidth{0};
     int fontSize;
 
     void createTexture();

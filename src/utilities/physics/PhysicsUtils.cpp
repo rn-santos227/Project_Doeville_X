@@ -127,6 +127,15 @@ namespace Project::Utilities {
     }
   }
 
+  void PhysicsUtils::clampVelocityInPlace(float& vx, float& vy, float maxVelocity) {
+    float length = std::sqrt(vx * vx + vy * vy);
+    if (length > maxVelocity && length > 0.0f) {
+        float scale = maxVelocity / length;
+        vx *= scale;
+        vy *= scale;
+    }
+  }
+
   void PhysicsUtils::applyForces(
     float& velocityX, float& velocityY,
     float& accelerationX, float& accelerationY,

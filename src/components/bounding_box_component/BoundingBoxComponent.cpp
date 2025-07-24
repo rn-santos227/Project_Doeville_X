@@ -26,7 +26,12 @@ namespace Project::Components {
   
   BoundingBoxComponent::BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor)
     : BaseComponent(logsManager), PositionableComponent(), renderer(renderer), keyHandler(keyHandler), debugColor(debugColor) {
-    logsManager.logMessage("BoundingBoxComponent initialized.");
+      
+      boxes.reserve(Constants::INDEX_FOUR);
+      worldBoxes.reserve(Constants::INDEX_FOUR);
+      circles.reserve(Constants::INDEX_TWO);
+      worldCircles.reserve(Constants::INDEX_TWO);
+      orientedBoxes.reserve(Constants::INDEX_FOUR);
   }
 
   void BoundingBoxComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {
@@ -37,14 +42,15 @@ namespace Project::Components {
 
   void BoundingBoxComponent::render() {
     if (!renderer || !keyHandler || !keyHandler->isGameDebugMode()) return;
-    int camX = 0;
-    int camY = 0;
-    if (cameraHandler) {
-      camX = cameraHandler->getX();
-      camY = cameraHandler->getY();
-    }
+    
+    const int camX = cameraHandler ? cameraHandler->getX() : 0;
+    const int camY = cameraHandler ? cameraHandler->getY() : 0;
 
     SDL_SetRenderDrawColor(renderer, debugColor.r, debugColor.g, debugColor.b, debugColor.a);
+    if (worldBoxesDirty) {
+      updateWorldBoxes();
+      worldBoxesDirty = false;
+    }
 
     if (rotationEnabled) {
       for (const auto& box : orientedBoxes) {
@@ -61,6 +67,17 @@ namespace Project::Components {
         SDL_Rect r = {rect.x - camX, rect.y - camY, rect.w, rect.h};
         SDL_RenderDrawRect(renderer, &r);
       }
+    }
+
+    static bool sinCosTableInitialized = false;
+    static std::array<float, 360> sinTable, cosTable;
+    if (!sinCosTableInitialized) {
+      for (int angle = 0; angle < 360; ++angle) {
+        const float rad = angle * Constants::DEG_TO_RAD;
+        sinTable[angle] = std::sin(rad);
+        cosTable[angle] = std::cos(rad);
+      }
+      sinCosTableInitialized = true;
     }
 
     for (const auto& circle : worldCircles) {
@@ -128,6 +145,8 @@ namespace Project::Components {
 
     bool rot = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rot);
+
+    markDirty();
   }
 
   void BoundingBoxComponent::addBox(const SDL_Rect& rect) {
@@ -146,14 +165,6 @@ namespace Project::Components {
     circles.clear();
     worldCircles.clear();
     orientedBoxes.clear();
-  }
-
-  const std::vector<SDL_Rect>& BoundingBoxComponent::getBoxes() const {
-    return worldBoxes;
-  }
-
-  const std::vector<Project::Utilities::Circle>& BoundingBoxComponent::getCircles() const {
-    return worldCircles;
   }
 
   void BoundingBoxComponent::setSolid(bool solidEnabled) {
@@ -176,90 +187,147 @@ namespace Project::Components {
     SurfaceType surface, Project::Entities::Entity* target,
     const SDL_FPoint& offset, float bounce, float fric,
     float& velocityX, float& velocityY) {
+    
     if (surface == SurfaceType::GHOST_PASS) {
       return false;
     }
-    if (surface == SurfaceType::SLIDE) {
-      if (std::abs(offset.x) >= std::abs(offset.y)) velocityX = 0.0f; else velocityY = 0.0f;
-      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-      velocityY *= (Constants::DEFAULT_WHOLE - fric);
-    } else if (surface == SurfaceType::STICK || surface == SurfaceType::REST) {
-      velocityX = 0.0f;
-      velocityY = 0.0f;
-    } else if (surface == SurfaceType::DESTROY_ON_HIT) {
-      if (target) {
-        for (const std::string& n : target->listComponentNames()) {
-          if (auto* c = target->getComponent(n)) c->setActive(false);
+
+    const float oneMinusFric = Constants::DEFAULT_WHOLE - fric;
+    
+    switch (surface) {
+      case SurfaceType::SLIDE:
+        if (std::abs(offset.x) >= std::abs(offset.y)) {
+          velocityX = 0.0f;
+        } else {
+          velocityY = 0.0f;
         }
-      }
-    } else if (surface == SurfaceType::TRIGGER_EVENT) {
-      if (target) target->getLuaStateWrapper().callFunctionIfExists(Keys::LUA_ON_TRIGGER);
-    } else {
-      velocityX = -velocityX * bounce;
-      velocityY = -velocityY * bounce;
-      velocityX *= (Constants::DEFAULT_WHOLE - fric);
-      velocityY *= (Constants::DEFAULT_WHOLE - fric);
+        velocityX *= oneMinusFric;
+        velocityY *= oneMinusFric;
+        break;
+        
+      case SurfaceType::STICK:
+      case SurfaceType::REST:
+        velocityX = 0.0f;
+        velocityY = 0.0f;
+        break;
+        
+      case SurfaceType::DESTROY_ON_HIT:
+        if (target) {
+          const auto& componentNames = target->listComponentNames();
+          for (const std::string& name : componentNames) {
+            if (auto* component = target->getComponent(name)) {
+              component->setActive(false);
+            }
+          }
+        }
+        break;
+        
+      case SurfaceType::TRIGGER_EVENT:
+        if (target) {
+          target->getLuaStateWrapper().callFunctionIfExists(Keys::LUA_ON_TRIGGER);
+        }
+        break;
+        
+      default:
+        velocityX = -velocityX * bounce * oneMinusFric;
+        velocityY = -velocityY * bounce * oneMinusFric;
+        break;
     }
     return true;
   }
 
   void BoundingBoxComponent::setEntityPosition(int x, int y) {
-    entityX = x;
-    entityY = y;
-    updateWorldBoxes();
+     if (entityX != x || entityY != y) {
+      entityX = x;
+      entityY = y;
+      markDirty();
+    }
   }
 
   void BoundingBoxComponent::setEntityRotation(float angle) {
-    rotation = angle;
-    updateWorldBoxes();
+    if (rotation != angle) {
+      rotation = angle;
+      lastCachedRotation = std::numeric_limits<float>::quiet_NaN();
+      markDirty();
+    }
   }
 
   void BoundingBoxComponent::updateWorldBoxes() {
-    worldBoxes.resize(boxes.size());
-    orientedBoxes.resize(boxes.size());
-    worldCircles.resize(circles.size());
+    if (worldBoxes.size() != boxes.size()) {
+      worldBoxes.resize(boxes.size());
+      orientedBoxes.resize(boxes.size());
+    }
+
+    if (worldCircles.size() != circles.size()) {
+      worldCircles.resize(circles.size());
+    }
+
+    float cosA = 1.0f, sinA = 0.0f;
+    if (rotationEnabled && !boxes.empty()) {
+      if (rotation != lastCachedRotation) {
+        const float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
+        cachedCos = std::cos(angleRad);
+        cachedSin = std::sin(angleRad);
+        lastCachedRotation = rotation;
+      }
+      cosA = cachedCos;
+      sinA = cachedSin;
+    }
 
     for (size_t i = 0; i < boxes.size(); ++i) {
       if (rotationEnabled) {
-        float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
-        float cosA = std::cos(angleRad);
-        float sinA = std::sin(angleRad);
-        float cx = boxes[i].x + boxes[i].w * Constants::DEFAULT_HALF;
-        float cy = boxes[i].y + boxes[i].h * Constants::DEFAULT_HALF;
-        SDL_FPoint points[Constants::INDEX_FOUR] = {
-          {static_cast<float>(boxes[i].x), static_cast<float>(boxes[i].y)},
-          {static_cast<float>(boxes[i].x + boxes[i].w), static_cast<float>(boxes[i].y)},
-          {static_cast<float>(boxes[i].x + boxes[i].w), static_cast<float>(boxes[i].y + boxes[i].h)},
-          {static_cast<float>(boxes[i].x), static_cast<float>(boxes[i].y + boxes[i].h)}
-        };
+        const float cx = boxes[i].x + boxes[i].w * Constants::DEFAULT_HALF;
+        const float cy = boxes[i].y + boxes[i].h * Constants::DEFAULT_HALF;
+        
+        const std::array<SDL_FPoint, 4> localCorners = {{
+          {static_cast<float>(boxes[i].x) - cx, static_cast<float>(boxes[i].y) - cy},
+          {static_cast<float>(boxes[i].x + boxes[i].w) - cx, static_cast<float>(boxes[i].y) - cy},
+          {static_cast<float>(boxes[i].x + boxes[i].w) - cx, static_cast<float>(boxes[i].y + boxes[i].h) - cy},
+          {static_cast<float>(boxes[i].x) - cx, static_cast<float>(boxes[i].y + boxes[i].h) - cy}
+        }};
+        
         float minX = std::numeric_limits<float>::max();
         float minY = std::numeric_limits<float>::max();
         float maxX = std::numeric_limits<float>::lowest();
         float maxY = std::numeric_limits<float>::lowest();
+        
         for (int j = 0; j < Constants::INDEX_FOUR; ++j) {
-          float rx = points[j].x - cx;
-          float ry = points[j].y - cy;
-          float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
-          float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
+          const float rx = localCorners[j].x;
+          const float ry = localCorners[j].y;
+          const float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
+          const float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
+          
           orientedBoxes[i].corners[j] = {newX, newY};
-          if (newX < minX) minX = newX;
-          if (newY < minY) minY = newY;
-          if (newX > maxX) maxX = newX;
-          if (newY > maxY) maxY = newY;
+          minX = std::min(minX, newX);
+          minY = std::min(minY, newY);
+          maxX = std::max(maxX, newX);
+          maxY = std::max(maxY, newY);
         }
-        worldBoxes[i].x = static_cast<int>(minX);
-        worldBoxes[i].y = static_cast<int>(minY);
-        worldBoxes[i].w = static_cast<int>(maxX - minX);
-        worldBoxes[i].h = static_cast<int>(maxY - minY);
+        
+        worldBoxes[i] = {
+          static_cast<int>(minX),
+          static_cast<int>(minY),
+          static_cast<int>(maxX - minX),
+          static_cast<int>(maxY - minY)
+        };
       } else {
-        worldBoxes[i].x = boxes[i].x + entityX;
-        worldBoxes[i].y = boxes[i].y + entityY;
-        worldBoxes[i].w = boxes[i].w;
-        worldBoxes[i].h = boxes[i].h;
-        orientedBoxes[i].corners[0] = {static_cast<float>(worldBoxes[i].x), static_cast<float>(worldBoxes[i].y)};
-        orientedBoxes[i].corners[1] = {static_cast<float>(worldBoxes[i].x + worldBoxes[i].w), static_cast<float>(worldBoxes[i].y)};
-        orientedBoxes[i].corners[2] = {static_cast<float>(worldBoxes[i].x + worldBoxes[i].w), static_cast<float>(worldBoxes[i].y + worldBoxes[i].h)};
-        orientedBoxes[i].corners[3] = {static_cast<float>(worldBoxes[i].x), static_cast<float>(worldBoxes[i].y + worldBoxes[i].h)};
+        worldBoxes[i] = {
+          static_cast<int>(boxes[i].x + entityX),
+          static_cast<int>(boxes[i].y + entityY),
+          boxes[i].w,
+          boxes[i].h
+        };
+        
+
+        const float x = static_cast<float>(worldBoxes[i].x);
+        const float y = static_cast<float>(worldBoxes[i].y);
+        const float w = static_cast<float>(worldBoxes[i].w);
+        const float h = static_cast<float>(worldBoxes[i].h);
+        
+        orientedBoxes[i].corners[0] = {x, y};
+        orientedBoxes[i].corners[1] = {x + w, y};
+        orientedBoxes[i].corners[2] = {x + w, y + h};
+        orientedBoxes[i].corners[3] = {x, y + h};
       }
     }
 
@@ -268,5 +336,17 @@ namespace Project::Components {
       worldCircles[i].y = circles[i].y + entityY;
       worldCircles[i].r = circles[i].r;
     }
+  }
+
+  void BoundingBoxComponent::markDirty() {
+    worldBoxesDirty = true;
+  }
+
+  const std::vector<SDL_Rect>& BoundingBoxComponent::getBoxes() const {
+    return worldBoxes;
+  }
+
+  const std::vector<Project::Utilities::Circle>& BoundingBoxComponent::getCircles() const {
+    return worldCircles;
   }
 }

@@ -83,6 +83,10 @@ namespace Project::Components {
 
     SDL_Color debugColor = Project::Libraries::Constants::DEFAULT_BOUNDING_BOX_COLOR;
 
+    mutable float cachedSin = 0.0f;
+    mutable float cachedCos = 1.0f;
+    mutable float lastCachedRotation = std::numeric_limits<float>::quiet_NaN();
+
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
     float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
     float rotation = 0.0f;
@@ -90,10 +94,12 @@ namespace Project::Components {
     float entityX = 0;
     float entityY = 0;
     
+    mutable bool worldBoxesDirty = true;
     bool rotationEnabled = false;
     bool solid = false;
 
     void updateWorldBoxes();
+    void markDirty();
   };
 }
 

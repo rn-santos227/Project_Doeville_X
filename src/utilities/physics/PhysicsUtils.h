@@ -17,7 +17,9 @@ namespace Project::Utilities {
 		
     static float calculateDistance(float x1, float y1, float x2, float y2);
 		static SDL_FPoint applyGravity(SDL_FPoint velocity, float deltaTime);
+    
     static void clampVelocity(SDL_FPoint& velocity, float maxSpeed);
+    static void clampVelocityInPlace(float& vx, float& vy, float maxVelocity);
 
     static void applyForces(
     float& velocityX, float& velocityY,

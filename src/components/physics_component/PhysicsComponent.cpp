@@ -14,7 +14,6 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/physics/PhysicsUtils.h"
-#include "utilities/math/MathUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::MathUtils;
@@ -97,10 +96,9 @@ namespace Project::Components {
     }
 
     if (!isKinematic && gravityEnabled) {
-      applyForce(
-        Constants::DEFAULT_GRAVITY_DIRECTION.x * getWeight() * gravityScale,
-        Constants::DEFAULT_GRAVITY_DIRECTION.y * getWeight() * gravityScale
-      );
+      const float weight = mass * Constants::GRAVITY * gravityScale;
+      forceX += Constants::DEFAULT_GRAVITY_DIRECTION.x * weight;
+      forceY += Constants::DEFAULT_GRAVITY_DIRECTION.y * weight;
     }
 
     PhysicsUtils::applyForces(
@@ -109,7 +107,6 @@ namespace Project::Components {
       forceX, forceY,
       mass, deltaTime
     );
-    bool collisionOccurred = false;
 
     PhysicsUtils::applyResistance(
       velocityX, velocityY,
@@ -117,208 +114,100 @@ namespace Project::Components {
       isKinematic, deltaTime
     );
 
-    SDL_FPoint vel{velocityX, velocityY};
-    Project::Utilities::PhysicsUtils::clampVelocity(
-    vel, Project::Libraries::Constants::TERMINAL_VELOCITY);
-    velocityX = vel.x;
-    velocityY = vel.y;
+    PhysicsUtils::clampVelocityInPlace(velocityX, velocityY, Constants::TERMINAL_VELOCITY);
 
-    if (owner) {
-      float oldX = owner->getX();
-      float oldY = owner->getY();
-      float newX = oldX + velocityX * deltaTime;
-      float newY = oldY + velocityY * deltaTime;
-      syncPositionWithComponents(newX, newY);
+    if (!owner) return;
 
-      auto* manager = owner->getEntitiesManager();
-      auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
-      bool exitLoops = false;
+    const float oldX = owner->getX();
+    const float oldY = owner->getY();
+    const float newX = oldX + velocityX * deltaTime;
+    const float newY = oldY + velocityY * deltaTime;
     
-      if (manager && myBox && myBox->isSolid()) {
-        for (const auto& [id, entity] : manager->getAllEntities()) {
-          if (exitLoops) break;
-          if (!entity || entity.get() == owner) continue;
-          auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
-          if (!otherBox || !otherBox->isSolid()) continue;
-        
-          const auto& myRects = myBox->getBoxes();
-          const auto& otherRects = otherBox->getBoxes();
-          const auto& myOBB = myBox->getOrientedBoxes();
-          const auto& otherOBB = otherBox->getOrientedBoxes();
-          for (size_t i = 0; i < myRects.size(); ++i) {
-            const SDL_Rect& r1 = myRects[i];
-            for (size_t j = 0; j < otherRects.size(); ++j) {
-              const SDL_Rect& r2 = otherRects[j];
-              if (exitLoops) break;
-            
-              bool collides = false;
-              if (myBox->isRotationEnabled() || otherBox->isRotationEnabled()) {
-                collides = Project::Utilities::PhysicsUtils::checkCollision(myOBB[i], otherOBB[j]);
-              } else {
-                collides = Project::Utilities::PhysicsUtils::checkCollision(r1, r2);
-              }
+    syncPositionWithComponents(newX, newY);
 
-              if (collides) {
-                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
-                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
-
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-                if (otherPhysics && pushForce > 0.0f && !otherPhysics->getStatic()) {
-                  float pushX = velocityX * pushForce;
-                  float pushY = velocityY * pushForce;
-                  otherPhysics->addVelocity(pushX, pushY);
-                }
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getSnapOffset(r1, r2, velocityX * deltaTime, velocityY * deltaTime);
-
-                float snapX = newX + offset.x;
-                float snapY = newY + offset.y;
-                syncPositionWithComponents(snapX, snapY);
-              
-                if (otherPhysics) {
-                  if (otherPhysics->getStatic()) {
-                    auto surface = otherPhysics->getSurfaceType();
-                    if (!myBox->handleSurfaceInteraction(static_cast<SurfaceType>(surface), entity.get(), offset, bounce, fric, velocityX, velocityY)) {
-                      syncPositionWithComponents(newX, newY);
-                      continue;
-                    }
-                  } else {
-                    resolveCollisionWith(otherPhysics, bounce);
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    otherPhysics->setVelocity(
-                      otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                      otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
-                  }
-                } else {
-                  auto surface = otherBox->getSurfaceType();
-                  if (!myBox->handleSurfaceInteraction(surface, entity.get(), offset, bounce, fric, velocityX, velocityY)) {
-                    syncPositionWithComponents(newX, newY);
-                    continue;
-                  }
-                }
-                collisionOccurred = true;
-                break;
-              }
-            }
-
-            for (const auto& c2 : otherBox->getCircles()) {
-              if (Project::Utilities::PhysicsUtils::checkCollision(r1, c2)) {
-                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
-                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
-
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getRectCircleSnapOffset(r1, c2, velocityX * deltaTime, velocityY * deltaTime);
-
-                float snapX = newX + offset.x;
-                float snapY = newY + offset.y;
-                syncPositionWithComponents(snapX, snapY);
-
-                if (otherPhysics) {
-
-                } else {
-                  velocityX = -velocityX * bounce;
-                  velocityY = -velocityY * bounce;
-                  velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                  velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                }
-                collisionOccurred = true;
-                break;
-              }
-            }
-          }
-
-          for (const auto& c1 : myBox->getCircles()) {
-            for (const auto& c2 : otherBox->getCircles()) {
-              if (Project::Utilities::PhysicsUtils::checkCollision(c1, c2)) {
-                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
-                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
-
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-                if (otherPhysics && pushForce > 0.0f) {
-                  float pushX = velocityX * pushForce;
-                  float pushY = velocityY * pushForce;
-                  otherPhysics->addVelocity(pushX, pushY);
-                }
-
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleSnapOffset(c1, c2, velocityX * deltaTime, velocityY * deltaTime);
-                float snapX = newX + offset.x;
-                float snapY = newY + offset.y;
-                syncPositionWithComponents(snapX, snapY);
-
-                if (otherPhysics) {
-                  if (otherPhysics->getStatic()) {
-                    auto surface = otherPhysics->getSurfaceType();
-                    if (!myBox->handleSurfaceInteraction(static_cast<SurfaceType>(surface), entity.get(), offset, bounce, fric, velocityX, velocityY)) {
-                      syncPositionWithComponents(newX, newY);
-                      continue;
-                    }
-                  } else {
-                    resolveCollisionWith(otherPhysics, bounce);
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    otherPhysics->setVelocity(
-                      otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                      otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric));
-                  }
-                } else {
-                  auto surface = otherBox->getSurfaceType();
-                  if (!myBox->handleSurfaceInteraction(surface, entity.get(), offset, bounce, fric, velocityX, velocityY)) {
-                    syncPositionWithComponents(newX, newY);
-                    continue;
-                  }
-                }
-                collisionOccurred = true;
-                break;
-              }
-            }
-
-            for (const auto& r2 : otherBox->getBoxes()) {
-              if (Project::Utilities::PhysicsUtils::checkCollision(r2, c1)) {
-                float bounce = (myBox->getRestitution() + otherBox->getRestitution()) / Constants::DEFAULT_DENOMINATOR;
-                float fric = (myBox->getFriction() + otherBox->getFriction()) / Constants::DEFAULT_DENOMINATOR;
-                
-                PhysicsComponent* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-                SDL_FPoint offset = Project::Utilities::PhysicsUtils::getCircleRectSnapOffset(c1, r2, velocityX * deltaTime, velocityY * deltaTime);
-
-                float snapX = newX + offset.x;
-                float snapY = newY + offset.y;
-                syncPositionWithComponents(snapX, snapY);
-
-                if (otherPhysics) {
-                  if (otherPhysics->getStatic()) {
-                    auto surface = otherBox->getSurfaceType();
-                    if (!myBox->handleSurfaceInteraction(surface, entity.get(), offset, bounce, fric, velocityX, velocityY)) {
-                      syncPositionWithComponents(newX, newY);
-                      continue;
-                    }
-                  } else {
-                    resolveCollisionWith(otherPhysics, bounce);
-                    velocityX *= (Constants::DEFAULT_WHOLE - fric);
-                    velocityY *= (Constants::DEFAULT_WHOLE - fric);
-                    otherPhysics->setVelocity(
-                      otherPhysics->getVelocityX() * (Constants::DEFAULT_WHOLE - fric),
-                      otherPhysics->getVelocityY() * (Constants::DEFAULT_WHOLE - fric)
-                    );
-                  }
-                } else {
-                  auto surface = otherBox->getSurfaceType();
-                  if (!myBox->handleSurfaceInteraction(surface, entity.get(), offset, bounce, fric, velocityX, velocityY)) {
-                    syncPositionWithComponents(newX, newY);
-                    continue;
-                  }
-                }
-                collisionOccurred = true;
-                break;
-              }
-            }
-          } 
-        }
-      }
-    }
+    bool collisionOccurred = performCollisionDetection(newX, newY, oldX, oldY, deltaTime);
 
     if (rotationEnabled) {
       updateRotationState(deltaTime, collisionOccurred);
     }
+
+    forceX = forceY = 0.0f;
+    accelerationX = accelerationY = 0.0f;
+  }
+
+  bool PhysicsComponent::performCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime) {
+    auto* manager = owner->getEntitiesManager();
+    auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    
+    if (!manager || !myBox || !myBox->isSolid()) {
+      return false;
+    }
+
+    bool collisionOccurred = false;
+    const float velocityDeltaX = velocityX * deltaTime;
+    const float velocityDeltaY = velocityY * deltaTime;
+
+    const auto& myRects = myBox->getBoxes();
+    const auto& myCircles = myBox->getCircles();
+    const auto& myOBB = myBox->getOrientedBoxes();
+    const bool myRotationEnabled = myBox->isRotationEnabled();
+
+    for (const auto& [id, entity] : manager->getAllEntities()) {
+      if (!entity || entity.get() == owner) continue;
+      
+      auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+      if (!otherBox || !otherBox->isSolid()) continue;
+
+      const auto& otherRects = otherBox->getBoxes();
+      const auto& otherCircles = otherBox->getCircles();
+      const auto& otherOBB = otherBox->getOrientedBoxes();
+      const bool otherRotationEnabled = otherBox->isRotationEnabled();
+      
+      if (!broadPhaseCollisionCheck(myBox, otherBox)) {
+        continue;
+      }
+
+      auto* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
+      
+      if (checkBoxBoxCollisions(
+        myRects, otherRects, myOBB, otherOBB, 
+        myRotationEnabled, otherRotationEnabled,
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+
+      if (checkBoxCircleCollisions(
+        myRects, otherCircles,
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+
+      if (checkCircleCircleCollisions(
+        myCircles, otherCircles, 
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+
+      if (checkCircleBoxCollisions(
+        myCircles, otherRects, 
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+    }
+
+    return collisionOccurred;
   }
 
   void PhysicsComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
@@ -350,12 +239,155 @@ namespace Project::Components {
     setKinematic(kine);
   }
 
+  bool PhysicsComponent::checkBoxBoxCollisions(
+    const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
+    const std::vector<OrientedBox>& myOBB, const std::vector<OrientedBox>& otherOBB,
+    bool myRotationEnabled, bool otherRotationEnabled,
+    BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+    PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+    float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
+    
+    for (size_t i = 0; i < myRects.size(); ++i) {
+      for (size_t j = 0; j < otherRects.size(); ++j) {
+        bool collides = false;
+        if (myRotationEnabled || otherRotationEnabled) {
+          collides = PhysicsUtils::checkCollision(myOBB[i], otherOBB[j]);
+        } else {
+          collides = PhysicsUtils::checkCollision(myRects[i], otherRects[j]);
+        }
+
+        if (collides) {
+          return handleCollision(
+            myBox, otherBox, otherPhysics, entity,
+            myRects[i], otherRects[j], newX, newY, 
+            velocityDeltaX, velocityDeltaY
+          );
+        }
+      }
+    }
+    return false;
+  }
+
+  bool PhysicsComponent::checkBoxCircleCollisions(
+    const std::vector<SDL_Rect>& myRects, const std::vector<Project::Utilities::Circle>& otherCircles,
+    BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+    PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+    float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
+    
+    for (const auto& rect : myRects) {
+      for (const auto& circle : otherCircles) {
+        if (PhysicsUtils::checkCollision(rect, circle)) {
+          const SDL_FPoint offset = PhysicsUtils::getRectCircleSnapOffset(rect, circle, velocityDeltaX, velocityDeltaY);
+          return handleCollision(myBox, otherBox, otherPhysics, entity, offset, newX, newY);
+        }
+      }
+    }
+    return false;
+  }
+
+  bool PhysicsComponent::checkCircleCircleCollisions(
+    const std::vector<Project::Utilities::Circle>& myCircles, 
+    const std::vector<Project::Utilities::Circle>& otherCircles,
+    BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+    PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+    float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
+    
+    for (const auto& c1 : myCircles) {
+      for (const auto& c2 : otherCircles) {
+        if (PhysicsUtils::checkCollision(c1, c2)) {
+          const SDL_FPoint offset = PhysicsUtils::getCircleSnapOffset(c1, c2, velocityDeltaX, velocityDeltaY);
+          return handleCollision(myBox, otherBox, otherPhysics, entity, offset, newX, newY);
+        }
+      }
+    }
+    return false;
+  }
+
+  bool PhysicsComponent::checkCircleBoxCollisions(
+    const std::vector<Project::Utilities::Circle>& myCircles, const std::vector<SDL_Rect>& otherRects,
+    BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+    PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+    float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
+    
+    for (const auto& circle : myCircles) {
+      for (const auto& rect : otherRects) {
+        if (PhysicsUtils::checkCollision(rect, circle)) {
+          const SDL_FPoint offset = PhysicsUtils::getCircleRectSnapOffset(circle, rect, velocityDeltaX, velocityDeltaY);
+          return handleCollision(myBox, otherBox, otherPhysics, entity, offset, newX, newY);
+        }
+      }
+    }
+    return false;
+  }
+
+  bool PhysicsComponent::handleCollision(
+    BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+    PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+    const SDL_Rect& myRect, const SDL_Rect& otherRect,
+    float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
+    
+    const SDL_FPoint offset = PhysicsUtils::getSnapOffset(myRect, otherRect, velocityDeltaX, velocityDeltaY);
+    return handleCollision(myBox, otherBox, otherPhysics, entity, offset, newX, newY);
+  }
+
+  bool PhysicsComponent::handleCollision(
+    BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+    PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+    const SDL_FPoint& offset, float newX, float newY) {
+    
+    const float bounce = (myBox->getRestitution() + otherBox->getRestitution()) * 0.5f;
+    const float fric = (myBox->getFriction() + otherBox->getFriction()) * 0.5f;
+
+    if (otherPhysics && pushForce > 0.0f && !otherPhysics->getStatic()) {
+      const float pushX = velocityX * pushForce;
+      const float pushY = velocityY * pushForce;
+      otherPhysics->addVelocity(pushX, pushY);
+    }
+
+    const float snapX = newX + offset.x;
+    const float snapY = newY + offset.y;
+    syncPositionWithComponents(snapX, snapY);
+
+    if (otherPhysics) {
+      if (otherPhysics->getStatic()) {
+        const auto surface = otherPhysics->getSurfaceType();
+        if (!myBox->handleSurfaceInteraction(static_cast<SurfaceType>(surface), entity, offset, bounce, fric, velocityX, velocityY)) {
+          syncPositionWithComponents(newX, newY);
+          return false;
+        }
+      } else {
+        resolveCollisionWith(otherPhysics, bounce);
+        applyFriction(fric);
+        otherPhysics->applyFriction(fric);
+      }
+    } else {
+      const auto surface = otherBox->getSurfaceType();
+      if (!myBox->handleSurfaceInteraction(surface, entity, offset, bounce, fric, velocityX, velocityY)) {
+        syncPositionWithComponents(newX, newY);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  bool PhysicsComponent::shouldExitEarly() {
+    return std::abs(velocityX) < 0.1f && std::abs(velocityY) < 0.1f;
+  }
+
+  void PhysicsComponent::applyFriction(float fric) {
+    const float frictionFactor = Constants::DEFAULT_WHOLE - fric;
+    velocityX *= frictionFactor;
+    velocityY *= frictionFactor;
+  }
+
   void PhysicsComponent::syncPositionWithComponents(float x, float y) {
     owner->setPosition(x, y);
-    for (const std::string& n : owner->listComponentNames()) {
-      if (auto* c = owner->getComponent(n)) {
-        if (auto* pos = dynamic_cast<PositionableComponent*>(c)) {
-          pos->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+    const auto& componentNames = owner->listComponentNames();
+    for (const std::string& name : componentNames) {
+      if (auto* component = owner->getComponent(name)) {
+        if (auto* positionable = dynamic_cast<PositionableComponent*>(component)) {
+          positionable->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
         }
       }
     }
@@ -370,26 +402,26 @@ namespace Project::Components {
     angularAcceleration = 0.0f;
 
     if (friction > 0.0f) {
-      float decelR = friction * deltaTime;
+      const float deceleration = friction * deltaTime;
       if (angularVelocity > 0.0f) {
-        angularVelocity -= decelR;
-        if (angularVelocity < 0.0f) angularVelocity = 0.0f;
+        angularVelocity = std::max(0.0f, angularVelocity - deceleration);
       } else if (angularVelocity < 0.0f) {
-        angularVelocity += decelR;
-        if (angularVelocity > 0.0f) angularVelocity = 0.0f;
+        angularVelocity = std::min(0.0f, angularVelocity + deceleration);
       }
     }
 
     rotation += angularVelocity * deltaTime;
-    for (const std::string& n : owner->listComponentNames()) {
-      if (auto* c = owner->getComponent(n)) {
-        if (auto* rot = dynamic_cast<Project::Interfaces::Rotatable*>(c)) {
-          if (auto* box = dynamic_cast<BoundingBoxComponent*>(rot)) {
+
+    const auto& componentNames = owner->listComponentNames();
+    for (const std::string& name : componentNames) {
+      if (auto* component = owner->getComponent(name)) {
+        if (auto* rotatable = dynamic_cast<Project::Interfaces::Rotatable*>(component)) {
+          if (auto* box = dynamic_cast<BoundingBoxComponent*>(rotatable)) {
             box->setRotationEnabled(rotationEnabled);
-          } else if (auto* gfx = dynamic_cast<GraphicsComponent*>(rot)) {
+          } else if (auto* gfx = dynamic_cast<GraphicsComponent*>(rotatable)) {
             gfx->setRotationEnabled(rotationEnabled);
           }
-          rot->setEntityRotation(rotation);
+          rotatable->setEntityRotation(rotation);
         }
       }
     }

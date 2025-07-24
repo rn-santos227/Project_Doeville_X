@@ -5,6 +5,7 @@
 
 #include "components/BaseComponent.h"
 #include "libraries/constants/Constants.h"
+#include "utilities/math/MathUtils.h"
 
 namespace Project { namespace Entities { class Entity; } }
 
@@ -90,9 +91,6 @@ namespace Project::Components {
     }
 
   private:
-    void syncPositionWithComponents(float x, float y);
-    void updateRotationState(float deltaTime, bool collisionOccurred);
-    
     Project::Entities::Entity* owner = nullptr;
     Project::Components::Physics::SurfaceType surfaceType = Project::Components::Physics::SurfaceType::REST;
 
@@ -119,6 +117,60 @@ namespace Project::Components {
     bool gravityEnabled = false;
     bool isStatic = false;
     bool isKinematic = false;
+
+
+    bool checkBoxBoxCollisions(
+      const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
+      const std::vector<OrientedBox>& myOBB, const std::vector<OrientedBox>& otherOBB,
+      bool myRotationEnabled, bool otherRotationEnabled,
+      BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+      PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+      float newX, float newY, float velocityDeltaX, float velocityDeltaY
+    );
+
+    bool checkBoxCircleCollisions(
+      const std::vector<SDL_Rect>& myRects, const std::vector<Project::Utilities::Circle>& otherCircles,
+      BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+      PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+      float newX, float newY, float velocityDeltaX, float velocityDeltaY
+    );
+    
+    bool checkCircleCircleCollisions(
+      const std::vector<Project::Utilities::Circle>& myCircles, 
+      const std::vector<Project::Utilities::Circle>& otherCircles,
+      BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+      PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+      float newX, float newY, float velocityDeltaX, float velocityDeltaY
+    );
+    
+    bool checkCircleBoxCollisions(    
+      const std::vector<Project::Utilities::Circle>& myCircles, const std::vector<SDL_Rect>& otherRects,
+      BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+      PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+      float newX, float newY, float velocityDeltaX, float velocityDeltaY
+    );
+
+    bool handleCollision(
+      BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+      PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+      const SDL_Rect& myRect, const SDL_Rect& otherRect,
+      float newX, float newY, float velocityDeltaX, float velocityDeltaY
+    );
+
+    bool handleCollision(
+      BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
+      PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
+      const SDL_FPoint& offset, float newX, float newY
+    );
+
+
+    bool performCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime);
+    bool broadPhaseCollisionCheck(BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox);
+    bool shouldExitEarly();
+    
+    void applyFriction(float fric);
+    void syncPositionWithComponents(float x, float y);
+    void updateRotationState(float deltaTime, bool collisionOccurred);
   };
 }
 

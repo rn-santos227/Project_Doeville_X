@@ -2,12 +2,17 @@
 #define GEOMETRY_UTILS_H
 
 #include <SDL.h>
+#include "libraries/constants/IndexConstants.h"
 
 namespace Project::Utilities {
   struct Circle {
     int x;
     int y;
     int r;
+  };
+
+  struct OrientedBox {
+    SDL_FPoint corners[Project::Libraries::Constants::INDEX_FOUR];
   };
 
   class GeometryUtils {

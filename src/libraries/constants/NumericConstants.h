@@ -22,6 +22,7 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_STATE_CACHE_LIMIT = 5;
   constexpr int DEFAULT_DOUBLE = 2;
   constexpr int DEFAULT_MAX_CHANNEL = 255;
+  constexpr int DEFAULT_COLLISION_PADDING = 50;
   
   constexpr int INT_ONE = 1;
 

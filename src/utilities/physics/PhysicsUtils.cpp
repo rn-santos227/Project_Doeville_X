@@ -4,11 +4,12 @@
 #include <cmath>
 
 #include "libraries/constants/Constants.h"
+#include "utilities/geometry/GeometryUtils.h"
 #include "utilities/math/MathUtils.h"
-
 
 namespace Project::Utilities {
   using Project::Utilities::MathUtils;
+  using Project::Utilities::OrientedBox;
 
   namespace Constants = Project::Libraries::Constants;
 
@@ -33,7 +34,7 @@ namespace Project::Utilities {
     return (dx * dx + dy * dy) <= (c.r * c.r);
   }
 
-  bool PhysicsUtils::checkCollision(const Project::Components::OrientedBox& a, const Project::Components::OrientedBox& b) {
+  bool PhysicsUtils::checkCollision(const OrientedBox& a, const OrientedBox& b) {
     auto overlapOnAxis = [](const SDL_FPoint* pts1, const SDL_FPoint* pts2, SDL_FPoint axis) {
       float minA = std::numeric_limits<float>::max();
       float maxA = std::numeric_limits<float>::lowest();
@@ -52,7 +53,7 @@ namespace Project::Utilities {
       return !(maxA < minB || maxB < minA);
     };
 
-    auto computeAABB = [](const Project::Components::OrientedBox& box, float& minX, float& maxX, float& minY, float& maxY) {
+    auto computeAABB = [](const OrientedBox& box, float& minX, float& maxX, float& minY, float& maxY) {
       minX = std::numeric_limits<float>::max();
       minY = std::numeric_limits<float>::max();
       maxX = std::numeric_limits<float>::lowest();

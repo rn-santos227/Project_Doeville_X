@@ -4,12 +4,14 @@
 #include "SurfaceType.h"
 
 #include "components/BaseComponent.h"
+#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "libraries/constants/Constants.h"
-#include "utilities/math/MathUtils.h"
+#include "utilities/geometry/GeometryUtils.h"
 
 namespace Project { namespace Entities { class Entity; } }
 
 namespace Project::Components {
+
   class PhysicsComponent : public BaseComponent {
   public:
     explicit PhysicsComponent(Project::Utilities::LogsManager& logsManager);
@@ -118,10 +120,12 @@ namespace Project::Components {
     bool isStatic = false;
     bool isKinematic = false;
 
+    SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b);
 
     bool checkBoxBoxCollisions(
       const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
-      const std::vector<OrientedBox>& myOBB, const std::vector<OrientedBox>& otherOBB,
+      const std::vector<Project::Utilities::OrientedBox>& myOBB, 
+      const std::vector<Project::Utilities::OrientedBox>& otherOBB,
       bool myRotationEnabled, bool otherRotationEnabled,
       BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
       PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,

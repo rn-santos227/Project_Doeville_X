@@ -4,7 +4,6 @@
 #include <string>
 
 #include "components/PositionableComponent.h"
-#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/physics_component/SurfaceTypeResolver.h"
 #include "entities/Entity.h"
@@ -14,6 +13,7 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/physics/PhysicsUtils.h"
+#include "utilities/math/MathUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::MathUtils;
@@ -117,97 +117,19 @@ namespace Project::Components {
     PhysicsUtils::clampVelocityInPlace(velocityX, velocityY, Constants::TERMINAL_VELOCITY);
 
     if (!owner) return;
-
     const float oldX = owner->getX();
     const float oldY = owner->getY();
     const float newX = oldX + velocityX * deltaTime;
     const float newY = oldY + velocityY * deltaTime;
-    
     syncPositionWithComponents(newX, newY);
 
     bool collisionOccurred = performCollisionDetection(newX, newY, oldX, oldY, deltaTime);
-
     if (rotationEnabled) {
       updateRotationState(deltaTime, collisionOccurred);
     }
 
     forceX = forceY = 0.0f;
     accelerationX = accelerationY = 0.0f;
-  }
-
-  bool PhysicsComponent::performCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime) {
-    auto* manager = owner->getEntitiesManager();
-    auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
-    
-    if (!manager || !myBox || !myBox->isSolid()) {
-      return false;
-    }
-
-    bool collisionOccurred = false;
-    const float velocityDeltaX = velocityX * deltaTime;
-    const float velocityDeltaY = velocityY * deltaTime;
-
-    const auto& myRects = myBox->getBoxes();
-    const auto& myCircles = myBox->getCircles();
-    const auto& myOBB = myBox->getOrientedBoxes();
-    const bool myRotationEnabled = myBox->isRotationEnabled();
-
-    for (const auto& [id, entity] : manager->getAllEntities()) {
-      if (!entity || entity.get() == owner) continue;
-      
-      auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
-      if (!otherBox || !otherBox->isSolid()) continue;
-
-      const auto& otherRects = otherBox->getBoxes();
-      const auto& otherCircles = otherBox->getCircles();
-      const auto& otherOBB = otherBox->getOrientedBoxes();
-      const bool otherRotationEnabled = otherBox->isRotationEnabled();
-      
-      if (!broadPhaseCollisionCheck(myBox, otherBox)) {
-        continue;
-      }
-
-      auto* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-      
-      if (checkBoxBoxCollisions(
-        myRects, otherRects, myOBB, otherOBB, 
-        myRotationEnabled, otherRotationEnabled,
-        myBox, otherBox, otherPhysics, entity.get(),
-        newX, newY, velocityDeltaX, velocityDeltaY)
-      ) {
-        collisionOccurred = true;
-        if (shouldExitEarly()) break;
-      }
-
-      if (checkBoxCircleCollisions(
-        myRects, otherCircles,
-        myBox, otherBox, otherPhysics, entity.get(),
-        newX, newY, velocityDeltaX, velocityDeltaY)
-      ) {
-        collisionOccurred = true;
-        if (shouldExitEarly()) break;
-      }
-
-      if (checkCircleCircleCollisions(
-        myCircles, otherCircles, 
-        myBox, otherBox, otherPhysics, entity.get(),
-        newX, newY, velocityDeltaX, velocityDeltaY)
-      ) {
-        collisionOccurred = true;
-        if (shouldExitEarly()) break;
-      }
-
-      if (checkCircleBoxCollisions(
-        myCircles, otherRects, 
-        myBox, otherBox, otherPhysics, entity.get(),
-        newX, newY, velocityDeltaX, velocityDeltaY)
-      ) {
-        collisionOccurred = true;
-        if (shouldExitEarly()) break;
-      }
-    }
-
-    return collisionOccurred;
   }
 
   void PhysicsComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
@@ -239,9 +161,18 @@ namespace Project::Components {
     setKinematic(kine);
   }
 
+  SDL_Rect PhysicsComponent::unionRect(const SDL_Rect& a, const SDL_Rect& b) {
+    const int left = std::min(a.x, b.x);
+    const int top = std::min(a.y, b.y);
+    const int right = std::max(a.x + a.w, b.x + b.w);
+    const int bottom = std::max(a.y + a.h, b.y + b.h);
+    return {left, top, right - left, bottom - top};
+  }
+
   bool PhysicsComponent::checkBoxBoxCollisions(
     const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
-    const std::vector<OrientedBox>& myOBB, const std::vector<OrientedBox>& otherOBB,
+    const std::vector<Project::Utilities::OrientedBox>& myOBB, 
+    const std::vector<Project::Utilities::OrientedBox>& otherOBB,
     bool myRotationEnabled, bool otherRotationEnabled,
     BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
@@ -369,6 +300,106 @@ namespace Project::Components {
     }
 
     return true;
+  }
+
+  bool PhysicsComponent::performCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime) {
+    auto* manager = owner->getEntitiesManager();
+    auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    
+    if (!manager || !myBox || !myBox->isSolid()) {
+      return false;
+    }
+
+    bool collisionOccurred = false;
+    const float velocityDeltaX = velocityX * deltaTime;
+    const float velocityDeltaY = velocityY * deltaTime;
+
+    const auto& myRects = myBox->getBoxes();
+    const auto& myCircles = myBox->getCircles();
+    const auto& myOBB = myBox->getOrientedBoxes();
+    const bool myRotationEnabled = myBox->isRotationEnabled();
+
+    for (const auto& [id, entity] : manager->getAllEntities()) {
+      if (!entity || entity.get() == owner) continue;
+      
+      auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+      if (!otherBox || !otherBox->isSolid()) continue;
+
+      const auto& otherRects = otherBox->getBoxes();
+      const auto& otherCircles = otherBox->getCircles();
+      const auto& otherOBB = otherBox->getOrientedBoxes();
+      const bool otherRotationEnabled = otherBox->isRotationEnabled();
+      
+      if (!broadPhaseCollisionCheck(myBox, otherBox)) {
+        continue;
+      }
+
+      auto* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
+      
+      if (checkBoxBoxCollisions(
+        myRects, otherRects, myOBB, otherOBB, 
+        myRotationEnabled, otherRotationEnabled,
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+
+      if (checkBoxCircleCollisions(
+        myRects, otherCircles,
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+
+      if (checkCircleCircleCollisions(
+        myCircles, otherCircles, 
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+
+      if (checkCircleBoxCollisions(
+        myCircles, otherRects, 
+        myBox, otherBox, otherPhysics, entity.get(),
+        newX, newY, velocityDeltaX, velocityDeltaY)
+      ) {
+        collisionOccurred = true;
+        if (shouldExitEarly()) break;
+      }
+    }
+
+    return collisionOccurred;
+  }
+
+  bool PhysicsComponent::broadPhaseCollisionCheck(BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox) {
+    const auto& myRects = myBox->getBoxes();
+    const auto& otherRects = otherBox->getBoxes();
+    
+    if (myRects.empty() || otherRects.empty()) return true; // Let narrow phase handle it
+    
+    SDL_Rect myBounds = myRects[0];
+    for (size_t i = 1; i < myRects.size(); ++i) {
+      myBounds = unionRect(myBounds, myRects[i]);
+    }
+    
+    SDL_Rect otherBounds = otherRects[0];
+    for (size_t i = 1; i < otherRects.size(); ++i) {
+      otherBounds = unionRect(otherBounds, otherRects[i]);
+    }
+    
+    const int padding = Constants::DEFAULT_COLLISION_PADDING;
+    myBounds.x -= padding;
+    myBounds.y -= padding;
+    myBounds.w += Constants::INDEX_TWO * padding;
+    myBounds.h += Constants::INDEX_TWO * padding;
+    
+    return SDL_HasIntersection(&myBounds, &otherBounds);
   }
 
   bool PhysicsComponent::shouldExitEarly() {

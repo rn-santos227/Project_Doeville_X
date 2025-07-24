@@ -8,6 +8,9 @@
 namespace Project::Services::StyleBinding {
   void setBackground(Style& style, const std::string& value);
   void setHoverColor(Style& style, const std::string& value);
+  void setBorderColor(Style& style, const std::string& value);
+  void setBorderWidth(Style& style, const std::string& value);
+  void setBorderRadius(Style& style, const std::string& value);
   void setFontColor(Style& style, const std::string& value);
   void setFontHoverColor(Style& style, const std::string& value);
   void setFontSize(Style& style, const std::string& value);

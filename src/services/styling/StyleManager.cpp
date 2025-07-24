@@ -55,6 +55,18 @@ namespace Project::Services {
             StyleBinding::setHoverColor(style, value);
             break;
 
+          case StyleProperty::BORDER_COLOR:
+            StyleBinding::setBorderColor(style, value);
+            break;
+
+          case StyleProperty::BORDER_WIDTH:
+            StyleBinding::setBorderWidth(style, value);
+            break;
+
+          case StyleProperty::BORDER_RADIUS:
+            StyleBinding::setBorderRadius(style, value);
+            break;
+
           case StyleProperty::FONT_COLOR:
             StyleBinding::setFontColor(style, value);
             break;
@@ -68,7 +80,7 @@ namespace Project::Services {
             break;
 
           case StyleProperty::GRADIENT:
-            StyleBinding::setGradient(style, value);          
+            StyleBinding::setGradient(style, value);
             break;
 
           case StyleProperty::GRADIENT_START:
@@ -82,7 +94,6 @@ namespace Project::Services {
           case StyleProperty::GRADIENT_STYLE: 
             StyleBinding::setGradientStyle(style, value);
             break;
-          
 
           case StyleProperty::MARGIN: 
             StyleBinding::setMargin(style, value);

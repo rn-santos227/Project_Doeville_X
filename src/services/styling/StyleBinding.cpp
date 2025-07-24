@@ -37,6 +37,18 @@ namespace Project::Services::StyleBinding {
     style.hoverColor = ColorUtils::hexToRGB(value);
   }
 
+  void setBorderColor(Style& style, const std::string& value) {
+    style.borderColor = ColorUtils::hexToRGB(value);
+  }
+
+  void setBorderWidth(Style& style, const std::string& value) {
+    style.borderWidth = AdvanceParser::parseInt(value);
+  }
+
+  void setBorderRadius(Style& style, const std::string& value) {
+    style.borderRadius = AdvanceParser::parseFloat(value);
+  }
+
   void setFontColor(Style& style, const std::string& value) {
     style.fontColor = ColorUtils::hexToRGB(value);
   }

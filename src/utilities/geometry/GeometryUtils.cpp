@@ -40,6 +40,37 @@ namespace Project::Utilities {
     return std::sqrt(dx * dx + dy * dy);
   }
 
+  void GeometryUtils::renderCircle(SDL_Renderer* renderer, int cx, int cy, int r) {
+    int x = r - 1;
+    int y = 0;
+    int dx = 1;
+    int dy = 1;
+    int err = dx - (r << 1);
+
+    while (x >= y) {
+      SDL_RenderDrawPoint(renderer, cx + x, cy + y);
+      SDL_RenderDrawPoint(renderer, cx + y, cy + x);
+      SDL_RenderDrawPoint(renderer, cx - y, cy + x);
+      SDL_RenderDrawPoint(renderer, cx - x, cy + y);
+      SDL_RenderDrawPoint(renderer, cx - x, cy - y);
+      SDL_RenderDrawPoint(renderer, cx - y, cy - x);
+      SDL_RenderDrawPoint(renderer, cx + y, cy - x);
+      SDL_RenderDrawPoint(renderer, cx + x, cy - y);
+
+      if (err <= 0) {
+        y++;
+        err += dy;
+        dy += 2;
+      }
+      
+      if (err > 0) {
+        x--;
+        dx += 2;
+        err += dx - (r << 1);
+      }
+    }
+  }
+
   void GeometryUtils::renderFilledCircle(SDL_Renderer* renderer, int cx, int cy, int r) {
     int x = r;
     int y = 0;

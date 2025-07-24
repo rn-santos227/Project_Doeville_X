@@ -20,6 +20,7 @@ namespace Project::Utilities {
     static bool rectCircleIntersect(const SDL_Rect& rect, const Circle& c);
     static float distance(float x1, float y1, float x2, float y2);
 
+    static void renderCircle(SDL_Renderer* renderer, int cx, int cy, int r);
     static void renderFilledCircle(SDL_Renderer* renderer, int cx, int cy, int r);
   };
 }

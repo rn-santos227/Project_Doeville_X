@@ -13,15 +13,15 @@ namespace Project::Systems {
     components.erase(std::remove(components.begin(), components.end(), component), components.end());
   }
 
-  void Project::Systems::MotionSystem::clear() {
-    components.clear();
-  }
-
   void Project::Systems::MotionSystem::update(float deltaTime) {
     for (auto* comp : components) {
       if (comp && comp->isActive()) {
         comp->update(deltaTime);
       }
     }
+  }
+
+  void Project::Systems::MotionSystem::clear() {
+    components.clear();
   }
 }

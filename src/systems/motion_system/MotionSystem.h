@@ -11,9 +11,10 @@ namespace Project::Systems {
   public:
     void add(Project::Components::MotionComponent* component);
     void remove(Project::Components::MotionComponent* component);
-    void clear();
+
     void update(float deltaTime) override;
-  
+    void clear();
+      
     private:
     std::vector<Project::Components::MotionComponent*> components;
   };

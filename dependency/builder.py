@@ -1,6 +1,7 @@
 import os
-import shutil
 import subprocess
+import shutil
+import sys
 
 class Builder:
   def __init__(self, source_dir: str):
@@ -20,12 +21,23 @@ class Builder:
       meson_file = os.path.join(self.source_dir, "meson.build")
       makefile = os.path.join(self.source_dir, "Makefile")
 
-      if os.path.isfile(configure_script):
+      if os.path.isfile(configure_script) and not (os.name == "nt" and os.path.isfile(cmakelists)):
         os.chmod(configure_script, 0o755)
-        subprocess.run([configure_script, f"--prefix={install_prefix}"], cwd=self.source_dir, check=True, env=env)
+        configure_args = [configure_script, f"--prefix={install_prefix}"]
+        
+        if os.name == "nt":
+          shell = self._find_shell(env)
+          if not shell:
+            raise RuntimeError("shell for running configure not found")
+          host = env.get("CHOST") or env.get("HOST") or "x86_64-w64-mingw32"
+          configure_args.append(f"--host={host}")
+          subprocess.run([shell] + configure_args, cwd=self.source_dir, check=True, env=env)
+        else:
+          subprocess.run(configure_args, cwd=self.source_dir, check=True, env=env)
 
         make_cmd = shutil.which("make", path=env.get("PATH"))
-        if os.name == "nt":
+        
+        if self._is_windows():
           make_cmd = shutil.which("mingw32-make", path=env.get("PATH")) or \
                     shutil.which("nmake", path=env.get("PATH")) or make_cmd
         
@@ -47,16 +59,24 @@ class Builder:
         if not shutil.which(cmake_cmd, path=env.get("PATH")):
           raise RuntimeError("'cmake' not found in PATH")
 
-        subprocess.run([
-          cmake_cmd,
-          "..",
-          f"-DCMAKE_INSTALL_PREFIX={install_prefix}"
-        ], cwd=build_dir, check=True, env=env)
+        generator = None
+        if self._is_windows():
+          if shutil.which("mingw32-make", path=env.get("PATH")):
+            generator = "MinGW Makefiles"
+          elif shutil.which("nmake", path=env.get("PATH")):
+            generator = "NMake Makefiles"
+
+        configure = [cmake_cmd, "..", f"-DCMAKE_INSTALL_PREFIX={install_prefix}"]
+        if generator:
+          configure += ["-G", generator]
+
+        subprocess.run(configure, cwd=build_dir, check=True, env=env)
 
         build_cmd = [cmake_cmd, "--build", ".", "--target", "install"]
-        if os.name == "nt":
+        if self._is_windows():
           build_cmd += ["--config", "Release"]
-          subprocess.run(build_cmd, cwd=build_dir, check=True)
+        
+        subprocess.run(build_cmd, cwd=build_dir, check=True, env=env)
 
       elif os.path.isfile(meson_file):
         meson = shutil.which("meson", path=env.get("PATH"))
@@ -85,17 +105,28 @@ class Builder:
 
         if is_lua:
           subprocess.run([make_cmd, "linux"], cwd=self.source_dir, check=True, env=env)
+          target = "mingw" if os.name == "nt" else "linux"
+          subprocess.run([make_cmd, target], cwd=self.source_dir, check=True, env=env)
+          install_path = install_prefix
+          if self._is_msys_make(make_cmd):
+            install_path = self._to_msys_path(install_path)
           subprocess.run([
             make_cmd,
             "install",
             f"INSTALL_TOP={install_prefix}",
+            f"INSTALL_TOP={install_path}",
           ], cwd=self.source_dir, check=True, env=env)
+        
         else:
           subprocess.run([make_cmd], cwd=self.source_dir, check=True, env=env)
+          prefix_path = install_prefix
+          if self._is_msys_make(make_cmd):
+            prefix_path = self._to_msys_path(prefix_path)
           subprocess.run([
             make_cmd,
             "install",
             f"PREFIX={install_prefix}",
+            f"PREFIX={prefix_path}",
           ], cwd=self.source_dir, check=True, env=env)
 
       else:
@@ -106,3 +137,35 @@ class Builder:
     except subprocess.CalledProcessError as e:
       print(f"Build failed for {self.source_dir}: {e}")
       raise e
+
+  def _is_windows(self) -> bool:
+    platform_val = sys.platform.lower()
+    return os.name == "nt" or platform_val.startswith("win") or \
+           platform_val.startswith("msys") or platform_val.startswith("cygwin")
+
+  def _find_shell(self, env):
+    path_entries = env.get("PATH", "").split(os.pathsep)
+    for entry in path_entries:
+      for name in ("bash.exe", "bash", "sh.exe", "sh"):
+        candidate = os.path.join(entry, name)
+        if os.path.isfile(candidate):
+          norm = os.path.normcase(candidate)
+          if os.path.basename(candidate).startswith("bash") and "system32" in norm:
+            continue
+          return candidate
+    return None
+
+  def _is_msys_make(self, make_cmd: str) -> bool:
+    if not make_cmd or not self._is_windows():
+      return False
+    cmd_lower = os.path.normcase(make_cmd)
+    return "msys" in cmd_lower or "usr\\bin\\make" in cmd_lower
+
+  def _to_msys_path(self, path: str) -> str:
+    path = os.path.abspath(path)
+    drive, rest = os.path.splitdrive(path)
+    rest = rest.replace("\\", "/")
+    if drive:
+      return f"/{drive[0].lower()}{rest}"
+    return rest
+ 

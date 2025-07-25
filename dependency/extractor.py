@@ -57,12 +57,23 @@ class TarGzExtractor:
     if not os.path.isdir(only_entry):
         print(f"Only entry {only_entry} is not a directory.")
         return
-
-    # Move all files out
+    
+    def _move_with_retry(src, dst):
+      import time
+      for i in range(5):
+        try:
+          shutil.move(src, dst)
+          return
+        except PermissionError as e:
+          if getattr(e, 'winerror', None) == 32 and i < 4:
+            time.sleep(0.1)
+            continue
+          raise
+            
     for name in os.listdir(only_entry):
         src = os.path.join(only_entry, name)
         dst = os.path.join(dest_folder, name)
-        shutil.move(src, dst)
+        _move_with_retry(src, dst)
 
     # Remove the now-empty folder
     os.rmdir(only_entry)

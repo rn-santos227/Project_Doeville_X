@@ -11,6 +11,10 @@ namespace Project::Helpers {
   class EntityPool {
   public:
     using Deleter = std::function<void(Project::Entities::Entity*)>;
+    static EntityPool& getInstance() {
+      static EntityPool instance;
+      return instance;
+    }
   
   private:
     std::vector<Project::Entities::Entity*> pool;

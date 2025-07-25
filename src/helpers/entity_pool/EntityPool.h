@@ -25,6 +25,11 @@ namespace Project::Helpers {
       } else {
         mem = static_cast<Project::Entities::Entity*>(::operator new(sizeof(Project::Entities::Entity)));
       }
+
+      new (mem) Project::Entities::Entity(std::forward<Args>(args)...);
+      return std::unique_ptr<Project::Entities::Entity, Deleter>(mem, [](Project::Entities::Entity* e) {
+        EntityPool::getInstance().release(e);
+      });
     }
   
   private:

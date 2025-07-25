@@ -30,10 +30,12 @@ namespace Project::Helpers {
       return std::unique_ptr<Project::Entities::Entity, Deleter>(mem, [](Project::Entities::Entity* e) {
         EntityPool::getInstance().release(e);
       });
+    }
 
-      void release(Project::Entities::Entity* entity) {
-
-      }
+    void release(Project::Entities::Entity* entity) {
+      if (!entity) return;
+      entity->~Entity();
+      pool.push_back(entity);
     }
   
   private:

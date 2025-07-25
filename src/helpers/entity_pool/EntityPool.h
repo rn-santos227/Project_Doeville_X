@@ -21,6 +21,9 @@ namespace Project::Helpers {
         ::operator delete(ptr);
       }
     }
+
+    EntityPool(const EntityPool&) = delete;
+    EntityPool& operator=(const EntityPool&) = delete;
   };
 }
 

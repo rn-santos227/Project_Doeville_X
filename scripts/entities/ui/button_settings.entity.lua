@@ -1,6 +1,7 @@
 x = center_x + 110
-y = center_y + 90
+y = center_y + 40
 z = 0
+
 
 group = "ui"
 

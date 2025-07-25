@@ -83,6 +83,7 @@ namespace Project::Entities {
         if (dynamic_cast<Components::GraphicsComponent*>(component.get())) {
           continue;
         }
+        component->render();
       }
     }
   }

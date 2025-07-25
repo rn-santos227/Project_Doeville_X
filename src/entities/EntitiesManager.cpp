@@ -150,19 +150,10 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::render() {
-    SDL_Rect cullRect{0,0,0,0};
-    bool useCull = false;
-    auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
-    if (camHandler) {
-      cullRect = camHandler->getCullingRect();
-      useCull = true;
-    }
-
-    std::lock_guard<std::mutex> lock(managerMutex);
+    renderSystem.render();
     for (auto& obj : entityList) {
       if (obj) obj->render();
     }
-    renderSystem.render();
   }
 
   void EntitiesManager::reset() {
@@ -265,6 +256,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_brakeEntity, this);
         } else if (func == Keys::LUA_SPAWN_ENTITY && gameState) {
           entity->registerLuaFunction(func, LuaBindings::lua_spawnEntity, gameState);
+        } else if (func == Keys::LUA_EXIT_GAME) {
+          entity->registerLuaFunction(func, LuaBindings::lua_exitGame, this);
         }
       }
     }

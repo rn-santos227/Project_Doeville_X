@@ -18,7 +18,13 @@ namespace Project::Helpers {
 
     template <typename... Args>
     std::unique_ptr<T, Deleter> acquire(Args&&... args) {
-      
+      T* mem = nullptr;
+      if (!pool.empty()) {
+        mem = pool.back();
+        pool.pop_back();
+      } else {
+        mem = static_cast<T*>(::operator new(sizeof(T)));
+      }
     }
 
   private:

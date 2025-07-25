@@ -1,6 +1,8 @@
 #include "EntitiesManager.h"
 
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 
 #include <SDL.h>
 
@@ -184,6 +186,10 @@ namespace Project::Entities {
     return result;
   }
 
+  size_t EntitiesManager::getEntityCount() const {
+    return ObjectsManager<Entity>::count();
+  }
+
   void EntitiesManager::clearGroup(const std::string& group) {
     auto it = entityGroups.find(group);
     if (it != entityGroups.end()) {
@@ -196,63 +202,71 @@ namespace Project::Entities {
 
   void EntitiesManager::registerEntityLuaFunctions(Entity* entity) {
     if (!entity) return;
-    std::string path = entity->getScriptPath();
-    std::string code;
-    if (!path.empty()) {
-      std::ifstream in(path);
-      if (in) {
-        std::ostringstream ss;
-        ss << in.rdbuf();
-        code = ss.str();
-      }
-    }
-
-    auto contains = [&](const std::string& name) {
-      return code.find(name) != std::string::npos;
-    };
-
-    if (contains(Keys::LUA_GET_ENTITY_SPEED)) {
-      entity->registerLuaFunction(Keys::LUA_GET_ENTITY_SPEED, LuaBindings::lua_getEntitySpeed, this);
-    }
+    const std::string& path = entity->getScriptPath();
+    std::vector<std::string> functions;
     
-    if (contains(Keys::LUA_SET_ENTITY_TEXT)) {
-      entity->registerLuaFunction(Keys::LUA_SET_ENTITY_TEXT, LuaBindings::lua_setEntityText, this);
-    }
+    if (!path.empty()) {
+      auto cacheIt = scriptFunctionCache.find(path);
+      if (cacheIt == scriptFunctionCache.end()) {
+        std::string code;
+        std::ifstream in(path);
+        if (in) {
+          std::ostringstream ss;
+          ss << in.rdbuf();
+          code = ss.str();
+        }
 
-    if (contains(Keys::LUA_DESTROY_ENTITY)) {
-      entity->registerLuaFunction(Keys::LUA_DESTROY_ENTITY, LuaBindings::lua_destroyEntity, this);
-    }
+        auto contains = [&](const std::string& name) {
+          return code.find(name) != std::string::npos;
+        };
 
-    if (contains(Keys::LUA_SET_TIMER_ACTIVE)) {
-      entity->registerLuaFunction(Keys::LUA_SET_TIMER_ACTIVE, LuaBindings::lua_setTimerActive, this);
-    }
+        auto record = [&](const std::string& name) {
+          if (contains(name)) functions.push_back(name);
+        };
 
-    if (contains(Keys::LUA_ADD_NUMERIC_VALUE)) {
-      entity->registerLuaFunction(Keys::LUA_ADD_NUMERIC_VALUE, LuaBindings::lua_addNumericValue, this);
-    }
+        record(Keys::LUA_GET_ENTITY_SPEED);
+        record(Keys::LUA_SET_ENTITY_TEXT);
+        record(Keys::LUA_DESTROY_ENTITY);
+        record(Keys::LUA_SET_TIMER_ACTIVE);
+        record(Keys::LUA_ADD_NUMERIC_VALUE);
+        record(Keys::LUA_SET_NUMERIC_VALUE);
+        record(Keys::LUA_GET_NUMERIC_VALUE);
+        record(Keys::LUA_STOP_TIMER);
+        record(Keys::LUA_BRAKE_ENTITY);
+        record(Keys::LUA_SPAWN_ENTITY);
 
-    if (contains(Keys::LUA_SET_NUMERIC_VALUE)) {
-      entity->registerLuaFunction(Keys::LUA_SET_NUMERIC_VALUE, LuaBindings::lua_setNumericValue, this);
-    }
+        scriptFunctionCache[path] = functions;
+      } else {
+        functions = cacheIt->second;
+      }
 
-    if (contains(Keys::LUA_GET_NUMERIC_VALUE)) {
-      entity->registerLuaFunction(Keys::LUA_GET_NUMERIC_VALUE, LuaBindings::lua_getNumericValue, this);
-    }
-
-    if (contains(Keys::LUA_STOP_TIMER)) {
-      entity->registerLuaFunction(Keys::LUA_STOP_TIMER, LuaBindings::lua_stopTimer, this);
-    }
-
-    if (contains(Keys::LUA_BRAKE_ENTITY)) {
-      entity->registerLuaFunction(Keys::LUA_BRAKE_ENTITY, LuaBindings::lua_brakeEntity, this);
-    }
-
-    if (gameState && contains(Keys::LUA_SPAWN_ENTITY)) {
-      entity->registerLuaFunction(Keys::LUA_SPAWN_ENTITY, LuaBindings::lua_spawnEntity, gameState);
+      for (const auto& func : functions) {
+        if (func == Keys::LUA_GET_ENTITY_SPEED) {
+          entity->registerLuaFunction(func, LuaBindings::lua_getEntitySpeed, this);
+        } else if (func == Keys::LUA_SET_ENTITY_TEXT) {
+          entity->registerLuaFunction(func, LuaBindings::lua_setEntityText, this);
+        } else if (func == Keys::LUA_DESTROY_ENTITY) {
+          entity->registerLuaFunction(func, LuaBindings::lua_destroyEntity, this);
+        } else if (func == Keys::LUA_SET_TIMER_ACTIVE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_setTimerActive, this);
+        } else if (func == Keys::LUA_ADD_NUMERIC_VALUE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_addNumericValue, this);
+        } else if (func == Keys::LUA_SET_NUMERIC_VALUE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_setNumericValue, this);
+        } else if (func == Keys::LUA_GET_NUMERIC_VALUE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_getNumericValue, this);
+        } else if (func == Keys::LUA_STOP_TIMER) {
+          entity->registerLuaFunction(func, LuaBindings::lua_stopTimer, this);
+        } else if (func == Keys::LUA_BRAKE_ENTITY) {
+          entity->registerLuaFunction(func, LuaBindings::lua_brakeEntity, this);
+        } else if (func == Keys::LUA_SPAWN_ENTITY && gameState) {
+          entity->registerLuaFunction(func, LuaBindings::lua_spawnEntity, gameState);
+        }
+      }
     }
   }
 
-  size_t EntitiesManager::getEntityCount() const {
-    return ObjectsManager<Entity>::count();
+  void EntitiesManager::clearScriptFunctionCache() {
+    scriptFunctionCache.clear();
   }
 }

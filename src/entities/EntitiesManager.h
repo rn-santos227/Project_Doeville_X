@@ -46,14 +46,16 @@ namespace Project::Entities {
       void reset();
 
       std::vector<std::shared_ptr<Entity>> getEntitiesByGroup(const std::string& group);
-      void clearGroup(const std::string& group);
-      void registerEntityLuaFunctions(Entity* entity);
-
       size_t getEntityCount() const;
-
+      
+      void clearGroup(const std::string& group);
+      void clearScriptFunctionCache();
+      void registerEntityLuaFunctions(Entity* entity);
+      
     private:
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
       std::unordered_map<std::string, std::vector<std::string>> entityGroups;
+      std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;
       std::unordered_map<std::string, int> idCounters;
       std::vector<std::shared_ptr<Entity>> entityList;
       

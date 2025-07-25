@@ -69,7 +69,7 @@ namespace Project::Components {
     Project::Services::Style style{};
 
     std::unique_ptr<Project::Handlers::AnimationHandler> animationHandler;
-
+    
     SDL_Color shapeColor = Project::Libraries::Constants::DEFAULT_SHAPE_COLOR;
     SDL_Color borderColor{0, 0, 0, 0};
     SDL_Color gradientStart{0, 0, 0, 0};
@@ -77,9 +77,17 @@ namespace Project::Components {
     
     SDL_Rect destRect{0, 0, 0, 0};
 
-    int borderWidth{0};
+    mutable std::vector<SDL_Vertex> shapeVertices;
+    std::future<SDL_Texture*> textureFuture;
+    std::vector<int> shapeIndices;
 
-    float radius = 0;
+    std::string pendingTexturePath;
+    int borderWidth{0};
+    
+    mutable float lastCachedRotation = std::numeric_limits<float>::quiet_NaN();
+    mutable float cachedCos = Project::Libraries::Constants::DEFAULT_WHOLE;
+    mutable float cachedSin = 0.0f;
+    float radius = 0.0f;
     float rotation = 0.0f;
 
     bool rotationEnabled = false;
@@ -87,8 +95,21 @@ namespace Project::Components {
     bool drawShape = false;
     bool useGradient = false;
 
-    std::future<SDL_Texture*> textureFuture;
-    std::string pendingTexturePath;
+    SDL_Rect getRenderRect() const;
+    SDL_Texture* getTextureToRender();
+    
+    bool isInCameraView();
+    void checkAsyncTextureLoad();
+    void renderTexture(SDL_Texture* texture, const SDL_Rect& renderRect);
+    void renderShape(const SDL_Rect& renderRect);
+    void renderCircleShape(const SDL_Rect& renderRect);
+    void renderRectShape(const SDL_Rect& renderRect);
+    void renderSimpleRect(const SDL_Rect& renderRect);
+    void renderComplexRect(const SDL_Rect& renderRect);
+    void renderRectBorder(const SDL_Rect& renderRect);
+    
+    void updateRotationCache();
+    void setupShapeIndices();
   };
 }
 

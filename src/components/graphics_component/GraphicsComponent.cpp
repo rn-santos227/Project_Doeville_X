@@ -29,6 +29,10 @@ namespace Project::Components {
   GraphicsComponent::GraphicsComponent(SDL_Renderer* renderer, ResourcesHandler* resourcesHandler, LogsManager& logsManager)
     : BaseComponent(logsManager), renderer(renderer), resourcesHandler(resourcesHandler), logsManager(logsManager) {
     animationHandler = std::make_unique<AnimationHandler>(renderer, logsManager);
+
+    shapeVertices.reserve(Constants::INDEX_FOUR);
+    shapeIndices.reserve(Constants::INDEX_SIX);
+    setupShapeIndices();
   }
 
   GraphicsComponent::~GraphicsComponent() {
@@ -46,167 +50,65 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::update(float deltaTime) {
-    if (animationHandler) {
+    if (!texture && textureFuture.valid()) {
+      checkAsyncTextureLoad();
+    }
+
+    if (animationHandler && animationHandler->isAnimationActive()) {
       animationHandler->update(static_cast<Uint32>(deltaTime * Constants::MILLISECONDS_PER_SECOND));
     }
   }
 
   void GraphicsComponent::render() {
-    if (!texture && textureFuture.valid() &&
-        textureFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
-      SDL_Texture* loaded = textureFuture.get();
-      if (!loaded) {
-        logsManager.logError("Failed to load texture: " + pendingTexturePath);
-      } else {
-        texture = loaded;
-        int texW = 0;
-        int texH = 0;
-        if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
-          destRect.w = texW;
-          destRect.h = texH;
-        }
-      }
-      pendingTexturePath.clear();
+    if (cameraHandler && !isInCameraView()) {
+      return;
     }
 
-    if (cameraHandler) {
-      SDL_Rect cullRect = cameraHandler->getCullingRect();
-      if (!SDL_HasIntersection(&destRect, &cullRect)) {
-        return;
-      }
-    }
-    SDL_Texture* textureToRender = texture;
-
-    if (animationHandler && animationHandler->isAnimationActive()) {
-      SDL_Texture* animTexture = animationHandler->getCurrentFrameTexture();
-      if (animTexture) {
-        textureToRender = animTexture;
-      }
-    }
-
-    SDL_Rect renderRect = destRect;
-    if (cameraHandler) {
-      renderRect.x -= cameraHandler->getX();
-      renderRect.y -= cameraHandler->getY();
-    }
+    const SDL_Rect renderRect = getRenderRect();
+    SDL_Texture* textureToRender = getTextureToRender();
 
     if (textureToRender) {
-      if (rotationEnabled) {
-        SDL_RenderCopyEx(renderer, textureToRender, nullptr, &renderRect, rotation, nullptr, SDL_FLIP_NONE);
-      } else {
-        SDL_RenderCopy(renderer, textureToRender, nullptr, &renderRect);
-      }
+      renderTexture(textureToRender, renderRect);
     } else if (drawShape) {
-      if (isCircle) {
-        SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
-        GeometryUtils::renderFilledCircle(
-          renderer,
-          renderRect.x + static_cast<int>(radius),
-          renderRect.y + static_cast<int>(radius),
-          static_cast<int>(radius)
-        );
-        if (borderWidth > 0) {
-          SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
-          for (int i = 0; i < borderWidth; ++i) {
-            GeometryUtils::renderCircle(
-              renderer,
-              renderRect.x + static_cast<int>(radius),
-              renderRect.y + static_cast<int>(radius),
-              static_cast<int>(radius) - i
-            );
-          }
-        }
-      } else {
-        bool complex = rotationEnabled || useGradient;
-        if (complex) {
-          float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
-          float cosA = std::cos(angleRad);
-          float sinA = std::sin(angleRad);
-          float cx = renderRect.x + renderRect.w * Constants::DEFAULT_HALF;
-          float cy = renderRect.y + renderRect.h * Constants::DEFAULT_HALF;
-          SDL_FPoint corners[Constants::INDEX_FOUR] = {
-            {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y)},
-            {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y)},
-            {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y + renderRect.h)},
-            {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y + renderRect.h)}
-          };
-          SDL_Vertex verts[Constants::INDEX_FOUR];
-          for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
-            float rx = corners[i].x - cx;
-            float ry = corners[i].y - cy;
-            verts[i].position.x = rotationEnabled ? rx * cosA - ry * sinA + cx : corners[i].x;
-            verts[i].position.y = rotationEnabled ? rx * sinA + ry * cosA + cy : corners[i].y;
-            SDL_Color col = shapeColor;
-            if (useGradient) {
-              if (gradient == Project::Services::GradientType::VERTICAL) {
-                col = (i < 2) ? gradientStart : gradientEnd;
-              } else {
-                col = (i == 0 || i == 3) ? gradientStart : gradientEnd;
-              }
-            }
-            verts[i].color = col;
-            verts[i].tex_coord = {0.0f, 0.0f};
-          }
-          int indices[Constants::INDEX_SIX] = {
-            Constants::INDEX_ZERO,
-            Constants::INDEX_ONE,
-            Constants::INDEX_TWO,
-            Constants::INDEX_TWO,
-            Constants::INDEX_THREE,
-            Constants::INDEX_ZERO
-          };
-          SDL_RenderGeometry(renderer, nullptr, verts, Constants::INDEX_FOUR, indices, Constants::INDEX_SIX);
-        } else {
-          SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
-          SDL_RenderFillRect(renderer, &renderRect);
-        }
-
-        if (borderWidth > 0) {
-          SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
-          for (int i = 0; i < borderWidth; ++i) {
-            SDL_Rect bRect = {renderRect.x + i, renderRect.y + i, renderRect.w - 2 * i, renderRect.h - 2 * i};
-            SDL_RenderDrawRect(renderer, &bRect);
-          }
-        }
-      }
+      renderShape(renderRect);
     }
   }
 
   void GraphicsComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    namespace Keys = Project::Libraries::Keys;
-    namespace Constants = Project::Libraries::Constants;
+    const std::string imagePath = luaStateWrapper.getTableString(tableName, Keys::TEXTURE_PATH, Constants::EMPTY_STRING);
+    const std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
+    const int radius = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::RADIUS, 0));
+    const int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
+    const int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
+    const Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
+    const bool rotation = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
 
-    std::string imagePath = luaStateWrapper.getTableString(tableName, Keys::TEXTURE_PATH, "");
     if (!imagePath.empty() && resourcesHandler) {
       setTexture(*resourcesHandler, imagePath);
     } else {
-      int radius = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::RADIUS, 0));
-      std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
-      Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
-      SDL_Color color = Project::Utilities::ColorUtils::hexToRGB(colorHex, alpha);
+      const SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
       if (radius > 0) {
         setCircle(radius, color);
       } else {
-        int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
-        int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
         setShape(width, height, color);
       }
     }
 
-    bool rotation = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotation);
-
     onAttach();
   }
 
   void GraphicsComponent::applyStyle() {
     std::istringstream classes(getClass());
     std::string cls;
+    
     while (classes >> cls) {
-      std::string selector = "." + cls;
-      Project::Services::Style s = Project::Services::StyleManager::getInstance().getStyle(selector);
+      const std::string selector = "." + cls;
+      const Project::Services::Style s = StyleManager::getInstance().getStyle(selector);
+      
       if (s.width > 0) destRect.w = s.width;
       if (s.height > 0) destRect.h = s.height;
+      
       if (s.background.a != 0) {
         shapeColor = s.background;
         drawShape = true;
@@ -229,14 +131,14 @@ namespace Project::Components {
       }
 
       if (s.opacity != Constants::DEFAULT_WHOLE) {
-        float opacity = s.opacity;
-        Uint8 alpha = 0;
+        const float opacity = s.opacity;
+        Uint8 newAlpha;
         if (opacity > Constants::DEFAULT_WHOLE) {
-          alpha = static_cast<Uint8>(std::min(opacity, static_cast<float>(Project::Libraries::Constants::FULL_ALPHA)));
+          newAlpha = static_cast<Uint8>(std::min(opacity, static_cast<float>(Constants::FULL_ALPHA)));
         } else {
-          alpha = static_cast<Uint8>(opacity * Project::Libraries::Constants::FULL_ALPHA);
+          newAlpha = static_cast<Uint8>(opacity * Constants::FULL_ALPHA);
         }
-        shapeColor.a = alpha;
+        shapeColor.a = newAlpha;
       }
     }
   }
@@ -283,5 +185,168 @@ namespace Project::Components {
 
   void GraphicsComponent::setEntityPosition(int x, int y) {
     setPosition(x, y, destRect.w, destRect.h);
+  }
+
+  SDL_Rect GraphicsComponent::getRenderRect() const {
+    SDL_Rect renderRect = destRect;
+    if (cameraHandler) {
+      renderRect.x -= cameraHandler->getX();
+      renderRect.y -= cameraHandler->getY();
+    }
+    return renderRect;
+  }
+
+  SDL_Texture* GraphicsComponent::getTextureToRender() {
+    if (animationHandler && animationHandler->isAnimationActive()) {
+      SDL_Texture* animTexture = animationHandler->getCurrentFrameTexture();
+      if (animTexture) {
+        return animTexture;
+      }
+    }
+    return texture;
+  }
+
+  bool GraphicsComponent::isInCameraView() {
+    if (!cameraHandler) return true;
+    
+    const SDL_Rect cullRect = cameraHandler->getCullingRect();
+    return SDL_HasIntersection(&destRect, &cullRect);
+  }
+
+  void GraphicsComponent::checkAsyncTextureLoad() {
+    if (textureFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+      SDL_Texture* loaded = textureFuture.get();
+      if (!loaded) {
+        logsManager.logError("Failed to load texture: " + pendingTexturePath);
+      } else {
+        texture = loaded;
+        int texW, texH;
+        if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
+          destRect.w = texW;
+          destRect.h = texH;
+        }
+      }
+      pendingTexturePath.clear();
+    }
+  }
+
+  void GraphicsComponent::renderTexture(SDL_Texture* textureToRender, const SDL_Rect& renderRect) {
+    if (rotationEnabled) {
+      SDL_RenderCopyEx(renderer, textureToRender, nullptr, &renderRect, rotation, nullptr, SDL_FLIP_NONE);
+    } else {
+      SDL_RenderCopy(renderer, textureToRender, nullptr, &renderRect);
+    }
+  }
+
+
+  void GraphicsComponent::renderShape(const SDL_Rect& renderRect) {
+    if (isCircle) {
+      renderCircleShape(renderRect);
+    } else {
+      renderRectShape(renderRect);
+    }
+  }
+
+  void GraphicsComponent::renderCircleShape(const SDL_Rect& renderRect) {
+    const int centerX = renderRect.x + static_cast<int>(radius);
+    const int centerY = renderRect.y + static_cast<int>(radius);
+    const int circleRadius = static_cast<int>(radius);
+
+    SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
+    GeometryUtils::renderFilledCircle(renderer, centerX, centerY, circleRadius);
+
+    if (borderWidth > 0) {
+      SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+      for (int i = 0; i < borderWidth; ++i) {
+        GeometryUtils::renderCircle(renderer, centerX, centerY, circleRadius - i);
+      }
+    }
+  }
+
+  void GraphicsComponent::renderRectShape(const SDL_Rect& renderRect) {
+    const bool needsComplexRendering = rotationEnabled || useGradient;
+    
+    if (needsComplexRendering) {
+      renderComplexRect(renderRect);
+    } else {
+      renderSimpleRect(renderRect);
+    }
+
+    if (borderWidth > 0) {
+      renderRectBorder(renderRect);
+    }
+  }
+
+  void GraphicsComponent::renderSimpleRect(const SDL_Rect& renderRect) {
+    SDL_SetRenderDrawColor(renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
+    SDL_RenderFillRect(renderer, &renderRect);
+  }
+
+  void GraphicsComponent::renderComplexRect(const SDL_Rect& renderRect) {
+    updateRotationCache();
+    
+    const float cx = renderRect.x + renderRect.w * Constants::DEFAULT_HALF;
+    const float cy = renderRect.y + renderRect.h * Constants::DEFAULT_HALF;
+    
+    shapeVertices.clear();
+    shapeVertices.resize(Constants::INDEX_FOUR);
+    
+    const std::array<SDL_FPoint, Constants::INDEX_FOUR> localCorners = {{
+      {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y)},
+      {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y)},
+      {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y + renderRect.h)},
+      {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y + renderRect.h)}
+    }};
+
+    for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
+      if (rotationEnabled) {
+        const float rx = localCorners[i].x - cx;
+        const float ry = localCorners[i].y - cy;
+        shapeVertices[i].position.x = rx * cachedCos - ry * cachedSin + cx;
+        shapeVertices[i].position.y = rx * cachedSin + ry * cachedCos + cy;
+      } else {
+        shapeVertices[i].position = localCorners[i];
+      }
+      
+      if (useGradient) {
+        if (gradient == Project::Services::GradientType::VERTICAL) {
+          shapeVertices[i].color = (i < Constants::INDEX_TWO) ? gradientStart : gradientEnd;
+        } else {
+          shapeVertices[i].color = (i == 0 || i == Constants::INDEX_THREE) ? gradientStart : gradientEnd;
+        }
+      } else {
+        shapeVertices[i].color = shapeColor;
+      }
+      
+      shapeVertices[i].tex_coord = {0.0f, 0.0f};
+    }
+
+    SDL_RenderGeometry(renderer, nullptr, shapeVertices.data(), Constants::INDEX_FOUR, shapeIndices.data(), Constants::INDEX_SIX);
+  }
+
+  void GraphicsComponent::renderRectBorder(const SDL_Rect& renderRect) {
+    SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+    for (int i = 0; i < borderWidth; ++i) {
+      const SDL_Rect borderRect = {
+        renderRect.x + i, 
+        renderRect.y + i, 
+        renderRect.w - 2 * i, 
+        renderRect.h - 2 * i
+      };
+      SDL_RenderDrawRect(renderer, &borderRect);
+    }
+  }
+
+  void GraphicsComponent::updateRotationCache() {
+    if (rotation != lastCachedRotation) {
+      const float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
+      cachedCos = std::cos(angleRad);
+      cachedSin = std::sin(angleRad);
+      lastCachedRotation = rotation;
+    }
+  }
+
+  void GraphicsComponent::setupShapeIndices() {
+    shapeIndices = {0, 1, 2, 2, 3, 0};
   }
 }

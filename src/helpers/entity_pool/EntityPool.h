@@ -15,6 +15,11 @@ namespace Project::Helpers {
       static EntityPool instance;
       return instance;
     }
+
+    template <typename... Args>
+    std::unique_ptr<Project::Entities::Entity, Deleter> acquire(Args&&... args) {
+
+    }
   
   private:
     std::vector<Project::Entities::Entity*> pool;

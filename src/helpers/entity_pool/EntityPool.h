@@ -10,7 +10,7 @@
 namespace Project::Helpers {
   class EntityPool {
   public:
-
+    using Deleter = std::function<void(Project::Entities::Entity*)>;
   
   private:
     std::vector<Project::Entities::Entity*> pool;

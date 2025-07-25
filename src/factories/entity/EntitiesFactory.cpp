@@ -21,8 +21,8 @@ namespace Project::Factories {
     entityTemplates.clear();
   }
 
-  std::unique_ptr<Entity> EntitiesFactory::createEntityFromLua(const std::string& scriptPath) {
-    std::unique_ptr<Entity> entity = loadEntityTemplateFromLua(scriptPath);
+  EntitiesFactory::EntityPtr EntitiesFactory::createEntityFromLua(const std::string& scriptPath) {
+    EntityPtr entity = loadEntityTemplateFromLua(scriptPath);
     if (logsManager.checkAndLogError(!entity, "Failed to load entity template from Lua: " + scriptPath)) {
       return nullptr;
     }
@@ -49,14 +49,14 @@ namespace Project::Factories {
     return false;
   }  
 
-  std::unique_ptr<Entity> EntitiesFactory::cloneEntity(const std::string& entityName) {
+  EntitiesFactory::EntityPtr EntitiesFactory::cloneEntity(const std::string& entityName) {
     auto it = entityTemplates.find(entityName);
     if (logsManager.checkAndLogError(it == entityTemplates.end(), "Entity template not found: " + entityName)) {
       return nullptr;
     }
 
     EntityCategory category = it->second->getEntityCategory();
-    std::unique_ptr<Entity> clone = std::make_unique<Entity>(category, logsManager, componentsFactory);
+    EntityPtr clone = Project::Helpers::EntityPool::getInstance().acquire(category, logsManager, componentsFactory);
     clone->setEntityName(entityName);
 
     lua_State* templateState = it->second->getLuaState();
@@ -83,7 +83,7 @@ namespace Project::Factories {
     return clone;
   }
 
-  std::unique_ptr<Entity> EntitiesFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
+  EntitiesFactory::EntityPtr EntitiesFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
     std::filesystem::path p(scriptPath);
     std::string filename = p.filename().string();
     std::string suffix = Project::Libraries::Constants::LUA_ENTITY_SUFFIX;

@@ -48,7 +48,7 @@ namespace Project::Components {
 
     if (templateName.empty()) return;
 
-    std::unique_ptr<Entity> ent = factory->cloneEntity(templateName);
+    EntitiesFactory::EntityPtr ent = factory->cloneEntity(templateName);
     if (!ent) return;
 
     float x = owner->getX() + _offsetX;

@@ -94,7 +94,9 @@ namespace Project::Entities {
 
           lua_pushvalue(L, -1);
           lua_setglobal(L, componentName.c_str());
-          std::unique_ptr<BaseComponent> component = componentsFactory.create(componentName, luaStateWrapper, componentName);
+          
+          ComponentPtr component = componentsFactory.create(componentName, luaStateWrapper, componentName);
+          
           lua_pushnil(L);
           lua_setglobal(L, componentName.c_str());
 
@@ -110,7 +112,7 @@ namespace Project::Entities {
     return true;
   }
 
-  void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
+  void Entity::addComponent(const std::string& componentName, ComponentPtr component) {
     if (!component) return;
 
     if (auto* bboxComp = dynamic_cast<Components::BoundingBoxComponent*>(component.get())) {

@@ -39,7 +39,7 @@ namespace Project::Factories {
     renderer(nullptr), keyHandler(nullptr),
     mouseHandler(nullptr), cursorHandler(nullptr) {}
 
-  std::unique_ptr<BaseComponent> ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+  ComponentsFactory::ComponentPtr ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     if (logsManager.checkAndLogError(!renderer, "Renderer is null for component: " + componentName)) {
       return nullptr;
     }
@@ -51,99 +51,123 @@ namespace Project::Factories {
       case ComponentType::BOUNDING_BOX: {
         SDL_Color defaultColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
         SDL_Color debugColor = configReader.getColorValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_COLOR, defaultColor);
-        auto component = std::make_unique<BoundingBoxComponent>(logsManager, renderer, keyHandler, debugColor);
-        component->build(luaStateWrapper, tableName);    
+        auto component = Project::Helpers::ComponentPool<BoundingBoxComponent>::getInstance().acquire(logsManager, renderer, keyHandler, debugColor);
+        component->build(luaStateWrapper, tableName);   
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+        
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<BoundingBoxComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::BUTTON: {
-        auto component = std::make_unique<ButtonComponent>(renderer, logsManager, configReader, mouseHandler, cursorHandler);
+        auto component = Project::Helpers::ComponentPool<ButtonComponent>::getInstance().acquire(renderer, logsManager, configReader, mouseHandler, cursorHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<ButtonComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::CAMERA: {
-        auto component = std::make_unique<CameraComponent>(logsManager, cameraHandler);
+        auto component = Project::Helpers::ComponentPool<CameraComponent>::getInstance().acquire(logsManager, cameraHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<CameraComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::GRAPHICS: {
-        auto component = std::make_unique<GraphicsComponent>(renderer, &resourcesHandler, logsManager);
+        auto component = Project::Helpers::ComponentPool<GraphicsComponent>::getInstance().acquire(renderer, &resourcesHandler, logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<GraphicsComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::KEYS: {
-        auto component = std::make_unique<KeysComponent>(logsManager, keyHandler);
+        auto component = Project::Helpers::ComponentPool<KeysComponent>::getInstance().acquire(logsManager, keyHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<KeysComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::MOTION: {
-        auto component = std::make_unique<MotionComponent>(logsManager, keyHandler);
+        auto component = Project::Helpers::ComponentPool<MotionComponent>::getInstance().acquire(logsManager, keyHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<MotionComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::NUMERIC: {
-        auto component = std::make_unique<NumericComponent>(logsManager);
+        auto component = Project::Helpers::ComponentPool<NumericComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<NumericComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::PHYSICS: {
-        auto component = std::make_unique<PhysicsComponent>(logsManager);
+        auto component = Project::Helpers::ComponentPool<PhysicsComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<PhysicsComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::SPAWNER: {
-        auto component = std::make_unique<SpawnerComponent>(logsManager);
+        auto component = Project::Helpers::ComponentPool<SpawnerComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<SpawnerComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::TEXT: {
-        auto component = std::make_unique<TextComponent>(renderer, configReader, logsManager);
+        auto component = Project::Helpers::ComponentPool<TextComponent>::getInstance().acquire(renderer, configReader, logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<TextComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::TIMER: {
-        auto component = std::make_unique<TimerComponent>(logsManager);
+        auto component = Project::Helpers::ComponentPool<TimerComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
-        return component;
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<TimerComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::TRANSFORM: {
-        auto component = std::make_unique<TransformComponent>(logsManager);      
+        auto component = Project::Helpers::ComponentPool<TransformComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
-        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));   
-        return component;
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+        
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<TransformComponent*>(b)); });
+        return base;
       }
 
       default: {

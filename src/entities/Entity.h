@@ -68,7 +68,10 @@ namespace Project::Entities {
     }
     
     bool attachLuaScript(const std::string& scriptPath);
-    void addComponent(const std::string& componentName, std::unique_ptr<Project::Components::BaseComponent> component);
+    
+    using ComponentPtr = std::unique_ptr<Project::Components::BaseComponent, std::function<void(Project::Components::BaseComponent*)>>;
+    void addComponent(const std::string& componentName, ComponentPtr component);    
+    
     void removeComponent(const std::string& componentName);
     bool hasComponent(const std::string& componentName) const;
 
@@ -95,7 +98,7 @@ namespace Project::Entities {
     Project::Factories::ComponentsFactory& componentsFactory;
     EntityCategory entityCategory;
 
-    std::unordered_map<std::string, std::unique_ptr<Project::Components::BaseComponent>> components;
+    std::unordered_map<std::string, ComponentPtr> components;
     
     std::string entityID;
     std::string entityClass;

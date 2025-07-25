@@ -13,10 +13,12 @@
 #include "libraries/keys/Keys.h"
 
 namespace Project::Entities {
+  using Project::Factories::EntitiesFactory;
+
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
-  EntitySeeder::EntitySeeder(EntitiesManager& mgr, Project::Factories::EntitiesFactory& fac)
+  EntitySeeder::EntitySeeder(EntitiesManager& mgr, EntitiesFactory& fac)
   : manager(mgr), factory(fac) {
     std::random_device rd;
     baseSeed = rd();
@@ -184,7 +186,7 @@ namespace Project::Entities {
     for (size_t i = 0; i < count; ++i) {
       if (entityTemplates.empty()) break;
       std::string tmpl = entityTemplates[templateIndex(localRng)];
-      std::unique_ptr<Entity> entity = factory.cloneEntity(tmpl);
+      EntitiesFactory::EntityPtr entity = factory.cloneEntity(tmpl);
       if (!entity) continue;
 
       float ex = cx * chunkSize.x + posX(localRng);

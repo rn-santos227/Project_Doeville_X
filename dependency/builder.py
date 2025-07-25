@@ -104,8 +104,7 @@ class Builder:
         is_lua = os.path.exists(os.path.join(self.source_dir, "src", "luaconf.h"))
 
         if is_lua:
-          subprocess.run([make_cmd, "linux"], cwd=self.source_dir, check=True, env=env)
-          target = "mingw" if os.name == "nt" else "linux"
+          target = "mingw" if self._is_windows() else "linux"
           subprocess.run([make_cmd, target], cwd=self.source_dir, check=True, env=env)
           install_path = install_prefix
           if self._is_msys_make(make_cmd):

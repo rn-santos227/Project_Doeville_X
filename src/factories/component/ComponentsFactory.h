@@ -26,6 +26,7 @@
 #include "handlers/input/KeyHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
+#include "helpers/component_pool/ComponentPool.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/config_reader/ConfigReader.h"
@@ -34,12 +35,13 @@ namespace Constants = Project::Libraries::Constants;
 namespace Project::Factories {
   class ComponentsFactory {
   public:
+    using ComponentPtr = std::unique_ptr<Project::Components::BaseComponent, std::function<void(Project::Components::BaseComponent*)>>;
     ComponentsFactory(
       Project::Utilities::ConfigReader& configReader,
       Project::Utilities::LogsManager& logsManager,
       Project::Handlers::ResourcesHandler& resourcesHandler);
 
-    std::unique_ptr<Project::Components::BaseComponent> create(const std::string& componentName, Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
+    ComponentPtr create(const std::string& componentName, Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
 
     void setRenderer(SDL_Renderer* renderer);
     void setCameraHandler(Project::Handlers::CameraHandler* _handler);

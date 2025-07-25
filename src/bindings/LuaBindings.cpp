@@ -127,7 +127,7 @@ namespace Project::Bindings::LuaBindings {
       return 0;
     }
 
-    std::unique_ptr<Entity> entity = state->getEntitiesFactory()->cloneEntity(name);
+    EntitiesFactory::EntityPtr entity = state->getEntitiesFactory()->cloneEntity(name);
     if (!entity) {
       luaL_error(L, ("Failed to clone entity: " + std::string(name)).c_str());
       return 0;

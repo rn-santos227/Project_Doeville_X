@@ -7,17 +7,20 @@
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "factories/component/ComponentsFactory.h"
+#include "helpers/entity_pool/EntityPool.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::States { class GameStateManager; }
-namespace Project::Factories {
+namespace Project::Factories {  
   class EntitiesFactory {
   public:
+    using EntityPtr = std::unique_ptr<Project::Entities::Entity, Project::Helpers::EntityPool::Deleter>;
+    
     explicit EntitiesFactory(Project::Utilities::LogsManager& logsManager, Project::Factories::ComponentsFactory& componentsFactory, Project::States::GameStateManager& gameStateManager);
     ~EntitiesFactory();
 
-    std::unique_ptr<Project::Entities::Entity> createEntityFromLua(const std::string& scriptPath);
-    std::unique_ptr<Project::Entities::Entity> cloneEntity(const std::string& entityName);
+    EntityPtr createEntityFromLua(const std::string& scriptPath);
+    EntityPtr cloneEntity(const std::string& entityName);
 
     bool hasEntityTemplate(const std::string& entityName) const;
     bool isEntityGlobal(const std::string& entityName) const;
@@ -27,10 +30,10 @@ namespace Project::Factories {
     Project::Factories::ComponentsFactory& componentsFactory;
     Project::States::GameStateManager& gameStateManager;
 
-    std::unordered_map<std::string, std::unique_ptr<Project::Entities::Entity>> entityTemplates;
     std::unordered_map<std::string, std::string> entityScriptPaths;
+    std::unordered_map<std::string, EntityPtr> entityTemplates;
 
-    std::unique_ptr<Project::Entities::Entity> loadEntityTemplateFromLua(const std::string& scriptPath);
+    EntityPtr loadEntityTemplateFromLua(const std::string& scriptPath);
   };
 }
 

@@ -18,7 +18,6 @@ class DependencyManager:
         self.extractor.extract(archive_path, source_dir)
 
       builder = Builder(source_dir)
-      builder.build(output_dir)
       builder.build(output_dir, env=env)
       self._verify_installation(output_dir)
 

@@ -2,8 +2,11 @@
 CXX = g++
 CXXFLAGS += -std=c++17 -O2 -Isrc \
             -Ilib/SDL2_build/include \
+            -Ilib/SDL2_build/include/SDL2 \
             -Ilib/SDL2_image_build/include \
+            -Ilib/SDL2_image_build/include/SDL2 \
             -Ilib/SDL2_ttf_build/include \
+            -Ilib/SDL2_ttf_build/include/SDL2 \
             -Ilib/Lua_build/include
 
 LDFLAGS += 	-Llib/SDL2_build/lib \
@@ -12,8 +15,20 @@ LDFLAGS += 	-Llib/SDL2_build/lib \
             -Llib/Lua_build/lib \
             -lSDL2 -lSDL2_image -lSDL2_ttf -llua
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+RPATH_BASE=@loader_path/../lib
+else
+RPATH_BASE=\$$ORIGIN/../lib
+endif
+
 ifeq ($(OS), Windows_NT)
 	LDFLAGS += -lpsapi
+else
+    LDFLAGS += 	-Wl,-rpath,$(RPATH_BASE)/SDL2_build/lib \
+            	-Wl,-rpath,$(RPATH_BASE)/SDL2_image_build/lib \
+                -Wl,-rpath,$(RPATH_BASE)/SDL2_ttf_build/lib \
+                -Wl,-rpath,$(RPATH_BASE)/Lua_build/lib
 endif
 
 SRC_DIR = src
@@ -34,7 +49,9 @@ DEBUG_TARGET = $(BIN_DIR)/project_doeville_x_debug
 all: deps $(TARGET) copy_config
 
 debug: CXXFLAGS += -g -O0
+ifeq ($(OS), Windows_NT)
 debug: LDFLAGS += -mconsole
+endif
 debug: deps $(DEBUG_TARGET) copy_config
 
 $(TARGET): $(OBJECTS)

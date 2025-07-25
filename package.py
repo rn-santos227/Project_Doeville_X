@@ -58,6 +58,14 @@ def main():
             ])
             break
 
+        prefix_abs = os.path.abspath(output_dir)
+        build_env["CMAKE_PREFIX_PATH"] = os.pathsep.join([
+          prefix_abs,
+          build_env.get("CMAKE_PREFIX_PATH", ""),
+        ])
+        build_env["CFLAGS"] = "-I" + os.path.join(prefix_abs, "include") + " " + build_env.get("CFLAGS", "")
+        build_env["LDFLAGS"] = "-L" + os.path.join(prefix_abs, "lib") + " " + build_env.get("LDFLAGS", "")
+
     except Exception as e:
       print(f"Error processing {package_name}: {e}")
       continue

@@ -9,6 +9,12 @@ namespace Project::Helpers {
   template <typename T>
   class ComponentPool {
   public:
+    using Deleter = std::function<void(T*)>;
+
+    static ComponentPool<T>& getInstance() {
+      static ComponentPool<T> instance;
+      return instance;
+    }
 
   private:
     std::vector<T*> pool;

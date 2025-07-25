@@ -229,6 +229,7 @@ namespace Project::Entities {
         record(Keys::LUA_STOP_TIMER);
         record(Keys::LUA_BRAKE_ENTITY);
         record(Keys::LUA_SPAWN_ENTITY);
+        record(Keys::LUA_EXIT_GAME);
 
         scriptFunctionCache[path] = functions;
       } else {
@@ -256,8 +257,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_brakeEntity, this);
         } else if (func == Keys::LUA_SPAWN_ENTITY && gameState) {
           entity->registerLuaFunction(func, LuaBindings::lua_spawnEntity, gameState);
-        } else if (func == Keys::LUA_EXIT_GAME) {
-          entity->registerLuaFunction(func, LuaBindings::lua_exitGame, this);
+        } else if (func == Keys::LUA_EXIT_GAME && sdlManager) {
+          entity->registerLuaFunction(func, LuaBindings::lua_exitGame, sdlManager);
         }
       }
     }

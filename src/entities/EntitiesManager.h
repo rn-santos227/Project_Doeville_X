@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "core/SDLManager.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/reset_interface/Resetable.h"
@@ -32,6 +33,9 @@ namespace Project::Entities {
 
       void setGameState(Project::States::GameState* state) { gameState = state; }
       Project::States::GameState* getGameState() const { return gameState; }
+
+      void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
+      Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
 
       std::string addEntity(std::shared_ptr<Entity> entity, const std::string& id = Project::Libraries::Constants::EMPTY_STRING);
       void removeEntity(const std::string& id);
@@ -71,6 +75,7 @@ namespace Project::Entities {
       std::vector<std::shared_ptr<Entity>> entityList;
       
       Project::States::GameState* gameState = nullptr;
+      Project::Core::SDLManager* sdlManager = nullptr;
       bool initialized = false;
   };
 }

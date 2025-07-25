@@ -9,6 +9,7 @@
 #include <mutex>
 #include <unordered_map>
 
+#include "core/SDLManager.h"
 #include "entities/EntitiesManager.h"
 #include "interfaces/cleanup_interface/Cleanable.h"
 #include "interfaces/render_interface/Renderable.h"
@@ -25,7 +26,11 @@ namespace Project::States {
   public Project::Interfaces::Resetable,
   public Project::Interfaces::Updatable {
   public:
-    GameStateManager(size_t cacheLimit, Project::Utilities::LogsManager& logsManager, Project::Handlers::CursorHandler* cursorHandler = nullptr);
+    GameStateManager(
+      size_t cacheLimit, Project::Utilities::LogsManager& logsManager,
+      Project::Core::SDLManager* sdlManager = nullptr,
+      Project::Handlers::CursorHandler* cursorHandler = nullptr
+    );
     ~GameStateManager() = default;
 
     void cleanup() override;

@@ -16,6 +16,11 @@ namespace Project::Helpers {
       return instance;
     }
 
+    template <typename... Args>
+    std::unique_ptr<T, Deleter> acquire(Args&&... args) {
+      
+    }
+
   private:
     std::vector<T*> pool;
 

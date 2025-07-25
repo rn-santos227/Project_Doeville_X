@@ -15,6 +15,9 @@
 #include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "libraries/constants/Constants.h"
+#include "systems/motion_system/MotionSystem.h"
+#include "systems/physics_system/PhysicsSystem.h"
+#include "systems/render_system/RenderSystem.h"
 
 namespace Project::States { class GameState; }
 
@@ -45,6 +48,10 @@ namespace Project::Entities {
       void render();
       void reset();
 
+      Project::Systems::MotionSystem& getMotionSystem() { return motionSystem; }
+      Project::Systems::PhysicsSystem& getPhysicsSystem() { return physicsSystem; }
+      Project::Systems::RenderSystem& getRenderSystem() { return renderSystem; }
+
       std::vector<std::shared_ptr<Entity>> getEntitiesByGroup(const std::string& group);
       size_t getEntityCount() const;
       
@@ -53,6 +60,10 @@ namespace Project::Entities {
       void registerEntityLuaFunctions(Entity* entity);
       
     private:
+      Project::Systems::MotionSystem motionSystem;
+      Project::Systems::PhysicsSystem physicsSystem;
+      Project::Systems::RenderSystem renderSystem;
+
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
       std::unordered_map<std::string, std::vector<std::string>> entityGroups;
       std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;

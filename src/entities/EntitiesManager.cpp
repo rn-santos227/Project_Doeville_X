@@ -10,6 +10,7 @@
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/motion_component/MotionComponent.h"
+#include "components/physics_component/PhysicsComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/categories/ComponentCategories.h"
@@ -45,6 +46,22 @@ namespace Project::Entities {
     entity->setEntityID(finalId);
     add(finalId, std::move(entity));
     entityList.push_back(objects[finalId]);
+    
+    auto& entRef = objects[finalId];
+    if (entRef) {
+      for (const std::string& compName : entRef->listComponentNames()) {
+        auto* comp = entRef->getComponent(compName);
+        if (!comp) continue;
+        if (auto* motion = dynamic_cast<Project::Components::MotionComponent*>(comp)) {
+          motionSystem.add(motion);
+        } else if (auto* phys = dynamic_cast<Project::Components::PhysicsComponent*>(comp)) {
+          physicsSystem.add(phys);
+        } else if (auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(comp)) {
+          renderSystem.add(gfx);
+        }
+      }
+    }
+
     std::string group = objects[finalId]->getGroup();
     if (!group.empty()) {
       entityGroups[group].push_back(finalId);
@@ -58,6 +75,20 @@ namespace Project::Entities {
       return e && e->getEntityID() == id;
     });
     if (it != entityList.end()) {
+      auto ent = *it;
+      if (ent) {
+        for (const std::string& compName : ent->listComponentNames()) {
+          auto* comp = ent->getComponent(compName);
+          if (!comp) continue;
+          if (auto* motion = dynamic_cast<Project::Components::MotionComponent*>(comp)) {
+            motionSystem.remove(motion);
+          } else if (auto* phys = dynamic_cast<Project::Components::PhysicsComponent*>(comp)) {
+            physicsSystem.remove(phys);
+          } else if (auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(comp)) {
+            renderSystem.remove(gfx);
+          }
+        }
+      }
       entityList.erase(it);
     }
     remove(id);
@@ -89,6 +120,9 @@ namespace Project::Entities {
     objects.clear();
     entityList.clear();
     entityGroups.clear();
+    motionSystem.clear();
+    physicsSystem.clear();
+    renderSystem.clear();
   }
 
   void EntitiesManager::optimizeEntities() {
@@ -110,6 +144,9 @@ namespace Project::Entities {
     for (auto& entity : entityList) {
       if (entity) entity->update(deltaTime);
     }
+    motionSystem.update(deltaTime);
+    physicsSystem.update(deltaTime);
+    renderSystem.update(deltaTime);
   }
 
   void EntitiesManager::render() {
@@ -123,45 +160,9 @@ namespace Project::Entities {
 
     std::lock_guard<std::mutex> lock(managerMutex);
     for (auto& obj : entityList) {
-      if (useCull) {
-        SDL_Rect rect{0,0,0,0};
-        bool hasRect = false;
-
-        auto* bbox = obj->getBoundingBoxComponent();
-        if (bbox) {
-          const auto& boxes = bbox->getBoxes();
-          if (!boxes.empty()) {
-            rect = boxes.front();
-            for (size_t i = 1; i < boxes.size(); ++i) {
-              const SDL_Rect& b = boxes[i];
-              int minX = std::min(rect.x, b.x);
-              int minY = std::min(rect.y, b.y);
-              int maxX = std::max(rect.x + rect.w, b.x + b.w);
-              int maxY = std::max(rect.y + rect.h, b.y + b.h);
-              rect.x = minX;
-              rect.y = minY;
-              rect.w = maxX - minX;
-              rect.h = maxY - minY;
-            }
-            hasRect = true;
-          }
-        }
-
-        if (!hasRect) {
-          auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(
-            obj->getComponent(Project::Libraries::Categories::Components::GRAPHICS));
-          if (gfx) {
-            rect = gfx->getRect();
-            hasRect = true;
-          }
-        }
-
-        if (hasRect && !SDL_HasIntersection(&rect, &cullRect)) {
-          continue;
-        }
-      }
-      obj->render();
+      if (obj) obj->render();
     }
+    renderSystem.render();
   }
 
   void EntitiesManager::reset() {
@@ -172,6 +173,9 @@ namespace Project::Entities {
     entityList.clear();
     idCounters.clear();
     entityGroups.clear();
+    motionSystem.clear();
+    physicsSystem.clear();
+    renderSystem.clear();
   }
 
   std::vector<std::shared_ptr<Entity>> EntitiesManager::getEntitiesByGroup(const std::string& group) {

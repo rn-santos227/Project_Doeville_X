@@ -11,6 +11,7 @@
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/timer_component/TimerComponent.h"
 #include "components/transform_component/TransformComponent.h"
+#include "entities/EntitiesManager.h"
 #include "factories/component/ComponentsFactory.h"
 #include "interfaces/style_interface/Stylable.h"
 #include "libraries/constants/Constants.h"
@@ -65,6 +66,11 @@ namespace Project::Entities {
 
     for (auto& [name, component] : components) {
       if (component && component->isActive()) {
+        if (dynamic_cast<Components::MotionComponent*>(component.get()) ||
+            dynamic_cast<Components::PhysicsComponent*>(component.get()) ||
+            dynamic_cast<Components::GraphicsComponent*>(component.get())) {
+          continue;
+        }
         component->update(deltaTime);
       }
     }
@@ -74,7 +80,9 @@ namespace Project::Entities {
     luaStateWrapper.callFunctionIfExists(Keys::RENDER);
     for (auto& [name, component] : components) {
       if (component && component->isActive()) {
-        component->render();
+        if (dynamic_cast<Components::GraphicsComponent*>(component.get())) {
+          continue;
+        }
       }
     }
   }
@@ -166,6 +174,16 @@ namespace Project::Entities {
     }
 
     components[componentName] = std::move(component);
+    if (entitiesManager) {
+      auto* compPtr = components[componentName].get();
+      if (auto* motion = dynamic_cast<Components::MotionComponent*>(compPtr)) {
+        entitiesManager->getMotionSystem().add(motion);
+      } else if (auto* phys = dynamic_cast<Components::PhysicsComponent*>(compPtr)) {
+        entitiesManager->getPhysicsSystem().add(phys);
+      } else if (auto* gfx = dynamic_cast<Components::GraphicsComponent*>(compPtr)) {
+        entitiesManager->getRenderSystem().add(gfx);
+      }
+    }
   }
 
   void Entity::removeComponent(const std::string& componentName) {
@@ -183,6 +201,16 @@ namespace Project::Entities {
         if (auto* motion = dynamic_cast<Components::MotionComponent*>(comp.get())) {
           motion->setKeysComponent(nullptr);
         }
+      }
+    }
+
+    if (entitiesManager) {
+      if (auto* motion = dynamic_cast<Components::MotionComponent*>(ptr)) {
+        entitiesManager->getMotionSystem().remove(motion);
+      } else if (auto* phys = dynamic_cast<Components::PhysicsComponent*>(ptr)) {
+        entitiesManager->getPhysicsSystem().remove(phys);
+      } else if (auto* gfx = dynamic_cast<Components::GraphicsComponent*>(ptr)) {
+        entitiesManager->getRenderSystem().remove(gfx);
       }
     }
 

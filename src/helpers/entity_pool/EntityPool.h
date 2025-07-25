@@ -8,7 +8,20 @@
 #include "entities/Entity.h"
 
 namespace Project::Helpers {
+  class EntityPool {
+  public:
 
+  
+  private:
+    std::vector<Project::Entities::Entity*> pool;
+
+    EntityPool() = default;
+    ~EntityPool() {
+      for (auto* ptr : pool) {
+        ::operator delete(ptr);
+      }
+    }
+  };
 }
 
 #endif

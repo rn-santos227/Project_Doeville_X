@@ -1,7 +1,5 @@
 #include "RenderSystem.h"
-
 #include <algorithm>
-
 #include "components/graphics_component/GraphicsComponent.h"
 
 namespace Project::Systems {

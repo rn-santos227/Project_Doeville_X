@@ -19,7 +19,6 @@ namespace Project::Systems {
 
   private:
     std::vector<Project::Components::GraphicsComponent*> components;
-
   };
 }
 

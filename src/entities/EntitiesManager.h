@@ -55,6 +55,7 @@ namespace Project::Entities {
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
       std::unordered_map<std::string, std::vector<std::string>> entityGroups;
       std::unordered_map<std::string, int> idCounters;
+      std::vector<std::shared_ptr<Entity>> entityList;
       
       Project::States::GameState* gameState = nullptr;
       bool initialized = false;

@@ -6,6 +6,7 @@
 #include "components/physics_component/SurfaceType.h"
 #include "components/physics_component/SurfaceTypeResolver.h"
 #include "handlers/camera/CameraHandler.h"
+#include "entities/Entity.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
@@ -16,7 +17,6 @@ namespace Project::Components {
   using Project::Utilities::LogsManager;
   using Project::Utilities::GeometryUtils;
   using Project::Handlers::KeyHandler;
-
   using Project::Components::Physics::SurfaceType;
   using Project::Components::Physics::SurfaceTypeResolver;
 

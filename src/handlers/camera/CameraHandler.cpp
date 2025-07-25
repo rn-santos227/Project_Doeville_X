@@ -1,5 +1,7 @@
 #include "CameraHandler.h"
 
+#include "libraries/constants/IndexConstants.h"
+
 namespace Project::Handlers {
   void CameraHandler::setSize(int width, int height) {
     cameraRect.w = width;
@@ -20,8 +22,8 @@ namespace Project::Handlers {
     SDL_Rect rect = cameraRect;
     rect.x -= cullingOffset.x;
     rect.y -= cullingOffset.y;
-    rect.w += cullingOffset.x * 2;
-    rect.h += cullingOffset.y * 2;
+    rect.w += cullingOffset.x * Project::Libraries::Constants::INDEX_TWO;
+    rect.h += cullingOffset.y * Project::Libraries::Constants::INDEX_TWO;
     return rect;
   }
 

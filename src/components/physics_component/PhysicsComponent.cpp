@@ -304,7 +304,7 @@ namespace Project::Components {
 
   bool PhysicsComponent::performCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime) {
     auto* manager = owner->getEntitiesManager();
-    auto* myBox = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    auto* myBox = owner->getBoundingBoxComponent();
     
     if (!manager || !myBox || !myBox->isSolid()) {
       return false;
@@ -322,7 +322,7 @@ namespace Project::Components {
     for (const auto& [id, entity] : manager->getAllEntities()) {
       if (!entity || entity.get() == owner) continue;
       
-      auto* otherBox = dynamic_cast<BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+      auto* otherBox = entity->getBoundingBoxComponent();
       if (!otherBox || !otherBox->isSolid()) continue;
 
       const auto& otherRects = otherBox->getBoxes();
@@ -334,8 +334,7 @@ namespace Project::Components {
         continue;
       }
 
-      auto* otherPhysics = dynamic_cast<PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT));
-      
+      auto* otherPhysics = entity->getPhysicsComponent();
       if (checkBoxBoxCollisions(
         myRects, otherRects, myOBB, otherOBB, 
         myRotationEnabled, otherRotationEnabled,

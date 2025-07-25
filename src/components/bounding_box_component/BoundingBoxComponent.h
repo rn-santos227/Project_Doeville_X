@@ -7,12 +7,13 @@
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/physics_component/SurfaceType.h"
-#include "entities/Entity.h"
 #include "libraries/constants/Constants.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/camera/CameraHandler.h"
 #include "interfaces/rotation_interface/Rotatable.h"
 #include "utilities/geometry/GeometryUtils.h"
+
+namespace Project::Entities { class Entity; }
 
 namespace Project::Components {
   class BoundingBoxComponent : public BaseComponent, public PositionableComponent, public Project::Interfaces::Rotatable {

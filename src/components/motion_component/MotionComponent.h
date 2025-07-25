@@ -19,6 +19,9 @@ namespace Project::Components {
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
+    void onAttach() override;
+    void setKeysComponent(KeysComponent* keys) { keysComp = keys; }
+
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
     void setSpeed(float newSpeed) { maxSpeed = newSpeed; }
     float getSpeed() const { return maxSpeed; }
@@ -44,6 +47,7 @@ namespace Project::Components {
   private:
     Project::Handlers::KeyHandler* keyHandler = nullptr;
     Project::Entities::Entity* owner = nullptr;
+    KeysComponent* keysComp = nullptr;
 
     float maxSpeed;
     float acceleration = Project::Libraries::Constants::DEFAULT_ACCELERATION;

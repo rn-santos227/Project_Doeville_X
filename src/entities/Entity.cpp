@@ -1,8 +1,10 @@
 #include "Entity.h"
 
 #include "components/PositionableComponent.h"
+#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/button_component/ButtonComponent.h"
 #include "components/camera_component/CameraComponent.h"
+#include "components/graphics_component/GraphicsComponent.h"
 #include "components/keys_component/KeysComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
@@ -111,12 +113,20 @@ namespace Project::Entities {
   void Entity::addComponent(const std::string& componentName, std::unique_ptr<BaseComponent> component) {
     if (!component) return;
 
+    if (auto* bboxComp = dynamic_cast<Components::BoundingBoxComponent*>(component.get())) {
+      bbox = bboxComp;
+    }
+
     if (auto* button = dynamic_cast<Components::ButtonComponent*>(component.get())) {
       button->setEntityReference(this);
     }
 
     if (auto* camera = dynamic_cast<Components::CameraComponent*>(component.get())) {
       camera->setEntityReference(this);
+    }
+
+    if (auto* gfxComp = dynamic_cast<Components::GraphicsComponent*>(component.get())) {
+      gfx = gfxComp;
     }
     
     if (auto* keys = dynamic_cast<Components::KeysComponent*>(component.get())) {
@@ -125,10 +135,12 @@ namespace Project::Entities {
 
     if (auto* motion = dynamic_cast<Components::MotionComponent*>(component.get())) {
       motion->setEntityReference(this);
+      motion->onAttach();
     }
 
-    if (auto* physics = dynamic_cast<Components::PhysicsComponent*>(component.get())) {
-      physics->setEntityReference(this);
+    if (auto* physicsComp = dynamic_cast<Components::PhysicsComponent*>(component.get())) {
+      physicsComp->setEntityReference(this);
+      physics = physicsComp;
     }
 
     if (auto* spawner = dynamic_cast<Components::SpawnerComponent*>(component.get())) {
@@ -155,7 +167,24 @@ namespace Project::Entities {
   }
 
   void Entity::removeComponent(const std::string& componentName) {
-    components.erase(componentName);
+    auto it = components.find(componentName);
+    if (it == components.end()) return;
+
+    auto* ptr = it->second.get();
+
+    if (ptr == bbox) bbox = nullptr;
+    if (ptr == gfx) gfx = nullptr;
+    if (ptr == physics) physics = nullptr;
+
+    if (dynamic_cast<Components::KeysComponent*>(ptr)) {
+      for (auto& [name, comp] : components) {
+        if (auto* motion = dynamic_cast<Components::MotionComponent*>(comp.get())) {
+          motion->setKeysComponent(nullptr);
+        }
+      }
+    }
+
+    components.erase(it);
   }
 
   bool Entity::hasComponent(const std::string& componentName) const {

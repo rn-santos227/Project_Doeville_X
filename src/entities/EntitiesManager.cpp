@@ -42,6 +42,7 @@ namespace Project::Entities {
     
     entity->setEntityID(finalId);
     add(finalId, std::move(entity));
+    entityList.push_back(objects[finalId]);
     std::string group = objects[finalId]->getGroup();
     if (!group.empty()) {
       entityGroups[group].push_back(finalId);
@@ -51,6 +52,12 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
+    auto it = std::find_if(entityList.begin(), entityList.end(), [&](const std::shared_ptr<Entity>& e){
+      return e && e->getEntityID() == id;
+    });
+    if (it != entityList.end()) {
+      entityList.erase(it);
+    }
     remove(id);
     for (auto& [group, ids] : entityGroups) {
       ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
@@ -78,6 +85,7 @@ namespace Project::Entities {
       cachedEntities[id] = entity;
     }
     objects.clear();
+    entityList.clear();
     entityGroups.clear();
   }
 
@@ -96,7 +104,10 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::update(float deltaTime) {
-    ObjectsManager<Entity>::update(deltaTime);
+    std::lock_guard<std::mutex> lock(managerMutex);
+    for (auto& entity : entityList) {
+      if (entity) entity->update(deltaTime);
+    }
   }
 
   void EntitiesManager::render() {
@@ -109,15 +120,12 @@ namespace Project::Entities {
     }
 
     std::lock_guard<std::mutex> lock(managerMutex);
-    for (auto& [id, obj] : objects) {
+    for (auto& obj : entityList) {
       if (useCull) {
         SDL_Rect rect{0,0,0,0};
         bool hasRect = false;
 
-        auto* bbox = dynamic_cast<Project::Components::BoundingBoxComponent*>(
-          obj->getComponent(Project::Libraries::Categories::Components::BOUNDING_BOX_COMPONENT)
-        );
-
+        auto* bbox = obj->getBoundingBoxComponent();
         if (bbox) {
           const auto& boxes = bbox->getBoxes();
           if (!boxes.empty()) {
@@ -159,6 +167,7 @@ namespace Project::Entities {
     initialized = false;
     
     objects.clear();
+    entityList.clear();
     idCounters.clear();
     entityGroups.clear();
   }
@@ -179,7 +188,7 @@ namespace Project::Entities {
     auto it = entityGroups.find(group);
     if (it != entityGroups.end()) {
       for (const auto& id : it->second) {
-        remove(id);
+        removeEntity(id);
       }
       entityGroups.erase(it);
     }

@@ -35,14 +35,7 @@ namespace Project::Components {
     float localVelX = physics ? physics->getVelocityX() : velocityX;
     float localVelY = physics ? physics->getVelocityY() : velocityY;
 
-    KeysComponent* keys = nullptr;
-    for (const std::string& name : owner->listComponentNames()) {
-      if (auto* comp = owner->getComponent(name)) {
-        keys = dynamic_cast<KeysComponent*>(comp);
-        if (keys) break;
-      }
-    }
-
+    KeysComponent* keys = keysComp;
     if (!keys) return;
     float dx = 0.0f;
     float dy = 0.0f;
@@ -143,6 +136,15 @@ namespace Project::Components {
 
     bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotate);
+  }
+
+  void MotionComponent::onAttach() {
+    if (owner) {
+      keysComp = dynamic_cast<KeysComponent*>(
+        owner->getComponent(Components::KEYS_COMPONENT));
+    } else {
+      keysComp = nullptr;
+    }
   }
 
   float MotionComponent::getCurrentSpeed() const {

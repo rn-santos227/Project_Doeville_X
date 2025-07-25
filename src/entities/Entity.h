@@ -12,6 +12,9 @@
 #include <unordered_map>
 
 #include "components/BaseComponent.h"
+#include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "components/graphics_component/GraphicsComponent.h"
+#include "components/physics_component/PhysicsComponent.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
@@ -70,6 +73,9 @@ namespace Project::Entities {
     bool hasComponent(const std::string& componentName) const;
 
     Project::Components::BaseComponent* getComponent(const std::string& componentName);
+    Project::Components::BoundingBoxComponent* getBoundingBoxComponent() const { return bbox; }
+    Project::Components::GraphicsComponent* getGraphicsComponent() const { return gfx; }
+    Project::Components::PhysicsComponent* getPhysicsComponent() const { return physics; }
     std::vector<std::string> listComponentNames() const;
 
     bool isGlobal() const { return global; }
@@ -83,6 +89,9 @@ namespace Project::Entities {
     float getZ() const { return z; }
 
   private:
+    Project::Components::BoundingBoxComponent* bbox = nullptr;
+    Project::Components::GraphicsComponent* gfx = nullptr;
+    Project::Components::PhysicsComponent* physics = nullptr;
     Project::Factories::ComponentsFactory& componentsFactory;
     EntityCategory entityCategory;
 

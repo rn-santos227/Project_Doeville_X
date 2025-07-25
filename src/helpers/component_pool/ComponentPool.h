@@ -32,6 +32,12 @@ namespace Project::Helpers {
       });
     }
 
+    void release(T* obj) {
+      if (!obj) return;
+      obj->~T();
+      pool.push_back(obj);
+    }
+
   private:
     std::vector<T*> pool;
 

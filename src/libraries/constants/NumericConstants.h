@@ -25,8 +25,11 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_COLLISION_PADDING = 50;
   
   constexpr int INT_ONE = 1;
+  constexpr int INT_TEN = 10;
+  constexpr int INT_HUNDRED = 100;
 
   constexpr size_t LOG_QUEUE_MAX_SIZE = 1000;
+  constexpr size_t ENTITY_CHECK_INTERVAL = 60;
 }
 
 #endif

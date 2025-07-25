@@ -85,7 +85,6 @@ namespace Project::Utilities {
     if (secIt != configData.end()) {
       auto keyIt = secIt->second.find(key);
       if (keyIt != secIt->second.end()) {
-        logsManager.logMessage("Retrieved config: [" + section + "] " + key + " = " + keyIt->second);
         return keyIt->second;
       }
     }

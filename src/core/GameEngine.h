@@ -20,7 +20,6 @@
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/frames_counter/FramesCounter.h"
 
-
 namespace Project::Core {
   class GameEngine {
   public:

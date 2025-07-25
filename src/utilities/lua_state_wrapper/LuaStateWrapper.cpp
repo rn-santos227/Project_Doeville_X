@@ -446,7 +446,6 @@ namespace Project::Utilities {
       logsManager.logError("Failed to register Lua function '" + name + "': " + std::string(errorMessage));
       lua_pop(luaState, 1);
     } else {
-      logsManager.logMessage("Registered Lua function: " + name);
       registeredFunctions.insert(name);
     }
   }
@@ -466,7 +465,6 @@ namespace Project::Utilities {
       logsManager.logError("Failed to register Lua function '" + name + "': " + std::string(errorMessage));
       lua_pop(luaState, 1);
     } else {
-      logsManager.logMessage("Registered Lua function with userdata: " + name);
       registeredFunctions.insert(name);
     }
   }

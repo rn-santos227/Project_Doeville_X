@@ -25,6 +25,11 @@ namespace Project::Helpers {
       } else {
         mem = static_cast<T*>(::operator new(sizeof(T)));
       }
+
+      new (mem) T(std::forward<Args>(args)...);
+      return std::unique_ptr<T, Deleter>(mem, [](T* obj) {
+        ComponentPool<T>::getInstance().release(obj);
+      });
     }
 
   private:

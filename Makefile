@@ -34,6 +34,7 @@ endif
 SRC_DIR = src
 BUILD_DIR = build
 BIN_DIR = bin
+CACHE_DIR = cache
 
 RESOURCE_DIR = resources
 SCRIPT_DIR = scripts
@@ -60,6 +61,7 @@ $(TARGET): $(OBJECTS)
 	@echo "Copying resources and scripts..."
 	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
 	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
 
 $(DEBUG_TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
@@ -67,6 +69,7 @@ $(DEBUG_TARGET): $(OBJECTS)
 	@echo "Copying resources and scripts..."
 	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
 	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)

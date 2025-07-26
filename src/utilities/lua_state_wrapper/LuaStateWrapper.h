@@ -10,6 +10,7 @@
 #include <unordered_set>
 
 #include "interfaces/reset_interface/Resetable.h"
+#include "utilities/binary_cache/BinaryFileCache.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Utilities {
@@ -109,6 +110,7 @@ namespace Project::Utilities {
   private:
     lua_State* luaState;
     LogsManager& logsManager;
+    BinaryFileCache persistentBytecodeCache;
 
     std::unordered_map<std::string, std::vector<char>> compiledScriptCache;
     std::unordered_set<std::string> registeredFunctions;

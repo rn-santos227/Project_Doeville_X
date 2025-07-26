@@ -3,7 +3,10 @@
 #include "libraries/keys/Keys.h"
 
 namespace Project::Utilities {
-  LuaStateWrapper::LuaStateWrapper(LogsManager& logsManager) : luaState(luaL_newstate()), logsManager(logsManager) {
+  LuaStateWrapper::LuaStateWrapper(LogsManager& logsManager)
+    : luaState(luaL_newstate()),
+      logsManager(logsManager),
+      persistentBytecodeCache(Project::Libraries::Constants::LUA_BYTECODE_CACHE_FILE) {
     if (logsManager.checkAndLogError(!luaState, "Failed to create Lua state")) {
       return;
     }
@@ -15,6 +18,7 @@ namespace Project::Utilities {
       lua_close(luaState);
       luaState = nullptr;
     }
+     persistentBytecodeCache.save();
   }
 
   void LuaStateWrapper::initializeSafeState(lua_State* state) {
@@ -77,6 +81,7 @@ namespace Project::Utilities {
     initializeSafeState(luaState);
     registeredFunctions.clear();
     compiledScriptCache.clear();
+    persistentBytecodeCache.load();
   }
 
   bool LuaStateWrapper::isValid() const {
@@ -94,21 +99,28 @@ namespace Project::Utilities {
       const auto& bytecode = cacheIt->second;
       status = luaL_loadbuffer(luaState, bytecode.data(), bytecode.size(), scriptPath.c_str());
     } else {
-      status = luaL_loadfile(luaState, scriptPath.c_str());
-      if (status == LUA_OK) {
-        std::vector<char> bytecode;
-        auto writer = [](lua_State*, const void* p, size_t sz, void* ud) -> int {
-          auto* buffer = static_cast<std::vector<char>*>(ud);
-          const char* cp = static_cast<const char*>(p);
-          buffer->insert(buffer->end(), cp, cp + sz);
-          return 0;
-        };
+      std::vector<char> bytecode;
+      if (persistentBytecodeCache.getData(scriptPath, bytecode)) {
+        compiledScriptCache[scriptPath] = bytecode;
+        status = luaL_loadbuffer(luaState, bytecode.data(), bytecode.size(), scriptPath.c_str());
+      } else {
+        status = luaL_loadfile(luaState, scriptPath.c_str());
+        if (status == LUA_OK) {
+          auto writer = [](lua_State*, const void* p, size_t sz, void* ud) -> int {
+            auto* buffer = static_cast<std::vector<char>*>(ud);
+            const char* cp = static_cast<const char*>(p);
+            buffer->insert(buffer->end(), cp, cp + sz);
+            return 0;
+          };
 
-        if (lua_dump(luaState, writer, &bytecode, 0) == 0) {
-          compiledScriptCache[scriptPath] = std::move(bytecode);
-        } else {
-          logsManager.logError("Failed to dump bytecode for " + scriptPath);
-        } 
+          std::vector<char> newBytecode;
+          if (lua_dump(luaState, writer, &newBytecode, 0) == 0) {
+            compiledScriptCache[scriptPath] = newBytecode;
+            persistentBytecodeCache.setData(scriptPath, newBytecode);
+          } else {
+            logsManager.logError("Failed to dump bytecode for " + scriptPath);
+          }
+        }
       }
     }
 

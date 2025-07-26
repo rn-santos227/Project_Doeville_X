@@ -92,7 +92,7 @@ namespace Project::Components {
     
     float getWeight() const { return mass * Project::Libraries::Constants::GRAVITY; }
     bool performContinuousCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime);
-    
+
     void addAngularVelocity(float av) { angularVelocity += av; }
     void addAngularAcceleration(float aa) { angularAcceleration += aa; }
 
@@ -131,7 +131,7 @@ namespace Project::Components {
     bool isKinematic = false;
     bool lastCollidedWithStatic = false;
 
-    SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b);
+    SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b) const;
 
     bool checkBoxBoxCollisions(
       const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
@@ -190,6 +190,8 @@ namespace Project::Components {
       Project::Components::BoundingBoxComponent* myBox, 
       Project::Components::BoundingBoxComponent* otherBox
     );
+
+    bool computeBounds(Project::Components::BoundingBoxComponent* box, SDL_Rect& bounds) const;
     bool shouldExitEarly();
     
     void applyFriction(float fric);

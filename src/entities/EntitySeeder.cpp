@@ -197,6 +197,10 @@ namespace Project::Entities {
       entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::Y, ey);
       entity->initialize();
 
+      if (auto* box = entity->getBoundingBoxComponent()) {
+        box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
+      }
+
       std::shared_ptr<Entity> shared = std::move(entity);
       std::string id = tmpl + std::string(Constants::SEED) + std::to_string(idCounter++);
       std::string finalId = manager.addEntity(shared, id);

@@ -178,7 +178,7 @@ namespace Project::Components {
     setKinematic(kine);
   }
 
-  SDL_Rect PhysicsComponent::unionRect(const SDL_Rect& a, const SDL_Rect& b) {
+  SDL_Rect PhysicsComponent::unionRect(const SDL_Rect& a, const SDL_Rect& b) const {
     const int left = std::min(a.x, b.x);
     const int top = std::min(a.y, b.y);
     const int right = std::max(a.x + a.w, b.x + b.w);
@@ -347,9 +347,9 @@ namespace Project::Components {
     const auto& myOBB = myBox->getOrientedBoxes();
     const bool myRotationEnabled = myBox->isRotationEnabled();
 
-    SDL_Rect myBounds = myRects.empty() ? SDL_Rect{static_cast<int>(newX), static_cast<int>(newY), 0, 0} : myRects[0];
-    for (size_t i = 1; i < myRects.size(); ++i) {
-      myBounds = unionRect(myBounds, myRects[i]);
+    SDL_Rect myBounds{0,0,0,0};
+    if (!computeBounds(myBox, myBounds)) {
+      myBounds = SDL_Rect{static_cast<int>(newX), static_cast<int>(newY), 0, 0};
     }
 
     auto& quadtree = manager->getPhysicsSystem().getQuadTree();
@@ -457,6 +457,56 @@ namespace Project::Components {
     myBounds.h += Constants::INDEX_TWO * padding;
     
     return SDL_HasIntersection(&myBounds, &otherBounds);
+  }
+
+  bool PhysicsComponent::computeBounds(BoundingBoxComponent* box, SDL_Rect& bounds) const {
+    if (!box) return false;
+    bool hasBounds = false;
+
+    const auto& rects = box->getBoxes();
+    for (size_t i = 0; i < rects.size(); ++i) {
+      if (!hasBounds) {
+        bounds = rects[i];
+        hasBounds = true;
+      } else {
+        bounds = unionRect(bounds, rects[i]);
+      }
+    }
+
+    const auto& circles = box->getCircles();
+    for (const auto& c : circles) {
+      SDL_Rect r{c.x - c.r, c.y - c.r, c.r * 2, c.r * 2};
+      if (!hasBounds) {
+        bounds = r;
+        hasBounds = true;
+      } else {
+        bounds = unionRect(bounds, r);
+      }
+    }
+
+    const auto& polys = box->getPolygons();
+    for (const auto& p : polys) {
+      SDL_Rect r = Project::Utilities::GeometryUtils::polygonBounds(p);
+      if (!hasBounds) {
+        bounds = r;
+        hasBounds = true;
+      } else {
+        bounds = unionRect(bounds, r);
+      }
+    }
+
+    const auto& caps = box->getCapsules();
+    for (const auto& c : caps) {
+      SDL_Rect r = Project::Utilities::GeometryUtils::capsuleBounds(c);
+      if (!hasBounds) {
+        bounds = r;
+        hasBounds = true;
+      } else {
+        bounds = unionRect(bounds, r);
+      }
+    }
+
+    return hasBounds;
   }
 
   bool PhysicsComponent::shouldExitEarly() {

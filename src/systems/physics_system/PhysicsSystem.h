@@ -34,6 +34,9 @@ namespace Project::Systems {
     std::vector<Project::Components::PhysicsComponent*> components;
     std::vector<Project::Components::BoundingBoxComponent*> staticColliders;
 
+    SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b) const;
+    bool computeBounds(Project::Components::BoundingBoxComponent* box, SDL_Rect& bounds) const;
+
   };
 }
 

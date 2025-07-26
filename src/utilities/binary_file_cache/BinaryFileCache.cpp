@@ -57,6 +57,18 @@ namespace Project::Utilities {
     }
   }
 
+  bool BinaryFileCache::getData(const std::string& path, std::vector<char>& outData) const {
+    auto it = cache.find(path);
+    if (it == cache.end()) return false;
+    if (it->second.first != getTimestamp(path)) return false;
+    outData = it->second.second;
+    return true;
+  }
+
+  void BinaryFileCache::setData(const std::string& path, const std::vector<char>& data) {
+    cache[path] = { getTimestamp(path), data };
+  }
+
   long long BinaryFileCache::getTimestamp(const std::string& path) {
     if (!fs::exists(path)) return 0;
     return toSeconds(fs::last_write_time(path));

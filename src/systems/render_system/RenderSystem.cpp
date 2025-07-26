@@ -1,6 +1,7 @@
 #include "RenderSystem.h"
 #include <algorithm>
 #include "components/graphics_component/GraphicsComponent.h"
+#include "handlers/camera/CameraHandler.h"
 
 namespace Project::Systems {
   using Project::Components::GraphicsComponent;
@@ -22,14 +23,44 @@ namespace Project::Systems {
   }
 
   void Project::Systems::RenderSystem::render() {
+    std::vector<SDL_Rect> drawn;
+    auto* camHandler = GraphicsComponent::getCameraHandler();
+    SDL_Rect cullRect{0, 0, 0, 0};
+    bool useCull = false;
+    if (camHandler) {
+      cullRect = camHandler->getCullingRect();
+      useCull = true;
+    }
+
     for (auto* comp : components) {
-      if (comp && comp->isActive()) {
-        comp->render();
+      if (!comp || !comp->isActive()) continue;
+      const SDL_Rect rect = comp->getRect();
+
+      if (useCull && !SDL_HasIntersection(&rect, &cullRect)) {
+        continue;
       }
+
+      bool occluded = false;
+      for (const auto& r : drawn) {
+        if (rectContains(r, rect)) {
+          occluded = true;
+          break;
+        }
+      }
+      if (occluded) continue;
+
+      comp->render();
+      drawn.push_back(rect);
     }
   }
 
   void Project::Systems::RenderSystem::clear() {
     components.clear();
+  }
+
+  bool RenderSystem::rectContains(const SDL_Rect& outer, const SDL_Rect& inner) const {
+    return inner.x >= outer.x && inner.y >= outer.y &&
+           (inner.x + inner.w) <= (outer.x + outer.w) &&
+           (inner.y + inner.h) <= (outer.y + outer.h);
   }
 }

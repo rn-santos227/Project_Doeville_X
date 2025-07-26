@@ -393,7 +393,7 @@ namespace Project::Components {
     const auto& myRects = myBox->getBoxes();
     const auto& otherRects = otherBox->getBoxes();
     
-    if (myRects.empty() || otherRects.empty()) return true; // Let narrow phase handle it
+    if (myRects.empty() || otherRects.empty()) return true;
     
     SDL_Rect myBounds = myRects[0];
     for (size_t i = 1; i < myRects.size(); ++i) {

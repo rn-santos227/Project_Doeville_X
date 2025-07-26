@@ -2,6 +2,8 @@
 #define RENDER_SYSTEM_H
 
 #include <vector>
+#include <SDL.h>
+
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
 
@@ -19,6 +21,8 @@ namespace Project::Systems {
 
   private:
     std::vector<Project::Components::GraphicsComponent*> components;
+
+    bool rectContains(const SDL_Rect& outer, const SDL_Rect& inner) const;
   };
 }
 

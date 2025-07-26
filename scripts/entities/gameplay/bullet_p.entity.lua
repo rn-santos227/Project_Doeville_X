@@ -8,10 +8,10 @@ components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
     active = true,
-    solid = true,
+    solid = false,
     boxes = {
-      { x = 0, y = 0, w = 8, h = 8 }
-    }
+      { x = 8, y = 8, radius = 16 }
+    },
   },
 
   MotionComponent = {

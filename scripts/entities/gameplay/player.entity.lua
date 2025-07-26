@@ -2,6 +2,9 @@ x = 640
 y = 360
 z = 0
 
+local last_dx = 0
+local last_dy = -1
+
 group = "gameplay"
 
 components = {
@@ -81,15 +84,13 @@ function action_1()
   if isActionPressed("player", "move_left") then dx = dx - 1 end
   if isActionPressed("player", "move_right") then dx = dx + 1 end
 
-  if dx == 0 and dy == 0 then
-    dy = -1
+  if dx ~= 0 or dy ~= 0 then
+    local mag = math.sqrt(dx * dx + dy * dy)
+    last_dx = dx / mag
+    last_dy = dy / mag
   end
 
-  local mag = math.sqrt(dx * dx + dy * dy)
-  dx = dx / mag
-  dy = dy / mag
-
-  spawn(dx * 32, dy * 32, dx * 200, dy * 200)
+  spawn(last_dx * 40, last_dy * 40, last_dx * 200, last_dy * 200)
 end
 
 function brake()

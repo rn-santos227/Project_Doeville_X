@@ -17,6 +17,7 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"
+#include "utilities/binary_cache/BinaryFileCache.h"
 
 namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
@@ -24,6 +25,13 @@ namespace Project::Entities {
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
   namespace LuaBindings = Project::Bindings::LuaBindings;
+
+  EntitiesManager::EntitiesManager()
+    : persistentFunctionCache(Constants::SCRIPT_FUNCTION_CACHE_FILE) {}
+
+  EntitiesManager::~EntitiesManager() {
+    persistentFunctionCache.save();
+  }
 
   std::string EntitiesManager::addEntity(std::shared_ptr<Entity> entity, const std::string& id) {
     if (!entity) return Constants::EMPTY_STRING;
@@ -223,37 +231,51 @@ namespace Project::Entities {
     if (!entity) return;
     const std::string& path = entity->getScriptPath();
     std::vector<std::string> functions;
-    
+
     if (!path.empty()) {
       auto cacheIt = scriptFunctionCache.find(path);
       if (cacheIt == scriptFunctionCache.end()) {
-        std::string code;
-        std::ifstream in(path);
-        if (in) {
-          std::ostringstream ss;
-          ss << in.rdbuf();
-          code = ss.str();
+        std::vector<char> raw;
+        if (persistentFunctionCache.getData(path, raw)) {
+          std::string content(raw.begin(), raw.end());
+          std::istringstream iss(content);
+          std::string func;
+          while (std::getline(iss, func)) {
+            if (!func.empty()) functions.push_back(func);
+          }
+        } else {
+          std::string code;
+          std::ifstream in(path);
+          if (in) {
+            std::ostringstream ss;
+            ss << in.rdbuf();
+            code = ss.str();
+          }
+
+          auto contains = [&](const std::string& name) {
+            return code.find(name) != std::string::npos;
+          };
+
+          auto record = [&](const std::string& name) {
+            if (contains(name)) functions.push_back(name);
+          };
+
+          record(Keys::LUA_GET_ENTITY_SPEED);
+          record(Keys::LUA_SET_ENTITY_TEXT);
+          record(Keys::LUA_DESTROY_ENTITY);
+          record(Keys::LUA_SET_TIMER_ACTIVE);
+          record(Keys::LUA_ADD_NUMERIC_VALUE);
+          record(Keys::LUA_SET_NUMERIC_VALUE);
+          record(Keys::LUA_GET_NUMERIC_VALUE);
+          record(Keys::LUA_STOP_TIMER);
+          record(Keys::LUA_BRAKE_ENTITY);
+          record(Keys::LUA_SPAWN_ENTITY);
+          record(Keys::LUA_EXIT_GAME);
+
+          std::string serialized;
+          for (const auto& f : functions) serialized += f + "\n";
+          persistentFunctionCache.setData(path, std::vector<char>(serialized.begin(), serialized.end()));
         }
-
-        auto contains = [&](const std::string& name) {
-          return code.find(name) != std::string::npos;
-        };
-
-        auto record = [&](const std::string& name) {
-          if (contains(name)) functions.push_back(name);
-        };
-
-        record(Keys::LUA_GET_ENTITY_SPEED);
-        record(Keys::LUA_SET_ENTITY_TEXT);
-        record(Keys::LUA_DESTROY_ENTITY);
-        record(Keys::LUA_SET_TIMER_ACTIVE);
-        record(Keys::LUA_ADD_NUMERIC_VALUE);
-        record(Keys::LUA_SET_NUMERIC_VALUE);
-        record(Keys::LUA_GET_NUMERIC_VALUE);
-        record(Keys::LUA_STOP_TIMER);
-        record(Keys::LUA_BRAKE_ENTITY);
-        record(Keys::LUA_SPAWN_ENTITY);
-        record(Keys::LUA_EXIT_GAME);
 
         scriptFunctionCache[path] = functions;
       } else {
@@ -290,5 +312,6 @@ namespace Project::Entities {
 
   void EntitiesManager::clearScriptFunctionCache() {
     scriptFunctionCache.clear();
+    persistentFunctionCache.load();
   }
 }

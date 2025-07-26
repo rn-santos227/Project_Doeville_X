@@ -7,6 +7,11 @@
 namespace Project::Utilities {
   namespace fs = std::filesystem;
 
+  BinaryFileCache::BinaryFileCache(const std::string& filePath) : cacheFilePath(filePath) {
+    fs::create_directories(fs::path(cacheFilePath).parent_path());
+    load();
+  }
+
   static long long toSeconds(fs::file_time_type tp) {
     return std::chrono::duration_cast<std::chrono::seconds>(tp.time_since_epoch()).count();
   }

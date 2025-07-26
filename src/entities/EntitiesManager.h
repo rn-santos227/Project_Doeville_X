@@ -19,6 +19,7 @@
 #include "systems/motion_system/MotionSystem.h"
 #include "systems/physics_system/PhysicsSystem.h"
 #include "systems/render_system/RenderSystem.h"
+#include "utilities/binary_cache/BinaryFileCache.h"
 
 namespace Project::States { class GameState; }
 
@@ -28,8 +29,8 @@ namespace Project::Entities {
     public Project::Interfaces::Resetable, 
     public Project::Interfaces::Updatable {
     public:
-      EntitiesManager() = default;
-      ~EntitiesManager() = default;
+      EntitiesManager();
+      ~EntitiesManager();
 
       void setGameState(Project::States::GameState* state) { gameState = state; }
       Project::States::GameState* getGameState() const { return gameState; }
@@ -67,6 +68,8 @@ namespace Project::Entities {
       Project::Systems::MotionSystem motionSystem;
       Project::Systems::PhysicsSystem physicsSystem;
       Project::Systems::RenderSystem renderSystem;
+
+      Project::Utilities::BinaryFileCache persistentFunctionCache;
 
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
       std::unordered_map<std::string, std::vector<std::string>> entityGroups;

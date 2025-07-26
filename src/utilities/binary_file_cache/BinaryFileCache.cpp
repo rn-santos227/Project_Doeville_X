@@ -44,6 +44,17 @@ namespace Project::Utilities {
 
     size_t entries = cache.size();
     out.write(reinterpret_cast<const char*>(&entries), sizeof(entries));
+    for (const auto& [path, pair] : cache) {
+      long long ts = getTimestamp(path);
+      size_t pathSize = path.size();
+      out.write(reinterpret_cast<const char*>(&pathSize), sizeof(pathSize));
+      out.write(path.data(), pathSize);
+      out.write(reinterpret_cast<const char*>(&ts), sizeof(ts));
+      const auto& data = pair.second;
+      size_t dataSize = data.size();
+      out.write(reinterpret_cast<const char*>(&dataSize), sizeof(dataSize));
+      if (dataSize > 0) out.write(data.data(), dataSize);
+    }
   }
 
   long long BinaryFileCache::getTimestamp(const std::string& path) {

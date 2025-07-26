@@ -128,6 +128,21 @@ namespace Project::Entities {
   void EntitiesManager::optimizeEntities() {
     std::lock_guard<std::mutex> lock(managerMutex);
     cachedEntities.clear();
+    cachedEntities.rehash(0);
+
+    entityList.shrink_to_fit();
+
+    for (auto& [group, ids] : entityGroups) {
+      ids.shrink_to_fit();
+    }
+    entityGroups.rehash(0);
+
+    for (auto& [path, funcs] : scriptFunctionCache) {
+      funcs.shrink_to_fit();
+    }
+    scriptFunctionCache.rehash(0);
+
+    idCounters.rehash(0);
   }
 
   void EntitiesManager::initialize() {

@@ -19,6 +19,7 @@ namespace Project::Components {
   using Project::Handlers::KeyHandler;
   using Project::Entities::Entity;
   using Project::Utilities::MathUtils;
+  using Project::Utilities::PhysicsUtils;
 
   namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
@@ -37,8 +38,6 @@ namespace Project::Components {
 
     KeysComponent* keys = keysComp;
     if (!keys) return;
-    float dx = 0.0f;
-    float dy = 0.0f;
 
     if (accelerationEnabled) {
       if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
@@ -73,8 +72,6 @@ namespace Project::Components {
         }
       }
 
-      dx = localVelX * deltaTime;
-      dy = localVelY * deltaTime;
     } else {
       localVelX = 0.0f;
       localVelY = 0.0f;
@@ -90,10 +87,11 @@ namespace Project::Components {
       } else if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
         localVelY = maxSpeed;
       }
-
-      dx = localVelX * deltaTime;
-      dy = localVelY * deltaTime;
     }
+
+    PhysicsUtils::clampVelocityInPlace(localVelX, localVelY, maxSpeed);
+    float dx = localVelX * deltaTime;
+    float dy = localVelY * deltaTime;
 
     if (!physics && (dx != 0.0f || dy != 0.0f)) {
       float oldX = owner->getX();

@@ -25,6 +25,13 @@ components = {
     active = true,
     rotation = true
   },
+
+  SpawnerComponent = {
+    component = "SpawnerComponent",
+    active = true,
+    template = "bullet_p",
+    rate = 0.2
+  },
   
   KeysComponent = {
     component = "KeysComponent",
@@ -63,11 +70,26 @@ components = {
     use_acceleration = true,
     rotation = true,
     rotation_speed = 10.0
-  },
+  }
 }
 
 function action_1()
-  print("Action 1 placeholder")
+  local dx = 0
+  local dy = 0
+  if isActionPressed("player", "move_up") then dy = dy - 1 end
+  if isActionPressed("player", "move_down") then dy = dy + 1 end
+  if isActionPressed("player", "move_left") then dx = dx - 1 end
+  if isActionPressed("player", "move_right") then dx = dx + 1 end
+
+  if dx == 0 and dy == 0 then
+    dy = -1
+  end
+
+  local mag = math.sqrt(dx * dx + dy * dy)
+  dx = dx / mag
+  dy = dy / mag
+
+  spawn(dx * 16, dy * 16, dx * 200, dy * 200)
 end
 
 function brake()

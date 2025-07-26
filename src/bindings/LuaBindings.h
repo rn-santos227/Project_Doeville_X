@@ -28,6 +28,7 @@ namespace Project::Bindings {
     int lua_getNumericValue(lua_State* L);
     int lua_stopTimer(lua_State* L);
     int lua_brakeEntity(lua_State* L);
+    int lua_isActionPressed(lua_State* L);
     int lua_destroyEntity(lua_State* L);
 
     // EntitiesFactory bindings

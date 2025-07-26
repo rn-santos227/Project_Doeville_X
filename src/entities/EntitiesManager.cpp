@@ -55,6 +55,7 @@ namespace Project::Entities {
     
     entity->setEntityID(finalId);
     add(finalId, std::move(entity));
+    objects[finalId]->getLuaStateWrapper().setGlobalString(Keys::ID, finalId);
     entityList.push_back(objects[finalId]);
     entityIndices[finalId] = entityList.size() - 1;
     
@@ -273,6 +274,7 @@ namespace Project::Entities {
 
           record(Keys::LUA_GET_ENTITY_SPEED);
           record(Keys::LUA_SET_ENTITY_TEXT);
+          record(Keys::LUA_SPAWN_ENTITY);
           record(Keys::LUA_DESTROY_ENTITY);
           record(Keys::LUA_SET_TIMER_ACTIVE);
           record(Keys::LUA_ADD_NUMERIC_VALUE);
@@ -280,7 +282,7 @@ namespace Project::Entities {
           record(Keys::LUA_GET_NUMERIC_VALUE);
           record(Keys::LUA_STOP_TIMER);
           record(Keys::LUA_BRAKE_ENTITY);
-          record(Keys::LUA_SPAWN_ENTITY);
+          record(Keys::LUA_IS_ACTION_PRESSED);
           record(Keys::LUA_EXIT_GAME);
 
           std::string serialized;
@@ -312,6 +314,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_stopTimer, this);
         } else if (func == Keys::LUA_BRAKE_ENTITY) {
           entity->registerLuaFunction(func, LuaBindings::lua_brakeEntity, this);
+        } else if (func == Keys::LUA_IS_ACTION_PRESSED) {
+          entity->registerLuaFunction(func, LuaBindings::lua_isActionPressed, this);
         } else if (func == Keys::LUA_SPAWN_ENTITY && gameState) {
           entity->registerLuaFunction(func, LuaBindings::lua_spawnEntity, gameState);
         } else if (func == Keys::LUA_EXIT_GAME && sdlManager) {

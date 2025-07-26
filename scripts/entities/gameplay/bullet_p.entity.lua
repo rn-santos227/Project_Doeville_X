@@ -18,7 +18,7 @@ components = {
     component = "MotionComponent",
     active = true,
     brake_power = 0.5,
-    speed = 200.0,
+    speed = 250.0,
     friction = 0.0,
     use_acceleration = false,
     rotation = true,
@@ -40,8 +40,21 @@ components = {
     mass = 0.1,
     restitution = 0.0,
     surface = "destroy_on_hit"
+  },
+
+  TimerComponent = {
+    component = "TimerComponent",
+    active = true,
+    seconds = 0.6,
+    callbacks = "expire"
   }
 }
+
+function expire()
+  if id then
+    destroyEntity(id)
+  end
+end
 
 return {
   name = "bullet_p"

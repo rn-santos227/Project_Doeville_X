@@ -285,6 +285,34 @@ namespace Project::Components {
     const float bounce = (myBox->getRestitution() + otherBox->getRestitution()) * 0.5f;
     const float fric = (myBox->getFriction() + otherBox->getFriction()) * 0.5f;
 
+    const bool triggerOnly = !myBox->isSolid() || !otherBox->isSolid();
+    if (triggerOnly) {
+      if (otherPhysics) {
+        if (!myBox->isSolid()) {
+          myBox->handleSurfaceInteraction(
+            static_cast<SurfaceType>(otherPhysics->getSurfaceType()),
+            entity, offset, bounce, fric, velocityX, velocityY);
+        }
+        if (!otherBox->isSolid()) {
+          auto* otherEntity = otherPhysics->getOwner();
+          if (otherEntity) {
+            SDL_FPoint invOffset{-offset.x, -offset.y};
+            otherBox->handleSurfaceInteraction(
+              myBox->getSurfaceType(), otherEntity,
+              invOffset, bounce, fric,
+              otherPhysics->velocityX, otherPhysics->velocityY);
+          }
+        }
+      } else {
+        if (!myBox->isSolid()) {
+          myBox->handleSurfaceInteraction(
+            otherBox->getSurfaceType(), entity,
+            offset, bounce, fric, velocityX, velocityY);
+        }
+      }
+      return true;
+    }
+
     if (otherPhysics && pushForce > 0.0f && !otherPhysics->getStatic()) {
       const float pushX = velocityX * pushForce;
       const float pushY = velocityY * pushForce;
@@ -334,7 +362,7 @@ namespace Project::Components {
     auto* manager = owner->getEntitiesManager();
     auto* myBox = owner->getBoundingBoxComponent();
     
-    if (!manager || !myBox || !myBox->isSolid()) {
+    if (!manager || !myBox || !myBox->isInteractive()) {
       return false;
     }
 
@@ -359,7 +387,7 @@ namespace Project::Components {
       auto* entity = coll.entity;
       auto* otherBox = coll.box;
       
-      if (!otherBox || !otherBox->isSolid()) continue;
+      if (!otherBox || !otherBox->isInteractive()) continue;
 
       const auto& otherRects = otherBox->getBoxes();
       const auto& otherCircles = otherBox->getCircles();

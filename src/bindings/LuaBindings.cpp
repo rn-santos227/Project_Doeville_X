@@ -8,6 +8,7 @@
 #include "entities/ChunkSize.h"
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
+#include "handlers/input/KeyActionResolver.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/categories/Categories.h"
@@ -167,6 +168,40 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
   
+  int lua_isActionPressed(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* action = luaL_checkstring(L, 2);
+    if (!manager || !name || !action) {
+      lua_pushboolean(L, 0);
+      return 1;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+    if (!entity) {
+      lua_pushboolean(L, 0);
+      return 1;
+    }
+
+    auto* keys = dynamic_cast<Project::Components::KeysComponent*>(entity->getComponent(Components::KEYS_COMPONENT));
+    if (!keys) {
+      lua_pushboolean(L, 0);
+      return 1;
+    }
+
+    auto act = Project::Handlers::KeyActionResolver::resolve(action);
+    if (act == Project::Handlers::KeyAction::NONE) {
+      lua_pushboolean(L, 0);
+      return 1;
+    }
+
+    lua_pushboolean(L, keys->isActionTriggered(act));
+    return 1;
+  }
+
   int lua_resetState(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

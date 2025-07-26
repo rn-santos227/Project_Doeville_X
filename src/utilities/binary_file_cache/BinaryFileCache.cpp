@@ -19,7 +19,22 @@ namespace Project::Utilities {
     size_t entries = 0;
     in.read(reinterpret_cast<char*>(&entries), sizeof(entries));
     for (size_t i = 0; i < entries; ++i) {
+     size_t pathSize = 0;
+      in.read(reinterpret_cast<char*>(&pathSize), sizeof(pathSize));
+      std::string path(pathSize, '\0');
+      in.read(path.data(), pathSize);
 
+      long long ts = 0;
+      in.read(reinterpret_cast<char*>(&ts), sizeof(ts));
+
+      size_t dataSize = 0;
+      in.read(reinterpret_cast<char*>(&dataSize), sizeof(dataSize));
+      std::vector<char> data(dataSize);
+      if (dataSize > 0) in.read(data.data(), dataSize);
+
+      if (ts == getTimestamp(path)) {
+        cache[path] = {ts, std::move(data)};
+      }
     }
   }
 

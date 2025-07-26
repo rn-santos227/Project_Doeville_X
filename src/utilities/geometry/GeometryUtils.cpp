@@ -13,6 +13,52 @@ namespace Project::Utilities {
     return rect;
   }
 
+  SDL_Rect GeometryUtils::capsuleBounds(const Capsule& cap) {
+    float minX = std::min(cap.start.x, cap.end.x) - cap.r;
+    float minY = std::min(cap.start.y, cap.end.y) - cap.r;
+    float maxX = std::max(cap.start.x, cap.end.x) + cap.r;
+    float maxY = std::max(cap.start.y, cap.end.y) + cap.r;
+    return SDL_Rect{static_cast<int>(minX), static_cast<int>(minY), static_cast<int>(maxX - minX), static_cast<int>(maxY - minY)};
+  }
+
+  SDL_Rect GeometryUtils::polygonBounds(const Polygon& poly) {
+    if (poly.vertices.empty()) return SDL_Rect{0,0,0,0};
+    float minX = poly.vertices[0].x;
+    float minY = poly.vertices[0].y;
+    float maxX = poly.vertices[0].x;
+    float maxY = poly.vertices[0].y;
+    for (const auto& v : poly.vertices) {
+      if (v.x < minX) minX = v.x;
+      if (v.y < minY) minY = v.y;
+      if (v.x > maxX) maxX = v.x;
+      if (v.y > maxY) maxY = v.y;
+    }
+    return SDL_Rect{static_cast<int>(minX), static_cast<int>(minY), static_cast<int>(maxX - minX), static_cast<int>(maxY - minY)};
+  }
+
+  float GeometryUtils::distance(float x1, float y1, float x2, float y2) {
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+    return std::sqrt(dx * dx + dy * dy);
+  }
+
+  float GeometryUtils::pointSegmentDistance(float px, float py, float x1, float y1, float x2, float y2) {
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+    if (dx == 0 && dy == 0) {
+      dx = px - x1;
+      dy = py - y1;
+      return std::sqrt(dx*dx + dy*dy);
+    }
+    float t = ((px - x1) * dx + (py - y1) * dy) / (dx*dx + dy*dy);
+    t = std::clamp(t, 0.0f, 1.0f);
+    float projX = x1 + t * dx;
+    float projY = y1 + t * dy;
+    dx = px - projX;
+    dy = py - projY;
+    return std::sqrt(dx*dx + dy*dy);
+  }
+
   bool GeometryUtils::circleIntersect(const Circle& a, const Circle& b) {
     float dx = static_cast<float>(a.x - b.x);
     float dy = static_cast<float>(a.y - b.y);
@@ -34,10 +80,21 @@ namespace Project::Utilities {
     return (dx * dx + dy * dy) <= (c.r * c.r);
   }
 
-  float GeometryUtils::distance(float x1, float y1, float x2, float y2) {
-    float dx = x2 - x1;
-    float dy = y2 - y1;
-    return std::sqrt(dx * dx + dy * dy);
+  bool GeometryUtils::polygonIntersect(const Polygon& a, const Polygon& b) {
+    SDL_Rect ba = polygonBounds(a);
+    SDL_Rect bb = polygonBounds(b);
+    return rectIntersect(ba, bb);
+  }
+
+  bool GeometryUtils::polygonCircleIntersect(const Polygon& poly, const Circle& c) {
+    SDL_Rect bounds = polygonBounds(poly);
+    if (!rectCircleIntersect(bounds, c)) return false;
+    return true;
+  }
+
+  bool GeometryUtils::capsuleCircleIntersect(const Capsule& cap, const Circle& c) {
+    float dist = pointSegmentDistance(static_cast<float>(c.x), static_cast<float>(c.y), cap.start.x, cap.start.y, cap.end.x, cap.end.y);
+    return dist <= cap.r + c.r;
   }
 
   void GeometryUtils::renderCircle(SDL_Renderer* renderer, int cx, int cy, int r) {

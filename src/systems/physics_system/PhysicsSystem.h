@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "interfaces/update_interface/Updatable.h"
+#include "utilities/spatial/QuadTree.h"
 #include "utilities/spatial/SpatialHashGrid.h"
 
 namespace Project { namespace Components { class PhysicsComponent; } }
@@ -23,9 +24,12 @@ namespace Project::Systems {
 
     const Project::Utilities::SpatialHashGrid& getGrid() const { return grid; }
     Project::Utilities::SpatialHashGrid& getGrid() { return grid; }
+    const Project::Utilities::QuadTree& getQuadTree() const { return quadtree; }
+    Project::Utilities::QuadTree& getQuadTree() { return quadtree; }
 
   private:
     Project::Utilities::SpatialHashGrid grid;
+    Project::Utilities::QuadTree quadtree;
     
     std::vector<Project::Components::PhysicsComponent*> components;
     std::vector<Project::Components::BoundingBoxComponent*> staticColliders;

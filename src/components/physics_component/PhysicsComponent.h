@@ -91,7 +91,8 @@ namespace Project::Components {
     Project::Components::Physics::SurfaceType getSurfaceType() const { return surfaceType; }
     
     float getWeight() const { return mass * Project::Libraries::Constants::GRAVITY; }
-
+    bool performContinuousCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime);
+    
     void addAngularVelocity(float av) { angularVelocity += av; }
     void addAngularAcceleration(float aa) { angularAcceleration += aa; }
 

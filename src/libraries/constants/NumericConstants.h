@@ -27,6 +27,8 @@ namespace Project::Libraries::Constants {
   constexpr int INT_ONE = 1;
   constexpr int INT_TEN = 10;
   constexpr int INT_HUNDRED = 100;
+  constexpr int INT_THOUSAND = 1000;
+  constexpr int INT_TEN_THOUSAND = 10000;
   constexpr int MAX_MEMORY_SPACE = 255;
   
   constexpr int BIT_32 = 32;

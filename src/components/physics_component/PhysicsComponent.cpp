@@ -128,9 +128,8 @@ namespace Project::Components {
     const float oldY = owner->getY();
     const float newX = oldX + velocityX * deltaTime;
     const float newY = oldY + velocityY * deltaTime;
-    syncPositionWithComponents(newX, newY);
 
-    bool collisionOccurred = performCollisionDetection(newX, newY, oldX, oldY, deltaTime);
+    bool collisionOccurred = performContinuousCollisionDetection(newX, newY, oldX, oldY, deltaTime);
     if (rotationEnabled) {
       updateRotationState(deltaTime, collisionOccurred);
     }
@@ -353,8 +352,8 @@ namespace Project::Components {
       myBounds = unionRect(myBounds, myRects[i]);
     }
 
-    auto& grid = manager->getPhysicsSystem().getGrid();
-    for (const auto& coll : grid.query(myBounds)) {
+    auto& quadtree = manager->getPhysicsSystem().getQuadTree();
+    for (const auto& coll : quadtree.query(myBounds)) {
       auto* candidate = coll.physics;
       if (candidate == this) continue;
       auto* entity = coll.entity;
@@ -411,6 +410,28 @@ namespace Project::Components {
     }
 
     return collisionOccurred;
+  }
+
+  bool PhysicsComponent::performContinuousCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime) {
+    int steps = static_cast<int>(std::ceil(std::max(std::abs(newX - oldX), std::abs(newY - oldY)) / Constants::DEFAULT_CELL_SIZE));
+    if (steps < Constants::INT_ONE) steps = Constants::INT_ONE;
+    float stepX = (newX - oldX) / static_cast<float>(steps);
+    float stepY = (newY - oldY) / static_cast<float>(steps);
+    float cx = oldX;
+    float cy = oldY;
+    bool collided = false;
+    for (int i = 0; i < steps; ++i) {
+      cx += stepX;
+      cy += stepY;
+      syncPositionWithComponents(cx, cy);
+      collided = performCollisionDetection(cx, cy, oldX, oldY, deltaTime / steps);
+      if (collided) {
+        break;
+      }
+      oldX = cx;
+      oldY = cy;
+    }
+    return collided;
   }
 
   bool PhysicsComponent::broadPhaseCollisionCheck(BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox) {

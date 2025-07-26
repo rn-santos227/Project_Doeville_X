@@ -29,10 +29,14 @@ namespace Project::Components {
 
     void addBox(const SDL_Rect& rect);
     void addCircle(int x, int y, int r);
+    void addPolygon(const std::vector<SDL_FPoint>& points);
+    void addCapsule(const Project::Utilities::Capsule& cap);
     
     const std::vector<SDL_Rect>& getBoxes() const;
     const std::vector<Project::Utilities::Circle>& getCircles() const;
     const std::vector<Project::Utilities::OrientedBox>& getOrientedBoxes() const;
+    const std::vector<Project::Utilities::Polygon>& getPolygons() const { return worldPolygons; }
+    const std::vector<Project::Utilities::Capsule>& getCapsules() const { return worldCapsules; }
 
     void setSolid(bool solidEnabled);
     bool isSolid() const;
@@ -78,6 +82,10 @@ namespace Project::Components {
     std::vector<Project::Utilities::Circle> circles;
     std::vector<Project::Utilities::Circle> worldCircles;
     std::vector<Project::Utilities::OrientedBox> orientedBoxes;
+    std::vector<Project::Utilities::Polygon> polygons;
+    std::vector<Project::Utilities::Polygon> worldPolygons;
+    std::vector<Project::Utilities::Capsule> capsules;
+    std::vector<Project::Utilities::Capsule> worldCapsules;
 
     SDL_Renderer* renderer = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;

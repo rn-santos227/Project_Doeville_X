@@ -11,7 +11,10 @@ namespace Project::Systems {
   using Project::Components::PhysicsComponent;
   using Project::Components::BoundingBoxComponent;
 
-  PhysicsSystem::PhysicsSystem() {
+  namespace Constants = Project::Libraries::Constants;
+
+  PhysicsSystem::PhysicsSystem()
+      : quadtree(SDL_Rect{0, 0, Constants::INT_TEN_THOUSAND, Constants::INT_TEN_THOUSAND}) {
     components.reserve(Project::Libraries::Constants::MAX_MEMORY_SPACE);
     staticColliders.reserve(Project::Libraries::Constants::MAX_MEMORY_SPACE);
   }
@@ -34,6 +37,7 @@ namespace Project::Systems {
 
   void Project::Systems::PhysicsSystem::update(float deltaTime) {
     grid.clear();
+    quadtree.clear();
 
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
@@ -55,6 +59,7 @@ namespace Project::Systems {
       
       Project::Utilities::Collider collider{box, comp, owner};
       grid.insert(collider, bounds);
+      quadtree.insert(collider, bounds);
     }
 
     for (auto* box : staticColliders) {
@@ -72,6 +77,7 @@ namespace Project::Systems {
       }
       Project::Utilities::Collider collider{box, nullptr, box->getOwner()};
       grid.insert(collider, bounds);
+      quadtree.insert(collider, bounds);
     }
 
     for (auto* comp : components) {

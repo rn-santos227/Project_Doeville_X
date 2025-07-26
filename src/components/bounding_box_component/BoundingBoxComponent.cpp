@@ -159,12 +159,25 @@ namespace Project::Components {
     updateWorldBoxes();
   }
 
+  void BoundingBoxComponent::addPolygon(const std::vector<SDL_FPoint>& points) {
+    polygons.push_back({points});
+    updateWorldBoxes();
+  }
+
+  void BoundingBoxComponent::addCapsule(const Project::Utilities::Capsule& cap) {
+    capsules.push_back(cap);
+    updateWorldBoxes();
+  }
+
   void BoundingBoxComponent::clearShapes() {
     boxes.clear();
     worldBoxes.clear();
     circles.clear();
     worldCircles.clear();
     orientedBoxes.clear();
+    worldPolygons.clear();
+    capsules.clear();
+    worldCapsules.clear();
   }
 
   void BoundingBoxComponent::setSolid(bool solidEnabled) {
@@ -300,6 +313,14 @@ namespace Project::Components {
       worldCircles.resize(circles.size());
     }
 
+    if (worldPolygons.size() != polygons.size()) {
+      worldPolygons.resize(polygons.size());
+    }
+
+    if (worldCapsules.size() != capsules.size()) {
+      worldCapsules.resize(capsules.size());
+    }
+
     float cosA = 1.0f, sinA = 0.0f;
     if (rotationEnabled && !boxes.empty()) {
       if (rotation != lastCachedRotation) {
@@ -372,6 +393,22 @@ namespace Project::Components {
       worldCircles[i].x = circles[i].x + entityX;
       worldCircles[i].y = circles[i].y + entityY;
       worldCircles[i].r = circles[i].r;
+    }
+
+    for (size_t i = 0; i < polygons.size(); ++i) {
+      worldPolygons[i].vertices.resize(polygons[i].vertices.size());
+      for (size_t j = 0; j < polygons[i].vertices.size(); ++j) {
+        worldPolygons[i].vertices[j].x = polygons[i].vertices[j].x + entityX;
+        worldPolygons[i].vertices[j].y = polygons[i].vertices[j].y + entityY;
+      }
+    }
+
+    for (size_t i = 0; i < capsules.size(); ++i) {
+      worldCapsules[i].start.x = capsules[i].start.x + entityX;
+      worldCapsules[i].start.y = capsules[i].start.y + entityY;
+      worldCapsules[i].end.x = capsules[i].end.x + entityX;
+      worldCapsules[i].end.y = capsules[i].end.y + entityY;
+      worldCapsules[i].r = capsules[i].r;
     }
   }
 }

@@ -15,6 +15,8 @@ namespace Project::Components {
     MotionComponent(Project::Utilities::LogsManager& logsManager, Project::Handlers::KeyHandler* keyHandler, float speed = Project::Libraries::Constants::DEFAULT_MOTION_SPEED);
     ~MotionComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

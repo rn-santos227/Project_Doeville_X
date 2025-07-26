@@ -14,6 +14,8 @@ namespace Project::Components {
     explicit NumericComponent(Project::Utilities::LogsManager& logsManager);
     ~NumericComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

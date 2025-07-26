@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "interfaces/update_interface/Updatable.h"
+#include "utilities/spatial/SpatialHashGrid.h"
 
 namespace Project { namespace Components { class PhysicsComponent; } }
 
@@ -15,8 +16,12 @@ namespace Project::Systems {
     void update(float deltaTime) override;
     void clear();
 
+    const Project::Utilities::SpatialHashGrid& getGrid() const { return grid; }
+    Project::Utilities::SpatialHashGrid& getGrid() { return grid; }
+
   private:
     std::vector<Project::Components::PhysicsComponent*> components;
+    Project::Utilities::SpatialHashGrid grid;
 
   };
 }

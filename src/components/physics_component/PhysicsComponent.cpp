@@ -1,5 +1,6 @@
 #include "PhysicsComponent.h"
 
+#include <algorithm>
 #include <cmath>
 #include <string>
 
@@ -12,6 +13,7 @@
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
+#include "systems/physics_system/PhysicsSystem.h"
 #include "utilities/physics/PhysicsUtils.h"
 #include "utilities/math/MathUtils.h"
 
@@ -32,10 +34,13 @@ namespace Project::Components {
       gravityScale(Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE) {}
 
   void PhysicsComponent::resolveCollisionWith(PhysicsComponent* other, float restitution) {
-    if (!other || !owner || !other->owner) return;
+    if (!other || !owner) return;
 
-    float nx = other->owner->getX() - owner->getX();
-    float ny = other->owner->getY() - owner->getY();
+    auto* otherOwner = other->getOwner();
+    if (!otherOwner) return;
+
+    float nx = otherOwner->getX() - owner->getX();
+    float ny = otherOwner->getY() - owner->getY();
     float dist = MathUtils::magnitude(nx, ny);
     if (dist == 0.0f) {
       if (std::abs(velocityX) > std::abs(velocityY)) {
@@ -319,8 +324,16 @@ namespace Project::Components {
     const auto& myOBB = myBox->getOrientedBoxes();
     const bool myRotationEnabled = myBox->isRotationEnabled();
 
-    for (const auto& [id, entity] : manager->getAllEntities()) {
-      if (!entity || entity.get() == owner) continue;
+    SDL_Rect myBounds = myRects.empty() ? SDL_Rect{static_cast<int>(newX), static_cast<int>(newY), 0, 0} : myRects[0];
+    for (size_t i = 1; i < myRects.size(); ++i) {
+      myBounds = unionRect(myBounds, myRects[i]);
+    }
+
+    auto& grid = manager->getPhysicsSystem().getGrid();
+    for (auto* candidate : grid.query(myBounds)) {
+      if (!candidate || candidate == this) continue;
+      auto* entity = candidate->getOwner();
+      if (!entity) continue;
       
       auto* otherBox = entity->getBoundingBoxComponent();
       if (!otherBox || !otherBox->isSolid()) continue;
@@ -334,11 +347,11 @@ namespace Project::Components {
         continue;
       }
 
-      auto* otherPhysics = entity->getPhysicsComponent();
+      auto* otherPhysics = candidate;
       if (checkBoxBoxCollisions(
         myRects, otherRects, myOBB, otherOBB, 
         myRotationEnabled, otherRotationEnabled,
-        myBox, otherBox, otherPhysics, entity.get(),
+        myBox, otherBox, otherPhysics, entity,
         newX, newY, velocityDeltaX, velocityDeltaY)
       ) {
         collisionOccurred = true;
@@ -347,7 +360,7 @@ namespace Project::Components {
 
       if (checkBoxCircleCollisions(
         myRects, otherCircles,
-        myBox, otherBox, otherPhysics, entity.get(),
+        myBox, otherBox, otherPhysics, entity,
         newX, newY, velocityDeltaX, velocityDeltaY)
       ) {
         collisionOccurred = true;
@@ -356,7 +369,7 @@ namespace Project::Components {
 
       if (checkCircleCircleCollisions(
         myCircles, otherCircles, 
-        myBox, otherBox, otherPhysics, entity.get(),
+        myBox, otherBox, otherPhysics, entity,
         newX, newY, velocityDeltaX, velocityDeltaY)
       ) {
         collisionOccurred = true;
@@ -365,7 +378,7 @@ namespace Project::Components {
 
       if (checkCircleBoxCollisions(
         myCircles, otherRects, 
-        myBox, otherBox, otherPhysics, entity.get(),
+        myBox, otherBox, otherPhysics, entity,
         newX, newY, velocityDeltaX, velocityDeltaY)
       ) {
         collisionOccurred = true;

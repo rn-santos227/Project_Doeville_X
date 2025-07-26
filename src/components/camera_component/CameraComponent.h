@@ -12,6 +12,8 @@ namespace Project::Components {
     CameraComponent(Project::Utilities::LogsManager& logsManager, Project::Handlers::CameraHandler* handler);
     ~CameraComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

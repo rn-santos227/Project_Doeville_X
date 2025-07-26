@@ -13,6 +13,8 @@ namespace Project::Components {
     explicit SpawnerComponent(Project::Utilities::LogsManager& logsManager);
     ~SpawnerComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

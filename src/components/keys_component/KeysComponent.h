@@ -17,6 +17,8 @@ namespace Project::Components {
     KeysComponent(Project::Utilities::LogsManager& logsManager, Project::Handlers::KeyHandler* keyHanndler);
     ~KeysComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override {};
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

@@ -17,6 +17,8 @@ namespace Project::Components {
     TransformComponent(Project::Utilities::LogsManager& logsManager, float flexibility = Project::Libraries::Constants::DEFAULT_HALF, float spin = 0.0f, bool allowRevert = true);
     ~TransformComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

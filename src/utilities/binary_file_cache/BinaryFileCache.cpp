@@ -15,6 +15,12 @@ namespace Project::Utilities {
     cache.clear();
     std::ifstream in(cacheFilePath, std::ios::binary);
     if (!in.is_open()) return;
+
+    size_t entries = 0;
+    in.read(reinterpret_cast<char*>(&entries), sizeof(entries));
+    for (size_t i = 0; i < entries; ++i) {
+
+    }
   }
 
   long long BinaryFileCache::getTimestamp(const std::string& path) {

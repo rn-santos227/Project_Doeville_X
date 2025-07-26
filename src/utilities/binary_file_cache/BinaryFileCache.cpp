@@ -38,6 +38,14 @@ namespace Project::Utilities {
     }
   }
 
+  void BinaryFileCache::save() const {
+    std::ofstream out(cacheFilePath, std::ios::binary | std::ios::trunc);
+    if (!out.is_open()) return;
+
+    size_t entries = cache.size();
+    out.write(reinterpret_cast<const char*>(&entries), sizeof(entries));
+  }
+
   long long BinaryFileCache::getTimestamp(const std::string& path) {
     if (!fs::exists(path)) return 0;
     return toSeconds(fs::last_write_time(path));

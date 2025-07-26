@@ -17,10 +17,10 @@ namespace Project::Utilities {
     void setData(const std::string& path, const std::vector<char>& data);
 
   private:
-    static long long getTimestamp(const std::string& path);
-
-    std::string cacheFilePath;
     std::unordered_map<std::string, std::pair<long long, std::vector<char>>> cache;
+    std::string cacheFilePath;
+    
+    static long long getTimestamp(const std::string& path);
   };
 }
 

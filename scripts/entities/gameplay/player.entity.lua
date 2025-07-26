@@ -89,7 +89,7 @@ function action_1()
   dx = dx / mag
   dy = dy / mag
 
-  spawn(dx * 16, dy * 16, dx * 200, dy * 200)
+  spawn(dx * 32, dy * 32, dx * 200, dy * 200)
 end
 
 function brake()

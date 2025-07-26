@@ -123,7 +123,7 @@ namespace Project::Entities {
   }
 
   bool EntitiesManager::hasEntity(const std::string& id) {
-    std::lock_guard<std::mutex> lock(managerMutex);
+    std::lock_guard<std::recursive_mutex> lock(managerMutex);
     return objects.find(id) != objects.end();
   }
 
@@ -136,7 +136,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::unloadSceneEntities() {
-    std::lock_guard<std::mutex> lock(managerMutex);
+    std::lock_guard<std::recursive_mutex> lock(managerMutex);
 
     optimizeEntities();
     for (const auto& [id, entity] : objects) {
@@ -152,7 +152,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::optimizeEntities() {
-    std::lock_guard<std::mutex> lock(managerMutex);
+    std::lock_guard<std::recursive_mutex> lock(managerMutex);
     cachedEntities.clear();
     cachedEntities.rehash(0);
 
@@ -183,7 +183,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::update(float deltaTime) {
-    std::lock_guard<std::mutex> lock(managerMutex);
+    std::lock_guard<std::recursive_mutex> lock(managerMutex);
     for (auto& entity : entityList) {
       if (entity && entity->isActive()) entity->update(deltaTime);
     }
@@ -200,7 +200,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::reset() {
-    std::lock_guard<std::mutex> lock(managerMutex);
+    std::lock_guard<std::recursive_mutex> lock(managerMutex);
     initialized = false;
     
     objects.clear();

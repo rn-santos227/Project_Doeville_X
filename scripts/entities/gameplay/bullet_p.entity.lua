@@ -26,6 +26,7 @@ components = {
 
   GraphicsComponent = {
     component = "GraphicsComponent",
+    class = "bullet",
     active = true,
     rotation = true
   },
@@ -45,7 +46,7 @@ components = {
   TimerComponent = {
     component = "TimerComponent",
     active = true,
-    seconds = 0.6,
+    seconds = 5,
     callbacks = "expire"
   }
 }

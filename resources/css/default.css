@@ -45,6 +45,12 @@
   opacity: 255;
 }
 
+.bullet {
+  width: 8;
+  height: 8;
+  background-color: #FFFFFF;
+}
+
 .button {
   width: 250;
   height: 40;

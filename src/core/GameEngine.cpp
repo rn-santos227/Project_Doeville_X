@@ -1,5 +1,7 @@
 #include "GameEngine.h"
 
+#include <algorithm>
+
 #include "helpers/null_checker/NullChecker.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
@@ -23,7 +25,8 @@ namespace Project::Core {
   namespace Keys = Project::Libraries::Keys;
 
   GameEngine::GameEngine() :
-  isRunning(false), maxFPS(Constants::DEFAULT_MAX_FPS), framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
+  isRunning(false), maxFPS(Constants::DEFAULT_MAX_FPS), entityLoadFactor(Constants::DEFAULT_WHOLE), frameTimeAvg(0.0), 
+  framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   componentsFactory(std::make_unique<ComponentsFactory>(configReader, logsManager, *resourcesHandler)),
   gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager, &sdlManager)),
@@ -218,20 +221,31 @@ namespace Project::Core {
   }
 
   void GameEngine::handleFrameRate(Uint64 frameStartTime) {
-    double currentMaxFPS = maxFPS;
-    if (gameStateManager) {
-      size_t entityCount = gameStateManager->getActiveEntityCount();
-      if (entityCount > Constants::ENTITY_OPTIMIZATION_THRESHOLD) {
-        double factor = static_cast<double>(entityCount) /
-                        Constants::ENTITY_OPTIMIZATION_THRESHOLD;
-        currentMaxFPS = maxFPS / factor;
-      }
-    }
-    const double targetFrameDuration = Constants::DEFAULT_WHOLE / currentMaxFPS;
-
     Uint64 frameEndTime = SDL_GetPerformanceCounter();
     Uint64 frequency = SDL_GetPerformanceFrequency();
     double frameDuration = (frameEndTime - frameStartTime) / static_cast<double>(frequency);
+
+    frameTimeAvg = frameTimeAvg * 0.9 + frameDuration * 0.1;
+
+    double idealFrameDuration = Constants::DEFAULT_WHOLE / maxFPS;
+    double perfFactor = std::max(static_cast<double>(Constants::DEFAULT_WHOLE), frameTimeAvg / idealFrameDuration);
+
+    double entityFactor = Constants::DEFAULT_WHOLE;
+    if (gameStateManager) {
+      size_t entityCount = gameStateManager->getActiveEntityCount();
+      entityFactor = static_cast<double>(entityCount) / Constants::ENTITY_OPTIMIZATION_THRESHOLD;
+      entityFactor = std::max(entityFactor, static_cast<double>(Constants::DEFAULT_WHOLE));
+    }
+
+    double targetFactor = std::max(perfFactor, entityFactor);
+    entityLoadFactor = entityLoadFactor * 0.9 + targetFactor * 0.1;
+
+    double currentMaxFPS = maxFPS / entityLoadFactor;
+    if (currentMaxFPS < Constants::TARGET_FPS) {
+      currentMaxFPS = Constants::TARGET_FPS;
+    }
+
+    const double targetFrameDuration = Constants::DEFAULT_WHOLE / currentMaxFPS;
 
     if (frameDuration < targetFrameDuration) {
       Uint32 delayMs = static_cast<Uint32>((targetFrameDuration - frameDuration) * Constants::MILLISECONDS_PER_SECOND);

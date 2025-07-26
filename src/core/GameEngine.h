@@ -31,14 +31,6 @@ namespace Project::Core {
     void clean();
 
   private:
-    void handleEvents();
-    void update(float deltaTime);
-    void render();
-    void handleFrameRate(Uint64 frameStartTime);
-
-    bool isRunning;
-    double maxFPS;
-
     Project::Utilities::LogsManager logsManager;
     Project::Utilities::FramesCounter framesCounter;
     Project::Utilities::ConfigReader configReader;
@@ -56,6 +48,17 @@ namespace Project::Core {
 
     std::mutex updateMutex;
     std::vector<std::pair<Project::Interfaces::Cleanable*, std::string>> cleanupHandlers;
+
+    double entityLoadFactor;
+    double frameTimeAvg;
+    double maxFPS;
+
+    bool isRunning;
+
+    void handleEvents();
+    void update(float deltaTime);
+    void render();
+    void handleFrameRate(Uint64 frameStartTime);
   };
 }
 

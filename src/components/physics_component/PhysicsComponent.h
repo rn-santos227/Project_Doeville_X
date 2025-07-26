@@ -42,6 +42,9 @@ namespace Project::Components {
     float getAccelerationX() const { return accelerationX; }
     float getAccelerationY() const { return accelerationY; }
 
+    void setDamping(float d) { damping = d; }
+    float getDamping() const { return damping; }
+
     void setFriction(float f) { friction = f; }
     float getFriction() const { return friction; }
 
@@ -113,6 +116,7 @@ namespace Project::Components {
     float velocityY = 0.0f;
 
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
+    float damping = Project::Libraries::Constants::DEFAULT_DAMPING;
     float density = Project::Libraries::Constants::DEFAULT_DENSITY;
     float mass = Project::Libraries::Constants::DEFAULT_MASS;
     float pushForce = Project::Libraries::Constants::DEFAULT_PUSH_FORCE;
@@ -124,6 +128,7 @@ namespace Project::Components {
     bool gravityEnabled = false;
     bool isStatic = false;
     bool isKinematic = false;
+    bool lastCollidedWithStatic = false;
 
     SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b);
 

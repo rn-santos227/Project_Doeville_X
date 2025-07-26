@@ -22,6 +22,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* COLOR_HEX = "color_hex";
   constexpr const char* COMPONENT = "component";
   constexpr const char* COMPONENTS = "components";
+  constexpr const char* DAMPING = "damping";
   constexpr const char* DEFAULT = "default";
   constexpr const char* DELTA_TIME = "deltaTime";
   constexpr const char* DENSITY = "density";

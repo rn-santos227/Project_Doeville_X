@@ -100,6 +100,8 @@ namespace Project::Components {
       return;
     }
 
+    lastCollidedWithStatic = false;
+
     if (!isKinematic && gravityEnabled) {
       const float weight = mass * Constants::GRAVITY * gravityScale;
       forceX += Constants::DEFAULT_GRAVITY_DIRECTION.x * weight;
@@ -133,6 +135,14 @@ namespace Project::Components {
       updateRotationState(deltaTime, collisionOccurred);
     }
 
+    if (lastCollidedWithStatic && damping > 0.0f) {
+      const float factor = std::max(0.0f, Constants::DEFAULT_WHOLE - damping * deltaTime);
+      velocityX *= factor;
+      velocityY *= factor;
+      if (std::abs(velocityX) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityX = 0.0f;
+      if (std::abs(velocityY) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityY = 0.0f;
+    }
+
     forceX = forceY = 0.0f;
     accelerationX = accelerationY = 0.0f;
   }
@@ -143,6 +153,9 @@ namespace Project::Components {
 
     float fric = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FRICTION, Constants::DEFAULT_FRICTION));
     setFriction(fric);
+
+    float damp = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::DAMPING, Constants::DEFAULT_DAMPING));
+    setDamping(damp);
 
     float mass = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::MASS, Project::Libraries::Constants::DEFAULT_MASS));
     setMass(mass);
@@ -270,7 +283,6 @@ namespace Project::Components {
     BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
     const SDL_FPoint& offset, float newX, float newY) {
-    
     const float bounce = (myBox->getRestitution() + otherBox->getRestitution()) * 0.5f;
     const float fric = (myBox->getFriction() + otherBox->getFriction()) * 0.5f;
 
@@ -283,15 +295,18 @@ namespace Project::Components {
     const float snapX = newX + offset.x;
     const float snapY = newY + offset.y;
     syncPositionWithComponents(snapX, snapY);
+    bool collidedWithStatic = false;
 
     if (otherPhysics) {
       if (otherPhysics->getStatic()) {
+        collidedWithStatic = true;
         const auto surface = otherPhysics->getSurfaceType();
         if (!myBox->handleSurfaceInteraction(static_cast<SurfaceType>(surface), entity, offset, bounce, fric, velocityX, velocityY)) {
           syncPositionWithComponents(newX, newY);
           return false;
         }
       } else {
+         collidedWithStatic = true;
         resolveCollisionWith(otherPhysics, bounce);
         applyFriction(fric);
         otherPhysics->applyFriction(fric);
@@ -302,6 +317,13 @@ namespace Project::Components {
         syncPositionWithComponents(newX, newY);
         return false;
       }
+    }
+
+    if (collidedWithStatic && damping > 0.0f) {
+      const float factor = Constants::DEFAULT_WHOLE - damping;
+      velocityX *= factor;
+      velocityY *= factor;
+      lastCollidedWithStatic = true;
     }
 
     return true;

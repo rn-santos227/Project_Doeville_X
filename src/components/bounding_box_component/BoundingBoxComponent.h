@@ -21,6 +21,8 @@ namespace Project::Components {
     explicit BoundingBoxComponent(Project::Utilities::LogsManager& logsManager, SDL_Renderer* renderer, Project::Handlers::KeyHandler* keyHandler, SDL_Color debugColor);
     static void setCameraHandler(Project::Handlers::CameraHandler* handler);
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
@@ -63,11 +65,14 @@ namespace Project::Components {
     Project::Components::Physics::SurfaceType getSurfaceType() const { return surfaceType; }
 
     void clearShapes();
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
-    Project::Components::Physics::SurfaceType surfaceType = Project::Components::Physics::SurfaceType::REST;
     
+    Project::Components::Physics::SurfaceType surfaceType = Project::Components::Physics::SurfaceType::REST;
+    Project::Entities::Entity* owner = nullptr;
+
     std::vector<SDL_Rect> boxes;
     std::vector<SDL_Rect> worldBoxes;
     std::vector<Project::Utilities::Circle> circles;

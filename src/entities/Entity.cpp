@@ -126,7 +126,11 @@ namespace Project::Entities {
     if (!component) return;
 
     if (auto* bboxComp = dynamic_cast<Components::BoundingBoxComponent*>(component.get())) {
+      bboxComp->setEntityReference(this);
       bbox = bboxComp;
+      if (entitiesManager && !physics) {
+        entitiesManager->getPhysicsSystem().addStaticCollider(bboxComp);
+      }
     }
 
     if (auto* button = dynamic_cast<Components::ButtonComponent*>(component.get())) {
@@ -194,7 +198,12 @@ namespace Project::Entities {
 
     auto* ptr = it->second.get();
 
-    if (ptr == bbox) bbox = nullptr;
+    if (ptr == bbox) {
+      if (entitiesManager && !physics) {
+        entitiesManager->getPhysicsSystem().removeStaticCollider(static_cast<Components::BoundingBoxComponent*>(ptr));
+      }
+      bbox = nullptr;
+    }
     if (ptr == gfx) gfx = nullptr;
     if (ptr == physics) physics = nullptr;
 

@@ -58,6 +58,8 @@ namespace Project::Entities {
     
     auto& entRef = objects[finalId];
     if (entRef) {
+      bool hasPhys = false;
+      Project::Components::BoundingBoxComponent* box = nullptr;
       for (const std::string& compName : entRef->listComponentNames()) {
         auto* comp = entRef->getComponent(compName);
         if (!comp) continue;
@@ -65,9 +67,16 @@ namespace Project::Entities {
           motionSystem.add(motion);
         } else if (auto* phys = dynamic_cast<Project::Components::PhysicsComponent*>(comp)) {
           physicsSystem.add(phys);
+          hasPhys = true;
         } else if (auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(comp)) {
           renderSystem.add(gfx);
+        } else if (auto* bbox = dynamic_cast<Project::Components::BoundingBoxComponent*>(comp)) {
+          box = bbox;
         }
+      }
+
+      if (box && !hasPhys) {
+        physicsSystem.addStaticCollider(box);
       }
     }
 

@@ -13,6 +13,9 @@ namespace Project::Systems {
     void add(Project::Components::PhysicsComponent* component);
     void remove(Project::Components::PhysicsComponent* component);
 
+    void addStaticCollider(Project::Components::BoundingBoxComponent* box);
+    void removeStaticCollider(Project::Components::BoundingBoxComponent* box);
+
     void update(float deltaTime) override;
     void clear();
 
@@ -20,9 +23,11 @@ namespace Project::Systems {
     Project::Utilities::SpatialHashGrid& getGrid() { return grid; }
 
   private:
-    std::vector<Project::Components::PhysicsComponent*> components;
     Project::Utilities::SpatialHashGrid grid;
-
+    
+    std::vector<Project::Components::PhysicsComponent*> components;
+    std::vector<Project::Components::BoundingBoxComponent*> staticColliders;
+    
   };
 }
 

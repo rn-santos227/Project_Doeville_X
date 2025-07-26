@@ -6,11 +6,14 @@
 
 namespace Project::Utilities {
   using Project::Components::PhysicsComponent;
+  using Project::Components::BoundingBoxComponent;
+  using Project::Entities::Entity;
+
   SpatialHashGrid::SpatialHashGrid(float cellSize) : cellSize(cellSize) {}
 
-  std::vector<PhysicsComponent*> SpatialHashGrid::query(const SDL_Rect& area) const {
-    std::vector<PhysicsComponent*> result;
-    std::unordered_set<PhysicsComponent*> seen;
+  std::vector<Collider> SpatialHashGrid::query(const SDL_Rect& area) const {
+    std::vector<Collider> result;
+    std::unordered_set<void*> seen;
     int minX = static_cast<int>(std::floor(static_cast<float>(area.x) / cellSize));
     int minY = static_cast<int>(std::floor(static_cast<float>(area.y) / cellSize));
     int maxX = static_cast<int>(std::floor(static_cast<float>(area.x + area.w) / cellSize));
@@ -20,9 +23,10 @@ namespace Project::Utilities {
       for (int y = minY; y <= maxY; ++y) {
         auto it = cells.find(hash(x, y));
         if (it != cells.end()) {
-          for (auto* obj : it->second) {
-            if (seen.insert(obj).second) {
-                result.push_back(obj);
+          for (const auto& obj : it->second) {
+            void* key = obj.physics ? static_cast<void*>(obj.physics) : static_cast<void*>(obj.box);
+            if (seen.insert(key).second) {
+              result.push_back(obj);
             }
           }
         }
@@ -32,7 +36,7 @@ namespace Project::Utilities {
     return result;
   }
 
-  void SpatialHashGrid::insert(PhysicsComponent* obj, const SDL_Rect& bounds) {
+  void SpatialHashGrid::insert(const Collider& obj, const SDL_Rect& bounds) {
     int minX = static_cast<int>(std::floor(static_cast<float>(bounds.x) / cellSize));
     int minY = static_cast<int>(std::floor(static_cast<float>(bounds.y) / cellSize));
     int maxX = static_cast<int>(std::floor(static_cast<float>(bounds.x + bounds.w) / cellSize));

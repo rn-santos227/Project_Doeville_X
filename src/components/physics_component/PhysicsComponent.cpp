@@ -330,12 +330,12 @@ namespace Project::Components {
     }
 
     auto& grid = manager->getPhysicsSystem().getGrid();
-    for (auto* candidate : grid.query(myBounds)) {
-      if (!candidate || candidate == this) continue;
-      auto* entity = candidate->getOwner();
-      if (!entity) continue;
+    for (const auto& coll : grid.query(myBounds)) {
+      auto* candidate = coll.physics;
+      if (candidate == this) continue;
+      auto* entity = coll.entity;
+      auto* otherBox = coll.box;
       
-      auto* otherBox = entity->getBoundingBoxComponent();
       if (!otherBox || !otherBox->isSolid()) continue;
 
       const auto& otherRects = otherBox->getBoxes();

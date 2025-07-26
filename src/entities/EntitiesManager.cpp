@@ -46,6 +46,7 @@ namespace Project::Entities {
     entity->setEntityID(finalId);
     add(finalId, std::move(entity));
     entityList.push_back(objects[finalId]);
+    entityIndices[finalId] = entityList.size() - 1;
     
     auto& entRef = objects[finalId];
     if (entRef) {
@@ -71,11 +72,10 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
-    auto it = std::find_if(entityList.begin(), entityList.end(), [&](const std::shared_ptr<Entity>& e){
-      return e && e->getEntityID() == id;
-    });
-    if (it != entityList.end()) {
-      auto ent = *it;
+    auto idxIt = entityIndices.find(id);
+    if (idxIt != entityIndices.end() && idxIt->second < entityList.size()) {
+      size_t index = idxIt->second;
+      auto ent = entityList[index];
       if (ent) {
         for (const std::string& compName : ent->listComponentNames()) {
           auto* comp = ent->getComponent(compName);
@@ -89,11 +89,16 @@ namespace Project::Entities {
           }
         }
       }
-      entityList.erase(it);
-    }
-    remove(id);
-    for (auto& [group, ids] : entityGroups) {
-      ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
+
+      size_t lastIndex = entityList.size() - 1;
+      if (index != lastIndex) {
+        entityList[index] = entityList[lastIndex];
+        if (entityList[index]) {
+          entityIndices[entityList[index]->getEntityID()] = index;
+        }
+      }
+      entityList.pop_back();
+      entityIndices.erase(idxIt);
     }
   }
 
@@ -119,6 +124,7 @@ namespace Project::Entities {
     }
     objects.clear();
     entityList.clear();
+    entityIndices.clear();
     entityGroups.clear();
     motionSystem.clear();
     physicsSystem.clear();
@@ -131,6 +137,8 @@ namespace Project::Entities {
     cachedEntities.rehash(0);
 
     entityList.shrink_to_fit();
+    entityIndices.clear();
+    entityIndices.rehash(0);
 
     for (auto& [group, ids] : entityGroups) {
       ids.shrink_to_fit();
@@ -177,8 +185,9 @@ namespace Project::Entities {
     
     objects.clear();
     entityList.clear();
-    idCounters.clear();
     entityGroups.clear();
+    entityIndices.clear();
+    idCounters.clear();
     motionSystem.clear();
     physicsSystem.clear();
     renderSystem.clear();

@@ -80,6 +80,9 @@ namespace Project::Entities {
     Project::Components::GraphicsComponent* getGraphicsComponent() const { return gfx; }
     Project::Components::PhysicsComponent* getPhysicsComponent() const { return physics; }
     std::vector<std::string> listComponentNames() const;
+    
+    bool isActive() const { return active; }
+    void setActive(bool _value) { active = _value; }
 
     bool isGlobal() const { return global; }
     void setGlobal(bool _value) { global = _value; }
@@ -111,6 +114,7 @@ namespace Project::Entities {
     float y = 0.0f;
     float z = 0.0f;
 
+    bool active = true;
     bool global = false;
   };
 }

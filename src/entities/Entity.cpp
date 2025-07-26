@@ -94,6 +94,7 @@ namespace Project::Entities {
     }
 
     global = luaStateWrapper.getGlobalBoolean(Keys::GLOBAL, false);
+    active = luaStateWrapper.getGlobalBoolean(Keys::ACTIVE, true);
     entityGroup = luaStateWrapper.getGlobalString(Keys::GROUP, Constants::EMPTY_STRING);
 
     if (luaStateWrapper.isGlobalTable(Keys::COMPONENTS)) {

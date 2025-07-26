@@ -157,7 +157,7 @@ namespace Project::Entities {
   void EntitiesManager::update(float deltaTime) {
     std::lock_guard<std::mutex> lock(managerMutex);
     for (auto& entity : entityList) {
-      if (entity) entity->update(deltaTime);
+      if (entity && entity->isActive()) entity->update(deltaTime);
     }
     motionSystem.update(deltaTime);
     physicsSystem.update(deltaTime);
@@ -167,7 +167,7 @@ namespace Project::Entities {
   void EntitiesManager::render() {
     renderSystem.render();
     for (auto& obj : entityList) {
-      if (obj) obj->render();
+      if (obj && obj->isActive()) obj->render();
     }
   }
 

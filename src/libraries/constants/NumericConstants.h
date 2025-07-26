@@ -28,8 +28,9 @@ namespace Project::Libraries::Constants {
   constexpr int INT_TEN = 10;
   constexpr int INT_HUNDRED = 100;
   constexpr int MAX_MEMORY_SPACE = 255;
-
-  constexpr int BIT_SHIFT = 32;
+  
+  constexpr int BIT_32 = 32;
+  constexpr int BIT_255 = 255;
 
   constexpr size_t LOG_QUEUE_MAX_SIZE = 1000;
   constexpr size_t ENTITY_CHECK_INTERVAL = 60;

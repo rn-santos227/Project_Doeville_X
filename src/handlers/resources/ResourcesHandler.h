@@ -44,6 +44,7 @@ namespace Project::Handlers {
   private:
     Project::Utilities::LogsManager& logsManager;
     AsyncResourceLoader asyncLoader;
+    
 
     std::queue<TextureTask> textureTasks;
     std::mutex tasksMutex;
@@ -51,12 +52,15 @@ namespace Project::Handlers {
     std::thread workerThread;
     std::atomic<bool> running{true};
 
+    std::unordered_map<SDL_Renderer*, SDL_Texture*> fallbackTextures;
     std::unordered_map<std::string, SDL_Texture*> textureCache;
+    std::mutex fallbackMutex;
     std::mutex textureCacheMutex;
 
     void stopWorker();
     void workerLoop();    
     
+    SDL_Texture* getFallbackTexture(SDL_Renderer* renderer);
     std::string getBasePath();
   };
 }

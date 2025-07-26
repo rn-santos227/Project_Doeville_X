@@ -2,11 +2,13 @@
 #include "AsyncResourceLoader.h"
 
 #include "helpers/resource_cleaner/ResourceCleaner.h"
-#include "libraries/constants/PathConstants.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Helpers::ResourceCleaner;
+
+  namespace Constants = Project::Libraries::Constants;
 
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
     : logsManager(logsManager), asyncLoader(logsManager) {
@@ -21,19 +23,23 @@ namespace Project::Handlers {
     stopWorker();
     asyncLoader.stop();
 
-    std::lock_guard<std::mutex> lock(textureCacheMutex);
-    ResourceCleaner::cleanupMap(textureCache, [](SDL_Texture* texture) {
-      if (texture) {
-        SDL_DestroyTexture(texture);
-      }
-    });
-  }
+    {
+      std::lock_guard<std::mutex> lock(textureCacheMutex);
+      ResourceCleaner::cleanupMap(textureCache, [](SDL_Texture* texture) {
+        if (texture) {
+          SDL_DestroyTexture(texture);
+        }
+      });
+    }
 
-  std::string ResourcesHandler::getBasePath() {
-    char* basePath = SDL_GetBasePath();
-    std::string path = basePath ? basePath : "";
-    SDL_free(basePath);
-    return path;
+    {
+      std::lock_guard<std::mutex> lock(fallbackMutex);
+      ResourceCleaner::cleanupMap(fallbackTextures, [](SDL_Texture* tex) {
+        if (tex) {
+          SDL_DestroyTexture(tex);
+        }
+      });
+    }
   }
 
   std::string ResourcesHandler::getResourcePath(const std::string& relativePath) {
@@ -49,7 +55,7 @@ namespace Project::Handlers {
       basePath.pop_back();
     }
 
-    fs::path resourceDir = fs::weakly_canonical(fs::path(basePath) / Project::Libraries::Constants::DEFAULT_RESOURCES_FOLDER);
+    fs::path resourceDir = fs::weakly_canonical(fs::path(basePath) / Constants::DEFAULT_RESOURCES_FOLDER);
     fs::path absPath = fs::weakly_canonical(fs::path(basePath) / relativePath);
 
     std::string resStr = resourceDir.string();
@@ -74,14 +80,24 @@ namespace Project::Handlers {
 
     SDL_Surface* surface = IMG_Load(imagePath.c_str());
     if (logsManager.checkAndLogError(!surface, "Failed to load image: " + imagePath + " - " + IMG_GetError())) {
-      return nullptr;
+      SDL_Texture* fallback = getFallbackTexture(renderer);
+      {
+        std::lock_guard<std::mutex> lock(textureCacheMutex);
+        textureCache[imagePath] = fallback;
+      }
+      return fallback;
     }
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     if (logsManager.checkAndLogError(!texture, "Failed to create texture from image: " + imagePath + " - " + SDL_GetError())) {
-      return nullptr;
+      SDL_Texture* fallback = getFallbackTexture(renderer);
+      {
+        std::lock_guard<std::mutex> lock(textureCacheMutex);
+        textureCache[imagePath] = fallback;
+      }
+      return fallback;
     }
 
     {
@@ -195,14 +211,24 @@ namespace Project::Handlers {
       auto surfaceFuture = asyncLoader.loadSurface(task.path);
       SDL_Surface* surface = surfaceFuture.get();
       if (logsManager.checkAndLogError(!surface, "Failed to load image asynchronously: " + task.path + " - " + IMG_GetError())) {
-        task.promise.set_value(nullptr);
+        SDL_Texture* fallback = getFallbackTexture(task.renderer);
+        {
+          std::lock_guard<std::mutex> lock(textureCacheMutex);
+          textureCache[task.path] = fallback;
+        }
+        task.promise.set_value(fallback);
         continue;
       }
 
       SDL_Texture* texture = SDL_CreateTextureFromSurface(task.renderer, surface);
       SDL_FreeSurface(surface);
       if (logsManager.checkAndLogError(!texture, "Failed to create texture from image asynchronously: " + task.path + " - " + SDL_GetError())) {
-        task.promise.set_value(nullptr);
+        SDL_Texture* fallback = getFallbackTexture(task.renderer);
+        {
+          std::lock_guard<std::mutex> lock(textureCacheMutex);
+          textureCache[task.path] = fallback;
+        }
+        task.promise.set_value(fallback);
         continue;
       }
 
@@ -212,5 +238,44 @@ namespace Project::Handlers {
       }
       task.promise.set_value(texture);
     }
+  }
+
+  SDL_Texture* ResourcesHandler::getFallbackTexture(SDL_Renderer* renderer) {
+    std::lock_guard<std::mutex> lock(fallbackMutex);
+    auto it = fallbackTextures.find(renderer);
+    if (it != fallbackTextures.end()) {
+      return it->second;
+    }
+
+    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, Constants::INDEX_TWO, Constants::INDEX_TWO, Constants::BIT_32, SDL_PIXELFORMAT_RGBA32);
+    if (!surface) {
+      logsManager.logError(std::string("Failed to create fallback surface: ") + SDL_GetError());
+      return nullptr;
+    }
+
+    Uint32 magenta = SDL_MapRGBA(surface->format, Constants::BIT_255, 0, Constants::BIT_255, Constants::BIT_255);
+    Uint32 black = SDL_MapRGBA(surface->format, 0, 0, 0, Constants::BIT_255);
+    Uint32* pixels = static_cast<Uint32*>(surface->pixels);
+    pixels[Constants::INDEX_ZERO] = magenta;
+    pixels[Constants::INDEX_ONE] = black;
+    pixels[Constants::INDEX_TWO] = black;
+    pixels[Constants::INDEX_THREE] = magenta;
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    if (!texture) {
+      logsManager.logError(std::string("Failed to create fallback texture: ") + SDL_GetError());
+      return nullptr;
+    }
+
+    fallbackTextures[renderer] = texture;
+    return texture;
+  }
+
+  std::string ResourcesHandler::getBasePath() {
+    char* basePath = SDL_GetBasePath();
+    std::string path = basePath ? basePath : Constants::EMPTY_STRING;
+    SDL_free(basePath);
+    return path;
   }
 }

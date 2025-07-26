@@ -290,6 +290,8 @@ namespace Project::Components {
       const float pushX = velocityX * pushForce;
       const float pushY = velocityY * pushForce;
       otherPhysics->addVelocity(pushX, pushY);
+      velocityX -= pushX;
+      velocityY -= pushY;
     }
 
     const float snapX = newX + offset.x;

@@ -11,7 +11,13 @@ namespace Project::Services {
   namespace fs = std::filesystem;
 
   StyleService::StyleService(Project::Utilities::LogsManager& logsManager, Project::Handlers::ResourcesHandler& resourcesHandler)
-    : logsManager(logsManager), resourcesHandler(resourcesHandler) {}
+    : logsManager(logsManager),
+      resourcesHandler(resourcesHandler),
+      styleCache(Constants::STYLE_CACHE_FILE) {}
+
+  StyleService::~StyleService() {
+    styleCache.save();
+  }
 
   void StyleService::loadStylesFromFolder(const std::string& folderPath) {
     std::string absPath = folderPath;
@@ -31,15 +37,19 @@ namespace Project::Services {
   }
 
   void StyleService::loadStyleFile(const std::string& filePath) {
-    std::ifstream file(filePath, std::ios::binary);
-    if (!file.is_open()) {
-      logsManager.logError("Failed to open css file: " + filePath);
-      return;
+    std::vector<char> data;
+    if (!styleCache.getData(filePath, data)) {
+      std::ifstream file(filePath, std::ios::binary);
+      if (!file.is_open()) {
+        logsManager.logError("Failed to open css file: " + filePath);
+        return;
+      }
+      data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+      file.close();
+      styleCache.setData(filePath, data);
     }
-    
-    std::string css((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-    file.close();
 
+    std::string css(data.begin(), data.end());
     if (css.empty()) {
       logsManager.logWarning("CSS file is empty: " + filePath);
       return;

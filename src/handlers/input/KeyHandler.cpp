@@ -16,6 +16,8 @@ namespace Project::Handlers {
     bindFunctionKeys();
     isFrozen = false;
     isDebugMode = false;
+    keyPressed.reserve(Project::Libraries::Constants::INT_TEN);
+    keyReleased.reserve(Project::Libraries::Constants::INT_TEN);
   }
 
   KeyHandler::~KeyHandler() {}

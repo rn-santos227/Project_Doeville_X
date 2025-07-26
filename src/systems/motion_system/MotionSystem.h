@@ -9,6 +9,8 @@ namespace Project { namespace Components { class MotionComponent; } }
 namespace Project::Systems {
   class MotionSystem : public Project::Interfaces::Updatable {
   public:
+    MotionSystem();
+    
     void add(Project::Components::MotionComponent* component);
     void remove(Project::Components::MotionComponent* component);
 

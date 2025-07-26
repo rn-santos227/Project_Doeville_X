@@ -2,9 +2,14 @@
 #include <algorithm>
 #include "components/graphics_component/GraphicsComponent.h"
 #include "handlers/camera/CameraHandler.h"
+#include "libraries/constants/NumericConstants.h"
 
 namespace Project::Systems {
   using Project::Components::GraphicsComponent;
+
+  RenderSystem::RenderSystem() {
+    components.reserve(Project::Libraries::Constants::MAX_MEMORY_SPACE);
+  }
 
   void Project::Systems::RenderSystem::add(GraphicsComponent* component) {
     if (component) components.push_back(component);
@@ -24,6 +29,7 @@ namespace Project::Systems {
 
   void Project::Systems::RenderSystem::render() {
     std::vector<SDL_Rect> drawn;
+    drawn.reserve(components.size());
     auto* camHandler = GraphicsComponent::getCameraHandler();
     SDL_Rect cullRect{0, 0, 0, 0};
     bool useCull = false;

@@ -154,6 +154,10 @@ namespace Project::Handlers {
       return frames;
     }
 
+    const int totalFramesX = texWidth / frameWidth;
+    const int totalFramesY = texHeight / frameHeight;
+    frames.reserve(totalFramesX * totalFramesY);
+
     for (int y = 0; y < texHeight; y += frameHeight) {
       for (int x = 0; x < texWidth; x += frameWidth) {
         SDL_Rect srcRect = {x, y, frameWidth, frameHeight};

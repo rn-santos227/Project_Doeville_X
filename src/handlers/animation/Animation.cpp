@@ -5,12 +5,16 @@
 
 #include <SDL_image.h>
 
+#include "libraries/constants/NumericConstants.h"
+
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Handlers::ResourcesHandler;
 
   Animation::Animation(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-    : renderer(renderer), logsManager(logsManager), resourcesHandler(resourcesHandler) {}
+    : renderer(renderer), logsManager(logsManager), resourcesHandler(resourcesHandler) {
+    frames.reserve(Project::Libraries::Constants::INT_TEN);
+  }
 
   Animation::Animation(Animation&& other) noexcept
     : logsManager(other.logsManager),

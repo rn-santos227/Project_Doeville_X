@@ -10,6 +10,8 @@ namespace Project { namespace Components { class PhysicsComponent; } }
 namespace Project::Systems {
   class PhysicsSystem : public Project::Interfaces::Updatable {
   public:
+    PhysicsSystem();
+
     void add(Project::Components::PhysicsComponent* component);
     void remove(Project::Components::PhysicsComponent* component);
 
@@ -27,7 +29,7 @@ namespace Project::Systems {
     
     std::vector<Project::Components::PhysicsComponent*> components;
     std::vector<Project::Components::BoundingBoxComponent*> staticColliders;
-    
+
   };
 }
 

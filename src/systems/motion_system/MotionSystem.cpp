@@ -1,9 +1,14 @@
 #include "MotionSystem.h"
 #include <algorithm>
 #include "components/motion_component/MotionComponent.h"
+#include "libraries/constants/NumericConstants.h"
 
 namespace Project::Systems {
   using Project::Components::MotionComponent;
+
+  MotionSystem::MotionSystem() {
+    components.reserve(Project::Libraries::Constants::INT_HUNDRED);
+  }
 
   void Project::Systems::MotionSystem::add(MotionComponent* component) {
     if (component) components.push_back(component);

@@ -5,10 +5,16 @@
 #include "entities/Entity.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "libraries/constants/NumericConstants.h"
 
 namespace Project::Systems {
   using Project::Components::PhysicsComponent;
   using Project::Components::BoundingBoxComponent;
+
+  PhysicsSystem::PhysicsSystem() {
+    components.reserve(Project::Libraries::Constants::MAX_MEMORY_SPACE);
+    staticColliders.reserve(Project::Libraries::Constants::MAX_MEMORY_SPACE);
+  }
 
   void Project::Systems::PhysicsSystem::add(PhysicsComponent* component) {
     if (component) components.push_back(component);

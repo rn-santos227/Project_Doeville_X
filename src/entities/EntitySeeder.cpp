@@ -24,6 +24,7 @@ namespace Project::Entities {
     baseSeed = rd();
     sessionSalt = rd();
     rng.seed(baseSeed ^ sessionSalt);
+    entityTemplates.reserve(Project::Libraries::Constants::INT_TEN);
     distribution = [this](std::mt19937& r) { return countDistribution(r); };
   }
 

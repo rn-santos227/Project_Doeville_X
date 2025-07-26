@@ -27,7 +27,9 @@ namespace Project::Entities {
   namespace LuaBindings = Project::Bindings::LuaBindings;
 
   EntitiesManager::EntitiesManager()
-    : persistentFunctionCache(Constants::SCRIPT_FUNCTION_CACHE_FILE) {}
+    : persistentFunctionCache(Constants::SCRIPT_FUNCTION_CACHE_FILE) {
+    entityList.reserve(Constants::MAX_MEMORY_SPACE);
+  }
 
   EntitiesManager::~EntitiesManager() {
     persistentFunctionCache.save();

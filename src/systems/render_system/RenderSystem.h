@@ -12,6 +12,8 @@ namespace Project { namespace Components { class GraphicsComponent; } }
 namespace Project::Systems {
   class RenderSystem : public Project::Interfaces::Renderable, public Project::Interfaces::Updatable {
   public:
+    RenderSystem();
+    
     void add(Project::Components::GraphicsComponent* component);
     void remove(Project::Components::GraphicsComponent* component);
     

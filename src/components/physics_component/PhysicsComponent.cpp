@@ -310,6 +310,19 @@ namespace Project::Components {
             offset, bounce, fric, velocityX, velocityY);
         }
       }
+
+      if (myBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT) {
+        myBox->handleSurfaceInteraction(
+          SurfaceType::DESTROY_ON_HIT,
+          owner,
+          offset,
+          bounce,
+          fric,
+          velocityX,
+          velocityY
+        );
+      }
+      
       return true;
     }
 
@@ -355,6 +368,18 @@ namespace Project::Components {
       lastCollidedWithStatic = true;
     }
 
+    if (myBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT) {
+      myBox->handleSurfaceInteraction(
+        SurfaceType::DESTROY_ON_HIT,
+        owner,
+        offset,
+        bounce,
+        fric,
+        velocityX,
+        velocityY
+      );
+    }
+
     return true;
   }
 
@@ -388,6 +413,10 @@ namespace Project::Components {
       auto* otherBox = coll.box;
       
       if (!otherBox || !otherBox->isInteractive()) continue;
+      if (myBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT &&
+          otherBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT) {
+        continue;
+      }
 
       const auto& otherRects = otherBox->getBoxes();
       const auto& otherCircles = otherBox->getCircles();

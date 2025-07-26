@@ -8,27 +8,28 @@ components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
     active = true,
-    solid = false,
+    solid = true,
     boxes = {
-      { x = 8, y = 8, radius = 16 }
+      { x = 4, y = 4, radius = 4 }
     },
   },
 
   MotionComponent = {
     component = "MotionComponent",
     active = true,
-    brake_power = 0.5,
-    speed = 250.0,
-    friction = 0.0,
     use_acceleration = false,
     rotation = true,
+    brake_power = 0.5,
+    speed = 350.0,
+    friction = 0.0
   },
 
   GraphicsComponent = {
     component = "GraphicsComponent",
     class = "bullet",
     active = true,
-    rotation = true
+    rotation = true,
+    radius = 4
   },
 
   PhysicsComponent = {
@@ -46,7 +47,7 @@ components = {
   TimerComponent = {
     component = "TimerComponent",
     active = true,
-    seconds = 5,
+    seconds = 3,
     callbacks = "expire"
   }
 }

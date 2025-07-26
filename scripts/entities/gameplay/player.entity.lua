@@ -90,7 +90,8 @@ function action_1()
     last_dy = dy / mag
   end
 
-  spawn(last_dx * 40, last_dy * 40, last_dx * 200, last_dy * 200)
+  local spawnDist = 33
+  spawn(8 + last_dx * spawnDist, 8 + last_dy * spawnDist, last_dx * 200, last_dy * 200)
 end
 
 function brake()

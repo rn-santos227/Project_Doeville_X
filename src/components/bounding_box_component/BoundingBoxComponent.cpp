@@ -7,6 +7,7 @@
 #include "components/physics_component/SurfaceTypeResolver.h"
 #include "handlers/camera/CameraHandler.h"
 #include "entities/Entity.h"
+#include "entities/EntitiesManager.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
@@ -226,11 +227,9 @@ namespace Project::Components {
         
       case SurfaceType::DESTROY_ON_HIT:
         if (target) {
-          const auto& componentNames = target->listComponentNames();
-          for (const std::string& name : componentNames) {
-            if (auto* component = target->getComponent(name)) {
-              component->setActive(false);
-            }
+           auto* manager = target->getEntitiesManager();
+          if (manager) {
+            manager->removeEntity(target->getEntityID());
           }
         }
         break;

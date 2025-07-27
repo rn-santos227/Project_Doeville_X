@@ -619,6 +619,11 @@ namespace Project::Bindings::LuaBindings {
       }
     }
 
+    const auto& myRects = myBox->getBoxes();
+    const auto& myCircles = myBox->getCircles();
+    const auto& myOBB = myBox->getOrientedBoxes();
+    const bool myRot = myBox->isRotationEnabled();
+
     for (const auto& [id, other] : manager->getAllEntities()) {
       auto otherEntity = other.get();
       if (!otherEntity || otherEntity == entity.get()) continue;
@@ -631,11 +636,54 @@ namespace Project::Bindings::LuaBindings {
       }
       auto* otherBox = dynamic_cast<Project::Components::BoundingBoxComponent*>(otherEntity->getComponent(Components::BOUNDING_BOX_COMPONENT));
       if (!otherBox) continue;
-      const auto& myRects = myBox->getBoxes();
+
       const auto& otherRects = otherBox->getBoxes();
-      for (const auto& r1 : myRects) {
-        for (const auto& r2 : otherRects) {
-          if (PhysicsUtils::checkCollision(r1, r2)) {
+      const auto& otherCircles = otherBox->getCircles();
+      const auto& otherOBB = otherBox->getOrientedBoxes();
+      const bool otherRot = otherBox->isRotationEnabled();
+
+      // Box vs Box
+      for (size_t i = 0; i < myRects.size(); ++i) {
+        for (size_t j = 0; j < otherRects.size(); ++j) {
+          bool collides = false;
+          if (myRot || otherRot) {
+            if (i < myOBB.size() && j < otherOBB.size()) {
+              collides = Project::Utilities::PhysicsUtils::checkCollision(myOBB[i], otherOBB[j]);
+            }
+          } else {
+            collides = Project::Utilities::PhysicsUtils::checkCollision(myRects[i], otherRects[j]);
+          }
+          if (collides) {
+            lua_pushstring(L, otherEntity->getEntityID().c_str());
+            return 1;
+          }
+        }
+      }
+
+      // Box vs Circle
+      for (const auto& rect : myRects) {
+        for (const auto& circle : otherCircles) {
+          if (Project::Utilities::PhysicsUtils::checkCollision(rect, circle)) {
+            lua_pushstring(L, otherEntity->getEntityID().c_str());
+            return 1;
+          }
+        }
+      }
+
+      // Circle vs Circle
+      for (const auto& c1 : myCircles) {
+        for (const auto& c2 : otherCircles) {
+          if (Project::Utilities::PhysicsUtils::checkCollision(c1, c2)) {
+            lua_pushstring(L, otherEntity->getEntityID().c_str());
+            return 1;
+          }
+        }
+      }
+
+      // Circle vs Box
+      for (const auto& circle : myCircles) {
+        for (const auto& rect : otherRects) {
+          if (Project::Utilities::PhysicsUtils::checkCollision(rect, circle)) {
             lua_pushstring(L, otherEntity->getEntityID().c_str());
             return 1;
           }

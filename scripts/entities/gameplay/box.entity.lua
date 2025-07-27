@@ -49,5 +49,5 @@ components = {
 }
 
 return {
-  name = "obstacle"
+  name = "box"
 }

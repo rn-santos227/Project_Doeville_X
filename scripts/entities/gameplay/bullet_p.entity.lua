@@ -52,7 +52,7 @@ function expire()
 end
 
 function update(deltaTime)
-  local target = getCollidedEntity(id, {"box", "obstacle"})
+  local target = getCollidedEntity(id, {"box", "ball"})
   if target then
     destroyEntity(target)
   end

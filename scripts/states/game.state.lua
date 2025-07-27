@@ -12,10 +12,9 @@ function initialize()
   spawnEntity("player", nil, nil, "game")
   setPlayerEntity("player")
 
-
   local seeder_id = startEntitySeeder(nil, "game", nil, { x = 1280, y = 720 })
   addEntityToSeed("ball", seeder_id, 2)
-  addEntityToSeed("obstacle", seeder_id, 2)
+  addEntityToSeed("box", seeder_id, 2)
   addEntityToSeed("wall_v", seeder_id, 2)
   addEntityToSeed("wall_h", seeder_id, 2)
 

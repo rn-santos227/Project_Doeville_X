@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "EntityAttribute.h"
 #include "EntityCategory.h"
 
 #include <functional>
@@ -10,6 +11,7 @@
 #include <type_traits>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "components/BaseComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
@@ -75,6 +77,11 @@ namespace Project::Entities {
     void removeComponent(const std::string& componentName);
     bool hasComponent(const std::string& componentName) const;
 
+    void addAttribute(EntityAttribute attribute) { attributes.insert(attribute); }
+    void removeAttribute(EntityAttribute attribute) { attributes.erase(attribute); }
+    bool hasAttribute(EntityAttribute attribute) const { return attributes.count(attribute) > 0; }
+    const std::unordered_set<EntityAttribute>& getAttributes() const { return attributes; }
+
     Project::Components::BaseComponent* getComponent(const std::string& componentName);
     Project::Components::BoundingBoxComponent* getBoundingBoxComponent() const { return bbox; }
     Project::Components::GraphicsComponent* getGraphicsComponent() const { return gfx; }
@@ -102,7 +109,8 @@ namespace Project::Entities {
     EntityCategory entityCategory;
 
     std::unordered_map<std::string, ComponentPtr> components;
-    
+    std::unordered_set<EntityAttribute> attributes;
+
     std::string entityID;
     std::string entityClass;
     std::string entityGroup;

@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "EntityAttributeResolver.h"
 
 #include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
@@ -96,6 +97,17 @@ namespace Project::Entities {
     global = luaStateWrapper.getGlobalBoolean(Keys::GLOBAL, false);
     active = luaStateWrapper.getGlobalBoolean(Keys::ACTIVE, true);
     entityGroup = luaStateWrapper.getGlobalString(Keys::GROUP, Constants::EMPTY_STRING);
+
+
+    if (luaStateWrapper.isGlobalTable(Keys::ATTRIBUTES)) {
+      luaStateWrapper.iterateGlobalTable(Keys::ATTRIBUTES, [this](lua_State* L, int index) {
+        if (lua_isstring(L, -1)) {
+          std::string attr = lua_tostring(L, -1);
+          EntityAttribute resolved = EntityAttributeResolver::resolve(attr);
+          addAttribute(resolved);
+        }
+      });
+    }
 
     if (luaStateWrapper.isGlobalTable(Keys::COMPONENTS)) {
       luaStateWrapper.iterateGlobalTable(Keys::COMPONENTS, [this](lua_State* L, int index) {

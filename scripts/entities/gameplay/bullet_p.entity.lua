@@ -20,8 +20,8 @@ components = {
     active = true,
     use_acceleration = false,
     rotation = true,
-    brake_power = 0.5,
-    speed = 350.0,
+    brake_power = 0.0,
+    speed = 800.0,
     friction = 0.0
   },
 
@@ -31,17 +31,6 @@ components = {
     active = true,
     rotation = true,
     radius = 4
-  },
-
-  PhysicsComponent = {
-    component = "PhysicsComponent",
-    active = true,
-    kinematic = true,
-    gravity = false,
-    friction = 0.0,
-    density = 0.1,
-    mass = 0.1,
-    restitution = 0.0,
   },
 
   TimerComponent = {

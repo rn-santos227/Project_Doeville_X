@@ -81,6 +81,8 @@ namespace Project::Entities {
       Project::States::GameState* gameState = nullptr;
       Project::Core::SDLManager* sdlManager = nullptr;
       bool initialized = false;
+
+      bool isEntityInCamera(const std::shared_ptr<Entity>& entity) const;
   };
 }
 

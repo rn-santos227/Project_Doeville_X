@@ -20,7 +20,6 @@ namespace Project::Libraries::Attributes {
     constexpr const char* PAUSED_WHEN_HIDDEN = "PAUSED_WHEN_HIDDEN";
     constexpr const char* PERMANENT = "PERMANENT";
     constexpr const char* PERSISTENT = "PERSISTENT";
-    constexpr const char* PERMANENT = "PERMANENT";
     constexpr const char* RESTING = "RESTING";
     constexpr const char* RESOURCE_LIGHT = "RESOURCE_LIGHT";
     constexpr const char* SCRIPTED = "SCRIPTED";

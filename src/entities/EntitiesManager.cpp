@@ -1,4 +1,5 @@
 #include "EntitiesManager.h"
+#include "EntityAttribute.h"
 
 #include <algorithm>
 #include <fstream>
@@ -177,16 +178,52 @@ namespace Project::Entities {
     if (!initialized) {
       initialized = true;
       for (const auto& [id, entity] : objects) {
-        entity->initialize();
+       if (entity && !entity->hasAttribute(EntityAttribute::DEFERRED_INIT)) {
+          entity->initialize();
+        }
       }
     }
   }
 
   void EntitiesManager::update(float deltaTime) {
     std::lock_guard<std::recursive_mutex> lock(managerMutex);
+    std::vector<std::shared_ptr<Entity>> high;
+    std::vector<std::shared_ptr<Entity>> normal;
+    std::vector<std::shared_ptr<Entity>> low;
+
     for (auto& entity : entityList) {
-      if (entity && entity->isActive()) entity->update(deltaTime);
+      if (!entity) continue;
+      if (entity->hasAttribute(EntityAttribute::HIGH_PRIORITY)) {
+        high.push_back(entity);
+      } else if (entity->hasAttribute(EntityAttribute::LOW_PRIORITY)) {
+        low.push_back(entity);
+      } else {
+        normal.push_back(entity);
+      }
     }
+
+    auto updateEntity = [&](std::shared_ptr<Entity>& ent) {
+      if (!ent) return;
+      if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+        ent->update(deltaTime);
+      }
+    };
+
+    for (auto& ent : high) updateEntity(ent);
+    for (auto& ent : normal) updateEntity(ent);
+    for (auto& ent : low) updateEntity(ent);
+
+    std::vector<std::string> toRemove;
+    for (const auto& ent : entityList) {
+      if (ent && ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
+        toRemove.push_back(ent->getEntityID());
+      }
+    }
+    for (const auto& id : toRemove) {
+      removeEntity(id);
+      remove(id);
+    }
+
     motionSystem.update(deltaTime);
     physicsSystem.update(deltaTime);
     renderSystem.update(deltaTime);
@@ -194,9 +231,26 @@ namespace Project::Entities {
 
   void EntitiesManager::render() {
     renderSystem.render();
+    std::vector<std::shared_ptr<Entity>> high;
+    std::vector<std::shared_ptr<Entity>> normal;
+    std::vector<std::shared_ptr<Entity>> low;
+
     for (auto& obj : entityList) {
-      if (obj && obj->isActive()) obj->render();
+      if (!obj) continue;
+      if (obj->hasAttribute(EntityAttribute::HIGH_PRIORITY)) high.push_back(obj);
+      else if (obj->hasAttribute(EntityAttribute::LOW_PRIORITY)) low.push_back(obj);
+      else normal.push_back(obj);
     }
+
+    auto renderEntity = [&](std::shared_ptr<Entity>& ent) {
+      if (!ent) return;
+      if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT) || ent->hasAttribute(EntityAttribute::PERSISTENT)) {
+        ent->render();
+      }
+    };
+    for (auto& e : high) renderEntity(e);
+    for (auto& e : normal) renderEntity(e);
+    for (auto& e : low) renderEntity(e);
   }
 
   void EntitiesManager::reset() {
@@ -328,5 +382,28 @@ namespace Project::Entities {
   void EntitiesManager::clearScriptFunctionCache() {
     scriptFunctionCache.clear();
     persistentFunctionCache.load();
+  }
+
+  bool EntitiesManager::isEntityInCamera(const std::shared_ptr<Entity>& entity) const {
+    if (!entity) return true;
+    auto* cam = Project::Components::GraphicsComponent::getCameraHandler();
+    if (!cam) return true;
+    const SDL_Rect cullRect = cam->getCullingRect();
+
+    if (auto* bbox = entity->getBoundingBoxComponent()) {
+      const auto& boxes = bbox->getBoxes();
+      for (const auto& box : boxes) {
+        if (SDL_HasIntersection(&box, &cullRect)) return true;
+      }
+      return false;
+    }
+
+    if (auto* gfx = entity->getGraphicsComponent()) {
+      const SDL_Rect rect = gfx->getRect();
+      return SDL_HasIntersection(&rect, &cullRect);
+    }
+
+    SDL_Rect point{static_cast<int>(entity->getX()), static_cast<int>(entity->getY()), 1, 1};
+    return SDL_HasIntersection(&point, &cullRect);
   }
 }

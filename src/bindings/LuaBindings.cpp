@@ -45,6 +45,22 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return 1;
     }
+
+    lua_newtable(L);
+    lua_pushstring(L, entity->getEntityID().c_str());
+    lua_setfield(L, -2, Keys::ID);
+    lua_pushstring(L, entity->getEntityName().c_str());
+    lua_setfield(L, -2, Keys::NAME);
+    lua_pushstring(L, entity->getGroup().c_str());
+    lua_setfield(L, -2, Keys::GROUP);
+    lua_pushnumber(L, entity->getX());
+    lua_setfield(L, -2, Keys::X);
+    lua_pushnumber(L, entity->getY());
+    lua_setfield(L, -2, Keys::Y);
+    lua_pushnumber(L, entity->getZ());
+    lua_setfield(L, -2, Keys::Z);
+
+    return 1;
   }
 
   int lua_addEntityToSeed(lua_State* L) {

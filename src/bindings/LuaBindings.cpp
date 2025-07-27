@@ -555,6 +555,15 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return 1;
     }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+    if (!entity) {
+      lua_pushnil(L);
+      return 1;
+    }
   }
   
   int lua_factoryChangeState(lua_State* L) {

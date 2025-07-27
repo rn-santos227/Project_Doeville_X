@@ -31,6 +31,20 @@ namespace Project::Bindings::LuaBindings {
   int lua_getEntityDetails(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return 1;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return 1;
+    }
   }
 
   int lua_addEntityToSeed(lua_State* L) {

@@ -32,12 +32,6 @@ components = {
     radius = 4
   },
 
-  TriggerComponent = {
-    component = "TriggerComponent",
-    active = true,
-    condition = "collision",
-    action = "destroyEntities"
-
   PhysicsComponent = {
     component = "PhysicsComponent",
     active = true,
@@ -57,8 +51,11 @@ function expire()
   end
 end
 
-function destroyEntities()
-  destroyEntity({"box", "obstacle"})
+function update(deltaTime)
+  local target = getCollidedEntity(id, {"box", "obstacle"})
+  if target then
+    destroyEntity(target)
+  end
 end
 
 return {

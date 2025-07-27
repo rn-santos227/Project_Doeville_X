@@ -16,14 +16,16 @@
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
+#include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Bindings::LuaBindings {
   using Project::Core::SDLManager;
   using Project::States::GameState;
   using Project::States::GameStateManager;
   using Project::Entities::EntitiesManager;
-  using Project::Factories::EntitiesFactory;
   using Project::Entities::Entity;
+  using Project::Factories::EntitiesFactory;
+  using Project::Utilities::PhysicsUtils;
 
   namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
@@ -368,6 +370,41 @@ namespace Project::Bindings::LuaBindings {
     return 1;
   }
 
+  int lua_getEntityDetails(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return 1;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return 1;
+    }
+
+    lua_newtable(L);
+    lua_pushstring(L, entity->getEntityID().c_str());
+    lua_setfield(L, -2, Keys::ID);
+    lua_pushstring(L, entity->getEntityName().c_str());
+    lua_setfield(L, -2, Keys::NAME);
+    lua_pushstring(L, entity->getGroup().c_str());
+    lua_setfield(L, -2, Keys::GROUP);
+    lua_pushnumber(L, entity->getX());
+    lua_setfield(L, -2, Keys::X);
+    lua_pushnumber(L, entity->getY());
+    lua_setfield(L, -2, Keys::Y);
+    lua_pushnumber(L, entity->getZ());
+    lua_setfield(L, -2, Keys::Z);
+
+    return 1;
+  }
+
   int lua_getEntitySpeed(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);
@@ -598,7 +635,7 @@ namespace Project::Bindings::LuaBindings {
       const auto& otherRects = otherBox->getBoxes();
       for (const auto& r1 : myRects) {
         for (const auto& r2 : otherRects) {
-          if (Project::Utilities::PhysicsUtils::checkCollision(r1, r2)) {
+          if (PhysicsUtils::checkCollision(r1, r2)) {
             lua_pushstring(L, otherEntity->getEntityID().c_str());
             return 1;
           }

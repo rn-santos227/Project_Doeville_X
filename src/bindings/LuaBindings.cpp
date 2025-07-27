@@ -594,6 +594,8 @@ namespace Project::Bindings::LuaBindings {
       }
       auto* otherBox = dynamic_cast<Project::Components::BoundingBoxComponent*>(otherEntity->getComponent(Components::BOUNDING_BOX_COMPONENT));
       if (!otherBox) continue;
+      const auto& myRects = myBox->getBoxes();
+      const auto& otherRects = otherBox->getBoxes();
     }
 
     lua_pushnil(L);

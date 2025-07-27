@@ -341,7 +341,7 @@ namespace Project::Components {
     if (otherPhysics) {
       if (otherPhysics->getStatic()) {
         collidedWithStatic = true;
-        const auto surface = otherPhysics->getSurfaceType();
+        const auto surface = otherBox->getSurfaceType();
         if (!myBox->handleSurfaceInteraction(surface, entity, offset, bounce, fric, velocityX, velocityY)) {
           syncPositionWithComponents(newX, newY);
           return false;

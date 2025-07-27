@@ -20,7 +20,7 @@ components = {
     active = true,
     use_acceleration = false,
     brake_power = 0.0,
-    speed = 800.0,
+    speed = 1000.0,
     friction = 0.0
   },
 
@@ -30,6 +30,12 @@ components = {
     active = true,
     rotation = true,
     radius = 4
+  },
+
+
+  PhysicsComponent = {
+    component = "PhysicsComponent",
+    active = true,
   },
 
   TimerComponent = {

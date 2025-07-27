@@ -94,7 +94,10 @@ namespace Project::Components {
       }
     }
 
-    PhysicsUtils::clampVelocityInPlace(localVelX, localVelY, maxSpeed);
+    if(accelerationEnabled) {
+      PhysicsUtils::clampVelocityInPlace(localVelX, localVelY, maxSpeed);
+    }
+
     float dx = localVelX * deltaTime;
     float dy = localVelY * deltaTime;
 

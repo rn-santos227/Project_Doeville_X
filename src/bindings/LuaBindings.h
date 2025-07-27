@@ -20,6 +20,7 @@ namespace Project::Bindings {
     int lua_startEntitySeeder(lua_State* L);
 
     // EntitiesManager Bindings
+    int lua_getCollidedEntity(lua_State* L);
     int lua_getEntityDetails(lua_State* L);
     int lua_getEntitySpeed(lua_State* L);
     int lua_setEntityText(lua_State* L);

@@ -1,6 +1,7 @@
 #include "LuaBindings.h"
 
 #include "components/camera_component/CameraComponent.h"
+#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
@@ -27,41 +28,6 @@ namespace Project::Bindings::LuaBindings {
   namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
-
-  int lua_getEntityDetails(lua_State* L) {
-    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
-    const char* name = luaL_checkstring(L, 1);
-    if (!manager || !name) {
-      lua_pushnil(L);
-      return 1;
-    }
-
-    auto entity = manager->getEntity(name);
-    if (!entity && manager->getGameState()) {
-      entity = manager->getGameState()->findEntity(name);
-    }
-
-    if (!entity) {
-      lua_pushnil(L);
-      return 1;
-    }
-
-    lua_newtable(L);
-    lua_pushstring(L, entity->getEntityID().c_str());
-    lua_setfield(L, -2, Keys::ID);
-    lua_pushstring(L, entity->getEntityName().c_str());
-    lua_setfield(L, -2, Keys::NAME);
-    lua_pushstring(L, entity->getGroup().c_str());
-    lua_setfield(L, -2, Keys::GROUP);
-    lua_pushnumber(L, entity->getX());
-    lua_setfield(L, -2, Keys::X);
-    lua_pushnumber(L, entity->getY());
-    lua_setfield(L, -2, Keys::Y);
-    lua_pushnumber(L, entity->getZ());
-    lua_setfield(L, -2, Keys::Z);
-
-    return 1;
-  }
 
   int lua_addEntityToSeed(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
@@ -580,6 +546,10 @@ namespace Project::Bindings::LuaBindings {
 
     motion->brake();
     return 0;
+  }
+  
+  int lua_getCollidedEntity(lua_State* L) {
+
   }
   
   int lua_factoryChangeState(lua_State* L) {

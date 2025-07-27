@@ -106,7 +106,14 @@ namespace Project::Bindings::LuaBindings {
     while (lua_next(L, 1) != 0) {
       const char* name = lua_tostring(L, -1);
       if (name) {
-
+        if (manager->hasEntity(name)) {
+          manager->removeEntity(name);
+        } else if (manager->getGameState()) {
+          auto entity = manager->getGameState()->findEntity(name);
+          if (entity && entity->getEntitiesManager()) {
+            entity->getEntitiesManager()->removeEntity(name);
+          }
+        }
       }
       lua_pop(L, 1);
     }

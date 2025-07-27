@@ -592,6 +592,8 @@ namespace Project::Bindings::LuaBindings {
         }
         if (!match) continue;
       }
+      auto* otherBox = dynamic_cast<Project::Components::BoundingBoxComponent*>(otherEntity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+      if (!otherBox) continue;
     }
 
     lua_pushnil(L);

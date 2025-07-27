@@ -19,7 +19,6 @@ components = {
     component = "MotionComponent",
     active = true,
     use_acceleration = false,
-    rotation = true,
     brake_power = 0.0,
     speed = 800.0,
     friction = 0.0

@@ -76,9 +76,6 @@ namespace Project::Components {
       }
 
     } else {
-      localVelX = 0.0f;
-      localVelY = 0.0f;
-      
       if (keys) {
         localVelX = 0.0f;
         localVelY = 0.0f;

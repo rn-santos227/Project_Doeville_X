@@ -2,7 +2,7 @@
 #define ENTITY_CATEGORIES_H
 
 namespace Project::Libraries::Categories {
-  namespace Scripts {
+  namespace Entities {
     constexpr const char* ENEMY = "enemy";
     constexpr const char* NPC = "npc";
     constexpr const char* PROJECTILE = "projectile";

@@ -7,6 +7,7 @@ group = "gameplay"
 components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
+    surface = "destroy_on_hit",
     active = true,
     solid = true,
     boxes = {
@@ -41,7 +42,6 @@ components = {
     density = 0.1,
     mass = 0.1,
     restitution = 0.0,
-    surface = "destroy_on_hit"
   },
 
   TimerComponent = {

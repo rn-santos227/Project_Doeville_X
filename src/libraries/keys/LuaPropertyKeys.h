@@ -8,6 +8,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ACTION = "action";
   constexpr const char* ACTIONS = "actions";
   constexpr const char* ALLOW_REVERT = "allow_revert";
+  constexpr const char* ATTRIBUTES = "attributes";
   constexpr const char* BINDING = "binding";
   constexpr const char* BINDINGS = "bindings";
   constexpr const char* BOXES = "boxes";

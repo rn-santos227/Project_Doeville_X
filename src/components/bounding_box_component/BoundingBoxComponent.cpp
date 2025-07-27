@@ -1,10 +1,10 @@
 #include "BoundingBoxComponent.h"
+#include "SurfaceType.h"
+#include "SurfaceTypeResolver.h"
 
 #include <cmath>
 #include <limits>
 
-#include "components/physics_component/SurfaceType.h"
-#include "components/physics_component/SurfaceTypeResolver.h"
 #include "handlers/camera/CameraHandler.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
@@ -18,8 +18,8 @@ namespace Project::Components {
   using Project::Utilities::LogsManager;
   using Project::Utilities::GeometryUtils;
   using Project::Handlers::KeyHandler;
-  using Project::Components::Physics::SurfaceType;
-  using Project::Components::Physics::SurfaceTypeResolver;
+  using Project::Components::SurfaceType;
+  using Project::Components::SurfaceTypeResolver;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;

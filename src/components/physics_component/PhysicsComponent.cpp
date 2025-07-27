@@ -5,8 +5,8 @@
 #include <string>
 
 #include "components/PositionableComponent.h"
+#include "components/bounding_box_component/SurfaceType.h"
 #include "components/graphics_component/GraphicsComponent.h"
-#include "components/physics_component/SurfaceTypeResolver.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "interfaces/rotation_interface/Rotatable.h"
@@ -20,8 +20,7 @@
 namespace Project::Components {
   using Project::Utilities::MathUtils;
   using Project::Utilities::PhysicsUtils;
-  using Project::Components::Physics::SurfaceType;
-  using Project::Components::Physics::SurfaceTypeResolver;
+  using Project::Components::SurfaceType;
 
   namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
@@ -290,7 +289,7 @@ namespace Project::Components {
       if (otherPhysics) {
         if (!myBox->isSolid()) {
           myBox->handleSurfaceInteraction(
-            static_cast<SurfaceType>(otherPhysics->getSurfaceType()),
+            otherBox->getSurfaceType(),
             entity, offset, bounce, fric, velocityX, velocityY);
         }
         if (!otherBox->isSolid()) {
@@ -343,7 +342,7 @@ namespace Project::Components {
       if (otherPhysics->getStatic()) {
         collidedWithStatic = true;
         const auto surface = otherPhysics->getSurfaceType();
-        if (!myBox->handleSurfaceInteraction(static_cast<SurfaceType>(surface), entity, offset, bounce, fric, velocityX, velocityY)) {
+        if (!myBox->handleSurfaceInteraction(surface, entity, offset, bounce, fric, velocityX, velocityY)) {
           syncPositionWithComponents(newX, newY);
           return false;
         }

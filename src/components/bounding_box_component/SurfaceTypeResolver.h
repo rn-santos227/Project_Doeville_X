@@ -4,7 +4,7 @@
 #include "SurfaceType.h"
 #include <string>
 
-namespace Project::Components::Physics {
+namespace Project::Components {
   class SurfaceTypeResolver {
   public:
     static SurfaceType resolve(const std::string& name);

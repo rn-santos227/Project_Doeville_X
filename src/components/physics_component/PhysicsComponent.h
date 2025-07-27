@@ -1,9 +1,8 @@
 #ifndef PHYSICS_COMPONENT_H
 #define PHYSICS_COMPONENT_H
 
-#include "SurfaceType.h"
-
 #include "components/BaseComponent.h"
+#include "components/bounding_box_component/SurfaceType.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/geometry/GeometryUtils.h"
 
@@ -86,9 +85,6 @@ namespace Project::Components {
 
     void setMass(float m) { mass = m; }
     float getMass() const { return mass; }
-
-    void setSurfaceType(Project::Components::Physics::SurfaceType type) { surfaceType = type; }
-    Project::Components::Physics::SurfaceType getSurfaceType() const { return surfaceType; }
     
     float getWeight() const { return mass * Project::Libraries::Constants::GRAVITY; }
     bool performContinuousCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime);
@@ -103,7 +99,6 @@ namespace Project::Components {
 
   private:
     Project::Entities::Entity* owner = nullptr;
-    Project::Components::Physics::SurfaceType surfaceType = Project::Components::Physics::SurfaceType::REST;
 
     float forceX = 0.0f;
     float forceY = 0.0f;

@@ -1,12 +1,13 @@
 #ifndef BOUNDING_BOX_COMPONENT_H
 #define BOUNDING_BOX_COMPONENT_H
 
+#include "SurfaceType.h"
+
 #include <SDL.h>
 #include <vector>
 
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
-#include "components/physics_component/SurfaceType.h"
 #include "libraries/constants/Constants.h"
 #include "handlers/input/KeyHandler.h"
 #include "handlers/camera/CameraHandler.h"
@@ -43,7 +44,7 @@ namespace Project::Components {
     bool isInteractive() const;
 
     bool handleSurfaceInteraction(
-      Project::Components::Physics::SurfaceType surface,
+      Project::Components::SurfaceType surface,
       Project::Entities::Entity* target,
       const SDL_FPoint& offset,
       float bounce, float friction,
@@ -65,8 +66,8 @@ namespace Project::Components {
     void setEntityPosition(int x, int y) override;
     void setEntityRotation(float angle) override;
 
-    void setSurfaceType(Project::Components::Physics::SurfaceType type) { surfaceType = type; }
-    Project::Components::Physics::SurfaceType getSurfaceType() const { return surfaceType; }
+    void setSurfaceType(Project::Components::SurfaceType type) { surfaceType = type; }
+    Project::Components::SurfaceType getSurfaceType() const { return surfaceType; }
 
     void clearShapes();
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
@@ -74,7 +75,7 @@ namespace Project::Components {
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
     
-    Project::Components::Physics::SurfaceType surfaceType = Project::Components::Physics::SurfaceType::REST;
+    Project::Components::SurfaceType surfaceType = Project::Components::SurfaceType::REST;
     Project::Entities::Entity* owner = nullptr;
 
     std::vector<SDL_Rect> boxes;

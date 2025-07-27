@@ -6,7 +6,7 @@
 
 #include "libraries/categories/Categories.h"
 
-namespace Project::Components::Physics {
+namespace Project::Components {
   namespace Surfaces = Project::Libraries::Categories::Surfaces;
   SurfaceType SurfaceTypeResolver::resolve(const std::string& name) {
     static const std::unordered_map<std::string, SurfaceType> map = {

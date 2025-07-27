@@ -549,7 +549,12 @@ namespace Project::Bindings::LuaBindings {
   }
   
   int lua_getCollidedEntity(lua_State* L) {
-
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return 1;
+    }
   }
   
   int lua_factoryChangeState(lua_State* L) {

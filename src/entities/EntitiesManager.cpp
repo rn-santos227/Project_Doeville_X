@@ -326,6 +326,7 @@ namespace Project::Entities {
             if (contains(name)) functions.push_back(name);
           };
 
+          record(Keys::LUA_GET_ENTITY_DETAILS);
           record(Keys::LUA_GET_ENTITY_SPEED);
           record(Keys::LUA_SET_ENTITY_TEXT);
           record(Keys::LUA_SPAWN_ENTITY);
@@ -351,7 +352,9 @@ namespace Project::Entities {
       }
 
       for (const auto& func : functions) {
-        if (func == Keys::LUA_GET_ENTITY_SPEED) {
+        if (func == Keys::LUA_GET_ENTITY_DETAILS) {
+          entity->registerLuaFunction(func, LuaBindings::lua_getEntityDetails, this);
+        } else if (func == Keys::LUA_GET_ENTITY_SPEED) {
           entity->registerLuaFunction(func, LuaBindings::lua_getEntitySpeed, this);
         } else if (func == Keys::LUA_SET_ENTITY_TEXT) {
           entity->registerLuaFunction(func, LuaBindings::lua_setEntityText, this);

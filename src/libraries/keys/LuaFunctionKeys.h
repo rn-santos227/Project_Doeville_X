@@ -6,6 +6,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_ACTIVE_CAMERA = "setActiveCamera";
   constexpr const char* LUA_SET_BACKGROUND_COLOR = "setBackgroundColor";
   constexpr const char* LUA_SET_BACKGROUND_IMAGE = "setBackgroundImage";
+  constexpr const char* LUA_GET_ENTITY_DETAILS = "getEntityDetails";
   constexpr const char* LUA_GET_ENTITY_SPEED = "getEntitySpeed";
   constexpr const char* LUA_SET_ENTITY_SPEED = "setEntitySpeed";
   constexpr const char* LUA_GET_ENTITY_TEXT = "getEntityText";

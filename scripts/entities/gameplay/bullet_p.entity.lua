@@ -7,9 +7,9 @@ group = "gameplay"
 components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
-    surface = "destroy_on_hit",
+    surface = "ghost_pass",
     active = true,
-    solid = true,
+    solid = false,
     boxes = {
       { x = 4, y = 4, radius = 4 }
     },
@@ -46,15 +46,25 @@ components = {
 }
 
 function expire()
-  if id then
-    destroyEntity(id)
-  end
+  destroySelf()
 end
 
 function update(deltaTime)
+  if getCollidedEntity(id, {"wall_h", "wall_v"}) then
+    destroySelf()
+    return
+  end
+
+  local seen = {}
   local target = getCollidedEntity(id, {"box", "ball"})
-  if target then
+
+  local count = 0
+  while target and not seen[target] and count < 10 do
+    seen[target] = true
     destroyEntity(target)
+    count = count + 1
+    target = getCollidedEntity(id, {"box", "ball"})
+    destroySelf()
   end
 end
 

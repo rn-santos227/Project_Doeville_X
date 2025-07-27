@@ -23,6 +23,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SPAWN_ENTITY = "spawnEntity";
   constexpr const char* LUA_DESTROY_ENTITY = "destroyEntity";
   constexpr const char* LUA_DESTROY_ENTITIES = "destroyEntities";
+  constexpr const char* LUA_DESTROY_SELF = "destroySelf";
   constexpr const char* LUA_IS_ACTION_PRESSED = "isActionPressed";
   constexpr const char* LUA_START_ENTITY_SEEDER = "startEntitySeeder";
   constexpr const char* LUA_CHANGE_STATE = "changeState";

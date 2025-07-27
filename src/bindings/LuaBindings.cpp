@@ -123,6 +123,34 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_destroySelf(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!manager) {
+      return 0;
+    }
+
+    lua_getglobal(L, Keys::ID);
+    const char* name = lua_isstring(L, -1) ? lua_tostring(L, -1) : nullptr;
+    lua_pop(L, 1);
+    if (!name) {
+      return 0;
+    }
+
+    if (manager->hasEntity(name)) {
+      manager->removeEntity(name);
+      return 0;
+    }
+
+    if (manager->getGameState()) {
+      auto entity = manager->getGameState()->findEntity(name);
+      if (entity && entity->getEntitiesManager()) {
+        entity->getEntitiesManager()->removeEntity(name);
+      }
+    }
+
+    return 0;
+  }
+
   int lua_spawnEntity(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

@@ -33,6 +33,7 @@ namespace Project::Bindings {
     int lua_isActionPressed(lua_State* L);
     int lua_destroyEntity(lua_State* L);
     int lua_destroyEntities(lua_State* L);
+    int lua_destroySelf(lua_State* L);
 
     // EntitiesFactory bindings
     int lua_factoryChangeState(lua_State* L);

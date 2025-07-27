@@ -37,13 +37,16 @@ namespace Project::Components {
     float localVelY = physics ? physics->getVelocityY() : velocityY;
 
     KeysComponent* keys = keysComp;
-    if (!keys) return;
+    bool left = keys && keys->isActionTriggered(KeyAction::MOVE_LEFT);
+    bool right = keys && keys->isActionTriggered(KeyAction::MOVE_RIGHT);
+    bool up = keys && keys->isActionTriggered(KeyAction::MOVE_UP);
+    bool down = keys && keys->isActionTriggered(KeyAction::MOVE_DOWN);
 
     if (accelerationEnabled) {
-      if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
+      if (left) {
         localVelX -= acceleration * deltaTime;
         if (localVelX < -maxSpeed) localVelX = -maxSpeed;
-      } else if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
+      } else if (right) {
         localVelX += acceleration * deltaTime;
         if (localVelX > maxSpeed) localVelX = maxSpeed;
       } else {
@@ -56,10 +59,10 @@ namespace Project::Components {
         }
       }
 
-      if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
+      if (up) {
         localVelY -= acceleration * deltaTime;
         if (localVelY < -maxSpeed) localVelY = -maxSpeed;
-      } else if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
+      } else if (down) {
         localVelY += acceleration * deltaTime;
         if (localVelY > maxSpeed) localVelY = maxSpeed;
       } else {
@@ -75,17 +78,22 @@ namespace Project::Components {
     } else {
       localVelX = 0.0f;
       localVelY = 0.0f;
+      
+      if (keys) {
+        localVelX = 0.0f;
+        localVelY = 0.0f;
 
-      if (keys->isActionTriggered(KeyAction::MOVE_LEFT)) {
-        localVelX = -maxSpeed;
-      } else if (keys->isActionTriggered(KeyAction::MOVE_RIGHT)) {
-        localVelX = maxSpeed;
-      }
+        if (left) {
+          localVelX = -maxSpeed;
+        } else if (right) {
+          localVelX = maxSpeed;
+        }
 
-      if (keys->isActionTriggered(KeyAction::MOVE_UP)) {
-        localVelY = -maxSpeed;
-      } else if (keys->isActionTriggered(KeyAction::MOVE_DOWN)) {
-        localVelY = maxSpeed;
+        if (up) {
+          localVelY = -maxSpeed;
+        } else if (down) {
+          localVelY = maxSpeed;
+        }
       }
     }
 

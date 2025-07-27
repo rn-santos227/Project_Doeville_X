@@ -15,7 +15,7 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_RESOURCES_FOLDER = "resources";
   constexpr const char* DEFAULT_SCRIPT_PATH = "scripts/";
   constexpr const char* DEFAULT_STATE_SCRIPT_FOLDER = "scripts/states/";
-  constexpr const char* DEFAULT_STYLE_PATH = "resources/css";
+  constexpr const char* DEFAULT_STYLE_PATH = "resources/style";
   
   constexpr const char* HAND_CURSOR_PATH = "resources/system/cursor_hand.png";
   

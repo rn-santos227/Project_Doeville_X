@@ -46,6 +46,8 @@ namespace Project::Components {
     float getCurrentSpeed() const;
     void brake();
 
+    void setRawVelocity(float vx, float vy) { velocityX = vx; velocityY = vy; }
+
   private:
     Project::Handlers::KeyHandler* keyHandler = nullptr;
     Project::Entities::Entity* owner = nullptr;

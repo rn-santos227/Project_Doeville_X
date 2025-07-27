@@ -1,6 +1,7 @@
 #include "SpawnerComponent.h"
 
 #include "bindings/LuaBindings.h"
+#include "components/motion_component/MotionComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
@@ -59,6 +60,8 @@ namespace Project::Components {
 
     if (auto* physics = dynamic_cast<PhysicsComponent*>(ent->getComponent(Components::PHYSICS_COMPONENT))) {
       physics->setVelocity(_velocityX, _velocityY);
+    } else if (auto* motion = dynamic_cast<MotionComponent*>(ent->getComponent(Components::MOTION_COMPONENT))) {
+      motion->setRawVelocity(_velocityX, _velocityY);
     }
 
     std::shared_ptr<Entity> shared = std::move(ent);

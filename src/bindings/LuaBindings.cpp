@@ -570,6 +570,17 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return 1;
     }
+
+    std::vector<std::string> targets;
+    if (lua_gettop(L) >= 2 && lua_istable(L, 2)) {
+      lua_pushnil(L);
+      while (lua_next(L, 2) != 0) {
+        if (lua_isstring(L, -1)) {
+          targets.emplace_back(lua_tostring(L, -1));
+        }
+        lua_pop(L, 1);
+      }
+    }
   }
   
   int lua_factoryChangeState(lua_State* L) {

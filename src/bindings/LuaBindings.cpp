@@ -596,6 +596,14 @@ namespace Project::Bindings::LuaBindings {
       if (!otherBox) continue;
       const auto& myRects = myBox->getBoxes();
       const auto& otherRects = otherBox->getBoxes();
+      for (const auto& r1 : myRects) {
+        for (const auto& r2 : otherRects) {
+          if (Project::Utilities::PhysicsUtils::checkCollision(r1, r2)) {
+            lua_pushstring(L, otherEntity->getEntityID().c_str());
+            return 1;
+          }
+        }
+      }
     }
 
     lua_pushnil(L);

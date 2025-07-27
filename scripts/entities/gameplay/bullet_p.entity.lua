@@ -20,7 +20,7 @@ components = {
     active = true,
     use_acceleration = false,
     brake_power = 0.0,
-    speed = 1000.0,
+    speed = 800.0,
     friction = 0.0
   },
 
@@ -32,6 +32,11 @@ components = {
     radius = 4
   },
 
+  TriggerComponent = {
+    component = "TriggerComponent",
+    active = true,
+    condition = "collision",
+    action = "destroyEntities"
 
   PhysicsComponent = {
     component = "PhysicsComponent",
@@ -50,6 +55,10 @@ function expire()
   if id then
     destroyEntity(id)
   end
+end
+
+function destroyEntities()
+  destroyEntity({"box", "obstacle"})
 end
 
 return {

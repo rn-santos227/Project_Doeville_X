@@ -96,6 +96,13 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_destroyEntities(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!manager || !lua_istable(L, 1)) {
+      return 0;
+    }
+  }
+
   int lua_spawnEntity(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

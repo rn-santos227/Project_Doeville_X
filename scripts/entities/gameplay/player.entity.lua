@@ -91,7 +91,7 @@ function action_1()
   end
 
   local spawnDist = 33
-  spawn(8 + last_dx * spawnDist, 8 + last_dy * spawnDist, last_dx * 200, last_dy * 200)
+  spawn(8 + last_dx * spawnDist, 8 + last_dy * spawnDist, last_dx * 800, last_dy * 800)
 end
 
 function brake()

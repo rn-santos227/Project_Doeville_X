@@ -564,6 +564,12 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return 1;
     }
+
+    auto* myBox = dynamic_cast<Project::Components::BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    if (!myBox) {
+      lua_pushnil(L);
+      return 1;
+    }
   }
   
   int lua_factoryChangeState(lua_State* L) {

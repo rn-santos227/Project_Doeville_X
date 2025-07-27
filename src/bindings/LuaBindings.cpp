@@ -581,6 +581,13 @@ namespace Project::Bindings::LuaBindings {
         lua_pop(L, 1);
       }
     }
+
+    for (const auto& [id, other] : manager->getAllEntities()) {
+
+    }
+
+    lua_pushnil(L);
+    return 1;
   }
   
   int lua_factoryChangeState(lua_State* L) {

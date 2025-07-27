@@ -585,6 +585,13 @@ namespace Project::Bindings::LuaBindings {
     for (const auto& [id, other] : manager->getAllEntities()) {
       auto otherEntity = other.get();
       if (!otherEntity || otherEntity == entity.get()) continue;
+      if (!targets.empty()) {
+        bool match = false;
+        for (const auto& t : targets) {
+          if (otherEntity->getEntityName() == t) { match = true; break; }
+        }
+        if (!match) continue;
+      }
     }
 
     lua_pushnil(L);

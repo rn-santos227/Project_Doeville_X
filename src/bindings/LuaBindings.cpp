@@ -103,6 +103,13 @@ namespace Project::Bindings::LuaBindings {
     }
 
     lua_pushnil(L);
+    while (lua_next(L, 1) != 0) {
+      const char* name = lua_tostring(L, -1);
+      if (name) {
+
+      }
+      lua_pop(L, 1);
+    }
 
     return 0;
   }

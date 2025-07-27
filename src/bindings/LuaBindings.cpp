@@ -117,7 +117,6 @@ namespace Project::Bindings::LuaBindings {
       }
       lua_pop(L, 1);
     }
-
     return 0;
   }
 

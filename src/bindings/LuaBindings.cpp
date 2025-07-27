@@ -101,6 +101,10 @@ namespace Project::Bindings::LuaBindings {
     if (!manager || !lua_istable(L, 1)) {
       return 0;
     }
+
+    lua_pushnil(L);
+
+    return 0;
   }
 
   int lua_spawnEntity(lua_State* L) {

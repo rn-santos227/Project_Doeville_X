@@ -147,5 +147,6 @@ namespace Project::Handlers {
       return nullptr;
     }
 
+    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, Constants::INDEX_TWO, Constants::INDEX_TWO, Constants::BIT_32, SDL_PIXELFORMAT_RGBA32);
   }
 }

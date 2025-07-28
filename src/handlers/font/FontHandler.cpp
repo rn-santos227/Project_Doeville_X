@@ -7,6 +7,8 @@ namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Helpers::ResourceCleaner;
 
+  namespace Constants = Project::Libraries::Constants;
+
   FontHandler::FontHandler(LogsManager& logsManager) : logsManager(logsManager) {
     logsManager.checkAndLogError(TTF_Init() == -1, "Failed to initialize SDL_ttf: " + std::string(TTF_GetError()));
   }
@@ -20,9 +22,9 @@ namespace Project::Handlers {
     TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
     if (!font) {
       logsManager.logWarning(std::string("Failed to load font: ") + filePath + ". Using fallback font.");
-      font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, fontSize);
+      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
       if (!font) {
-        logsManager.logError(std::string("Failed to load fallback font: ") + Project::Libraries::Constants::DEFAULT_FONT_PATH);
+        logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
         return false;
       }
     }
@@ -35,7 +37,7 @@ namespace Project::Handlers {
     auto it = fonts.find(fontId);
     if (it == fonts.end()) {
       logsManager.logWarning("Font ID \"" + fontId + "\" not found. Using fallback font.");
-      it = fonts.find(Project::Libraries::Constants::DEFAULT_FONT);
+      it = fonts.find(Constants::DEFAULT_FONT);
       if (it == fonts.end()) {
         logsManager.logError("Fallback font not loaded.");
         return getFallbackTexture(renderer);
@@ -80,6 +82,12 @@ namespace Project::Handlers {
     auto it = fallbackTextures.find(renderer);
     if (it != fallbackTextures.end()) {
       return it->second;
+    }
+
+    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, Constants::INDEX_TWO, Constants::INDEX_TWO, Constants::BIT_32, SDL_PIXELFORMAT_RGBA32);
+    if (!surface) {
+      logsManager.logError(std::string("Failed to create fallback surface: ") + SDL_GetError());
+      return nullptr;
     }
   }
 }

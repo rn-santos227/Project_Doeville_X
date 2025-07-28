@@ -77,6 +77,9 @@ namespace Project::Handlers {
   }
 
   SDL_Texture* FontHandler::getFallbackTexture(SDL_Renderer* renderer) {
-
+    auto it = fallbackTextures.find(renderer);
+    if (it != fallbackTextures.end()) {
+      return it->second;
+    }
   }
 }

@@ -75,4 +75,8 @@ namespace Project::Handlers {
     });
     fallbackTextures.clear();
   }
+
+  SDL_Texture* FontHandler::getFallbackTexture(SDL_Renderer* renderer) {
+
+  }
 }

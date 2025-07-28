@@ -160,5 +160,12 @@ namespace Project::Handlers {
     pixels[Project::Libraries::Constants::INDEX_ONE] = black;
     pixels[Project::Libraries::Constants::INDEX_TWO] = black;
     pixels[Project::Libraries::Constants::INDEX_THREE] = magenta;
+
+    fallbackTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    if (!fallbackTexture) {
+      logsManager.logError(std::string("Failed to create fallback cursor texture: ") + SDL_GetError());
+    }
+    return fallbackTexture;
   }
 }

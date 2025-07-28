@@ -2,8 +2,8 @@ x = 640
 y = 360
 z = 0
 
-local last_dx = 0
-local last_dy = -1
+local angle = -90
+local rot_speed = 10
 
 group = "gameplay"
 
@@ -41,9 +41,7 @@ components = {
     active = true,
     keys = {
       { key = "up", action = "move_up" },
-      { key = "left", action = "move_left" },
       { key = "down", action = "move_down" },
-      { key = "right", action = "move_right" },
       { key = "z", action = "action_1" },
       { key = "x", action = "action_2" }
     },
@@ -77,21 +75,20 @@ components = {
 }
 
 function action_1()
-  local dx = 0
-  local dy = 0
-  if isActionPressed("player", "move_up") then dy = dy - 1 end
-  if isActionPressed("player", "move_down") then dy = dy + 1 end
-  if isActionPressed("player", "move_left") then dx = dx - 1 end
-  if isActionPressed("player", "move_right") then dx = dx + 1 end
-
-  if dx ~= 0 or dy ~= 0 then
-    local mag = math.sqrt(dx * dx + dy * dy)
-    last_dx = dx / mag
-    last_dy = dy / mag
-  end
-
+  local rad = math.rad(angle)
+  local dx = math.cos(rad)
+  local dy = math.sin(rad)
   local spawnDist = 33
-   spawn(16 + last_dx * spawnDist, 16 + last_dy * spawnDist, last_dx * 800, last_dy * 800)
+  spawn(8 + dx * spawnDist, 8 + dy * spawnDist, dx * 800, dy * 800)
+end
+
+function update()
+  local dt = deltaTime
+  if isActionPressed("player", "move_left") then
+    angle = angle - rot_speed * dt
+  elseif isActionPressed("player", "move_right") then
+    angle = angle + rot_speed * dt
+  end
 end
 
 function brake()

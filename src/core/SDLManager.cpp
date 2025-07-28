@@ -38,7 +38,7 @@ namespace Project::Core {
       rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
     }
 
-    SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
+    SDL_SetHint(SDL_HINT_RENDER_BATCHING, Constants::STR_ON);
 
     renderer = SDL_CreateRenderer(window, -1, rendererFlags);
     if (logsManager.checkAndLogError(!renderer, "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {

@@ -111,7 +111,11 @@ namespace Project::Components {
     fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
     font = TTF_OpenFont(fontPath.c_str(), fontSize);
     if (!font) {
-      logsManager.logError(std::string("Failed to load font: ") + fontPath);
+      logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
+      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
+      if (!font) {
+        logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
+      }
     }
 
     std::string fontColorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
@@ -140,6 +144,13 @@ namespace Project::Components {
         if (font) TTF_CloseFont(font);
         std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
         font = TTF_OpenFont(defaultFontPath.c_str(), s.fontSize);
+        if (!font) {
+          logsManager.logWarning(std::string("Failed to load font: ") + defaultFontPath + ". Using fallback font.");
+          font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, s.fontSize);
+          if (!font) {
+            logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
+          }
+        }
         fontSize = s.fontSize;
       }
       if (s.borderColor.a != 0) borderColor = s.borderColor;
@@ -193,13 +204,29 @@ namespace Project::Components {
       textTexture = nullptr;
     }
     SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), colorToUse);
-    if (surface) {
-      textTexture = SDL_CreateTextureFromSurface(renderer, surface);
-      textRect.w = surface->w;
-      textRect.h = surface->h;
-      SDL_FreeSurface(surface);
-      textRect.x = rect.x + paddingLeft + (rect.w - paddingLeft - paddingRight - textRect.w) / 2;
-      textRect.y = rect.y + paddingTop + (rect.h - paddingTop - paddingBottom - textRect.h) / 2;
+
+    if (!surface) {
+      logsManager.logWarning(std::string("Failed to render button text: ") + TTF_GetError());
+      surface = SDL_CreateRGBSurfaceWithFormat(0, Constants::INDEX_TWO, Constants::INDEX_TWO, Constants::BIT_32, SDL_PIXELFORMAT_RGBA32);
+      if (surface) {
+        Uint32 magenta = SDL_MapRGBA(surface->format, Constants::BIT_255, 0, Constants::BIT_255, Constants::BIT_255);
+        Uint32 black = SDL_MapRGBA(surface->format, 0, 0, 0, Constants::BIT_255);
+        Uint32* pixels = static_cast<Uint32*>(surface->pixels);
+        pixels[Constants::INDEX_ZERO] = magenta;
+        pixels[Constants::INDEX_ONE] = black;
+        pixels[Constants::INDEX_TWO] = black;
+        pixels[Constants::INDEX_THREE] = magenta;
+      }
     }
+
+    textTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!textTexture) {
+      logsManager.logWarning(std::string("Failed to create button text texture: ") + SDL_GetError());
+    }
+    textRect.w = surface->w;
+    textRect.h = surface->h;
+    SDL_FreeSurface(surface);
+    textRect.x = rect.x + paddingLeft + (rect.w - paddingLeft - paddingRight - textRect.w) / 2;
+    textRect.y = rect.y + paddingTop + (rect.h - paddingTop - paddingBottom - textRect.h) / 2;
   }
 }

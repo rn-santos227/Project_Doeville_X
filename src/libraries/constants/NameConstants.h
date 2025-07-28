@@ -16,6 +16,9 @@ namespace Project::Libraries::Constants {
   constexpr const char* LOG_INFO = "[INFO] ";
   constexpr const char* LOG_LUA = "[LUA] ";
   constexpr const char* LOG_WARNING = "[WARNING] ";
+
+  constexpr const char* STR_ON = "1";
+  constexpr const char* STR_OFF = "0";
 }
 
 #endif

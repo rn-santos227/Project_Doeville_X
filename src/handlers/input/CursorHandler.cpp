@@ -141,5 +141,11 @@ namespace Project::Handlers {
     if (fallbackTexture) {
       return fallbackTexture;
     }
+
+    if (!renderer) {
+      logsManager.logError("Renderer is null. Cannot create fallback cursor texture.");
+      return nullptr;
+    }
+
   }
 }

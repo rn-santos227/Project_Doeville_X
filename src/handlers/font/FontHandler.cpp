@@ -97,5 +97,15 @@ namespace Project::Handlers {
     pixels[Constants::INDEX_ONE] = black;
     pixels[Constants::INDEX_TWO] = black;
     pixels[Constants::INDEX_THREE] = magenta;
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    if (!texture) {
+      logsManager.logError(std::string("Failed to create fallback texture: ") + SDL_GetError());
+      return nullptr;
+    }
+
+    fallbackTextures[renderer] = texture;
+    return texture;
   }
 }

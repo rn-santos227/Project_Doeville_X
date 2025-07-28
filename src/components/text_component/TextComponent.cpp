@@ -183,11 +183,11 @@ namespace Project::Components {
     }
     
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!texture) {
-      logsManager.logWarning(std::string("Failed to create texture from text: ") + SDL_GetError());
-    }
     rect.w = surface->w;
     rect.h = surface->h;
     SDL_FreeSurface(surface);
+    if (!texture) {
+      logsManager.logWarning(std::string("Failed to create texture from text: ") + SDL_GetError());
+    }
   }
 }

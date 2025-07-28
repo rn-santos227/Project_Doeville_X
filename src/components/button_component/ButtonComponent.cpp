@@ -220,12 +220,12 @@ namespace Project::Components {
     }
 
     textTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!textTexture) {
-      logsManager.logWarning(std::string("Failed to create button text texture: ") + SDL_GetError());
-    }
     textRect.w = surface->w;
     textRect.h = surface->h;
     SDL_FreeSurface(surface);
+    if (!textTexture) {
+      logsManager.logWarning(std::string("Failed to create button text texture: ") + SDL_GetError());
+    }
     textRect.x = rect.x + paddingLeft + (rect.w - paddingLeft - paddingRight - textRect.w) / 2;
     textRect.y = rect.y + paddingTop + (rect.h - paddingTop - paddingBottom - textRect.h) / 2;
   }

@@ -89,5 +89,13 @@ namespace Project::Handlers {
       logsManager.logError(std::string("Failed to create fallback surface: ") + SDL_GetError());
       return nullptr;
     }
+    
+    Uint32 magenta = SDL_MapRGBA(surface->format, Constants::BIT_255, 0, Constants::BIT_255, Constants::BIT_255);
+    Uint32 black = SDL_MapRGBA(surface->format, 0, 0, 0, Constants::BIT_255);
+    Uint32* pixels = static_cast<Uint32*>(surface->pixels);
+    pixels[Constants::INDEX_ZERO] = magenta;
+    pixels[Constants::INDEX_ONE] = black;
+    pixels[Constants::INDEX_TWO] = black;
+    pixels[Constants::INDEX_THREE] = magenta;
   }
 }

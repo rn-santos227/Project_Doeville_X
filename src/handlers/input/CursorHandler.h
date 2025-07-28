@@ -40,8 +40,11 @@ namespace Project::Handlers {
     SDL_Cursor* defaultCursor = nullptr;
     SDL_Renderer* renderer;
     SDL_Texture* currentCursorTexture = nullptr;
+    SDL_Texture* fallbackTexture = nullptr;
     
     std::string resourcePath;
+
+    SDL_Texture* getFallbackTexture();
   };
 }
 

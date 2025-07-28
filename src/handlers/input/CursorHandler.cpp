@@ -1,10 +1,13 @@
 #include "CursorHandler.h"
 
 #include "helpers/resource_cleaner/ResourceCleaner.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Helpers::ResourceCleaner;
+
+  namespace Constants = Project::Libraries::Constants;
 
   CursorHandler::CursorHandler(LogsManager& logsManager) 
     : logsManager(logsManager), renderer(nullptr), currentCursorTexture(nullptr), currentState(CursorState::DEFAULT) {
@@ -29,37 +32,38 @@ namespace Project::Handlers {
       texture = tIt->second;
     } else {
       SDL_Surface* surface = IMG_Load(filePath.c_str());
-      if (logsManager.checkAndLogError(!surface, "Failed to load cursor image: " + filePath + " - " + std::string(SDL_GetError()))) {
-        return;
-      }
-
-      logsManager.logMessage("Successfully loaded cursor image: " + filePath);
-      cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
-      if (cursor) {
-        cursorCache[filePath] = cursor;
+      if (!surface) {
+        logsManager.logWarning(std::string("Failed to load cursor image: ") + filePath + " - " + SDL_GetError() + ". Using fallback cursor.");
+        cursor = defaultCursor;
+        texture = getFallbackTexture();
       } else {
-        logsManager.logWarning("Failed to create SDL cursor.");
-      }
-
-      if (renderer) {
-        texture = SDL_CreateTextureFromSurface(renderer, surface);
-        if (!texture) {
-          logsManager.logError("Failed to create texture for cursor: " + filePath + " - " + std::string(SDL_GetError()));
+        logsManager.logMessage("Successfully loaded cursor image: " + filePath);
+        cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
+        if (cursor) {
+          cursorCache[filePath] = cursor;
         } else {
-          textureCache[filePath] = texture;
+          logsManager.logWarning("Failed to create SDL cursor. Using default cursor.");
+          cursor = defaultCursor;
         }
-      } else {
-        logsManager.logError("Renderer is null. Cannot create texture.");
+
+        if (renderer) {
+          texture = SDL_CreateTextureFromSurface(renderer, surface);
+          if (!texture) {
+            logsManager.logWarning("Failed to create texture for cursor: " + filePath + " - " + std::string(SDL_GetError()) + ". Using fallback texture.");
+            texture = getFallbackTexture();
+          } else {
+            textureCache[filePath] = texture;
+          }
+        } else {
+          logsManager.logError("Renderer is null. Cannot create texture.");
+          texture = getFallbackTexture();
+        }
+        SDL_FreeSurface(surface);
       }
-      SDL_FreeSurface(surface);
     }
 
-    if (cursor) {
-      cursors[state] = cursor;
-    }
-    if (texture) {
-      cursorTextures[state] = texture;
-    }
+    cursors[state] = cursor ? cursor : defaultCursor;
+    cursorTextures[state] = texture ? texture : getFallbackTexture();
   }
 
   void CursorHandler::setCursorState(CursorState state) {

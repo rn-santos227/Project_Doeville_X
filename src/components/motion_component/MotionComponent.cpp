@@ -194,4 +194,18 @@ namespace Project::Components {
       }
     }
   }
+
+  void MotionComponent::turn(float speed, bool left) {
+    if (!owner) return;
+    auto* box = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    if (!box || !box->isRotationEnabled()) return;
+
+    float amount = std::abs(speed);
+    if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
+      physics->setRotationEnabled(true);
+      physics->setAngularVelocity(left ? -amount : amount);
+    } else {
+      box->setRotation(box->getRotation() + (left ? -amount : amount));
+    }
+  }
 }

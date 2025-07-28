@@ -366,6 +366,8 @@ namespace Project::Entities {
           record(Keys::LUA_GET_NUMERIC_VALUE);
           record(Keys::LUA_STOP_TIMER);
           record(Keys::LUA_BRAKE_ENTITY);
+          record(Keys::LUA_TURN_LEFT);
+          record(Keys::LUA_TURN_RIGHT);
           record(Keys::LUA_IS_ACTION_PRESSED);
           record(Keys::LUA_EXIT_GAME);
 
@@ -406,6 +408,10 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_stopTimer, this);
         } else if (func == Keys::LUA_BRAKE_ENTITY) {
           entity->registerLuaFunction(func, LuaBindings::lua_brakeEntity, this);
+        } else if (func == Keys::LUA_TURN_LEFT) {
+          entity->registerLuaFunction(func, LuaBindings::lua_turnLeft, this);
+        } else if (func == Keys::LUA_TURN_RIGHT) {
+          entity->registerLuaFunction(func, LuaBindings::lua_turnRight, this);
         } else if (func == Keys::LUA_IS_ACTION_PRESSED) {
           entity->registerLuaFunction(func, LuaBindings::lua_isActionPressed, this);
         } else if (func == Keys::LUA_SPAWN_ENTITY && gameState) {

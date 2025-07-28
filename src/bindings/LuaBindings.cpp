@@ -1,5 +1,7 @@
 #include "LuaBindings.h"
 
+#include <cmath>
+
 #include "components/camera_component/CameraComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/motion_component/MotionComponent.h"
@@ -613,6 +615,42 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
   
+  int lua_turnLeft(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    float speed = static_cast<float>(luaL_optnumber(L, 2, Constants::DEFAULT_ROTATION_SPEED));
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+    if (!entity) return 0;
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) return 0;
+    motion->turn(true, speed);
+    return 0;
+  }
+
+  int lua_turnRight(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    float speed = static_cast<float>(luaL_optnumber(L, 2, Constants::DEFAULT_ROTATION_SPEED));
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+    if (!entity) return 0;
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) return 0;
+    motion->turn(false, speed);
+    return 0;
+  }
+
   int lua_getCollidedEntity(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);

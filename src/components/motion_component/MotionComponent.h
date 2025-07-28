@@ -44,7 +44,9 @@ namespace Project::Components {
     bool isRotationEnabled() const { return rotationEnabled; }
     
     float getCurrentSpeed() const;
+    
     void brake();
+    void turn(float speed, bool clockwise);
 
     void setRawVelocity(float vx, float vy) { velocityX = vx; velocityY = vy; }
 

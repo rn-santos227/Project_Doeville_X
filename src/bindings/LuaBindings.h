@@ -30,6 +30,8 @@ namespace Project::Bindings {
     int lua_getNumericValue(lua_State* L);
     int lua_stopTimer(lua_State* L);
     int lua_brakeEntity(lua_State* L);
+    int lua_turnLeft(lua_State* L);
+    int lua_turnRight(lua_State* L);
     int lua_isActionPressed(lua_State* L);
     int lua_destroyEntity(lua_State* L);
     int lua_destroyEntities(lua_State* L);

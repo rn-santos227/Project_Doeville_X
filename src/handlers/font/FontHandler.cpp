@@ -68,5 +68,11 @@ namespace Project::Handlers {
       }
     });
     fonts.clear();
+    ResourceCleaner::cleanupMap(fallbackTextures, [](SDL_Texture* texture) {
+      if (texture) {
+        SDL_DestroyTexture(texture);
+      }
+    });
+    fallbackTextures.clear();
   }
 }

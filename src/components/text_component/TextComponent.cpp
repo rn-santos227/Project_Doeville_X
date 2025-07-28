@@ -77,8 +77,13 @@ namespace Project::Components {
       TTF_CloseFont(font);
     }
     font = TTF_OpenFont(fontPath.c_str(), fontSize);
-    if (logsManager.checkAndLogError(font == nullptr, std::string("Failed to load font: ") + fontPath)) {
-      return;
+    if (!font) {
+      logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
+      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
+      if (!font) {
+        logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
+        return;
+      }
     }
 
     createTexture();
@@ -114,8 +119,12 @@ namespace Project::Components {
         fontSize = s.fontSize;
         font = TTF_OpenFont(fontPath.c_str(), fontSize);
         if (!font) {
-          logsManager.logError(std::string("Failed to load font: ") + fontPath);
-          return;
+          logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
+          font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
+          if (!font) {
+            logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
+            return;
+          }
         }
         createTexture();
       }
@@ -159,11 +168,26 @@ namespace Project::Components {
     if (!font) return;
 
     SDL_Surface* surface = TTF_RenderText_Blended(font, currentText.c_str(), color);
-    if (surface) {
-      texture = SDL_CreateTextureFromSurface(renderer, surface);
-      rect.w = surface->w;
-      rect.h = surface->h;
-      SDL_FreeSurface(surface);
+    if (!surface) {
+      logsManager.logWarning(std::string("Failed to render text: ") + TTF_GetError());
+      surface = SDL_CreateRGBSurfaceWithFormat(0, Constants::INDEX_TWO, Constants::INDEX_TWO, Constants::BIT_32, SDL_PIXELFORMAT_RGBA32);
+      if (surface) {
+        Uint32 magenta = SDL_MapRGBA(surface->format, Constants::BIT_255, 0, Constants::BIT_255, Constants::BIT_255);
+        Uint32 black = SDL_MapRGBA(surface->format, 0, 0, 0, Constants::BIT_255);
+        Uint32* pixels = static_cast<Uint32*>(surface->pixels);
+        pixels[Constants::INDEX_ZERO] = magenta;
+        pixels[Constants::INDEX_ONE] = black;
+        pixels[Constants::INDEX_TWO] = black;
+        pixels[Constants::INDEX_THREE] = magenta;
+      }
     }
+    
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!texture) {
+      logsManager.logWarning(std::string("Failed to create texture from text: ") + SDL_GetError());
+    }
+    rect.w = surface->w;
+    rect.h = surface->h;
+    SDL_FreeSurface(surface);
   }
 }

@@ -30,6 +30,10 @@ namespace Project::Entities {
   EntitiesManager::EntitiesManager()
     : persistentFunctionCache(Constants::SCRIPT_FUNCTION_CACHE_FILE) {
     entityList.reserve(Constants::MAX_MEMORY_SPACE);
+    updateHigh.reserve(Constants::MAX_MEMORY_SPACE);
+    updateNormal.reserve(Constants::MAX_MEMORY_SPACE);
+    updateLow.reserve(Constants::MAX_MEMORY_SPACE);
+    updateToRemove.reserve(Constants::MAX_MEMORY_SPACE);
   }
 
   EntitiesManager::~EntitiesManager() {
@@ -187,18 +191,25 @@ namespace Project::Entities {
 
   void EntitiesManager::update(float deltaTime) {
     std::lock_guard<std::recursive_mutex> lock(managerMutex);
-    std::vector<std::shared_ptr<Entity>> high;
-    std::vector<std::shared_ptr<Entity>> normal;
-    std::vector<std::shared_ptr<Entity>> low;
+    updateHigh.clear();
+    updateNormal.clear();
+    updateLow.clear();
+
+    if (updateHigh.capacity() < entityList.size())
+      updateHigh.reserve(entityList.size());
+    if (updateNormal.capacity() < entityList.size())
+      updateNormal.reserve(entityList.size());
+    if (updateLow.capacity() < entityList.size())
+      updateLow.reserve(entityList.size());
 
     for (auto& entity : entityList) {
       if (!entity) continue;
       if (entity->hasAttribute(EntityAttribute::HIGH_PRIORITY)) {
-        high.push_back(entity);
+        updateHigh.push_back(entity);
       } else if (entity->hasAttribute(EntityAttribute::LOW_PRIORITY)) {
-        low.push_back(entity);
+        updateLow.push_back(entity);
       } else {
-        normal.push_back(entity);
+        updateNormal.push_back(entity);
       }
     }
 
@@ -209,17 +220,20 @@ namespace Project::Entities {
       }
     };
 
-    for (auto& ent : high) updateEntity(ent);
-    for (auto& ent : normal) updateEntity(ent);
-    for (auto& ent : low) updateEntity(ent);
+    for (auto& ent : updateHigh) updateEntity(ent);
+    for (auto& ent : updateNormal) updateEntity(ent);
+    for (auto& ent : updateLow) updateEntity(ent);
 
-    std::vector<std::string> toRemove;
+    updateToRemove.clear();
+    if (updateToRemove.capacity() < entityList.size())
+      updateToRemove.reserve(entityList.size());
+
     for (const auto& ent : entityList) {
       if (ent && ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
-        toRemove.push_back(ent->getEntityID());
+        updateToRemove.push_back(ent->getEntityID());
       }
     }
-    for (const auto& id : toRemove) {
+    for (const auto& id : updateToRemove) {
       removeEntity(id);
       remove(id);
     }

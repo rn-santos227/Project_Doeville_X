@@ -76,7 +76,12 @@ namespace Project::Entities {
       std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;
       std::unordered_map<std::string, size_t> entityIndices;
       std::unordered_map<std::string, int> idCounters;
+      
       std::vector<std::shared_ptr<Entity>> entityList;
+      std::vector<std::shared_ptr<Entity>> updateHigh;
+      std::vector<std::shared_ptr<Entity>> updateNormal;
+      std::vector<std::shared_ptr<Entity>> updateLow;
+      std::vector<std::string> updateToRemove;
       
       Project::States::GameState* gameState = nullptr;
       Project::Core::SDLManager* sdlManager = nullptr;

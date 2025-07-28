@@ -1,6 +1,7 @@
 #include "FontHandler.h"
 
 #include "helpers/resource_cleaner/ResourceCleaner.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
@@ -17,10 +18,15 @@ namespace Project::Handlers {
 
   bool FontHandler::loadFont(const std::string& fontId, const std::string& filePath, int fontSize) {
     TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
-    if (logsManager.checkAndLogError(!font,  "Failed to initialize SDL_ttf: "  + std::string(TTF_GetError()))) {
-      return false;
+    if (!font) {
+      logsManager.logWarning(std::string("Failed to load font: ") + filePath + ". Using fallback font.");
+      font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, fontSize);
+      if (!font) {
+        logsManager.logError(std::string("Failed to load fallback font: ") + Project::Libraries::Constants::DEFAULT_FONT_PATH);
+        return false;
+      }
     }
-
+    
     fonts[fontId] = font;
     return true;
   }

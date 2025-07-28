@@ -125,6 +125,12 @@ namespace Project::Handlers {
 
     {
       std::lock_guard<std::mutex> lock(tasksMutex);
+      if (textureTasks.size() >= Constants::TEXTURE_TASK_QUEUE_MAX_SIZE) {
+        logsManager.logWarning("Texture task queue full, dropping task: " + imagePath);
+        SDL_Texture* fallback = getFallbackTexture(renderer);
+        task.promise.set_value(fallback);
+        return fut;
+      }
       textureTasks.push(std::move(task));
     }
     tasksCv.notify_one();

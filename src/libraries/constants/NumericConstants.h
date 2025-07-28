@@ -36,6 +36,7 @@ namespace Project::Libraries::Constants {
 
   constexpr size_t LOG_QUEUE_MAX_SIZE = 1000;
   constexpr size_t ENTITY_CHECK_INTERVAL = 60;
+  constexpr size_t TEXTURE_TASK_QUEUE_MAX_SIZE = 100;
 }
 
 #endif

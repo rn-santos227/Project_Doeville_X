@@ -26,6 +26,9 @@ namespace Project::Handlers {
     Project::Utilities::LogsManager& logsManager;
 
     std::unordered_map<std::string, TTF_Font*> fonts;
+    std::unordered_map<SDL_Renderer*, SDL_Texture*> fallbackTextures;
+    
+    SDL_Texture* getFallbackTexture(SDL_Renderer* renderer);
   };
 }
 

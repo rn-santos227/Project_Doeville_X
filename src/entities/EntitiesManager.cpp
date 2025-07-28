@@ -102,6 +102,8 @@ namespace Project::Entities {
       size_t index = idxIt->second;
       auto ent = entityList[index];
       if (ent) {
+        bool hasPhys = false;
+        Project::Components::BoundingBoxComponent* box = nullptr;
         for (const std::string& compName : ent->listComponentNames()) {
           auto* comp = ent->getComponent(compName);
           if (!comp) continue;
@@ -111,7 +113,12 @@ namespace Project::Entities {
             physicsSystem.remove(phys);
           } else if (auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(comp)) {
             renderSystem.remove(gfx);
+          } else if (auto* bbox = dynamic_cast<Project::Components::BoundingBoxComponent*>(comp)) {
+            box = bbox;
           }
+        }
+       if (box && !hasPhys) {
+          physicsSystem.removeStaticCollider(box);
         }
       }
 
@@ -125,6 +132,11 @@ namespace Project::Entities {
       entityList.pop_back();
       entityIndices.erase(idxIt);
     }
+
+    for (auto& [group, ids] : entityGroups) {
+      ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
+    }
+    remove(id);
   }
 
   bool EntitiesManager::hasEntity(const std::string& id) {

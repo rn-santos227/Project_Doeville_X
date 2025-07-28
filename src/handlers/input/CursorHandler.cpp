@@ -127,9 +127,13 @@ namespace Project::Handlers {
       if (texture) {
         SDL_DestroyTexture(texture);
       }
-    });  
+    });
 
     cursorTextures.clear();
+    if (fallbackTexture) {
+      SDL_DestroyTexture(fallbackTexture);
+      fallbackTexture = nullptr;
+    }
     currentCursorTexture = nullptr;
   }
 }

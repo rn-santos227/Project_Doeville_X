@@ -26,15 +26,20 @@ namespace Project::Handlers {
         return false;
       }
     }
-    
+
     fonts[fontId] = font;
     return true;
   }
 
   SDL_Texture* FontHandler::renderText(SDL_Renderer* renderer, const std::string& text, const std::string& fontId, SDL_Color color) {
     auto it = fonts.find(fontId);
-    if (logsManager.checkAndLogError(it == fonts.end(), "Font ID \"" + fontId + "\" not found!")) {
-      return nullptr;
+    if (it == fonts.end()) {
+      logsManager.logWarning("Font ID \"" + fontId + "\" not found. Using fallback font.");
+      it = fonts.find(Project::Libraries::Constants::DEFAULT_FONT);
+      if (it == fonts.end()) {
+        logsManager.logError("Fallback font not loaded.");
+        return getFallbackTexture(renderer);
+      }
     }
 
     TTF_Font* font = it->second;

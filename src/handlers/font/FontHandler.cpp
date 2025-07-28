@@ -45,9 +45,11 @@ namespace Project::Handlers {
     TTF_Font* font = it->second;
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
 
-    if (logsManager.checkAndLogError(!textSurface, "Failed to create text surface: " + std::string(TTF_GetError()))) {
-      return nullptr;
+    if (!textSurface) {
+      logsManager.logWarning(std::string("Failed to create text surface: ") + TTF_GetError());
+      return getFallbackTexture(renderer);
     }
+
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_FreeSurface(textSurface);

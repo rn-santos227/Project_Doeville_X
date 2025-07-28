@@ -138,6 +138,8 @@ namespace Project::Handlers {
   }
 
   SDL_Texture* CursorHandler::getFallbackTexture() {
-
+    if (fallbackTexture) {
+      return fallbackTexture;
+    }
   }
 }

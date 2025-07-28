@@ -136,4 +136,8 @@ namespace Project::Handlers {
     }
     currentCursorTexture = nullptr;
   }
+
+  SDL_Texture* CursorHandler::getFallbackTexture() {
+
+  }
 }

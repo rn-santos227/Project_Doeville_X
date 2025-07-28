@@ -148,5 +148,17 @@ namespace Project::Handlers {
     }
 
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, Constants::INDEX_TWO, Constants::INDEX_TWO, Constants::BIT_32, SDL_PIXELFORMAT_RGBA32);
+    if (!surface) {
+      logsManager.logError(std::string("Failed to create fallback cursor surface: ") + SDL_GetError());
+      return nullptr;
+    }
+
+    Uint32 magenta = SDL_MapRGBA(surface->format, Project::Libraries::Constants::BIT_255, 0, Project::Libraries::Constants::BIT_255, Project::Libraries::Constants::BIT_255);
+    Uint32 black = SDL_MapRGBA(surface->format, 0, 0, 0, Project::Libraries::Constants::BIT_255);
+    Uint32* pixels = static_cast<Uint32*>(surface->pixels);
+    pixels[Project::Libraries::Constants::INDEX_ZERO] = magenta;
+    pixels[Project::Libraries::Constants::INDEX_ONE] = black;
+    pixels[Project::Libraries::Constants::INDEX_TWO] = black;
+    pixels[Project::Libraries::Constants::INDEX_THREE] = magenta;
   }
 }

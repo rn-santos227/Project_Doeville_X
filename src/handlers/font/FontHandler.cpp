@@ -54,7 +54,10 @@ namespace Project::Handlers {
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_FreeSurface(textSurface);
 
-    logsManager.checkAndLogError(!textTexture, "Failed to create texture from text: " + std::string(SDL_GetError()));
+    if (!textTexture) {
+      logsManager.logWarning(std::string("Failed to create texture from text: ") + SDL_GetError());
+      return getFallbackTexture(renderer);
+    }
     return textTexture;
   }
 

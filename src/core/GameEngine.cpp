@@ -1,6 +1,8 @@
 #include "GameEngine.h"
 
 #include <algorithm>
+#include <chrono>
+#include <thread>
 
 #include "helpers/null_checker/NullChecker.h"
 #include "libraries/constants/Constants.h"
@@ -248,9 +250,16 @@ namespace Project::Core {
     const double targetFrameDuration = Constants::DEFAULT_WHOLE / currentMaxFPS;
 
     if (frameDuration < targetFrameDuration) {
-      Uint32 delayMs = static_cast<Uint32>((targetFrameDuration - frameDuration) * Constants::MILLISECONDS_PER_SECOND);
+      double remaining = targetFrameDuration - frameDuration;
+      Uint32 delayMs = static_cast<Uint32>(remaining * Constants::MILLISECONDS_PER_SECOND);
+
       if (delayMs > 0) {
         SDL_Delay(delayMs);
+        remaining -= static_cast<double>(delayMs) / Constants::MILLISECONDS_PER_SECOND;
+      }
+
+      if (remaining > 0.0) {
+        std::this_thread::sleep_for(std::chrono::duration<double>(remaining));
       }
     }
   }

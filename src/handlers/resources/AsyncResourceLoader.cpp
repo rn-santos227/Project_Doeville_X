@@ -1,11 +1,16 @@
 #include "AsyncResourceLoader.h"
 
+#include <algorithm>
+
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
 
   AsyncResourceLoader::AsyncResourceLoader(LogsManager& logsManager)
     : logsManager(logsManager) {
-    worker = std::thread(&AsyncResourceLoader::workerLoop, this);
+    threadCount = std::max(1u, std::thread::hardware_concurrency());
+    for (size_t i = 0; i < threadCount; ++i) {
+      workers.emplace_back(&AsyncResourceLoader::workerLoop, this);
+    }
   }
 
   AsyncResourceLoader::~AsyncResourceLoader() {
@@ -27,8 +32,10 @@ namespace Project::Handlers {
   void AsyncResourceLoader::stop() {
     running = false;
     cv.notify_all();
-    if (worker.joinable()) {
-      worker.join();
+    for (auto& w : workers) {
+      if (w.joinable()) {
+        w.join();
+      }
     }
     {
       std::lock_guard<std::mutex> lock(tasksMutex);

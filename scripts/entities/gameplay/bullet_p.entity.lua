@@ -57,7 +57,7 @@ function update(deltaTime)
 
   local seen = {}
   local target = getCollidedEntity(id, {"box", "ball"})
-
+  
   local count = 0
   while target and not seen[target] and count < 10 do
     seen[target] = true

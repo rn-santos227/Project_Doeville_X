@@ -64,6 +64,9 @@ namespace Project::Components {
   }
 
   void MotionFunctions::turn(MotionComponent* comp, float speed, bool left) {
-
+  if (!comp || !comp->getOwner()) return;
+  auto* owner = comp->getOwner();
+  auto* box = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+  if (!box || !box->isRotationEnabled()) return;
   }
 }

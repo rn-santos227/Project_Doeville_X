@@ -370,6 +370,7 @@ namespace Project::Entities {
           record(Keys::LUA_TURN_LEFT);
           record(Keys::LUA_TURN_RIGHT);
           record(Keys::LUA_IS_ACTION_PRESSED);
+          record(Keys::LUA_IGNORE_COLLISIONS_WITH);
           record(Keys::LUA_EXIT_GAME);
 
           std::string serialized;

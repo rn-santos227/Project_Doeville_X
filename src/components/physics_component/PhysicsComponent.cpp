@@ -411,6 +411,11 @@ namespace Project::Components {
       auto* entity = coll.entity;
       auto* otherBox = coll.box;
       
+      if (entity) {
+        if (myBox->isIgnoring(entity->getEntityName())) continue;
+        if (otherBox && otherBox->isIgnoring(owner->getEntityName())) continue;
+      }
+
       if (!otherBox || !otherBox->isInteractive()) continue;
       if (myBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT &&
           otherBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT) {

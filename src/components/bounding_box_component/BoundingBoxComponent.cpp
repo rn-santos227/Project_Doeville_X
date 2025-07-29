@@ -170,6 +170,17 @@ namespace Project::Components {
     updateWorldBoxes();
   }
 
+  void BoundingBoxComponent::setIgnoredEntities(const std::vector<std::string>& names) {
+    ignoredEntities.clear();
+    for (const auto& n : names) {
+      ignoredEntities.insert(n);
+    }
+  }
+
+  bool BoundingBoxComponent::isIgnoring(const std::string& name) const {
+    return ignoredEntities.find(name) != ignoredEntities.end();
+  }
+
   void BoundingBoxComponent::clearShapes() {
     boxes.clear();
     worldBoxes.clear();

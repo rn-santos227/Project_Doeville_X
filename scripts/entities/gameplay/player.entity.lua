@@ -78,9 +78,17 @@ components = {
 }
 
 function action_1()
-  local rad = math.rad(angle)
-  local dx = math.cos(rad)
-  local dy = math.sin(rad)
+  local vx, vy = getEntityVelocity("player")
+  local dx, dy
+  if vx and vy and (vx ~= 0 or vy ~= 0) then
+    local mag = math.sqrt(vx * vx + vy * vy)
+    dx = vx / mag
+    dy = vy / mag
+  else
+    local rad = math.rad(angle)
+    dx = math.cos(rad)
+    dy = math.sin(rad)
+  end
   local spawnDist = 33
   spawn(8 + dx * spawnDist, 8 + dy * spawnDist, dx * 800, dy * 800)
 end

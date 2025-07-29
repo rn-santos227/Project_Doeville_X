@@ -12,8 +12,10 @@ namespace Project::Utilities {
   static std::queue<LogEntry> logQueue;
   static std::mutex logMutex;
   static std::condition_variable logCv;
-  static std::atomic<bool> loggingActive{true};
+  static std::atomic<int> instanceCount{0};
+  static std::atomic<bool> loggingActive{false};
   static std::thread logThread;
+  static std::mutex startStopMutex;
 
   static void logWorker() {
     while (loggingActive || !logQueue.empty()) {
@@ -60,19 +62,36 @@ namespace Project::Utilities {
         std::cerr << "Failed to create lua log file: " << luaLogFilePath << std::endl;
       }
     }
-  
-    static std::once_flag flag;
-    std::call_once(flag, [] {
-      loggingActive = true;
+
+    bool startThread = false;
+    {
+      std::lock_guard<std::mutex> lock(startStopMutex);
+      instanceCount++;
+      if (instanceCount == 1) {
+        loggingActive = true;
+        startThread = true;
+      }
+    }
+
+    if (startThread) {
       logThread = std::thread(logWorker);
-    });
+    }
   }
 
   LogsManager::~LogsManager() {
     loggingActive = false;
     logCv.notify_all();
+    bool stopThread = false;
+    {
+      std::lock_guard<std::mutex> lock(startStopMutex);
+      if (--instanceCount == 0) {
+        loggingActive = false;
+        stopThread = true;
+        logCv.notify_all();
+      }
+    }
 
-    if (logThread.joinable()) {
+    if (stopThread && logThread.joinable()) {
       logThread.join();
     }
 

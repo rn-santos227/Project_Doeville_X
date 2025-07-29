@@ -69,6 +69,9 @@ namespace Project::Components {
     void setSurfaceType(Project::Components::SurfaceType type) { surfaceType = type; }
     Project::Components::SurfaceType getSurfaceType() const { return surfaceType; }
 
+    void setIgnoredEntities(const std::vector<std::string>& names);
+    bool isIgnoring(const std::string& name) const;
+
     void clearShapes();
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 
@@ -87,12 +90,13 @@ namespace Project::Components {
     std::vector<Project::Utilities::Polygon> worldPolygons;
     std::vector<Project::Utilities::Capsule> capsules;
     std::vector<Project::Utilities::Capsule> worldCapsules;
+    std::unordered_set<std::string> ignoredEntities;
 
     SDL_Renderer* renderer = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;
 
     SDL_Color debugColor = Project::Libraries::Constants::DEFAULT_BOUNDING_BOX_COLOR;
-
+    
     mutable float cachedSin = 0.0f;
     mutable float cachedCos = 1.0f;
     mutable float lastCachedRotation = std::numeric_limits<float>::quiet_NaN();

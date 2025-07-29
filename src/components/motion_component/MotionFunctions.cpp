@@ -162,7 +162,16 @@ namespace Project::Components {
         }
       }
     } else {
+      velX = 0.0f;
+      velY = 0.0f;
 
+      if (up) {
+        velX = dirX * comp->maxSpeed;
+        velY = dirY * comp->maxSpeed;
+      } else if (down) {
+        velX = -dirX * comp->maxSpeed;
+        velY = -dirY * comp->maxSpeed;
+      }
     }
   }
 }

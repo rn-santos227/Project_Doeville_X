@@ -1,6 +1,7 @@
 #include "QuadTree.h"
 
 #include <algorithm>
+#include <unordered_set>
 
 namespace Project::Utilities {
   QuadTree::QuadTree(const SDL_Rect& bounds, int maxDepth, int maxObjects)
@@ -40,19 +41,25 @@ namespace Project::Utilities {
 
   std::vector<Collider> QuadTree::query(const SDL_Rect& area) const {
     std::vector<Collider> result;
-    if (!SDL_HasIntersection(&boundary, &area)) return result;
+    std::unordered_set<void*> seen;
+    queryInternal(area, result, seen);
+    return result;
+  }
+
+  void QuadTree::queryInternal(const SDL_Rect& area, std::vector<Collider>& result, std::unordered_set<void*>& seen) const {
+    if (!SDL_HasIntersection(&boundary, &area)) return;
 
     for (const auto& obj : objects) {
-      result.push_back(obj);
+      void* key = obj.physics ? static_cast<void*>(obj.physics) : static_cast<void*>(obj.box);
+      if (seen.insert(key).second) {
+        result.push_back(obj);
+      }
     }
 
     if (subdivided()) {
       for (const auto& child : children) {
-        auto childResults = child.query(area);
-        result.insert(result.end(), childResults.begin(), childResults.end());
+        child.queryInternal(area, result, seen);
       }
     }
-
-    return result;
   }
 }

@@ -135,6 +135,24 @@ namespace Project::Components {
     return MotionFunctions::getCurrentSpeed(this);
   }
 
+  float MotionComponent::getVelocityX() const {
+    if (owner) {
+      if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
+        return physics->getVelocityX();
+      }
+    }
+    return velocityX;
+  }
+
+  float MotionComponent::getVelocityY() const {
+    if (owner) {
+      if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
+        return physics->getVelocityY();
+      }
+    }
+    return velocityY;
+  }
+
   void MotionComponent::brake() {
     MotionFunctions::brake(this);
   }

@@ -461,6 +461,37 @@ namespace Project::Bindings::LuaBindings {
     return 1;
   }
 
+  int lua_getEntityVelocity(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      lua_pushnil(L);
+      return Constants::INDEX_TWO;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      lua_pushnil(L);
+      return Constants::INDEX_TWO;
+    }
+
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) {
+      lua_pushnil(L);
+      lua_pushnil(L);
+      return Constants::INDEX_TWO;
+    }
+
+    lua_pushnumber(L, motion->getVelocityX());
+    lua_pushnumber(L, motion->getVelocityY());
+    return Constants::INDEX_TWO;
+  }
+
   int lua_setEntityText(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);
@@ -629,7 +660,7 @@ namespace Project::Bindings::LuaBindings {
     if (!entity) return 0;
     auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
     if (!motion) return 0;
-    motion->turn(true, speed);
+    motion->turn(speed, true);
     return 0;
   }
 
@@ -647,7 +678,7 @@ namespace Project::Bindings::LuaBindings {
     if (!entity) return 0;
     auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
     if (!motion) return 0;
-    motion->turn(false, speed);
+    motion->turn(speed, false);
     return 0;
   }
 

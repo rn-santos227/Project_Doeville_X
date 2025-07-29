@@ -1,8 +1,12 @@
 #ifndef QUAD_TREE_H
 #define QUAD_TREE_H
 
-#include <SDL.h>
+
 #include <vector>
+#include <unordered_set>
+
+#include <SDL.h>
+
 #include "SpatialHashGrid.h"
 
 namespace Project::Utilities {
@@ -24,6 +28,7 @@ namespace Project::Utilities {
 
     bool subdivided() const { return !children.empty(); }
     void subdivide();
+    void queryInternal(const SDL_Rect& area, std::vector<Collider>& result, std::unordered_set<void*>& seen) const;
   };
 }
 

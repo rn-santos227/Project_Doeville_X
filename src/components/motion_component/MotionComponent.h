@@ -51,6 +51,8 @@ namespace Project::Components {
     MovementMode getMovementMode() const { return movementMode; }
 
     float getCurrentSpeed() const;
+    float getVelocityX() const;
+    float getVelocityY() const;
     
     void brake();
     void turn(float speed, bool clockwise);

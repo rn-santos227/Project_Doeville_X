@@ -132,10 +132,19 @@ namespace Project::Components {
 
   void MotionFunctions::handleVehicle(MotionComponent* comp, PhysicsComponent* physics, float& velX, float& velY, bool left, bool right, bool up, bool down, float deltaTime) {
     if (!comp) return;
+    if (left) {
+      float rot = physics ? physics->getRotationSpeed() : Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
+      MotionFunctions::turn(comp, rot, true);
+    } else if (right) {
+      float rot = physics ? physics->getRotationSpeed() : Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
+      MotionFunctions::turn(comp, rot, false);
+    } else if (physics) {
+      physics->setAngularVelocity(0.0f);
+    }
 
     float angle = 0.0f;
     if (physics) {
-      angle = physics->getRotation();
+      angle = physics->getRotation() + physics->getAngularVelocity() * deltaTime;
     } else if (auto* box = dynamic_cast<BoundingBoxComponent*>(comp->getOwner()->getComponent(Project::Libraries::Categories::Components::BOUNDING_BOX_COMPONENT))) {
       angle = box->getRotation();
     }
@@ -174,12 +183,10 @@ namespace Project::Components {
       }
     }
 
-    if (left) {
-      float rot = physics ? physics->getRotationSpeed() : Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
-      MotionFunctions::turn(comp, rot, true);
-    } else if (right) {
-      float rot = physics ? physics->getRotationSpeed() : Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
-      MotionFunctions::turn(comp, rot, false);
+    if ((left || right) && (velX != 0.0f || velY != 0.0f)) {
+      float speed = MathUtils::magnitude(velX, velY);
+      velX = dirX * speed;
+      velY = dirY * speed;
     }
   }
 }

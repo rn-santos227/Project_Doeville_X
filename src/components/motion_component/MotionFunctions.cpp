@@ -9,5 +9,7 @@
 #include "utilities/math/MathUtils.h"
 
 namespace Project::Components {
+  float MotionFunctions::getCurrentSpeed(const MotionComponent* comp) {
 
+  }
 }

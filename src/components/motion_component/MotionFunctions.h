@@ -6,6 +6,7 @@ namespace Project { namespace Components { class MotionComponent; class PhysicsC
 namespace Project::Components {
   class MotionFunctions {
   public:
+    static float getCurrentSpeed(const MotionComponent* comp);
     static void brake(MotionComponent* comp);
     static void turn(MotionComponent* comp, float speed, bool left);
 

@@ -87,7 +87,21 @@ namespace Project::Components {
   ) {
     if (!comp) return;
     if (comp->accelerationEnabled) {
-
+      if (left) {
+        velX -= comp->acceleration * deltaTime;
+        if (velX < -comp->maxSpeed) velX = -comp->maxSpeed;
+      } else if (right) {
+        velX += comp->acceleration * deltaTime;
+        if (velX > comp->maxSpeed) velX = comp->maxSpeed;
+      } else {
+        if (velX > 0.0f) {
+          velX -= comp->friction * deltaTime;
+          if (velX < 0.0f) velX = 0.0f;
+        } else if (velX < 0.0f) {
+          velX += comp->friction * deltaTime;
+          if (velX > 0.0f) velX = 0.0f;
+        }
+      }
     }
   }
 }

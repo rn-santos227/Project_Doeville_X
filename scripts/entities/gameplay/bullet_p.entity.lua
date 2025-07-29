@@ -50,6 +50,8 @@ function expire()
 end
 
 function update(deltaTime)
+  ignoreCollisionsWith(id, {"player"})
+
   if getCollidedEntity(id, {"wall_h", "wall_v"}) then
     destroySelf()
     return

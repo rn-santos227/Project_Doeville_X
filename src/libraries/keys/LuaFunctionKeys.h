@@ -10,6 +10,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_GET_ENTITY_DETAILS = "getEntityDetails";
   constexpr const char* LUA_GET_ENTITY_SPEED = "getEntitySpeed";
   constexpr const char* LUA_GET_ENTITY_VELOCITY = "getEntityVelocity";
+  constexpr const char* LUA_GET_ENTITY_ROTATION = "getEntityRotation";
   constexpr const char* LUA_SET_ENTITY_SPEED = "setEntitySpeed";
   constexpr const char* LUA_GET_ENTITY_TEXT = "getEntityText";
   constexpr const char* LUA_SET_ENTITY_TEXT = "setEntityText";

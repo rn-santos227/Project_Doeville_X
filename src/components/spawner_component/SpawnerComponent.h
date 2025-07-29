@@ -22,7 +22,7 @@ namespace Project::Components {
     void setEntityReference(Project::Entities::Entity* entity);
     void setTemplate(const std::string& _name) { templateName = _name; }
 
-    void spawn(float _offsetX, float _offsetY, float _velocityX, float _velocityY);
+    void spawn(float _offsetX, float _offsetY, float _velocityX, float _velocityY, float _rotation = 0.0f);
 
   private:
     Project::Entities::Entity* owner = nullptr;

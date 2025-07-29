@@ -259,6 +259,35 @@ namespace Project::Bindings::LuaBindings {
     return 1;
   }
 
+  int lua_ignoreCollisionsWith(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name || !lua_istable(L, 2)) {
+      return 0;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+    if (!entity) return 0;
+
+    auto* box = dynamic_cast<Project::Components::BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    if (!box) return 0;
+
+    std::vector<std::string> targets;
+    lua_pushnil(L);
+    while (lua_next(L, Constants::INDEX_TWO) != 0) {
+      if (lua_isstring(L, -1)) {
+        targets.emplace_back(lua_tostring(L, -1));
+      }
+      lua_pop(L, 1);
+    }
+
+    box->setIgnoredEntities(targets);
+    return 0;
+  }
+
   int lua_resetState(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {
@@ -490,6 +519,45 @@ namespace Project::Bindings::LuaBindings {
     lua_pushnumber(L, motion->getVelocityX());
     lua_pushnumber(L, motion->getVelocityY());
     return Constants::INDEX_TWO;
+  }
+
+  int lua_getEntityRotation(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return 1;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return 1;
+    }
+
+    float rotation = 0.0f;
+    bool found = false;
+    if (auto* physics = dynamic_cast<Project::Components::PhysicsComponent*>(entity->getComponent(Components::PHYSICS_COMPONENT))) {
+      rotation = physics->getRotation();
+      found = true;
+    } else if (auto* box = dynamic_cast<Project::Components::BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT))) {
+      rotation = box->getRotation();
+      found = true;
+    } else if (auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(entity->getComponent(Components::GRAPHICS_COMPONENT))) {
+      rotation = gfx->getRotation();
+      found = true;
+    }
+
+    if (found) {
+      lua_pushnumber(L, rotation);
+    } else {
+      lua_pushnil(L);
+    }
+    return 1;
   }
 
   int lua_setEntityText(lua_State* L) {

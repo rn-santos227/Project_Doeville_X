@@ -2,7 +2,6 @@ x = 640
 y = 360
 z = 0
 
-local angle = -90
 local rot_speed = 10
 
 group = "gameplay"
@@ -73,33 +72,34 @@ components = {
     use_acceleration = true,
     rotation = true,
     rotation_speed = 10.0,
-    movement_mode = "VEHICLE"
+    movement_mode = "vehicle"
   }
 }
 
 function action_1()
   local vx, vy = getEntityVelocity("player")
   local dx, dy
+  local facing
   if vx and vy and (vx ~= 0 or vy ~= 0) then
     local mag = math.sqrt(vx * vx + vy * vy)
     dx = vx / mag
     dy = vy / mag
+    facing = math.deg(math.atan2(dy, dx))
   else
-    local rad = math.rad(angle)
+    facing = getEntityRotation("player") or 0
+    local rad = math.rad(facing)
     dx = math.cos(rad)
     dy = math.sin(rad)
   end
+
   local spawnDist = 33
-  spawn(8 + dx * spawnDist, 8 + dy * spawnDist, dx * 800, dy * 800)
+  spawn(8 + dx * spawnDist, 8 + dy * spawnDist, dx * 800, dy * 800, facing)
 end
 
 function update()
-  local dt = deltaTime
   if isActionPressed("player", "move_left") then
-    angle = angle - rot_speed * dt
     turnLeft("player", rot_speed)
   elseif isActionPressed("player", "move_right") then
-    angle = angle + rot_speed * dt
     turnRight("player", rot_speed)
   end
 end

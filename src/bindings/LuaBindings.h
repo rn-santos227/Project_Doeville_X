@@ -24,6 +24,7 @@ namespace Project::Bindings {
     int lua_getEntityDetails(lua_State* L);
     int lua_getEntitySpeed(lua_State* L);
     int lua_getEntityVelocity(lua_State* L);
+    int lua_getEntityRotation(lua_State* L);
     int lua_setEntityText(lua_State* L);
     int lua_setTimerActive(lua_State* L);
     int lua_addNumericValue(lua_State* L);
@@ -33,6 +34,7 @@ namespace Project::Bindings {
     int lua_brakeEntity(lua_State* L);
     int lua_turnLeft(lua_State* L);
     int lua_turnRight(lua_State* L);
+    int lua_ignoreCollisionsWith(lua_State* L);
     int lua_isActionPressed(lua_State* L);
     int lua_destroyEntity(lua_State* L);
     int lua_destroyEntities(lua_State* L);

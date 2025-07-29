@@ -118,6 +118,21 @@ namespace Project::Components {
           if (velY > 0.0f) velY = 0.0f;
         }
       }
+    } else if (hasInput) {
+      velX = 0.0f;
+      velY = 0.0f;
+
+      if (left) {
+        velX = -comp->maxSpeed;
+      } else if (right) {
+        velX = comp->maxSpeed;
+      }
+
+      if (up) {
+        velY = -comp->maxSpeed;
+      } else if (down) {
+        velY = comp->maxSpeed;
+      }
     }
   }
 }

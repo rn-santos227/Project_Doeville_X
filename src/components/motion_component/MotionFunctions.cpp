@@ -143,5 +143,26 @@ namespace Project::Components {
     float rad = angle * Constants::DEG_TO_RAD;
     float dirX = std::cos(rad);
     float dirY = std::sin(rad);
+
+    if (comp->accelerationEnabled) {
+      if (up) {
+        velX += dirX * comp->acceleration * deltaTime;
+        velY += dirY * comp->acceleration * deltaTime;
+      } else if (down) {
+        velX -= dirX * comp->acceleration * deltaTime;
+        velY -= dirY * comp->acceleration * deltaTime;
+      } else {
+        float speed = MathUtils::magnitude(velX, velY);
+        if (speed > 0.0f) {
+          float decel = comp->friction * deltaTime;
+          if (decel > speed) decel = speed;
+          float scale = (speed - decel) / speed;
+          velX *= scale;
+          velY *= scale;
+        }
+      }
+    } else {
+
+    }
   }
 }

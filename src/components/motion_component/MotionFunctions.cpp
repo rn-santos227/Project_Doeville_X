@@ -78,13 +78,7 @@ namespace Project::Components {
     }
   }
 
-  void MotionFunctions::handleStandard(
-    MotionComponent* comp,
-    float& velX, float& velY,
-    bool left, bool right, 
-    bool up, bool down,
-    float deltaTime, bool hasInput
-  ) {
+  void MotionFunctions::handleStandard(MotionComponent* comp, float& velX, float& velY, bool left, bool right, bool up, bool down, float deltaTime, bool hasInput) {
     if (!comp) return;
     if (comp->accelerationEnabled) {
       if (left) {
@@ -134,5 +128,9 @@ namespace Project::Components {
         velY = comp->maxSpeed;
       }
     }
+  }
+
+  void MotionFunctions::handleVehicle(MotionComponent* comp, PhysicsComponent* physics, float& velX, float& velY, bool left, bool right, bool up, bool down, float deltaTime, bool hasInput) {
+
   }
 }

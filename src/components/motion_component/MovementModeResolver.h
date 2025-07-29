@@ -5,7 +5,7 @@
 #include <string>
 
 namespace Project::Components {
-  class SurfaceTypeResolver {
+  class MovementModeResolver {
   public:
     static MovementMode resolve(const std::string& name);
   };

@@ -1,24 +1,22 @@
 #include "MotionComponent.h"
+#include "MotionFunctions.h"
+#include "MovementModeResolver.h"
 
 #include <cmath>
 
-#include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/keys_component/KeysComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "entities/Entity.h"
-#include "entities/EntitiesManager.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
+#include "libraries/modes/MovementModes.h"
 #include "libraries/keys/Keys.h"
-#include "utilities/geometry/GeometryUtils.h"
-#include "utilities/math/MathUtils.h"
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
   using Project::Handlers::KeyAction;
   using Project::Handlers::KeyHandler;
   using Project::Entities::Entity;
-  using Project::Utilities::MathUtils;
   using Project::Utilities::PhysicsUtils;
 
   namespace Components = Project::Libraries::Categories::Components;
@@ -42,56 +40,30 @@ namespace Project::Components {
     bool up = keys && keys->isActionTriggered(KeyAction::MOVE_UP);
     bool down = keys && keys->isActionTriggered(KeyAction::MOVE_DOWN);
 
-    if (accelerationEnabled) {
-      if (left) {
-        localVelX -= acceleration * deltaTime;
-        if (localVelX < -maxSpeed) localVelX = -maxSpeed;
-      } else if (right) {
-        localVelX += acceleration * deltaTime;
-        if (localVelX > maxSpeed) localVelX = maxSpeed;
-      } else {
-        if (localVelX > 0.0f) {
-          localVelX -= friction * deltaTime;
-          if (localVelX < 0.0f) localVelX = 0.0f;
-        } else if (localVelX < 0.0f) {
-          localVelX += friction * deltaTime;
-          if (localVelX > 0.0f) localVelX = 0.0f;
-        }
-      }
-
-      if (up) {
-        localVelY -= acceleration * deltaTime;
-        if (localVelY < -maxSpeed) localVelY = -maxSpeed;
-      } else if (down) {
-        localVelY += acceleration * deltaTime;
-        if (localVelY > maxSpeed) localVelY = maxSpeed;
-      } else {
-        if (localVelY > 0.0f) {
-          localVelY -= friction * deltaTime;
-          if (localVelY < 0.0f) localVelY = 0.0f;
-        } else if (localVelY < 0.0f) {
-          localVelY += friction * deltaTime;
-          if (localVelY > 0.0f) localVelY = 0.0f;
-        }
-      }
-
-    } else {
-      if (keys) {
-        localVelX = 0.0f;
-        localVelY = 0.0f;
-
-        if (left) {
-          localVelX = -maxSpeed;
-        } else if (right) {
-          localVelX = maxSpeed;
-        }
-
-        if (up) {
-          localVelY = -maxSpeed;
-        } else if (down) {
-          localVelY = maxSpeed;
-        }
-      }
+    switch (movementMode) {
+      case MovementMode::VEHICLE:
+        MotionFunctions::handleVehicle(
+          this, physics, localVelX, localVelY,
+          left, right, up, down, deltaTime
+        );
+        break;
+      
+      case MovementMode::SCROLLER:
+        break;
+      
+      case MovementMode::FLYING:
+        break;
+      
+      case MovementMode::STANDARD:
+        break;
+      
+      default:
+        MotionFunctions::handleStandard(
+          this, localVelX, localVelY,
+          left, right, up, down,
+          deltaTime, keys != nullptr
+        );
+        break;
     }
 
     if(accelerationEnabled) {
@@ -140,6 +112,12 @@ namespace Project::Components {
     float bPower = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::BRAKE_POWER, Constants::DEFAULT_BRAKE_POWER));
     setBrakePower(bPower);
 
+    std::string modeStr = luaStateWrapper.getTableString(
+      tableName,
+      Keys::MOVEMENT_MODE,
+      Project::Libraries::Modes::Movements::STANDARD);
+    setMovementMode(MovementModeResolver::resolve(modeStr));
+
     bool rotate = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rotate);
   }
@@ -154,58 +132,14 @@ namespace Project::Components {
   }
 
   float MotionComponent::getCurrentSpeed() const {
-    if (owner) {
-      if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
-        float vx = physics->getVelocityX();
-        float vy = physics->getVelocityY();
-        return MathUtils::magnitude(vx, vy);
-      }
-    }
-    return MathUtils::magnitude(velocityX, velocityY);
+    return MotionFunctions::getCurrentSpeed(this);
   }
 
   void MotionComponent::brake() {
-    if (!owner) {
-      if (brakePower >= Constants::DEFAULT_WHOLE) {
-        velocityX = 0.0f;
-        velocityY = 0.0f;
-      } else {
-        velocityX *= (Constants::DEFAULT_WHOLE - brakePower);
-        velocityY *= (Constants::DEFAULT_WHOLE - brakePower);
-      }
-      return;
-    }
-
-    if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
-      if (brakePower >= Constants::DEFAULT_WHOLE) {
-        physics->setVelocity(0.0f, 0.0f);
-      } else {
-        float newVX = physics->getVelocityX() * (Constants::DEFAULT_WHOLE - brakePower);
-        float newVY = physics->getVelocityY() * (Constants::DEFAULT_WHOLE - brakePower);
-        physics->setVelocity(newVX, newVY);
-      }
-    } else {
-      if (brakePower >= Constants::DEFAULT_WHOLE) {
-        velocityX = 0.0f;
-        velocityY = 0.0f;
-      } else {
-        velocityX *= (Constants::DEFAULT_WHOLE - brakePower);
-        velocityY *= (Constants::DEFAULT_WHOLE- brakePower);
-      }
-    }
+    MotionFunctions::brake(this);
   }
 
   void MotionComponent::turn(float speed, bool left) {
-    if (!owner) return;
-    auto* box = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
-    if (!box || !box->isRotationEnabled()) return;
-
-    float amount = std::abs(speed);
-    if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
-      physics->setRotationEnabled(true);
-      physics->setAngularVelocity(left ? -amount : amount);
-    } else {
-      box->setRotation(box->getRotation() + (left ? -amount : amount));
-    }
+    MotionFunctions::turn(this, speed, left);
   }
 }

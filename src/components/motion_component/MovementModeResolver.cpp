@@ -8,7 +8,7 @@
 
 namespace Project::Components {
   namespace Movements = Project::Libraries::Modes::Movements;
-  MovementMode SurfaceTypeResolver::resolve(const std::string& name) {
+  MovementMode MovementModeResolver::resolve(const std::string& name) {
     static const std::unordered_map<std::string, MovementMode> map = {
       {std::string(Movements::STANDARD), MovementMode::STANDARD},
       {std::string(Movements::FLYING), MovementMode::FLYING},

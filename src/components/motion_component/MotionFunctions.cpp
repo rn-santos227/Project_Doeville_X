@@ -130,7 +130,7 @@ namespace Project::Components {
     }
   }
 
-  void MotionFunctions::handleVehicle(MotionComponent* comp, PhysicsComponent* physics, float& velX, float& velY, bool left, bool right, bool up, bool down, float deltaTime, bool hasInput) {
+  void MotionFunctions::handleVehicle(MotionComponent* comp, PhysicsComponent* physics, float& velX, float& velY, bool left, bool right, bool up, bool down, float deltaTime) {
     if (!comp) return;
 
     float angle = 0.0f;

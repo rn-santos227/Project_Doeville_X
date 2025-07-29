@@ -24,7 +24,7 @@ namespace Project::Components {
       float& velX, float& velY,
       bool left, bool right, 
       bool up, bool down,
-      float deltaTime, bool hasInput
+      float deltaTime
     );
   };
 }

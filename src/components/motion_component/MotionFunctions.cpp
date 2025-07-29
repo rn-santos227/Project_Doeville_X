@@ -10,6 +10,7 @@
 
 namespace Project::Components {
   float MotionFunctions::getCurrentSpeed(const MotionComponent* comp) {
-
+    if (!comp) return 0.0f;
+    auto* owner = comp->getOwner();
   }
 }

@@ -139,5 +139,9 @@ namespace Project::Components {
     } else if (auto* box = dynamic_cast<BoundingBoxComponent*>(comp->getOwner()->getComponent(Project::Libraries::Categories::Components::BOUNDING_BOX_COMPONENT))) {
       angle = box->getRotation();
     }
+
+    float rad = angle * Constants::DEG_TO_RAD;
+    float dirX = std::cos(rad);
+    float dirY = std::sin(rad);
   }
 }

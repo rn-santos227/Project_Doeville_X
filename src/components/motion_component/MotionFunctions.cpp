@@ -28,4 +28,8 @@ namespace Project::Components {
     }
     return MathUtils::magnitude(comp->velocityX, comp->velocityY);
   }
+
+  void MotionFunctions::brake(MotionComponent* comp) {
+
+  }
 }

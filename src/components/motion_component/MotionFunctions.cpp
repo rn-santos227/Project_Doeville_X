@@ -77,4 +77,17 @@ namespace Project::Components {
       box->setRotation(box->getRotation() + (left ? -amount : amount));
     }
   }
+
+  void MotionFunctions::handleStandard(
+    MotionComponent* comp,
+    float& velX, float& velY,
+    bool left, bool right, 
+    bool up, bool down,
+    float deltaTime, bool hasInput
+  ) {
+    if (!comp) return;
+    if (comp->accelerationEnabled) {
+
+    }
+  }
 }

@@ -9,7 +9,17 @@ namespace Project::Components {
     static void brake(MotionComponent* comp);
     static void turn(MotionComponent* comp, float speed, bool left);
 
-    static void handleStandard(MotionComponent* comp,
+    static void handleStandard(
+      MotionComponent* comp,
+      float& velX, float& velY,
+      bool left, bool right, 
+      bool up, bool down,
+      float deltaTime, bool hasInput
+    );
+
+    static void handleVehicle(
+      MotionComponent* comp,
+      PhysicsComponent* physics,
       float& velX, float& velY,
       bool left, bool right, 
       bool up, bool down,

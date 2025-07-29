@@ -43,5 +43,23 @@ namespace Project::Components {
       }
       return;
     }
+
+    if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
+      if (comp->brakePower >= Constants::DEFAULT_WHOLE) {
+        physics->setVelocity(0.0f, 0.0f);
+      } else {
+        float newVX = physics->getVelocityX() * (Constants::DEFAULT_WHOLE - comp->brakePower);
+        float newVY = physics->getVelocityY() * (Constants::DEFAULT_WHOLE - comp->brakePower);
+        physics->setVelocity(newVX, newVY);
+      }
+    } else {
+      if (comp->brakePower >= Constants::DEFAULT_WHOLE) {
+        comp->velocityX = 0.0f;
+        comp->velocityY = 0.0f;
+      } else {
+        comp->velocityX *= (Constants::DEFAULT_WHOLE - comp->brakePower);
+        comp->velocityY *= (Constants::DEFAULT_WHOLE - comp->brakePower);
+      }
+    }
   }
 }

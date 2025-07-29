@@ -131,6 +131,13 @@ namespace Project::Components {
   }
 
   void MotionFunctions::handleVehicle(MotionComponent* comp, PhysicsComponent* physics, float& velX, float& velY, bool left, bool right, bool up, bool down, float deltaTime, bool hasInput) {
+    if (!comp) return;
 
+    float angle = 0.0f;
+    if (physics) {
+      angle = physics->getRotation();
+    } else if (auto* box = dynamic_cast<BoundingBoxComponent*>(comp->getOwner()->getComponent(Project::Libraries::Categories::Components::BOUNDING_BOX_COMPONENT))) {
+      angle = box->getRotation();
+    }
   }
 }

@@ -30,6 +30,18 @@ namespace Project::Components {
   }
 
   void MotionFunctions::brake(MotionComponent* comp) {
+    if (!comp) return;
+    auto* owner = comp->getOwner();
 
+    if (!owner) {
+      if (comp->brakePower >= Constants::DEFAULT_WHOLE) {
+        comp->velocityX = 0.0f;
+        comp->velocityY = 0.0f;
+      } else {
+        comp->velocityX *= (Constants::DEFAULT_WHOLE - comp->brakePower);
+        comp->velocityY *= (Constants::DEFAULT_WHOLE - comp->brakePower);
+      }
+      return;
+    }
   }
 }

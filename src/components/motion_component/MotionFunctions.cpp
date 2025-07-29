@@ -64,9 +64,17 @@ namespace Project::Components {
   }
 
   void MotionFunctions::turn(MotionComponent* comp, float speed, bool left) {
-  if (!comp || !comp->getOwner()) return;
-  auto* owner = comp->getOwner();
-  auto* box = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
-  if (!box || !box->isRotationEnabled()) return;
+    if (!comp || !comp->getOwner()) return;
+    auto* owner = comp->getOwner();
+    auto* box = dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    if (!box || !box->isRotationEnabled()) return;
+
+    float amount = std::abs(speed);
+    if (auto* physics = dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT))) {
+      physics->setRotationEnabled(true);
+      physics->setAngularVelocity(left ? -amount : amount);
+    } else {
+      box->setRotation(box->getRotation() + (left ? -amount : amount));
+    }
   }
 }

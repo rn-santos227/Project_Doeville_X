@@ -62,4 +62,8 @@ namespace Project::Components {
       }
     }
   }
+
+  void MotionFunctions::turn(MotionComponent* comp, float speed, bool left) {
+
+  }
 }

@@ -173,5 +173,13 @@ namespace Project::Components {
         velY = -dirY * comp->maxSpeed;
       }
     }
+
+    if (left) {
+      float rot = physics ? physics->getRotationSpeed() : Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
+      MotionFunctions::turn(comp, rot, true);
+    } else if (right) {
+      float rot = physics ? physics->getRotationSpeed() : Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
+      MotionFunctions::turn(comp, rot, false);
+    }
   }
 }

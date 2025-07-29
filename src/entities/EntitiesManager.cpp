@@ -355,6 +355,7 @@ namespace Project::Entities {
           record(Keys::LUA_GET_ENTITY_DETAILS);
           record(Keys::LUA_GET_COLLIDED_ENTITY);
           record(Keys::LUA_GET_ENTITY_SPEED);
+          record(Keys::LUA_GET_ENTITY_VELOCITY);
           record(Keys::LUA_SET_ENTITY_TEXT);
           record(Keys::LUA_SPAWN_ENTITY);
           record(Keys::LUA_DESTROY_ENTITY);
@@ -388,6 +389,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_getCollidedEntity, this);
         } else if (func == Keys::LUA_GET_ENTITY_SPEED) {
           entity->registerLuaFunction(func, LuaBindings::lua_getEntitySpeed, this);
+        } else if (func == Keys::LUA_GET_ENTITY_VELOCITY) {
+          entity->registerLuaFunction(func, LuaBindings::lua_getEntityVelocity, this);
         } else if (func == Keys::LUA_SET_ENTITY_TEXT) {
           entity->registerLuaFunction(func, LuaBindings::lua_setEntityText, this);
         } else if (func == Keys::LUA_DESTROY_ENTITY) {

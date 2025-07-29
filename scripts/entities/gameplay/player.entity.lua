@@ -42,6 +42,8 @@ components = {
     keys = {
       { key = "up", action = "move_up" },
       { key = "down", action = "move_down" },
+      { key = "left", action = "move_left" },
+      { key = "right", action = "move_right" },
       { key = "z", action = "action_1" },
       { key = "x", action = "action_2" }
     },
@@ -70,7 +72,8 @@ components = {
     friction = 20.0,
     use_acceleration = true,
     rotation = true,
-    rotation_speed = 10.0
+    rotation_speed = 10.0,
+    movement_mode = "VEHICLE"
   }
 }
 
@@ -86,8 +89,10 @@ function update()
   local dt = deltaTime
   if isActionPressed("player", "move_left") then
     angle = angle - rot_speed * dt
+    turnLeft("player", rot_speed)
   elseif isActionPressed("player", "move_right") then
     angle = angle + rot_speed * dt
+    turnRight("player", rot_speed)
   end
 end
 

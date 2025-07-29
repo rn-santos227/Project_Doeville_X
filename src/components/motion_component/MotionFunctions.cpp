@@ -102,6 +102,22 @@ namespace Project::Components {
           if (velX > 0.0f) velX = 0.0f;
         }
       }
+
+      if (up) {
+        velY -= comp->acceleration * deltaTime;
+        if (velY < -comp->maxSpeed) velY = -comp->maxSpeed;
+      } else if (down) {
+        velY += comp->acceleration * deltaTime;
+        if (velY > comp->maxSpeed) velY = comp->maxSpeed;
+      } else {
+        if (velY > 0.0f) {
+          velY -= comp->friction * deltaTime;
+          if (velY < 0.0f) velY = 0.0f;
+        } else if (velY < 0.0f) {
+          velY += comp->friction * deltaTime;
+          if (velY > 0.0f) velY = 0.0f;
+        }
+      }
     }
   }
 }

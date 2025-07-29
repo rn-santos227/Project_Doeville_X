@@ -1,6 +1,8 @@
 #ifndef MOTION_COMPONENT_H
 #define MOTION_COMPONENT_H
 
+#include "MovementMode.h"
+
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/keys_component/KeysComponent.h"
@@ -42,7 +44,10 @@ namespace Project::Components {
 
     void setRotationEnabled(bool enabled) { rotationEnabled = enabled; }
     bool isRotationEnabled() const { return rotationEnabled; }
-    
+
+    void setMovementMode(MovementMode mode) { movementMode = mode; }
+    MovementMode getMovementMode() const { return movementMode; }
+
     float getCurrentSpeed() const;
     
     void brake();
@@ -54,6 +59,8 @@ namespace Project::Components {
     Project::Handlers::KeyHandler* keyHandler = nullptr;
     Project::Entities::Entity* owner = nullptr;
     KeysComponent* keysComp = nullptr;
+
+    MovementMode movementMode = MovementMode::STANDARD;
 
     float maxSpeed;
     float acceleration = Project::Libraries::Constants::DEFAULT_ACCELERATION;

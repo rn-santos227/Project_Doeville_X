@@ -10,9 +10,9 @@
 namespace Project::Components {
   using Project::Utilities::LogsManager;
   using Project::Utilities::ConfigReader;
+  using Project::Utilities::ColorUtils;
   using Project::Handlers::CursorHandler;
   using Project::Handlers::MouseHandler;
-  using Project::Utilities::ColorUtils;
   using Project::Services::StyleManager;
 
   namespace Constants = Project::Libraries::Constants;
@@ -31,6 +31,10 @@ namespace Project::Components {
       TTF_CloseFont(font);
       font = nullptr;
     }
+  }
+
+  void InputComponent::update(float deltaTime) {
+
   }
 
   void InputComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
@@ -53,10 +57,15 @@ namespace Project::Components {
 
     if (!font) {
       logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
-      font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, fontSize);
+      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
       if (!font) {
-        logsManager.logError(std::string("Failed to load fallback font: ") + Project::Libraries::Constants::DEFAULT_FONT_PATH);
+        logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
       }
     }
+
+    std::string fontColorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
+    textColor = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
+
+    createTexture();
   }
 }

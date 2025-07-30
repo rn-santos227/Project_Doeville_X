@@ -26,8 +26,8 @@ namespace Project::Components {
   public:
     InputComponent(
       SDL_Renderer* renderer,
-      Project::Utilities::ConfigReader& configReader,
       Project::Utilities::LogsManager& logsManager,
+      Project::Utilities::ConfigReader& configReader,
       Project::Handlers::MouseHandler* mouseHandler,
       Project::Handlers::CursorHandler* cursorHandler
     );

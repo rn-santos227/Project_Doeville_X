@@ -85,8 +85,26 @@ namespace Project::Components {
     if (borderWidth > 0) {
       SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
       for (int i = 0; i < borderWidth; ++i) {
-        SDL_Rect b{rect.x + i, rect.y + i, rect.w - 2 * i, rect.h - 2 * i};
+        SDL_Rect b{rect.x + i, rect.y + i, rect.w - Constants::INDEX_TWO * i, rect.h - Constants::INDEX_TWO * i};
         SDL_RenderDrawRect(renderer, &b);
+      }
+    }
+
+    int textX = rect.x + Constants::INDEX_FOUR;
+    if (texture) {
+      SDL_Rect dst = {textX, rect.y + (rect.h - getHeight()) / Constants::INDEX_TWO, getWidth(), getHeight()};
+      SDL_RenderCopy(renderer, texture, nullptr, &dst);
+      textX += getWidth();
+    } else if (!placeholder.empty() && font) {
+      SDL_Color phColor = {textColor.r, textColor.g, textColor.b, static_cast<Uint8>(textColor.a / Constants::INDEX_TWO)};
+      SDL_Surface* surface = TTF_RenderText_Blended(font, placeholder.c_str(), phColor);
+      if (surface) {
+        SDL_Texture* tmp = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_Rect dst = {textX, rect.y + (rect.h - surface->h) / Constants::INDEX_TWO, surface->w, surface->h};
+        SDL_RenderCopy(renderer, tmp, nullptr, &dst);
+        SDL_DestroyTexture(tmp);
+        textX += surface->w;
+        SDL_FreeSurface(surface);
       }
     }
   }

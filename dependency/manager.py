@@ -9,10 +9,10 @@ class DependencyManager:
     self.downloader: HTTPDownloader = downloader
     self.extractor: TarGzExtractor = extractor
 
-  def process_dependency(self, url, archive_path, source_dir, output_dir, env=None):
+  def process_dependency(self, url, archive_path, source_dir, output_dir, env=None, sha256=None):
     try:
       if not archive_exists(archive_path):
-        self.downloader.download(url, archive_path)
+        self.downloader.download(url, archive_path, expected_sha256=sha256)
         
       if not os.path.exists(source_dir):
         self.extractor.extract(archive_path, source_dir)

@@ -50,5 +50,13 @@ namespace Project::Components {
     int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);
     fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
     font = TTF_OpenFont(fontPath.c_str(), fontSize);
+
+    if (!font) {
+      logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
+      font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, fontSize);
+      if (!font) {
+        logsManager.logError(std::string("Failed to load fallback font: ") + Project::Libraries::Constants::DEFAULT_FONT_PATH);
+      }
+    }
   }
 }

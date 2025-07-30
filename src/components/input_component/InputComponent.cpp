@@ -107,6 +107,13 @@ namespace Project::Components {
         SDL_FreeSurface(surface);
       }
     }
+
+    if (activeInput && showCaret) {
+      SDL_SetRenderDrawColor(renderer, textColor.r, textColor.g, textColor.b, textColor.a);
+      int top = rect.y + Constants::INDEX_FOUR;
+      int bottom = rect.y + rect.h - Constants::INDEX_FOUR;
+      SDL_RenderDrawLine(renderer, textX + Constants::INDEX_TWO, top, textX + Constants::INDEX_TWO, bottom);
+    }
   }
 
   void InputComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

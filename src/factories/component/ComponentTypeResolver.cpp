@@ -19,6 +19,8 @@ namespace Project::Factories {
       {std::string(Components::CAMERA) + Components::SUFFIX, ComponentType::CAMERA},
       {std::string(Components::GRAPHICS), ComponentType::GRAPHICS},
       {std::string(Components::GRAPHICS) + Components::SUFFIX, ComponentType::GRAPHICS},
+      {std::string(Components::INPUT), ComponentType::INPUT},
+      {std::string(Components::INPUT) + Components::SUFFIX, ComponentType::INPUT},
       {std::string(Components::KEYS), ComponentType::KEYS},
       {std::string(Components::KEYS) + Components::SUFFIX, ComponentType::KEYS},
       {std::string(Components::MOTION), ComponentType::MOTION},

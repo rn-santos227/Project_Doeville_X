@@ -12,6 +12,7 @@ namespace Project::Factories {
   using Project::Components::ButtonComponent;
   using Project::Components::CameraComponent;
   using Project::Components::GraphicsComponent;
+  using Project::Components::InputComponent;
   using Project::Components::KeysComponent;
   using Project::Components::MotionComponent;
   using Project::Components::NumericComponent;
@@ -87,6 +88,16 @@ namespace Project::Factories {
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
 
         ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<GraphicsComponent*>(b)); });
+        return base;
+      }
+
+      case ComponentType::INPUT: {
+        auto component = Project::Helpers::ComponentPool<InputComponent>::getInstance().acquire(renderer, logsManager, configReader, mouseHandler, cursorHandler);
+        component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<InputComponent*>(b)); });
         return base;
       }
 

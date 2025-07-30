@@ -23,6 +23,7 @@ namespace Project::Handlers {
     SDL_Texture* getCursorTexture(CursorState state) const;
 
     void loadCursor(CursorState state, const std::string& imagePath, int hotspotX = 0, int hotspotY = 0);
+    void loadCursorSurface(CursorState state, SDL_Surface* surface, int hotspotX = 0, int hotspotY = 0);
     
     void setCursorState(CursorState state);
     void setRenderer(SDL_Renderer* renderer);

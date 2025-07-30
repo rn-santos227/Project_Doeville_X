@@ -18,8 +18,9 @@ namespace Project::Components {
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
-  InputComponent::InputComponent(SDL_Renderer* renderer, LogsManager& logsManager, ConfigReader& configReader,
-   MouseHandler* mouseHandler, CursorHandler* cursorHandler)
+  InputComponent::InputComponent(SDL_Renderer* renderer, 
+    LogsManager& logsManager, ConfigReader& configReader,
+    MouseHandler* mouseHandler, CursorHandler* cursorHandler)
     : BaseComponent(logsManager), renderer(renderer), configReader(configReader),
       mouseHandler(mouseHandler), cursorHandler(cursorHandler), font(nullptr) {}
 
@@ -173,6 +174,16 @@ namespace Project::Components {
     createTexture();
   }
 
+  void InputComponent::setEntityPosition(int x, int y) {
+    rect.x = x;
+    rect.y = y;
+  }
+
+  void InputComponent::setText(const std::string& text) {
+    currentText = text;
+    createTexture();
+  }
+
   void InputComponent::createTexture() {
     destroyTexture();
     textureW = 0;
@@ -187,8 +198,42 @@ namespace Project::Components {
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     textureW = surface->w;
     textureH = surface->h;
-    rect.w = rect.w ? rect.w : surface->w + 8;
-    rect.h = rect.h ? rect.h : surface->h + 8;
+    rect.w = rect.w ? rect.w : surface->w + Constants::INDEX_EIGHT;
+    rect.h = rect.h ? rect.h : surface->h + Constants::INDEX_EIGHT;
     SDL_FreeSurface(surface);
+  }
+
+  void InputComponent::processInput(const Uint8* state) {
+    bool shift = state[SDL_SCANCODE_LSHIFT] || state[SDL_SCANCODE_RSHIFT];
+    bool textChanged = false;
+
+    auto wasPressed = [&](SDL_Scancode sc){ return state[sc] && !prevKeys[sc]; };
+
+    if (wasPressed(SDL_SCANCODE_BACKSPACE)) {
+      if (!currentText.empty()) {
+        currentText.pop_back();
+        textChanged = true;
+      }
+    }
+    if (wasPressed(SDL_SCANCODE_SPACE)) {
+      currentText.push_back(' ');
+      textChanged = true;
+    }
+    for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_Z; ++i) {
+      if (wasPressed(static_cast<SDL_Scancode>(i))) {
+        char c = static_cast<char>('a' + (i - SDL_SCANCODE_A));
+        if (shift) c = static_cast<char>(toupper(c));
+        currentText.push_back(c);
+        textChanged = true;
+      }
+    }
+    for (int i = SDL_SCANCODE_0; i <= SDL_SCANCODE_9; ++i) {
+      if (wasPressed(static_cast<SDL_Scancode>(i))) {
+        char c = static_cast<char>('0' + (i - SDL_SCANCODE_0));
+        currentText.push_back(c);
+        textChanged = true;
+      }
+    }
+    if (textChanged) createTexture();
   }
 }

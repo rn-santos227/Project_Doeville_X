@@ -78,8 +78,13 @@ namespace Project::Handlers {
     cursorHandler.setRenderer(renderer);
     std::string cursorPath = resourcesHandler.getResourcePath(Constants::DEFAULT_CURSOR_PATH);
     cursorHandler.loadCursor(CursorState::DEFAULT, cursorPath.c_str());
+    
     std::string handPath = resourcesHandler.getResourcePath(Constants::HAND_CURSOR_PATH);
     cursorHandler.loadCursor(CursorState::HOVER, handPath.c_str());
+   
+    std::string textCursorPath = resourcesHandler.getResourcePath(Constants::TEXT_CURSOR_PATH);
+    cursorHandler.loadCursor(CursorState::TEXT, textCursorPath.c_str());
+
     cursorHandler.setCursorState(CursorState::DEFAULT);
     
     styleService = std::make_unique<StyleService>(logsManager, resourcesHandler);

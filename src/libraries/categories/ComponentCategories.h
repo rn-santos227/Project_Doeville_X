@@ -26,6 +26,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* BUTTON_COMPONENT = "ButtonComponent";
     constexpr const char* CAMERA_COMPONENT = "CameraComponent";
     constexpr const char* GRAPHICS_COMPONENT = "GraphicsComponent";
+    constexpr const char* INPUT_COMPONENT = "InputComponent";
     constexpr const char* KEYS_COMPONENT = "KeysComponent";
     constexpr const char* MOTION_COMPONENT = "MotionComponent";
     constexpr const char* NUMERIC_COMPONENT = "NumericComponent";

@@ -66,6 +66,29 @@ namespace Project::Handlers {
     cursorTextures[state] = texture ? texture : getFallbackTexture();
   }
 
+  void CursorHandler::loadCursorSurface(CursorState state, SDL_Surface* surface, int hotspotX, int hotspotY) {
+    if (!surface) {
+      cursors[state] = defaultCursor;
+      cursorTextures[state] = getFallbackTexture();
+      return;
+    }
+
+    SDL_Cursor* cursor = SDL_CreateColorCursor(surface, hotspotX, hotspotY);
+    if (!cursor) cursor = defaultCursor;
+
+    SDL_Texture* texture = nullptr;
+    if (renderer) {
+      texture = SDL_CreateTextureFromSurface(renderer, surface);
+      if (!texture) texture = getFallbackTexture();
+    } else {
+      logsManager.logError("Renderer is null. Cannot create texture.");
+      texture = getFallbackTexture();
+    }
+
+    cursors[state] = cursor;
+    cursorTextures[state] = texture ? texture : getFallbackTexture();
+  }
+
   void CursorHandler::setCursorState(CursorState state) {
     if (cursors.find(state) != cursors.end() && cursors[state]) {
       SDL_SetCursor(cursors[state]);

@@ -178,5 +178,17 @@ namespace Project::Components {
     textureW = 0;
     textureH = 0;
     if (!font || currentText.empty()) return;
+
+    SDL_Surface* surface = TTF_RenderText_Blended(font, currentText.c_str(), textColor);
+    if (!surface) {
+      logsManager.logWarning(std::string("Failed to render input text: ") + TTF_GetError());
+      return;
+    }
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    textureW = surface->w;
+    textureH = surface->h;
+    rect.w = rect.w ? rect.w : surface->w + 8;
+    rect.h = rect.h ? rect.h : surface->h + 8;
+    SDL_FreeSurface(surface);
   }
 }

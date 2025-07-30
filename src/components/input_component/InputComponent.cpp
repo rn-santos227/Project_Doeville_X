@@ -147,4 +147,9 @@ namespace Project::Components {
 
     createTexture();
   }
+
+  void InputComponent::applyStyle() {
+    std::istringstream classes(getClass());
+    std::string cls;
+  }
 }

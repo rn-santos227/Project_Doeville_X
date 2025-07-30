@@ -81,6 +81,14 @@ namespace Project::Components {
     if (!renderer) return;
     SDL_SetRenderDrawColor(renderer, bgColor.r, bgColor.g, bgColor.b, bgColor.a);
     SDL_RenderFillRect(renderer, &rect);
+
+    if (borderWidth > 0) {
+      SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+      for (int i = 0; i < borderWidth; ++i) {
+        SDL_Rect b{rect.x + i, rect.y + i, rect.w - 2 * i, rect.h - 2 * i};
+        SDL_RenderDrawRect(renderer, &b);
+      }
+    }
   }
 
   void InputComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

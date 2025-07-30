@@ -65,20 +65,26 @@ namespace Project::Components {
     std::string currentText;
     std::string placeholder;
 
+    float backspaceTimer{0.0f};
     float cursorBlink{0.0f};
 
     int fontSize = Project::Libraries::Constants::DEFAULT_BASE_FONT_SIZE;
     int borderWidth{0};
+    int textOffset{0};
     int textureW{0};
     int textureH{0};
 
-    bool hovered{false};
+    std::size_t maxChars = Project::Libraries::Constants::DEFAULT_MAX_CHARS;
+    std::size_t caretPos{0};
+
     bool activeInput{false};
+    bool backspaceHeld{false};    
+    bool hovered{false};
     bool mousePrev{false};
     bool showCaret{true};
 
     void createTexture();
-    void processInput(const Uint8* state);
+    void processInput(const Uint8* state, float deltaTime);
   };
 }
 

@@ -4,6 +4,7 @@ state_category = "MAIN_MENU_STATE"
 function initialize()
   print("Initializing MainMenuState")
   setBackgroundColor(34, 45, 50, 255)
+  spawnEntity("input_box")
   spawnEntity("sample_text")
   
   spawnEntity("button_start")

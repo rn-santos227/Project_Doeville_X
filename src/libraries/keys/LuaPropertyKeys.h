@@ -57,6 +57,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LAYER_SCRIPTS = "layer_scripts";
   constexpr const char* LIMIT = "limit";
   constexpr const char* MASS = "mass";
+  constexpr const char* MAX_CHARS = "max_chars";
   constexpr const char* MOVEMENT_MODE = "movement_mode";
   constexpr const char* NAME = "name"; 
   constexpr const char* PLAYER = "player";

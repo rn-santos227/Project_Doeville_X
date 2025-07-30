@@ -37,6 +37,7 @@ namespace Project::Libraries::Constants {
   constexpr size_t LOG_QUEUE_MAX_SIZE = 1000;
   constexpr size_t ENTITY_CHECK_INTERVAL = 60;
   constexpr size_t TEXTURE_TASK_QUEUE_MAX_SIZE = 100;
+  constexpr size_t DEFAULT_MAX_CHARS = 255;
 
   constexpr size_t MAX_PATH_SIZE = 4096;
   constexpr size_t MAX_DATA_SIZE = 10 * 1024 * 1024;

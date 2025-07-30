@@ -172,4 +172,11 @@ namespace Project::Components {
     }
     createTexture();
   }
+
+  void InputComponent::createTexture() {
+    destroyTexture();
+    textureW = 0;
+    textureH = 0;
+    if (!font || currentText.empty()) return;
+  }
 }

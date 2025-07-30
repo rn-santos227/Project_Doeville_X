@@ -151,5 +151,25 @@ namespace Project::Components {
   void InputComponent::applyStyle() {
     std::istringstream classes(getClass());
     std::string cls;
+    while (classes >> cls) {
+      std::string selector = "." + cls;
+      Project::Services::Style s = StyleManager::getInstance().getStyle(selector);
+      if (s.width > 0) rect.w = s.width;
+      if (s.height > 0) rect.h = s.height;
+      if (s.background.a != 0) bgColor = s.background;
+      if (s.borderColor.a != 0) borderColor = s.borderColor;
+      if (s.borderWidth > 0) borderWidth = s.borderWidth;
+      if (s.fontColor.a != 0) textColor = s.fontColor;
+      if (s.fontSize > 0 && fontPath.size() > 0) {
+        if (font) TTF_CloseFont(font);
+        fontSize = s.fontSize;
+        font = TTF_OpenFont(fontPath.c_str(), fontSize);
+        if (!font) {
+          logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
+          font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, fontSize);
+        }
+      }
+    }
+    createTexture();
   }
 }

@@ -22,7 +22,15 @@ namespace Project::Components {
     public PositionableComponent,
     public TextureHolder, 
     public Project::Interfaces::Stylable {
-
+    public:
+      InputComponent(
+        SDL_Renderer* renderer,
+        Project::Utilities::ConfigReader& configReader,
+        Project::Utilities::LogsManager& logsManager,
+        Project::Handlers::MouseHandler* mouseHandler,
+        Project::Handlers::CursorHandler* cursorHandler
+      );
+      ~InputComponent() override;
   };
 }
 

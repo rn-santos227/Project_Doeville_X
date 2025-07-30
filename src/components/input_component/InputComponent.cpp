@@ -32,4 +32,8 @@ namespace Project::Components {
       font = nullptr;
     }
   }
+
+  void InputComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+
+  }
 }

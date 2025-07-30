@@ -43,6 +43,10 @@ namespace Project::Components {
     const std::string& getText() const { return currentText; }
     void setText(const std::string& text);
 
+    const SDL_Rect& getRect() const { return rect; }
+    int getWidth() const { return textureW; }
+    int getHeight() const { return textureH; }
+
   private:
     SDL_Renderer* renderer;
     Project::Utilities::ConfigReader& configReader;

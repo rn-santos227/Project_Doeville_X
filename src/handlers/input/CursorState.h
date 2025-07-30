@@ -7,6 +7,7 @@ namespace Project::Handlers {
     CUSTOM,
     CROSSHAIR,
     HOVER,
+    TEXT,
     CLICK,
     ATTACK,
     DISABLED

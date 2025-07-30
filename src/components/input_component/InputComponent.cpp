@@ -34,7 +34,47 @@ namespace Project::Components {
   }
 
   void InputComponent::update(float deltaTime) {
+    if (!mouseHandler || !cursorHandler) return;
 
+    int mx = mouseHandler->getMouseX();
+    int my = mouseHandler->getMouseY();
+    SDL_Point p{mx, my};
+    bool inside = SDL_PointInRect(&p, &rect);
+    bool mouseDown = mouseHandler->isButtonDown(SDL_BUTTON_LEFT);
+
+    if (inside) {
+      if (!hovered) {
+        hovered = true;
+        cursorHandler->setCursorState(Project::Handlers::CursorState::TEXT);
+      }
+      if (mouseDown && !mousePrev) {
+        activeInput = true;
+        cursorBlink = 0.0f;
+        showCaret = true;
+      }
+    } else {
+      if (hovered) {
+        hovered = false;
+        cursorHandler->setCursorState(Project::Handlers::CursorState::DEFAULT);
+      }
+      if (mouseDown && !mousePrev) {
+        activeInput = false;
+      }
+    }
+
+    mousePrev = mouseDown;
+
+    if (activeInput) {
+      cursorBlink += deltaTime;
+      if (cursorBlink >= 0.5f) {
+        showCaret = !showCaret;
+        cursorBlink = 0.0f;
+      }
+
+      const Uint8* state = SDL_GetKeyboardState(nullptr);
+      processInput(state);
+      std::copy(state, state + SDL_NUM_SCANCODES, prevKeys.begin());
+    }
   }
 
   void InputComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

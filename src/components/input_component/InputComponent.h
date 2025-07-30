@@ -38,6 +38,11 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void applyStyle() override;
 
+    void setEntityPosition(int x, int y) override;
+
+    const std::string& getText() const { return currentText; }
+    void setText(const std::string& text);
+
   private:
     SDL_Renderer* renderer;
     Project::Utilities::ConfigReader& configReader;

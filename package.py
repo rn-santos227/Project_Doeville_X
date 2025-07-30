@@ -33,6 +33,7 @@ def main():
         source_dir=source_dir,
         output_dir=output_dir,
         env=build_env,
+        sha256=package_info.get("sha256"),
       )
       remove_file(archive_path)
 

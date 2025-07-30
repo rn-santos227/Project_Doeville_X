@@ -62,6 +62,14 @@ namespace Project::Components {
     int borderWidth{0};
     int textureW{0};
     int textureH{0};
+
+    bool hovered{false};
+    bool activeInput{false};
+    bool mousePrev{false};
+    bool showCaret{true};
+
+    void createTexture();
+    void processInput(const Uint8* state);
   };
 }
 

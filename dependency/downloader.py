@@ -5,11 +5,6 @@ import subprocess
 
 CERT_BUNDLE = os.path.join(os.path.dirname(__file__), "cacert.pem")
 
-try:
-  import certifi
-except ImportError:
-  certifi = None
-
 class HTTPDownloader:
   def download(self, url: str, destination: str, expected_sha256: str = None):
     print(f"Downloading {url} to {destination}...")
@@ -23,12 +18,6 @@ class HTTPDownloader:
       if not curl:
         raise RuntimeError("curl not found")
 
-      cafile = None
-      if certifi:
-        cafile = certifi.where()
-      elif os.path.exists(CERT_BUNDLE):
-        cafile = CERT_BUNDLE
-
       cmd = [
         curl,
         "--fail",
@@ -38,9 +27,6 @@ class HTTPDownloader:
         "--output", destination,
         url,
       ]
-
-      if cafile:
-        cmd.extend(["--cacert", cafile])
 
       print(f"Running: {' '.join(cmd)}")
       subprocess.run(cmd, check=True)

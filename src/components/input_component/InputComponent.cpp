@@ -22,4 +22,14 @@ namespace Project::Components {
    MouseHandler* mouseHandler, CursorHandler* cursorHandler)
     : BaseComponent(logsManager), renderer(renderer), configReader(configReader),
       mouseHandler(mouseHandler), cursorHandler(cursorHandler), font(nullptr) {}
+
+  InputComponent::~InputComponent() {
+    destroyTexture();
+    textureW = 0;
+    textureH = 0;
+    if (font) {
+      TTF_CloseFont(font);
+      font = nullptr;
+    }
+  }
 }

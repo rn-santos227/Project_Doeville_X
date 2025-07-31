@@ -91,7 +91,10 @@ namespace Project::Entities {
       Project::Core::SDLManager* sdlManager = nullptr;
       bool initialized = false;
 
+
+      std::pair<float, float> getEntitySize(const std::shared_ptr<Entity>& entity);
       bool isEntityInCamera(const std::shared_ptr<Entity>& entity) const;
+      void updateEntityPosition(const std::shared_ptr<Entity>& entity, float x, float y);
   };
 }
 

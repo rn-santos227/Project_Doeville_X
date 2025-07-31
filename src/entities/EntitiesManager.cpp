@@ -444,38 +444,62 @@ namespace Project::Entities {
       float ex = entity->getX();
       float ey = entity->getY();
 
-      float w = 0.0f;
-      float h = 0.0f;
-
-      if (auto* gfx = entity->getGraphicsComponent()) {
-        w = static_cast<float>(gfx->getWidth());
-        h = static_cast<float>(gfx->getHeight());
-      } else if (auto* bbox = entity->getBoundingBoxComponent()) {
-        const auto& boxes = bbox->getBoxes();
-        if (!boxes.empty()) {
-          w = static_cast<float>(boxes.front().w);
-          h = static_cast<float>(boxes.front().h);
-        }
-      }
+      auto [w, h] = getEntitySize(entity);
 
       float clampedX = std::clamp(ex, static_cast<float>(rect.x), static_cast<float>(rect.x + rect.w - w));
       float clampedY = std::clamp(ey, static_cast<float>(rect.y), static_cast<float>(rect.y + rect.h - h));
 
       if (clampedX != ex || clampedY != ey) {
-        entity->setPosition(clampedX, clampedY);
-        for (const std::string& name : entity->listComponentNames()) {
-          if (auto* comp = entity->getComponent(name)) {
-            if (auto* pos = dynamic_cast<Project::Components::PositionableComponent*>(comp)) {
-              pos->setEntityPosition(static_cast<int>(clampedX), static_cast<int>(clampedY));
-            }
-          }
-        }
+        updateEntityPosition(entity, clampedX, clampedY);
       }
     }
   }
 
   void EntitiesManager::warpEntitiesAcrossRect(const SDL_Rect& rect) {
+    for (auto& entity : entityList) {
+      if (!entity) continue;
 
+      float ex = entity->getX();
+      float ey = entity->getY();
+
+      auto [w, h] = getEntitySize(entity);
+
+      float newX = ex;
+      float newY = ey;
+
+      if (ex + w < rect.x) {
+        newX = static_cast<float>(rect.x + rect.w);
+      } else if (ex > rect.x + rect.w) {
+        newX = static_cast<float>(rect.x - w);
+      }
+
+      if (ey + h < rect.y) {
+        newY = static_cast<float>(rect.y + rect.h);
+      } else if (ey > rect.y + rect.h) {
+        newY = static_cast<float>(rect.y - h);
+      }
+
+      if (newX != ex || newY != ey) {
+        updateEntityPosition(entity, newX, newY);
+      }
+    }
+  }
+
+  std::pair<float, float> EntitiesManager::getEntitySize(const std::shared_ptr<Entity>& entity) {
+    float w = 0.0f, h = 0.0f;
+
+    if (auto* gfx = entity->getGraphicsComponent()) {
+      w = static_cast<float>(gfx->getWidth());
+      h = static_cast<float>(gfx->getHeight());
+    } else if (auto* bbox = entity->getBoundingBoxComponent()) {
+      const auto& boxes = bbox->getBoxes();
+      if (!boxes.empty()) {
+        w = static_cast<float>(boxes.front().w);
+        h = static_cast<float>(boxes.front().h);
+      }
+    }
+
+    return { w, h };
   }
 
   bool EntitiesManager::isEntityInCamera(const std::shared_ptr<Entity>& entity) const {
@@ -499,5 +523,16 @@ namespace Project::Entities {
 
     SDL_Rect point{static_cast<int>(entity->getX()), static_cast<int>(entity->getY()), 1, 1};
     return SDL_HasIntersection(&point, &cullRect);
+  }
+
+  void EntitiesManager::updateEntityPosition(const std::shared_ptr<Entity>& entity, float x, float y) {
+    entity->setPosition(x, y);
+    for (const std::string& name : entity->listComponentNames()) {
+      if (auto* comp = entity->getComponent(name)) {
+        if (auto* pos = dynamic_cast<Project::Components::PositionableComponent*>(comp)) {
+          pos->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+        }
+      }
+    }
   }
 }

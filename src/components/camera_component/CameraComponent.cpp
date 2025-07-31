@@ -1,7 +1,10 @@
 #include "CameraComponent.h"
 
 #include "entities/Entity.h"
+#include "entities/EntitiesManager.h"
+
 #include "libraries/keys/Keys.h"
+#include "states/GameState.h"
 
 namespace Project::Components {
   namespace Keys = Project::Libraries::Keys;
@@ -11,6 +14,19 @@ namespace Project::Components {
 
   void CameraComponent::update(float /*deltaTime*/) {
     if (!owner || !cameraHandler) return;
+
+    auto* mgr = owner->getEntitiesManager();
+    if (mgr) {
+      auto* state = mgr->getGameState();
+      if (state && state->getDimensionMode() == Project::States::DimensionMode::BOXED) {
+        return;
+      }
+
+      if (state && state->getDimensionMode() == Project::States::DimensionMode::WRAPPING) {
+        return;
+      }
+    }
+
     int camX = static_cast<int>(owner->getX() - cameraHandler->getWidth() / 2);
     int camY = static_cast<int>(owner->getY() - cameraHandler->getHeight() / 2);
     cameraHandler->setPosition(camX, camY);

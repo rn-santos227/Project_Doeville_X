@@ -44,6 +44,8 @@ namespace Project::States {
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }
+
+    ensureMapSize();
   }
 
   void GameState::onEnter() {
@@ -61,6 +63,8 @@ namespace Project::States {
   }
 
   void GameState::update(float deltaTime) {
+    ensureMapSize();
+    
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
     if (camHandler) {
       int offsetX = camHandler->getWidth();
@@ -80,6 +84,14 @@ namespace Project::States {
         layersManager->clampEntitiesToRect(camRect);
       } else if (entitiesManager) {
         entitiesManager->clampEntitiesToRect(camRect);
+      }
+    } else if (dimensionMode == DimensionMode::BOUNDED) {
+      if (mapRect.w > 0 && mapRect.h > 0) {
+        if (layersManager) {
+          layersManager->clampEntitiesToRect(mapRect);
+        } else if (entitiesManager) {
+          entitiesManager->clampEntitiesToRect(mapRect);
+        }
       }
     }
 

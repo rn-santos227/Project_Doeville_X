@@ -36,21 +36,10 @@ namespace Project::States {
   }
 
   void GameState::initialize() {
-    luaStateWrapper.registerFunction(Keys::LUA_SET_ACTIVE_CAMERA, LuaBindings::lua_setActiveCamera, this);
-    luaStateWrapper.registerFunction(Keys::LUA_CHANGE_STATE, LuaBindings::lua_changeState, this);
-    luaStateWrapper.registerFunction(Keys::LUA_RESET_STATE, LuaBindings::lua_resetState, this);
-    luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_COLOR, LuaBindings::lua_setBackgroundColor, this);
-    luaStateWrapper.registerFunction(Keys::LUA_SET_BACKGROUND_IMAGE, LuaBindings::lua_setBackgroundImage, this);
-    luaStateWrapper.registerFunction(Keys::LUA_SPAWN_ENTITY, LuaBindings::lua_spawnEntity, this);
-    luaStateWrapper.registerFunction(Keys::LUA_START_ENTITY_SEEDER, LuaBindings::lua_startEntitySeeder, this);
-    luaStateWrapper.registerFunction(Keys::LUA_ADD_ENTITY_TO_SEEDER, LuaBindings::lua_addEntityToSeed, this);
-    luaStateWrapper.registerFunction(Keys::LUA_SET_PLAYER_ENTITY, LuaBindings::lua_setPlayerEntity, this);
-    luaStateWrapper.registerFunction(Keys::LUA_SET_MAP_SIZE, LuaBindings::lua_setMapSize, this);
-
+    registerLuaFunctions();
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }
-
     ensureMapSize();
   }
 
@@ -399,6 +388,32 @@ namespace Project::States {
       scriptFunctionCache[path] = funcs;
     } else {
       funcs = it->second;
+    }
+
+    for (const auto& f : funcs) {
+      if (f == Keys::LUA_SET_ACTIVE_CAMERA) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setActiveCamera, this);
+      } else if (f == Keys::LUA_CHANGE_STATE) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_changeState, this);
+      } else if (f == Keys::LUA_RESET_STATE) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_resetState, this);
+      } else if (f == Keys::LUA_SET_BACKGROUND_COLOR) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setBackgroundColor, this);
+      } else if (f == Keys::LUA_SET_BACKGROUND_IMAGE) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setBackgroundImage, this);
+      } else if (f == Keys::LUA_SPAWN_ENTITY) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_spawnEntity, this);
+      } else if (f == Keys::LUA_START_ENTITY_SEEDER) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_startEntitySeeder, this);
+      } else if (f == Keys::LUA_ADD_ENTITY_TO_SEEDER) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_addEntityToSeed, this);
+      } else if (f == Keys::LUA_SET_PLAYER_ENTITY) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setPlayerEntity, this);
+      } else if (f == Keys::LUA_SET_MAP_SIZE) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setMapSize, this);
+      } else if (f == Keys::LUA_EXIT_GAME && sdlManager) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_exitGame, sdlManager);
+      }
     }
   }
 }

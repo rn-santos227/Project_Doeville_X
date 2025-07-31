@@ -83,9 +83,16 @@ namespace Project::States {
     void setGameStateManager(Project::States::GameStateManager* manager) { gameStateManager = manager; }
     Project::States::GameStateManager* getGameStateManager() const { return gameStateManager; }
 
-    void setPlayerEntity(const std::string& name);
+    void setPlayerEntity(const std::string& name, float x = 0.0f, float y = 0.0f, bool setPosition = false);
     std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
      
+    void setMapSize(int width, int height) {
+      mapRect.x = 0;
+      mapRect.y = 0;
+      mapRect.w = width;
+      mapRect.h = height;
+    }
+
     void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) {
       layersManager = std::move(manager);
       if (layersManager) layersManager->setGameState(this);
@@ -115,6 +122,7 @@ namespace Project::States {
     );
 
     size_t getEntityCount() const;
+    
 
   protected:
     Project::Handlers::ResourcesHandler& resourcesHandler;
@@ -130,7 +138,9 @@ namespace Project::States {
     
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
+    
     SDL_Color backgroundColor = Project::Libraries::Constants::DEFAULT_BACKGROUND_COLOR;
+    SDL_Rect mapRect{0,0,0,0};
     
     std::future<SDL_Texture*> backgroundFuture;
     std::string pendingBackgroundPath;
@@ -148,6 +158,8 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
     std::unordered_map<std::string, std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
+
+    void ensureMapSize();
   };
 }
 

@@ -97,6 +97,7 @@ function action_1()
 end
 
 function update()
+  ignoreCollisionsWith(id, {"bullet_p"})
   if isActionPressed("player", "move_left") then
     turnLeft("player", rot_speed)
   elseif isActionPressed("player", "move_right") then

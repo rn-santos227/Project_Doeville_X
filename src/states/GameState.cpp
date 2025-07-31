@@ -1,6 +1,7 @@
 #include "GameState.h"
 #include "GameStateManager.h"
 
+#include <algorithm>
 #include <chrono>
 #include <future>
 #include <string>
@@ -10,7 +11,7 @@
 #include "factories/entity/EntitiesFactory.h"
 #include "libraries/keys/Keys.h"
 #include "libraries/constants/FloatConstants.h"
-#include "libraries/constants/NumericConstants.h"
+#include "libraries/constants/Constants.h"
 
 namespace Project::States {
   using Project::Utilities::LogsManager;
@@ -38,6 +39,7 @@ namespace Project::States {
     luaStateWrapper.registerFunction(Keys::LUA_START_ENTITY_SEEDER, LuaBindings::lua_startEntitySeeder, this);
     luaStateWrapper.registerFunction(Keys::LUA_ADD_ENTITY_TO_SEEDER, LuaBindings::lua_addEntityToSeed, this);
     luaStateWrapper.registerFunction(Keys::LUA_SET_PLAYER_ENTITY, LuaBindings::lua_setPlayerEntity, this);
+    luaStateWrapper.registerFunction(Keys::LUA_SET_MAP_SIZE, LuaBindings::lua_setMapSize, this);
 
     if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
@@ -287,10 +289,22 @@ namespace Project::States {
     }
   }
 
-  void GameState::setPlayerEntity(const std::string& name) {
+  void GameState::setPlayerEntity(const std::string& name, float x, float y, bool setPosition) {
     playerEntity.reset();
     auto ent = findEntity(name);
-    if (ent) playerEntity = ent;
+    if (ent) {
+      playerEntity = ent;
+      if (setPosition) {
+        if (dimensionMode == DimensionMode::BOUNDED) {
+          ensureMapSize();
+          float maxX = static_cast<float>(mapRect.w);
+          float maxY = static_cast<float>(mapRect.h);
+          x = std::clamp(x, 0.0f, maxX);
+          y = std::clamp(y, 0.0f, maxY);
+        }
+        ent->setPosition(x, y);
+      }
+    }
   }
 
   std::shared_ptr<Project::Entities::Entity> GameState::getPlayerEntity() const {

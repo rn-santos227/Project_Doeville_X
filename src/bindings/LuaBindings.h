@@ -17,6 +17,7 @@ namespace Project::Bindings {
     int lua_setBackgroundColor(lua_State* L);
     int lua_setBackgroundImage(lua_State* L);
     int lua_setPlayerEntity(lua_State* L);
+    int lua_setMapSize(lua_State* L);
     int lua_startEntitySeeder(lua_State* L);
 
     // EntitiesManager Bindings

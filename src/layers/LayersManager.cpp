@@ -195,14 +195,6 @@ namespace Project::Layers {
     }
   }
 
-  void LayersManager::setGameState(Project::States::GameState* state) {
-    gameState = state;
-    for (auto& layer : layers) {
-      auto mgr = layer.getEntitiesManager();
-      if (mgr) mgr->setGameState(state);
-    }
-  }
-
   void LayersManager::clampEntitiesToRect(const SDL_Rect& rect) {
     for (auto& layer : layers) {
       auto mgr = layer.getEntitiesManager();

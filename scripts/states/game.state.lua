@@ -1,6 +1,6 @@
 state_name = "GameState"
 state_category = "STATIC_GAME_STATE"
-dimension = "FREE_ROAMING"
+dimension = "BOUNDED"
 
 layer_scripts = {
   "scripts/layers/gameplay/game.layer.lua",
@@ -10,8 +10,10 @@ layer_scripts = {
 function initialize()
   print("Initializing GameState")
   setBackgroundColor(50, 45, 34, 255)
+  setMapSize(2560, 1440)
+  
   spawnEntity("player", nil, nil, "game")
-  setPlayerEntity("player")
+  setPlayerEntity("player", 100, 100)
 
   local seeder_id = startEntitySeeder(nil, "game", nil, { x = 1280, y = 720 })
   addEntityToSeed("ball", seeder_id, 5)

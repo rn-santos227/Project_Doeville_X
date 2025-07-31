@@ -6,7 +6,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace Project::Factories {
+namespace Project::Components {
   class ComponentTypeResolver {
   public:
     static ComponentType resolve(const std::string& name);

@@ -23,6 +23,7 @@ namespace Project::Components {
     static void setCameraHandler(Project::Handlers::CameraHandler* handler);
 
     Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::BOUNDING_BOX; }
 
     void update(float deltaTime) override;
     void render() override;

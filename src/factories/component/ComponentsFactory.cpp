@@ -8,6 +8,8 @@
 
 namespace Project::Factories {
   using Project::Components::BaseComponent;
+  using Project::Components::ComponentType;
+  using Project::Components::ComponentTypeResolver;
   using Project::Components::BoundingBoxComponent;
   using Project::Components::ButtonComponent;
   using Project::Components::CameraComponent;

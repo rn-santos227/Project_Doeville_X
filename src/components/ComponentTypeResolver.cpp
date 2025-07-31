@@ -5,8 +5,8 @@
 
 #include "libraries/categories/Categories.h"
 
-namespace Project::Factories {
-  using Project::Factories::ComponentType;
+namespace Project::Components {
+  using Project::Components::ComponentType;
   namespace Components = Project::Libraries::Categories::Components;
 
   ComponentType ComponentTypeResolver::resolve(const std::string& name) {

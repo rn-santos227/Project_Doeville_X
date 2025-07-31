@@ -28,7 +28,7 @@ namespace Project::Entities {
     baseSeed = rd();
     sessionSalt = rd();
     rng.seed(baseSeed ^ sessionSalt);
-    entityTemplates.reserve(Project::Libraries::Constants::INT_TEN);
+    entityTemplates.reserve(Constants::INT_TEN);
     distribution = [this](std::mt19937& r) { return countDistribution(r); };
   }
 
@@ -260,8 +260,8 @@ namespace Project::Entities {
 
         float w = 0.0f, h = 0.0f;
 
-        entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::X, ex);
-        entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::Y, ey);
+        entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
+        entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
         entity->initialize();
         
         if (auto* box = entity->getBoundingBoxComponent()) {
@@ -283,7 +283,7 @@ namespace Project::Entities {
             box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
           }
         }
-        
+
         SDL_Rect newRect{static_cast<int>(ex), static_cast<int>(ey), static_cast<int>(w), static_cast<int>(h)};
         bool overlap = false;
         for (const auto& r : existingRects) {

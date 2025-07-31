@@ -1,7 +1,7 @@
 #ifndef COMPONENT_TYPE_H
 #define COMPONENT_TYPE_H
 
-namespace Project::Factories {
+namespace Project::Components {
   enum class ComponentType {
     BOUNDING_BOX,
     BUTTON,

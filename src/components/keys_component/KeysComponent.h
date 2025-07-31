@@ -18,6 +18,7 @@ namespace Project::Components {
     ~KeysComponent() override = default;
 
     Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::KEYS; }
 
     void update(float deltaTime) override;
     void render() override {};

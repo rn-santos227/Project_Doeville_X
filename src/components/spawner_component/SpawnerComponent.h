@@ -14,6 +14,7 @@ namespace Project::Components {
     ~SpawnerComponent() override = default;
 
     Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::SPAWNER; }
 
     void update(float deltaTime) override;
     void render() override {}

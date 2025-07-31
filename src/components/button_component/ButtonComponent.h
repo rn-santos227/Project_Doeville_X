@@ -31,6 +31,7 @@ namespace Project::Components {
     ~ButtonComponent() override;
 
     Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::BUTTON; }
 
     void update(float deltaTime) override;
     void render() override;

@@ -33,6 +33,8 @@ namespace Project::Components {
     );
     ~InputComponent() override;
 
+    ComponentType getType() const override { return ComponentType::INPUT; }
+
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

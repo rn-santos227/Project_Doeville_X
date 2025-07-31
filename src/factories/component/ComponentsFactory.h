@@ -6,9 +6,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "ComponentTypeResolver.h"
-
 #include "components/BaseComponent.h"
+#include "components/ComponentTypeResolver.h"
 #include "components/camera_component/CameraComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/button_component/ButtonComponent.h"

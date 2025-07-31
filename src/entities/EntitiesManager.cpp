@@ -71,16 +71,22 @@ namespace Project::Entities {
       Project::Components::BoundingBoxComponent* box = nullptr;
       for (const std::string& compName : entRef->listComponentNames()) {
         auto* comp = entRef->getComponent(compName);
-        if (!comp) continue;
-        if (auto* motion = dynamic_cast<Project::Components::MotionComponent*>(comp)) {
-          motionSystem.add(motion);
-        } else if (auto* phys = dynamic_cast<Project::Components::PhysicsComponent*>(comp)) {
-          physicsSystem.add(phys);
-          hasPhys = true;
-        } else if (auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(comp)) {
-          renderSystem.add(gfx);
-        } else if (auto* bbox = dynamic_cast<Project::Components::BoundingBoxComponent*>(comp)) {
-          box = bbox;
+        switch (comp->getType()) {
+          case Project::Components::ComponentType::MOTION:
+            motionSystem.add(static_cast<Project::Components::MotionComponent*>(comp));
+            break;
+          case Project::Components::ComponentType::PHYSICS:
+            physicsSystem.add(static_cast<Project::Components::PhysicsComponent*>(comp));
+            hasPhys = true;
+            break;
+          case Project::Components::ComponentType::GRAPHICS:
+            renderSystem.add(static_cast<Project::Components::GraphicsComponent*>(comp));
+            break;
+          case Project::Components::ComponentType::BOUNDING_BOX:
+            box = static_cast<Project::Components::BoundingBoxComponent*>(comp);
+            break;
+          default:
+            break;
         }
       }
 
@@ -108,14 +114,21 @@ namespace Project::Entities {
         for (const std::string& compName : ent->listComponentNames()) {
           auto* comp = ent->getComponent(compName);
           if (!comp) continue;
-          if (auto* motion = dynamic_cast<Project::Components::MotionComponent*>(comp)) {
-            motionSystem.remove(motion);
-          } else if (auto* phys = dynamic_cast<Project::Components::PhysicsComponent*>(comp)) {
-            physicsSystem.remove(phys);
-          } else if (auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(comp)) {
-            renderSystem.remove(gfx);
-          } else if (auto* bbox = dynamic_cast<Project::Components::BoundingBoxComponent*>(comp)) {
-            box = bbox;
+          switch (comp->getType()) {
+            case Project::Components::ComponentType::MOTION:
+              motionSystem.remove(static_cast<Project::Components::MotionComponent*>(comp));
+              break;
+            case Project::Components::ComponentType::PHYSICS:
+              physicsSystem.remove(static_cast<Project::Components::PhysicsComponent*>(comp));
+              break;
+            case Project::Components::ComponentType::GRAPHICS:
+              renderSystem.remove(static_cast<Project::Components::GraphicsComponent*>(comp));
+              break;
+            case Project::Components::ComponentType::BOUNDING_BOX:
+              box = static_cast<Project::Components::BoundingBoxComponent*>(comp);
+              break;
+            default:
+              break;
           }
         }
        if (box && !hasPhys) {

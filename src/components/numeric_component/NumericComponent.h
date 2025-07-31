@@ -15,6 +15,7 @@ namespace Project::Components {
     ~NumericComponent() override = default;
 
     Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::NUMERIC; }
 
     void update(float deltaTime) override;
     void render() override {}

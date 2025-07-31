@@ -23,6 +23,8 @@ namespace Project::Components {
     TextComponent(SDL_Renderer* renderer, Project::Utilities::ConfigReader& configReader, Project::Utilities::LogsManager& logsManager);
     ~TextComponent() override;
 
+    ComponentType getType() const override { return ComponentType::TEXT; }
+
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

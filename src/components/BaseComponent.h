@@ -1,6 +1,8 @@
 #ifndef BASE_COMPONENT_H
 #define BASE_COMPONENT_H
 
+#include "ComponentType.h"
+
 #include <string>
 
 #include "interfaces/build_interface/Buildable.h"
@@ -16,6 +18,7 @@ namespace Project::Components {
     virtual ~BaseComponent() = default;
 
     virtual Project::Entities::Entity* getOwner() const { return nullptr; }
+    virtual ComponentType getType() const = 0;
 
     virtual void update(float deltaTime) = 0;
     virtual void render() = 0;

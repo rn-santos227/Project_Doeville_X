@@ -29,6 +29,8 @@ namespace Project::Components {
     static void setCameraHandler(Project::Handlers::CameraHandler* handler);
     static Project::Handlers::CameraHandler* getCameraHandler();
     
+    ComponentType getType() const override { return ComponentType::GRAPHICS; }
+
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;

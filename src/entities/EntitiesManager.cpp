@@ -460,6 +460,17 @@ namespace Project::Entities {
 
       float clampedX = std::clamp(ex, static_cast<float>(rect.x), static_cast<float>(rect.x + rect.w - w));
       float clampedY = std::clamp(ey, static_cast<float>(rect.y), static_cast<float>(rect.y + rect.h - h));
+
+      if (clampedX != ex || clampedY != ey) {
+        entity->setPosition(clampedX, clampedY);
+        for (const std::string& name : entity->listComponentNames()) {
+          if (auto* comp = entity->getComponent(name)) {
+            if (auto* pos = dynamic_cast<Project::Components::PositionableComponent*>(comp)) {
+              pos->setEntityPosition(static_cast<int>(clampedX), static_cast<int>(clampedY));
+            }
+          }
+        }
+      }
     }
   }
 

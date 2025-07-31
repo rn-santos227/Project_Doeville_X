@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <SDL.h>
+
 #include "core/SDLManager.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "interfaces/render_interface/Renderable.h"
@@ -62,7 +64,9 @@ namespace Project::Entities {
       
       void clearGroup(const std::string& group);
       void clearScriptFunctionCache();
+      void clampEntitiesToRect(const SDL_Rect& rect);
       void registerEntityLuaFunctions(Entity* entity);
+      void warpEntitiesAcrossRect(const SDL_Rect& rect);
       
     private:
       Project::Systems::MotionSystem motionSystem;

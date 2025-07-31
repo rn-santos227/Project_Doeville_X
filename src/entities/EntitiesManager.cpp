@@ -319,6 +319,11 @@ namespace Project::Entities {
     }
   }
 
+  void EntitiesManager::clearScriptFunctionCache() {
+    scriptFunctionCache.clear();
+    persistentFunctionCache.load();
+  }
+
   void EntitiesManager::registerEntityLuaFunctions(Entity* entity) {
     if (!entity) return;
     const std::string& path = entity->getScriptPath();
@@ -432,9 +437,8 @@ namespace Project::Entities {
     }
   }
 
-  void EntitiesManager::clearScriptFunctionCache() {
-    scriptFunctionCache.clear();
-    persistentFunctionCache.load();
+  void EntitiesManager::clampEntitiesToRect(const SDL_Rect& rect) {
+
   }
 
   bool EntitiesManager::isEntityInCamera(const std::shared_ptr<Entity>& entity) const {

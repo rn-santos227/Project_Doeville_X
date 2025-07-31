@@ -225,6 +225,7 @@ namespace Project::States {
       return false;
     }
 
+    luaScriptPath = scriptPath;
     luaStateWrapper.registerFunction(Project::Libraries::Keys::STATE_PRINT, LuaStateWrapper::luaPrintRedirect);
     logsManager.logMessage("Lua script attached: " + scriptPath);
 
@@ -331,7 +332,7 @@ namespace Project::States {
     }
     return count;
   }
-  
+
   void GameState::registerLuaFunctions(Project::Core::SDLManager* manager) {
     if (manager) sdlManager = manager;
     const std::string& path = luaScriptPath;

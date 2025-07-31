@@ -1,5 +1,6 @@
 #include "EntitySeeder.h"
 
+#include <algorithm>
 #include <cmath>
 #include <string>
 
@@ -11,9 +12,12 @@
 #include "factories/entity/EntitiesFactory.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
+#include "states/DimensionMode.h"
+#include "states/GameState.h"
 
 namespace Project::Entities {
   using Project::Factories::EntitiesFactory;
+  using Project::States::DimensionMode;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
@@ -64,10 +68,20 @@ namespace Project::Entities {
 
     SDL_Rect cullRect{0,0,0,0};
     bool useCull = false;
+    bool bounded = false;
+    SDL_Rect mapRect{0,0,0,0};
+
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
+    
     if (camHandler) {
       cullRect = camHandler->getCullingRect();
       useCull = true;
+    }
+    if (auto* state = manager.getGameState()) {
+      if (state->getDimensionMode() == DimensionMode::BOUNDED) {
+        mapRect = state->getMapRect();
+        bounded = mapRect.w > 0 && mapRect.h > 0;
+      }
     }
 
     for (int dx = -chunkRadius; dx <= chunkRadius; ++dx) {
@@ -77,13 +91,25 @@ namespace Project::Entities {
         long long k = key(cx, cy);
         if (!chunks.count(k) && scheduledChunks.insert(k).second) {
           if (useCull) {
-            SDL_Rect chunkRect{ 
-              static_cast<int>(cx * chunkSize.x), 
+            SDL_Rect chunkRect{
+              static_cast<int>(cx * chunkSize.x),
               static_cast<int>(cy * chunkSize.y),
-              static_cast<int>(chunkSize.x), 
-              static_cast<int>(chunkSize.y) 
+              static_cast<int>(chunkSize.x),
+              static_cast<int>(chunkSize.y)
             };
             if (!SDL_HasIntersection(&chunkRect, &cullRect)) {
+              scheduledChunks.erase(k);
+              continue;
+            }
+          }
+          if (bounded) {
+            SDL_Rect chunkRect{
+              static_cast<int>(cx * chunkSize.x),
+              static_cast<int>(cy * chunkSize.y),
+              static_cast<int>(chunkSize.x),
+              static_cast<int>(chunkSize.y)
+            };
+            if (!SDL_HasIntersection(&chunkRect, &mapRect)) {
               scheduledChunks.erase(k);
               continue;
             }
@@ -161,6 +187,27 @@ namespace Project::Entities {
     Chunk& chunk = chunks[k];
     if (!chunk.ids.empty()) return;
 
+    bool bounded = false;
+    SDL_Rect mapRect{0,0,0,0};
+    if (auto* state = manager.getGameState()) {
+      if (state->getDimensionMode() == Project::States::DimensionMode::BOUNDED) {
+        mapRect = state->getMapRect();
+        bounded = mapRect.w > 0 && mapRect.h > 0;
+      }
+    }
+
+    if (bounded) {
+      SDL_Rect chunkRect{
+        static_cast<int>(cx * chunkSize.x),
+        static_cast<int>(cy * chunkSize.y),
+        static_cast<int>(chunkSize.x),
+        static_cast<int>(chunkSize.y)
+      };
+      if (!SDL_HasIntersection(&chunkRect, &mapRect)) {
+        return;
+      }
+    }
+
     size_t chunkSeed = generateChunkSeed(baseSeed, k);
     std::mt19937 localRng(chunkSeed);
 
@@ -183,6 +230,22 @@ namespace Project::Entities {
     std::uniform_real_distribution<float> posX(0.0f, chunkSize.x);
     std::uniform_real_distribution<float> posY(0.0f, chunkSize.y);
     std::uniform_int_distribution<size_t> templateIndex(0, entityTemplates.empty() ? 0 : entityTemplates.size() - 1);
+
+      std::vector<SDL_Rect> existingRects;
+    for (const auto& [eid, ent] : manager.getAllEntities()) {
+      if (!ent) continue;
+      SDL_Rect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 0, 0};
+      if (auto* gfx = ent->getGraphicsComponent()) {
+        r.w = gfx->getWidth();
+        r.h = gfx->getHeight();
+      } else if (auto* box = ent->getBoundingBoxComponent()) {
+        const auto& boxes = box->getBoxes();
+        if (!boxes.empty()) r = boxes.front();
+      }
+      existingRects.push_back(r);
+    }
+
+    const size_t MAX_ATTEMPTS = 5;
     
     for (size_t i = 0; i < count; ++i) {
       if (entityTemplates.empty()) break;
@@ -190,21 +253,51 @@ namespace Project::Entities {
       EntitiesFactory::EntityPtr entity = factory.cloneEntity(tmpl);
       if (!entity) continue;
 
-      float ex = cx * chunkSize.x + posX(localRng);
-      float ey = cy * chunkSize.y + posY(localRng);
+      bool placed = false;
+      for (size_t attempt = 0; attempt < MAX_ATTEMPTS && !placed; ++attempt) {
+        float ex = cx * chunkSize.x + posX(localRng);
+        float ey = cy * chunkSize.y + posY(localRng);
 
-      entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::X, ex);
-      entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::Y, ey);
-      entity->initialize();
+        float w = 0.0f, h = 0.0f;
 
-      if (auto* box = entity->getBoundingBoxComponent()) {
-        box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
+        entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::X, ex);
+        entity->getLuaStateWrapper().setGlobalNumber(Project::Libraries::Keys::Y, ey);
+        entity->initialize();
+        
+        if (auto* box = entity->getBoundingBoxComponent()) {
+          box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
+          const auto& boxes = box->getBoxes();
+          if (!boxes.empty()) {
+            w = static_cast<float>(boxes.front().w);
+            h = static_cast<float>(boxes.front().h);
+          }
+        } else if (auto* gfx = entity->getGraphicsComponent()) {
+          w = static_cast<float>(gfx->getWidth());
+          h = static_cast<float>(gfx->getHeight());
+        }
+
+        if (bounded) {
+          ex = std::clamp(ex, static_cast<float>(mapRect.x), static_cast<float>(mapRect.x + mapRect.w - w));
+          ey = std::clamp(ey, static_cast<float>(mapRect.y), static_cast<float>(mapRect.y + mapRect.h - h));
+          if (auto* box = entity->getBoundingBoxComponent()) {
+            box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
+          }
+        }
+        
+        SDL_Rect newRect{static_cast<int>(ex), static_cast<int>(ey), static_cast<int>(w), static_cast<int>(h)};
+        bool overlap = false;
+        for (const auto& r : existingRects) {
+          if (SDL_HasIntersection(&newRect, &r)) { overlap = true; break; }
+        }
+        if (!overlap) {
+          placed = true;
+          existingRects.push_back(newRect);
+          std::shared_ptr<Entity> shared = std::move(entity);
+          std::string id = tmpl + std::string(Constants::SEED) + std::to_string(idCounter++);
+          std::string finalId = manager.addEntity(shared, id);
+          chunk.ids.push_back(finalId);
+        }
       }
-
-      std::shared_ptr<Entity> shared = std::move(entity);
-      std::string id = tmpl + std::string(Constants::SEED) + std::to_string(idCounter++);
-      std::string finalId = manager.addEntity(shared, id);
-      chunk.ids.push_back(finalId);
     }
   }
 

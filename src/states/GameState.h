@@ -28,6 +28,8 @@
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Project::Factories { class EntitiesFactory; }
+namespace Project::Core { class SDLManager; }
+
 namespace Project::States {
   class GameStateManager;
   class GameState : 
@@ -99,6 +101,7 @@ namespace Project::States {
       mapRect.w = width;
       mapRect.h = height;
     }
+    const SDL_Rect& getMapRect() const { return mapRect; }
 
     void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) {
       layersManager = std::move(manager);

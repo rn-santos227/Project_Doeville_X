@@ -5,7 +5,6 @@ dimension = "BOXED"
 function initialize()
   print("Initializing MainMenuState")
   setBackgroundColor(34, 45, 50, 255)
-  spawnEntity("input_box")
   spawnEntity("sample_text")
   
   spawnEntity("button_start")

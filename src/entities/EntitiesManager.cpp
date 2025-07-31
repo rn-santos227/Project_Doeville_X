@@ -438,7 +438,29 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::clampEntitiesToRect(const SDL_Rect& rect) {
+    for (auto& entity : entityList) {
+      if (!entity) continue;
 
+      float ex = entity->getX();
+      float ey = entity->getY();
+
+      float w = 0.0f;
+      float h = 0.0f;
+
+      if (auto* gfx = entity->getGraphicsComponent()) {
+        w = static_cast<float>(gfx->getWidth());
+        h = static_cast<float>(gfx->getHeight());
+      } else if (auto* bbox = entity->getBoundingBoxComponent()) {
+        const auto& boxes = bbox->getBoxes();
+        if (!boxes.empty()) {
+          w = static_cast<float>(boxes.front().w);
+          h = static_cast<float>(boxes.front().h);
+        }
+      }
+
+      float clampedX = std::clamp(ex, static_cast<float>(rect.x), static_cast<float>(rect.x + rect.w - w));
+      float clampedY = std::clamp(ey, static_cast<float>(rect.y), static_cast<float>(rect.y + rect.h - h));
+    }
   }
 
   bool EntitiesManager::isEntityInCamera(const std::shared_ptr<Entity>& entity) const {

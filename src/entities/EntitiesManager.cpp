@@ -8,6 +8,7 @@
 #include <SDL.h>
 
 #include "bindings/LuaBindings.h"
+#include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/motion_component/MotionComponent.h"

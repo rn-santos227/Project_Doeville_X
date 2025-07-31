@@ -9,11 +9,14 @@
 #include "libraries/keys/Keys.h"
 #include "layers/LayersManager.h"
 #include "layers/LayerCategory.h"
+#include "states/DimensionModeResolver.h"
 
 namespace Project::Factories {
   using Project::Utilities::LogsManager;
   using Project::Core::SDLManager;
   using Project::Handlers::ResourcesHandler;
+  using Project::States::DimensionMode;
+  using Project::States::DimensionModeResolver;
   using Project::States::GameState;
   using Project::States::GameStateCategory;
   using Project::States::GameStateCategoryResolver;
@@ -51,6 +54,32 @@ namespace Project::Factories {
 
     std::string stateName = lua_tostring(L, -1);
     newState->setStateName(stateName);
+    lua_pop(L, 1);
+
+    lua_getglobal(L, Keys::DIMENSION);
+    if (lua_isstring(L, -1)) {
+      std::string typeStr = lua_tostring(L, -1);
+      newState->setDimensionMode(Project::States::DimensionModeResolver::resolve(typeStr));
+    } else {
+      GameStateCategory cat = newState->getGameStateCategory();
+      DimensionMode def = DimensionMode::BOXED;
+      switch (cat) {
+        case GameStateCategory::STATIC_GAME_STATE:
+        case GameStateCategory::DYNAMIC_GAME_STATE:
+        case GameStateCategory::CINEMATIC_STATE:
+        case GameStateCategory::FPS_GAMEPLAY_STATE:
+        case GameStateCategory::SIDE_SCROLLER_STATE:
+        case GameStateCategory::VR_GAMEPLAY_STATE:
+        case GameStateCategory::BATTLE_STATE:
+        case GameStateCategory::MAP_STATE:
+        case GameStateCategory::STORY_STATE:
+          def = DimensionMode::FREE_ROAMING;
+          break;
+        default:
+          def = DimensionMode::BOXED;
+      }
+      newState->setDimensionMode(def);
+    }
     lua_pop(L, 1);
 
     lua_getglobal(L, Keys::STATE_CATEGORY);

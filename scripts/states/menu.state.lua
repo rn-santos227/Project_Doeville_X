@@ -1,5 +1,6 @@
 state_name = "MainMenuState"
 state_category = "MAIN_MENU_STATE"
+dimension = "BOXED"
 
 function initialize()
   print("Initializing MainMenuState")

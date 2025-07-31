@@ -1,5 +1,6 @@
 state_name = "SettingsState"
 state_category = "SETTINGS_STATE"
+dimension = "BOXED"
 
 function initialize()
   print("Initializing SettingsState")

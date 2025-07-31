@@ -1,5 +1,6 @@
 state_name = "GameState"
 state_category = "STATIC_GAME_STATE"
+dimension = "FREE_ROAMING"
 
 layer_scripts = {
   "scripts/layers/gameplay/game.layer.lua",

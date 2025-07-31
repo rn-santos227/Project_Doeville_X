@@ -358,6 +358,8 @@ namespace Project::States {
   }
 
   void GameState::registerLuaFunctions(Project::Core::SDLManager* manager) {
-
+    if (manager) sdlManager = manager;
+    const std::string& path = luaScriptPath;
+    if (path.empty()) return;
   }
 }

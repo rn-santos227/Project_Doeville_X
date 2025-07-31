@@ -175,6 +175,18 @@ namespace Project::Layers {
     return nullptr;
   }
 
+  size_t LayersManager::getTotalEntityCount() const {
+    size_t count = 0;
+    for (const auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) {
+        count += mgr->getEntityCount();
+      }
+    }
+    return count;
+  }
+
+
   void LayersManager::setGameState(Project::States::GameState* state) {
     gameState = state;
     for (auto& layer : layers) {
@@ -183,6 +195,20 @@ namespace Project::Layers {
     }
   }
 
+  void LayersManager::setGameState(Project::States::GameState* state) {
+    gameState = state;
+    for (auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) mgr->setGameState(state);
+    }
+  }
+
+  void LayersManager::clampEntitiesToRect(const SDL_Rect& rect) {
+    for (auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) mgr->clampEntitiesToRect(rect);
+    }
+  }
 
   int LayersManager::categoryOrder(LayerCategory category) const {
     switch (category) {
@@ -200,16 +226,5 @@ namespace Project::Layers {
     return std::any_of(layers.begin(), layers.end(), [](const Layer& l){
       return l.getCategory() == LayerCategory::CINEMATIC && l.isActive();
     });
-  }
-
-  size_t LayersManager::getTotalEntityCount() const {
-    size_t count = 0;
-    for (const auto& layer : layers) {
-      auto mgr = layer.getEntitiesManager();
-      if (mgr) {
-        count += mgr->getEntityCount();
-      }
-    }
-    return count;
   }
 }

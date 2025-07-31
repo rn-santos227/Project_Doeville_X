@@ -9,6 +9,8 @@
 #include <memory>
 #include <optional>
 
+#include <SDL.h>
+
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
@@ -52,6 +54,9 @@ namespace Project::Layers {
     void setLayerVisible(const std::string& name, bool visible);
 
     size_t getTotalEntityCount() const;
+    
+    void clampEntitiesToRect(const SDL_Rect& rect);
+    void warpEntitiesAcrossRect(const SDL_Rect& rect);
 
   private:
     Project::States::GameState* gameState = nullptr;

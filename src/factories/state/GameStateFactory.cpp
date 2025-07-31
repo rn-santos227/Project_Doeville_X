@@ -38,11 +38,8 @@ namespace Project::Factories {
       return false;
     }
 
-    newState->getLuaStateWrapper().registerFunction(
-      Keys::LUA_EXIT_GAME,
-      Project::Bindings::LuaBindings::lua_exitGame,
-      &sdlManager
-    );
+    newState->setSDLManager(&sdlManager);
+    newState->registerLuaFunctions(&sdlManager);
     
     lua_State* L = newState->getLuaState();
     lua_getglobal(L, Keys::STATE_NAME);

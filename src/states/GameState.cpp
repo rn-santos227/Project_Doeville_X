@@ -140,6 +140,7 @@ namespace Project::States {
   }
 
   void GameState::reset() {
+    clearScriptFunctionCache();
     playerEntity.reset();
     activeCamera = nullptr;
     nextSeederId = 0;
@@ -330,22 +331,7 @@ namespace Project::States {
     }
     return count;
   }
-
-  void GameState::ensureMapSize() {
-    if (dimensionMode != DimensionMode::BOUNDED) return;
-    if (mapRect.w > 0 && mapRect.h > 0) return;
-
-    mapRect.x = 0;
-    mapRect.y = 0;
-    if (renderer) {
-      SDL_GetRendererOutputSize(renderer, &mapRect.w, &mapRect.h);
-    }
-    if (mapRect.w <= 0 || mapRect.h <= 0) {
-      mapRect.w = Project::Libraries::Constants::DEFAULT_SCREEN_WIDTH;
-      mapRect.h = Project::Libraries::Constants::DEFAULT_SCREEN_HEIGHT;
-    }
-  }
-
+  
   void GameState::registerLuaFunctions(Project::Core::SDLManager* manager) {
     if (manager) sdlManager = manager;
     const std::string& path = luaScriptPath;
@@ -414,6 +400,26 @@ namespace Project::States {
       } else if (f == Keys::LUA_EXIT_GAME && sdlManager) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_exitGame, sdlManager);
       }
+    }
+  }
+
+  void GameState::clearScriptFunctionCache() {
+    scriptFunctionCache.clear();
+    persistentFunctionCache.load();
+  }
+
+  void GameState::ensureMapSize() {
+    if (dimensionMode != DimensionMode::BOUNDED) return;
+    if (mapRect.w > 0 && mapRect.h > 0) return;
+
+    mapRect.x = 0;
+    mapRect.y = 0;
+    if (renderer) {
+      SDL_GetRendererOutputSize(renderer, &mapRect.w, &mapRect.h);
+    }
+    if (mapRect.w <= 0 || mapRect.h <= 0) {
+      mapRect.w = Project::Libraries::Constants::DEFAULT_SCREEN_WIDTH;
+      mapRect.h = Project::Libraries::Constants::DEFAULT_SCREEN_HEIGHT;
     }
   }
 }

@@ -64,11 +64,13 @@ namespace Project::States {
 
     bool attachLuaScript(const std::string& scriptPath);
     void registerLuaFunctions(Project::Core::SDLManager* manager = nullptr);
-    void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
-    Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
+    void clearScriptFunctionCache();
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+    
+    void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
+    Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
 
     void setActiveCamera(Project::Components::CameraComponent* camera);
     Project::Components::CameraComponent* getActiveCamera() const { return activeCamera; }
@@ -127,7 +129,6 @@ namespace Project::States {
     );
 
     size_t getEntityCount() const;
-    
 
   protected:
     static std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;

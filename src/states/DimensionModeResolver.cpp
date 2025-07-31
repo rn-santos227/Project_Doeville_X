@@ -1,5 +1,6 @@
 #include "DimensionModeResolver.h"
 
+#include <algorithm>
 #include <cctype>
 #include <unordered_map>
 
@@ -19,5 +20,10 @@ namespace Project::States {
       {std::string(Dimensions::VERTICAL_SCROLL), DimensionMode::VERTICAL_SCROLL},
       {std::string(Dimensions::WRAPPING), DimensionMode::WRAPPING}
     };
+
+    std::string key = name;
+    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
+      return std::toupper(c);
+    });
   }
 }

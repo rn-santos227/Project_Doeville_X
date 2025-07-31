@@ -375,7 +375,13 @@ namespace Project::Bindings::LuaBindings {
       return 0;
     }
 
-    state->setPlayerEntity(name);
+    bool hasX = lua_gettop(L) >= Constants::INDEX_TWO && lua_isnumber(L, Constants::INDEX_TWO);
+    bool hasY = lua_gettop(L) >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE);
+    float x = 0.0f;
+    float y = 0.0f;
+    if (hasX) x = static_cast<float>(lua_tonumber(L, Constants::INDEX_TWO));
+    if (hasY) y = static_cast<float>(lua_tonumber(L, Constants::INDEX_THREE));
+    state->setPlayerEntity(name, x, y, hasX && hasY);
     return 0;
   }
 

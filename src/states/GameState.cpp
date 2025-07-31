@@ -356,4 +356,8 @@ namespace Project::States {
       mapRect.h = Project::Libraries::Constants::DEFAULT_SCREEN_HEIGHT;
     }
   }
+
+  void GameState::registerLuaFunctions(Project::Core::SDLManager* manager) {
+
+  }
 }

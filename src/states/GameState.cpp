@@ -2,8 +2,10 @@
 #include "GameStateManager.h"
 
 #include <algorithm>
+#include <fstream>
 #include <chrono>
 #include <future>
+#include <sstream>
 #include <string>
 
 #include "components/motion_component/MotionComponent.h"
@@ -22,11 +24,15 @@ namespace Project::States {
   namespace Keys = Project::Libraries::Keys;
   namespace LuaBindings = Project::Bindings::LuaBindings;
 
+  std::unordered_map<std::string, std::vector<std::string>> GameState::scriptFunctionCache{};
+  Project::Utilities::BinaryFileCache GameState::persistentFunctionCache(Project::Libraries::Constants::SCRIPT_FUNCTION_CACHE_FILE);
+
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
   : LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {}
 
   GameState::~GameState() {
     clearBackground();
+    persistentFunctionCache.save();
   }
 
   void GameState::initialize() {

@@ -474,6 +474,10 @@ namespace Project::Entities {
     }
   }
 
+  void EntitiesManager::warpEntitiesAcrossRect(const SDL_Rect& rect) {
+
+  }
+
   bool EntitiesManager::isEntityInCamera(const std::shared_ptr<Entity>& entity) const {
     if (!entity) return true;
     auto* cam = Project::Components::GraphicsComponent::getCameraHandler();

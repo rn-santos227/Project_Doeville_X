@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "core/SDLManager.h"
 #include "components/camera_component/CameraComponent.h"
 #include "entities/ChunkSize.h"
 #include "entities/EntitiesManager.h"
@@ -23,6 +24,7 @@
 #include "interfaces/render_interface/Renderable.h"
 #include "layers/LayersManager.h"
 #include "libraries/constants/Constants.h"
+#include "utilities/binary_cache/BinaryFileCache.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Project::Factories { class EntitiesFactory; }
@@ -61,6 +63,9 @@ namespace Project::States {
     void markInitialized() { initialized = true; }
 
     bool attachLuaScript(const std::string& scriptPath);
+    void registerLuaFunctions(Project::Core::SDLManager* manager = nullptr);
+    void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
+    Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
@@ -125,6 +130,9 @@ namespace Project::States {
     
 
   protected:
+    static std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;
+    static Project::Utilities::BinaryFileCache persistentFunctionCache;
+
     Project::Handlers::ResourcesHandler& resourcesHandler;
     
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
@@ -132,6 +140,7 @@ namespace Project::States {
     
     std::weak_ptr<Project::Entities::Entity> playerEntity;
     
+    Project::Core::SDLManager* sdlManager = nullptr;
     Project::Components::CameraComponent* activeCamera = nullptr;
     Project::Factories::EntitiesFactory* entitiesFactory = nullptr;
     Project::States::GameStateManager* gameStateManager = nullptr;

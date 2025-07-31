@@ -72,6 +72,15 @@ namespace Project::States {
       entitiesManager->update(deltaTime);
     }
 
+    if (dimensionMode == DimensionMode::BOXED && camHandler) {
+      SDL_Rect camRect = camHandler->getRect();
+      if (layersManager) {
+        layersManager->clampEntitiesToRect(camRect);
+      } else if (entitiesManager) {
+        entitiesManager->clampEntitiesToRect(camRect);
+      }
+    }
+
     for (auto& pair : entitySeeders) {
       if (pair.second) pair.second->update(deltaTime);
     }

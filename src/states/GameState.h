@@ -2,6 +2,7 @@
 #define GAME_STATE_H
 
 #include "GameStateCategory.h"
+#include "DimensionMode.h"
 
 #include <future>
 #include <memory>
@@ -52,6 +53,9 @@ namespace Project::States {
 
     GameStateCategory getGameStateCategory() const { return gameStateCategory; }
     void setGameStateCategory(GameStateCategory category) { gameStateCategory = category; }
+
+    DimensionMode getDimensionMode() const { return dimensionMode; }
+    void setDimensionMode(DimensionMode dimension) { dimensionMode = dimension; }
 
     bool isInitialized() const { return initialized; }
     void markInitialized() { initialized = true; }
@@ -114,7 +118,10 @@ namespace Project::States {
 
   protected:
     Project::Handlers::ResourcesHandler& resourcesHandler;
+    
     GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
+    DimensionMode dimensionMode = DimensionMode::BOXED;
+    
     std::weak_ptr<Project::Entities::Entity> playerEntity;
     
     Project::Components::CameraComponent* activeCamera = nullptr;

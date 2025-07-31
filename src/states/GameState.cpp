@@ -361,5 +361,44 @@ namespace Project::States {
     if (manager) sdlManager = manager;
     const std::string& path = luaScriptPath;
     if (path.empty()) return;
+
+    std::vector<std::string> funcs;
+    auto it = scriptFunctionCache.find(path);
+    if (it == scriptFunctionCache.end()) {
+      std::vector<char> raw;
+      if (persistentFunctionCache.getData(path, raw)) {
+        std::string content(raw.begin(), raw.end());
+        std::istringstream iss(content);
+        std::string f;
+        while (std::getline(iss, f)) {
+          if (!f.empty()) funcs.push_back(f);
+        }
+      } else {
+        std::string code;
+        std::ifstream in(path);
+        if (in) {
+          std::ostringstream ss; ss << in.rdbuf(); code = ss.str();
+        }
+        auto contains = [&](const std::string& name){ return code.find(name) != std::string::npos; };
+        auto record = [&](const std::string& name){ if (contains(name)) funcs.push_back(name); };
+        record(Keys::LUA_SET_ACTIVE_CAMERA);
+        record(Keys::LUA_CHANGE_STATE);
+        record(Keys::LUA_RESET_STATE);
+        record(Keys::LUA_SET_BACKGROUND_COLOR);
+        record(Keys::LUA_SET_BACKGROUND_IMAGE);
+        record(Keys::LUA_SPAWN_ENTITY);
+        record(Keys::LUA_START_ENTITY_SEEDER);
+        record(Keys::LUA_ADD_ENTITY_TO_SEEDER);
+        record(Keys::LUA_SET_PLAYER_ENTITY);
+        record(Keys::LUA_SET_MAP_SIZE);
+        record(Keys::LUA_EXIT_GAME);
+        std::string serialized;
+        for (const auto& f : funcs) serialized += f + "\n";
+        persistentFunctionCache.setData(path, std::vector<char>(serialized.begin(), serialized.end()));
+      }
+      scriptFunctionCache[path] = funcs;
+    } else {
+      funcs = it->second;
+    }
   }
 }

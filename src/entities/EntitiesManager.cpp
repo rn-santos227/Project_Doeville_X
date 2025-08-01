@@ -154,7 +154,7 @@ namespace Project::Entities {
   }
 
   bool EntitiesManager::hasEntity(const std::string& id) {
-    std::lock_guard<std::recursive_mutex> lock(managerMutex);
+    std::lock_guard<std::mutex> lock(managerMutex);
     return objects.find(id) != objects.end();
   }
 
@@ -167,9 +167,9 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::unloadSceneEntities() {
-    std::lock_guard<std::recursive_mutex> lock(managerMutex);
+    std::lock_guard<std::mutex> lock(managerMutex);
 
-    optimizeEntities();
+    optimizeEntitiesImpl();
     for (const auto& [id, entity] : objects) {
       cachedEntities[id] = entity;
     }
@@ -185,26 +185,8 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::optimizeEntities() {
-    std::lock_guard<std::recursive_mutex> lock(managerMutex);
-    cachedEntities.clear();
-    cachedEntities.rehash(0);
-
-    entityList.shrink_to_fit();
-    entityIndices.clear();
-    entityIndices.rehash(0);
-
-    for (auto& [group, ids] : entityGroups) {
-      ids.shrink_to_fit();
-    }
-    entityGroups.rehash(0);
-
-    for (auto& [path, funcs] : scriptFunctionCache) {
-      funcs.shrink_to_fit();
-    }
-    scriptFunctionCache.rehash(0);
-
-    idCounters.rehash(0);
-    updateHighCount = updateNormalCount = updateLowCount = updateToRemoveCount = 0;
+    std::lock_guard<std::mutex> lock(managerMutex);
+    optimizeEntitiesImpl();
   }
 
   void EntitiesManager::initialize() {
@@ -229,56 +211,60 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::update(float deltaTime) {
-    std::lock_guard<std::recursive_mutex> lock(managerMutex);
-    updateHighCount = 0;
-    updateNormalCount = 0;
-    updateLowCount = 0;
+    std::vector<std::string> pendingRemove;
+    {
+      updateHighCount = 0;
+      updateNormalCount = 0;
+      updateLowCount = 0;
 
-    for (auto& entity : entityList) {
-      if (!entity) continue;
-      if (entity->hasAttribute(EntityAttribute::HIGH_PRIORITY)) {
-        if (updateHighCount < updateHigh.size())
-          updateHigh[updateHighCount] = entity;
-        else
-          updateHigh.push_back(entity);
-        ++updateHighCount;
-      } else if (entity->hasAttribute(EntityAttribute::LOW_PRIORITY)) {
-        if (updateLowCount < updateLow.size())
-          updateLow[updateLowCount] = entity;
-        else
-          updateLow.push_back(entity);
-        ++updateLowCount;
-      } else {
-        if (updateNormalCount < updateNormal.size())
-          updateNormal[updateNormalCount] = entity;
-        else
-          updateNormal.push_back(entity);
-        ++updateNormalCount;
+      for (auto& entity : entityList) {
+        if (!entity) continue;
+        if (entity->hasAttribute(EntityAttribute::HIGH_PRIORITY)) {
+          if (updateHighCount < updateHigh.size())
+            updateHigh[updateHighCount] = entity;
+          else
+            updateHigh.push_back(entity);
+          ++updateHighCount;
+        } else if (entity->hasAttribute(EntityAttribute::LOW_PRIORITY)) {
+          if (updateLowCount < updateLow.size())
+            updateLow[updateLowCount] = entity;
+          else
+            updateLow.push_back(entity);
+          ++updateLowCount;
+        } else {
+          if (updateNormalCount < updateNormal.size())
+            updateNormal[updateNormalCount] = entity;
+          else
+            updateNormal.push_back(entity);
+          ++updateNormalCount;
+        }
       }
+
+      auto updateEntity = [&](std::shared_ptr<Entity>& ent) {
+        if (!ent) return;
+        if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+          ent->update(deltaTime);
+        }
+      };
+
+      for (size_t i = 0; i < updateHighCount; ++i) updateEntity(updateHigh[i]);
+      for (size_t i = 0; i < updateNormalCount; ++i) updateEntity(updateNormal[i]);
+      for (size_t i = 0; i < updateLowCount; ++i) updateEntity(updateLow[i]);
+
+      updateToRemoveCount = 0;
+
+      for (const auto& ent : entityList) {
+        if (ent && ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
+          if (updateToRemoveCount < updateToRemove.size())
+            updateToRemove[updateToRemoveCount] = ent->getEntityID();
+          else
+            updateToRemove.push_back(ent->getEntityID());
+          ++updateToRemoveCount;
+        }
+      }
+      pendingRemove.assign(updateToRemove.begin(), updateToRemove.begin() + updateToRemoveCount);
     }
 
-    auto updateEntity = [&](std::shared_ptr<Entity>& ent) {
-      if (!ent) return;
-      if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
-        ent->update(deltaTime);
-      }
-    };
-
-    for (size_t i = 0; i < updateHighCount; ++i) updateEntity(updateHigh[i]);
-    for (size_t i = 0; i < updateNormalCount; ++i) updateEntity(updateNormal[i]);
-    for (size_t i = 0; i < updateLowCount; ++i) updateEntity(updateLow[i]);
-
-    updateToRemoveCount = 0;
-
-    for (const auto& ent : entityList) {
-      if (ent && ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
-        if (updateToRemoveCount < updateToRemove.size())
-          updateToRemove[updateToRemoveCount] = ent->getEntityID();
-        else
-          updateToRemove.push_back(ent->getEntityID());
-        ++updateToRemoveCount;
-      }
-    }
     for (size_t i = 0; i < updateToRemoveCount; ++i) {
       const auto& id = updateToRemove[i];
       removeEntity(id);
@@ -315,7 +301,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::reset() {
-    std::lock_guard<std::recursive_mutex> lock(managerMutex);
+    std::lock_guard<std::mutex> lock(managerMutex);
     initialized = false;
     
     objects.clear();
@@ -571,5 +557,27 @@ namespace Project::Entities {
         }
       }
     }
+  }
+
+  void EntitiesManager::optimizeEntitiesImpl() {
+    cachedEntities.clear();
+    cachedEntities.rehash(0);
+
+    entityList.shrink_to_fit();
+    entityIndices.clear();
+    entityIndices.rehash(0);
+
+    for (auto& [group, ids] : entityGroups) {
+      ids.shrink_to_fit();
+    }
+    entityGroups.rehash(0);
+
+    for (auto& [path, funcs] : scriptFunctionCache) {
+      funcs.shrink_to_fit();
+    }
+    scriptFunctionCache.rehash(0);
+
+    idCounters.rehash(0);
+    updateHighCount = updateNormalCount = updateLowCount = updateToRemoveCount = 0;
   }
 }

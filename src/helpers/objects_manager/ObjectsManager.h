@@ -14,31 +14,31 @@ namespace Project::Helpers {
     virtual ~ObjectsManager() = default;
 
     void add(const std::string& id, Ptr object) {
-      std::lock_guard<std::recursive_mutex> lock(managerMutex);
+      std::lock_guard<std::mutex> lock(managerMutex);
       objects[id] = std::move(object);
     }
 
     void remove(const std::string& id) {
-      std::lock_guard<std::recursive_mutex> lock(managerMutex);
+      std::lock_guard<std::mutex> lock(managerMutex);
       objects.erase(id);
     }
 
     void update(float deltaTime) {
-      std::lock_guard<std::recursive_mutex> lock(managerMutex);
+      std::lock_guard<std::mutex> lock(managerMutex);
       for (auto& [id, obj] : objects) {
         obj->update(deltaTime);
       }
     }
 
     void render() {
-      std::lock_guard<std::recursive_mutex> lock(managerMutex);
+      std::lock_guard<std::mutex> lock(managerMutex);
       for (auto& [id, obj] : objects) {
         obj->render();
       }
     }
 
     size_t count() const {
-      std::lock_guard<std::recursive_mutex> lock(managerMutex);
+      std::lock_guard<std::mutex> lock(managerMutex);
       return objects.size();
     }
 
@@ -47,7 +47,7 @@ namespace Project::Helpers {
 
   protected:
     std::unordered_map<std::string, Ptr> objects;
-    mutable std::recursive_mutex managerMutex;
+    mutable std::mutex managerMutex;
   };
 }
 

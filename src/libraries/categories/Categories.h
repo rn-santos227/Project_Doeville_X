@@ -4,6 +4,7 @@
 #include "CameraCategories.h"
 #include "ComponentCategories.h"
 #include "EntityCategories.h"
+#include "InputCategories.h"
 #include "LayerCategories.h"
 #include "ScriptCategories.h"
 #include "StateCategories.h"

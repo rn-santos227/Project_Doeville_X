@@ -44,6 +44,11 @@ namespace Project::Helpers {
         ::operator delete(obj);
       }
     }
+
+  private:
+    std::vector<T*> pool;
+    size_t maxSize = 0;
+
   };
 }
 

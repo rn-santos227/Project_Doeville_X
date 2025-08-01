@@ -323,9 +323,9 @@ namespace Project::Components {
           shapeVertices[i].position = localCorners[i];
           if (useGradient) {
             if (gradient == Project::Services::GradientType::VERTICAL) {
-            
+              shapeVertices[i].color = (i < Constants::INDEX_TWO) ? gradientStart : gradientEnd;
             } else {
-            shapeVertices[i].color = (i == 0 || i == Constants::INDEX_THREE) ? gradientStart : gradientEnd;
+              shapeVertices[i].color = (i == 0 || i == Constants::INDEX_THREE) ? gradientStart : gradientEnd;
             }
           } else {
             shapeVertices[i].color = shapeColor;
@@ -344,8 +344,8 @@ namespace Project::Components {
       const SDL_Rect borderRect = {
         renderRect.x + i, 
         renderRect.y + i, 
-        renderRect.w - 2 * i, 
-        renderRect.h - 2 * i
+        renderRect.w - Constants::INDEX_TWO * i, 
+        renderRect.h - Constants::INDEX_TWO * i
       };
       SDL_RenderDrawRect(renderer, &borderRect);
     }

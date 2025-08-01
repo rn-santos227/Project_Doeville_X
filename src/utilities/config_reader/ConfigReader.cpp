@@ -1,11 +1,11 @@
 #include "ConfigReader.h"
 
-#include "libraries/constants/Constants.h"
-#include "utilities/color/ColorUtils.h"
-
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+
+#include "libraries/constants/Constants.h"
+#include "utilities/color/ColorUtils.h"
 
 namespace Project::Utilities {
   using Project::Utilities::LogsManager;
@@ -114,7 +114,7 @@ namespace Project::Utilities {
   }
 
   void ConfigReader::trim(std::string& str) const {
-    str.erase(0, str.find_first_not_of(" \t\r\n"));
-    str.erase(str.find_last_not_of(" \t\r\n") + 1);
+    str.erase(0, str.find_first_not_of(Constants::REGEX_WHITESPACE));
+    str.erase(str.find_last_not_of(Constants::REGEX_WHITESPACE) + 1);
   }     
 }

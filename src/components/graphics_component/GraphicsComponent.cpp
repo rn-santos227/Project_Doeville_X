@@ -32,6 +32,7 @@ namespace Project::Components {
 
     shapeVertices.reserve(Constants::INDEX_FOUR);
     shapeIndices.reserve(Constants::INDEX_SIX);
+    verticesDirty = true;
     setupShapeIndices();
   }
 
@@ -101,13 +102,18 @@ namespace Project::Components {
   void GraphicsComponent::applyStyle() {
     std::istringstream classes(getClass());
     std::string cls;
-    
     while (classes >> cls) {
       const std::string selector = "." + cls;
       const Project::Services::Style s = StyleManager::getInstance().getStyle(selector);
       
-      if (s.width > 0) destRect.w = s.width;
-      if (s.height > 0) destRect.h = s.height;
+      if (s.width > 0) {
+        if (destRect.w != s.width) verticesDirty = true;
+        destRect.w = s.width;
+      }
+      if (s.height > 0) {
+        if (destRect.h != s.height) verticesDirty = true;
+        destRect.h = s.height;
+      }
       
       if (s.background.a != 0) {
         shapeColor = s.background;
@@ -117,9 +123,11 @@ namespace Project::Components {
       if (s.hasGradient) {
         gradientStart = s.gradientStart;
         gradientEnd = s.gradientEnd;
+        if (gradient != s.gradient) verticesDirty = true;
         gradient = s.gradient;
         useGradient = true;
         drawShape = true;
+        verticesDirty = true;
       }
 
       if (s.borderColor.a != 0) {
@@ -156,6 +164,8 @@ namespace Project::Components {
     destroyTexture();
     textureFuture = std::future<SDL_Texture*>();
     pendingTexturePath.clear();
+    if (destRect.w != width || destRect.h != height) verticesDirty = true;
+
     destRect.w = width;
     destRect.h = height;
     shapeColor = color;
@@ -168,6 +178,8 @@ namespace Project::Components {
     destroyTexture();
     textureFuture = std::future<SDL_Texture*>();
     pendingTexturePath.clear();
+    if (destRect.w != r * 2 || destRect.h != r * 2) verticesDirty = true;
+
     destRect.w = r * 2;
     destRect.h = r * 2;
     shapeColor = color;
@@ -179,6 +191,7 @@ namespace Project::Components {
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {
     destRect.x = x;
     destRect.y = y;
+    if (destRect.w != width || destRect.h != height) verticesDirty = true;
     destRect.w = width;
     destRect.h = height;
   }
@@ -222,6 +235,7 @@ namespace Project::Components {
         texture = loaded;
         int texW, texH;
         if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
+          if (destRect.w != texW || destRect.h != texH) verticesDirty = true;
           destRect.w = texW;
           destRect.h = texH;
         }
@@ -285,42 +299,42 @@ namespace Project::Components {
   void GraphicsComponent::renderComplexRect(const SDL_Rect& renderRect) {
     updateRotationCache();
     
-    const float cx = renderRect.x + renderRect.w * Constants::DEFAULT_HALF;
-    const float cy = renderRect.y + renderRect.h * Constants::DEFAULT_HALF;
-    
-    shapeVertices.clear();
-    shapeVertices.resize(Constants::INDEX_FOUR);
-    
-    const std::array<SDL_FPoint, Constants::INDEX_FOUR> localCorners = {{
-      {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y)},
-      {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y)},
-      {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y + renderRect.h)},
-      {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y + renderRect.h)}
-    }};
+    if (verticesDirty) {
+      const float cx = renderRect.x + renderRect.w * Constants::DEFAULT_HALF;
+      const float cy = renderRect.y + renderRect.h * Constants::DEFAULT_HALF;   
 
-    for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
-      if (rotationEnabled) {
-        const float rx = localCorners[i].x - cx;
-        const float ry = localCorners[i].y - cy;
-        shapeVertices[i].position.x = rx * cachedCos - ry * cachedSin + cx;
-        shapeVertices[i].position.y = rx * cachedSin + ry * cachedCos + cy;
-      } else {
-        shapeVertices[i].position = localCorners[i];
-      }
-      
-      if (useGradient) {
-        if (gradient == Project::Services::GradientType::VERTICAL) {
-          shapeVertices[i].color = (i < Constants::INDEX_TWO) ? gradientStart : gradientEnd;
+      shapeVertices.clear();
+      shapeVertices.resize(Constants::INDEX_FOUR);
+
+      const std::array<SDL_FPoint, Constants::INDEX_FOUR> localCorners = {{
+        {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y)},
+        {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y)},
+        {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y + renderRect.h)},
+        {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y + renderRect.h)}
+      }};
+
+      for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
+        if (rotationEnabled) {
+          const float rx = localCorners[i].x - cx;
+          const float ry = localCorners[i].y - cy;
+          shapeVertices[i].position.x = rx * cachedCos - ry * cachedSin + cx;
+          shapeVertices[i].position.y = rx * cachedSin + ry * cachedCos + cy;
         } else {
-          shapeVertices[i].color = (i == 0 || i == Constants::INDEX_THREE) ? gradientStart : gradientEnd;
+          shapeVertices[i].position = localCorners[i];
+          if (useGradient) {
+            if (gradient == Project::Services::GradientType::VERTICAL) {
+            
+            } else {
+            shapeVertices[i].color = (i == 0 || i == Constants::INDEX_THREE) ? gradientStart : gradientEnd;
+            }
+          } else {
+            shapeVertices[i].color = shapeColor;
+          }
+          shapeVertices[i].tex_coord = {0.0f, 0.0f};
         }
-      } else {
-        shapeVertices[i].color = shapeColor;
+        verticesDirty = false;
       }
-      
-      shapeVertices[i].tex_coord = {0.0f, 0.0f};
     }
-
     SDL_RenderGeometry(renderer, nullptr, shapeVertices.data(), Constants::INDEX_FOUR, shapeIndices.data(), Constants::INDEX_SIX);
   }
 

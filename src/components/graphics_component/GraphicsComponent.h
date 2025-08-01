@@ -37,16 +37,16 @@ namespace Project::Components {
     void applyStyle() override;
     
     void setEntityPosition(int x, int y) override;
-    void setEntityRotation(float _angle) override { rotation = _angle; }
+    void setEntityRotation(float _angle) override { rotation = _angle; verticesDirty = true; }
     
     bool setTexture(Project::Handlers::ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setShape(int width, int height, SDL_Color color);
     void setCircle(int radius, SDL_Color color);
     void setPosition(int x, int y, int width, int height);
-    
-    void setRotationEnabled(bool _enabled) { rotationEnabled = _enabled; }
-    void setBorderColor(SDL_Color _color) { borderColor = _color; }
+
+    void setBorderColor(SDL_Color _color) { borderColor = _color; }    
     void setBorderWidth(int _width) { borderWidth = _width; }
+    void setRotationEnabled(bool _enabled) { if (rotationEnabled != _enabled) verticesDirty = true; rotationEnabled = _enabled; }
 
     bool isRotationEnabled() const { return rotationEnabled; }
     
@@ -92,6 +92,7 @@ namespace Project::Components {
     float radius = 0.0f;
     float rotation = 0.0f;
 
+    mutable bool verticesDirty{true};
     bool rotationEnabled = false;
     bool isCircle = false;
     bool drawShape = false;

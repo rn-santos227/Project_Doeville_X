@@ -36,7 +36,10 @@ namespace Project::Utilities {
   }
 
   std::string EnvLoader::getValue(const std::string& key, const std::string& defaultValue) const {
-
+    auto it = values.find(key);
+    if (it != values.end()) {
+      return it->second;
+    }
   }
 
   void EnvLoader::trim(std::string& str) const {

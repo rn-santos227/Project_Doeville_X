@@ -15,7 +15,9 @@ namespace Project::Helpers {
       return instance;
     }
 
-    
+    void setMaxSize(size_t size) { maxSize = size; }
+    size_t getMaxSize() const { return maxSize; }
+
   };
 }
 

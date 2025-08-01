@@ -1,6 +1,8 @@
 #ifndef INPUT_COMPONENT_H
 #define INPUT_COMPONENT_H
 
+#include "InputType.h"
+
 #include <array>
 #include <string>
 
@@ -49,6 +51,9 @@ namespace Project::Components {
     int getWidth() const { return textureW; }
     int getHeight() const { return textureH; }
 
+    void setInputType(InputType _type) { inputType = _type; }
+    InputType getInputType() const { return inputType; }
+
   private:
     SDL_Renderer* renderer;
     Project::Utilities::ConfigReader& configReader;
@@ -62,6 +67,8 @@ namespace Project::Components {
     SDL_Color bgColor{0,0,0,255};
     SDL_Color textColor = Project::Libraries::Constants::COLOR_WHITE;
     SDL_Color borderColor{0,0,0,0};
+
+    InputType inputType{InputType::TEXT};
 
     std::string fontPath;
     std::string currentText;

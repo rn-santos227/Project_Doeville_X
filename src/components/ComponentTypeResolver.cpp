@@ -8,11 +8,7 @@
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Components {
-  using Project::Components::ComponentType;
-  using Project::Utilities::StringUtils;
-
   namespace Components = Project::Libraries::Categories::Components;
-
   ComponentType ComponentTypeResolver::resolve(std::string_view name) {
     static constexpr std::array<std::pair<std::string_view, ComponentType>, 26> map{{
       {Components::BOUNDING_BOX, ComponentType::BOUNDING_BOX},
@@ -44,7 +40,7 @@ namespace Project::Components {
     }};
 
     for (const auto& [key, value] : map) {
-      if (StringUtils::iequals(key, name)) return value;
+      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
     }
     return ComponentType::UNKNOWN;
   }

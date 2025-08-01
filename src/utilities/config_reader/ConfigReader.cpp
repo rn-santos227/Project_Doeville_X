@@ -27,13 +27,13 @@ namespace Project::Utilities {
       if (line.empty() || line[0] == ';' || line[0] == '#') continue;
 
       if (line[0] == '[' && line.back() == ']') {
-        section = line.substr(Constants::INDEX_ONE, line.size() - 2);
+        section = line.substr(Constants::INDEX_ONE, line.size() - Constants::INDEX_TWO);
         trim(section);
       } else {
         size_t delimiterPos = line.find('=');
         if (delimiterPos != std::string::npos) {
           std::string key = line.substr(0, delimiterPos);
-          std::string value = line.substr(delimiterPos + 1);
+          std::string value = line.substr(delimiterPos + Constants::INDEX_ONE);
 
           trim(key);
           trim(value);
@@ -62,9 +62,9 @@ namespace Project::Utilities {
     std::stringstream ss(value);
     std::string channel;
 
-    int channels[4] = {defaultValue.r, defaultValue.g, defaultValue.b, defaultValue.a};
+    int channels[Constants::INDEX_FOUR] = {defaultValue.r, defaultValue.g, defaultValue.b, defaultValue.a};
     int index = 0;
-    while (std::getline(ss, channel, ',') && index < 4) {
+    while (std::getline(ss, channel, ',') && index < Constants::INDEX_FOUR) {
       channels[index] = std::stoi(channel);
       ++index;
     }
@@ -115,6 +115,6 @@ namespace Project::Utilities {
 
   void ConfigReader::trim(std::string& str) const {
     str.erase(0, str.find_first_not_of(Constants::REGEX_WHITESPACE));
-    str.erase(str.find_last_not_of(Constants::REGEX_WHITESPACE) + 1);
+    str.erase(str.find_last_not_of(Constants::REGEX_WHITESPACE) + Constants::INT_ONE);
   }     
 }

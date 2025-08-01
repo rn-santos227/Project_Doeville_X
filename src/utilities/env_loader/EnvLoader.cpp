@@ -29,6 +29,10 @@ namespace Project::Utilities {
       trim(value);
       values[key] = value;
     }
+
+    file.close();
+    logsManager.logMessage("Environment file loaded from " + filePath);
+    return true;
   }
 
   void EnvLoader::trim(std::string& str) const {

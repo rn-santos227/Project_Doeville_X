@@ -89,8 +89,13 @@ namespace Project::Entities {
       
       Project::States::GameState* gameState = nullptr;
       Project::Core::SDLManager* sdlManager = nullptr;
-      bool initialized = false;
 
+      size_t updateHighCount = 0;
+      size_t updateNormalCount = 0;
+      size_t updateLowCount = 0;
+      size_t updateToRemoveCount = 0;
+      
+      bool initialized = false;
 
       std::pair<float, float> getEntitySize(const std::shared_ptr<Entity>& entity);
       bool isEntityInCamera(const std::shared_ptr<Entity>& entity) const;

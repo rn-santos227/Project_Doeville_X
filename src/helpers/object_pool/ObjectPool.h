@@ -8,6 +8,7 @@
 namespace Project::Helpers {
   template <typename T>
   class ObjectPool {
+  public:
     using Deleter = std::function<void(T*)>;
 
     static ObjectPool<T>& getInstance() {
@@ -32,6 +33,16 @@ namespace Project::Helpers {
       return std::unique_ptr<T, Deleter>(mem, [](T* obj) {
         ObjectPool<T>::getInstance().release(obj);
       });
+    }
+
+    void release(T* obj) {
+      if (!obj) return;
+      obj->~T();
+      if (maxSize == 0 || pool.size() < maxSize) {
+        pool.push_back(obj);
+      } else {
+        ::operator delete(obj);
+      }
     }
   };
 }

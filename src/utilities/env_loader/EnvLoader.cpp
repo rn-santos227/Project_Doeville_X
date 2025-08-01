@@ -11,7 +11,11 @@ namespace Project::Utilities {
     : logsManager(logsManager), filePath(filePath) {}
 
   bool EnvLoader::loadEnv() {
-
+    values.clear();
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+      return false;
+    }
   }
 
   void EnvLoader::trim(std::string& str) const {

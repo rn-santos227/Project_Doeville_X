@@ -50,6 +50,11 @@ namespace Project::Utilities {
     return defaultValue;
   }
 
+
+  const std::unordered_map<std::string, std::string>& EnvLoader::getAll() const {
+    return values;
+  }
+
   void EnvLoader::trim(std::string& str) const {
     str.erase(0, str.find_first_not_of(Constants::REGEX_WHITESPACE));
     str.erase(str.find_last_not_of(Constants::REGEX_WHITESPACE) + Constants::INT_ONE);

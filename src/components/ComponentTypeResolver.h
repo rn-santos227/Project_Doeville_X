@@ -3,13 +3,12 @@
 
 #include "ComponentType.h"
 
-#include <string>
-#include <unordered_map>
+#include <string_view>
 
 namespace Project::Components {
   class ComponentTypeResolver {
   public:
-    static ComponentType resolve(const std::string& name);
+    static ComponentType resolve(std::string_view name);
   };
 }
 

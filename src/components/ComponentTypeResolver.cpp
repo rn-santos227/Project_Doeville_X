@@ -1,49 +1,51 @@
 #include "ComponentTypeResolver.h"
 
 #include <algorithm>
-#include <cctype>
+#include <array>
+#include <string_view>
 
 #include "libraries/categories/Categories.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Components {
   using Project::Components::ComponentType;
+  using Project::Utilities::StringUtils;
+
   namespace Components = Project::Libraries::Categories::Components;
 
-  ComponentType ComponentTypeResolver::resolve(const std::string& name) {
-    static const std::unordered_map<std::string, ComponentType> map = {
-      {std::string(Components::BOUNDING_BOX), ComponentType::BOUNDING_BOX},
-      {std::string(Components::BOUNDING_BOX) + Components::SUFFIX, ComponentType::BOUNDING_BOX},
-      {std::string(Components::BUTTON), ComponentType::BUTTON},
-      {std::string(Components::BUTTON) + Components::SUFFIX, ComponentType::BUTTON},
-      {std::string(Components::CAMERA), ComponentType::CAMERA},
-      {std::string(Components::CAMERA) + Components::SUFFIX, ComponentType::CAMERA},
-      {std::string(Components::GRAPHICS), ComponentType::GRAPHICS},
-      {std::string(Components::GRAPHICS) + Components::SUFFIX, ComponentType::GRAPHICS},
-      {std::string(Components::INPUT), ComponentType::INPUT},
-      {std::string(Components::INPUT) + Components::SUFFIX, ComponentType::INPUT},
-      {std::string(Components::KEYS), ComponentType::KEYS},
-      {std::string(Components::KEYS) + Components::SUFFIX, ComponentType::KEYS},
-      {std::string(Components::MOTION), ComponentType::MOTION},
-      {std::string(Components::MOTION) + Components::SUFFIX, ComponentType::MOTION},
-      {std::string(Components::NUMERIC), ComponentType::NUMERIC},
-      {std::string(Components::NUMERIC) + Components::SUFFIX, ComponentType::NUMERIC},
-      {std::string(Components::PHYSICS), ComponentType::PHYSICS},
-      {std::string(Components::PHYSICS) + Components::SUFFIX, ComponentType::PHYSICS},
-      {std::string(Components::SPAWNER), ComponentType::SPAWNER},
-      {std::string(Components::SPAWNER) + Components::SUFFIX, ComponentType::SPAWNER},
-      {std::string(Components::TEXT), ComponentType::TEXT},
-      {std::string(Components::TEXT) + Components::SUFFIX, ComponentType::TEXT},
-      {std::string(Components::TIMER), ComponentType::TIMER},
-      {std::string(Components::TIMER) + Components::SUFFIX, ComponentType::TIMER},
-      {std::string(Components::TRANSFORM), ComponentType::TRANSFORM},
-      {std::string(Components::TRANSFORM) + Components::SUFFIX, ComponentType::TRANSFORM}
-    };
+  ComponentType ComponentTypeResolver::resolve(std::string_view name) {
+    static constexpr std::array<std::pair<std::string_view, ComponentType>, 26> map{{
+      {Components::BOUNDING_BOX, ComponentType::BOUNDING_BOX},
+      {Components::BOUNDING_BOX_COMPONENT, ComponentType::BOUNDING_BOX},
+      {Components::BUTTON, ComponentType::BUTTON},
+      {Components::BUTTON_COMPONENT, ComponentType::BUTTON},
+      {Components::CAMERA, ComponentType::CAMERA},
+      {Components::CAMERA_COMPONENT, ComponentType::CAMERA},
+      {Components::GRAPHICS, ComponentType::GRAPHICS},
+      {Components::GRAPHICS_COMPONENT, ComponentType::GRAPHICS},
+      {Components::INPUT, ComponentType::INPUT},
+      {Components::INPUT_COMPONENT, ComponentType::INPUT},
+      {Components::KEYS, ComponentType::KEYS},
+      {Components::KEYS_COMPONENT, ComponentType::KEYS},
+      {Components::MOTION, ComponentType::MOTION},
+      {Components::MOTION_COMPONENT, ComponentType::MOTION},
+      {Components::NUMERIC, ComponentType::NUMERIC},
+      {Components::NUMERIC_COMPONENT, ComponentType::NUMERIC},
+      {Components::PHYSICS, ComponentType::PHYSICS},
+      {Components::PHYSICS_COMPONENT, ComponentType::PHYSICS},
+      {Components::SPAWNER, ComponentType::SPAWNER},
+      {Components::SPAWNER_COMPONENT, ComponentType::SPAWNER},
+      {Components::TEXT, ComponentType::TEXT},
+      {Components::TEXT_COMPONENT, ComponentType::TEXT},
+      {Components::TIMER, ComponentType::TIMER},
+      {Components::TIMER_COMPONENT, ComponentType::TIMER},
+      {Components::TRANSFORM, ComponentType::TRANSFORM},
+      {Components::TRANSFORM_COMPONENT, ComponentType::TRANSFORM}
+    }};
 
-    std::string key = name;
-    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c) { return std::tolower(c); });
-
-    auto it = map.find(key);
-    if (it != map.end()) return it->second;
+    for (const auto& [key, value] : map) {
+      if (StringUtils::iequals(key, name)) return value;
+    }
     return ComponentType::UNKNOWN;
   }
 }

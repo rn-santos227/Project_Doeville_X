@@ -175,11 +175,13 @@ namespace Project::Entities {
     }
     objects.clear();
     entityList.clear();
+    updateHighCount = updateNormalCount = updateLowCount = updateToRemoveCount = 0;
+
     entityIndices.clear();
     entityGroups.clear();
     motionSystem.clear();
     physicsSystem.clear();
-    renderSystem.clear();
+    renderSystem.clear();  
   }
 
   void EntitiesManager::optimizeEntities() {
@@ -202,10 +204,21 @@ namespace Project::Entities {
     scriptFunctionCache.rehash(0);
 
     idCounters.rehash(0);
+    updateHighCount = updateNormalCount = updateLowCount = updateToRemoveCount = 0;
   }
 
   void EntitiesManager::initialize() {
-    if (!initialized) {
+    if (!initialized) {    
+    updateHigh.clear();
+    updateNormal.clear();
+    updateLow.clear();
+
+    if (updateHigh.capacity() < entityList.size())
+      updateHigh.reserve(entityList.size());
+    if (updateNormal.capacity() < entityList.size())
+      updateNormal.reserve(entityList.size());
+    if (updateLow.capacity() < entityList.size())
+      updateLow.reserve(entityList.size());
       initialized = true;
       for (const auto& [id, entity] : objects) {
        if (entity && !entity->hasAttribute(EntityAttribute::DEFERRED_INIT)) {
@@ -217,25 +230,30 @@ namespace Project::Entities {
 
   void EntitiesManager::update(float deltaTime) {
     std::lock_guard<std::recursive_mutex> lock(managerMutex);
-    updateHigh.clear();
-    updateNormal.clear();
-    updateLow.clear();
-
-    if (updateHigh.capacity() < entityList.size())
-      updateHigh.reserve(entityList.size());
-    if (updateNormal.capacity() < entityList.size())
-      updateNormal.reserve(entityList.size());
-    if (updateLow.capacity() < entityList.size())
-      updateLow.reserve(entityList.size());
+    updateHighCount = 0;
+    updateNormalCount = 0;
+    updateLowCount = 0;
 
     for (auto& entity : entityList) {
       if (!entity) continue;
       if (entity->hasAttribute(EntityAttribute::HIGH_PRIORITY)) {
-        updateHigh.push_back(entity);
+        if (updateHighCount < updateHigh.size())
+          updateHigh[updateHighCount] = entity;
+        else
+          updateHigh.push_back(entity);
+        ++updateHighCount;
       } else if (entity->hasAttribute(EntityAttribute::LOW_PRIORITY)) {
-        updateLow.push_back(entity);
+        if (updateLowCount < updateLow.size())
+          updateLow[updateLowCount] = entity;
+        else
+          updateLow.push_back(entity);
+        ++updateLowCount;
       } else {
-        updateNormal.push_back(entity);
+        if (updateNormalCount < updateNormal.size())
+          updateNormal[updateNormalCount] = entity;
+        else
+          updateNormal.push_back(entity);
+        ++updateNormalCount;
       }
     }
 
@@ -246,20 +264,23 @@ namespace Project::Entities {
       }
     };
 
-    for (auto& ent : updateHigh) updateEntity(ent);
-    for (auto& ent : updateNormal) updateEntity(ent);
-    for (auto& ent : updateLow) updateEntity(ent);
+    for (size_t i = 0; i < updateHighCount; ++i) updateEntity(updateHigh[i]);
+    for (size_t i = 0; i < updateNormalCount; ++i) updateEntity(updateNormal[i]);
+    for (size_t i = 0; i < updateLowCount; ++i) updateEntity(updateLow[i]);
 
-    updateToRemove.clear();
-    if (updateToRemove.capacity() < entityList.size())
-      updateToRemove.reserve(entityList.size());
+    updateToRemoveCount = 0;
 
     for (const auto& ent : entityList) {
       if (ent && ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
-        updateToRemove.push_back(ent->getEntityID());
+        if (updateToRemoveCount < updateToRemove.size())
+          updateToRemove[updateToRemoveCount] = ent->getEntityID();
+        else
+          updateToRemove.push_back(ent->getEntityID());
+        ++updateToRemoveCount;
       }
     }
-    for (const auto& id : updateToRemove) {
+    for (size_t i = 0; i < updateToRemoveCount; ++i) {
+      const auto& id = updateToRemove[i];
       removeEntity(id);
       remove(id);
     }
@@ -298,6 +319,8 @@ namespace Project::Entities {
     initialized = false;
     
     objects.clear();
+    updateHighCount = updateNormalCount = updateLowCount = updateToRemoveCount = 0;
+
     entityList.clear();
     entityGroups.clear();
     entityIndices.clear();

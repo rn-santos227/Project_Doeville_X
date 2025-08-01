@@ -16,6 +16,19 @@ namespace Project::Utilities {
     if (!file.is_open()) {
       return false;
     }
+
+    std::string line;
+    while (std::getline(file, line)) {
+      trim(line);
+      if (line.empty() || line[0] == '#') continue;
+      size_t pos = line.find('=');
+      if (pos == std::string::npos) continue;
+      std::string key = line.substr(0, pos);
+      std::string value = line.substr(pos + 1);
+      trim(key);
+      trim(value);
+      values[key] = value;
+    }
   }
 
   void EnvLoader::trim(std::string& str) const {

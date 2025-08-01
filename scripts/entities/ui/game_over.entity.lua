@@ -14,5 +14,5 @@ components = {
 }
 
 return {
-  name = "game_over_text",
+  name = "game_over_text"
 }

@@ -17,7 +17,9 @@ function onExit()
 end
 
 function update(deltaTime)
+  print("Updating GameOverState")
 end
 
 function render()
+  print("Rendering GameOverState")
 end

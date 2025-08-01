@@ -18,5 +18,5 @@ function goto_menu()
 end
 
 return {
-  name = "button_main_menu",
+  name = "button_main_menu"
 }

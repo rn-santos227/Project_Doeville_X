@@ -45,8 +45,9 @@ namespace Project::Utilities {
     if (envVal) {
       return std::string(envVal);
     }
-    
+
     logsManager.logWarning("Env key not found: " + key + ", using default: " + defaultValue);
+    return defaultValue;
   }
 
   void EnvLoader::trim(std::string& str) const {

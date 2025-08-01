@@ -18,6 +18,8 @@ namespace Project::Utilities {
 
   private:
     Project::Utilities::LogsManager& logsManager;
+    
+    std::string filePath;
     std::unordered_map<std::string, std::string> values;
 
     void trim(std::string& str) const;

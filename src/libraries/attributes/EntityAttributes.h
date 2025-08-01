@@ -7,6 +7,7 @@ namespace Project::Libraries::Attributes {
     constexpr const char* AGGRESSIVE = "AGGRESSIVE";
     constexpr const char* DEBUG_ONLY = "DEBUG_ONLY";
     constexpr const char* DEFERRED_INIT = "DEFERRED_INIT";
+    constexpr const char* DISPOSABLE = "DISPOSABLE";
     constexpr const char* FLOATING = "FLOATING";
     constexpr const char* GHOST = "GHOST";
     constexpr const char* HIGH_PRIORITY = "HIGH_PRIORITY";

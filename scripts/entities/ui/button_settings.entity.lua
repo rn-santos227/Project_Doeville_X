@@ -19,5 +19,5 @@ function open_settings()
 end
 
 return {
-  name = "settings_button",
+  name = "button_settings",
 }

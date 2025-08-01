@@ -254,11 +254,23 @@ namespace Project::Entities {
       updateToRemoveCount = 0;
 
       for (const auto& ent : entityList) {
-        if (ent && ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
-          if (updateToRemoveCount < updateToRemove.size())
+        if (!ent) continue;
+
+        bool remove = false;
+        if (ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
+          remove = true;
+        }
+        
+        if (ent->hasAttribute(EntityAttribute::DISPOSABLE) && (!isEntityInCamera(ent) || isEntityOutOfBounds(ent))) {
+          remove = true;
+        }
+
+        if (remove) {
+          if (updateToRemoveCount < updateToRemove.size()) { 
             updateToRemove[updateToRemoveCount] = ent->getEntityID();
-          else
+          } else {
             updateToRemove.push_back(ent->getEntityID());
+          }
           ++updateToRemoveCount;
         }
       }
@@ -508,7 +520,7 @@ namespace Project::Entities {
     }
   }
 
-  std::pair<float, float> EntitiesManager::getEntitySize(const std::shared_ptr<Entity>& entity) {
+  std::pair<float, float> EntitiesManager::getEntitySize(const std::shared_ptr<Entity>& entity) const {
     float w = 0.0f, h = 0.0f;
 
     if (auto* gfx = entity->getGraphicsComponent()) {
@@ -546,6 +558,23 @@ namespace Project::Entities {
 
     SDL_Rect point{static_cast<int>(entity->getX()), static_cast<int>(entity->getY()), 1, 1};
     return SDL_HasIntersection(&point, &cullRect);
+  }
+
+  bool EntitiesManager::isEntityOutOfBounds(const std::shared_ptr<Entity>& entity) const {
+    if (!entity) return false;
+    if (!gameState) return false;
+    if (gameState->getDimensionMode() != Project::States::DimensionMode::BOUNDED)
+      return false;
+
+    const SDL_Rect& rect = gameState->getMapRect();
+
+    auto [w, h] = getEntitySize(entity);
+    float ex = entity->getX();
+    float ey = entity->getY();
+
+    if (ex <= rect.x || ey <= rect.y) return true;
+    if (ex + w >= rect.x + rect.w || ey + h >= rect.y + rect.h) return true;
+    return false;
   }
 
   void EntitiesManager::updateEntityPosition(const std::shared_ptr<Entity>& entity, float x, float y) {

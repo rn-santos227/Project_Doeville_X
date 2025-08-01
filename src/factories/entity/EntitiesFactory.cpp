@@ -6,6 +6,7 @@
 #include "libraries/constants/ScriptConstants.h"
 #include "libraries/keys/Keys.h"
 #include "states/GameStateManager.h"
+#include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
 namespace Project::Factories {
   using Project::Utilities::LogsManager;
@@ -94,14 +95,47 @@ namespace Project::Factories {
   }
 
   EntitiesFactory::EntityPtr EntitiesFactory::loadEntityTemplateFromLua(const std::string& scriptPath) {
-    std::filesystem::path p(scriptPath);
-    std::string filename = p.filename().string();
-    std::string suffix = Project::Libraries::Constants::LUA_ENTITY_SUFFIX;
-    std::string name = filename;
-    if (filename.size() >= suffix.size() && filename.compare(filename.size() - suffix.size(), suffix.size(), suffix) == 0) {
-      name = filename.substr(0, filename.size() - suffix.size());
-    } else {
-      name = p.stem().string();
+    Project::Utilities::LuaStateWrapper lua(logsManager);
+    if (!lua.loadScript(scriptPath)) {
+      logsManager.logError("Failed to load entity script: " + scriptPath);
+      return nullptr;
+    }
+
+    std::string name;
+    lua_State* L = lua.get();
+    if (L && lua_gettop(L) > 0 && lua_istable(L, -1)) {
+      lua_getfield(L, -1, Project::Libraries::Keys::NAME);
+      if (lua_isstring(L, -1)) {
+        size_t len = 0;
+        const char* cstr = lua_tolstring(L, -1, &len);
+        if (cstr && len > 0) {
+          name.assign(cstr, len);
+        }
+      }
+      lua_pop(L, 2);
+    }
+
+    if (name.empty() && L) {
+      lua_getglobal(L, Project::Libraries::Keys::NAME);
+      if (lua_isstring(L, -1)) {
+        size_t len = 0;
+        const char* cstr = lua_tolstring(L, -1, &len);
+        if (cstr && len > 0) {
+          name.assign(cstr, len);
+        }
+      }
+      lua_pop(L, 1);
+    }
+
+    if (name.empty()) {
+      std::filesystem::path p(scriptPath);
+      std::string filename = p.filename().string();
+      std::string suffix = Project::Libraries::Constants::LUA_ENTITY_SUFFIX;
+      if (filename.size() >= suffix.size() && filename.compare(filename.size() - suffix.size(), suffix.size(), suffix) == 0) {
+        name = filename.substr(0, filename.size() - suffix.size());
+      } else {
+        name = p.stem().string();
+      }
     }
 
     EntityCategory category = EntityCategory::ENVIRONMENT;
@@ -109,12 +143,12 @@ namespace Project::Factories {
     EntityPtr entity = Project::Helpers::EntityPool::getInstance().acquire(
       category, logsManager, componentsFactory
     );
-    entity->setEntityName(name);
 
     if (logsManager.checkAndLogError(!entity->attachLuaScript(scriptPath), "Failed to attach Lua script: " + scriptPath)) {
       return nullptr;
     }
 
+    entity->setEntityName(name);
     entityScriptPaths[name] = scriptPath;
     return entity;
   }

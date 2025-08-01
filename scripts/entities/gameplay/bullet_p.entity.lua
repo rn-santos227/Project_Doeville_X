@@ -71,5 +71,6 @@ function update(deltaTime)
 end
 
 return {
-  name = "bullet_p"
+  name = "bullet_p",
+  attributes = {"DISPOSABLE"}
 }

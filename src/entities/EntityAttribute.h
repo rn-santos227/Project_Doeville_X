@@ -7,6 +7,7 @@ namespace Project::Entities {
     AGGRESSIVE,
     DEBUG_ONLY,
     DEFERRED_INIT,
+    DISPOSABLE,
     FLOATING,
     GHOST,
     IMMOVABLE,

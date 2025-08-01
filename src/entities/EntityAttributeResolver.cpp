@@ -9,11 +9,12 @@
 namespace Project::Entities {
   namespace Attributes = Project::Libraries::Attributes::Entities;
   EntityAttribute EntityAttributeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, EntityAttribute>, 26> map{{
+    static constexpr std::array<std::pair<std::string_view, EntityAttribute>, 27> map{{
       {Attributes::DEFAULT, EntityAttribute::DEFAULT},
       {Attributes::AGGRESSIVE, EntityAttribute::AGGRESSIVE},
       {Attributes::DEBUG_ONLY, EntityAttribute::DEBUG_ONLY},
       {Attributes::DEFERRED_INIT, EntityAttribute::DEFERRED_INIT},
+      {Attributes::DISPOSABLE, EntityAttribute::DISPOSABLE},
       {Attributes::FLOATING, EntityAttribute::FLOATING},
       {Attributes::GHOST, EntityAttribute::GHOST},
       {Attributes::HIGH_PRIORITY, EntityAttribute::HIGH_PRIORITY},

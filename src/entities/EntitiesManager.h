@@ -97,8 +97,9 @@ namespace Project::Entities {
       
       bool initialized = false;
 
-      std::pair<float, float> getEntitySize(const std::shared_ptr<Entity>& entity);
+      std::pair<float, float> getEntitySize(const std::shared_ptr<Entity>& entity) const;
       bool isEntityInCamera(const std::shared_ptr<Entity>& entity) const;
+      bool isEntityOutOfBounds(const std::shared_ptr<Entity>& entity) const;
       void updateEntityPosition(const std::shared_ptr<Entity>& entity, float x, float y);
       void optimizeEntitiesImpl();
   };

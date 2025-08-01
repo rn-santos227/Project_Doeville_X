@@ -1,5 +1,5 @@
-#ifndef SCRIPTING_SERVICE_H
-#define SCRIPTING_SERVICE_H
+#ifndef OBJECT_POOL_H
+#define OBJECT_POOL_H
 
 #include <functional>
 #include <memory>
@@ -49,6 +49,15 @@ namespace Project::Helpers {
     std::vector<T*> pool;
     size_t maxSize = 0;
 
+    ObjectPool() = default;
+    ~ObjectPool() {
+      for (auto* ptr : pool) {
+        ::operator delete(ptr);
+      }
+    }
+
+    ObjectPool(const ObjectPool&) = delete;
+    ObjectPool& operator=(const ObjectPool&) = delete;
   };
 }
 

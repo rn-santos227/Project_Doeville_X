@@ -1,7 +1,9 @@
 #include "InputComponent.h"
+#include "InputTypeResolver.h"
 
 #include "handlers/input/MouseHandler.h"
 #include "handlers/input/CursorHandler.h"
+#include "libraries/categories/InputCategories.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "services/styling/StyleManager.h"
@@ -147,6 +149,9 @@ namespace Project::Components {
     placeholder = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::EMPTY_STRING);
     currentText.clear();
 
+    std::string typeStr = luaStateWrapper.getTableString(tableName, Keys::TYPE, Project::Libraries::Categories::Inputs::TEXT);
+    setInputType(InputTypeResolver::resolve(typeStr));
+
     caretPos = 0;
     textOffset = 0;
     maxChars = static_cast<std::size_t>(luaStateWrapper.getTableNumber(tableName, Keys::MAX_CHARS, Constants::DEFAULT_MAX_CHARS));
@@ -213,7 +218,12 @@ namespace Project::Components {
     textureH = 0;
     if (!font || currentText.empty()) return;
 
-    SDL_Surface* surface = TTF_RenderText_Blended(font, currentText.c_str(), textColor);
+    std::string text = currentText;
+    if (inputType == InputType::PASSWORD) {
+      text.assign(currentText.size(), '*');
+    }
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), textColor);
+
     if (!surface) {
       logsManager.logWarning(std::string("Failed to render input text: ") + TTF_GetError());
       return;
@@ -252,37 +262,74 @@ namespace Project::Components {
         backspaceTimer = Constants::DEFAULT_HALF;
       }
     }
+
     if (!bsDown) {
       backspaceHeld = false;
       backspaceTimer = 0.0f;
     }
-    if (wasPressed(SDL_SCANCODE_SPACE) && currentText.size() < maxChars) {
+
+    if (wasPressed(SDL_SCANCODE_SPACE) && currentText.size() < maxChars && inputType != InputType::NUMERIC) {
       currentText.insert(caretPos, 1, ' ');
       ++caretPos;
       textChanged = true;
     }
-    for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_Z; ++i) {
-      if (wasPressed(static_cast<SDL_Scancode>(i)) && currentText.size() < maxChars) {
-        char c = static_cast<char>('a' + (i - SDL_SCANCODE_A));
-        if (shift) c = static_cast<char>(toupper(c));
-        currentText.insert(caretPos, 1, c);
-        ++caretPos;
-        textChanged = true;
+
+    if (inputType != InputType::NUMERIC) {
+      for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_Z; ++i) {
+        if (wasPressed(static_cast<SDL_Scancode>(i)) && currentText.size() < maxChars) {
+          char c = static_cast<char>('a' + (i - SDL_SCANCODE_A));
+          if (shift) c = static_cast<char>(toupper(c));
+          currentText.insert(caretPos, 1, c);
+          ++caretPos;
+          textChanged = true;
+        }
       }
     }
+
     for (int i = SDL_SCANCODE_0; i <= SDL_SCANCODE_9; ++i) {
       if (wasPressed(static_cast<SDL_Scancode>(i)) && currentText.size() < maxChars) {
         char c = static_cast<char>('0' + (i - SDL_SCANCODE_0));
+        static const char shiftedDigits[10] = {')','!','@','#','$','%','^','&','*','('};
+        if (shift && inputType != InputType::NUMERIC) {
+          c = shiftedDigits[i - SDL_SCANCODE_0];
+        }
         currentText.insert(caretPos, 1, c);
         ++caretPos;
         textChanged = true;
       }
     }
+
+    if (inputType != InputType::NUMERIC) {
+      struct KeyMap { SDL_Scancode sc; char normal; char shifted; };
+      static const KeyMap keys[] = {
+        {SDL_SCANCODE_MINUS,'-','_'},
+        {SDL_SCANCODE_EQUALS,'=','+'},
+        {SDL_SCANCODE_LEFTBRACKET,'[','{'},
+        {SDL_SCANCODE_RIGHTBRACKET,']','}'},
+        {SDL_SCANCODE_BACKSLASH,'\\','|'},
+        {SDL_SCANCODE_SEMICOLON,';',':'},
+        {SDL_SCANCODE_APOSTROPHE,'\'','"'},
+        {SDL_SCANCODE_GRAVE,'`','~'},
+        {SDL_SCANCODE_COMMA,',','<'},
+        {SDL_SCANCODE_PERIOD,'.','>'},
+        {SDL_SCANCODE_SLASH,'/','?'}
+      };
+      for (const auto& k : keys) {
+        if (wasPressed(k.sc) && currentText.size() < maxChars) {
+          char c = shift ? k.shifted : k.normal;
+          currentText.insert(caretPos, 1, c);
+          ++caretPos;
+          textChanged = true;
+        }
+      }
+    }
+
     if (wasPressed(SDL_SCANCODE_LEFT)) {
       if (caretPos > 0) {
         --caretPos;
       }
     }
+
     if (wasPressed(SDL_SCANCODE_RIGHT)) {
       if (caretPos < currentText.size()) {
         ++caretPos;

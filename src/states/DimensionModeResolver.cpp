@@ -1,33 +1,29 @@
 #include "DimensionModeResolver.h"
 
-#include <algorithm>
-#include <cctype>
-#include <unordered_map>
+#include <array>
+#include <string_view>
 
 #include "libraries/modes/DimensionModes.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::States {
   namespace Dimensions = Project::Libraries::Modes::Dimensions;
-  DimensionMode DimensionModeResolver::resolve(const std::string& name) {
-    static const std::unordered_map<std::string, DimensionMode> map = {
-      {std::string(Dimensions::BOXED), DimensionMode::BOXED},
-      {std::string(Dimensions::BOUNDED), DimensionMode::BOUNDED},
-      {std::string(Dimensions::FREE_ROAMING), DimensionMode::FREE_ROAMING},
-      {std::string(Dimensions::HORIZONTAL_SCROLL), DimensionMode::HORIZONTAL_SCROLL},
-      {std::string(Dimensions::ISOMETRIC), DimensionMode::ISOMETRIC},
-      {std::string(Dimensions::LOOPING), DimensionMode::LOOPING},
-      {std::string(Dimensions::THREE_DIMENSION), DimensionMode::THREE_DIMENSION},
-      {std::string(Dimensions::VERTICAL_SCROLL), DimensionMode::VERTICAL_SCROLL},
-      {std::string(Dimensions::WRAPPING), DimensionMode::WRAPPING}
-    };
+  DimensionMode DimensionModeResolver::resolve(std::string_view name) {
+    static constexpr std::array<std::pair<std::string_view, DimensionMode>, 9> map{{
+      {Dimensions::BOXED, DimensionMode::BOXED},
+      {Dimensions::BOUNDED, DimensionMode::BOUNDED},
+      {Dimensions::FREE_ROAMING, DimensionMode::FREE_ROAMING},
+      {Dimensions::HORIZONTAL_SCROLL, DimensionMode::HORIZONTAL_SCROLL},
+      {Dimensions::ISOMETRIC, DimensionMode::ISOMETRIC},
+      {Dimensions::LOOPING, DimensionMode::LOOPING},
+      {Dimensions::THREE_DIMENSION, DimensionMode::THREE_DIMENSION},
+      {Dimensions::VERTICAL_SCROLL, DimensionMode::VERTICAL_SCROLL},
+      {Dimensions::WRAPPING, DimensionMode::WRAPPING}
+    }};
 
-    std::string key = name;
-    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
-      return std::toupper(c);
-    });
-
-    auto it = map.find(key);
-    if (it != map.end()) return it->second;
+    for (const auto& [key, value] : map) {
+      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
+    }
     return DimensionMode::BOXED;
   }
 }

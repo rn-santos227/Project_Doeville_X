@@ -1,11 +1,13 @@
 #include "KeyActionResolver.h"
 
-#include <algorithm>
-#include <cctype>
+#include <array>
+#include <string_view>
+
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Handlers {
-  KeyAction KeyActionResolver::resolve(const std::string& name) {
-    static const std::unordered_map<std::string, KeyAction> map = {
+  KeyAction KeyActionResolver::resolve(std::string_view name) {
+    static constexpr std::array<std::pair<std::string_view, KeyAction>, 50> map{{
       {"MOVE_UP", KeyAction::MOVE_UP},
       {"MOVE_DOWN", KeyAction::MOVE_DOWN},
       {"MOVE_LEFT", KeyAction::MOVE_LEFT},
@@ -56,13 +58,11 @@ namespace Project::Handlers {
       {"MENU_OPEN", KeyAction::MENU_OPEN},
       {"MENU_BACK", KeyAction::MENU_BACK},
       {"MAP_TOGGLE", KeyAction::MAP_TOGGLE}
-    };
+    }};
 
-    std::string key = name;
-    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){ return std::toupper(c); });
-
-    auto it = map.find(key);
-    if (it != map.end()) return it->second;
+    for (const auto& [key, value] : map) {
+      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
+    }
     return KeyAction::NONE;
   }
 }

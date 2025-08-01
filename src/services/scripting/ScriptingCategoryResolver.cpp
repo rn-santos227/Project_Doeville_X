@@ -1,32 +1,28 @@
 #include "ScriptingCategoryResolver.h"
 
-#include <algorithm>
-#include <cctype>
-#include <unordered_map>
+#include <array>
+#include <string_view>
 
 #include "libraries/categories/Categories.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Services {
   namespace Scripts = Project::Libraries::Categories::Scripts;
   
-  ScriptCategory ScriptingCategoryResolver::resolve(const std::string& name) {
-    static const std::unordered_map<std::string, ScriptCategory> map = {
-      {std::string(Scripts::ENTITY), ScriptCategory::ENTITY},
-      {std::string(Scripts::ITEM), ScriptCategory::ITEM},
-      {std::string(Scripts::ANIMATION), ScriptCategory::ANIMATION},
-      {std::string(Scripts::MAP), ScriptCategory::MAP},
-      {std::string(Scripts::LAYER), ScriptCategory::LAYER},
-      {std::string(Scripts::STATE), ScriptCategory::STATE},
-      {std::string(Scripts::OTHER), ScriptCategory::OTHER}
-    };
+  ScriptCategory ScriptingCategoryResolver::resolve(std::string_view name) {
+    static constexpr std::array<std::pair<std::string_view, ScriptCategory>, 7> map{{
+      {Scripts::ENTITY, ScriptCategory::ENTITY},
+      {Scripts::ITEM, ScriptCategory::ITEM},
+      {Scripts::ANIMATION, ScriptCategory::ANIMATION},
+      {Scripts::MAP, ScriptCategory::MAP},
+      {Scripts::LAYER, ScriptCategory::LAYER},
+      {Scripts::STATE, ScriptCategory::STATE},
+      {Scripts::OTHER, ScriptCategory::OTHER}
+    }};
 
-    std::string key = name;
-    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
-      return std::toupper(c);
-    });
-
-    auto it = map.find(key);
-    if (it != map.end()) return it->second;
+    for (const auto& [key, value] : map) {
+      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
+    }
     return ScriptCategory::OTHER;
   }
 

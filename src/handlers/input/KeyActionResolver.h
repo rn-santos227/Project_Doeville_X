@@ -2,13 +2,12 @@
 #define KEY_ACTION_RESOLVER_H
 
 #include "KeyAction.h"
-#include <string>
-#include <unordered_map>
+#include <string_view>
 
 namespace Project::Handlers {
   class KeyActionResolver {
   public:
-    static KeyAction resolve(const std::string& name);
+    static KeyAction resolve(std::string_view name);
   };
 }
 

@@ -1,47 +1,43 @@
 #include "EntityAttributeResolver.h"
 
-#include <algorithm>
-#include <cctype>
-#include <unordered_map>
+#include <array>
+#include <string_view>
 
 #include "libraries/attributes/Attributes.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Entities {
   namespace Attributes = Project::Libraries::Attributes::Entities;
-  EntityAttribute EntityAttributeResolver::resolve(const std::string& name) {
-    static const std::unordered_map<std::string, EntityAttribute> map = {
-      {std::string(Attributes::DEFAULT), EntityAttribute::DEFAULT},
-      {std::string(Attributes::AGGRESSIVE), EntityAttribute::AGGRESSIVE},
-      {std::string(Attributes::DEBUG_ONLY), EntityAttribute::DEBUG_ONLY},
-      {std::string(Attributes::DEFERRED_INIT), EntityAttribute::DEFERRED_INIT},
-      {std::string(Attributes::FLOATING), EntityAttribute::FLOATING},
-      {std::string(Attributes::GHOST), EntityAttribute::GHOST},
-      {std::string(Attributes::HIGH_PRIORITY), EntityAttribute::HIGH_PRIORITY},
-      {std::string(Attributes::INDEPENDENT), EntityAttribute::INDEPENDENT},
-      {std::string(Attributes::INTERACTIVE), EntityAttribute::INTERACTIVE},
-      {std::string(Attributes::LAZY_UPDATE), EntityAttribute::LAZY_UPDATE},
-      {std::string(Attributes::LOW_PRIORITY), EntityAttribute::LOW_PRIORITY},
-      {std::string(Attributes::NO_ANIMATION), EntityAttribute::NO_ANIMATION},
-      {std::string(Attributes::NO_CLIP), EntityAttribute::NO_CLIP},
-      {std::string(Attributes::PASSIVE), EntityAttribute::PASSIVE},
-      {std::string(Attributes::PAUSED_WHEN_HIDDEN), EntityAttribute::PAUSED_WHEN_HIDDEN},
-      {std::string(Attributes::PERMANENT), EntityAttribute::PERMANENT},
-      {std::string(Attributes::PERSISTENT), EntityAttribute::PERSISTENT},
-      {std::string(Attributes::PERMANENT), EntityAttribute::PERMANENT},
-      {std::string(Attributes::RESTING), EntityAttribute::RESTING},
-      {std::string(Attributes::RESOURCE_LIGHT), EntityAttribute::RESOURCE_LIGHT},
-      {std::string(Attributes::SCRIPTED), EntityAttribute::SCRIPTED},
-      {std::string(Attributes::SLEEPING), EntityAttribute::SLEEPING},
-      {std::string(Attributes::VOLATILE), EntityAttribute::VOLATILE},
-    };
+  EntityAttribute EntityAttributeResolver::resolve(std::string_view name) {
+    static constexpr std::array<std::pair<std::string_view, EntityAttribute>, 26> map{{
+      {Attributes::DEFAULT, EntityAttribute::DEFAULT},
+      {Attributes::AGGRESSIVE, EntityAttribute::AGGRESSIVE},
+      {Attributes::DEBUG_ONLY, EntityAttribute::DEBUG_ONLY},
+      {Attributes::DEFERRED_INIT, EntityAttribute::DEFERRED_INIT},
+      {Attributes::FLOATING, EntityAttribute::FLOATING},
+      {Attributes::GHOST, EntityAttribute::GHOST},
+      {Attributes::HIGH_PRIORITY, EntityAttribute::HIGH_PRIORITY},
+      {Attributes::INDEPENDENT, EntityAttribute::INDEPENDENT},
+      {Attributes::INTERACTIVE, EntityAttribute::INTERACTIVE},
+      {Attributes::LAZY_UPDATE, EntityAttribute::LAZY_UPDATE},
+      {Attributes::LOW_PRIORITY, EntityAttribute::LOW_PRIORITY},
+      {Attributes::NO_ANIMATION, EntityAttribute::NO_ANIMATION},
+      {Attributes::NO_CLIP, EntityAttribute::NO_CLIP},
+      {Attributes::PASSIVE, EntityAttribute::PASSIVE},
+      {Attributes::PAUSED_WHEN_HIDDEN, EntityAttribute::PAUSED_WHEN_HIDDEN},
+      {Attributes::PERMANENT, EntityAttribute::PERMANENT},
+      {Attributes::PERSISTENT, EntityAttribute::PERSISTENT},
+      {Attributes::PERMANENT, EntityAttribute::PERMANENT},
+      {Attributes::RESTING, EntityAttribute::RESTING},
+      {Attributes::RESOURCE_LIGHT, EntityAttribute::RESOURCE_LIGHT},
+      {Attributes::SCRIPTED, EntityAttribute::SCRIPTED},
+      {Attributes::SLEEPING, EntityAttribute::SLEEPING},
+      {Attributes::VOLATILE, EntityAttribute::VOLATILE},
+    }};
 
-    std::string key = name;
-    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
-      return std::toupper(c);
-    });
-
-    auto it = map.find(key);
-    if (it != map.end()) return it->second;
+    for (const auto& [key, value] : map) {
+      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
+    }
     return EntityAttribute::DEFAULT;
   }
 }

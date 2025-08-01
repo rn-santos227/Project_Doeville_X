@@ -1,36 +1,32 @@
 #include "CameraTypeResolver.h"
 
-#include <algorithm>
-#include <cctype>
-#include <unordered_map>
+#include <array>
+#include <string_view>
 
 #include "libraries/categories/Categories.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Handlers {
   namespace Cameras = Project::Libraries::Categories::Cameras;
-  CameraType CameraTypeResolver::resolve(const std::string& name) {
-    static const std::unordered_map<std::string, CameraType> map = {
-      {std::string(Cameras::TOP_DOWN), CameraType::TOP_DOWN},
-      {std::string(Cameras::SIDE_SCROLLER), CameraType::SIDE_SCROLLER},
-      {std::string(Cameras::ISOMETRIC), CameraType::ISOMETRIC},
-      {std::string(Cameras::PLATFORMER), CameraType::PLATFORMER},
-      {std::string(Cameras::BIRDS_EYE), CameraType::BIRDS_EYE},
-      {std::string(Cameras::FIRST_PERSON), CameraType::FIRST_PERSON},
-      {std::string(Cameras::THIRD_PERSON), CameraType::THIRD_PERSON},
-      {std::string(Cameras::OVER_SHOULDER), CameraType::OVER_SHOULDER},
-      {std::string(Cameras::FIXED), CameraType::FIXED},
-      {std::string(Cameras::TWO_POINT_FIVE_D), CameraType::TWO_POINT_FIVE_D},
-      {std::string(Cameras::FREE_ROAMING), CameraType::FREE_ROAMING},
-      {std::string(Cameras::VR), CameraType::VR}
-    };
+  CameraType CameraTypeResolver::resolve(std::string_view name) {
+    static constexpr std::array<std::pair<std::string_view, CameraType>, 13> map{{
+      {Cameras::TOP_DOWN, CameraType::TOP_DOWN},
+      {Cameras::SIDE_SCROLLER, CameraType::SIDE_SCROLLER},
+      {Cameras::ISOMETRIC, CameraType::ISOMETRIC},
+      {Cameras::PLATFORMER, CameraType::PLATFORMER},
+      {Cameras::BIRDS_EYE, CameraType::BIRDS_EYE},
+      {Cameras::FIRST_PERSON, CameraType::FIRST_PERSON},
+      {Cameras::THIRD_PERSON, CameraType::THIRD_PERSON},
+      {Cameras::OVER_SHOULDER, CameraType::OVER_SHOULDER},
+      {Cameras::FIXED, CameraType::FIXED},
+      {Cameras::TWO_POINT_FIVE_D, CameraType::TWO_POINT_FIVE_D},
+      {Cameras::FREE_ROAMING, CameraType::FREE_ROAMING},
+      {Cameras::VR, CameraType::VR}
+    }};
 
-    std::string key = name;
-    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
-      return std::toupper(c);
-    });
-
-    auto it = map.find(key);
-    if (it != map.end()) return it->second;
+    for (const auto& [key, value] : map) {
+      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
+    }
     return CameraType::FREE_ROAMING;
   };
 }

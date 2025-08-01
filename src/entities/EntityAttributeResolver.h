@@ -2,12 +2,12 @@
 #define ENTITY_ATTRIBUTE_RESOLVER_H
 
 #include "EntityAttribute.h"
-#include <string>
+#include <string_view>
 
 namespace Project::Entities {
   class EntityAttributeResolver {
   public:
-    static EntityAttribute resolve(const std::string& name);
+    static EntityAttribute resolve(std::string_view name);
   };
 }
 

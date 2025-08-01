@@ -2,12 +2,12 @@
 #define CAMERA_TYPE_RESOLVER_H
 
 #include "CameraType.h"
-#include <string>
+#include <string_view>
 
 namespace Project::Handlers {
   class CameraTypeResolver {
   public:
-    static CameraType resolve(const std::string& name);
+    static CameraType resolve(std::string_view name);
   };
 }
 

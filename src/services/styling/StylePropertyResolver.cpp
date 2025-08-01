@@ -1,15 +1,15 @@
 #include "StylePropertyResolver.h"
 
-#include <algorithm>
-#include <cctype>
-#include <unordered_map>
+#include <array>
+#include <string_view>
 
 #include "libraries/keys/CSSPropertyKeys.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Services {
   namespace Keys = Project::Libraries::Keys;
-  StyleProperty StylePropertyResolver::resolve(const std::string& property) {
-   static const std::unordered_map<std::string, StyleProperty> map = {
+  StyleProperty StylePropertyResolver::resolve(std::string_view property) {
+   static constexpr std::array<std::pair<std::string_view, StyleProperty>, 49> map{{
       {Keys::CSS_BACKGROUND, StyleProperty::BACKGROUND},
       {Keys::CSS_BACKGROUND_COLOR, StyleProperty::BACKGROUND_COLOR},
       {Keys::CSS_FOREGROUND, StyleProperty::FOREGROUND},
@@ -59,15 +59,11 @@ namespace Project::Services {
       {Keys::CSS_TRANSLATE_Y, StyleProperty::TRANSLATE_Y},
       {Keys::CSS_CURSOR, StyleProperty::CURSOR},
       {Keys::CSS_HOVER_COLOR, StyleProperty::HOVER_COLOR}
-    };
+    }};
 
-    std::string key = property;
-    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c){
-      return std::tolower(c);
-    });
-
-    auto it = map.find(key);
-    if (it != map.end()) return it->second;
+    for (const auto& [key, value] : map) {
+      if (Project::Utilities::StringUtils::iequals(key, property)) return value;
+    }
     return StyleProperty::UNKNOWN;
   }
 }

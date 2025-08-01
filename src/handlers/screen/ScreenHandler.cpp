@@ -89,7 +89,7 @@ namespace Project::Handlers {
     
     styleService = std::make_unique<StyleService>(logsManager, resourcesHandler);
     scriptingService = std::make_unique<ScriptingService>(
-      renderer, sdlManager, logsManager, resourcesHandler, componentsFactory, gameStateManager
+      renderer, sdlManager, logsManager, configReader, resourcesHandler, componentsFactory, gameStateManager
     );
 
     if (logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {

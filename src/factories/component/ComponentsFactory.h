@@ -37,9 +37,10 @@ namespace Project::Factories {
   public:
     using ComponentPtr = std::unique_ptr<Project::Components::BaseComponent, std::function<void(Project::Components::BaseComponent*)>>;
     ComponentsFactory(
-      Project::Utilities::ConfigReader& configReader,
       Project::Utilities::LogsManager& logsManager,
-      Project::Handlers::ResourcesHandler& resourcesHandler);
+      Project::Utilities::ConfigReader& configReader,
+      Project::Handlers::ResourcesHandler& resourcesHandler
+    );
 
     ComponentPtr create(const std::string& componentName, Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
 

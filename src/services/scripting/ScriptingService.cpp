@@ -25,21 +25,22 @@ namespace Project::Services {
   namespace Scripts = Project::Libraries::Categories::Scripts;
   namespace fs = std::filesystem;
 
-  ScriptingService::ScriptingService(SDL_Renderer* renderer,
+  ScriptingService::ScriptingService(
+    SDL_Renderer* renderer,
     SDLManager& sdlManager,
     LogsManager& logsManager,
     ConfigReader& configReader,
     ResourcesHandler& resourcesHandler,
     ComponentsFactory& componentsFactory,
     GameStateManager& gameStateManager)
-    : sdlManager(sdlManager),
+    : renderer(renderer), 
+      sdlManager(sdlManager),
       logsManager(logsManager),
       configReader(configReader),
       componentsFactory(componentsFactory),
       gameStateManager(gameStateManager),
       resourcesHandler(resourcesHandler),
       luaStateWrapper(logsManager),
-      renderer(renderer),
       entitiesFactory(logsManager, configReader, componentsFactory, gameStateManager),
       layersFactory(logsManager),
       gameStateFactory(logsManager, sdlManager, resourcesHandler, 

@@ -23,9 +23,9 @@ namespace Project::Factories {
     ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
     : logsManager(logsManager), configReader(configReader),
       componentsFactory(componentsFactory), gameStateManager(gameStateManager) {
-      int limit = configReader.getIntValue(Keys::POOLS_SECTION, Keys::POOL_ENTITY_MAX, Constants::DEFAULT_COMPONENT_SIZE);
-      Project::Helpers::EntityPool::getInstance().setMaxSize(static_cast<size_t>(limit));
-    }
+        int limit = configReader.getIntValue(Keys::POOLS_SECTION, Keys::POOL_ENTITY_MAX, Constants::DEFAULT_COMPONENT_SIZE);
+        Project::Helpers::EntityPool::getInstance().setMaxSize(static_cast<size_t>(limit));
+      }
 
   EntitiesFactory::~EntitiesFactory() {
     entityTemplates.clear();

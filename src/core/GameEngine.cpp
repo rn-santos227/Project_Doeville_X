@@ -30,7 +30,7 @@ namespace Project::Core {
   isRunning(false), maxFPS(Constants::DEFAULT_MAX_FPS), entityLoadFactor(Constants::DEFAULT_WHOLE), frameTimeAvg(0.0), 
   framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
-  componentsFactory(std::make_unique<ComponentsFactory>(configReader, logsManager, *resourcesHandler)),
+  componentsFactory(std::make_unique<ComponentsFactory>(logsManager, configReader, *resourcesHandler)),
   gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager, &sdlManager)),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)),
   fontHandler(std::make_unique<FontHandler>(logsManager)),

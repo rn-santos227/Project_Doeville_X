@@ -28,6 +28,7 @@ namespace Project::Factories {
   using Project::Handlers::KeyHandler;
   using Project::Handlers::MouseHandler;
   using Project::Handlers::ResourcesHandler;
+  using Project::Helpers::ComponentPool;
   using Project::Utilities::ColorUtils;
   using Project::Utilities::ConfigReader;
   using Project::Utilities::LogsManager;
@@ -36,11 +37,26 @@ namespace Project::Factories {
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
-  ComponentsFactory::ComponentsFactory(ConfigReader& configReader, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-  : configReader(configReader), logsManager(logsManager),
+  ComponentsFactory::ComponentsFactory(LogsManager& logsManager, ConfigReader& configReader,ResourcesHandler& resourcesHandler)
+  : logsManager(logsManager), configReader(configReader),
     resourcesHandler(resourcesHandler),
     renderer(nullptr), keyHandler(nullptr),
-    mouseHandler(nullptr), cursorHandler(nullptr) {}
+    mouseHandler(nullptr), cursorHandler(nullptr) {
+      int limit = configReader.getIntValue(Keys::POOLS_SECTION, Keys::POOL_COMPONENT_MAX, Constants::DEFAULT_COMPONENT_SIZE);
+      ComponentPool<BoundingBoxComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<ButtonComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<CameraComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<GraphicsComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<InputComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<KeysComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<MotionComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<NumericComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<PhysicsComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<SpawnerComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<TextComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<TimerComponent>::getInstance().setMaxSize(limit);
+      ComponentPool<TransformComponent>::getInstance().setMaxSize(limit);
+    }
 
   ComponentsFactory::ComponentPtr ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     if (logsManager.checkAndLogError(!renderer, "Renderer is null for component: " + componentName)) {
@@ -54,7 +70,7 @@ namespace Project::Factories {
       case ComponentType::BOUNDING_BOX: {
         SDL_Color defaultColor = Constants::DEFAULT_DEBUG_TEXT_COLOR;
         SDL_Color debugColor = configReader.getColorValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_COLOR, defaultColor);
-        auto component = Project::Helpers::ComponentPool<BoundingBoxComponent>::getInstance().acquire(logsManager, renderer, keyHandler, debugColor);
+        auto component = ComponentPool<BoundingBoxComponent>::getInstance().acquire(logsManager, renderer, keyHandler, debugColor);
         component->build(luaStateWrapper, tableName);   
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -64,7 +80,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::BUTTON: {
-        auto component = Project::Helpers::ComponentPool<ButtonComponent>::getInstance().acquire(renderer, logsManager, configReader, mouseHandler, cursorHandler);
+        auto component = ComponentPool<ButtonComponent>::getInstance().acquire(renderer, logsManager, configReader, mouseHandler, cursorHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -74,7 +90,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::CAMERA: {
-        auto component = Project::Helpers::ComponentPool<CameraComponent>::getInstance().acquire(logsManager, cameraHandler);
+        auto component = ComponentPool<CameraComponent>::getInstance().acquire(logsManager, cameraHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -84,7 +100,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::GRAPHICS: {
-        auto component = Project::Helpers::ComponentPool<GraphicsComponent>::getInstance().acquire(renderer, &resourcesHandler, logsManager);
+        auto component = ComponentPool<GraphicsComponent>::getInstance().acquire(renderer, &resourcesHandler, logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -94,7 +110,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::INPUT: {
-        auto component = Project::Helpers::ComponentPool<InputComponent>::getInstance().acquire(renderer, logsManager, configReader, mouseHandler, cursorHandler);
+        auto component = ComponentPool<InputComponent>::getInstance().acquire(renderer, logsManager, configReader, mouseHandler, cursorHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -104,7 +120,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::KEYS: {
-        auto component = Project::Helpers::ComponentPool<KeysComponent>::getInstance().acquire(logsManager, keyHandler);
+        auto component = ComponentPool<KeysComponent>::getInstance().acquire(logsManager, keyHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -114,7 +130,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::MOTION: {
-        auto component = Project::Helpers::ComponentPool<MotionComponent>::getInstance().acquire(logsManager, keyHandler);
+        auto component = ComponentPool<MotionComponent>::getInstance().acquire(logsManager, keyHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -124,7 +140,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::NUMERIC: {
-        auto component = Project::Helpers::ComponentPool<NumericComponent>::getInstance().acquire(logsManager);
+        auto component = ComponentPool<NumericComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -134,7 +150,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::PHYSICS: {
-        auto component = Project::Helpers::ComponentPool<PhysicsComponent>::getInstance().acquire(logsManager);
+        auto component = ComponentPool<PhysicsComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -144,7 +160,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::SPAWNER: {
-        auto component = Project::Helpers::ComponentPool<SpawnerComponent>::getInstance().acquire(logsManager);
+        auto component = ComponentPool<SpawnerComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -154,7 +170,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::TEXT: {
-        auto component = Project::Helpers::ComponentPool<TextComponent>::getInstance().acquire(renderer, configReader, logsManager);
+        auto component = ComponentPool<TextComponent>::getInstance().acquire(renderer, configReader, logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -164,7 +180,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::TIMER: {
-        auto component = Project::Helpers::ComponentPool<TimerComponent>::getInstance().acquire(logsManager);
+        auto component = ComponentPool<TimerComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -174,7 +190,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::TRANSFORM: {
-        auto component = Project::Helpers::ComponentPool<TransformComponent>::getInstance().acquire(logsManager);
+        auto component = ComponentPool<TransformComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));

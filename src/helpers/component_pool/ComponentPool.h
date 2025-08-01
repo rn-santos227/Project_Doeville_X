@@ -5,7 +5,7 @@
 
 namespace Project::Helpers {
   template <typename T>
-  using ComponentPool = Project::Utilities::ObjectPool<T>;
+  using ComponentPool = Project::Helpers::ObjectPool<T>;
 }
 
 #endif

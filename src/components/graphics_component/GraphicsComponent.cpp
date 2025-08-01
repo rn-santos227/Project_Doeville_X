@@ -321,19 +321,20 @@ namespace Project::Components {
           shapeVertices[i].position.y = rx * cachedSin + ry * cachedCos + cy;
         } else {
           shapeVertices[i].position = localCorners[i];
-          if (useGradient) {
-            if (gradient == Project::Services::GradientType::VERTICAL) {
-              shapeVertices[i].color = (i < Constants::INDEX_TWO) ? gradientStart : gradientEnd;
-            } else {
-              shapeVertices[i].color = (i == 0 || i == Constants::INDEX_THREE) ? gradientStart : gradientEnd;
-            }
-          } else {
-            shapeVertices[i].color = shapeColor;
-          }
-          shapeVertices[i].tex_coord = {0.0f, 0.0f};
         }
-        verticesDirty = false;
+
+        if (useGradient) {
+          if (gradient == Project::Services::GradientType::VERTICAL) {
+            shapeVertices[i].color = (i < Constants::INDEX_TWO) ? gradientStart : gradientEnd;
+          } else {
+            shapeVertices[i].color = (i == 0 || i == Constants::INDEX_THREE) ? gradientStart : gradientEnd;
+          }
+        } else {
+          shapeVertices[i].color = shapeColor;
+        }
       }
+      
+      verticesDirty = false;
     }
     SDL_RenderGeometry(renderer, nullptr, shapeVertices.data(), Constants::INDEX_FOUR, shapeIndices.data(), Constants::INDEX_SIX);
   }

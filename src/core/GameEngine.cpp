@@ -64,6 +64,10 @@ namespace Project::Core {
         throw EngineException("Failed to load configuration", Project::Utilities::ErrorCategory::CONFIG);
       }
 
+      if (componentsFactory) {
+        componentsFactory->configurePools();
+      }
+
       std::string title = configReader.getValue(Keys::WINDOW_SECTION, Keys::WINDOW_TITLE, Constants::PROJECT_NAME);
       int screenWidth = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_WIDTH, Constants::DEFAULT_SCREEN_WIDTH);
       int screenHeight = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_HEIGHT, Constants::DEFAULT_SCREEN_HEIGHT);

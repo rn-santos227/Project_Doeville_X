@@ -42,6 +42,8 @@ namespace Project::Factories {
       Project::Handlers::ResourcesHandler& resourcesHandler
     );
 
+    void configurePools();
+    
     ComponentPtr create(const std::string& componentName, Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName);
 
     void setRenderer(SDL_Renderer* renderer);

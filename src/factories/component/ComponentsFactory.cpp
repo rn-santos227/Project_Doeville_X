@@ -41,22 +41,24 @@ namespace Project::Factories {
   : logsManager(logsManager), configReader(configReader),
     resourcesHandler(resourcesHandler),
     renderer(nullptr), keyHandler(nullptr),
-    mouseHandler(nullptr), cursorHandler(nullptr) {
-      int limit = configReader.getIntValue(Keys::POOLS_SECTION, Keys::POOL_COMPONENT_MAX, Constants::DEFAULT_COMPONENT_SIZE);
-      ComponentPool<BoundingBoxComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<ButtonComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<CameraComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<GraphicsComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<InputComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<KeysComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<MotionComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<NumericComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<PhysicsComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<SpawnerComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<TextComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<TimerComponent>::getInstance().setMaxSize(limit);
-      ComponentPool<TransformComponent>::getInstance().setMaxSize(limit);
-    }
+    mouseHandler(nullptr), cursorHandler(nullptr) {}
+
+  void ComponentsFactory::configurePools() {
+    int limit = configReader.getIntValue(Keys::POOLS_SECTION, Keys::POOL_COMPONENT_MAX, Constants::DEFAULT_COMPONENT_SIZE);
+    ComponentPool<BoundingBoxComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<ButtonComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<CameraComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<GraphicsComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<InputComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<KeysComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<MotionComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<NumericComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<PhysicsComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<SpawnerComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<TextComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<TimerComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<TransformComponent>::getInstance().setMaxSize(limit);
+  }
 
   ComponentsFactory::ComponentPtr ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
     if (logsManager.checkAndLogError(!renderer, "Renderer is null for component: " + componentName)) {

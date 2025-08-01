@@ -51,7 +51,7 @@ namespace Project::Components {
     bool isRotationEnabled() const { return rotationEnabled; }
     
     float getRotation() const { return rotation; }
-    void setRotation(float _angle) { rotation = _angle; }
+    void setRotation(float _angle) { if (rotation != _angle) verticesDirty = true; rotation = _angle; }
 
     const SDL_Rect& getRect() const { return destRect; }
     int getWidth() const { return destRect.w; }

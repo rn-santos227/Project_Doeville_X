@@ -25,12 +25,16 @@ namespace Project::Services {
 
   class ScriptingService {
   public:
-    explicit ScriptingService(SDL_Renderer* renderer,
+    explicit ScriptingService(
+      SDL_Renderer* renderer,
       Project::Core::SDLManager& sdlManager,
-      Project::Utilities::LogsManager& logsManager, 
+      Project::Utilities::LogsManager& logsManager,
+      Project::Utilities::ConfigReader& configReader,
       Project::Handlers::ResourcesHandler& resourcesHandler, 
       Project::Factories::ComponentsFactory& componentsFactory, 
-      Project::States::GameStateManager& gameStateManager);
+      Project::States::GameStateManager& gameStateManager
+    );
+    
     ~ScriptingService() = default;
 
     bool validateScript(const std::string& scriptPath);
@@ -39,6 +43,7 @@ namespace Project::Services {
   private:
     Project::Core::SDLManager& sdlManager;
     Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::ConfigReader& configReader;
     Project::Factories::ComponentsFactory& componentsFactory;
     Project::States::GameStateManager& gameStateManager;
     Project::Handlers::ResourcesHandler& resourcesHandler;

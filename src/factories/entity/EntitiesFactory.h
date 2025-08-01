@@ -9,6 +9,7 @@
 #include "factories/component/ComponentsFactory.h"
 #include "helpers/entity_pool/EntityPool.h"
 #include "utilities/logs_manager/LogsManager.h"
+#include "utilities/config_reader/ConfigReader.h"
 
 namespace Project::States { class GameStateManager; }
 namespace Project::Factories {  
@@ -16,7 +17,13 @@ namespace Project::Factories {
   public:
     using EntityPtr = std::unique_ptr<Project::Entities::Entity, Project::Helpers::EntityPool::Deleter>;
     
-    explicit EntitiesFactory(Project::Utilities::LogsManager& logsManager, Project::Factories::ComponentsFactory& componentsFactory, Project::States::GameStateManager& gameStateManager);
+    explicit EntitiesFactory(
+      Project::Utilities::LogsManager& logsManager,
+      Project::Utilities::ConfigReader& configReader,
+      Project::Factories::ComponentsFactory& componentsFactory,
+      Project::States::GameStateManager& gameStateManager
+    );
+
     ~EntitiesFactory();
 
     EntityPtr createEntityFromLua(const std::string& scriptPath);
@@ -27,6 +34,7 @@ namespace Project::Factories {
 
   private:
     Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::ConfigReader& configReader;
     Project::Factories::ComponentsFactory& componentsFactory;
     Project::States::GameStateManager& gameStateManager;
 

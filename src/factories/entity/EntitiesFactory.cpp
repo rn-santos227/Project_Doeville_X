@@ -9,13 +9,23 @@
 
 namespace Project::Factories {
   using Project::Utilities::LogsManager;
+  using Project::Utilities::ConfigReader;
   using Project::Entities::Entity;
   using Project::Entities::EntityCategory;
   using Project::Factories::EntitiesFactory;
   using Project::States::GameStateManager;
 
-  EntitiesFactory::EntitiesFactory(LogsManager& logsManager, ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
-    : logsManager(logsManager), componentsFactory(componentsFactory), gameStateManager(gameStateManager) {}
+  namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
+
+  EntitiesFactory::EntitiesFactory(
+    LogsManager& logsManager, ConfigReader& configReader,
+    ComponentsFactory& componentsFactory, GameStateManager& gameStateManager)
+    : logsManager(logsManager), configReader(configReader),
+      componentsFactory(componentsFactory), gameStateManager(gameStateManager) {
+      int limit = configReader.getIntValue(Keys::POOLS_SECTION, Keys::POOL_ENTITY_MAX, Constants::DEFAULT_COMPONENT_SIZE);
+      Project::Helpers::EntityPool::getInstance().setMaxSize(static_cast<size_t>(limit));
+    }
 
   EntitiesFactory::~EntitiesFactory() {
     entityTemplates.clear();

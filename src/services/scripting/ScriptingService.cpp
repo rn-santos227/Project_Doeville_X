@@ -11,6 +11,7 @@
 namespace Project::Services {
   using Project::Core::SDLManager;
   using Project::Utilities::LogsManager;
+  using Project::Utilities::ConfigReader;
   using Project::Utilities::LuaStateWrapper;
   using Project::Handlers::ResourcesHandler;
   using Project::Factories::ComponentsFactory;
@@ -27,17 +28,19 @@ namespace Project::Services {
   ScriptingService::ScriptingService(SDL_Renderer* renderer,
     SDLManager& sdlManager,
     LogsManager& logsManager,
+    ConfigReader& configReader,
     ResourcesHandler& resourcesHandler,
     ComponentsFactory& componentsFactory,
     GameStateManager& gameStateManager)
     : sdlManager(sdlManager),
       logsManager(logsManager),
+      configReader(configReader),
       componentsFactory(componentsFactory),
       gameStateManager(gameStateManager),
       resourcesHandler(resourcesHandler),
       luaStateWrapper(logsManager),
       renderer(renderer),
-      entitiesFactory(logsManager, componentsFactory, gameStateManager),
+      entitiesFactory(logsManager, configReader, componentsFactory, gameStateManager),
       layersFactory(logsManager),
       gameStateFactory(logsManager, sdlManager, resourcesHandler, 
       gameStateManager, entitiesFactory, layersFactory) {}

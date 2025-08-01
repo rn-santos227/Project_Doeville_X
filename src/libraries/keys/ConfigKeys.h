@@ -36,6 +36,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* AXIS_X_COLOR = "x_color";
   constexpr const char* AXIS_Y_COLOR = "y_color";
   constexpr const char* AXIS_Z_COLOR = "z_color";
+  constexpr const char* POOLS_SECTION = "Pools";
+  constexpr const char* POOL_ENTITY_MAX = "entity_max";
+  constexpr const char* POOL_COMPONENT_MAX = "component_max";
 }
 
 #endif

@@ -40,6 +40,13 @@ namespace Project::Utilities {
     if (it != values.end()) {
       return it->second;
     }
+
+    const char* envVal = std::getenv(key.c_str());
+    if (envVal) {
+      return std::string(envVal);
+    }
+    
+    logsManager.logWarning("Env key not found: " + key + ", using default: " + defaultValue);
   }
 
   void EnvLoader::trim(std::string& str) const {

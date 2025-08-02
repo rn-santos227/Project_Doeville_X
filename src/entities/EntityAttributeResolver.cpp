@@ -9,7 +9,7 @@
 namespace Project::Entities {
   namespace Attributes = Project::Libraries::Attributes::Entities;
   EntityAttribute EntityAttributeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, EntityAttribute>, 27> map{{
+    static constexpr std::array<std::pair<std::string_view, EntityAttribute>, 25> map{{
       {Attributes::DEFAULT, EntityAttribute::DEFAULT},
       {Attributes::AGGRESSIVE, EntityAttribute::AGGRESSIVE},
       {Attributes::DEBUG_ONLY, EntityAttribute::DEBUG_ONLY},
@@ -17,6 +17,7 @@ namespace Project::Entities {
       {Attributes::DISPOSABLE, EntityAttribute::DISPOSABLE},
       {Attributes::FLOATING, EntityAttribute::FLOATING},
       {Attributes::GHOST, EntityAttribute::GHOST},
+      {Attributes::IMMOVABLE, EntityAttribute::IMMOVABLE},
       {Attributes::HIGH_PRIORITY, EntityAttribute::HIGH_PRIORITY},
       {Attributes::INDEPENDENT, EntityAttribute::INDEPENDENT},
       {Attributes::INTERACTIVE, EntityAttribute::INTERACTIVE},
@@ -28,11 +29,11 @@ namespace Project::Entities {
       {Attributes::PAUSED_WHEN_HIDDEN, EntityAttribute::PAUSED_WHEN_HIDDEN},
       {Attributes::PERMANENT, EntityAttribute::PERMANENT},
       {Attributes::PERSISTENT, EntityAttribute::PERSISTENT},
-      {Attributes::PERMANENT, EntityAttribute::PERMANENT},
       {Attributes::RESTING, EntityAttribute::RESTING},
       {Attributes::RESOURCE_LIGHT, EntityAttribute::RESOURCE_LIGHT},
       {Attributes::SCRIPTED, EntityAttribute::SCRIPTED},
       {Attributes::SLEEPING, EntityAttribute::SLEEPING},
+      {Attributes::UNBOUNDED, EntityAttribute::UNBOUNDED},
       {Attributes::VOLATILE, EntityAttribute::VOLATILE},
     }};
 

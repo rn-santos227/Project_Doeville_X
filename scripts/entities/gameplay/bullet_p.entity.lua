@@ -72,5 +72,5 @@ end
 
 return {
   name = "bullet_p",
-  attributes = {"DISPOSABLE"}
+  attributes = {"DISPOSABLE", "DISPOSABLE"}
 }

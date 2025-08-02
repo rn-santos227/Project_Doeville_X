@@ -266,11 +266,10 @@ namespace Project::Entities {
         }
 
         if (remove) {
-          if (updateToRemoveCount < updateToRemove.size()) { 
+          if (updateToRemoveCount < updateToRemove.size())
             updateToRemove[updateToRemoveCount] = ent->getEntityID();
-          } else {
+          else
             updateToRemove.push_back(ent->getEntityID());
-          }
           ++updateToRemoveCount;
         }
       }
@@ -475,6 +474,7 @@ namespace Project::Entities {
   void EntitiesManager::clampEntitiesToRect(const SDL_Rect& rect) {
     for (auto& entity : entityList) {
       if (!entity) continue;
+      if (entity->hasAttribute(EntityAttribute::UNBOUNDED)) continue;
 
       float ex = entity->getX();
       float ey = entity->getY();
@@ -493,6 +493,7 @@ namespace Project::Entities {
   void EntitiesManager::warpEntitiesAcrossRect(const SDL_Rect& rect) {
     for (auto& entity : entityList) {
       if (!entity) continue;
+      if (entity->hasAttribute(EntityAttribute::UNBOUNDED)) continue;
 
       float ex = entity->getX();
       float ey = entity->getY();

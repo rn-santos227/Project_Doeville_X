@@ -11,6 +11,7 @@ namespace Project::Libraries::Attributes {
     constexpr const char* FLOATING = "FLOATING";
     constexpr const char* GHOST = "GHOST";
     constexpr const char* HIGH_PRIORITY = "HIGH_PRIORITY";
+    constexpr const char* IMMOVABLE = "IMMOVABLE";
     constexpr const char* INDEPENDENT = "INDEPENDENT";
     constexpr const char* INTERACTIVE = "INTERACTIVE";
     constexpr const char* LAZY_UPDATE = "LAZY_UPDATE";
@@ -25,6 +26,7 @@ namespace Project::Libraries::Attributes {
     constexpr const char* RESOURCE_LIGHT = "RESOURCE_LIGHT";
     constexpr const char* SCRIPTED = "SCRIPTED";
     constexpr const char* SLEEPING = "SLEEPING";
+    constexpr const char* UNBOUNDED = "UNBOUNDED";
     constexpr const char* VOLATILE  = "VOLATILE";
   }
 }

@@ -10,10 +10,10 @@ namespace Project::Entities {
     DISPOSABLE,
     FLOATING,
     GHOST,
+    HIGH_PRIORITY,
     IMMOVABLE,
     INDEPENDENT,
     INTERACTIVE,
-    HIGH_PRIORITY,
     LAZY_UPDATE,
     LOW_PRIORITY,
     NO_ANIMATION,
@@ -26,6 +26,7 @@ namespace Project::Entities {
     RESOURCE_LIGHT,
     SCRIPTED,
     SLEEPING,
+    UNBOUNDED,
     VOLATILE
   };
 }

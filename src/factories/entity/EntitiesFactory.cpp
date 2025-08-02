@@ -67,7 +67,7 @@ namespace Project::Factories {
     }
 
     EntityCategory category = it->second->getEntityCategory();
-    EntityPtr clone = Project::Helpers::EntityPool::getInstance().acquire(category, logsManager, componentsFactory);
+    EntityPtr clone = Project::Helpers::EntityPool::getInstance().make_unique(category, logsManager, componentsFactory);
     clone->setEntityName(entityName);
 
     lua_State* templateState = it->second->getLuaState();
@@ -140,7 +140,7 @@ namespace Project::Factories {
 
     EntityCategory category = EntityCategory::ENVIRONMENT;
 
-    EntityPtr entity = Project::Helpers::EntityPool::getInstance().acquire(
+    EntityPtr entity = Project::Helpers::EntityPool::getInstance().make_unique(
       category, logsManager, componentsFactory
     );
 

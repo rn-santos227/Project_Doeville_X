@@ -30,6 +30,8 @@ namespace Project::Factories {
   using Project::Handlers::MouseHandler;
   using Project::Handlers::ResourcesHandler;
   using Project::Helpers::ComponentPool;
+  using Project::Helpers::MotionComponentPool;
+  using Project::Helpers::TransformComponentPool;
   using Project::Utilities::ColorUtils;
   using Project::Utilities::ConfigReader;
   using Project::Utilities::LogsManager;
@@ -53,13 +55,14 @@ namespace Project::Factories {
     ComponentPool<InputComponent>::getInstance().setMaxSize(limit);
     ComponentPool<KeysComponent>::getInstance().setMaxSize(limit);
     ComponentPool<ModalComponent>::getInstance().setMaxSize(limit);
-    ComponentPool<MotionComponent>::getInstance().setMaxSize(limit);
     ComponentPool<NumericComponent>::getInstance().setMaxSize(limit);
     ComponentPool<PhysicsComponent>::getInstance().setMaxSize(limit);
     ComponentPool<SpawnerComponent>::getInstance().setMaxSize(limit);
     ComponentPool<TextComponent>::getInstance().setMaxSize(limit);
     ComponentPool<TimerComponent>::getInstance().setMaxSize(limit);
-    ComponentPool<TransformComponent>::getInstance().setMaxSize(limit);
+
+    MotionComponentPool::getInstance().setMaxSize(limit);
+    TransformComponentPool::getInstance().setMaxSize(limit);
   }
 
   ComponentsFactory::ComponentPtr ComponentsFactory::create(const std::string& componentName, LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
@@ -144,7 +147,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::MOTION: {
-        auto component = ComponentPool<MotionComponent>::getInstance().acquire(logsManager, keyHandler);
+        auto component = MotionComponentPool::getInstance().acquire(logsManager, keyHandler);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -204,7 +207,7 @@ namespace Project::Factories {
       }
 
       case ComponentType::TRANSFORM: {
-        auto component = ComponentPool<TransformComponent>::getInstance().acquire(logsManager);
+        auto component = TransformComponentPool::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));

@@ -5,6 +5,8 @@
 #include <memory>
 #include <vector>
 
+#include "helpers/memory_pool/MemoryPoolAllocator.h"
+
 namespace Project::Helpers {
   template <typename T>
   class ObjectPool {
@@ -26,7 +28,7 @@ namespace Project::Helpers {
         mem = pool.back();
         pool.pop_back();
       } else {
-        mem = static_cast<T*>(::operator new(sizeof(T)));
+        mem = allocator.allocate(1);
       }
 
       new (mem) T(std::forward<Args>(args)...);
@@ -35,24 +37,31 @@ namespace Project::Helpers {
       });
     }
 
+    template <typename... Args>
+    std::unique_ptr<T, Deleter> make_unique(Args&&... args) {
+      return acquire(std::forward<Args>(args)...);
+    }
+
     void release(T* obj) {
       if (!obj) return;
       obj->~T();
       if (maxSize == 0 || pool.size() < maxSize) {
         pool.push_back(obj);
       } else {
-        ::operator delete(obj);
+        allocator.deallocate(obj, 1);
       }
     }
 
   private:
+    MemoryPoolAllocator<T> allocator;
+
     std::vector<T*> pool;
     size_t maxSize = 0;
-
+    
     ObjectPool() = default;
     ~ObjectPool() {
       for (auto* ptr : pool) {
-        ::operator delete(ptr);
+        allocator.deallocate(ptr, 1);
       }
     }
 

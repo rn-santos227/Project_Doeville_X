@@ -28,6 +28,8 @@
 #include "handlers/input/CursorHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "helpers/component_pool/ComponentPool.h"
+#include "helpers/component_pool/MotionComponentPool.h"
+#include "helpers/component_pool/TransformComponentPool.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/config_reader/ConfigReader.h"

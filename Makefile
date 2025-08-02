@@ -1,6 +1,6 @@
 # Compiler and Flags
 CXX = g++
-CXXFLAGS += -std=c++17 -O2 -Isrc \
+CXXFLAGS += -std=c++17 -O3 -Isrc \
   -Ilib/SDL2_build/include \
   -Ilib/SDL2_build/include/SDL2 \
   -Ilib/SDL2_image_build/include \
@@ -25,7 +25,7 @@ endif
 ifeq ($(OS), Windows_NT)
 	LDFLAGS += -lpsapi
 else
-  LDFLAGS += 	-Wl,-rpath,$(RPATH_BASE)/SDL2_build/lib \
+  LDFLAGS += -Wl,-rpath,$(RPATH_BASE)/SDL2_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/SDL2_image_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/SDL2_ttf_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/Lua_build/lib
@@ -48,6 +48,8 @@ TARGET = $(BIN_DIR)/project_doeville_x
 DEBUG_TARGET = $(BIN_DIR)/project_doeville_x_debug
 ASAN_TARGET = $(BIN_DIR)/project_doeville_x_asan
 TSAN_TARGET = $(BIN_DIR)/project_doeville_x_tsan
+PGO_GEN_TARGET = $(BIN_DIR)/project_doeville_x_pgo_gen
+PGO_USE_TARGET = $(BIN_DIR)/project_doeville_x_pgo_use
 
 all: deps $(TARGET) copy_config
 
@@ -64,6 +66,14 @@ asan: deps $(ASAN_TARGET) copy_config
 tsan: CXXFLAGS += -g -O1 -fsanitize=thread -fno-omit-frame-pointer
 tsan: LDFLAGS += -fsanitize=thread
 tsan: deps $(TSAN_TARGET) copy_config
+
+pgo-generate: CXXFLAGS += -O3 -fprofile-generate
+pgo-generate: LDFLAGS += -fprofile-generate
+pgo-generate: deps $(PGO_GEN_TARGET) copy_config
+
+pgo-use: CXXFLAGS += -O3 -fprofile-use
+pgo-use: LDFLAGS += -fprofile-use
+pgo-use: deps $(PGO_USE_TARGET) copy_config
 
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
@@ -101,6 +111,22 @@ $(TSAN_TARGET): $(OBJECTS)
 	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
 	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
 
+$(PGO_GEN_TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+
+$(PGO_USE_TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+
 copy_config:
 	@echo "Copying config.ini to bin/"
 	cp config.ini $(BIN_DIR)/
@@ -113,4 +139,4 @@ clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
 	@echo "Cleaned build directories."
 
-.PHONY: all clean debug asan tsan deps
+.PHONY: all clean debug asan tsan pgo-generate pgo-use deps

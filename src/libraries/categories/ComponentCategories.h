@@ -13,6 +13,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* HUD = "hud";
     constexpr const char* INPUT = "input";
     constexpr const char* KEYS = "keys";
+    constexpr const char* MODAL = "modal";
     constexpr const char* MOTION = "motion";
     constexpr const char* NUMERIC = "numeric";
     constexpr const char* PHYSICS = "physics";
@@ -28,6 +29,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* GRAPHICS_COMPONENT = "GraphicsComponent";
     constexpr const char* INPUT_COMPONENT = "InputComponent";
     constexpr const char* KEYS_COMPONENT = "KeysComponent";
+    constexpr const char* MODAL_COMPONENT = "ModalComponent";
     constexpr const char* MOTION_COMPONENT = "MotionComponent";
     constexpr const char* NUMERIC_COMPONENT = "NumericComponent";
     constexpr const char* PHYSICS_COMPONENT = "PhysicsComponent";

@@ -152,6 +152,7 @@ namespace Project::Entities {
       ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
     }
     disposableSeenInCamera.erase(id);
+    ObjectsManager<Entity>::remove(id);
   }
 
   bool EntitiesManager::hasEntity(const std::string& id) {

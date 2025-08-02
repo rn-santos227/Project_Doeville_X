@@ -11,6 +11,7 @@ namespace Project::Components {
     HUD,
     INPUT,
     KEYS,
+    MODAL,
     MOTION,
     NUMERIC,
     PHYSICS,

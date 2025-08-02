@@ -26,13 +26,14 @@ namespace Project::Components {
   namespace Surfaces = Project::Libraries::Categories::Surfaces;
   
   BoundingBoxComponent::BoundingBoxComponent(LogsManager& logsManager, SDL_Renderer* renderer, KeyHandler* keyHandler, SDL_Color debugColor)
-    : BaseComponent(logsManager), PositionableComponent(), renderer(renderer), keyHandler(keyHandler), debugColor(debugColor) {
+    : BaseComponent(logsManager), PositionableComponent(), renderer(renderer), keyHandler(keyHandler) {
       
-      boxes.reserve(Constants::INDEX_FOUR);
+      data.boxes.reserve(Constants::INDEX_FOUR);
+      data.circles.reserve(Constants::INDEX_TWO);
+      data.orientedBoxes.reserve(Constants::INDEX_FOUR);
+      
       worldBoxes.reserve(Constants::INDEX_FOUR);
-      circles.reserve(Constants::INDEX_TWO);
       worldCircles.reserve(Constants::INDEX_TWO);
-      orientedBoxes.reserve(Constants::INDEX_FOUR);
   }
 
   void BoundingBoxComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {
@@ -47,14 +48,14 @@ namespace Project::Components {
     const int camX = cameraHandler ? cameraHandler->getX() : 0;
     const int camY = cameraHandler ? cameraHandler->getY() : 0;
 
-    SDL_SetRenderDrawColor(renderer, debugColor.r, debugColor.g, debugColor.b, debugColor.a);
+    SDL_SetRenderDrawColor(renderer, data.debugColor.r, data.debugColor.g, data.debugColor.b, data.debugColor.a);
     if (worldBoxesDirty) {
       updateWorldBoxes();
       worldBoxesDirty = false;
     }
 
-    if (rotationEnabled) {
-      for (const auto& box : orientedBoxes) {
+    if (data.rotationEnabled) {
+      for (const auto& box : data.orientedBoxes) {
         for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
           const SDL_FPoint& p1 = box.corners[i];
           const SDL_FPoint& p2 = box.corners[(i + 1) % Constants::INDEX_FOUR];
@@ -151,22 +152,22 @@ namespace Project::Components {
   }
 
   void BoundingBoxComponent::addBox(const SDL_Rect& rect) {
-    boxes.push_back(rect);
+    data.boxes.push_back(rect);
     updateWorldBoxes();
   }
 
   void BoundingBoxComponent::addCircle(int x, int y, int r) {
-    circles.push_back({x, y, r});
+    data.circles.push_back({x, y, r});
     updateWorldBoxes();
   }
 
   void BoundingBoxComponent::addPolygon(const std::vector<SDL_FPoint>& points) {
-    polygons.push_back({points});
+    data.polygons.push_back({points});
     updateWorldBoxes();
   }
 
   void BoundingBoxComponent::addCapsule(const Project::Utilities::Capsule& cap) {
-    capsules.push_back(cap);
+    data.capsules.push_back(cap);
     updateWorldBoxes();
   }
 
@@ -182,26 +183,20 @@ namespace Project::Components {
   }
 
   void BoundingBoxComponent::clearShapes() {
-    boxes.clear();
+    data.boxes.clear();
+    data.circles.clear();
+    data.orientedBoxes.clear();
+    data.polygons.clear();
+    data.capsules.clear();
+
     worldBoxes.clear();
-    circles.clear();
     worldCircles.clear();
-    orientedBoxes.clear();
     worldPolygons.clear();
-    capsules.clear();
     worldCapsules.clear();
   }
 
-  void BoundingBoxComponent::setSolid(bool solidEnabled) {
-    solid = solidEnabled;
-  }
-
-  bool BoundingBoxComponent::isSolid() const {
-    return solid;
-  }
-
   bool BoundingBoxComponent::isInteractive() const {
-    if (solid) return true;
+    if (data.solid) return true;
     auto surface = getSurfaceType();
     return surface == SurfaceType::DESTROY_ON_HIT || 
            surface == SurfaceType::TRIGGER_EVENT ||
@@ -268,8 +263,8 @@ namespace Project::Components {
   }
 
   void BoundingBoxComponent::setEntityRotation(float angle) {
-    if (rotation != angle) {
-      rotation = angle;
+    if (data.rotation != angle) {
+      data.rotation = angle;
       lastCachedRotation = std::numeric_limits<float>::quiet_NaN();
       markDirty();
     }
@@ -299,7 +294,7 @@ namespace Project::Components {
       worldBoxesDirty = false;
     }
     ensureUpdated();
-    return orientedBoxes;
+    return data.orientedBoxes;
   }
 
   void BoundingBoxComponent::ensureUpdated() const {
@@ -314,45 +309,45 @@ namespace Project::Components {
   }
 
   void BoundingBoxComponent::updateWorldBoxes() {
-    if (worldBoxes.size() != boxes.size()) {
-      worldBoxes.resize(boxes.size());
-      orientedBoxes.resize(boxes.size());
+    if (worldBoxes.size() != data.boxes.size()) {
+      worldBoxes.resize(data.boxes.size());
+      data.orientedBoxes.resize(data.boxes.size());
     }
 
-    if (worldCircles.size() != circles.size()) {
-      worldCircles.resize(circles.size());
+    if (worldCircles.size() != data.circles.size()) {
+      worldCircles.resize(data.circles.size());
     }
 
-    if (worldPolygons.size() != polygons.size()) {
-      worldPolygons.resize(polygons.size());
+    if (worldPolygons.size() != data.polygons.size()) {
+      worldPolygons.resize(data.polygons.size());
     }
 
-    if (worldCapsules.size() != capsules.size()) {
-      worldCapsules.resize(capsules.size());
+    if (worldCapsules.size() != data.capsules.size()) {
+      worldCapsules.resize(data.capsules.size());
     }
 
     float cosA = 1.0f, sinA = 0.0f;
-    if (rotationEnabled && !boxes.empty()) {
-      if (rotation != lastCachedRotation) {
-        const float angleRad = rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
+    if (data.rotationEnabled && !data.boxes.empty()) {
+      if (data.rotation != lastCachedRotation) {
+        const float angleRad = data.rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
         cachedCos = std::cos(angleRad);
         cachedSin = std::sin(angleRad);
-        lastCachedRotation = rotation;
+        lastCachedRotation = data.rotation;
       }
       cosA = cachedCos;
       sinA = cachedSin;
     }
 
-    for (size_t i = 0; i < boxes.size(); ++i) {
-      if (rotationEnabled) {
-        const float cx = boxes[i].x + boxes[i].w * Constants::DEFAULT_HALF;
-        const float cy = boxes[i].y + boxes[i].h * Constants::DEFAULT_HALF;
+    for (size_t i = 0; i < data.boxes.size(); ++i) {
+      if (data.rotationEnabled) {
+        const float cx = data.boxes[i].x + data.boxes[i].w * Constants::DEFAULT_HALF;
+        const float cy = data.boxes[i].y + data.boxes[i].h * Constants::DEFAULT_HALF;
         
         const std::array<SDL_FPoint, 4> localCorners = {{
-          {static_cast<float>(boxes[i].x) - cx, static_cast<float>(boxes[i].y) - cy},
-          {static_cast<float>(boxes[i].x + boxes[i].w) - cx, static_cast<float>(boxes[i].y) - cy},
-          {static_cast<float>(boxes[i].x + boxes[i].w) - cx, static_cast<float>(boxes[i].y + boxes[i].h) - cy},
-          {static_cast<float>(boxes[i].x) - cx, static_cast<float>(boxes[i].y + boxes[i].h) - cy}
+          {static_cast<float>(data.boxes[i].x) - cx, static_cast<float>(data.boxes[i].y) - cy},
+          {static_cast<float>(data.boxes[i].x + data.boxes[i].w) - cx, static_cast<float>(data.boxes[i].y) - cy},
+          {static_cast<float>(data.boxes[i].x + data.boxes[i].w) - cx, static_cast<float>(data.boxes[i].y + data.boxes[i].h) - cy},
+          {static_cast<float>(data.boxes[i].x) - cx, static_cast<float>(data.boxes[i].y + data.boxes[i].h) - cy}
         }};
         
         float minX = std::numeric_limits<float>::max();
@@ -366,7 +361,7 @@ namespace Project::Components {
           const float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
           const float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
           
-          orientedBoxes[i].corners[j] = {newX, newY};
+          data.orientedBoxes[i].corners[j] = {newX, newY};
           minX = std::min(minX, newX);
           minY = std::min(minY, newY);
           maxX = std::max(maxX, newX);
@@ -381,10 +376,10 @@ namespace Project::Components {
         };
       } else {
         worldBoxes[i] = {
-          static_cast<int>(boxes[i].x + entityX),
-          static_cast<int>(boxes[i].y + entityY),
-          boxes[i].w,
-          boxes[i].h
+          static_cast<int>(data.boxes[i].x + entityX),
+          static_cast<int>(data.boxes[i].y + entityY),
+          data.boxes[i].w,
+          data.boxes[i].h
         };
         
         const float x = static_cast<float>(worldBoxes[i].x);
@@ -392,33 +387,33 @@ namespace Project::Components {
         const float w = static_cast<float>(worldBoxes[i].w);
         const float h = static_cast<float>(worldBoxes[i].h);
         
-        orientedBoxes[i].corners[0] = {x, y};
-        orientedBoxes[i].corners[1] = {x + w, y};
-        orientedBoxes[i].corners[2] = {x + w, y + h};
-        orientedBoxes[i].corners[3] = {x, y + h};
+        data.orientedBoxes[i].corners[0] = {x, y};
+        data.orientedBoxes[i].corners[1] = {x + w, y};
+        data.orientedBoxes[i].corners[2] = {x + w, y + h};
+        data.orientedBoxes[i].corners[3] = {x, y + h};
       }
     }
 
-    for (size_t i = 0; i < circles.size(); ++i) {
-      worldCircles[i].x = circles[i].x + entityX;
-      worldCircles[i].y = circles[i].y + entityY;
-      worldCircles[i].r = circles[i].r;
+    for (size_t i = 0; i < data.circles.size(); ++i) {
+      worldCircles[i].x = data.circles[i].x + entityX;
+      worldCircles[i].y = data.circles[i].y + entityY;
+      worldCircles[i].r = data.circles[i].r;
     }
 
-    for (size_t i = 0; i < polygons.size(); ++i) {
-      worldPolygons[i].vertices.resize(polygons[i].vertices.size());
-      for (size_t j = 0; j < polygons[i].vertices.size(); ++j) {
-        worldPolygons[i].vertices[j].x = polygons[i].vertices[j].x + entityX;
-        worldPolygons[i].vertices[j].y = polygons[i].vertices[j].y + entityY;
+    for (size_t i = 0; i < data.polygons.size(); ++i) {
+      worldPolygons[i].vertices.resize(data.polygons[i].vertices.size());
+      for (size_t j = 0; j < data.polygons[i].vertices.size(); ++j) {
+        worldPolygons[i].vertices[j].x = data.polygons[i].vertices[j].x + entityX;
+        worldPolygons[i].vertices[j].y = data.polygons[i].vertices[j].y + entityY;
       }
     }
 
-    for (size_t i = 0; i < capsules.size(); ++i) {
-      worldCapsules[i].start.x = capsules[i].start.x + entityX;
-      worldCapsules[i].start.y = capsules[i].start.y + entityY;
-      worldCapsules[i].end.x = capsules[i].end.x + entityX;
-      worldCapsules[i].end.y = capsules[i].end.y + entityY;
-      worldCapsules[i].r = capsules[i].r;
+    for (size_t i = 0; i < data.capsules.size(); ++i) {
+      worldCapsules[i].start.x = data.capsules[i].start.x + entityX;
+      worldCapsules[i].start.y = data.capsules[i].start.y + entityY;
+      worldCapsules[i].end.x = data.capsules[i].end.x + entityX;
+      worldCapsules[i].end.y = data.capsules[i].end.y + entityY;
+      worldCapsules[i].r = data.capsules[i].r;
     }
   }
 }

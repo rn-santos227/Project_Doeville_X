@@ -1,6 +1,8 @@
 #ifndef TEXT_COMPONENT_H
 #define TEXT_COMPONENT_H
 
+#include "TextData.h"
+
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/TextureHolder.h"
@@ -36,12 +38,12 @@ namespace Project::Components {
     void setColor(SDL_Color newColor);
     void setColorHex(const std::string& hex);
     void setPosition(int x, int y);
-    void setBorderColor(SDL_Color _color) { borderColor = _color; }
-    void setBorderWidth(int _width) { borderWidth = _width; }
+    void setBorderColor(SDL_Color _color) { data.borderColor = _color; }
+    void setBorderWidth(int _width) { data.borderWidth = _width; }
 
-    const SDL_Rect& getRect() const { return rect; }
-    int getWidth() const { return rect.w; }
-    int getHeight() const { return rect.h; }
+    const SDL_Rect& getRect() const { return data.rect; }
+    int getWidth() const { return data.rect.w; }
+    int getHeight() const { return data.rect.h; }
 
     void addAnimation(const std::string& name, Project::Handlers::Animation animation);
     void playAnimation(const std::string& name);
@@ -49,21 +51,12 @@ namespace Project::Components {
   private:
     Project::Handlers::AnimationHandler animationHandler;
     Project::Services::Style style{};
+    TextData data;
     
     Project::Utilities::ConfigReader& configReader;
 
     SDL_Renderer* renderer;
     TTF_Font* font;
-
-    SDL_Color borderColor{0,0,0,0};
-    SDL_Color color;
-    SDL_Rect rect;
-
-    std::string currentText;
-    std::string fontPath;
-    
-    int borderWidth{0};
-    int fontSize;
 
     void createTexture();
   };

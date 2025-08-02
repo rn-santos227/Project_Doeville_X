@@ -24,7 +24,7 @@ namespace Project::Components {
     std::unordered_set<std::string> ignoredEntities;
 
     float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
-    float restitution = Project::Libraries::Constants::DEFAULT_RESTITUTION;
+    float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
     float rotation = Project::Libraries::Constants::DEFAULT_ROTATION;
 
     bool solid = false;

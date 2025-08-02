@@ -21,7 +21,10 @@ namespace Project::Components {
     SDL_Renderer* renderer, 
     Project::Utilities::LogsManager& logsManager, Project::Utilities::ConfigReader& configReader,
     Project::Handlers::MouseHandler* mouseHandler, Project::Handlers::CursorHandler* cursorHandler)
-      : BaseComponent(logsManager), renderer(renderer), configReader(configReader), mouseHandler(mouseHandler), cursorHandler(cursorHandler) {}
+      : BaseComponent(logsManager), renderer(renderer), configReader(configReader), mouseHandler(mouseHandler), cursorHandler(cursorHandler) {
+    data.hoverColor = data.color;
+    data.fontHoverColor = data.fontColor;
+  }
 
   ButtonComponent::~ButtonComponent() {
     if (textTexture) {
@@ -41,54 +44,55 @@ namespace Project::Components {
     int y = mouseHandler->getMouseY();
     
     SDL_Rect detectRect = {
-      rect.x - marginLeft, rect.y - marginTop,
-      rect.w + marginLeft + marginRight,
-      rect.h + marginTop + marginBottom
+      data.rect.x - data.marginLeft, data.rect.y - data.marginTop,
+      data.rect.w + data.marginLeft + data.marginRight,
+      data.rect.h + data.marginTop + data.marginBottom
     };
     
     SDL_Point mousePoint = {x, y};
     bool inside = SDL_PointInRect(&mousePoint, &detectRect);
 
     if (inside) {
-      if (!hovered) {
-        hovered = true;
+      if (!data.hovered) {
+        data.hovered = true;
         cursorHandler->setCursorState(Project::Handlers::CursorState::HOVER);
-        createTextTexture(fontHoverColor);
+        cursorHandler->setCursorState(Project::Handlers::CursorState::HOVER);
+        createTextTexture(data.fontHoverColor);
       }
 
       bool pressed = mouseHandler->isButtonDown(SDL_BUTTON_LEFT);
-      if (pressed && !wasPressed) {
-        if (owner && !luaFunction.empty()) {
-          owner->callLuaFunction(luaFunction);
+      if (pressed && !data.wasPressed) {
+        if (owner && !data.luaFunction.empty()) {
+          owner->callLuaFunction(data.luaFunction);
         }
       }
-      wasPressed = pressed;
+      data.wasPressed = pressed;
     } else {
-      if (hovered) {
-        hovered = false;
+      if (data.hovered) {
+        data.hovered = false;
         cursorHandler->setCursorState(Project::Handlers::CursorState::DEFAULT);
-        createTextTexture(fontColor);
+        createTextTexture(data.fontColor);
       }
-      wasPressed = false;
+      data.wasPressed = false;
     }
   }
 
   void ButtonComponent::render() {
     if (!renderer) return;
-    SDL_Color drawColor = hovered ? hoverColor : color;
+    SDL_Color drawColor = data.hovered ? data.hoverColor : data.color;
     SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, drawColor.a);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderFillRect(renderer, &data.rect);
 
-    if (borderWidth > 0) {
-      SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
-      for (int i = 0; i < borderWidth; ++i) {
-        SDL_Rect bRect = {rect.x + i, rect.y + i, rect.w - 2 * i, rect.h - 2 * i};
+    if (data.borderWidth > 0) {
+      SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
+      for (int i = 0; i < data.borderWidth; ++i) {
+        SDL_Rect bRect = {data.rect.x + i, data.rect.y + i, data.rect.w - 2 * i, data.rect.h - 2 * i};
         SDL_RenderDrawRect(renderer, &bRect);
       }
     }
 
     if (textTexture) {
-      SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+      SDL_RenderCopy(renderer, textTexture, nullptr, &data.textRect);
     }
   }
 
@@ -99,20 +103,20 @@ namespace Project::Components {
 
     std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
     Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
-    color = ColorUtils::hexToRGB(colorHex, alpha);
-    hoverColor = color;
+    data.color = ColorUtils::hexToRGB(colorHex, alpha);
+    data.hoverColor = data.color;
 
-    text = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::DEFAULT_TEXT);
+    data.text = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::DEFAULT_TEXT);
 
     std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
     std::string fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
     int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);
     
-    fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
-    font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    data.fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
+    font = TTF_OpenFont(fontPath.c_str(), data.fontSize);
     if (!font) {
       logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
-      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
+      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, data.fontSize);
       if (!font) {
         logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
       }
@@ -120,11 +124,11 @@ namespace Project::Components {
 
     std::string fontColorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
     SDL_Color tmpColor = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
-    fontColor = tmpColor;
-    fontHoverColor = fontColor;
+    data.fontColor = tmpColor;
+    data.fontHoverColor = data.fontColor;
 
-    createTextTexture(fontColor);
-    luaFunction = luaStateWrapper.getTableString(tableName, Keys::CALLBACKS, Constants::EMPTY_STRING);
+    createTextTexture(data.fontColor);
+    data.luaFunction = luaStateWrapper.getTableString(tableName, Keys::CALLBACKS, Constants::EMPTY_STRING);
     onAttach();
   }
 
@@ -134,12 +138,12 @@ namespace Project::Components {
     while (classes >> cls) {
      std::string selector = "." + cls;
       Style s = StyleManager::getInstance().getStyle(selector);
-      if (s.width > 0) rect.w = s.width;
-      if (s.height > 0) rect.h = s.height;
-      if (s.background.a != 0) color = s.background;
-      if (s.hoverColor.a != 0) hoverColor = s.hoverColor;
-      if (s.fontColor.a != 0) { fontColor = s.fontColor; }
-      if (s.fontHoverColor.a != 0) { fontHoverColor = s.fontHoverColor; }
+      if (s.width > 0) data.rect.w = s.width;
+      if (s.height > 0) data.rect.h = s.height;
+      if (s.background.a != 0) data.color = s.background;
+      if (s.hoverColor.a != 0) data.hoverColor = s.hoverColor;
+      if (s.fontColor.a != 0) { data.fontColor = s.fontColor; }
+      if (s.fontHoverColor.a != 0) { data.fontHoverColor = s.fontHoverColor; }
       if (s.fontSize > 0) {
         if (font) TTF_CloseFont(font);
         std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
@@ -151,59 +155,47 @@ namespace Project::Components {
             logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
           }
         }
-        fontSize = s.fontSize;
+        data.fontSize = s.fontSize;
       }
-      if (s.borderColor.a != 0) borderColor = s.borderColor;
-      if (s.borderWidth > 0) borderWidth = s.borderWidth;
+      if (s.borderColor.a != 0) data.borderColor = s.borderColor;
+      if (s.borderWidth > 0) data.borderWidth = s.borderWidth;
       if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
-        paddingTop = s.paddingTop; paddingRight = s.paddingRight; paddingBottom = s.paddingBottom; paddingLeft = s.paddingLeft;
+        data.paddingTop = s.paddingTop; data.paddingRight = s.paddingRight; data.paddingBottom = s.paddingBottom; data.paddingLeft = s.paddingLeft;
       }
       if (s.marginTop || s.marginRight || s.marginBottom || s.marginLeft) {
-        marginTop = s.marginTop; marginRight = s.marginRight; marginBottom = s.marginBottom; marginLeft = s.marginLeft;
+        data.marginTop = s.marginTop; data.marginRight = s.marginRight; data.marginBottom = s.marginBottom; data.marginLeft = s.marginLeft;
       }
     }
-    createTextTexture(hovered ? fontHoverColor : fontColor);
+    createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);
   }
 
   void ButtonComponent::setEntityPosition(int x, int y) {
-    rect.x = x;
-    rect.y = y;
-    createTextTexture(hovered ? fontHoverColor : fontColor);
+    data.rect.x = x;
+    data.rect.y = y;
+    createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);
   }
 
   void ButtonComponent::setSize(int w, int h) {
-    rect.w = w;
-    rect.h = h;
-    createTextTexture(hovered ? fontHoverColor : fontColor);
-  }
-
-  void ButtonComponent::setColor(SDL_Color _color) {
-    color = _color;
-  }
-  
-  void ButtonComponent::setHoverColor(SDL_Color _color) {
-    hoverColor = _color;
+    data.rect.w = w;
+    data.rect.h = h;
+    createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);
   }
   
   void ButtonComponent::setFontColor(SDL_Color _color) {
-    fontColor = _color; createTextTexture(hovered ? fontHoverColor : fontColor);
+    data.fontColor = _color; createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);
   }
   
   void ButtonComponent::setFontHoverColor(SDL_Color _color) {
-    fontHoverColor = _color; createTextTexture(hovered ? fontHoverColor : fontColor);
-  }
-
-  void ButtonComponent::setCallback(const std::string& fn) {
-    luaFunction = fn;
+    data.fontHoverColor = _color; createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);
   }
 
   void ButtonComponent::createTextTexture(SDL_Color colorToUse) {
-    if (!font || text.empty()) return;
+    if (!font || data.text.empty()) return;
     if (textTexture) {
       SDL_DestroyTexture(textTexture);
       textTexture = nullptr;
     }
-    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), colorToUse);
+    SDL_Surface* surface = TTF_RenderText_Blended(font, data.text.c_str(), colorToUse);
 
     if (!surface) {
       logsManager.logWarning(std::string("Failed to render button text: ") + TTF_GetError());
@@ -220,13 +212,13 @@ namespace Project::Components {
     }
 
     textTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    textRect.w = surface->w;
-    textRect.h = surface->h;
+    data.textRect.w = surface->w;
+    data.textRect.h = surface->h;
     SDL_FreeSurface(surface);
     if (!textTexture) {
       logsManager.logWarning(std::string("Failed to create button text texture: ") + SDL_GetError());
     }
-    textRect.x = rect.x + paddingLeft + (rect.w - paddingLeft - paddingRight - textRect.w) / 2;
-    textRect.y = rect.y + paddingTop + (rect.h - paddingTop - paddingBottom - textRect.h) / 2;
+    data.textRect.x = data.rect.x + data.paddingLeft + (data.rect.w - data.paddingLeft - data.paddingRight - data.textRect.w) / Project::Libraries::Constants::INDEX_TWO;
+    data.textRect.y = data.rect.y + data.paddingTop + (data.rect.h - data.paddingTop - data.paddingBottom - data.textRect.h) / Project::Libraries::Constants::INDEX_TWO;
   }
 }

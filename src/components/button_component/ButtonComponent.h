@@ -1,6 +1,8 @@
 #ifndef BUTTON_COMPONENT_H
 #define BUTTON_COMPONENT_H
 
+#include "ButtonComponentData.h"
+
 #include <string>
 
 #include <SDL.h>
@@ -41,22 +43,23 @@ namespace Project::Components {
     void setEntityPosition(int x, int y) override;
     void setSize(int w, int h);
     
-    void setColor(SDL_Color _color);
-    void setHoverColor(SDL_Color _color);
+    void setColor(SDL_Color _color) { data.color = _color; }
+    void setHoverColor(SDL_Color _color) { data.hoverColor = _color; }
 
     void setFontColor(SDL_Color _color);
     void setFontHoverColor(SDL_Color _color);
 
-    void setBorderColor(SDL_Color _color) { borderColor = _color; }
-    void setBorderWidth(int _width) { borderWidth = _width; }
+    void setBorderColor(SDL_Color _color) { data.borderColor = _color; }
+    void setBorderWidth(int _width) { data.borderWidth = _width; }
     
-    void setCallback(const std::string& functionName);
+    void setCallback(const std::string& fn) {data.luaFunction = fn; }
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 
-    const SDL_Rect& getRect() const { return rect; }
+    const SDL_Rect& getRect() const { return data.rect; }
   
   private:
     SDL_Renderer* renderer = nullptr;
+    ButtonComponentData data;
 
     Project::Entities::Entity* owner = nullptr;
     Project::Handlers::CursorHandler* cursorHandler = nullptr;
@@ -66,61 +69,6 @@ namespace Project::Components {
     TTF_Font* font = nullptr;
     
     Project::Utilities::ConfigReader& configReader;
-    
-    SDL_Rect rect{0,0,0,0};
-    SDL_Color color{
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL
-    };
-
-    SDL_Color borderColor{
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL
-    };
-
-    SDL_Color hoverColor{
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL
-    };
-    
-    SDL_Color fontColor{
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL
-    };
-    
-    SDL_Color fontHoverColor{
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL,
-      Project::Libraries::Constants::DEFAULT_MAX_CHANNEL
-    };
-    
-    SDL_Rect textRect{0,0,0,0};
-    
-    std::string luaFunction;
-    std::string text;
-    
-    int borderWidth{0};
-    int paddingTop{0};
-    int paddingRight{0};
-    int paddingBottom{0};
-    int paddingLeft{0};
-    int marginTop{0};
-    int marginRight{0};
-    int marginBottom{0};
-    int marginLeft{0};
-    int fontSize = 16;
-
-    bool hovered = false;
-    bool wasPressed = false;
 
     void createTextTexture(SDL_Color colorToUse);
   };

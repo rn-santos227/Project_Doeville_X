@@ -1,6 +1,7 @@
 #ifndef BOUNDING_BOX_COMPONENT_H
 #define BOUNDING_BOX_COMPONENT_H
 
+#include "BoundingBoxData.h"
 #include "SurfaceType.h"
 
 #include <SDL.h>
@@ -40,8 +41,6 @@ namespace Project::Components {
     const std::vector<Project::Utilities::Polygon>& getPolygons() const { return worldPolygons; }
     const std::vector<Project::Utilities::Capsule>& getCapsules() const { return worldCapsules; }
 
-    void setSolid(bool solidEnabled);
-    bool isSolid() const;
     bool isInteractive() const;
 
     bool handleSurfaceInteraction(
@@ -52,23 +51,26 @@ namespace Project::Components {
       float& velocityX, float& velocityY
     );
 
-    void setFriction(float value) { friction = value; }
-    float getFriction() const { return friction; }
+    void setFriction(float value) { data.friction = value; }
+    float getFriction() const { return data.friction; }
 
-    void setRotation(float angle) { rotation = angle; updateWorldBoxes(); }
-    float getRotation() const { return rotation; }
+    void setRotation(float angle) { data.rotation = angle; updateWorldBoxes(); }
+    float getRotation() const { return data.rotation; }
 
-    void setRotationEnabled(bool value) { rotationEnabled = value; updateWorldBoxes(); }
-    bool isRotationEnabled() const { return rotationEnabled; }
-    
-    void setRestitution(float value) { restitution = value; }
-    float getRestitution() const { return restitution; }
+    void setRotationEnabled(bool value) { data.rotationEnabled = value; updateWorldBoxes(); }
+    bool isRotationEnabled() const { return data.rotationEnabled; }
+
+    void setSolid(bool solidEnabled) { data.solid = solidEnabled; }
+    bool isSolid() const { return data.solid; }
+
+    void setRestitution(float value) { data.restitution = value; }
+    float getRestitution() const { return data.restitution; }
 
     void setEntityPosition(int x, int y) override;
     void setEntityRotation(float angle) override;
 
-    void setSurfaceType(Project::Components::SurfaceType type) { surfaceType = type; }
-    Project::Components::SurfaceType getSurfaceType() const { return surfaceType; }
+    void setSurfaceType(Project::Components::SurfaceType type) { data.surfaceType = type; }
+    Project::Components::SurfaceType getSurfaceType() const { return data.surfaceType; }
 
     void setIgnoredEntities(const std::vector<std::string>& names);
     bool isIgnoring(const std::string& name) const;
@@ -78,40 +80,27 @@ namespace Project::Components {
 
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
+    BoundingBoxData data;
     
-    Project::Components::SurfaceType surfaceType = Project::Components::SurfaceType::REST;
     Project::Entities::Entity* owner = nullptr;
 
-    std::vector<SDL_Rect> boxes;
     std::vector<SDL_Rect> worldBoxes;
-    std::vector<Project::Utilities::Circle> circles;
     std::vector<Project::Utilities::Circle> worldCircles;
-    std::vector<Project::Utilities::OrientedBox> orientedBoxes;
-    std::vector<Project::Utilities::Polygon> polygons;
     std::vector<Project::Utilities::Polygon> worldPolygons;
-    std::vector<Project::Utilities::Capsule> capsules;
     std::vector<Project::Utilities::Capsule> worldCapsules;
     std::unordered_set<std::string> ignoredEntities;
 
     SDL_Renderer* renderer = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;
-
-    SDL_Color debugColor = Project::Libraries::Constants::DEFAULT_BOUNDING_BOX_COLOR;
     
     mutable float cachedSin = 0.0f;
     mutable float cachedCos = 1.0f;
     mutable float lastCachedRotation = std::numeric_limits<float>::quiet_NaN();
-
-    float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
-    float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
-    float rotation = 0.0f;
-
+    
     float entityX = 0;
     float entityY = 0;
-    
+
     mutable bool worldBoxesDirty = true;
-    bool rotationEnabled = false;
-    bool solid = false;
 
     void ensureUpdated() const;
     void markDirty();

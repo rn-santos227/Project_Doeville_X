@@ -46,6 +46,8 @@ namespace Project::Components {
     Project::Entities::Entity* owner = nullptr;
     Project::Handlers::MouseHandler* mouseHandler = nullptr;
 
+    ModalType modalType{ModalType::NOTIFICATION};
+
     SDL_Rect rect{0,0,0,0};
     SDL_Color color{255,255,255,255};
     SDL_Color borderColor{0,0,0,0};
@@ -81,7 +83,6 @@ namespace Project::Components {
 
     std::string conditionFunc;
     std::string okCallback;
-    ModalType modalType{ModalType::NOTIFICATION};
 
     void createTitleTexture();
     void createSubtitleTexture();

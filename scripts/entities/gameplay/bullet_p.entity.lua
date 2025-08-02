@@ -4,6 +4,8 @@ z = 0
 
 group = "gameplay"
 
+attributes = {"DISPOSABLE",  "UNBOUNDED"}
+
 components = {
   BoundingBoxComponent = {
     component = "BoundingBoxComponent",
@@ -72,5 +74,4 @@ end
 
 return {
   name = "bullet_p",
-  attributes = {"DISPOSABLE", "DISPOSABLE"}
 }

@@ -120,6 +120,7 @@ namespace Project::Entities {
               break;
             case Project::Components::ComponentType::PHYSICS:
               physicsSystem.remove(static_cast<Project::Components::PhysicsComponent*>(comp));
+              hasPhys = true;
               break;
             case Project::Components::ComponentType::GRAPHICS:
               renderSystem.remove(static_cast<Project::Components::GraphicsComponent*>(comp));
@@ -150,7 +151,7 @@ namespace Project::Entities {
     for (auto& [group, ids] : entityGroups) {
       ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
     }
-    remove(id);
+    disposableSeenInCamera.erase(id);
   }
 
   bool EntitiesManager::hasEntity(const std::string& id) {
@@ -181,7 +182,8 @@ namespace Project::Entities {
     entityGroups.clear();
     motionSystem.clear();
     physicsSystem.clear();
-    renderSystem.clear();  
+    renderSystem.clear();
+    disposableSeenInCamera.clear();
   }
 
   void EntitiesManager::optimizeEntities() {
@@ -257,12 +259,20 @@ namespace Project::Entities {
         if (!ent) continue;
 
         bool remove = false;
-        if (ent->hasAttribute(EntityAttribute::VOLATILE) && !isEntityInCamera(ent)) {
+        bool inCamera = isEntityInCamera(ent);
+
+        if (ent->hasAttribute(EntityAttribute::VOLATILE) && !inCamera) {
           remove = true;
         }
-        
-        if (ent->hasAttribute(EntityAttribute::DISPOSABLE) && (!isEntityInCamera(ent) || isEntityOutOfBounds(ent))) {
-          remove = true;
+
+        if (ent->hasAttribute(EntityAttribute::DISPOSABLE)) {
+          const auto& id = ent->getEntityID();
+          if (inCamera) {
+            disposableSeenInCamera.insert(id);
+          }
+          if (isEntityOutOfBounds(ent) || (!inCamera && disposableSeenInCamera.count(id))) {
+            remove = true;
+          }
         }
 
         if (remove) {
@@ -563,6 +573,8 @@ namespace Project::Entities {
 
   bool EntitiesManager::isEntityOutOfBounds(const std::shared_ptr<Entity>& entity) const {
     if (!entity) return false;
+    if (entity->hasAttribute(EntityAttribute::UNBOUNDED)) return false;
+
     if (!gameState) return false;
     if (gameState->getDimensionMode() != Project::States::DimensionMode::BOUNDED)
       return false;

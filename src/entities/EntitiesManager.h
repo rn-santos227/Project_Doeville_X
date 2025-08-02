@@ -8,6 +8,7 @@
 #include <mutex>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include <SDL.h>
@@ -80,6 +81,7 @@ namespace Project::Entities {
       std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;
       std::unordered_map<std::string, size_t> entityIndices;
       std::unordered_map<std::string, int> idCounters;
+      std::unordered_set<std::string> disposableSeenInCamera;
       
       std::vector<std::shared_ptr<Entity>> entityList;
       std::vector<std::shared_ptr<Entity>> updateHigh;

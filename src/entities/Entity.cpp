@@ -27,21 +27,20 @@ namespace Project::Entities {
   namespace Keys = Project::Libraries::Keys;
 
   Entity::Entity(EntityCategory entityCategory, LogsManager& logsManager, ComponentsFactory& componentsFactory)
-  : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)),
-    x(0.0f), y(0.0f), z(0.0f) {}
+  : LuaScriptable(logsManager), componentsFactory(componentsFactory), entityCategory(std::move(entityCategory)) {}
 
   Entity::~Entity() = default;
 
   void Entity::initialize() {
-    x = luaStateWrapper.getGlobalNumber(Keys::X, 0.0f);
-    y = luaStateWrapper.getGlobalNumber(Keys::Y, 0.0f);
-    z = luaStateWrapper.getGlobalNumber(Keys::Z, 0.0f);
+    data.x = luaStateWrapper.getGlobalNumber(Keys::X, 0.0f);
+    data.y = luaStateWrapper.getGlobalNumber(Keys::Y, 0.0f);
+    data.z = luaStateWrapper.getGlobalNumber(Keys::Z, 0.0f);
 
     luaStateWrapper.callFunctionIfExists(Keys::INITIALIZE);
 
     auto positionComponent = [this](BaseComponent* comp) {
       if (auto* positionable = dynamic_cast<Components::PositionableComponent*>(comp)) {
-        positionable->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+        positionable->setEntityPosition(static_cast<int>(data.x), static_cast<int>(data.y));
       }
     };
 
@@ -94,10 +93,9 @@ namespace Project::Entities {
       return false;
     }
 
-    global = luaStateWrapper.getGlobalBoolean(Keys::GLOBAL, false);
-    active = luaStateWrapper.getGlobalBoolean(Keys::ACTIVE, true);
-    entityGroup = luaStateWrapper.getGlobalString(Keys::GROUP, Constants::EMPTY_STRING);
-
+    data.global = luaStateWrapper.getGlobalBoolean(Keys::GLOBAL, false);
+    data.active = luaStateWrapper.getGlobalBoolean(Keys::ACTIVE, true);
+    data.group = luaStateWrapper.getGlobalString(Keys::GROUP, Constants::EMPTY_STRING);
 
     if (luaStateWrapper.isGlobalTable(Keys::ATTRIBUTES)) {
       luaStateWrapper.iterateGlobalTable(Keys::ATTRIBUTES, [this](lua_State* L, int index) {
@@ -184,10 +182,10 @@ namespace Project::Entities {
     }
 
     if (component->getClass().empty()) {
-      if (!entityClass.empty()) {
-        component->setClass(entityClass);
+      if (!data.entityClass.empty()) {
+        component->setClass(data.entityClass);
       } else {
-        component->setClass(entityName);
+        component->setClass(data.name);
       }
     }
 

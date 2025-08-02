@@ -29,7 +29,7 @@ namespace Project::States {
   Project::Utilities::BinaryFileCache GameState::persistentFunctionCache(Project::Libraries::Constants::SCRIPT_FUNCTION_CACHE_FILE);
 
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-  : LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer), initialized(false) {}
+  : LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer) {}
 
   GameState::~GameState() {
     clearBackground();
@@ -74,19 +74,19 @@ namespace Project::States {
       entitiesManager->update(deltaTime);
     }
 
-    if (dimensionMode == DimensionMode::BOXED && camHandler) {
+    if (data.dimensionMode == DimensionMode::BOXED && camHandler) {
       SDL_Rect camRect = camHandler->getRect();
       if (layersManager) {
         layersManager->clampEntitiesToRect(camRect);
       } else if (entitiesManager) {
         entitiesManager->clampEntitiesToRect(camRect);
       }
-    } else if (dimensionMode == DimensionMode::BOUNDED) {
-      if (mapRect.w > 0 && mapRect.h > 0) {
+    } else if (data.dimensionMode == DimensionMode::BOUNDED) {
+      if (data.mapRect.w > 0 && data.mapRect.h > 0) {
         if (layersManager) {
-          layersManager->clampEntitiesToRect(mapRect);
+          layersManager->clampEntitiesToRect(data.mapRect);
         } else if (entitiesManager) {
-          entitiesManager->clampEntitiesToRect(mapRect);
+          entitiesManager->clampEntitiesToRect(data.mapRect);
         }
       }
     }
@@ -120,7 +120,13 @@ namespace Project::States {
       }
 
       if (!backgroundTexture) {
-        SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+        SDL_SetRenderDrawColor(
+          renderer,
+          data.backgroundColor.r,
+          data.backgroundColor.g,
+          data.backgroundColor.b,
+          data.backgroundColor.a
+        );
         SDL_RenderClear(renderer);
       }
     }
@@ -185,7 +191,7 @@ namespace Project::States {
 
   void GameState::setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
     clearBackground();
-    backgroundColor = {r, g, b, a};
+    data.backgroundColor = {r, g, b, a};
     useImageBackground = false;
     logsManager.logMessage(
       "Background color set to RGBA(" +
@@ -316,10 +322,10 @@ namespace Project::States {
     if (ent) {
       playerEntity = ent;
       if (setPosition) {
-        if (dimensionMode == DimensionMode::BOUNDED) {
+        if (data.dimensionMode == DimensionMode::BOUNDED) {
           ensureMapSize();
-          float maxX = static_cast<float>(mapRect.w);
-          float maxY = static_cast<float>(mapRect.h);
+          float maxX = static_cast<float>(data.mapRect.w);
+          float maxY = static_cast<float>(data.mapRect.h);
           x = std::clamp(x, 0.0f, maxX);
           y = std::clamp(y, 0.0f, maxY);
         }
@@ -422,17 +428,17 @@ namespace Project::States {
   }
 
   void GameState::ensureMapSize() {
-    if (dimensionMode != DimensionMode::BOUNDED) return;
-    if (mapRect.w > 0 && mapRect.h > 0) return;
+    if (data.dimensionMode != DimensionMode::BOUNDED) return;
+    if (data.mapRect.w > 0 && data.mapRect.h > 0) return;
 
-    mapRect.x = 0;
-    mapRect.y = 0;
+    data.mapRect.x = 0;
+    data.mapRect.y = 0;
     if (renderer) {
-      SDL_GetRendererOutputSize(renderer, &mapRect.w, &mapRect.h);
+      SDL_GetRendererOutputSize(renderer, &data.mapRect.w, &data.mapRect.h);
     }
-    if (mapRect.w <= 0 || mapRect.h <= 0) {
-      mapRect.w = Project::Libraries::Constants::DEFAULT_SCREEN_WIDTH;
-      mapRect.h = Project::Libraries::Constants::DEFAULT_SCREEN_HEIGHT;
+    if (data.mapRect.w <= 0 || data.mapRect.h <= 0) {
+      data.mapRect.w = Project::Libraries::Constants::DEFAULT_SCREEN_WIDTH;
+      data.mapRect.h = Project::Libraries::Constants::DEFAULT_SCREEN_HEIGHT;
     }
   }
 }

@@ -3,6 +3,7 @@
 
 #include "EntityAttribute.h"
 #include "EntityCategory.h"
+#include "EntityData.h"
 
 #include <functional>
 #include <lua.hpp>
@@ -34,6 +35,9 @@ namespace Project::Entities {
       Project::Factories::ComponentsFactory& componentsFactory);
     virtual ~Entity();
 
+    const EntityData& getData() const { return data; }
+    EntityData& getData() { return data; }
+
     Entity(const Entity&) = delete;
     Entity& operator = (const Entity&) = delete;
 
@@ -46,17 +50,17 @@ namespace Project::Entities {
 
     const EntityCategory& getEntityCategory() const { return entityCategory; }
 
-    const std::string& getEntityID() const { return entityID; }
-    void setEntityID(const std::string& _id) { entityID = _id; }
-    
-    const std::string& getEntityClass() const { return entityClass; }
-    void setEntityClass(const std::string& _class) { entityClass = _class; }
+    const std::string& getEntityID() const { return data.id; }
+    void setEntityID(const std::string& _id) { data.id = _id; }
 
-    const std::string& getGroup() const { return entityGroup; }
-    void setGroup(const std::string& _group) { entityGroup = _group; }
+    const std::string& getEntityClass() const { return data.entityClass; }
+    void setEntityClass(const std::string& _class) { data.entityClass = _class; }
 
-    const std::string& getEntityName() const { return entityName; }
-    void setEntityName(const std::string& _name) { entityName = _name; }
+    const std::string& getGroup() const { return data.group; }
+    void setGroup(const std::string& _group) { data.group = _group; }
+
+    const std::string& getEntityName() const { return data.name; }
+    void setEntityName(const std::string& _name) { data.name = _name; }
     
     void setEntitiesManager(Project::Entities::EntitiesManager* _manager) { entitiesManager = _manager; }
     Project::Entities::EntitiesManager* getEntitiesManager() const { return entitiesManager; }
@@ -88,42 +92,32 @@ namespace Project::Entities {
     Project::Components::PhysicsComponent* getPhysicsComponent() const { return physics; }
     std::vector<std::string> listComponentNames() const;
     
-    bool isActive() const { return active; }
-    void setActive(bool _value) { active = _value; }
+    bool isActive() const { return data.active; }
+    void setActive(bool _value) { data.active = _value; }
 
-    bool isGlobal() const { return global; }
-    void setGlobal(bool _value) { global = _value; }
+    bool isGlobal() const { return data.global; }
+    void setGlobal(bool _value) { data.global = _value; }
 
-    void setPosition(float _newX, float _newY) { x = _newX; y = _newY; }
-    void setPosition(float _newX, float _newY, float _newZ) { x = _newX; y = _newY; z = _newZ; }
+    void setPosition(float _newX, float _newY) { data.x = _newX; data.y = _newY; }
+    void setPosition(float _newX, float _newY, float _newZ) { data.x = _newX; data.y = _newY; data.z = _newZ; }
 
-    float getX() const { return x; }
-    float getY() const { return y; }
-    float getZ() const { return z; }
+    float getX() const { return data.x; }
+    float getY() const { return data.y; }
+    float getZ() const { return data.z; }
 
   private:
     Project::Components::BoundingBoxComponent* bbox = nullptr;
     Project::Components::GraphicsComponent* gfx = nullptr;
     Project::Components::PhysicsComponent* physics = nullptr;
     Project::Factories::ComponentsFactory& componentsFactory;
+    
     EntityCategory entityCategory;
+    EntityData data;
 
     std::unordered_map<std::string, ComponentPtr> components;
     std::unordered_set<EntityAttribute> attributes;
-
-    std::string entityID;
-    std::string entityClass;
-    std::string entityGroup;
-    std::string entityName;
     
     Project::Entities::EntitiesManager* entitiesManager = nullptr;
-
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 0.0f;
-
-    bool active = true;
-    bool global = false;
   };
 }
 

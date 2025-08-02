@@ -1,8 +1,7 @@
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
-#include "GameStateCategory.h"
-#include "DimensionMode.h"
+#include "GameStateData.h"
 
 #include <future>
 #include <memory>
@@ -49,20 +48,20 @@ namespace Project::States {
     virtual void reset();
     virtual void handleInput();
     
-    virtual std::string getStateName() const { return stateName; }
-    virtual void setStateName(const std::string stateName) { this->stateName = stateName; }
+    virtual std::string getStateName() const { return data.stateName; }
+    virtual void setStateName(const std::string stateName) { data.stateName = stateName; }
 
-    virtual bool isActive() const { return active; }
-    virtual void setActive(bool active) { this->active = active; }
+    virtual bool isActive() const { return data.active; }
+    virtual void setActive(bool active) { data.active = active; }
 
-    GameStateCategory getGameStateCategory() const { return gameStateCategory; }
-    void setGameStateCategory(GameStateCategory category) { gameStateCategory = category; }
+    GameStateCategory getGameStateCategory() const { return data.gameStateCategory; }
+    void setGameStateCategory(GameStateCategory category) { data.gameStateCategory = category; }
 
-    DimensionMode getDimensionMode() const { return dimensionMode; }
-    void setDimensionMode(DimensionMode dimension) { dimensionMode = dimension; }
+    DimensionMode getDimensionMode() const { return data.dimensionMode; }
+    void setDimensionMode(DimensionMode dimension) { data.dimensionMode = dimension; }
 
-    bool isInitialized() const { return initialized; }
-    void markInitialized() { initialized = true; }
+    bool isInitialized() const { return data.initialized; }
+    void markInitialized() { data.initialized = true; }
 
     bool attachLuaScript(const std::string& scriptPath);
     void registerLuaFunctions(Project::Core::SDLManager* manager = nullptr);
@@ -96,12 +95,12 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::Entity> getPlayerEntity() const;
      
     void setMapSize(int width, int height) {
-      mapRect.x = 0;
-      mapRect.y = 0;
-      mapRect.w = width;
-      mapRect.h = height;
+      data.mapRect.x = 0;
+      data.mapRect.y = 0;
+      data.mapRect.w = width;
+      data.mapRect.h = height;
     }
-    const SDL_Rect& getMapRect() const { return mapRect; }
+    const SDL_Rect& getMapRect() const { return data.mapRect; }
 
     void setLayersManager(std::unique_ptr<Project::Layers::LayersManager> manager) {
       layersManager = std::move(manager);
@@ -136,12 +135,10 @@ namespace Project::States {
   protected:
     static std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;
     static Project::Utilities::BinaryFileCache persistentFunctionCache;
+    GameStateData data;
 
     Project::Handlers::ResourcesHandler& resourcesHandler;
-    
-    GameStateCategory gameStateCategory = GameStateCategory::DEBUG_STATE;
-    DimensionMode dimensionMode = DimensionMode::BOXED;
-    
+
     std::weak_ptr<Project::Entities::Entity> playerEntity;
     
     Project::Core::SDLManager* sdlManager = nullptr;
@@ -152,12 +149,8 @@ namespace Project::States {
     SDL_Texture* backgroundTexture = nullptr;
     SDL_Renderer* renderer = nullptr;
     
-    SDL_Color backgroundColor = Project::Libraries::Constants::DEFAULT_BACKGROUND_COLOR;
-    SDL_Rect mapRect{0,0,0,0};
-    
     std::future<SDL_Texture*> backgroundFuture;
     std::string pendingBackgroundPath;
-    std::string stateName;
     std::string luaScriptPath;
 
     size_t nextSeederId = 0;
@@ -167,8 +160,6 @@ namespace Project::States {
     std::vector<std::string> seederSeeds;
 
     bool useImageBackground = false;
-    bool initialized = false;
-    bool active = false;
 
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;

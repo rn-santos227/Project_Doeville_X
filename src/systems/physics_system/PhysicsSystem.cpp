@@ -6,7 +6,7 @@
 #include "entities/Entity.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
-#include "libraries/constants/NumericConstants.h"
+#include "libraries/constants/Constants.h"
 #include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Systems {
@@ -146,7 +146,12 @@ namespace Project::Systems {
 
     const auto& circles = box->getCircles();
     for (const auto& c : circles) {
-      SDL_Rect r{c.x - c.r, c.y - c.r, c.r * 2, c.r * 2};
+      SDL_Rect r{
+        c.x - c.r, c.y - c.r,
+        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER,
+        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER
+      };
+      
       if (!hasBounds) {
         bounds = r;
         hasBounds = true;

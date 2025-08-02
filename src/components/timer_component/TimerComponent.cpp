@@ -8,16 +8,18 @@ namespace Project::Components {
   namespace Keys = Project::Libraries::Keys;
 
   TimerComponent::TimerComponent(Project::Utilities::LogsManager& logsManager, float seconds)
-    : BaseComponent(logsManager), duration(seconds) {}
+    : BaseComponent(logsManager) {
+    data.duration = seconds;
+  }
 
   void TimerComponent::update(float deltaTime) {
-    if (!isActive() || !owner || luaFunction.empty() || duration <= 0.0f) return;
+    if (!isActive() || !owner || data.luaCallback.empty() || data.duration <= 0.0f) return;
 
-    elapsed += deltaTime;
-    if (elapsed >= duration) {
-      owner->callLuaFunction(luaFunction);
-      if (repeat) {
-        elapsed = 0.0f;
+    data.elapsed += deltaTime;
+    if (data.elapsed >= data.duration) {
+      owner->callLuaFunction(data.luaCallback);
+      if (data.repeat) {
+        data.elapsed = 0.0f;
       } else {
         stop();
       }
@@ -25,17 +27,17 @@ namespace Project::Components {
   }
 
   void TimerComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    duration = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SECONDS, duration));
-    if (duration <= 0.0f) {
-      duration = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::TIME, duration));
+    data.duration = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SECONDS, data.duration));
+    if (data.duration <= 0.0f) {
+      data.duration = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::TIME, data.duration));
     }
     
-    luaFunction = luaStateWrapper.getTableString(tableName, Keys::CALLBACKS, Project::Libraries::Constants::EMPTY_STRING);
-    repeat = luaStateWrapper.getTableBoolean(tableName, Keys::REPEAT, false);
+    data.luaCallback = luaStateWrapper.getTableString(tableName, Keys::CALLBACKS, Project::Libraries::Constants::EMPTY_STRING);
+    data.repeat = luaStateWrapper.getTableBoolean(tableName, Keys::REPEAT, false);
   }
 
   void TimerComponent::stop() {
-    data.active = false;
-    reset();
+    setActive(false);
+    data.reset();
   }
 }

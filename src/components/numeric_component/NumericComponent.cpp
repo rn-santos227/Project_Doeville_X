@@ -28,7 +28,7 @@ namespace Project::Components {
           lua_getfield(L, -1, Keys::LIMIT);
           if (lua_isnumber(L, -1)) limit = static_cast<float>(lua_tonumber(L, -1));
           lua_pop(L, 1);
-          values[key] = {value, limit};
+          values[key] = NumericData(value, limit);
         }
         lua_pop(L, 1);
       }
@@ -39,35 +39,39 @@ namespace Project::Components {
   }
 
   void NumericComponent::setValue(const std::string& name, float value) {
-    values[name].value = value;
-    if (values[name].limit > 0.0f && values[name].value > values[name].limit) {
-      values[name].value = values[name].limit;
-    }
+    values[name].set(value);
   }
 
   float NumericComponent::getValue(const std::string& name) const {
     auto it = values.find(name);
-    if (it != values.end()) return it->second.value;
+    if (it != values.end()) return it->second.get();
     return 0.0f;
   }
 
   void NumericComponent::setLimit(const std::string& name, float limit) {
-    values[name].limit = limit;
-    if (limit > 0.0f && values[name].value > limit) {
-      values[name].value = limit;
-    }
+    values[name].setLimit(limit);
   }
 
   float NumericComponent::getLimit(const std::string& name) const {
     auto it = values.find(name);
-    if (it != values.end()) return it->second.limit;
+    if (it != values.end()) return it->second.getLimit();
     return 0.0f;
   }
 
   void NumericComponent::add(const std::string& name, float amount) {
-    auto& v = values[name];
-    v.value += amount;
-    if (v.limit > 0.0f && v.value > v.limit) v.value = v.limit;
+    values[name].add(amount);
+  }
+
+  void NumericComponent::subtract(const std::string& name, float amount) {
+    values[name].subtract(amount);
+  }
+
+  void NumericComponent::multiply(const std::string& name, float amount) {
+    values[name].multiply(amount);
+  }
+
+  void NumericComponent::divide(const std::string& name, float amount) {
+    values[name].divide(amount);
   }
 
   bool NumericComponent::has(const std::string& name) const {

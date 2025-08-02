@@ -1,9 +1,13 @@
 #ifndef TIMER_COMPONENT_H
 #define TIMER_COMPONENT_H
 
-#include "components/BaseComponent.h"
+#include "TimerData.h"
+
 
 #include <string>
+
+#include "components/BaseComponent.h"
+
 
 namespace Project { namespace Entities { class Entity; } }
 
@@ -21,24 +25,19 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void stop();
-    void reset() { elapsed = 0.0f; }
+    void reset() { data.elapsed = 0.0f; }
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
-    void setCallback(const std::string& functionName) { luaFunction = functionName; }
-    void setDuration(float seconds) { duration = seconds; }
-    void setRepeat(bool value) { repeat = value; }
+    void setCallback(const std::string& functionName) { data.luaCallback  = functionName; }
+    void setDuration(float seconds) { data.duration = seconds; }
+    void setRepeat(bool value) { data.repeat = value; }
     
-    float getDuration() const { return duration; }
-    bool isRepeating() const { return repeat; }
+    float getDuration() const { return data.duration; }
+    bool isRepeating() const { return data.repeat; }
 
   private:
     Project::Entities::Entity* owner = nullptr;
-    std::string luaFunction;
-    
-    float duration = 0.0f;
-    float elapsed = 0.0f;
-
-    bool repeat = false;
+    TimerData data;
   };
 }
 

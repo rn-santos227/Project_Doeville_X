@@ -28,8 +28,8 @@ namespace Project::Components {
 
   InputComponent::~InputComponent() {
     destroyTexture();
-    textureW = 0;
-    textureH = 0;
+    data.textureW = 0;
+    data.textureH = 0;
     if (font) {
       TTF_CloseFont(font);
       font = nullptr;
@@ -42,137 +42,137 @@ namespace Project::Components {
     int mx = mouseHandler->getMouseX();
     int my = mouseHandler->getMouseY();
     SDL_Point p{mx, my};
-    bool inside = SDL_PointInRect(&p, &rect);
+    bool inside = SDL_PointInRect(&p, &data.rect);
     bool mouseDown = mouseHandler->isButtonDown(SDL_BUTTON_LEFT);
 
     if (inside) {
-      if (!hovered) {
-        hovered = true;
+      if (!data.hovered) {
+        data.hovered = true;
         cursorHandler->setCursorState(Project::Handlers::CursorState::TEXT);
       }
-      if (mouseDown && !mousePrev) {
-        activeInput = true;
-        cursorBlink = 0.0f;
-        showCaret = true;
+      if (mouseDown && !data.mousePrev) {
+        data.activeInput = true;
+        data.cursorBlink = 0.0f;
+        data.showCaret = true;
       }
     } else {
-      if (hovered) {
-        hovered = false;
+      if (data.hovered) {
+        data.hovered = false;
         cursorHandler->setCursorState(Project::Handlers::CursorState::DEFAULT);
       }
-      if (mouseDown && !mousePrev) {
-        activeInput = false;
+      if (mouseDown && !data.mousePrev) {
+        data.activeInput = false;
       }
     }
 
-    mousePrev = mouseDown;
+    data.mousePrev = mouseDown;
 
-    if (activeInput) {
-      cursorBlink += deltaTime;
-      if (cursorBlink >= 0.5f) {
-        showCaret = !showCaret;
-        cursorBlink = 0.0f;
+    if (data.activeInput) {
+      data.cursorBlink += deltaTime;
+      if (data.cursorBlink >= 0.5f) {
+        data.showCaret = !data.showCaret;
+        data.cursorBlink = 0.0f;
       }
 
       const Uint8* state = SDL_GetKeyboardState(nullptr);
       processInput(state, deltaTime);
-      std::copy(state, state + SDL_NUM_SCANCODES, prevKeys.begin());
+      std::copy(state, state + SDL_NUM_SCANCODES, data.prevKeys.begin());
     }
   }
 
   void InputComponent::render() {
     if (!renderer) return;
-    SDL_SetRenderDrawColor(renderer, bgColor.r, bgColor.g, bgColor.b, bgColor.a);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer, data.bgColor.r, data.bgColor.g, data.bgColor.b, data.bgColor.a);
+    SDL_RenderFillRect(renderer, &data.rect);
 
-    if (borderWidth > 0) {
-      SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
-      for (int i = 0; i < borderWidth; ++i) {
-        SDL_Rect b{rect.x + i, rect.y + i, rect.w - Constants::INDEX_TWO * i, rect.h - Constants::INDEX_TWO * i};
+    if (data.borderWidth > 0) {
+      SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
+      for (int i = 0; i < data.borderWidth; ++i) {
+        SDL_Rect b{data.rect.x + i, data.rect.y + i, data.rect.w - Constants::INDEX_TWO * i, data.rect.h - Constants::INDEX_TWO * i};
         SDL_RenderDrawRect(renderer, &b);
       }
     }
 
-    int textX = rect.x + Constants::INDEX_FOUR;
-    int viewWidth = rect.w - Constants::INDEX_EIGHT;
+    int textX = data.rect.x + Constants::INDEX_FOUR;
+    int viewWidth = data.rect.w - Constants::INDEX_EIGHT;
     if (texture) {
       int caretPixels = 0;
-      if (font && caretPos > 0) {
-        std::string left = currentText.substr(0, caretPos);
+      if (font && data.caretPos > 0) {
+        std::string left = data.currentText.substr(0, data.caretPos);
         TTF_SizeText(font, left.c_str(), &caretPixels, nullptr);
       }
-      if (textureW <= viewWidth) {
-        textOffset = 0;
+      if (data.textureW <= viewWidth) {
+        data.textOffset = 0;
       } else {
-        if (caretPixels - textOffset > viewWidth) textOffset = caretPixels - viewWidth;
-        else if (caretPixels - textOffset < 0) textOffset = caretPixels;
-        if (textOffset < 0) textOffset = 0;
-        if (textOffset > textureW - viewWidth) textOffset = textureW - viewWidth;
+        if (caretPixels - data.textOffset > viewWidth) data.textOffset = caretPixels - viewWidth;
+        else if (caretPixels - data.textOffset < 0) data.textOffset = caretPixels;
+        if (data.textOffset < 0) data.textOffset = 0;
+        if (data.textOffset > data.textureW - viewWidth) data.textOffset = data.textureW - viewWidth;
       }
 
-      SDL_Rect src = {textOffset, 0, std::min(viewWidth, textureW - textOffset), textureH};
-      SDL_Rect dst = {textX, rect.y + (rect.h - src.h) / Constants::INDEX_TWO, src.w, src.h};
+      SDL_Rect src = {data.textOffset, 0, std::min(viewWidth, data.textureW - data.textOffset), data.textureH};
+      SDL_Rect dst = {textX, data.rect.y + (data.rect.h - src.h) / Constants::INDEX_TWO, src.w, src.h};
       SDL_RenderCopy(renderer, texture, &src, &dst);
-    } else if (!placeholder.empty() && font) {
-      SDL_Color phColor = {textColor.r, textColor.g, textColor.b, static_cast<Uint8>(textColor.a / Constants::INDEX_TWO)};
-      SDL_Surface* surface = TTF_RenderText_Blended(font, placeholder.c_str(), phColor);
+    } else if (!data.placeholder.empty() && font) {
+      SDL_Color phColor = {data.textColor.r, data.textColor.g, data.textColor.b, static_cast<Uint8>(data.textColor.a / Constants::INDEX_TWO)};
+      SDL_Surface* surface = TTF_RenderText_Blended(font, data.placeholder.c_str(), phColor);
       if (surface) {
         SDL_Texture* tmp = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_Rect dst = {textX, rect.y + (rect.h - surface->h) / Constants::INDEX_TWO, surface->w, surface->h};
+        SDL_Rect dst = {textX, data.rect.y + (data.rect.h - surface->h) / Constants::INDEX_TWO, surface->w, surface->h};
         SDL_RenderCopy(renderer, tmp, nullptr, &dst);
         SDL_DestroyTexture(tmp);
         SDL_FreeSurface(surface);
       }
     }
-    if (activeInput && showCaret) {
-      SDL_SetRenderDrawColor(renderer, textColor.r, textColor.g, textColor.b, textColor.a);
-      int top = rect.y + Constants::INDEX_FOUR;
-      int bottom = rect.y + rect.h - Constants::INDEX_FOUR;
+    if (data.activeInput && data.showCaret) {
+      SDL_SetRenderDrawColor(renderer, data.textColor.r, data.textColor.g, data.textColor.b, data.textColor.a);
+      int top = data.rect.y + Constants::INDEX_FOUR;
+      int bottom = data.rect.y + data.rect.h - Constants::INDEX_FOUR;
       int offset = 0;
-      if (font && caretPos > 0) {
-        std::string left = currentText.substr(0, caretPos);
+      if (font && data.caretPos > 0) {
+        std::string left = data.currentText.substr(0, data.caretPos);
         TTF_SizeText(font, left.c_str(), &offset, nullptr);
       }
-      int caretX = textX + offset - textOffset + Constants::INDEX_TWO;
+      int caretX = textX + offset - data.textOffset + Constants::INDEX_TWO;
       SDL_RenderDrawLine(renderer, caretX, top, caretX, bottom);
     }
   }
 
   void InputComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    rect.w = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
-    rect.h = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
+    data.rect.w = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
+    data.rect.h = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
 
     std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
     Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
-    bgColor = ColorUtils::hexToRGB(colorHex, alpha);
+    data.bgColor = ColorUtils::hexToRGB(colorHex, alpha);
 
-    placeholder = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::EMPTY_STRING);
-    currentText.clear();
+    data.placeholder = luaStateWrapper.getTableString(tableName, Keys::TEXT, Constants::EMPTY_STRING);
+    data.currentText.clear();
 
     std::string typeStr = luaStateWrapper.getTableString(tableName, Keys::TYPE, Project::Libraries::Categories::Inputs::TEXT);
     setInputType(InputTypeResolver::resolve(typeStr));
 
-    caretPos = 0;
-    textOffset = 0;
-    maxChars = static_cast<std::size_t>(luaStateWrapper.getTableNumber(tableName, Keys::MAX_CHARS, Constants::DEFAULT_MAX_CHARS));
+    data.caretPos = 0;
+    data.textOffset = 0;
+    data.maxChars = static_cast<std::size_t>(luaStateWrapper.getTableNumber(tableName, Keys::MAX_CHARS, Constants::DEFAULT_MAX_CHARS));
 
     std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
-    fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
+    data.fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
     
     int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);
-    fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
-    font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    data.fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
+    font = TTF_OpenFont(data.fontPath.c_str(), data.fontSize);
     
     if (!font) {
-      logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
-      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
+      logsManager.logWarning(std::string("Failed to load font: ") + data.fontPath + ". Using fallback font.");
+      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH,data.fontSize);
       if (!font) {
         logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
       }
     }
 
     std::string fontColorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
-    textColor = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
+    data.textColor = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
 
     createTexture();
   }
@@ -183,19 +183,19 @@ namespace Project::Components {
     while (classes >> cls) {
       std::string selector = "." + cls;
       Project::Services::Style s = StyleManager::getInstance().getStyle(selector);
-      if (s.width > 0) rect.w = s.width;
-      if (s.height > 0) rect.h = s.height;
-      if (s.background.a != 0) bgColor = s.background;
-      if (s.borderColor.a != 0) borderColor = s.borderColor;
-      if (s.borderWidth > 0) borderWidth = s.borderWidth;
-      if (s.fontColor.a != 0) textColor = s.fontColor;
-      if (s.fontSize > 0 && fontPath.size() > 0) {
+      if (s.width > 0) data.rect.w = s.width;
+      if (s.height > 0) data.rect.h = s.height;
+      if (s.background.a != 0) data.bgColor = s.background;
+      if (s.borderColor.a != 0) data.borderColor = s.borderColor;
+      if (s.borderWidth > 0) data.borderWidth = s.borderWidth;
+      if (s.fontColor.a != 0) data.textColor = s.fontColor;
+      if (s.fontSize > 0 && data.fontPath.size() > 0) {
         if (font) TTF_CloseFont(font);
-        fontSize = s.fontSize;
-        font = TTF_OpenFont(fontPath.c_str(), fontSize);
+        data.fontSize = s.fontSize;
+        font = TTF_OpenFont(data.fontPath.c_str(), data.fontSize);
         if (!font) {
-          logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
-          font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, fontSize);
+          logsManager.logWarning(std::string("Failed to load font: ") + data.fontPath + ". Using fallback font.");
+          font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, data.fontSize);
         }
       }
     }
@@ -203,36 +203,36 @@ namespace Project::Components {
   }
 
   void InputComponent::setEntityPosition(int x, int y) {
-    rect.x = x;
-    rect.y = y;
+    data.rect.x = x;
+    data.rect.y = y;
   }
 
   void InputComponent::setText(const std::string& text) {
-    currentText = text;
+    data.currentText = text;
     createTexture();
   }
 
   void InputComponent::createTexture() {
     destroyTexture();
-    textureW = 0;
-    textureH = 0;
-    if (!font || currentText.empty()) return;
+    data.textureW = 0;
+    data.textureH = 0;
+    if (!font || data.currentText.empty()) return;
 
-    std::string text = currentText;
-    if (inputType == InputType::PASSWORD) {
-      text.assign(currentText.size(), '*');
+    std::string text = data.currentText;
+    if (data.inputType == InputType::PASSWORD) {
+      text.assign(data.currentText.size(), '*');
     }
-    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), textColor);
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), data.textColor);
 
     if (!surface) {
       logsManager.logWarning(std::string("Failed to render input text: ") + TTF_GetError());
       return;
     }
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    textureW = surface->w;
-    textureH = surface->h;
-    rect.w = rect.w ? rect.w : surface->w + Constants::INDEX_EIGHT;
-    rect.h = rect.h ? rect.h : surface->h + Constants::INDEX_EIGHT;
+    data.textureW = surface->w;
+    data.textureH = surface->h;
+    data.rect.w = data.rect.w ? data.rect.w : surface->w + Constants::INDEX_EIGHT;
+    data.rect.h = data.rect.h ? data.rect.h : surface->h + Constants::INDEX_EIGHT;
     SDL_FreeSurface(surface);
   }
 
@@ -240,66 +240,66 @@ namespace Project::Components {
    bool shift = state[SDL_SCANCODE_LSHIFT] || state[SDL_SCANCODE_RSHIFT];
     bool textChanged = false;
 
-    auto wasPressed = [&](SDL_Scancode sc){ return state[sc] && !prevKeys[sc]; };
+    auto wasPressed = [&](SDL_Scancode sc){ return state[sc] && !data.prevKeys[sc]; };
 
     bool bsDown = state[SDL_SCANCODE_BACKSPACE];
     if (wasPressed(SDL_SCANCODE_BACKSPACE)) {
-      if (caretPos > 0 && !currentText.empty()) {
-        currentText.erase(caretPos-1, 1);
-        --caretPos;
+      if (data.caretPos > 0 && !data.currentText.empty()) {
+        data.currentText.erase(data.caretPos-1, 1);
+        --data.caretPos;
         textChanged = true;
       }
-      backspaceHeld = true;
-      backspaceTimer = 0.4f;
-    } else if (bsDown && backspaceHeld) {
-      backspaceTimer -= deltaTime;
-      if (backspaceTimer <= 0.0f) {
-        if (caretPos > 0 && !currentText.empty()) {
-          currentText.erase(caretPos-1, 1);
-          --caretPos;
+      data.backspaceHeld = true;
+      data.backspaceTimer = 0.4f;
+    } else if (bsDown && data.backspaceHeld) {
+      data.backspaceTimer -= deltaTime;
+      if (data.backspaceTimer <= 0.0f) {
+        if (data.caretPos > 0 && !data.currentText.empty()) {
+          data.currentText.erase(data.caretPos-1, 1);
+          --data.caretPos;
           textChanged = true;
         }
-        backspaceTimer = Constants::DEFAULT_HALF;
+        data.backspaceTimer = Constants::DEFAULT_HALF;
       }
     }
 
     if (!bsDown) {
-      backspaceHeld = false;
-      backspaceTimer = 0.0f;
+      data.backspaceHeld = false;
+      data.backspaceTimer = 0.0f;
     }
 
-    if (wasPressed(SDL_SCANCODE_SPACE) && currentText.size() < maxChars && inputType != InputType::NUMERIC) {
-      currentText.insert(caretPos, 1, ' ');
-      ++caretPos;
+    if (wasPressed(SDL_SCANCODE_SPACE) && data.currentText.size() < data.maxChars && data.inputType != InputType::NUMERIC) {
+      data.currentText.insert(data.caretPos, 1, ' ');
+      ++data.caretPos;
       textChanged = true;
     }
 
-    if (inputType != InputType::NUMERIC) {
+    if (data.inputType != InputType::NUMERIC) {
       for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_Z; ++i) {
-        if (wasPressed(static_cast<SDL_Scancode>(i)) && currentText.size() < maxChars) {
+        if (wasPressed(static_cast<SDL_Scancode>(i)) && data.currentText.size() < data.maxChars) {
           char c = static_cast<char>('a' + (i - SDL_SCANCODE_A));
           if (shift) c = static_cast<char>(toupper(c));
-          currentText.insert(caretPos, 1, c);
-          ++caretPos;
+          data.currentText.insert(data.caretPos, 1, c);
+          ++data.caretPos;
           textChanged = true;
         }
       }
     }
 
     for (int i = SDL_SCANCODE_0; i <= SDL_SCANCODE_9; ++i) {
-      if (wasPressed(static_cast<SDL_Scancode>(i)) && currentText.size() < maxChars) {
+      if (wasPressed(static_cast<SDL_Scancode>(i)) && data.currentText.size() < data.maxChars) {
         char c = static_cast<char>('0' + (i - SDL_SCANCODE_0));
         static const char shiftedDigits[10] = {')','!','@','#','$','%','^','&','*','('};
-        if (shift && inputType != InputType::NUMERIC) {
+        if (shift && data.inputType != InputType::NUMERIC) {
           c = shiftedDigits[i - SDL_SCANCODE_0];
         }
-        currentText.insert(caretPos, 1, c);
-        ++caretPos;
+        data.currentText.insert(data.caretPos, 1, c);
+        ++data.caretPos;
         textChanged = true;
       }
     }
 
-    if (inputType != InputType::NUMERIC) {
+    if (data.inputType != InputType::NUMERIC) {
       struct KeyMap { SDL_Scancode sc; char normal; char shifted; };
       static const KeyMap keys[] = {
         {SDL_SCANCODE_MINUS,'-','_'},
@@ -315,24 +315,24 @@ namespace Project::Components {
         {SDL_SCANCODE_SLASH,'/','?'}
       };
       for (const auto& k : keys) {
-        if (wasPressed(k.sc) && currentText.size() < maxChars) {
+        if (wasPressed(k.sc) && data.currentText.size() < data.maxChars) {
           char c = shift ? k.shifted : k.normal;
-          currentText.insert(caretPos, 1, c);
-          ++caretPos;
+          data.currentText.insert(data.caretPos, 1, c);
+          ++data.caretPos;
           textChanged = true;
         }
       }
     }
 
     if (wasPressed(SDL_SCANCODE_LEFT)) {
-      if (caretPos > 0) {
-        --caretPos;
+      if (data.caretPos > 0) {
+        --data.caretPos;
       }
     }
 
     if (wasPressed(SDL_SCANCODE_RIGHT)) {
-      if (caretPos < currentText.size()) {
-        ++caretPos;
+      if (data.caretPos < data.currentText.size()) {
+        ++data.caretPos;
       }
     }
     if (textChanged) createTexture();

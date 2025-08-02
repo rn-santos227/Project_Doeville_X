@@ -1,5 +1,5 @@
-#ifndef MODAL_COMPONENT_DATA_H
-#define MODAL_COMPONENT_DATA_H
+#ifndef MODAL_DATA_H
+#define MODAL_DATA_H
 
 #include "ModalType.h"
 
@@ -8,7 +8,7 @@
 #include <SDL_ttf.h>
 
 namespace Project::Components {
-  struct ModalComponentData {
+  struct ModalData {
     ModalType modalType{ModalType::NOTIFICATION};
 
     SDL_Rect rect{0, 0, 0, 0};

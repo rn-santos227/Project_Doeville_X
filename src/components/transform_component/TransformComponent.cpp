@@ -14,7 +14,9 @@ namespace Project::Components {
   namespace Keys = Project::Libraries::Keys;
 
   TransformComponent::TransformComponent(LogsManager& logsManager, float flexibility, float spin, bool allowRevert)
-    : BaseComponent(logsManager), flexibility(flexibility), spin(spin), allowRevert(allowRevert) {}
+    : BaseComponent(logsManager) {
+    data.set(flexibility, spin, allowRevert);
+  }
 
   void TransformComponent::update(float deltaTime) {
     if (!owner) return;
@@ -46,64 +48,64 @@ namespace Project::Components {
 
     if (collideHeavier) {
       transform();
-    } else if (transformed && allowRevert) {
+    } else if (data.transformed && data.allowRevert) {
       revert();
     }
   }
 
   void TransformComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    flexibility = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FLEXIBILITY, Project::Libraries::Constants::DEFAULT_HALF));
-    spin = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPIN, 0.0));
-    allowRevert = luaStateWrapper.getTableBoolean(tableName, Keys::ALLOW_REVERT, true);
+    data.flexibility = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FLEXIBILITY, Project::Libraries::Constants::DEFAULT_HALF));
+    data.spin = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::SPIN, 0.0));
+    data.allowRevert = luaStateWrapper.getTableBoolean(tableName, Keys::ALLOW_REVERT, true);
   }
 
   void TransformComponent::transform() {
-    if (transformed) return;
+    if (data.transformed) return;
     auto* myBox = owner ? dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT)) : nullptr;
     auto* myPhys = owner ? dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT)) : nullptr;
     auto* gfx = owner ? dynamic_cast<GraphicsComponent*>(owner->getComponent(Components::GRAPHICS_COMPONENT)) : nullptr;
     if (!myBox) return;
 
-    originalBoxes = myBox->getBoxes();
-    originalCircles = myBox->getCircles();
+    data.originalBoxes = myBox->getBoxes();
+    data.originalCircles = myBox->getCircles();
 
     myBox->clearShapes();
-    for (const auto& b : originalBoxes) {
+    for (const auto& b : data.originalBoxes) {
       SDL_Rect n;
-      n.w = static_cast<int>(b.w * flexibility);
-      n.h = static_cast<int>(b.h * flexibility);
+      n.w = static_cast<int>(b.w * data.flexibility);
+      n.h = static_cast<int>(b.h * data.flexibility);
       n.x = b.x + (b.w - n.w) / 2;
       n.y = b.y + (b.h - n.h) / 2;
       myBox->addBox(n);
     }
-    for (const auto& c : originalCircles) {
-      int nr = static_cast<int>(c.r * flexibility);
+    for (const auto& c : data.originalCircles) {
+      int nr = static_cast<int>(c.r * data.flexibility);
       myBox->addCircle(c.x, c.y, nr);
     }
     if (myPhys) {
-      if (spin != 0.0f) {
-        myPhys->setAngularVelocity(spin);
+      if (data.spin != 0.0f) {
+        myPhys->setAngularVelocity(data.spin);
       }
       myPhys->setRotationEnabled(true);
     }
     if (gfx) {
       gfx->setRotationEnabled(true);
     }
-    transformed = true;
+    data.transformed = true;
   }
 
   void TransformComponent::revert() {
-    if (!transformed) return;
+    if (!data.transformed) return;
     auto* myBox = owner ? dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT)) : nullptr;
     auto* myPhys = owner ? dynamic_cast<PhysicsComponent*>(owner->getComponent(Components::PHYSICS_COMPONENT)) : nullptr;
     auto* gfx = owner ? dynamic_cast<GraphicsComponent*>(owner->getComponent(Components::GRAPHICS_COMPONENT)) : nullptr;
     if (!myBox) return;
 
     myBox->clearShapes();
-    for (const auto& b : originalBoxes) {
+    for (const auto& b : data.originalBoxes) {
       myBox->addBox(b);
     }
-    for (const auto& c : originalCircles) {
+    for (const auto& c : data.originalCircles) {
       myBox->addCircle(c.x, c.y, c.r);
     }
     if (myPhys) {
@@ -113,6 +115,6 @@ namespace Project::Components {
     if (gfx) {
       gfx->setRotationEnabled(false);
     }
-    transformed = false;
+    data.transformed = false;
   }
 }

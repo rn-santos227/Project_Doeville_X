@@ -1,14 +1,14 @@
-#ifndef NUMERIC_VALUE_H
-#define NUMERIC_VALUE_H
+#ifndef NUMERIC_DATA_H
+#define NUMERIC_DATA_H
 
 namespace Project::Components {
 
-  struct NumericValue {
+  struct NumericData {
     float value = 0.0f;
     float limit = 0.0f;
 
-    NumericValue() = default;
-    NumericValue(float val, float lim) : value(val), limit(lim) {
+    NumericData() = default;
+    NumericData(float val, float lim) : value(val), limit(lim) {
       clamp();
     }
 

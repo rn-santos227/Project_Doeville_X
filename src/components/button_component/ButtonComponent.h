@@ -1,7 +1,7 @@
 #ifndef BUTTON_COMPONENT_H
 #define BUTTON_COMPONENT_H
 
-#include "ButtonComponentData.h"
+#include "ButtonData.h"
 
 #include <string>
 
@@ -52,14 +52,14 @@ namespace Project::Components {
     void setBorderColor(SDL_Color _color) { data.borderColor = _color; }
     void setBorderWidth(int _width) { data.borderWidth = _width; }
     
-    void setCallback(const std::string& fn) {data.luaFunction = fn; }
+    void setCallback(const std::string& functionName) {data.luaFunction = functionName; }
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 
     const SDL_Rect& getRect() const { return data.rect; }
   
   private:
     SDL_Renderer* renderer = nullptr;
-    ButtonComponentData data;
+    ButtonData data;
 
     Project::Entities::Entity* owner = nullptr;
     Project::Handlers::CursorHandler* cursorHandler = nullptr;

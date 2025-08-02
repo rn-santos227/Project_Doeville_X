@@ -1,5 +1,5 @@
-#ifndef INPUT_COMPONENT_DATA_H
-#define INPUT_COMPONENT_DATA_H
+#ifndef INPUT_DATA_H
+#define INPUT_DATA_H
 
 #include "InputType.h"
 
@@ -12,7 +12,7 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Components {
-  struct InputComponentData {
+  struct InputData {
     SDL_Rect rect{0, 0, 0, 0};
     SDL_Color bgColor = Project::Libraries::Constants::COLOR_BLACK;
     SDL_Color textColor = Project::Libraries::Constants::COLOR_WHITE;

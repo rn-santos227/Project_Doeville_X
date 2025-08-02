@@ -1,6 +1,8 @@
 #ifndef NUMERIC_COMPONENT_H
 #define NUMERIC_COMPONENT_H
 
+#include "NumericData.h"
+
 #include <string>
 #include <unordered_map>
 
@@ -30,14 +32,12 @@ namespace Project::Components {
     float getLimit(const std::string& name) const;
 
     void add(const std::string& name, float amount);
+    void subtract(const std::string& name, float amount);
+    void multiply(const std::string& name, float amount);
+    void divide(const std::string& name, float amount);
     bool has(const std::string& name) const;
 
   private:
-    struct NumericValue {
-      float value = 0.0f;
-      float limit = 0.0f;
-    };
-
     std::unordered_map<std::string, NumericValue> values;
     Project::Entities::Entity* owner = nullptr;
   };

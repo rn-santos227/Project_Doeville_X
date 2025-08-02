@@ -15,6 +15,7 @@
 #include "RegexConstants.h"
 #include "ScanCodeKeys.h"
 #include "ScriptConstants.h"
+#include "ShapeConstants.h"
 #include "TimeConstants.h"
 
 #endif 

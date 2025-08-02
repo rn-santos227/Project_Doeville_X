@@ -26,19 +26,16 @@ namespace Project::Components {
 
   void SpawnerComponent::update(float deltaTime) {
     if (!isActive()) return;
-    if (cooldown > 0.0f) {
-      cooldown -= deltaTime;
-      if (cooldown < 0.0f) cooldown = 0.0f;
-    }
+    data.updateCooldown(deltaTime);
   }
 
   void SpawnerComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    templateName = luaStateWrapper.getTableString(tableName, Keys::TEMPLATE, Constants::EMPTY_STRING);
-    rate = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RATE, rate));
+    data.setTemplate(luaStateWrapper.getTableString(tableName, Keys::TEMPLATE, Constants::EMPTY_STRING));
+    data.rate = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::RATE, data.rate));
   }
 
   void SpawnerComponent::spawn(float _offsetX, float _offsetY, float _velocityX, float _velocityY, float _rotation) {
-    if (!owner || cooldown > 0.0f) return;
+    if (!owner || !data.canSpawn()) return;
     
     EntitiesManager* manager = owner->getEntitiesManager();
     if (!manager) return;
@@ -49,9 +46,9 @@ namespace Project::Components {
     EntitiesFactory* factory = state->getEntitiesFactory();
     if (!factory) return;
 
-    if (templateName.empty()) return;
+    if (data.templateName.empty()) return;
+    EntitiesFactory::EntityPtr ent = factory->cloneEntity(data.templateName);
 
-    EntitiesFactory::EntityPtr ent = factory->cloneEntity(templateName);
     if (!ent) return;
 
     float x = owner->getX() + _offsetX;
@@ -79,7 +76,7 @@ namespace Project::Components {
 
     std::shared_ptr<Entity> shared = std::move(ent);
     manager->addEntity(shared);
-    cooldown = rate;
+    data.resetCooldown();
   }
 
   void SpawnerComponent::setEntityReference(Entity* entity) {

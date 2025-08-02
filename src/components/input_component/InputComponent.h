@@ -1,6 +1,7 @@
 #ifndef INPUT_COMPONENT_H
 #define INPUT_COMPONENT_H
 
+#include "InputData.h"
 #include "InputType.h"
 
 #include <array>
@@ -44,15 +45,15 @@ namespace Project::Components {
 
     void setEntityPosition(int x, int y) override;
 
-    const std::string& getText() const { return currentText; }
+    const std::string& getText() const { return data.currentText; }
     void setText(const std::string& text);
 
-    const SDL_Rect& getRect() const { return rect; }
-    int getWidth() const { return textureW; }
-    int getHeight() const { return textureH; }
+    const SDL_Rect& getRect() const { return data.rect; }
+    int getWidth() const { return data.textureW; }
+    int getHeight() const { return data.textureH; }
 
-    void setInputType(InputType _type) { inputType = _type; }
-    InputType getInputType() const { return inputType; }
+    void setInputType(InputType _type) { data.inputType = _type; }
+    InputType getInputType() const { return data.inputType; }
 
   private:
     SDL_Renderer* renderer;
@@ -60,37 +61,8 @@ namespace Project::Components {
     Project::Handlers::MouseHandler* mouseHandler;
     Project::Handlers::CursorHandler* cursorHandler;
 
-    std::array<Uint8, SDL_NUM_SCANCODES> prevKeys{};
-
+    InputData data;
     TTF_Font* font;
-    SDL_Rect rect{0,0,0,0};
-    SDL_Color bgColor{0,0,0,255};
-    SDL_Color textColor = Project::Libraries::Constants::COLOR_WHITE;
-    SDL_Color borderColor{0,0,0,0};
-
-    InputType inputType{InputType::TEXT};
-
-    std::string fontPath;
-    std::string currentText;
-    std::string placeholder;
-
-    float backspaceTimer{0.0f};
-    float cursorBlink{0.0f};
-
-    int fontSize = Project::Libraries::Constants::DEFAULT_BASE_FONT_SIZE;
-    int borderWidth{0};
-    int textOffset{0};
-    int textureW{0};
-    int textureH{0};
-
-    std::size_t maxChars = Project::Libraries::Constants::DEFAULT_MAX_CHARS;
-    std::size_t caretPos{0};
-
-    bool activeInput{false};
-    bool backspaceHeld{false};    
-    bool hovered{false};
-    bool mousePrev{false};
-    bool showCaret{true};
 
     void createTexture();
     void processInput(const Uint8* state, float deltaTime);

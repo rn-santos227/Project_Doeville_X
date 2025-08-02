@@ -534,7 +534,12 @@ namespace Project::Components {
 
     const auto& circles = box->getCircles();
     for (const auto& c : circles) {
-      SDL_Rect r{c.x - c.r, c.y - c.r, c.r * 2, c.r * 2};
+      SDL_Rect r{
+        c.x - c.r, c.y - c.r,
+        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER,
+        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER
+      };
+
       if (!hasBounds) {
         bounds = r;
         hasBounds = true;

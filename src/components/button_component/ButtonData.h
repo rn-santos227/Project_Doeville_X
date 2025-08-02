@@ -1,12 +1,12 @@
-#ifndef BUTTON_COMPONENT_DATA_H
-#define BUTTON_COMPONENT_DATA_H
+#ifndef BUTTON_DATA_H
+#define BUTTON_DATA_H
 
 #include <string>
 #include <SDL.h>
 #include "libraries/constants/Constants.h"
 
 namespace Project::Components {
-  struct ButtonComponentData {
+  struct ButtonData {
     SDL_Rect rect{0, 0, 0, 0};
     SDL_Rect textRect{0, 0, 0, 0};
 
@@ -35,7 +35,7 @@ namespace Project::Components {
     bool hovered = false;
     bool wasPressed = false;
 
-    ButtonComponentData() = default;
+    ButtonData() = default;
   };
 }
 

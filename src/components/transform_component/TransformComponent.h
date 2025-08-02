@@ -1,6 +1,8 @@
 #ifndef TRANSFORM_COMPONENT_H
 #define TRANSFORM_COMPONENT_H
 
+#include "TransformData.h"
+
 #include <vector>
 
 #include "components/BaseComponent.h"
@@ -25,26 +27,20 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
-    void setFlexibility(float value) { flexibility = value; }
-    float getFlexibility() const { return flexibility; }
+    void setFlexibility(float value) { data.flexibility = value; }
+    float getFlexibility() const { return data.flexibility; }
 
-    void setSpin(float value) { spin = value; }
-    float getSpin() const { return spin; }
+    void setSpin(float value) { data.spin = value; }
+    float getSpin() const { return data.spin; }
 
-    void setAllowRevert(bool value) { allowRevert = value; }
-    bool canRevert() const { return allowRevert; }
+    void setAllowRevert(bool value) { data.allowRevert = value; }
+    bool canRevert() const { return data.allowRevert; }
 
-    bool isTransformedState() const { return transformed; }
+    bool isTransformedState() const { return data.transformed; }
 
   private:
     Project::Entities::Entity* owner = nullptr;
-    std::vector<SDL_Rect> originalBoxes;
-    std::vector<Project::Utilities::Circle> originalCircles;
-
-    float flexibility;
-    float spin;
-    bool allowRevert;
-    bool transformed = false;
+    TransformData data;
 
     void transform();
     void revert();

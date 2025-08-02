@@ -1,6 +1,7 @@
 #ifndef MOTION_COMPONENT_H
 #define MOTION_COMPONENT_H
 
+#include "MotionData.h"
 #include "MovementMode.h"
 
 #include "components/BaseComponent.h"
@@ -65,17 +66,18 @@ namespace Project::Components {
     Project::Entities::Entity* owner = nullptr;
     KeysComponent* keysComp = nullptr;
 
-    MovementMode movementMode = MovementMode::STANDARD;
+    MotionData data;
 
-    float maxSpeed;
-    float acceleration = Project::Libraries::Constants::DEFAULT_ACCELERATION;
-    float brakePower = Project::Libraries::Constants::DEFAULT_BRAKE_POWER;
-    float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
-    float velocityX = 0.0f;
-    float velocityY = 0.0f;
+    float& maxSpeed = data.maxSpeed;
+    float& acceleration = data.acceleration;
+    float& brakePower = data.brakePower;
+    float& friction = data.friction;
+    float& velocityX = data.velocity.x;
+    float& velocityY = data.velocity.y;
+    MovementMode& movementMode = data.movementMode;
 
-    bool accelerationEnabled = false;
-    bool rotationEnabled = false;
+    bool& accelerationEnabled = data.accelerationEnabled;
+    bool& rotationEnabled = data.rotationEnabled;
   };
 }
 

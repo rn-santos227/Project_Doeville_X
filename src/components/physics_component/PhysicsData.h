@@ -2,18 +2,14 @@
 #define PHYSICS_DATA_H
 
 #include "libraries/constants/Constants.h"
+#include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
   struct PhysicsData {
     // Linear motion
-    float forceX = 0.0f;
-    float forceY = 0.0f;
-
-    float accelerationX = 0.0f;
-    float accelerationY = 0.0f;
-
-    float velocityX = 0.0f;
-    float velocityY = 0.0f;
+    Project::Utilities::Velocity force;
+    Project::Utilities::Velocity acceleration;
+    Project::Utilities::Velocity velocity;
 
     // Angular motion
     float angularAcceleration = 0.0f;
@@ -42,28 +38,26 @@ namespace Project::Components {
     }
 
     void applyForce(float fx, float fy) {
-      forceX += fx;
-      forceY += fy;
+      force.x += fx;
+      force.y += fy;
     }
 
     void setVelocity(float vx, float vy) {
-      velocityX = vx;
-      velocityY = vy;
+      velocity.set(vx, vy);;
     }
 
     void addVelocity(float vx, float vy) {
-      velocityX += vx;
-      velocityY += vy;
+      velocity.x += vx;
+      velocity.y += vy;
     }
 
     void setAcceleration(float ax, float ay) {
-      accelerationX = ax;
-      accelerationY = ay;
+      acceleration.set(ax, ay);
     }
 
     void addAcceleration(float ax, float ay) {
-      accelerationX += ax;
-      accelerationY += ay;
+      acceleration.x += ax;
+      acceleration.y += ay;
     }
 
     void addAngularVelocity(float av) {

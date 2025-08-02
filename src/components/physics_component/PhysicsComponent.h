@@ -1,6 +1,8 @@
 #ifndef PHYSICS_COMPONENT_H
 #define PHYSICS_COMPONENT_H
 
+#include "PhysicsData.h"
+
 #include "components/BaseComponent.h"
 #include "components/bounding_box_component/SurfaceType.h"
 #include "libraries/constants/Constants.h"
@@ -30,101 +32,98 @@ namespace Project::Components {
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 
-    void setVelocity(float vx, float vy) { velocityX = vx; velocityY = vy; }
-    void addVelocity(float vx, float vy) { velocityX += vx; velocityY += vy; }
+    void setVelocity(float vx, float vy) { data.setVelocity(vx, vy); }
+    void addVelocity(float vx, float vy) { data.addVelocity(vx, vy); }
     
-    float getVelocityX() const { return velocityX; }
-    float getVelocityY() const { return velocityY; }
+    float getVelocityX() const { return data.velocity.x; }
+    float getVelocityY() const { return data.velocity.y; }
 
-    void setAcceleration(float ax, float ay) { accelerationX = ax; accelerationY = ay; }
-    void addAcceleration(float ax, float ay) { accelerationX += ax; accelerationY += ay; }
+    void setAcceleration(float ax, float ay) { data.setAcceleration(ax, ay); }
+    void addAcceleration(float ax, float ay) { data.addAcceleration(ax, ay); }
+
+    float getAccelerationX() const { return data.acceleration.x; }
+    float getAccelerationY() const { return data.acceleration.y; }
+
+    void setDamping(float d) { data.damping = d; }
+    float getDamping() const { return data.damping; }
+
+    void setFriction(float f) { data.friction = f; }
+    float getFriction() const { return data.friction; }
+
+    void setPushForce(float f) { data.pushForce = f; }
+    float getPushForce() const { return data.pushForce; }
+
+    void setDensity(float d) { data.density = d; }
+    float getDensity() const { return data.density; }
     
-    float getAccelerationX() const { return accelerationX; }
-    float getAccelerationY() const { return accelerationY; }
+    void setRotationEnabled(bool enabled) { data.rotationEnabled = enabled; }
+    bool isRotationEnabled() const { return data.rotationEnabled; }
 
-    void setDamping(float d) { damping = d; }
-    float getDamping() const { return damping; }
+    void setRotation(float r) { data.rotation = r; }
+    float getRotation() const { return data.rotation; }
 
-    void setFriction(float f) { friction = f; }
-    float getFriction() const { return friction; }
+    void setAngularVelocity(float av) { data.angularVelocity = av; }
+    float getAngularVelocity() const { return data.angularVelocity; }
 
-    void setPushForce(float f) { pushForce = f; }
-    float getPushForce() const { return pushForce; }
+    void setAngularAcceleration(float aa) { data.angularAcceleration = aa; }
+    float getAngularAcceleration() const { return data.angularAcceleration; }
 
-    void setDensity(float d) { density = d; }
-    float getDensity() const { return density; }
-    
-    void setRotationEnabled(bool enabled) { rotationEnabled = enabled; }
-    bool isRotationEnabled() const { return rotationEnabled; }
-    
-    void setRotation(float r) { rotation = r; }
-    float getRotation() const { return rotation; }
-    
-    void setAngularVelocity(float av) { angularVelocity = av; }
-    float getAngularVelocity() const { return angularVelocity; }
+    void setGravityEnabled(bool enabled) { data.gravityEnabled = enabled; }
+    bool isGravityEnabled() const { return data.gravityEnabled; }
 
-    void setAngularAcceleration(float aa) { angularAcceleration = aa; }
-    float getAngularAcceleration() const { return angularAcceleration; }
+    void setGravityScale(float scale) { data.gravityScale = scale; }
+    float getGravityScale() const { return data.gravityScale; }
 
-    void setGravityEnabled(bool enabled) { gravityEnabled = enabled; }
-    bool isGravityEnabled() const { return gravityEnabled; }
+    void setStatic(bool s) { data.isStatic = s; }
+    bool getStatic() const { return data.isStatic; }
 
-    void setGravityScale(float scale) { gravityScale = scale; }
-    float getGravityScale() const { return gravityScale; }
+    void setKinematic(bool k) { data.isKinematic = k; }
+    bool isKinematicBody() const { return data.isKinematic; }
 
-    void setStatic(bool s) { isStatic = s; }
-    bool getStatic() const { return isStatic; }
+    void setRotationSpeed(float rs) { data.rotationSpeed = rs; }
+    float getRotationSpeed() const { return data.rotationSpeed; }
 
-    void setKinematic(bool k) { isKinematic = k; }
-    bool isKinematicBody() const { return isKinematic; }
+    void setRestitution(float r) { data.restitution = r; }
+    float getRestitution() const { return data.restitution; }
 
-    void setRotationSpeed(float rs) { rotationSpeed = rs; }
-    float getRotationSpeed() const { return rotationSpeed; }
+    void setMass(float m) { data.mass = m; }
+    float getMass() const { return data.mass; }
+    float getWeight() const { return data.getWeight(); }
 
-    void setRestitution(float r) { restitution = r; }
-    float getRestitution() const { return restitution; }
+    void addAngularVelocity(float av) { data.addAngularVelocity(av); }
+    void addAngularAcceleration(float aa) { data.addAngularAcceleration(aa); }
 
-    void setMass(float m) { mass = m; }
-    float getMass() const { return mass; }
-    
-    float getWeight() const { return mass * Project::Libraries::Constants::GRAVITY; }
+    void applyForce(float fx, float fy) {data.applyForce(fx, fy);}
     bool performContinuousCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime);
-
-    void addAngularVelocity(float av) { angularVelocity += av; }
-    void addAngularAcceleration(float aa) { angularAcceleration += aa; }
-
-    void applyForce(float fx, float fy) {
-      forceX += fx;
-      forceY += fy;
-    }
 
   private:
     Project::Entities::Entity* owner = nullptr;
+    PhysicsData data;
 
-    float forceX = 0.0f;
-    float forceY = 0.0f;
-    
-    float accelerationX = 0.0f;
-    float accelerationY = 0.0f;
-    float angularAcceleration = 0.0f;
-    float angularVelocity = 0.0f;
-    float rotation = 0.0f;
-    float velocityX = 0.0f;
-    float velocityY = 0.0f;
+    float& forceX = data.force.x;
+    float& forceY = data.force.y;
 
-    float friction = Project::Libraries::Constants::DEFAULT_FRICTION;
-    float damping = Project::Libraries::Constants::DEFAULT_DAMPING;
-    float density = Project::Libraries::Constants::DEFAULT_DENSITY;
-    float mass = Project::Libraries::Constants::DEFAULT_MASS;
-    float pushForce = Project::Libraries::Constants::DEFAULT_PUSH_FORCE;
-    float restitution = Project::Libraries::Constants::DEFAULT_BOUNCE_FACTOR;
-    float rotationSpeed = Project::Libraries::Constants::DEFAULT_ROTATION_SPEED;
-    float gravityScale = Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE;
+    float& accelerationX = data.acceleration.x;
+    float& accelerationY = data.acceleration.y;
+    float& angularAcceleration = data.angularAcceleration;
+    float& angularVelocity = data.angularVelocity;
+    float& rotation = data.rotation;
+    float& velocityX = data.velocity.x;
+    float& velocityY = data.velocity.y;
 
-    bool rotationEnabled = false;
-    bool gravityEnabled = false;
-    bool isStatic = false;
-    bool isKinematic = false;
+    float& friction = data.friction;
+    float& damping = data.damping;
+    float& density = data.density;
+    float& mass = data.mass;
+    float& pushForce = data.pushForce;
+    float& restitution = data.restitution;
+    float& rotationSpeed = data.rotationSpeed;
+    float& gravityScale = data.gravityScale;
+
+    bool& rotationEnabled = data.rotationEnabled;
+    bool& gravityEnabled = data.gravityEnabled;
+    bool& isStatic = data.isStatic;
+    bool& isKinematic = data.isKinematic;
     bool lastCollidedWithStatic = false;
 
     SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b) const;

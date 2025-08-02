@@ -27,10 +27,7 @@ namespace Project::Components {
   namespace Keys = Project::Libraries::Keys;
 
   PhysicsComponent::PhysicsComponent(Project::Utilities::LogsManager& logsManager)
-    : BaseComponent(logsManager),
-      mass(Project::Libraries::Constants::DEFAULT_MASS),
-      density(Project::Libraries::Constants::DEFAULT_DENSITY),
-      gravityScale(Project::Libraries::Constants::DEFAULT_GRAVITY_SCALE) {}
+    : BaseComponent(logsManager) {}
 
   void PhysicsComponent::resolveCollisionWith(PhysicsComponent* other, float restitution) {
     if (!other || !owner) return;
@@ -81,8 +78,8 @@ namespace Project::Components {
       if (other->rotationEnabled) other->angularVelocity += torque * invMass2;
     }
 
-    SDL_FPoint vel1{velocityX, velocityY};
-    SDL_FPoint vel2{other->velocityX, other->velocityY};
+    Project::Utilities::Velocity vel1{velocityX, velocityY};
+    Project::Utilities::Velocity vel2{other->velocityX, other->velocityY};
     PhysicsUtils::clampVelocity(vel1, Constants::TERMINAL_VELOCITY);
     PhysicsUtils::clampVelocity(vel2, Constants::TERMINAL_VELOCITY);
 
@@ -108,19 +105,20 @@ namespace Project::Components {
     }
 
     PhysicsUtils::applyForces(
-      velocityX, velocityY,
-      accelerationX, accelerationY,
-      forceX, forceY,
-      mass, deltaTime
+      data.velocity, data.acceleration,
+      data.force, mass, deltaTime
     );
 
     PhysicsUtils::applyResistance(
-      velocityX, velocityY,
+      data.velocity,
       friction, density,
       isKinematic, deltaTime
     );
 
-    PhysicsUtils::clampVelocityInPlace(velocityX, velocityY, Constants::TERMINAL_VELOCITY);
+    Project::Utilities::Velocity temp{velocityX, velocityY};
+    PhysicsUtils::clampVelocity(temp, Constants::TERMINAL_VELOCITY);
+    velocityX = temp.x;
+    velocityY = temp.y;
 
     if (!owner) return;
     const float oldX = owner->getX();

@@ -110,7 +110,7 @@ namespace Project::Utilities {
     return std::sqrt(dx * dx + dy * dy);
   }
 
-  SDL_FPoint PhysicsUtils::applyGravity(SDL_FPoint velocity, float deltaTime) {
+  Velocity PhysicsUtils::applyGravity(Velocity velocity, float deltaTime) {
     velocity.x += Constants::DEFAULT_GRAVITY_DIRECTION.x * Constants::GRAVITY * deltaTime;
     velocity.y += Constants::DEFAULT_GRAVITY_DIRECTION.y * Constants::GRAVITY * deltaTime;
     if (velocity.y > Constants::TERMINAL_VELOCITY) {
@@ -119,7 +119,7 @@ namespace Project::Utilities {
     return velocity;
   }
 
-  void PhysicsUtils::clampVelocity(SDL_FPoint& velocity, float maxSpeed) {
+  void PhysicsUtils::clampVelocity(Velocity& velocity, float maxSpeed) {
     float speed = MathUtils::magnitude(velocity.x, velocity.y);
     if (speed > maxSpeed) {
       float scale = maxSpeed / speed;
@@ -128,57 +128,41 @@ namespace Project::Utilities {
     }
   }
 
-  void PhysicsUtils::clampVelocityInPlace(float& vx, float& vy, float maxVelocity) {
-    float length = std::sqrt(vx * vx + vy * vy);
-    if (length > maxVelocity && length > 0.0f) {
-        float scale = maxVelocity / length;
-        vx *= scale;
-        vy *= scale;
-    }
+  void PhysicsUtils::applyForces(Velocity& velocity, Velocity& acceleration, Velocity& force, float mass, float deltaTime) {
+    acceleration.x += force.x / mass;
+    acceleration.y += force.y / mass;
+    force.set(0.0f, 0.0f);
+
+    velocity.x += acceleration.x * deltaTime;
+    velocity.y += acceleration.y * deltaTime;
+    acceleration.set(0.0f, 0.0f);
   }
 
-  void PhysicsUtils::applyForces(
-    float& velocityX, float& velocityY,
-    float& accelerationX, float& accelerationY,
-    float& forceX, float& forceY,
-    float mass, float deltaTime) {
-    accelerationX += forceX / mass;
-    accelerationY += forceY / mass;
-    forceX = forceY = 0.0f;
-
-    velocityX += accelerationX * deltaTime;
-    velocityY += accelerationY * deltaTime;
-    accelerationX = 0.0f;
-    accelerationY = 0.0f;
-  }
-
-  void PhysicsUtils::applyResistance(
-    float& velocityX, float& velocityY,
-    float friction, float density,
-    bool isKinematic, float deltaTime) {
+  void PhysicsUtils::applyResistance(Velocity& velocity, float friction, float density, bool isKinematic, float deltaTime) {
     if (!isKinematic && friction > 0.0f) {
       float decel = friction * deltaTime;
-      if (velocityX > 0.0f) {
-        velocityX -= decel;
-        if (velocityX < 0.0f) velocityX = 0.0f;
-      } else if (velocityX < 0.0f) {
-        velocityX += decel;
-        if (velocityX > 0.0f) velocityX = 0.0f;
+      if (velocity.x > 0.0f) {
+        velocity.x -= decel;
+        if (velocity.x < 0.0f) velocity.x = 0.0f;
+      } else if (velocity.x < 0.0f) {
+        velocity.x += decel;
+        if (velocity.x > 0.0f) velocity.x = 0.0f;
       }
-      if (velocityY > 0.0f) {
-        velocityY -= decel;
-        if (velocityY < 0.0f) velocityY = 0.0f;
-      } else if (velocityY < 0.0f) {
-        velocityY += decel;
-        if (velocityY > 0.0f) velocityY = 0.0f;
+
+      if (velocity.y > 0.0f) {
+        velocity.y -= decel;
+        if (velocity.y < 0.0f) velocity.y = 0.0f;
+      } else if (velocity.y < 0.0f) {
+        velocity.y += decel;
+        if (velocity.y > 0.0f) velocity.y = 0.0f;
       }
     }
 
     if (!isKinematic && density > 0.0f) {
       float factor = Constants::DEFAULT_WHOLE - density * deltaTime;
       if (factor < 0.0f) factor = 0.0f;
-      velocityX *= factor;
-      velocityY *= factor;
+      velocity.x *= factor;
+      velocity.y *= factor;
     }
   }
 

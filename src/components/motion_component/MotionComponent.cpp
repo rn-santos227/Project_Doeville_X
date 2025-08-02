@@ -24,7 +24,9 @@ namespace Project::Components {
   namespace Keys = Project::Libraries::Keys;
 
   MotionComponent::MotionComponent(Project::Utilities::LogsManager& logsManager, KeyHandler* keyHandler, float speed)
-    : BaseComponent(logsManager), keyHandler(keyHandler), maxSpeed(speed) {}
+    : BaseComponent(logsManager), keyHandler(keyHandler) {
+    maxSpeed = speed;
+  }
 
   void MotionComponent::update(float deltaTime) {
     if (!owner) return;
@@ -67,7 +69,10 @@ namespace Project::Components {
     }
 
     if(accelerationEnabled) {
-      PhysicsUtils::clampVelocityInPlace(localVelX, localVelY, maxSpeed);
+      Project::Utilities::Velocity temp{localVelX, localVelY};
+      PhysicsUtils::clampVelocity(temp, maxSpeed);
+      localVelX = temp.x;
+      localVelY = temp.y;
     }
 
     float dx = localVelX * deltaTime;

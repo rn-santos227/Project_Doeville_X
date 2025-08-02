@@ -191,4 +191,107 @@ namespace Project::Components {
       createOkTextTexture();
     }
   }
+
+  void ModalComponent::setEntityPosition(int x, int y) {
+    rect.x = x;
+    rect.y = y;
+    createTitleTexture();
+    createSubtitleTexture();
+    createMessageTexture();
+  }
+
+  void ModalComponent::setSize(int w, int h) {
+    rect.w = w;
+    rect.h = h;
+    createTitleTexture();
+    createSubtitleTexture();
+    createMessageTexture();
+  }
+
+  void ModalComponent::createTitleTexture() {
+    if (!renderer || !font) return;
+    if (titleTexture) {
+      SDL_DestroyTexture(titleTexture);
+      titleTexture = nullptr;
+    }
+    if (title.empty()) return;
+    SDL_Surface* surface = TTF_RenderText_Blended(font, title.c_str(), fontColor);
+    if (!surface) return;
+    titleTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    titleRect = {rect.x + 10, rect.y + 10, surface->w, surface->h};
+    SDL_FreeSurface(surface);
+  }
+
+  void ModalComponent::createSubtitleTexture() {
+    if (!renderer || !font) return;
+    if (subtitleTexture) {
+      SDL_DestroyTexture(subtitleTexture);
+      subtitleTexture = nullptr;
+    }
+    if (subtitle.empty()) return;
+    SDL_Surface* surface = TTF_RenderText_Blended(font, subtitle.c_str(), fontColor);
+    if (!surface) return;
+    int y = rect.y + 10;
+    if (titleTexture) {
+      y = titleRect.y + titleRect.h + 5;
+    }
+    subtitleTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    subtitleRect = {rect.x + 10, y, surface->w, surface->h};
+    SDL_FreeSurface(surface);
+  }
+
+  void ModalComponent::createMessageTexture() {
+    if (!renderer || !font) return;
+    if (messageTexture) {
+      SDL_DestroyTexture(messageTexture);
+      messageTexture = nullptr;
+    }
+    if (message.empty()) {
+      if (modalType == ModalType::NOTIFICATION) {
+        positionOkButton();
+      }
+      return;
+    }
+    SDL_Surface* surface = TTF_RenderText_Blended(font, message.c_str(), fontColor);
+    if (!surface) {
+      if (modalType == ModalType::NOTIFICATION) {
+        positionOkButton();
+      }
+      return;
+    }
+    int y = rect.y + 10;
+    if (subtitleTexture) {
+      y = subtitleRect.y + subtitleRect.h + 5;
+    } else if (titleTexture) {
+      y = titleRect.y + titleRect.h + 5;
+    }
+    messageTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    messageRect = {rect.x + 10, y, surface->w, surface->h};
+    SDL_FreeSurface(surface);
+    if (modalType == ModalType::NOTIFICATION) {
+      positionOkButton();
+    }
+  }
+
+  void ModalComponent::createOkTextTexture() {
+    if (!renderer || !font) return;
+    if (okTextTexture) {
+      SDL_DestroyTexture(okTextTexture);
+      okTextTexture = nullptr;
+    }
+    SDL_Surface* surface = TTF_RenderText_Blended(font, okText.c_str(), okTextColor);
+    if (!surface) return;
+    okTextTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    okTextRect.w = surface->w;
+    okTextRect.h = surface->h;
+    SDL_FreeSurface(surface);
+    positionOkButton();
+  }
+
+  void ModalComponent::positionOkButton() {
+    okRect.x = rect.x + (rect.w - okRect.w) / 2;
+    okRect.y = rect.y + rect.h - okRect.h - 10;
+    okTextRect.x = okRect.x + (okRect.w - okTextRect.w) / 2;
+    okTextRect.y = okRect.y + (okRect.h - okTextRect.h) / 2;
+  }
 }

@@ -1,7 +1,7 @@
 #ifndef BASE_COMPONENT_H
 #define BASE_COMPONENT_H
 
-#include "ComponentType.h"
+#include "BaseComponentData.h"
 
 #include <string>
 
@@ -27,16 +27,15 @@ namespace Project::Components {
     virtual void onAttach() {}
     virtual void onDetach() {}
 
-    void setClass(const std::string& _classs) { componentClass = _classs; }
-    const std::string& getClass() const { return componentClass; }
+    void setClass(const std::string& _classs) { data.componentClass = _classs; }
+    const std::string& getClass() const { return data.componentClass; }
 
-    void setActive(bool _active) { active = _active; }
-    bool isActive() const { return active; }
+    void setActive(bool _active) { data.active = _active; }
+    bool isActive() const { return data.active; }
 
   protected:
     Project::Utilities::LogsManager& logsManager;
-    std::string componentClass;
-    bool active = true;
+    BaseComponentData data;
   };
 }
 

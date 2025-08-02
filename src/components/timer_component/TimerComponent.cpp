@@ -35,7 +35,7 @@ namespace Project::Components {
   }
 
   void TimerComponent::stop() {
-    active = false;
+    data.active = false;
     reset();
   }
 }

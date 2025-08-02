@@ -18,6 +18,10 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_MASS = 1.0f;
   constexpr float DEFAULT_DENSITY = 0.1f;
   constexpr float DEFAULT_GRAVITY_SCALE = 1.0f;
+  constexpr float DEFAULT_RESTITUTION = 0.2f;
+  constexpr float DEFAULT_ROTATION = 0.0f;
+  constexpr float DEFAULT_FLEXIBILITY = 0.5f;
+  constexpr float DEFAULT_SPIN = 0.0;
 
   constexpr float DEFAULT_DENOMINATOR = 2.0f;
   constexpr float DEFAULT_WHOLE = 1.0f;

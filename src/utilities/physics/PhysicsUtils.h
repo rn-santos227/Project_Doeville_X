@@ -8,6 +8,24 @@
 #include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Utilities {
+
+  struct Velocity {
+    float x = 0.0f;
+    float y = 0.0f;
+
+    Velocity() = default;
+    Velocity(float vx, float vy) : x(vx), y(vy) {}
+
+    void set(float vx, float vy) {
+      x = vx;
+      y = vy;
+    }
+
+    bool isZero() const {
+      return x == 0.0f && y == 0.0f;
+    }
+  };
+
 	class PhysicsUtils {
 	public:
     static bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);

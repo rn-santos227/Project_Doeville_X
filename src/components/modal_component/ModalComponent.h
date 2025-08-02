@@ -26,6 +26,14 @@ namespace Project::Components {
     );
     ~ModalComponent() override;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::MODAL; }
+
+    void update(float deltaTime) override;
+    void render() override;
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+    void applyStyle() override;
+
   private:
     SDL_Renderer* renderer = nullptr;
     Project::Utilities::ConfigReader& configReader;
@@ -57,10 +65,12 @@ namespace Project::Components {
     SDL_Color okColor{200,200,200,255};
     SDL_Color okBorderColor{0,0,0,0};
     int okBorderWidth{0};
+    
     SDL_Color okTextColor{0,0,0,255};
     SDL_Texture* okTextTexture = nullptr;
     SDL_Rect okTextRect{0,0,0,0};
     std::string okText{"OK"};
+    
     bool okWasPressed{false};
     bool dismissed{false};
 

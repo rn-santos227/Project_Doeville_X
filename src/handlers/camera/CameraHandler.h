@@ -5,6 +5,8 @@
 
 #include <SDL2/SDL.h>
 
+#include "libraries/constants/FloatConstants.h"
+
 namespace Project::Handlers {
   class CameraHandler {
   public:
@@ -19,12 +21,21 @@ namespace Project::Handlers {
     void setCameraType(CameraType type);
     CameraType getCameraType() const { return cameraType; }
 
-    int getWidth() const { return cameraRect.w; }
-    int getHeight() const { return cameraRect.h; }
+    void setZoom(float factor);
+    float getZoom() const { return zoom; }
+    void zoomIn(float amount);
+    void zoomOut(float amount);
+
+    void setRotation(float angle);
+    float getRotation() const { return rotation; }
+    void rotate(float amount);
+
+    int getWidth() const { return static_cast<int>(cameraRect.w / zoom); }
+    int getHeight() const { return static_cast<int>(cameraRect.h / zoom); }
     int getX() const { return cameraRect.x; }
     int getY() const { return cameraRect.y; }
-    
-    const SDL_Rect& getRect() const { return cameraRect; }
+
+    SDL_Rect getRect() const;
     int getOffsetX() const { return cullingOffset.x; }
     int getOffsetY() const { return cullingOffset.y; }
 
@@ -33,6 +44,9 @@ namespace Project::Handlers {
     
     SDL_Rect cameraRect{0,0,0,0};
     SDL_Point cullingOffset{0,0};
+
+    float zoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;
+    float rotation = Project::Libraries::Constants::DEFAULT_CAMERA_ROTATION;
   };
 }
 

@@ -1,6 +1,7 @@
 #include "CameraComponent.h"
 
 #include <algorithm>
+#include <cmath>
 
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
@@ -15,10 +16,32 @@ namespace Project::Components {
   CameraComponent::CameraComponent(Project::Utilities::LogsManager& logsManager, Project::Handlers::CameraHandler* handler)
     : BaseComponent(logsManager), cameraHandler(handler) {}
 
-  void CameraComponent::update(float /*deltaTime*/) {
-    if (!owner || !cameraHandler) return;
+  void CameraComponent::onAttach() {
+    target = owner;
+    if (owner) {
+      if (data.targetName.empty()) {
+        data.targetName = owner->getEntityID();
+      } else if (auto* mgr = owner->getEntitiesManager()) {
+        auto ent = mgr->getEntity(data.targetName);
+        if (ent) {
+          target = ent.get();
+        } else {
+          data.targetName = owner->getEntityID();
+        }
+      }
+    }
+    if (cameraHandler) {
+      cameraHandler->setZoom(data.zoom);
+      cameraHandler->setRotation(data.rotation);
+    }
+  }
 
-    auto* mgr = owner->getEntitiesManager();
+  void CameraComponent::update(float deltaTime) {
+    if (!cameraHandler) return;
+    Project::Entities::Entity* focus = target ? target : owner;
+    if (!focus) return;
+
+    auto* mgr = focus->getEntitiesManager();
     bool clamp = false;
     SDL_Rect map{0, 0, 0, 0};
 
@@ -37,18 +60,68 @@ namespace Project::Components {
       }
     }
 
-    int camX = static_cast<int>(owner->getX() - cameraHandler->getWidth() / Constants::INDEX_TWO);
-    int camY = static_cast<int>(owner->getY() - cameraHandler->getHeight() / Constants::INDEX_TWO);
+    float angle = data.rotation;
+    float offsetX = data.offsetX * std::cos(angle) - data.offsetY * std::sin(angle);
+    float offsetY = data.offsetX * std::sin(angle) + data.offsetY * std::cos(angle);
+
+    int desiredX = static_cast<int>(focus->getX() + offsetX - cameraHandler->getWidth() / Constants::INDEX_TWO);
+    int desiredY = static_cast<int>(focus->getY() + offsetY - cameraHandler->getHeight() / Constants::INDEX_TWO);
 
     if (clamp) {
-      camX = std::clamp(camX, map.x, map.x + map.w - cameraHandler->getWidth());
-      camY = std::clamp(camY, map.y, map.y + map.h - cameraHandler->getHeight());
+      desiredX = std::clamp(desiredX, map.x, map.x + map.w - cameraHandler->getWidth());
+      desiredY = std::clamp(desiredY, map.y, map.y + map.h - cameraHandler->getHeight());
     }
 
+    int currentX = cameraHandler->getX();
+    int currentY = cameraHandler->getY();
+    float t = std::min(1.0f, data.followSpeed * deltaTime);
+    int camX = static_cast<int>(currentX + (desiredX - currentX) * t);
+    int camY = static_cast<int>(currentY + (desiredY - currentY) * t);
     cameraHandler->setPosition(camX, camY);
+    data.rotation += data.spinSpeed * deltaTime;
+    cameraHandler->setRotation(data.rotation);
   }
 
   void CameraComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    //saving this for something else.
+    data.zoom = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ZOOM, Constants::DEFAULT_CAMERA_ZOOM));
+    data.followSpeed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::FOLLOW_SPEED, Constants::DEFAULT_CAMERA_SPEED));
+    data.rotation = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ROTATION, Constants::DEFAULT_CAMERA_ROTATION));
+    data.spinSpeed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ROTATION_SPEED, Constants::DEFAULT_CAMERA_SPIN_SPEED));
+    data.offsetX = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::OFFSET_X, 0.0));
+    data.offsetY = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::OFFSET_Y, 0.0));
+    
+    data.targetName = luaStateWrapper.getTableString(tableName, Keys::TARGET, Constants::EMPTY_STRING);
+    if (cameraHandler) {
+      cameraHandler->setZoom(data.zoom);
+      cameraHandler->setRotation(data.rotation);
+    }
+  }
+
+  void CameraComponent::setZoom(float z) {
+    data.zoom = z;
+    if (cameraHandler) cameraHandler->setZoom(z);
+  }
+
+  void CameraComponent::setRotation(float angle) {
+    data.rotation = angle;
+    if (cameraHandler) cameraHandler->setRotation(angle);
+  }
+
+  void CameraComponent::setOffset(float x, float y) {
+    data.offsetX = x;
+    data.offsetY = y;
+  }
+  
+  void CameraComponent::switchTarget(Project::Entities::Entity* newTarget) {
+    target = newTarget ? newTarget : owner;
+  }
+
+  void CameraComponent::switchTarget(const std::string& entityId) {
+    if (!owner) return;
+    if (auto* mgr = owner->getEntitiesManager()) {
+      auto ent = mgr->getEntity(entityId);
+      target = ent ? ent.get() : owner;
+      data.targetName = entityId;
+    }
   }
 }

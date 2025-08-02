@@ -31,6 +31,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* DIMENSION = "dimension";
   constexpr const char* ENABLED = "enabled";
   constexpr const char* FOLLOW_CAMERA = "follow_camera";
+  constexpr const char* FOLLOW_SPEED = "follow_speed";
   constexpr const char* FONT_COLOR_HEX = "font_color_hex";
   constexpr const char* FONT_COLOR_ALPHA = "font_color_alpha";
   constexpr const char* FONT_SIZE = "font_size";
@@ -62,6 +63,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* MESSAGE = "message";
   constexpr const char* MOVEMENT_MODE = "movement_mode";
   constexpr const char* NAME = "name"; 
+  constexpr const char* OFFSET_X = "offset_x";
+  constexpr const char* OFFSET_Y = "offset_y";
   constexpr const char* OK_CALLBACK = "ok_callback";
   constexpr const char* PLAYER = "player";
   constexpr const char* POSITION = "position";
@@ -86,6 +89,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* SUBTITLE = "subtitle";
   constexpr const char* SURFACE = "surface";
   constexpr const char* TAG = "tag";
+  constexpr const char* TARGET = "target";
   constexpr const char* TEMPLATE = "template";
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";

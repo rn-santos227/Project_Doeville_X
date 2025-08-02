@@ -113,4 +113,82 @@ namespace Project::Components {
       }
     }
   }
+
+  void ModalComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
+    int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
+    setSize(width, height);
+
+    std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
+    Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
+    color = ColorUtils::hexToRGB(colorHex, alpha);
+
+    title = luaStateWrapper.getTableString(tableName, Keys::TITLE, Constants::DEFAULT_TEXT);
+    subtitle = luaStateWrapper.getTableString(tableName, Keys::SUBTITLE, Constants::EMPTY_STRING);
+    message = luaStateWrapper.getTableString(tableName, Keys::MESSAGE, Constants::EMPTY_STRING);
+
+    std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
+    std::string fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
+    int defaultFontSize = configReader.getIntValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_SIZE, Constants::DEFAULT_FONT_SIZE);
+    fontSize = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_SIZE, static_cast<float>(defaultFontSize)));
+    font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    if (!font) {
+      logsManager.logWarning(std::string("Failed to load font: ") + fontPath + ". Using fallback font.");
+      font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, fontSize);
+      if (!font) {
+        logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
+      }
+    }
+
+    std::string fontColorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
+    fontColor = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
+
+    conditionFunc = luaStateWrapper.getTableString(tableName, Keys::CONDITION, Constants::EMPTY_STRING);
+    okCallback = luaStateWrapper.getTableString(tableName, Keys::OK_CALLBACK, Constants::EMPTY_STRING);
+    std::string typeStr = luaStateWrapper.getTableString(tableName, Keys::TYPE, Constants::EMPTY_STRING);
+    modalType = ModalTypeResolver::resolve(typeStr);
+
+    createTitleTexture();
+    createSubtitleTexture();
+    createMessageTexture();
+    if (modalType == ModalType::NOTIFICATION) {
+      createOkTextTexture();
+    }
+    onAttach();
+  }
+
+  void ModalComponent::applyStyle() {
+    std::istringstream classes(getClass());
+    std::string cls;
+    while (classes >> cls) {
+      std::string selector = "." + cls;
+      Style s = StyleManager::getInstance().getStyle(selector);
+      if (s.width > 0) rect.w = s.width;
+      if (s.height > 0) rect.h = s.height;
+      if (s.background.a != 0) color = s.background;
+      if (s.fontColor.a != 0) fontColor = s.fontColor;
+      if (s.fontSize > 0) {
+        if (font) TTF_CloseFont(font);
+        std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
+        font = TTF_OpenFont(defaultFontPath.c_str(), s.fontSize);
+        if (!font) {
+          logsManager.logWarning(std::string("Failed to load font: ") + defaultFontPath + ". Using fallback font.");
+          font = TTF_OpenFont(Constants::DEFAULT_FONT_PATH, s.fontSize);
+          if (!font) {
+            logsManager.logError(std::string("Failed to load fallback font: ") + Constants::DEFAULT_FONT_PATH);
+          }
+        }
+        fontSize = s.fontSize;
+      }
+      if (s.borderColor.a != 0) borderColor = s.borderColor;
+      if (s.borderWidth > 0) borderWidth = s.borderWidth;
+    }
+
+    createTitleTexture();
+    createSubtitleTexture();
+    createMessageTexture();
+    if (modalType == ModalType::NOTIFICATION) {
+      createOkTextTexture();
+    }
+  }
 }

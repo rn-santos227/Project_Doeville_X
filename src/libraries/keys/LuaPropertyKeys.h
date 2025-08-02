@@ -59,8 +59,10 @@ namespace Project::Libraries::Keys {
   constexpr const char* LIMIT = "limit";
   constexpr const char* MASS = "mass";
   constexpr const char* MAX_CHARS = "max_chars";
+  constexpr const char* MESSAGE = "message";
   constexpr const char* MOVEMENT_MODE = "movement_mode";
   constexpr const char* NAME = "name"; 
+  constexpr const char* OK_CALLBACK = "ok_callback";
   constexpr const char* PLAYER = "player";
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";
@@ -81,6 +83,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* STATE_NAME = "state_name";
   constexpr const char* STATE_CATEGORY = "state_category";
   constexpr const char* STATIC = "static";
+  constexpr const char* SUBTITLE = "subtitle";
   constexpr const char* SURFACE = "surface";
   constexpr const char* TAG = "tag";
   constexpr const char* TEMPLATE = "template";

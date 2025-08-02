@@ -1,11 +1,13 @@
 #include "PhysicsSystem.h"
 
+#include <cmath>
 #include <algorithm>
 #include <limits>
 
-#include "entities/Entity.h"
+#include "components/physics_component/PhysicsData.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "entities/Entity.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/geometry/GeometryUtils.h"
 
@@ -39,6 +41,8 @@ namespace Project::Systems {
 
   void Project::Systems::PhysicsSystem::update(float deltaTime) {
     grid.clear();
+    highPriorityGrid.clear();
+    lowPriorityGrid.clear();
 
     SDL_Rect worldBounds{0, 0, 0, 0};
     bool hasWorldBounds = false;
@@ -74,8 +78,19 @@ namespace Project::Systems {
       if (worldBounds.h <= 0) worldBounds.h = 1;
     }
 
+    const size_t totalColliders = components.size() + staticColliders.size();
+    const float area = static_cast<float>(worldBounds.w) * static_cast<float>(worldBounds.h);
+    float targetCell = std::sqrt(area / (static_cast<float>(totalColliders) + Constants::DEFAULT_WHOLE));
+    targetCell = std::clamp(targetCell, Constants::MIN_CELL, Constants::MAX_CELL);
+    
+    grid.setCellSize(targetCell);
+    highPriorityGrid.setCellSize(targetCell);
+    lowPriorityGrid.setCellSize(targetCell);
+
     quadtree = Project::Utilities::QuadTree(worldBounds);
     quadtree.clear();
+
+    std::vector<std::pair<SDL_Rect, Project::Utilities::Collider>> dynamicObjects;
 
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
@@ -90,8 +105,24 @@ namespace Project::Systems {
       if (!computeBounds(box, bounds)) continue;
       
       Project::Utilities::Collider collider{box, comp, owner};
-      grid.insert(collider, bounds);
+      switch (comp->getUpdateFrequency()) {
+        case Project::Components::UpdateFrequency::HIGH:
+          highPriorityGrid.insert(collider, bounds);
+          break;
+        case Project::Components::UpdateFrequency::LOW:
+          lowPriorityGrid.insert(collider, bounds);
+          break;
+        default:
+          grid.insert(collider, bounds);
+          break;
+      }
+      
       quadtree.insert(collider, bounds);
+      dynamicObjects.emplace_back(bounds, collider);
+
+      auto& catGrid = categoryGrids[owner->getEntityCategory()];
+      catGrid.setCellSize(targetCell);
+      catGrid.insert(collider, bounds);
     }
 
     for (auto* box : staticColliders) {
@@ -101,9 +132,18 @@ namespace Project::Systems {
       if (!computeBounds(box, bounds)) continue;
 
       Project::Utilities::Collider collider{box, nullptr, box->getOwner()};
-      grid.insert(collider, bounds);
       quadtree.insert(collider, bounds);
+      if (collider.entity) {
+        auto& catGrid = categoryGrids[collider.entity->getEntityCategory()];
+        catGrid.setCellSize(targetCell);
+        catGrid.insert(collider, bounds);
+      }
     }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    sweepPairs = Project::Utilities::SweepAndPrune::findPairs(dynamicObjects);
+    auto end = std::chrono::high_resolution_clock::now();
+    metrics.lastBroadPhaseMs = std::chrono::duration<float, std::milli>(end - start).count();
 
     for (auto* comp : components) {
       if (comp && comp->isActive()) {
@@ -115,6 +155,11 @@ namespace Project::Systems {
   void Project::Systems::PhysicsSystem::clear() {
     components.clear();
     staticColliders.clear();
+  }
+
+  void Project::Systems::PhysicsSystem::recordSpatialQuery(float ms) {
+    metrics.queryCount++;
+    metrics.totalQueryTimeMs += ms;
   }
 
   SDL_Rect PhysicsSystem::unionRect(const SDL_Rect& a, const SDL_Rect& b) const {

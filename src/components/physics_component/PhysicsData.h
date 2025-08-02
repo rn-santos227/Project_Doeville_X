@@ -5,7 +5,10 @@
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Components {
+  enum class UpdateFrequency { HIGH, NORMAL, LOW };
   struct PhysicsData {
+    UpdateFrequency updateFrequency = UpdateFrequency::NORMAL;
+    
     // Linear motion
     Project::Utilities::Velocity force;
     Project::Utilities::Velocity acceleration;

@@ -18,6 +18,7 @@ namespace Project::Components {
 
   class PhysicsComponent : public BaseComponent {
   public:
+
     explicit PhysicsComponent(Project::Utilities::LogsManager& logsManager);
     ~PhysicsComponent() override = default;
 
@@ -95,6 +96,9 @@ namespace Project::Components {
 
     void applyForce(float fx, float fy) {data.applyForce(fx, fy);}
     bool performContinuousCollisionDetection(float newX, float newY, float oldX, float oldY, float deltaTime);
+
+    void setUpdateFrequency(UpdateFrequency freq) { data.updateFrequency = freq; }
+    UpdateFrequency getUpdateFrequency() const { return data.updateFrequency; }
 
   private:
     Project::Entities::Entity* owner = nullptr;

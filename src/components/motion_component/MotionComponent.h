@@ -8,13 +8,14 @@
 #include "components/PositionableComponent.h"
 #include "components/keys_component/KeysComponent.h"
 #include "handlers/input/KeyHandler.h"
+#include "interfaces/reset_interface/Resetable.h"
 #include "libraries/constants/Constants.h"
 
 namespace Project { namespace Components { class MotionFunctions; } }
 namespace Project { namespace Entities { class Entity; } }
 
 namespace Project::Components {
-  class MotionComponent : public BaseComponent {
+  class MotionComponent : public BaseComponent, public Project::Interfaces::Resetable {
   friend class MotionFunctions;
   public:
     MotionComponent(Project::Utilities::LogsManager& logsManager, Project::Handlers::KeyHandler* keyHandler, float speed = Project::Libraries::Constants::DEFAULT_MOTION_SPEED);
@@ -26,6 +27,7 @@ namespace Project::Components {
     void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+    void reset() override;
 
     void onAttach() override;
     void setKeysComponent(KeysComponent* keys) { keysComp = keys; }

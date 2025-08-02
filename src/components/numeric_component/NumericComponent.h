@@ -38,7 +38,7 @@ namespace Project::Components {
     bool has(const std::string& name) const;
 
   private:
-    std::unordered_map<std::string, NumericValue> values;
+    std::unordered_map<std::string, NumericData> values;
     Project::Entities::Entity* owner = nullptr;
   };
 }

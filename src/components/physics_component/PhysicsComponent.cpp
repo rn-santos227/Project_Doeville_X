@@ -1,6 +1,7 @@
 #include "PhysicsComponent.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <string>
 
@@ -402,10 +403,23 @@ namespace Project::Components {
       myBounds = SDL_Rect{static_cast<int>(newX), static_cast<int>(newY), 0, 0};
     }
 
-    auto& quadtree = manager->getPhysicsSystem().getQuadTree();
-    for (const auto& coll : quadtree.query(myBounds)) {
+    auto& physSystem = manager->getPhysicsSystem();
+    auto& quadtree = physSystem.getQuadTree();
+    auto queryStart = std::chrono::high_resolution_clock::now();
+    auto candidates = quadtree.query(myBounds);
+    auto queryEnd = std::chrono::high_resolution_clock::now();
+    physSystem.recordSpatialQuery(std::chrono::duration<float, std::milli>(queryEnd - queryStart).count());
+    const auto& sweepPairs = physSystem.getSweepPairs();
+    auto pairAllowed = [&](PhysicsComponent* a, PhysicsComponent* b) {
+      return std::any_of(sweepPairs.begin(), sweepPairs.end(), [&](const auto& p){
+        return (p.first.physics == a && p.second.physics == b) || (p.first.physics == b && p.second.physics == a);
+      });
+    };
+
+    for (const auto& coll : candidates) {
       auto* candidate = coll.physics;
       if (candidate == this) continue;
+      if (candidate && !pairAllowed(this, candidate)) continue;
       auto* entity = coll.entity;
       auto* otherBox = coll.box;
       

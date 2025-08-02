@@ -8,13 +8,14 @@
 #include "components/BaseComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "interfaces/reset_interface/Resetable.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/categories/Categories.h"
 
 namespace Project { namespace Entities { class Entity; } }
 
 namespace Project::Components {
-  class TransformComponent : public BaseComponent {
+  class TransformComponent : public BaseComponent, public Project::Interfaces::Resetable {
   public:
     TransformComponent(Project::Utilities::LogsManager& logsManager, float flexibility = Project::Libraries::Constants::DEFAULT_HALF, float spin = 0.0f, bool allowRevert = true);
     ~TransformComponent() override = default;
@@ -25,6 +26,7 @@ namespace Project::Components {
     void update(float deltaTime) override;
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+    void reset() override;
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
     void setFlexibility(float value) { data.flexibility = value; }

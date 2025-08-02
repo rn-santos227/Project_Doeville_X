@@ -127,6 +127,10 @@ namespace Project::Components {
     setRotationEnabled(rotate);
   }
 
+  void MotionComponent::reset() {
+    data = MotionData{};
+  }
+
   void MotionComponent::onAttach() {
     if (owner) {
       keysComp = dynamic_cast<KeysComponent*>(

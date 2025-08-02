@@ -30,6 +30,7 @@ namespace Project::Utilities {
     void clear();
 
     float getCellSize() const { return cellSize; }
+    void setCellSize(float newSize);
 
   private:
     using Cell = std::vector<Collider>;

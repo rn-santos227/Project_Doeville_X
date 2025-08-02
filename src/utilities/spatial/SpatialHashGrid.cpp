@@ -55,4 +55,9 @@ namespace Project::Utilities {
   long long SpatialHashGrid::hash(int x, int y) const {
     return (static_cast<long long>(x) << Project::Libraries::Constants::BIT_32) ^ static_cast<unsigned long long>(y);
   }
+
+  void SpatialHashGrid::setCellSize(float newSize) {
+    cellSize = newSize;
+    clear();
+  }
 }

@@ -59,6 +59,10 @@ namespace Project::Components {
     data.allowRevert = luaStateWrapper.getTableBoolean(tableName, Keys::ALLOW_REVERT, true);
   }
 
+  void TransformComponent::reset() {
+    data = TransformData{};
+  }
+
   void TransformComponent::transform() {
     if (data.transformed) return;
     auto* myBox = owner ? dynamic_cast<BoundingBoxComponent*>(owner->getComponent(Components::BOUNDING_BOX_COMPONENT)) : nullptr;

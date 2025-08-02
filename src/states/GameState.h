@@ -160,12 +160,15 @@ namespace Project::States {
     std::string stateName;
     std::string luaScriptPath;
 
+    size_t nextSeederId = 0;
+    size_t seedIndex = 0;
+
+    std::string lastSeederId;
+    std::vector<std::string> seederSeeds;
+
     bool useImageBackground = false;
     bool initialized = false;
     bool active = false;
-
-    size_t nextSeederId = 0;
-    std::string lastSeederId;
 
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;

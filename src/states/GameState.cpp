@@ -5,6 +5,7 @@
 #include <fstream>
 #include <chrono>
 #include <future>
+#include <random>
 #include <sstream>
 #include <string>
 
@@ -144,6 +145,7 @@ namespace Project::States {
     playerEntity.reset();
     activeCamera = nullptr;
     nextSeederId = 0;
+    seedIndex = 0;
     lastSeederId.clear();
     entitySeeders.clear();
 
@@ -258,13 +260,23 @@ namespace Project::States {
     auto seeder = std::make_unique<Project::Entities::EntitySeeder>(*mgr, *entitiesFactory);
     seeder->setChunkSize(chunkSize);
 
-    if (!seed.empty()) {
-      bool numeric = std::all_of(seed.begin(), seed.end(), ::isdigit);
-      if (numeric) {
-        seeder->setSeed(static_cast<size_t>(std::stoull(seed)));
+    std::string actualSeed = seed;
+    if (actualSeed.empty()) {
+      if (seedIndex < seederSeeds.size()) {
+        actualSeed = seederSeeds[seedIndex];
       } else {
-        seeder->setSeedString(seed);
+        std::random_device rd;
+        actualSeed = std::to_string(rd());
+        seederSeeds.push_back(actualSeed);
       }
+    }
+    ++seedIndex;
+
+    bool numeric = std::all_of(actualSeed.begin(), actualSeed.end(), ::isdigit);
+    if (numeric) {
+      seeder->setSeed(static_cast<size_t>(std::stoull(actualSeed)));
+    } else {
+      seeder->setSeedString(actualSeed);
     }
 
     auto playerEntity = getPlayerEntity();

@@ -74,3 +74,39 @@
   font-color: #000000;
   font-size: 18;
 }
+
+.modal {
+  width: 300;
+  height: 200;
+  background-color: #222222;
+  border-color: #FFFFFF;
+  border-width: 2;
+  font-color: #FFFFFF;
+  font-size: 20;
+}
+
+.modal-question {
+  background-color: #333333;
+}
+
+.modal-option {
+  background-color: #444444;
+}
+
+.modal-prompt {
+  background-color: #555555;
+}
+
+.modal-notification {
+  background-color: #666666;
+}
+
+.modal-button {
+  width: 80;
+  height: 30;
+  background-color: #888888;
+  border-color: #FFFFFF;
+  border-width: 1;
+  font-color: #FFFFFF;
+  font-size: 18;
+}

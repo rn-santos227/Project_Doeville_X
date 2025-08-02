@@ -16,6 +16,7 @@ namespace Project::Factories {
   using Project::Components::GraphicsComponent;
   using Project::Components::InputComponent;
   using Project::Components::KeysComponent;
+  using Project::Components::ModalComponent;
   using Project::Components::MotionComponent;
   using Project::Components::NumericComponent;
   using Project::Components::PhysicsComponent;
@@ -51,6 +52,7 @@ namespace Project::Factories {
     ComponentPool<GraphicsComponent>::getInstance().setMaxSize(limit);
     ComponentPool<InputComponent>::getInstance().setMaxSize(limit);
     ComponentPool<KeysComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<ModalComponent>::getInstance().setMaxSize(limit);
     ComponentPool<MotionComponent>::getInstance().setMaxSize(limit);
     ComponentPool<NumericComponent>::getInstance().setMaxSize(limit);
     ComponentPool<PhysicsComponent>::getInstance().setMaxSize(limit);
@@ -128,6 +130,16 @@ namespace Project::Factories {
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
 
         ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<KeysComponent*>(b)); });
+        return base;
+      }
+
+      case ComponentType::MODAL: {
+        auto component = ComponentPool<ModalComponent>::getInstance().acquire(renderer, logsManager, configReader, mouseHandler);
+        component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<ModalComponent*>(b)); });
         return base;
       }
 

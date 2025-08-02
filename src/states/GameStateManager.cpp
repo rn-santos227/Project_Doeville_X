@@ -40,6 +40,7 @@ namespace Project::States {
     if (it == states.end()) {
       GameState* cachedState = retrieveFromCache(name);
       if (cachedState) {
+        cachedState->reset();
         stateStack.push(cachedState);
         stateStack.top()->onEnter();
         if (cursorHandler) cursorHandler->resetToDefaultCursor();

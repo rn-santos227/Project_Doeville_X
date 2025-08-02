@@ -14,6 +14,7 @@
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/keys_component/KeysComponent.h"
 #include "components/input_component/InputComponent.h"
+#include "components/modal_component/ModalComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/numeric_component/NumericComponent.h"
 #include "components/physics_component/PhysicsComponent.h"

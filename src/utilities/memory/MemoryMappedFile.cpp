@@ -16,7 +16,7 @@ namespace Project::Utilities {
     if (file == INVALID_HANDLE_VALUE) {
       return;
     }
-    
+
     LARGE_INTEGER size;
     if (!GetFileSizeEx(file, &size)) {
       CloseHandle(file);
@@ -40,6 +40,25 @@ namespace Project::Utilities {
     }
   }
 #else
-
+  : fd(-1), fileSize(0), mapped(nullptr) {
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd == -1) {
+      return;
+    }
+    struct stat sb;
+    if (fstat(fd, &sb) == -1) {
+      close(fd);
+      fd = -1;
+      return;
+    }
+    fileSize = static_cast<size_t>(sb.st_size);
+    void* map = mmap(nullptr, fileSize, PROT_READ, MAP_PRIVATE, fd, 0);
+    if (map == MAP_FAILED) {
+      close(fd);
+      fd = -1;
+      return;
+    }
+    mapped = static_cast<unsigned char*>(map);
+  }
 #endif
 }

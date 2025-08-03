@@ -284,6 +284,7 @@ namespace Project::Entities {
     long long k = key(cx, cy);
     Chunk& chunk = chunks[k];
     if (!chunk.ids.empty()) return;
+    if (manager.getEntityCount() >= maxSeededEntities) return;
 
     bool bounded = false;
     SDL_Rect mapRect{0,0,0,0};
@@ -340,27 +341,39 @@ namespace Project::Entities {
     size_t baseCount = distribution(localRng);
     size_t count = static_cast<size_t>(std::round(baseCount * speedFactor));
     if (count < 1) count = 1;
+    
+    size_t total = manager.getEntityCount();
+    size_t available = maxSeededEntities > total ? maxSeededEntities - total : 0;
+    size_t chunkCount = std::min({count, maxEntitiesPerChunk, available});
+    if (chunkCount == 0) return;
+    
     std::uniform_real_distribution<float> posX(startX, endX);
     std::uniform_real_distribution<float> posY(startY, endY);
     std::uniform_int_distribution<size_t> templateIndex(0, entityTemplates.empty() ? 0 : entityTemplates.size() - 1);
 
     std::vector<SDL_Rect> existingRects;
-    for (const auto& [eid, ent] : manager.getAllEntities()) {
-      if (!ent) continue;
-      SDL_Rect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 0, 0};
-      if (auto* gfx = ent->getGraphicsComponent()) {
-        r.w = gfx->getWidth();
-        r.h = gfx->getHeight();
-      } else if (auto* box = ent->getBoundingBoxComponent()) {
-        const auto& boxes = box->getBoxes();
-        if (!boxes.empty()) r = boxes.front();
+    for (const auto& [existingKey, existingChunk] : chunks) {
+      int ecx = static_cast<int>(existingKey >> Constants::BIT_32);
+      int ecy = static_cast<int>(static_cast<unsigned int>(existingKey));
+      if (std::abs(ecx - cx) > 1 || std::abs(ecy - cy) > 1) continue;
+      for (const std::string& eid : existingChunk.ids) {
+        auto ent = manager.getEntity(eid);
+        if (!ent) continue;
+        SDL_Rect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 0, 0};
+        if (auto* gfx = ent->getGraphicsComponent()) {
+          r.w = gfx->getWidth();
+          r.h = gfx->getHeight();
+        } else if (auto* box = ent->getBoundingBoxComponent()) {
+          const auto& boxes = box->getBoxes();
+          if (!boxes.empty()) r = boxes.front();
+        }
+        existingRects.push_back(r);
       }
-      existingRects.push_back(r);
     }
 
     const size_t MAX_ATTEMPTS = 5;
     
-    for (size_t i = 0; i < count; ++i) {
+    for (size_t i = 0; i < chunkCount; ++i) {
       if (entityTemplates.empty()) break;
       std::string tmpl = entityTemplates[templateIndex(localRng)];
       EntitiesFactory::EntityPtr entity = factory.cloneEntity(tmpl);

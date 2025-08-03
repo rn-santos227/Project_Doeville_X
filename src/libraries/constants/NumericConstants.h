@@ -36,8 +36,8 @@ namespace Project::Libraries::Constants {
   constexpr int INT_HUNDRED = 100;
   constexpr int INT_THOUSAND = 1000;
   constexpr int INT_TEN_THOUSAND = 10000;
-  constexpr int MAX_MEMORY_SPACE = 255;
   
+  constexpr int MAX_MEMORY_SPACE = 255;
   constexpr int BIT_32 = 32;
   constexpr int BIT_64 = 64;
   constexpr int BIT_255 = 255;
@@ -49,6 +49,10 @@ namespace Project::Libraries::Constants {
 
   constexpr size_t MAX_PATH_SIZE = 4096;
   constexpr size_t MAX_DATA_SIZE = 10 * 1024 * 1024;
+
+  constexpr size_t DEFAULT_ENTITIES_PER_CHUNK = 32;
+  constexpr size_t MAX_SEEDED_ENTITY = 1000;
+  
 }
 
 #endif

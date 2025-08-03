@@ -43,6 +43,8 @@ namespace Project::Entities {
     void setSpawnRadius(float radius) { spawnRadius = radius; }
     void setChunkSize(const ChunkSize& _size) { chunkSize = _size; }
     void setChunkRadius(int radius) { chunkRadius = radius; }
+    void setMaxSeededEntities(size_t max) { maxSeededEntities = max; }
+    void setMaxEntitiesPerChunk(size_t max) { maxEntitiesPerChunk = max; }
 
     void renderDebug(SDL_Renderer* renderer);
 
@@ -81,6 +83,8 @@ namespace Project::Entities {
     size_t idCounter = 0;
     size_t sessionSalt = 0;
     size_t maxChunksPerFrame = 1;
+    size_t maxSeededEntities = Project::Libraries::Constants::MAX_SEEDED_ENTITY;
+    size_t maxEntitiesPerChunk = Project::Libraries::Constants::DEFAULT_ENTITIES_PER_CHUNK;
 
     int lastCameraX = 0;
     int lastCameraY = 0;

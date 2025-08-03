@@ -1,7 +1,9 @@
 #include "RenderSystem.h"
 
 #include <algorithm>
+#include <cstdint>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "components/graphics_component/GraphicsComponent.h"
 #include "handlers/camera/CameraHandler.h"
@@ -34,15 +36,26 @@ namespace Project::Systems {
   }
 
   void Project::Systems::RenderSystem::render() {
-    auto hash = [](int x, int y) { return (static_cast<long long>(x) << Constants::BIT_32) ^ static_cast<unsigned int>(y); };
+    auto hash = [](int x, int y) {
+      return (
+        static_cast<std::uint64_t>(static_cast<std::int64_t>(x)) << Constants::BIT_32) ^
+        static_cast<std::uint64_t>(static_cast<std::int64_t>(y)
+      );
+    };
 
-    std::unordered_map<long long, std::vector<GraphicsComponent*>> grid;
+    std::unordered_map<std::uint64_t, std::vector<GraphicsComponent*>> grid;
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
       const SDL_Rect rect = comp->getRect();
-      int cellX = rect.x / Constants::DEFAULT_RENDER_CELL_SIZE;
-      int cellY = rect.y / Constants::DEFAULT_RENDER_CELL_SIZE;
-      grid[hash(cellX, cellY)].push_back(comp);
+      int startCellX = rect.x / Constants::DEFAULT_RENDER_CELL_SIZE;
+      int startCellY = rect.y / Constants::DEFAULT_RENDER_CELL_SIZE;
+      int endCellX = (rect.x + rect.w) / Constants::DEFAULT_RENDER_CELL_SIZE;
+      int endCellY = (rect.y + rect.h) / Constants::DEFAULT_RENDER_CELL_SIZE;
+      for (int x = startCellX; x <= endCellX; ++x) {
+        for (int y = startCellY; y <= endCellY; ++y) {
+          grid[hash(x, y)].push_back(comp);
+        }
+      }
     }
 
     auto* camHandler = GraphicsComponent::getCameraHandler();
@@ -60,12 +73,14 @@ namespace Project::Systems {
       int startY = camHandler->getY() / Constants::DEFAULT_RENDER_CELL_SIZE;
       int endX = (camHandler->getX() + camHandler->getViewportWidth()) / Constants::DEFAULT_RENDER_CELL_SIZE;
       int endY = (camHandler->getY() + camHandler->getViewportHeight()) / Constants::DEFAULT_RENDER_CELL_SIZE;
+      std::unordered_set<GraphicsComponent*> unique;
       for (int x = startX; x <= endX; ++x) {
         for (int y = startY; y <= endY; ++y) {
           auto it = grid.find(hash(x, y));
-          if (it != grid.end()) candidates.insert(candidates.end(), it->second.begin(), it->second.end());
+          if (it != grid.end()) unique.insert(it->second.begin(), it->second.end());
         }
       }
+      candidates.assign(unique.begin(), unique.end());
     } else {
       candidates = components;
     }

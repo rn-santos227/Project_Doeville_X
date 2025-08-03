@@ -2,6 +2,9 @@
 
 #include <algorithm>
 
+#include "utilities/memory/MemoryMappedFile.h"
+#include "utilities/compression/CompressionUtils.h"
+
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
 
@@ -46,6 +49,32 @@ namespace Project::Handlers {
     }
   }
 
+  SDL_Surface* AsyncResourceLoader::loadFromFile(const std::string& path) {
+    Project::Utilities::MemoryMappedFile mmf(path);
+    if (!mmf.isValid()) {
+      logsManager.logError("Failed to memory map: " + path);
+      return nullptr;
+    }
+    const unsigned char* data = mmf.data();
+    size_t size = mmf.size();
+    SDL_Surface* surface = nullptr;
+    if (path.size() > 3 && path.substr(path.size() - 3) == ".gz") {
+      auto buffer = bufferPool.acquire();
+      if (!Project::Utilities::CompressionUtils::decompress(data, size, *buffer)) {
+        logsManager.logError("Failed to decompress: " + path);
+        bufferPool.release(std::move(buffer));
+        return nullptr;
+      }
+      SDL_RWops* rw = SDL_RWFromConstMem(buffer->data(), static_cast<int>(buffer->size()));
+      surface = IMG_Load_RW(rw, 1);
+      bufferPool.release(std::move(buffer));
+    } else {
+      SDL_RWops* rw = SDL_RWFromConstMem(data, static_cast<int>(size));
+      surface = IMG_Load_RW(rw, 1);
+    }
+    return surface;
+  }
+
   void AsyncResourceLoader::workerLoop() {
     while (running) {
       Task task;
@@ -58,7 +87,7 @@ namespace Project::Handlers {
         task = std::move(tasks.front());
         tasks.pop();
       }
-      SDL_Surface* surface = IMG_Load(task.path.c_str());
+      SDL_Surface* surface = loadFromFile(task.path);
       if (logsManager.checkAndLogError(!surface, "Failed to load image: " + task.path + " - " + IMG_GetError())) {
         task.promise.set_value(nullptr);
       } else {

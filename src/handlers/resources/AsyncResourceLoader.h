@@ -14,6 +14,7 @@
 #include <SDL_image.h>
 
 #include "utilities/logs_manager/LogsManager.h"
+#include "helpers/resource_pool/ResourcePool.h"
 
 namespace Project::Handlers {
   struct Task {
@@ -31,7 +32,10 @@ namespace Project::Handlers {
 
   private:
     Project::Utilities::LogsManager& logsManager;
+    Project::Helpers::ResourcePool<std::vector<unsigned char>> bufferPool;
 
+    SDL_Surface* loadFromFile(const std::string& path);
+    
     std::queue<Task> tasks;
     std::mutex tasksMutex;
     std::condition_variable cv;

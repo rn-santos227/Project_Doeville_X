@@ -61,4 +61,12 @@ namespace Project::Utilities {
     mapped = static_cast<unsigned char*>(map);
   }
 #endif
+
+  MemoryMappedFile::~MemoryMappedFile() {
+#ifdef _WIN32
+  
+#else
+  
+#endif
+
 }

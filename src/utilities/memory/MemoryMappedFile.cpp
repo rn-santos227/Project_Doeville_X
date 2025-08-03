@@ -89,5 +89,9 @@ namespace Project::Utilities {
   const unsigned char* MemoryMappedFile::data() const {
     return mapped;
   }
+  
+  size_t MemoryMappedFile::size() const {
+    return fileSize;
+  }
 
 }

@@ -672,7 +672,18 @@ namespace Project::Entities {
     const SDL_Rect cullRect = cam->getCullingRect();
 
     if (auto* gfx = entity->getGraphicsComponent()) {
-      const SDL_Rect rect = gfx->getRect();
+      SDL_Rect rect = gfx->getRect();
+      
+      if (rect.w <= 0) {
+        int w = gfx->getWidth();
+        rect.w = w > 0 ? w : 1;
+      }
+      
+      if (rect.h <= 0) {
+        int h = gfx->getHeight();
+        rect.h = h > 0 ? h : 1;
+      }
+      
       if (SDL_HasIntersection(&rect, &cullRect)) return true;
     }
 

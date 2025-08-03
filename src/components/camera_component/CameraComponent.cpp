@@ -78,7 +78,7 @@ namespace Project::Components {
 
     int currentX = cameraHandler->getX();
     int currentY = cameraHandler->getY();
-    float t = std::min(1.0f, data.followSpeed * deltaTime);
+    float t = std::min(Constants::DEFAULT_WHOLE, data.followSpeed * deltaTime);
     int camX = Project::Utilities::MathUtils::interpolate(currentX, desiredX, t);
     int camY = Project::Utilities::MathUtils::interpolate(currentY, desiredY, t);
     cameraHandler->setPosition(camX, camY);

@@ -10,7 +10,7 @@ layer_scripts = {
 function initialize()
   print("Initializing GameState")
   setBackgroundColor(50, 45, 34, 255)
-  setMapSize(2560, 1440)
+  setMapSize(5120, 2880)
   
   spawnEntity("player", nil, nil, "game")
   setPlayerEntity("player", 100, 100)

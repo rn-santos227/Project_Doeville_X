@@ -41,7 +41,7 @@ namespace Project::Entities {
     float py = p->getY();
 
     for (auto& [k, chunk] : chunks) {
-      int cx = static_cast<int>(k >> 32);
+      int cx = static_cast<int>(k >> Constants::BIT_32);
       int cy = static_cast<int>(static_cast<unsigned int>(k));
       auto it = chunk.ids.begin();
       while (it != chunk.ids.end()) {
@@ -68,6 +68,7 @@ namespace Project::Entities {
     int pcy = static_cast<int>(std::floor(py / chunkSize.y));
 
     SDL_Rect cullRect{0,0,0,0};
+    SDL_Rect expandedCull{0,0,0,0};
     bool useCull = false;
     bool bounded = false;
     SDL_Rect mapRect{0,0,0,0};
@@ -103,6 +104,12 @@ namespace Project::Entities {
         lastCameraX = camX;
         lastCameraY = camY;
       }
+
+      expandedCull = cullRect;
+      expandedCull.x -= static_cast<int>(chunkSize.x);
+      expandedCull.y -= static_cast<int>(chunkSize.y);
+      expandedCull.w += static_cast<int>(Constants::INDEX_TWO * chunkSize.x);
+      expandedCull.h += static_cast<int>(Constants::INDEX_TWO * chunkSize.y);
 
       useCull = true;
     }
@@ -153,17 +160,59 @@ namespace Project::Entities {
       long long k = pendingChunks.front();
       pendingChunks.pop();
       scheduledChunks.erase(k);
-      int cx = static_cast<int>(k >> 32);
+      int cx = static_cast<int>(k >> Constants::BIT_32);
       int cy = static_cast<int>(static_cast<unsigned int>(k));
       loadChunk(cx, cy);
       ++loaded;
     }
 
     std::vector<long long> remove;
-    for (const auto& [k, _] : chunks) {
-      int cx = static_cast<int>(k >> 32);
+    for (const auto& [k, chunk] : chunks) {
+      int cx = static_cast<int>(k >> Constants::BIT_32);
       int cy = static_cast<int>(static_cast<unsigned int>(k));
-      if (std::abs(cx - pcx) > chunkRadius || std::abs(cy - pcy) > chunkRadius) {
+
+      bool outsideRadius = std::abs(cx - pcx) > chunkRadius || std::abs(cy - pcy) > chunkRadius;
+
+      if (outsideRadius && useCull) {
+        SDL_Rect chunkRect{
+          static_cast<int>(cx * chunkSize.x),
+          static_cast<int>(cy * chunkSize.y),
+          static_cast<int>(chunkSize.x),
+          static_cast<int>(chunkSize.y)
+        };
+        if (SDL_HasIntersection(&chunkRect, &expandedCull)) {
+          continue;
+        }
+
+        bool entityVisible = false;
+        for (const std::string& id : chunk.ids) {
+          auto ent = manager.getEntity(id);
+          if (!ent) continue;
+          SDL_Rect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 1, 1};
+          if (auto* gfx = ent->getGraphicsComponent()) {
+            int w = gfx->getWidth();
+            int h = gfx->getHeight();
+            r.w = w > 0 ? w : 1;
+            r.h = h > 0 ? h : 1;
+          } else if (auto* box = ent->getBoundingBoxComponent()) {
+            const auto& boxes = box->getBoxes();
+            if (!boxes.empty()) {
+              r = boxes.front();
+              if (r.w <= 0) r.w = 1;
+              if (r.h <= 0) r.h = 1;
+            }
+          }
+          if (SDL_HasIntersection(&r, &expandedCull)) {
+            entityVisible = true;
+            break;
+          }
+        }
+        if (entityVisible) {
+          continue;
+        }
+      }
+
+      if (outsideRadius) {
         remove.push_back(k);
       }
     }

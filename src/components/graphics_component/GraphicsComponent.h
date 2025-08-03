@@ -50,6 +50,15 @@ namespace Project::Components {
     void setBorderWidth(int _width) { data.borderWidth = _width; }
     void setRotationEnabled(bool _enabled) { if (data.rotationEnabled != _enabled) data.verticesDirty = true; data.rotationEnabled = _enabled; }
 
+    void setDepth(int d) { data.depth = d; }
+    int getDepth() const { return data.depth; }
+
+    void setBlendMode(SDL_BlendMode mode) { data.blendMode = mode; if (texture) SDL_SetTextureBlendMode(texture, mode); }
+    SDL_BlendMode getBlendMode() const { return data.blendMode; }
+
+    void setInstanced(bool inst) { data.instanced = inst; }
+    bool isInstanced() const { return data.instanced; }
+
     bool isRotationEnabled() const { return data.rotationEnabled; }
 
     float getRotation() const { return data.rotation; }
@@ -60,7 +69,11 @@ namespace Project::Components {
     int getHeight() const { return data.destRect.h; }
     
     Project::Handlers::AnimationHandler* getAnimationHandler() { return animationHandler.get(); }
+      const SDL_Rect& getSrcRect() const { return data.srcRect; }
 
+    SDL_Renderer* getRenderer() const { return renderer; }
+    SDL_Texture* getBatchTexture();
+    
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
 

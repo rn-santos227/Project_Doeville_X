@@ -11,12 +11,16 @@
 
 namespace Project::Components {
   struct GraphicsData {
+    SDL_BlendMode blendMode = SDL_BLENDMODE_BLEND;
+
     SDL_Color shapeColor = Project::Libraries::Constants::DEFAULT_SHAPE_COLOR;
     SDL_Color borderColor = Project::Libraries::Constants::COLOR_BLACK;
     SDL_Color gradientStart{0, 0, 0, 0};
     SDL_Color gradientEnd{0, 0, 0, 0};
 
     SDL_Rect destRect{0, 0, 0, 0};
+    SDL_Rect srcRect{0, 0, 0, 0};
+    
     std::string pendingTexturePath;
 
     Project::Services::Style style{};
@@ -28,12 +32,14 @@ namespace Project::Components {
     float rotation = 0.0f;
 
     int borderWidth = 0;
+    int depth = 0;
 
     bool verticesDirty = true;
     bool rotationEnabled = false;
     bool isCircle = false;
     bool drawShape = false;
     bool useGradient = false;
+    bool instanced = false;
   };
 }
 

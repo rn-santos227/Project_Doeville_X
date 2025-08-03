@@ -157,6 +157,7 @@ namespace Project::Components {
     textureFuture = resourcesHandler.loadTextureAsync(renderer, imagePath);
     data.pendingTexturePath = imagePath;
     data.drawShape = false;
+    data.srcRect = SDL_Rect{0,0,0,0};
     return true;
   }
 
@@ -206,8 +207,11 @@ namespace Project::Components {
   SDL_Rect GraphicsComponent::getRenderRect() const {
     SDL_Rect renderRect = data.destRect;
     if (cameraHandler) {
-      renderRect.x -= cameraHandler->getX();
-      renderRect.y -= cameraHandler->getY();
+      const float zoom = cameraHandler->getZoom();
+      renderRect.x = static_cast<int>((data.destRect.x - cameraHandler->getX()) * zoom);
+      renderRect.y = static_cast<int>((data.destRect.y - cameraHandler->getY()) * zoom);
+      renderRect.w = static_cast<int>(data.destRect.w * zoom);
+      renderRect.h = static_cast<int>(data.destRect.h * zoom);
     }
     return renderRect;
   }
@@ -222,11 +226,16 @@ namespace Project::Components {
     return texture;
   }
 
+  SDL_Texture* GraphicsComponent::getBatchTexture() {
+    return getTextureToRender();
+  }
+
   bool GraphicsComponent::isInCameraView() {
     if (!cameraHandler) return true;
     
-    const SDL_Rect cullRect = cameraHandler->getCullingRect();
-    return SDL_HasIntersection(&data.destRect, &cullRect);
+    const SDL_Rect view{0, 0, cameraHandler->getViewportWidth(), cameraHandler->getViewportHeight()};
+    SDL_Rect screenRect = getRenderRect();
+    return SDL_HasIntersection(&screenRect, &view);
   }
 
   void GraphicsComponent::checkAsyncTextureLoad() {
@@ -236,11 +245,22 @@ namespace Project::Components {
         logsManager.logError("Failed to load texture: " + data.pendingTexturePath);
       } else {
         texture = loaded;
-        int texW, texH;
-        if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
-          if (data.destRect.w != texW || data.destRect.h != texH) data.verticesDirty = true;
-          data.destRect.w = texW;
-          data.destRect.h = texH;
+        SDL_SetTextureBlendMode(texture, data.blendMode);
+        if (resourcesHandler) {
+          SDL_Rect region = resourcesHandler->getTextureRegion(renderer, data.pendingTexturePath);
+          data.srcRect = region;
+          if (region.w > 0 && region.h > 0) {
+            if (data.destRect.w != region.w || data.destRect.h != region.h) data.verticesDirty = true;
+            data.destRect.w = region.w;
+            data.destRect.h = region.h;
+          } else {
+            int texW, texH;
+            if (SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH) == 0) {
+              if (data.destRect.w != texW || data.destRect.h != texH) data.verticesDirty = true;
+              data.destRect.w = texW;
+              data.destRect.h = texH;
+            }
+          }
         }
       }
       data.pendingTexturePath.clear();
@@ -248,10 +268,11 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::renderTexture(SDL_Texture* textureToRender, const SDL_Rect& renderRect) {
+    const SDL_Rect* src = (data.srcRect.w > 0 && data.srcRect.h > 0) ? &data.srcRect : nullptr;
     if (data.rotationEnabled) {
-      SDL_RenderCopyEx(renderer, textureToRender, nullptr, &renderRect, data.rotation, nullptr, SDL_FLIP_NONE);
+      SDL_RenderCopyEx(renderer, textureToRender, src, &renderRect, data.rotation, nullptr, SDL_FLIP_NONE);
     } else {
-      SDL_RenderCopy(renderer, textureToRender, nullptr, &renderRect);
+      SDL_RenderCopy(renderer, textureToRender, src, &renderRect);
     }
   }
 

@@ -1,6 +1,9 @@
 #ifndef RESOURCESHANDLER_H
 #define RESOURCESHANDLER_H
 
+#include "AsyncResourceLoader.h"
+#include "TextureAtlas.h"
+
 #include <atomic>
 #include <condition_variable>
 #include <filesystem>
@@ -13,8 +16,6 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-
-#include "AsyncResourceLoader.h"
 
 #include "interfaces/cleanup_interface/Cleanable.h"
 #include "utilities/logs_manager/LogsManager.h"
@@ -37,6 +38,7 @@ namespace Project::Handlers {
     
     std::future<SDL_Texture*> loadTextureAsync(SDL_Renderer* renderer, const std::string& imagePath);
     SDL_Texture* loadTexture(SDL_Renderer* renderer, const std::string& imagePath);
+    SDL_Rect getTextureRegion(SDL_Renderer* renderer, const std::string& imagePath);
     
     std::vector<SDL_Texture*> sliceImage(SDL_Renderer* renderer, const std::string& imagePath, int frameWidth, int frameHeight);
     SDL_Texture* cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect);
@@ -44,7 +46,7 @@ namespace Project::Handlers {
   private:
     Project::Utilities::LogsManager& logsManager;
     AsyncResourceLoader asyncLoader;
-    
+    TextureAtlas textureAtlas;
 
     std::queue<TextureTask> textureTasks;
     std::mutex tasksMutex;

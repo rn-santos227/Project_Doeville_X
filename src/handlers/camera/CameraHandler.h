@@ -34,6 +34,8 @@ namespace Project::Handlers {
     int getHeight() const { return static_cast<int>(cameraRect.h / zoom); }
     int getX() const { return cameraRect.x; }
     int getY() const { return cameraRect.y; }
+    int getViewportWidth() const { return cameraRect.w; }
+    int getViewportHeight() const { return cameraRect.h; }
 
     SDL_Rect getRect() const;
     int getOffsetX() const { return cullingOffset.x; }

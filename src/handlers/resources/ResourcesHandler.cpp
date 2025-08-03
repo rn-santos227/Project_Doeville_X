@@ -88,6 +88,8 @@ namespace Project::Handlers {
       return fallback;
     }
 
+    int texW = surface ? surface->w : 0;
+    int texH = surface ? surface->h : 0;
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
@@ -100,11 +102,13 @@ namespace Project::Handlers {
       return fallback;
     }
 
+    SDL_Texture* atlasTex = textureAtlas.addTexture(renderer, texture, texW, texH, imagePath);
+    SDL_DestroyTexture(texture);
     {
       std::lock_guard<std::mutex> lock(textureCacheMutex);
-      textureCache[imagePath] = texture;
+      textureCache[imagePath] = atlasTex;
     }
-    return texture;
+    return atlasTex;
   }
 
   std::future<SDL_Texture*> ResourcesHandler::loadTextureAsync(SDL_Renderer* renderer, const std::string& imagePath) {
@@ -238,11 +242,15 @@ namespace Project::Handlers {
         continue;
       }
 
+      int texW = surface ? surface->w : 0;
+      int texH = surface ? surface->h : 0;
+      SDL_Texture* atlasTex = textureAtlas.addTexture(task.renderer, texture, texW, texH, task.path);
+      SDL_DestroyTexture(texture);
       {
         std::lock_guard<std::mutex> lock(textureCacheMutex);
-        textureCache[task.path] = texture;
+        textureCache[task.path] = atlasTex;
       }
-      task.promise.set_value(texture);
+      task.promise.set_value(atlasTex);
     }
   }
 
@@ -267,6 +275,8 @@ namespace Project::Handlers {
     pixels[Constants::INDEX_TWO] = black;
     pixels[Constants::INDEX_THREE] = magenta;
 
+    int texW = surface ? surface->w : 0;
+    int texH = surface ? surface->h : 0;
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     if (!texture) {
@@ -276,6 +286,10 @@ namespace Project::Handlers {
 
     fallbackTextures[renderer] = texture;
     return texture;
+  }
+
+  SDL_Rect ResourcesHandler::getTextureRegion(SDL_Renderer* renderer, const std::string& imagePath) {
+    return textureAtlas.getRegion(renderer, imagePath);
   }
 
   std::string ResourcesHandler::getBasePath() {

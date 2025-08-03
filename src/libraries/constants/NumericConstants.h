@@ -4,6 +4,9 @@
 #include <cstddef>
 
 namespace Project::Libraries::Constants {
+  constexpr int ATLAS_WIDTH = 2048;
+  constexpr int ATLAS_HEIGHT = 2048;
+
   constexpr int DEBUG_COLUMN_SPACING = 20;
   constexpr int DEBUG_FONT_SIZE = 14;
   constexpr int DEBUG_LINE_SPACING = 5;
@@ -26,6 +29,7 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_COLLISION_PADDING = 50;
   constexpr int DEFAULT_TEXT_MARGIN = 10;
   constexpr int DEFAULT_TEXT_HEIGHT_OFFSET = 5;
+  constexpr int DEFAULT_RENDER_CELL_SIZE = 512;
   
   constexpr int INT_ONE = 1;
   constexpr int INT_TEN = 10;
@@ -35,6 +39,7 @@ namespace Project::Libraries::Constants {
   constexpr int MAX_MEMORY_SPACE = 255;
   
   constexpr int BIT_32 = 32;
+  constexpr int BIT_64 = 64;
   constexpr int BIT_255 = 255;
 
   constexpr size_t LOG_QUEUE_MAX_SIZE = 1000;

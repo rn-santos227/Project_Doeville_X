@@ -67,7 +67,7 @@ namespace Project::Utilities {
   if (mapped) {
     UnmapViewOfFile(mapped);
   }
-  
+
   if (mapping) {
     CloseHandle(mapping);
   }
@@ -85,4 +85,9 @@ namespace Project::Utilities {
   }
 #endif
   }
+
+  const unsigned char* MemoryMappedFile::data() const {
+    return mapped;
+  }
+
 }

@@ -10,7 +10,7 @@ namespace Project::Utilities {
   }
 
   ThreadPool::ThreadPool() : running(true), active(0) {
-    size_t count = std::max(1u, std::thread::hardware_concurrency());
+    size_t count = std::max(2u, std::thread::hardware_concurrency());
     workers.reserve(count);
     for (size_t i = 0; i < count; ++i) {
       workers.emplace_back(&ThreadPool::worker, this);
@@ -31,8 +31,23 @@ namespace Project::Utilities {
   }
 
   void ThreadPool::wait() {
-    std::unique_lock<std::mutex> lock(cvMutex);
-    cv.wait(lock, [&](){ return tasks.empty() && active.load(std::memory_order_acquire) == 0; });
+    while (true) {
+      if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
+        break;
+      }
+      std::function<void()> job;
+      if (tasks.pop(job)) {
+        active.fetch_add(1, std::memory_order_acq_rel);
+        job();
+        active.fetch_sub(1, std::memory_order_acq_rel);
+        if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
+          break;
+        }
+      } else {
+        std::unique_lock<std::mutex> lock(cvMutex);
+        cv.wait(lock);
+      }
+    }
   }
 
   void ThreadPool::worker() {

@@ -29,14 +29,13 @@ namespace Project::Systems {
     }
     std::queue<std::pair<std::string, size_t>> q;
     for (auto& [name, deg] : indegree) {
-     if (deg == 0) q.push({name, 0});
+      if (deg == 0) q.push({name, 0});
     }
     std::unordered_map<std::string, Node*> lookup;
     for (auto& node : systems) lookup[node.name] = &node;
     while (!q.empty()) {
-      auto [cur, level] = q.front(); 
+      auto [cur, level] = q.front();
       q.pop();
-      
       if (lookup[cur] && lookup[cur]->system) {
         if (layers.size() <= level) layers.resize(level + 1);
         layers[level].push_back(lookup[cur]->system);
@@ -50,13 +49,12 @@ namespace Project::Systems {
 
   void SystemScheduler::update(float deltaTime) {
     resolveOrder();
-    auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto& layer : layers) {
       for (auto* sys : layer) {
-        if (!sys) continue;
-        pool.enqueue([sys, deltaTime]() { sys->update(deltaTime); });
+        if (sys) {
+          sys->update(deltaTime);
+        }
       }
-      pool.wait();
     }
   }
 }

@@ -155,7 +155,6 @@ namespace Project::Systems {
         }
       });
     }
-    pool.wait();
   }
 
   void Project::Systems::PhysicsSystem::clear() {

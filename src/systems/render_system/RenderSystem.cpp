@@ -34,7 +34,6 @@ namespace Project::Systems {
         }
       });
     }
-        pool.wait();
   }
 
   void Project::Systems::RenderSystem::render() {

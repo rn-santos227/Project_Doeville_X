@@ -69,7 +69,7 @@ namespace Project::Components {
     int getHeight() const { return data.destRect.h; }
     
     Project::Handlers::AnimationHandler* getAnimationHandler() { return animationHandler.get(); }
-      const SDL_Rect& getSrcRect() const { return data.srcRect; }
+    const SDL_Rect& getSrcRect() const { return data.srcRect; }
 
     SDL_Renderer* getRenderer() const { return renderer; }
     SDL_Texture* getBatchTexture();

@@ -6,8 +6,10 @@
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "libraries/constants/IndexConstants.h"
+#include "libraries/constants/NameConstants.h"
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"
+#include "utilities/math/MathUtils.h"
 
 namespace Project::Components {
   namespace Constants = Project::Libraries::Constants;
@@ -64,8 +66,10 @@ namespace Project::Components {
     float offsetX = data.offsetX * std::cos(angle) - data.offsetY * std::sin(angle);
     float offsetY = data.offsetX * std::sin(angle) + data.offsetY * std::cos(angle);
 
-    int desiredX = static_cast<int>(focus->getX() + offsetX - cameraHandler->getWidth() / Constants::INDEX_TWO);
-    int desiredY = static_cast<int>(focus->getY() + offsetY - cameraHandler->getHeight() / Constants::INDEX_TWO);
+    int desiredX = static_cast<int>(focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE -
+      cameraHandler->getWidth() / Constants::INDEX_TWO);
+    int desiredY = static_cast<int>(focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE -
+      cameraHandler->getHeight() / Constants::INDEX_TWO);
 
     if (clamp) {
       desiredX = std::clamp(desiredX, map.x, map.x + map.w - cameraHandler->getWidth());
@@ -75,8 +79,8 @@ namespace Project::Components {
     int currentX = cameraHandler->getX();
     int currentY = cameraHandler->getY();
     float t = std::min(1.0f, data.followSpeed * deltaTime);
-    int camX = static_cast<int>(std::round(currentX + (desiredX - currentX) * t));
-    int camY = static_cast<int>(std::round(currentY + (desiredY - currentY) * t));
+    int camX = Project::Utilities::MathUtils::interpolate(currentX, desiredX, t);
+    int camY = Project::Utilities::MathUtils::interpolate(currentY, desiredY, t);
     cameraHandler->setPosition(camX, camY);
     data.rotation += data.spinSpeed * deltaTime;
     cameraHandler->setRotation(data.rotation);

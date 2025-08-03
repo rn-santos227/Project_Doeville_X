@@ -37,6 +37,18 @@ namespace Project::Utilities {
     return std::sqrt(x * x + y * y);
   }
 
+  int MathUtils::interpolate(int current, int target, float t) {
+    if (current == target) {
+      return current;
+    }
+    float result = lerp(static_cast<float>(current), static_cast<float>(target), t);
+    int rounded = static_cast<int>(std::round(result));
+    if (rounded == current) {
+      return current + (target > current ? 1 : -1);
+    }
+    return rounded;
+  }
+
   SDL_FPoint MathUtils::normalize(float x, float y) {
     float mag = magnitude(x, y);
     if (mag == 0.0f) {

@@ -27,12 +27,9 @@ namespace Project::Systems {
   void Project::Systems::RenderSystem::update(float deltaTime) {
     auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
-      if (!comp) continue;
-      pool.enqueue([comp, deltaTime]() {
-        if (comp->isActive()) {
-          comp->update(deltaTime);
-        }
-      });
+      if (comp && comp->isActive()) {
+        comp->update(deltaTime);
+      }
     }
   }
 

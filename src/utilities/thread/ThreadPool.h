@@ -16,7 +16,7 @@ namespace Project::Utilities {
   public:
     static ThreadPool& getInstance();
 
-    void enqueue(const std::function<void()>& job);
+    void enqueue(std::function<void()> job);
     void wait();
 
   private:

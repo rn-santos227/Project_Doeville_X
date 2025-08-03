@@ -25,10 +25,11 @@ namespace Project::Utilities {
     }
   }
 
-  void ThreadPool::enqueue(const std::function<void()>& job) {
+  void ThreadPool::enqueue(std::function<void()> job) {
+    if (!job || !running.load(std::memory_order_acquire)) return;
     {
       std::lock_guard<std::mutex> lock(taskMutex);
-      taskQueue.push(job);
+      taskQueue.emplace(std::move(job));
     }
     cv.notify_one();
   }

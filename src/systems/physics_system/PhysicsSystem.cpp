@@ -62,13 +62,13 @@ namespace Project::Systems {
 
     auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
-      if (!comp) continue;
-      pool.enqueue([comp, deltaTime]() {
-        if (comp->isActive()) {
-          comp->update(deltaTime);
-        }
-      });
+      if (!comp || !comp->isActive()) continue;
+      auto* owner = comp->getOwner();
+      if (!owner) continue;
+      auto* box = owner->getBoundingBoxComponent();
+      accumulateBounds(box);
     }
+
     for (auto* box : staticColliders) {
       accumulateBounds(box);
     }

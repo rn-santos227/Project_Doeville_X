@@ -10,6 +10,7 @@
 #include "entities/Entity.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/geometry/GeometryUtils.h"
+#include "utilities/thread/ThreadPool.h"
 
 namespace Project::Systems {
   using Project::Components::PhysicsComponent;
@@ -145,11 +146,16 @@ namespace Project::Systems {
     auto end = std::chrono::high_resolution_clock::now();
     metrics.lastBroadPhaseMs = std::chrono::duration<float, std::milli>(end - start).count();
 
+    auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
-      if (comp && comp->isActive()) {
-        comp->update(deltaTime);
-      }
+      if (!comp) continue;
+      pool.enqueue([comp, deltaTime]() {
+        if (comp->isActive()) {
+          comp->update(deltaTime);
+        }
+      });
     }
+    pool.wait();
   }
 
   void Project::Systems::PhysicsSystem::clear() {

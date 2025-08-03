@@ -22,7 +22,7 @@ namespace Project::Systems {
     };
 
     std::vector<Node> systems;
-    std::vector<Project::Interfaces::Updatable*> ordered;
+    std::vector<std::vector<Project::Interfaces::Updatable*>> layers;
     bool dirty = true;
 
     void resolveOrder();

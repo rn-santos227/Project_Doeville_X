@@ -21,6 +21,7 @@
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"
 #include "utilities/binary_cache/BinaryFileCache.h"
+#include "utilities/thread/ThreadPool.h"
 
 namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
@@ -278,16 +279,35 @@ namespace Project::Entities {
         }
       }
 
-      auto updateEntity = [&](std::shared_ptr<Entity>& ent) {
-        if (!ent) return;
-        if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
-          ent->update(deltaTime);
-        }
-      };
-
-      for (size_t i = 0; i < updateHighCount; ++i) updateEntity(updateHigh[i]);
-      for (size_t i = 0; i < updateNormalCount; ++i) updateEntity(updateNormal[i]);
-      for (size_t i = 0; i < updateLowCount; ++i) updateEntity(updateLow[i]);
+      auto& pool = Project::Utilities::ThreadPool::getInstance();
+      for (size_t i = 0; i < updateHighCount; ++i) {
+        auto ent = updateHigh[i];
+        pool.enqueue([ent, deltaTime]() {
+          if (!ent) return;
+          if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+            ent->update(deltaTime);
+          }
+        });
+      }
+      for (size_t i = 0; i < updateNormalCount; ++i) {
+        auto ent = updateNormal[i];
+        pool.enqueue([ent, deltaTime]() {
+          if (!ent) return;
+          if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+            ent->update(deltaTime);
+          }
+        });
+      }
+      for (size_t i = 0; i < updateLowCount; ++i) {
+        auto ent = updateLow[i];
+        pool.enqueue([ent, deltaTime]() {
+          if (!ent) return;
+          if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+            ent->update(deltaTime);
+          }
+        });
+      }
+      pool.wait();
 
       updateToRemoveCount = 0;
 

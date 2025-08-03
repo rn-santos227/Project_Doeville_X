@@ -6,6 +6,7 @@
 #include "components/graphics_component/GraphicsComponent.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/constants/Constants.h"
+#include "utilities/thread/ThreadPool.h"
 
 namespace Project::Systems {
   using Project::Components::GraphicsComponent;
@@ -24,11 +25,16 @@ namespace Project::Systems {
   }
 
   void Project::Systems::RenderSystem::update(float deltaTime) {
+    auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
-      if (comp && comp->isActive()) {
-        comp->update(deltaTime);
-      }
+      if (!comp) continue;
+      pool.enqueue([comp, deltaTime]() {
+        if (comp->isActive()) {
+          comp->update(deltaTime);
+        }
+      });
     }
+        pool.wait();
   }
 
   void Project::Systems::RenderSystem::render() {

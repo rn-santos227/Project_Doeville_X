@@ -16,6 +16,12 @@ namespace Project::Utilities {
     if (file == INVALID_HANDLE_VALUE) {
       return;
     }
+    LARGE_INTEGER size;
+    if (!GetFileSizeEx(file, &size)) {
+      CloseHandle(file);
+      file = INVALID_HANDLE_VALUE;
+      return;
+    }
   }
 #else
 

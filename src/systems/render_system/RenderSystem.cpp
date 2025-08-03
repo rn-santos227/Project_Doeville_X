@@ -135,11 +135,13 @@ namespace Project::Systems {
       if (comp->isInstanced() && tex) {
         const SDL_Rect& src = comp->getSrcRect();
         SDL_FRect dst{static_cast<float>(screenRect.x), static_cast<float>(screenRect.y), static_cast<float>(screenRect.w), static_cast<float>(screenRect.h)};
-        SDL_Vertex v[4];
+        SDL_Vertex v[Constants::INDEX_FOUR];
+
         float u1 = src.w > 0 ? static_cast<float>(src.x) / texW : 0.0f;
         float v1 = src.h > 0 ? static_cast<float>(src.y) / texH : 0.0f;
         float u2 = src.w > 0 ? static_cast<float>(src.x + src.w) / texW : 1.0f;
         float v2 = src.h > 0 ? static_cast<float>(src.y + src.h) / texH : 1.0f;
+        
         v[Constants::INDEX_ZERO].position = {dst.x, dst.y};
         v[Constants::INDEX_ZERO].tex_coord = {u1, v1};
         v[Constants::INDEX_ZERO].color = Constants::COLOR_WHITE;
@@ -152,8 +154,8 @@ namespace Project::Systems {
         v[Constants::INDEX_THREE].position = {dst.x, dst.y + dst.h};
         v[Constants::INDEX_THREE].tex_coord = {u1, v2};
         v[Constants::INDEX_THREE].color = Constants::COLOR_WHITE;
-        instVerts.insert(instVerts.end(), v, v + Constants::INDEX_FOUR);
         
+        instVerts.insert(instVerts.end(), v, v + Constants::INDEX_FOUR);
         int idx[Constants::INDEX_SIX] = {0,1,2,0,2,3};
         for (int i = 0; i < Constants::INDEX_SIX; ++i) instIndices.push_back(base + idx[i]);
         

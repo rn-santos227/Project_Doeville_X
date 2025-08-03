@@ -2,6 +2,7 @@
 #include "EntityAttribute.h"
 
 #include <algorithm>
+#include <bitset>
 #include <fstream>
 #include <sstream>
 
@@ -24,6 +25,7 @@
 namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
 
+  namespace Components = Project::Libraries::Categories::Components;
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
   namespace LuaBindings = Project::Bindings::LuaBindings;
@@ -35,6 +37,10 @@ namespace Project::Entities {
     updateNormal.reserve(Constants::MAX_MEMORY_SPACE);
     updateLow.reserve(Constants::MAX_MEMORY_SPACE);
     updateToRemove.reserve(Constants::MAX_MEMORY_SPACE);
+
+    scheduler.addSystem(Components::MOTION, &motionSystem);
+    scheduler.addSystem(Components::PHYSICS, &physicsSystem, {Components::MOTION});
+    scheduler.addSystem(Components::RENDER, &renderSystem, {Components::PHYSICS});
   }
 
   EntitiesManager::~EntitiesManager() {
@@ -69,9 +75,18 @@ namespace Project::Entities {
     if (entRef) {
       bool hasPhys = false;
       Project::Components::BoundingBoxComponent* box = nullptr;
+      std::bitset<Constants::BIT_64> mask;
       for (const std::string& compName : entRef->listComponentNames()) {
         auto* comp = entRef->getComponent(compName);
-        switch (comp->getType()) {
+        if (!comp) continue;
+
+        auto type = comp->getType();
+        auto& storage = componentArrays[type];
+        storage.reserve(Constants::MAX_MEMORY_SPACE);
+        storage.add(comp);
+        mask.set(static_cast<size_t>(type));
+
+        switch (type) {
           case Project::Components::ComponentType::MOTION:
             motionSystem.add(static_cast<Project::Components::MotionComponent*>(comp));
             break;
@@ -93,6 +108,10 @@ namespace Project::Entities {
       if (box && !hasPhys) {
         physicsSystem.addStaticCollider(box);
       }
+
+      size_t key = mask.to_ullong();
+      archetypeMap[key].push_back(entRef.get());
+      entityArchetypes[finalId] = key;
     }
 
     std::string group = objects[finalId]->getGroup();
@@ -104,17 +123,22 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
-    auto idxIt = entityIndices.find(id);
+    auto idxIt = entityIndices.find(id);\
+    Entity* entRaw = nullptr;
+
     if (idxIt != entityIndices.end() && idxIt->second < entityList.size()) {
       size_t index = idxIt->second;
       auto ent = entityList[index];
+      entRaw = ent.get();
       if (ent) {
         bool hasPhys = false;
         Project::Components::BoundingBoxComponent* box = nullptr;
         for (const std::string& compName : ent->listComponentNames()) {
           auto* comp = ent->getComponent(compName);
           if (!comp) continue;
-          switch (comp->getType()) {
+          auto type = comp->getType();
+          componentArrays[type].remove(comp);
+          switch (type) {
             case Project::Components::ComponentType::MOTION:
               motionSystem.remove(static_cast<Project::Components::MotionComponent*>(comp));
               break;
@@ -132,7 +156,8 @@ namespace Project::Entities {
               break;
           }
         }
-       if (box && !hasPhys) {
+
+        if (box && !hasPhys) {
           physicsSystem.removeStaticCollider(box);
         }
       }
@@ -153,6 +178,15 @@ namespace Project::Entities {
     }
     disposableSeenInCamera.erase(id);
     ObjectsManager<Entity>::remove(id);
+
+    auto archIt = entityArchetypes.find(id);
+    if (archIt != entityArchetypes.end()) {
+      size_t key = archIt->second;
+      auto& vec = archetypeMap[key];
+      vec.erase(std::remove(vec.begin(), vec.end(), entRaw), vec.end());
+      if (vec.empty()) archetypeMap.erase(key);
+      entityArchetypes.erase(archIt);
+    }
   }
 
   bool EntitiesManager::hasEntity(const std::string& id) {
@@ -185,6 +219,7 @@ namespace Project::Entities {
     physicsSystem.clear();
     renderSystem.clear();
     disposableSeenInCamera.clear();
+    componentArrays.clear();
   }
 
   void EntitiesManager::optimizeEntities() {
@@ -293,9 +328,7 @@ namespace Project::Entities {
       remove(id);
     }
 
-    motionSystem.update(deltaTime);
-    physicsSystem.update(deltaTime);
-    renderSystem.update(deltaTime);
+    scheduler.update(deltaTime);
   }
 
   void EntitiesManager::render() {
@@ -336,6 +369,11 @@ namespace Project::Entities {
     motionSystem.clear();
     physicsSystem.clear();
     renderSystem.clear();
+    scheduler.clear();
+    scheduler.addSystem(Components::MOTION, &motionSystem);
+    scheduler.addSystem(Components::PHYSICS, &physicsSystem, {Components::MOTION});
+    scheduler.addSystem(Components::RENDER, &renderSystem, {Components::PHYSICS});
+    componentArrays.clear();
   }
 
   std::vector<std::shared_ptr<Entity>> EntitiesManager::getEntitiesByGroup(const std::string& group) {
@@ -352,6 +390,82 @@ namespace Project::Entities {
 
   size_t EntitiesManager::getEntityCount() const {
     return ObjectsManager<Entity>::count();
+  }
+
+  const std::vector<Project::Components::BaseComponent*>& EntitiesManager::getComponentArray(Project::Components::ComponentType type) const {
+    static const std::vector<Project::Components::BaseComponent*> empty;
+    auto it = componentArrays.find(type);
+    return it != componentArrays.end() ? it->second.components : empty;
+  }
+
+  std::vector<Entity*> EntitiesManager::filterEntitiesByComponents(const std::vector<Project::Components::ComponentType>& types) const {
+    std::bitset<Constants::BIT_64> mask;
+    for (auto type : types) mask.set(static_cast<size_t>(type));
+    size_t key = mask.to_ullong();
+    auto it = archetypeMap.find(key);
+    if (it != archetypeMap.end()) {
+      return it->second;
+    }
+    std::unordered_map<Entity*, size_t> counts;
+    for (auto type : types) {
+      auto cit = componentArrays.find(type);
+      if (cit == componentArrays.end()) return {};
+      const auto& comps = cit->second;
+      for (size_t i = 0; i < comps.components.size(); ++i) {
+        auto* owner = comps.owners[i];
+        if (owner) counts[owner]++;
+      }
+    }
+    std::vector<Entity*> result;
+    for (auto& [ent, cnt] : counts) {
+      if (cnt == types.size()) result.push_back(ent);
+    }
+    return result;
+  }
+
+  void EntitiesManager::serializeComponentData(const std::string& path) const {
+    std::ofstream out(path, std::ios::binary);
+    if (!out) return;
+    for (const auto& ent : entityList) {
+      if (!ent) continue;
+      std::ostringstream line;
+      line << ent->getEntityID();
+      for (const auto& name : ent->listComponentNames()) {
+        if (auto* comp = ent->getComponent(name)) {
+          line << ',' << static_cast<int>(comp->getType()) << ':' << comp->getClass();
+        }
+      }
+      line << '\n';
+      auto str = line.str();
+      out.write(str.c_str(), str.size());
+    }
+  }
+
+  void EntitiesManager::deserializeComponentData(const std::string& path) {
+    std::ifstream in(path, std::ios::binary);
+    if (!in) return;
+    std::string line;
+    while (std::getline(in, line)) {
+      std::istringstream ss(line);
+      std::string id;
+      if (!std::getline(ss, id, ',')) continue;
+      auto ent = getEntity(id);
+      if (!ent) continue;
+      std::string compInfo;
+      while (std::getline(ss, compInfo, ',')) {
+        auto pos = compInfo.find(':');
+        if (pos == std::string::npos) continue;
+        int typeVal = std::stoi(compInfo.substr(0, pos));
+        std::string cls = compInfo.substr(pos + 1);
+        for (const std::string& name : ent->listComponentNames()) {
+          if (auto* comp = ent->getComponent(name)) {
+            if (static_cast<int>(comp->getType()) == typeVal) {
+              comp->setClass(cls);
+            }
+          }
+        }
+      }
+    }
   }
 
   void EntitiesManager::clearGroup(const std::string& group) {

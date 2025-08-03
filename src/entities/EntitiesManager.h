@@ -22,6 +22,9 @@
 #include "systems/motion_system/MotionSystem.h"
 #include "systems/physics_system/PhysicsSystem.h"
 #include "systems/render_system/RenderSystem.h"
+#include "systems/system_scheduler/SystemScheduler.h"
+#include "components/BaseComponent.h"
+#include "components/ComponentType.h"
 #include "utilities/binary_cache/BinaryFileCache.h"
 
 namespace Project::States { class GameState; }
@@ -63,6 +66,11 @@ namespace Project::Entities {
       std::vector<std::shared_ptr<Entity>> getEntitiesByGroup(const std::string& group);
       size_t getEntityCount() const;
       
+      std::vector<Entity*> filterEntitiesByComponents(const std::vector<Project::Components::ComponentType>& types) const;
+      const std::vector<Project::Components::BaseComponent*>& getComponentArray(Project::Components::ComponentType type) const;
+      void serializeComponentData(const std::string& path) const;
+      void deserializeComponentData(const std::string& path);
+
       void clearGroup(const std::string& group);
       void clearScriptFunctionCache();
       void clampEntitiesToRect(const SDL_Rect& rect);
@@ -70,17 +78,51 @@ namespace Project::Entities {
       void warpEntitiesAcrossRect(const SDL_Rect& rect);
       
     private:
+      struct ComponentSoA {
+        std::vector<Project::Components::BaseComponent*> components;
+        std::vector<Entity*> owners;
+        bool reserved = false;
+        void reserve(size_t cap) {
+          if (!reserved) {
+            components.reserve(cap);
+            owners.reserve(cap);
+            reserved = true;
+          }
+        }
+        
+        void add(Project::Components::BaseComponent* comp) {
+          components.push_back(comp);
+          owners.push_back(comp ? comp->getOwner() : nullptr);
+        }
+
+        void remove(Project::Components::BaseComponent* comp) {
+          for (size_t i = 0; i < components.size(); ++i) {
+            if (components[i] == comp) {
+              components[i] = components.back();
+              owners[i] = owners.back();
+              components.pop_back();
+              owners.pop_back();
+              break;
+            }
+          }
+        }
+      };
+
       Project::Systems::MotionSystem motionSystem;
       Project::Systems::PhysicsSystem physicsSystem;
       Project::Systems::RenderSystem renderSystem;
+      Project::Systems::SystemScheduler scheduler;
 
       Project::Utilities::BinaryFileCache persistentFunctionCache;
 
+      std::unordered_map<Project::Components::ComponentType, ComponentSoA> componentArrays;
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;
       std::unordered_map<std::string, std::vector<std::string>> entityGroups;
       std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;
       std::unordered_map<std::string, size_t> entityIndices;
+      std::unordered_map<std::string, size_t> entityArchetypes;
       std::unordered_map<std::string, int> idCounters;
+      std::unordered_map<size_t, std::vector<Entity*>> archetypeMap;
       std::unordered_set<std::string> disposableSeenInCamera;
       
       std::vector<std::shared_ptr<Entity>> entityList;

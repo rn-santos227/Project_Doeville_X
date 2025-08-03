@@ -4,6 +4,7 @@
 namespace Project::Libraries::Categories {
   namespace Components {
     constexpr const char* SUFFIX = "component";
+    constexpr const char* RENDER = "render";
 
     constexpr const char* BOUNDING_BOX = "boundingbox";
     constexpr const char* BUTTON = "button";

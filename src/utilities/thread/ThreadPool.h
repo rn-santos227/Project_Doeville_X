@@ -14,7 +14,7 @@
 namespace Project::Utilities {
   class ThreadPool {
   public:
-    static ThreadPool& getInstance();
+    static ThreadPool &getInstance();
 
     void enqueue(std::function<void()> job);
     void wait();
@@ -25,13 +25,11 @@ namespace Project::Utilities {
 
     void worker();
 
-    LockFreeQueue<std::function<void()>> tasks;
-    std::queue<std::function<void()>> taskQueue;
     std::vector<std::thread> workers;
-    std::atomic<bool> running;
-    std::mutex cvMutex;
-    std::mutex taskMutex;
+    LockFreeQueue<std::function<void()>> tasks;
     std::condition_variable cv;
+    std::mutex cvMutex;
+    std::atomic<bool> stop;
     std::atomic<size_t> active;
   };
 }

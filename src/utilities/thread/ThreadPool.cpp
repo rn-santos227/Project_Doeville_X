@@ -1,15 +1,14 @@
 #include "ThreadPool.h"
 
 #include <algorithm>
-#include <cassert>
 
 namespace Project::Utilities {
-  ThreadPool& ThreadPool::getInstance() {
+  ThreadPool &ThreadPool::getInstance() {
     static ThreadPool instance;
     return instance;
   }
 
-  ThreadPool::ThreadPool() : running(true), active(0) {
+  ThreadPool::ThreadPool() : stop(false), active(0) {
     size_t count = std::max(2u, std::thread::hardware_concurrency());
     workers.reserve(count);
     for (size_t i = 0; i < count; ++i) {
@@ -18,55 +17,47 @@ namespace Project::Utilities {
   }
 
   ThreadPool::~ThreadPool() {
-    running.store(false, std::memory_order_release);
+    stop.store(true, std::memory_order_release);
     cv.notify_all();
-    for (auto& t : workers) {
-      if (t.joinable()) t.join();
+    for (auto &t : workers) {
+      if (t.joinable())
+        t.join();
     }
   }
 
   void ThreadPool::enqueue(std::function<void()> job) {
-    if (!job || !running.load(std::memory_order_acquire)) return;
-    {
-      std::lock_guard<std::mutex> lock(taskMutex);
-      taskQueue.emplace(std::move(job));
-    }
+    if (!job || stop.load(std::memory_order_acquire))
+      return;
+    tasks.push(std::move(job));
     cv.notify_one();
   }
 
   void ThreadPool::wait() {
-    std::unique_lock<std::mutex> lock(taskMutex);
+    std::unique_lock<std::mutex> lock(cvMutex);
     cv.wait(lock, [this] {
-      return taskQueue.empty() && active.load(std::memory_order_acquire) == 0;
+      return tasks.empty() && active.load(std::memory_order_acquire) == 0;
     });
   }
 
   void ThreadPool::worker() {
-    while (running.load(std::memory_order_acquire)) {
+    while (true) {
       std::function<void()> job;
-      {
-        std::unique_lock<std::mutex> lock(taskMutex);
+      if (!tasks.pop(job)) {
+        std::unique_lock<std::mutex> lock(cvMutex);
         cv.wait(lock, [this] {
-          return !taskQueue.empty() || !running.load(std::memory_order_acquire);
+          return stop.load(std::memory_order_acquire) || !tasks.empty();
         });
-
-        if (!running.load() && taskQueue.empty())
+        if (stop.load(std::memory_order_acquire) && tasks.empty())
           return;
-
-        job = taskQueue.front();
-        taskQueue.pop();
-        active.fetch_add(1, std::memory_order_acq_rel);
+        else
+          continue;
       }
-
+      active.fetch_add(1, std::memory_order_acq_rel);
       job();
-
       active.fetch_sub(1, std::memory_order_acq_rel);
-
-      {
-        std::unique_lock<std::mutex> lock(taskMutex);
-        if (taskQueue.empty() && active.load(std::memory_order_acquire) == 0) {
-          cv.notify_all();  // Notify any waiters
-        }
+      if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
+        std::lock_guard<std::mutex> lock(cvMutex);
+        cv.notify_all();
       }
     }
   }

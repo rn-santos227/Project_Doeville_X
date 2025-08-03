@@ -233,9 +233,9 @@ namespace Project::Components {
   bool GraphicsComponent::isInCameraView() {
     if (!cameraHandler) return true;
     
-    const SDL_Rect view{0, 0, cameraHandler->getViewportWidth(), cameraHandler->getViewportHeight()};
-    SDL_Rect screenRect = getRenderRect();
-    return SDL_HasIntersection(&screenRect, &view);
+    const SDL_Rect cullRect = cameraHandler->getCullingRect();
+    SDL_Rect worldRect = data.destRect;
+    return SDL_HasIntersection(&worldRect, &cullRect);
   }
 
   void GraphicsComponent::checkAsyncTextureLoad() {

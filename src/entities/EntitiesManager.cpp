@@ -670,17 +670,17 @@ namespace Project::Entities {
     if (!cam) return true;
     const SDL_Rect cullRect = cam->getCullingRect();
 
+    if (auto* gfx = entity->getGraphicsComponent()) {
+      const SDL_Rect rect = gfx->getRect();
+      if (SDL_HasIntersection(&rect, &cullRect)) return true;
+    }
+
     if (auto* bbox = entity->getBoundingBoxComponent()) {
       const auto& boxes = bbox->getBoxes();
       for (const auto& box : boxes) {
         if (SDL_HasIntersection(&box, &cullRect)) return true;
       }
       return false;
-    }
-
-    if (auto* gfx = entity->getGraphicsComponent()) {
-      const SDL_Rect rect = gfx->getRect();
-      return SDL_HasIntersection(&rect, &cullRect);
     }
 
     SDL_Rect point{static_cast<int>(entity->getX()), static_cast<int>(entity->getY()), 1, 1};

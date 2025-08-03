@@ -55,6 +55,7 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> getGlobalEntitiesManager() const { return globalEntitiesManager; }
     
     void setCursorHandler(Project::Handlers::CursorHandler* handler) { cursorHandler = handler; }
+    void renderDebug();
 
   private:
     Project::Helpers::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;

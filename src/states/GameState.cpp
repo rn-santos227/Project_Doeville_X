@@ -146,6 +146,14 @@ namespace Project::States {
     }
   }
 
+  void GameState::renderDebug() {
+    for (auto& pair : entitySeeders) {
+      if (pair.second) {
+        pair.second->renderDebug(renderer);
+      }
+    }
+  }
+
   void GameState::reset() {
     clearScriptFunctionCache();
     playerEntity.reset();

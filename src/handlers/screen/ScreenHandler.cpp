@@ -120,6 +120,7 @@ namespace Project::Handlers {
 
     gameStateManager.render();
     if (keyHandler.isGameDebugMode()) {
+      gameStateManager.renderDebug();
       debugDisplay.render();
     }
 

@@ -261,6 +261,17 @@ namespace Project::States {
     return count;
   }
 
+  void GameStateManager::renderDebug() {
+    std::lock_guard<std::mutex> lock(gameStateMutex);
+
+    if (!stateStack.empty()) {
+      GameState* topState = stateStack.top();
+      if (topState->isActive()) {
+        topState->renderDebug();
+      }
+    }
+  }
+
   void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
     if (!state) {
       logsManager.logWarning("Attempted to cache null state '" + name + "'.");

@@ -7,6 +7,7 @@
 #include <SDL.h>
 
 #include "components/graphics_component/GraphicsComponent.h"
+#include "components/motion_component/MotionComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
@@ -75,6 +76,34 @@ namespace Project::Entities {
     
     if (camHandler) {
       cullRect = camHandler->getCullingRect();
+
+      int camX = camHandler->getX();
+      int camY = camHandler->getY();
+      if (!hasCameraPos) {
+        lastCameraX = camX;
+        lastCameraY = camY;
+        hasCameraPos = true;
+      } else {
+        int dx = camX - lastCameraX;
+        int dy = camY - lastCameraY;
+        int extraX = std::min(std::abs(dx), camHandler->getOffsetX());
+        int extraY = std::min(std::abs(dy), camHandler->getOffsetY());
+        if (dx < 0) {
+          cullRect.x -= extraX;
+          cullRect.w += extraX;
+        } else if (dx > 0) {
+          cullRect.w += extraX;
+        }
+        if (dy < 0) {
+          cullRect.y -= extraY;
+          cullRect.h += extraY;
+        } else if (dy > 0) {
+          cullRect.h += extraY;
+        }
+        lastCameraX = camX;
+        lastCameraY = camY;
+      }
+
       useCull = true;
     }
     if (auto* state = manager.getGameState()) {
@@ -133,7 +162,7 @@ namespace Project::Entities {
     std::vector<long long> remove;
     for (const auto& [k, _] : chunks) {
       int cx = static_cast<int>(k >> 32);
-      int cy = static_cast<int>(static_cast<int>(k));
+      int cy = static_cast<int>(static_cast<unsigned int>(k));
       if (std::abs(cx - pcx) > chunkRadius || std::abs(cy - pcy) > chunkRadius) {
         remove.push_back(k);
       }
@@ -168,6 +197,26 @@ namespace Project::Entities {
     countDistribution = std::uniform_int_distribution<size_t>(Constants::INDEX_ONE, total);
     distribution = [this](std::mt19937& r) { return countDistribution(r); };
   }
+
+  void EntitySeeder::renderDebug(SDL_Renderer* renderer) {
+    if (!renderer) return;
+    auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
+    const int camX = camHandler ? camHandler->getX() : 0;
+    const int camY = camHandler ? camHandler->getY() : 0;
+
+    SDL_SetRenderDrawColor(renderer, 0, Constants::BIT_255, 0, Constants::BIT_255);
+    for (const auto& [k, _] : chunks) {
+      int cx = static_cast<int>(k >> Constants::BIT_32);
+      int cy = static_cast<int>(static_cast<unsigned int>(k));
+      SDL_Rect rect{
+        static_cast<int>(cx * chunkSize.x) - camX,
+        static_cast<int>(cy * chunkSize.y) - camY,
+        static_cast<int>(chunkSize.x),
+        static_cast<int>(chunkSize.y)
+      };
+      SDL_RenderDrawRect(renderer, &rect);
+    }
+  }  
 
   size_t EntitySeeder::generateChunkSeed(size_t base, long long key) {
     base ^= static_cast<size_t>(key) +
@@ -208,6 +257,21 @@ namespace Project::Entities {
       }
     }
 
+    float startX = cx * chunkSize.x;
+    float startY = cy * chunkSize.y;
+    float endX = startX + chunkSize.x;
+    float endY = startY + chunkSize.y;
+
+    if (bounded) {
+      startX = std::max(startX, static_cast<float>(mapRect.x));
+      startY = std::max(startY, static_cast<float>(mapRect.y));
+      endX = std::min(endX, static_cast<float>(mapRect.x + mapRect.w));
+      endY = std::min(endY, static_cast<float>(mapRect.y + mapRect.h));
+      if (startX >= endX || startY >= endY) {
+        return;
+      }
+    }
+
     size_t chunkSeed = generateChunkSeed(baseSeed, k);
     std::mt19937 localRng(chunkSeed);
 
@@ -227,11 +291,11 @@ namespace Project::Entities {
     size_t baseCount = distribution(localRng);
     size_t count = static_cast<size_t>(std::round(baseCount * speedFactor));
     if (count < 1) count = 1;
-    std::uniform_real_distribution<float> posX(0.0f, chunkSize.x);
-    std::uniform_real_distribution<float> posY(0.0f, chunkSize.y);
+    std::uniform_real_distribution<float> posX(startX, endX);
+    std::uniform_real_distribution<float> posY(startY, endY);
     std::uniform_int_distribution<size_t> templateIndex(0, entityTemplates.empty() ? 0 : entityTemplates.size() - 1);
 
-      std::vector<SDL_Rect> existingRects;
+    std::vector<SDL_Rect> existingRects;
     for (const auto& [eid, ent] : manager.getAllEntities()) {
       if (!ent) continue;
       SDL_Rect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 0, 0};
@@ -255,14 +319,15 @@ namespace Project::Entities {
 
       bool placed = false;
       for (size_t attempt = 0; attempt < MAX_ATTEMPTS && !placed; ++attempt) {
-        float ex = cx * chunkSize.x + posX(localRng);
-        float ey = cy * chunkSize.y + posY(localRng);
+        float ex = posX(localRng);
+        float ey = posY(localRng);
 
         float w = 0.0f, h = 0.0f;
 
         entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
         entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
         entity->initialize();
+        entity->setPosition(ex, ey);
         
         if (auto* box = entity->getBoundingBoxComponent()) {
           box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
@@ -279,6 +344,9 @@ namespace Project::Entities {
         if (bounded) {
           ex = std::clamp(ex, static_cast<float>(mapRect.x), static_cast<float>(mapRect.x + mapRect.w - w));
           ey = std::clamp(ey, static_cast<float>(mapRect.y), static_cast<float>(mapRect.y + mapRect.h - h));
+          entity->setPosition(ex, ey);
+          entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
+          entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
           if (auto* box = entity->getBoundingBoxComponent()) {
             box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
           }

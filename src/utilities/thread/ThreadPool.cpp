@@ -1,6 +1,7 @@
 #include "ThreadPool.h"
 
 #include <algorithm>
+#include <exception>
 
 namespace Project::Utilities {
   ThreadPool &ThreadPool::getInstance() {
@@ -17,11 +18,11 @@ namespace Project::Utilities {
   }
 
   ThreadPool::~ThreadPool() {
+    if (logger) logger->logMessage("ThreadPool: shutting down");
     stop.store(true, std::memory_order_release);
     cv.notify_all();
     for (auto &t : workers) {
-      if (t.joinable())
-        t.join();
+      if (t.joinable()) t.join();
     }
   }
 
@@ -31,11 +32,9 @@ namespace Project::Utilities {
   }
 
   void ThreadPool::enqueue(std::function<void()> job) {
-    if (!job || stop.load(std::memory_order_acquire))
-      return;
+    if (!job || stop.load(std::memory_order_acquire)) return;
     tasks.push(std::move(job));
     cv.notify_one();
-    if (logger) logger->logMessage("ThreadPool: task enqueued");
   }
 
   void ThreadPool::wait() {
@@ -61,10 +60,16 @@ namespace Project::Utilities {
           continue;
         }
       }
-      if (logger)
-        logger->logMessage("ThreadPool: worker executing task");
+
       active.fetch_add(1, std::memory_order_acq_rel);
-      job();
+      try { 
+        job();
+      } catch (const std::exception &e) {
+        if (logger) logger->logMessage(std::string("ThreadPool: task exception - ") + e.what());
+      } catch (...) {
+        if (logger) logger->logMessage("ThreadPool: task threw unknown exception");
+      }
+
       active.fetch_sub(1, std::memory_order_acq_rel);
       if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
         std::lock_guard<std::mutex> lock(cvMutex);

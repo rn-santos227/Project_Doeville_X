@@ -45,6 +45,7 @@ namespace Project::States {
     virtual void onExit();
     virtual void update(float deltaTime);
     virtual void render();
+    virtual void renderDebug();
     virtual void reset();
     virtual void handleInput();
     

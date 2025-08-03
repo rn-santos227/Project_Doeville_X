@@ -13,6 +13,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include <SDL.h>
+
 #include "interfaces/update_interface/Updatable.h"
 #include "libraries/constants/Constants.h"
 
@@ -41,6 +43,8 @@ namespace Project::Entities {
     void setSpawnRadius(float radius) { spawnRadius = radius; }
     void setChunkSize(const ChunkSize& _size) { chunkSize = _size; }
     void setChunkRadius(int radius) { chunkRadius = radius; }
+
+    void renderDebug(SDL_Renderer* renderer);
 
   private:
     struct Chunk {
@@ -77,6 +81,10 @@ namespace Project::Entities {
     size_t idCounter = 0;
     size_t sessionSalt = 0;
     size_t maxChunksPerFrame = 1;
+
+    int lastCameraX = 0;
+    int lastCameraY = 0;
+    bool hasCameraPos = false;
 
     size_t generateChunkSeed(size_t base, long long key);
 

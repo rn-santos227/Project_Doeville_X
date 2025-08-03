@@ -22,6 +22,7 @@
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"
 #include "utilities/binary_cache/BinaryFileCache.h"
+#include "utilities/thread/ThreadPool.h"
 
 namespace Project::Entities {
   using Project::Helpers::ObjectsManager;
@@ -279,69 +280,16 @@ namespace Project::Entities {
         }
       }
 
-      auto& pool = Project::Utilities::ThreadPool::getInstance();
-      if (logsManager) {
-        logsManager->logMessage("EntitiesManager: updating " + std::to_string(updateHighCount) +
-                                " high, " + std::to_string(updateNormalCount) +
-                                " normal, " + std::to_string(updateLowCount) + " low priority entities");
-      }
-      for (size_t i = 0; i < updateHighCount; ++i) {
-        auto ent = updateHigh[i];
-        auto id = ent ? ent->getEntityID() : std::string();
-        auto lm = logsManager;
-        pool.enqueue([ent, id, deltaTime, lm]() {
-          if (!ent) return;
-          if (lm) lm->logMessage("Updating entity " + id);
-          try {
-            if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
-              ent->update(deltaTime);
-            }
-          } catch (const std::exception& e) {
-            if (lm) lm->logError("Exception updating entity " + id + ": " + e.what());
-          }
-          if (lm) lm->logMessage("Finished entity " + id);
-        });
-      }
-      pool.wait();
-      if (logsManager) logsManager->logMessage("EntitiesManager: completed high-priority updates");
-      for (size_t i = 0; i < updateNormalCount; ++i) {
-        auto ent = updateNormal[i];
-        auto id = ent ? ent->getEntityID() : std::string();
-        auto lm = logsManager;
-        pool.enqueue([ent, id, deltaTime, lm]() {
-          if (!ent) return;
-          if (lm) lm->logMessage("Updating entity " + id);
-          try {
-            if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
-              ent->update(deltaTime);
-            }
-          } catch (const std::exception& e) {
-            if (lm) lm->logError("Exception updating entity " + id + ": " + e.what());
-          }
-          if (lm) lm->logMessage("Finished entity " + id);
-        });
-      }
-      pool.wait();
-      if (logsManager) logsManager->logMessage("EntitiesManager: completed normal-priority updates");
-      for (size_t i = 0; i < updateLowCount; ++i) {
-        auto ent = updateLow[i];
-        auto id = ent ? ent->getEntityID() : std::string();
-        auto lm = logsManager;
-        pool.enqueue([ent, id, deltaTime, lm]() {
-          if (!ent) return;
-          if (lm) lm->logMessage("Updating entity " + id);
-          try {
-            if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
-              ent->update(deltaTime);
-            }
-          } catch (const std::exception& e) {
-            if (lm) lm->logError("Exception updating entity " + id + ": " + e.what());
-          }
-          if (lm) lm->logMessage("Finished entity " + id);
-        });
-      }
-      pool.wait();
-      if (logsManager) logsManager->logMessage("EntitiesManager: completed low-priority updates");
+      auto updateEntity = [&](std::shared_ptr<Entity>& ent) {
+        if (!ent) return;
+        if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+          ent->update(deltaTime);
+        }
+      };
+
+      for (size_t i = 0; i < updateHighCount; ++i) updateEntity(updateHigh[i]);
+      for (size_t i = 0; i < updateNormalCount; ++i) updateEntity(updateNormal[i]);
+      for (size_t i = 0; i < updateLowCount; ++i) updateEntity(updateLow[i]);
 
       updateToRemoveCount = 0;
 

@@ -38,7 +38,20 @@ namespace Project::Layers {
     }
   }
 
+  void LayersManager::setLogsManager(Project::Utilities::LogsManager* manager) {
+    logsManager = manager;
+    for (auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (mgr) {
+        mgr->setLogsManager(manager);
+      }
+    }
+  }
+
   void LayersManager::addLayer(Layer layer) {
+    if (logsManager && layer.getEntitiesManager()) {
+      layer.getEntitiesManager()->setLogsManager(logsManager);
+    }
     if (layer.getCategory() == LayerCategory::CUSTOM) {
       layers.emplace_back(std::move(layer));
       return;
@@ -57,6 +70,8 @@ namespace Project::Layers {
   void LayersManager::addLayer(const std::string& name, LayerCategory category) {
     if (category == LayerCategory::CUSTOM) {
       layers.emplace_back(name, category);
+      if (logsManager)
+        layers.back().getEntitiesManager()->setLogsManager(logsManager);
       return;
     }
 
@@ -67,7 +82,9 @@ namespace Project::Layers {
       if (categoryOrder(it->getCategory()) > order) break;
     }
 
-    layers.emplace(it, name, category);
+    auto inserted = layers.emplace(it, name, category);
+    if (logsManager)
+      inserted->getEntitiesManager()->setLogsManager(logsManager);
   }
 
   void LayersManager::addLayer(LayerCategory category) {

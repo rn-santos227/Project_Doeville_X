@@ -1,21 +1,23 @@
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
+#include "LockFreeQueue.h"
+
 #include <atomic>
 #include <condition_variable>
 #include <functional>
 #include <mutex>
-#include <queue>
 #include <thread>
 #include <vector>
 
-#include "LockFreeQueue.h"
+#include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Utilities {
   class ThreadPool {
   public:
     static ThreadPool &getInstance();
 
+    void setLogger(Project::Utilities::LogsManager* logger);
     void enqueue(std::function<void()> job);
     void wait();
 
@@ -23,7 +25,7 @@ namespace Project::Utilities {
     ThreadPool();
     ~ThreadPool();
 
-    void worker();
+    Project::Utilities::LogsManager* logger;
 
     std::vector<std::thread> workers;
     LockFreeQueue<std::function<void()>> tasks;
@@ -31,6 +33,8 @@ namespace Project::Utilities {
     std::mutex cvMutex;
     std::atomic<bool> stop;
     std::atomic<size_t> active;
+
+    void worker();
   };
 }
 

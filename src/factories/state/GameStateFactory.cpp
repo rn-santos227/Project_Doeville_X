@@ -91,12 +91,14 @@ namespace Project::Factories {
 
     auto entitiesMgr = std::make_shared<Project::Entities::EntitiesManager>();
     entitiesMgr->setSDLManager(&sdlManager);
+    entitiesMgr->setLogsManager(&logsManager);
     newState->setEntitiesManager(std::move(entitiesMgr));
     newState->setGlobalEntitiesManager(gameStateManager.getGlobalEntitiesManager());
     newState->setEntitiesFactory(&entitiesFactory);
     newState->setGameStateManager(&gameStateManager);
 
     auto layersManager = std::make_unique<Project::Layers::LayersManager>();
+    layersManager->setLogsManager(&logsManager);
     bool hasLayers = false;
 
     lua_getglobal(L, Keys::LAYER_SCRIPTS);

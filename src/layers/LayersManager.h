@@ -14,6 +14,7 @@
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
+#include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Entities { class Entity; class EntitiesManager; }
 namespace Project::States { class GameState; }
@@ -52,6 +53,7 @@ namespace Project::Layers {
     void setFollowCamera(const std::string& name, bool active);
     void setLayerInteractable(const std::string& name, bool active);
     void setLayerVisible(const std::string& name, bool visible);
+    void setLogsManager(Project::Utilities::LogsManager* manager);
 
     size_t getTotalEntityCount() const;
     
@@ -59,7 +61,9 @@ namespace Project::Layers {
     void warpEntitiesAcrossRect(const SDL_Rect& rect);
 
   private:
+    Project::Utilities::LogsManager* logsManager = nullptr;
     Project::States::GameState* gameState = nullptr;
+    
     std::vector<Layer> layers;
 
     int categoryOrder(LayerCategory category) const;

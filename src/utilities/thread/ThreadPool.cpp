@@ -25,11 +25,17 @@ namespace Project::Utilities {
     }
   }
 
+  void ThreadPool::setLogger(Project::Utilities::LogsManager* log) {
+    logger = log;
+    if (logger) logger->logMessage("ThreadPool: logger attached with " + std::to_string(workers.size()) + " workers");
+  }
+
   void ThreadPool::enqueue(std::function<void()> job) {
     if (!job || stop.load(std::memory_order_acquire))
       return;
     tasks.push(std::move(job));
     cv.notify_one();
+    if (logger) logger->logMessage("ThreadPool: task enqueued");
   }
 
   void ThreadPool::wait() {
@@ -47,11 +53,16 @@ namespace Project::Utilities {
         cv.wait(lock, [this] {
           return stop.load(std::memory_order_acquire) || !tasks.empty();
         });
-        if (stop.load(std::memory_order_acquire) && tasks.empty())
+        if (stop.load(std::memory_order_acquire) && tasks.empty()) {
+          if (logger)
+            logger->logMessage("ThreadPool: worker exiting");
           return;
-        else
+        } else {
           continue;
+        }
       }
+      if (logger)
+        logger->logMessage("ThreadPool: worker executing task");
       active.fetch_add(1, std::memory_order_acq_rel);
       job();
       active.fetch_sub(1, std::memory_order_acq_rel);

@@ -25,7 +25,9 @@
 #include "systems/system_scheduler/SystemScheduler.h"
 #include "components/BaseComponent.h"
 #include "components/ComponentType.h"
+#include "utilities/logs_manager/LogsManager.h"
 #include "utilities/binary_cache/BinaryFileCache.h"
+#include "utilities/thread/ThreadPool.h"
 
 namespace Project::States { class GameState; }
 
@@ -43,6 +45,15 @@ namespace Project::Entities {
 
       void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
       Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
+
+      void setLogsManager(Project::Utilities::LogsManager* manager) {
+        logsManager = manager;
+        if (logsManager) {
+          Project::Utilities::ThreadPool::getInstance().setLogger(logsManager);
+        }
+      }
+
+      Project::Utilities::LogsManager* getLogsManager() const { return logsManager; }
 
       std::string addEntity(std::shared_ptr<Entity> entity, const std::string& id = Project::Libraries::Constants::EMPTY_STRING);
       void removeEntity(const std::string& id);
@@ -114,6 +125,7 @@ namespace Project::Entities {
       Project::Systems::SystemScheduler scheduler;
 
       Project::Utilities::BinaryFileCache persistentFunctionCache;
+      Project::Utilities::LogsManager* logsManager = nullptr;
 
       std::unordered_map<Project::Components::ComponentType, ComponentSoA> componentArrays;
       std::unordered_map<std::string, std::shared_ptr<Entity>> cachedEntities;

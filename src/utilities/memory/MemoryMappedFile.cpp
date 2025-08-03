@@ -89,9 +89,16 @@ namespace Project::Utilities {
   const unsigned char* MemoryMappedFile::data() const {
     return mapped;
   }
-  
+
   size_t MemoryMappedFile::size() const {
     return fileSize;
   }
 
+  bool MemoryMappedFile::isValid() const {
+#ifdef _WIN32
+    return mapped != nullptr;
+#else
+    return mapped && mapped != MAP_FAILED;
+#endif
+  }
 }

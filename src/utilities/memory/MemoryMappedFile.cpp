@@ -64,9 +64,25 @@ namespace Project::Utilities {
 
   MemoryMappedFile::~MemoryMappedFile() {
 #ifdef _WIN32
+  if (mapped) {
+    UnmapViewOfFile(mapped);
+  }
   
-#else
-  
-#endif
+  if (mapping) {
+    CloseHandle(mapping);
+  }
 
+  if (file != INVALID_HANDLE_VALUE) {
+    CloseHandle(file);
+  }
+#else
+  if (mapped && mapped != MAP_FAILED) {
+    munmap(const_cast<unsigned char*>(mapped), fileSize);
+  }
+
+  if (fd != -1) {
+    close(fd);
+  }
+#endif
+  }
 }

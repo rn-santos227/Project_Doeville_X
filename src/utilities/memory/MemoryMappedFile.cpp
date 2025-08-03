@@ -1,0 +1,19 @@
+#include "MemoryMappedFile.h"
+
+#ifndef _WIN32
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
+
+namespace Project::Utilities {
+    MemoryMappedFile::MemoryMappedFile(const std::string& path)
+#ifdef _WIN32
+    : file(INVALID_HANDLE_VALUE), mapping(nullptr), fileSize(0), mapped(nullptr) {
+
+    }
+#else
+
+#endif
+}

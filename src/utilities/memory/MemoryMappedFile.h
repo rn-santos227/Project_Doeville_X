@@ -3,6 +3,9 @@
 
 #include <cstddef>
 #include <string>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 namespace Project::Utilities {
   class MemoryMappedFile {
@@ -15,7 +18,12 @@ namespace Project::Utilities {
     bool isValid() const;
 
   private:
+#ifdef _WIN32
+    HANDLE file;
+    HANDLE mapping;
+#else
     int fd;
+#endif
     size_t fileSize;
     const unsigned char* mapped;
   };

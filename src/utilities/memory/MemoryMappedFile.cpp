@@ -16,11 +16,27 @@ namespace Project::Utilities {
     if (file == INVALID_HANDLE_VALUE) {
       return;
     }
+    
     LARGE_INTEGER size;
     if (!GetFileSizeEx(file, &size)) {
       CloseHandle(file);
       file = INVALID_HANDLE_VALUE;
       return;
+    }
+
+    fileSize = static_cast<size_t>(size.QuadPart);
+    mapping = CreateFileMappingA(file, nullptr, PAGE_READONLY, 0, 0, nullptr);
+    if (!mapping) {
+      CloseHandle(file);
+      file = INVALID_HANDLE_VALUE;
+      return;
+    }
+    mapped = static_cast<unsigned char*>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
+    if (!mapped) {
+      CloseHandle(mapping);
+      CloseHandle(file);
+      mapping = nullptr;
+      file = INVALID_HANDLE_VALUE;
     }
   }
 #else

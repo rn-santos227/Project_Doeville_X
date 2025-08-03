@@ -60,14 +60,15 @@ namespace Project::Systems {
       }
     };
 
+    auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
-      if (!comp || !comp->isActive()) continue;
-      auto* owner = comp->getOwner();
-      if (!owner) continue;
-      auto* box = owner->getBoundingBoxComponent();
-      accumulateBounds(box);
+      if (!comp) continue;
+      pool.enqueue([comp, deltaTime]() {
+        if (comp->isActive()) {
+          comp->update(deltaTime);
+        }
+      });
     }
-
     for (auto* box : staticColliders) {
       accumulateBounds(box);
     }
@@ -146,14 +147,10 @@ namespace Project::Systems {
     auto end = std::chrono::high_resolution_clock::now();
     metrics.lastBroadPhaseMs = std::chrono::duration<float, std::milli>(end - start).count();
 
-    auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
-      if (!comp) continue;
-      pool.enqueue([comp, deltaTime]() {
-        if (comp->isActive()) {
-          comp->update(deltaTime);
-        }
-      });
+      if (comp && comp->isActive()) {
+        comp->update(deltaTime);
+      }
     }
   }
 

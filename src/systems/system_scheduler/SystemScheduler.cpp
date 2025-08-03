@@ -49,12 +49,13 @@ namespace Project::Systems {
 
   void SystemScheduler::update(float deltaTime) {
     resolveOrder();
+    auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto& layer : layers) {
       for (auto* sys : layer) {
-        if (sys) {
-          sys->update(deltaTime);
-        }
+        if (!sys) continue;
+        pool.enqueue([sys, deltaTime]() { sys->update(deltaTime); });
       }
+      pool.wait();
     }
   }
 }

@@ -5,6 +5,7 @@
 #include <condition_variable>
 #include <functional>
 #include <mutex>
+#include <queue>
 #include <thread>
 #include <vector>
 
@@ -25,9 +26,11 @@ namespace Project::Utilities {
     void worker();
 
     LockFreeQueue<std::function<void()>> tasks;
+    std::queue<std::function<void()>> taskQueue;
     std::vector<std::thread> workers;
     std::atomic<bool> running;
     std::mutex cvMutex;
+    std::mutex taskMutex;
     std::condition_variable cv;
     std::atomic<size_t> active;
   };

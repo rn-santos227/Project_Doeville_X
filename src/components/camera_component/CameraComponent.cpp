@@ -75,8 +75,8 @@ namespace Project::Components {
     int currentX = cameraHandler->getX();
     int currentY = cameraHandler->getY();
     float t = std::min(1.0f, data.followSpeed * deltaTime);
-    int camX = static_cast<int>(currentX + (desiredX - currentX) * t);
-    int camY = static_cast<int>(currentY + (desiredY - currentY) * t);
+    int camX = static_cast<int>(std::round(currentX + (desiredX - currentX) * t));
+    int camY = static_cast<int>(std::round(currentY + (desiredY - currentY) * t));
     cameraHandler->setPosition(camX, camY);
     data.rotation += data.spinSpeed * deltaTime;
     cameraHandler->setRotation(data.rotation);

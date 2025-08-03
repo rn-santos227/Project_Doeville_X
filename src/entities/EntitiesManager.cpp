@@ -124,7 +124,7 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::removeEntity(const std::string& id) {
-    auto idxIt = entityIndices.find(id);\
+    auto idxIt = entityIndices.find(id);
     Entity* entRaw = nullptr;
 
     if (idxIt != entityIndices.end() && idxIt->second < entityList.size()) {
@@ -279,16 +279,29 @@ namespace Project::Entities {
         }
       }
 
-      auto updateEntity = [&](std::shared_ptr<Entity>& ent) {
-        if (!ent) return;
+      for (size_t i = 0; i < updateHighCount; ++i) {
+        auto ent = updateHigh[i];
+        if (!ent) continue;
         if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
           ent->update(deltaTime);
         }
-      };
+      }
 
-      for (size_t i = 0; i < updateHighCount; ++i) updateEntity(updateHigh[i]);
-      for (size_t i = 0; i < updateNormalCount; ++i) updateEntity(updateNormal[i]);
-      for (size_t i = 0; i < updateLowCount; ++i) updateEntity(updateLow[i]);
+      for (size_t i = 0; i < updateNormalCount; ++i) {
+        auto ent = updateNormal[i];
+        if (!ent) continue;
+        if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+          ent->update(deltaTime);
+        }
+      }
+
+      for (size_t i = 0; i < updateLowCount; ++i) {
+        auto ent = updateLow[i];
+        if (!ent) continue;
+        if (ent->isActive() || ent->hasAttribute(EntityAttribute::PERMANENT)) {
+          ent->update(deltaTime);
+        }
+      }
 
       updateToRemoveCount = 0;
 

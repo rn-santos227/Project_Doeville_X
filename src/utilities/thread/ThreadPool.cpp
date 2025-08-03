@@ -26,43 +26,46 @@ namespace Project::Utilities {
   }
 
   void ThreadPool::enqueue(const std::function<void()>& job) {
-    tasks.push(job);
+    {
+      std::lock_guard<std::mutex> lock(taskMutex);
+      taskQueue.push(job);
+    }
     cv.notify_one();
   }
 
   void ThreadPool::wait() {
-    while (true) {
-      if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
-        break;
-      }
-      std::function<void()> job;
-      if (tasks.pop(job)) {
-        active.fetch_add(1, std::memory_order_acq_rel);
-        job();
-        active.fetch_sub(1, std::memory_order_acq_rel);
-        if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
-          break;
-        }
-      } else {
-        std::unique_lock<std::mutex> lock(cvMutex);
-        cv.wait(lock);
-      }
-    }
+    std::unique_lock<std::mutex> lock(taskMutex);
+    cv.wait(lock, [this] {
+      return taskQueue.empty() && active.load(std::memory_order_acquire) == 0;
+    });
   }
 
   void ThreadPool::worker() {
     while (running.load(std::memory_order_acquire)) {
       std::function<void()> job;
-      if (tasks.pop(job)) {
+      {
+        std::unique_lock<std::mutex> lock(taskMutex);
+        cv.wait(lock, [this] {
+          return !taskQueue.empty() || !running.load(std::memory_order_acquire);
+        });
+
+        if (!running.load() && taskQueue.empty())
+          return;
+
+        job = taskQueue.front();
+        taskQueue.pop();
         active.fetch_add(1, std::memory_order_acq_rel);
-        job();
-        active.fetch_sub(1, std::memory_order_acq_rel);
-        if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
-          cv.notify_all();
+      }
+
+      job();
+
+      active.fetch_sub(1, std::memory_order_acq_rel);
+
+      {
+        std::unique_lock<std::mutex> lock(taskMutex);
+        if (taskQueue.empty() && active.load(std::memory_order_acquire) == 0) {
+          cv.notify_all();  // Notify any waiters
         }
-      } else {
-        std::unique_lock<std::mutex> lock(cvMutex);
-        cv.wait(lock);
       }
     }
   }

@@ -102,6 +102,7 @@ namespace Project::Utilities {
     void printStack() const;
     void registerFunction(const std::string& name, lua_CFunction function);
     void registerFunction(const std::string& name, lua_CFunction function, void* userData);
+    bool callCachedFunction(const std::string& name, int nargs = 0, int nresults = 0);
 
     // Lua error handling
     void handleLuaError(int errorCode) const;
@@ -113,6 +114,7 @@ namespace Project::Utilities {
     BinaryFileCache persistentBytecodeCache;
 
     std::unordered_map<std::string, std::vector<char>> compiledScriptCache;
+    std::unordered_map<std::string, int> functionRefCache;
     std::unordered_set<std::string> registeredFunctions;
   };
 }

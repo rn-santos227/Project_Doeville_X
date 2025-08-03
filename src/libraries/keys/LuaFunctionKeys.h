@@ -38,6 +38,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_ON_TRIGGER = "onTrigger";
   constexpr const char* LUA_FUNC_PRINT = "print";
   constexpr const char* LUA_FUNC_SPAWN = "spawn";
+  constexpr const char* LUA_FUNC_FAST_DISTANCE = "fastDistance";
 }
 
 #endif

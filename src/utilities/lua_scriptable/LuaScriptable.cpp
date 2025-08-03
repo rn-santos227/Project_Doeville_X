@@ -28,6 +28,6 @@ namespace Project::Utilities {
   }
 
   bool LuaScriptable::callLuaFunction(const std::string& functionName) {
-    return luaStateWrapper.callGlobalFunction(functionName);
+    return luaStateWrapper.callCachedFunction(functionName);
   }
 }

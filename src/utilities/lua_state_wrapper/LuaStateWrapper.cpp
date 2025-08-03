@@ -1,16 +1,33 @@
 #include "LuaStateWrapper.h"
+
+#include <cmath>
+
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 
 namespace Project::Utilities {
+  namespace Constants = Project::Libraries::Constants;
+
+  static int luaFastDistance(lua_State* L) {
+    double x1 = luaL_checknumber(L, Constants::INDEX_ONE);
+    double y1 = luaL_checknumber(L, Constants::INDEX_TWO);
+    double x2 = luaL_checknumber(L, Constants::INDEX_THREE);
+    double y2 = luaL_checknumber(L, Constants::INDEX_FOUR);
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    lua_pushnumber(L, std::sqrt(dx * dx + dy * dy));
+    return 1;
+  }
+  
   LuaStateWrapper::LuaStateWrapper(LogsManager& logsManager)
     : luaState(luaL_newstate()),
       logsManager(logsManager),
-      persistentBytecodeCache(Project::Libraries::Constants::LUA_BYTECODE_CACHE_FILE) {
+      persistentBytecodeCache(Constants::LUA_BYTECODE_CACHE_FILE) {
     if (logsManager.checkAndLogError(!luaState, "Failed to create Lua state")) {
       return;
     }
     initializeSafeState(luaState);
+    registerFunction(Project::Libraries::Keys::LUA_FUNC_FAST_DISTANCE, luaFastDistance);
   }
 
   LuaStateWrapper::~LuaStateWrapper() {
@@ -56,10 +73,10 @@ namespace Project::Utilities {
 
     lua_pop(state, 1);
 
-    lua_pushnumber(state, Project::Libraries::Constants::DEFAULT_SCREEN_CENTER_X);
+    lua_pushnumber(state, Constants::DEFAULT_SCREEN_CENTER_X);
     lua_setglobal(state, Project::Libraries::Keys::CENTER_X);
 
-    lua_pushnumber(state, Project::Libraries::Constants::DEFAULT_SCREEN_CENTER_Y);
+    lua_pushnumber(state, Constants::DEFAULT_SCREEN_CENTER_Y);
     lua_setglobal(state, Project::Libraries::Keys::CENTER_Y);
   }
 
@@ -81,6 +98,7 @@ namespace Project::Utilities {
     initializeSafeState(luaState);
     registeredFunctions.clear();
     compiledScriptCache.clear();
+    functionRefCache.clear();
     persistentBytecodeCache.load();
   }
 
@@ -92,6 +110,8 @@ namespace Project::Utilities {
     if (logsManager.checkAndLogError(!isValid(), "Lua state is invalid. Cannot load script: " + scriptPath)) {
       return false;
     }
+
+    functionRefCache.clear();
 
     auto cacheIt = compiledScriptCache.find(scriptPath);
     int status = LUA_OK;
@@ -479,6 +499,28 @@ namespace Project::Utilities {
     } else {
       registeredFunctions.insert(name);
     }
+  }
+
+  bool LuaStateWrapper::callCachedFunction(const std::string& name, int nargs, int nresults) {
+    if (!isValid()) return false;
+
+    auto it = functionRefCache.find(name);
+    if (it == functionRefCache.end()) {
+      lua_getglobal(luaState, name.c_str());
+      if (!lua_isfunction(luaState, -1)) {
+        lua_pop(luaState, 1);
+        return false;
+      }
+      int ref = luaL_ref(luaState, LUA_REGISTRYINDEX);
+      it = functionRefCache.emplace(name, ref).first;
+    }
+
+    lua_rawgeti(luaState, LUA_REGISTRYINDEX, it->second);
+    if (lua_pcall(luaState, nargs, nresults, 0) != LUA_OK) {
+      handleLuaError(std::string("Lua function call failed: ") + std::string(lua_tostring(luaState, -1)));
+      return false;
+    }
+    return true;
   }
 
   void LuaStateWrapper::handleLuaError(int errorCode) const {

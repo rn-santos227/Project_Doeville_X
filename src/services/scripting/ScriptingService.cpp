@@ -139,9 +139,7 @@ namespace Project::Services {
       return;
     }
     
-    int result = luaL_dofile(luaStateWrapper.get(), scriptPath.c_str());
-    if (result != LUA_OK) {
-      luaStateWrapper.handleLuaError(result);
+    if (!luaStateWrapper.loadScript(scriptPath)) {
       logsManager.flushLogs();
       return;
     }

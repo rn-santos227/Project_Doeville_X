@@ -357,6 +357,9 @@ namespace Project::Bindings::LuaBindings {
   int lua_cameraShake(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     float duration = static_cast<float>(luaL_optnumber(L, Constants::INDEX_ONE, Constants::DEFAULT_CAMERA_SHAKE_DURATION));
+    if (!state || !state->getActiveCamera()) {
+      return 0;
+    }
   }
 
   int lua_setBackgroundColor(lua_State* L) {

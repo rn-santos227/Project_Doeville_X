@@ -106,6 +106,15 @@ namespace Project::Components {
     shakeTime = duration;
   }
 
+  void CameraComponent::setZoom(float z) {
+    if (cameraHandler) {
+      cameraHandler->setZoom(z);
+      data.zoom = cameraHandler->getZoom();
+    } else {
+      data.zoom = z;
+    }
+  }
+
   void CameraComponent::zoomIn(float amount) {
     setZoom(data.zoom + amount);
   }

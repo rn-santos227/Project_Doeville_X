@@ -4,7 +4,7 @@
     "archive": "SDL2-2.26.5.tar.gz",
     "source_dir": "SDL2",
     "output_dir": "SDL2_build",
-    "sha256": "baeae84ab5e173d863414fb3891b8919b77b192279b25022ef8e7c294b339a72"
+    "sha256": "ad8fea3da1be64c83c45b1d363a6b4ba8fd60f5bde3b23ec73855709ec5eabf7"
   },
 
   "SDL2_ttf": {
@@ -12,7 +12,7 @@
     "archive": "SDL2_ttf-2.20.1.tar.gz",
     "source_dir": "SDL2_ttf",
     "output_dir": "SDL2_ttf_build",
-    "sha256": "58b10bdcb6daa491b32631bbf009d292025683bd0a8ec70d40312a1c7ae110dd"
+    "sha256": "78cdad51f3cc3ada6932b1bb6e914b33798ab970a1e817763f22ddbfd97d0c57"
   },
 
   "SDL2_image": {
@@ -20,7 +20,7 @@
     "archive": "SDL2_image-2.6.3.tar.gz",
     "source_dir": "SDL2_image",
     "output_dir": "SDL2_image_build",
-    "sha256": "c90451409bfc45b2ae73b0334c153e195a08da92bb01438b85f5b4fb3121fb4b"
+    "sha256": "931c9be5bf1d7c8fae9b7dc157828b7eee874e23c7f24b44ba7eff6b4836312c"
   },
 
   "Lua": {
@@ -28,14 +28,6 @@
     "archive": "lua-5.4.6.tar.gz",
     "source_dir": "Lua",
     "output_dir": "Lua_build",
-    "sha256": "52974b0596b58d0987ac6bd653256bb9f0869630248c3accf20e48717d80a9cf"
-  },
-
-  "GLAD": {
-    "url": "https://github.com/Dav1dde/glad/archive/refs/tags/v0.1.36.tar.gz",
-    "archive": "glad-0.1.36.tar.gz",
-    "source_dir": "glad-0.1.36",
-    "output_dir": "GLAD_build",
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "sha256": "7d5ea1b9cb6aa0b59ca3dde1c6adcb57ef83a1ba8e5432c0ecd06bf439b3ad88"
   }
 }

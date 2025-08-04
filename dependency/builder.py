@@ -96,6 +96,28 @@ class Builder:
         subprocess.run([meson, "compile", "-C", build_dir], check=True, env=env)
         subprocess.run([meson, "install", "-C", build_dir], check=True, env=env)
 
+      elif os.path.isfile(os.path.join(self.source_dir, "src", "glad.c")):
+        include_dir = os.path.join(self.source_dir, "include")
+        src_file = os.path.join(self.source_dir, "src", "glad.c")
+        dst_include = os.path.join(install_prefix, "include")
+        dst_lib = os.path.join(install_prefix, "lib")
+        os.makedirs(dst_include, exist_ok=True)
+        os.makedirs(dst_lib, exist_ok=True)
+        shutil.copytree(include_dir, dst_include, dirs_exist_ok=True)
+
+        cc = shutil.which("cc", path=env.get("PATH")) or shutil.which("gcc", path=env.get("PATH"))
+        if not cc:
+          raise RuntimeError("'cc' not found in PATH")
+        obj_file = os.path.join(self.source_dir, "glad.o")
+        subprocess.run([cc, "-c", src_file, "-o", obj_file], cwd=self.source_dir, check=True, env=env)
+
+        ar = shutil.which("ar", path=env.get("PATH")) or "ar"
+        if not shutil.which(ar, path=env.get("PATH")):
+          raise RuntimeError("'ar' not found in PATH")
+        lib_file = os.path.join(dst_lib, "libglad.a")
+        subprocess.run([ar, "rcs", lib_file, obj_file], cwd=self.source_dir, check=True, env=env)
+        os.remove(obj_file)
+
       elif os.path.isfile(makefile):
         make_cmd = shutil.which("make", path=env.get("PATH"))
         if not make_cmd:

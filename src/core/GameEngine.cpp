@@ -75,10 +75,10 @@ namespace Project::Core {
       int screenHeight = configReader.getIntValue(Keys::WINDOW_SECTION, Keys::WINDOW_HEIGHT, Constants::DEFAULT_SCREEN_HEIGHT);
       bool isFullscreen = configReader.getBoolValue(Keys::WINDOW_SECTION, Keys::WINDOW_FULLSCREEN, false);
       
-      bool opengl = configReader.getBoolValue(Keys::VIDEO_OPENGL, Keys::VIDEO_SECTION, true);
-      bool vsync = configReader.getBoolValue(Keys::VIDEO_VSYNC, Keys::VIDEO_SECTION, true);
+      bool opengl = configReader.getBoolValue(Keys::VIDEO_SECTION, Keys::VIDEO_OPENGL, true);
+      bool vsync = configReader.getBoolValue(Keys::VIDEO_SECTION, Keys::VIDEO_VSYNC, true);
 
-      if (!sdlManager.init(title, screenWidth, screenHeight, isFullscreen, vsync)) {
+      if (!sdlManager.init(title, screenWidth, screenHeight, isFullscreen, vsync, opengl)) {
         logsManager.logError("Failed to initialize SDLManager.");
         throw EngineException("SDL initialization failed", Project::Utilities::ErrorCategory::SDL);
       }

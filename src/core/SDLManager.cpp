@@ -1,7 +1,5 @@
 #include "SDLManager.h"
 
-#include <glad/glad.h>
-
 #include "libraries/constants/Constants.h"
 
 namespace Constants = Project::Libraries::Constants;
@@ -9,31 +7,19 @@ namespace Project::Core {
   using Project::Utilities::LogsManager;
 
   SDLManager::SDLManager(LogsManager& logsManager)
-    : window(nullptr), renderer(nullptr), glContext(nullptr), logsManager(logsManager), initialized(false), exitRequested(false), vsyncEnabled(false), openGLMode(false) {}
+    : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false), exitRequested(false), vsyncEnabled(false), openGLMode(false) {}
 
   SDLManager::~SDLManager() {
     cleanup();
   }
 
-  bool SDLManager::init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL) {
+  bool SDLManager::init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool opengl) {
     if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0,
     "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
 
-    openGLMode = useOpenGL;
-    if (openGLMode) {
-      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-      SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    }
-
     Uint32 windowFlags = SDL_WINDOW_SHOWN;
-    if (openGLMode) {
-      windowFlags |= SDL_WINDOW_OPENGL;
-    }
-
-    Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
     if (fullscreen) {
       windowFlags |= SDL_WINDOW_FULLSCREEN;
     }
@@ -52,59 +38,27 @@ namespace Project::Core {
       rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
     }
 
-    SDL_SetHint(SDL_HINT_RENDER_BATCHING, Constants::STR_ON);
-
     renderer = SDL_CreateRenderer(window, -1, rendererFlags);
     if (logsManager.checkAndLogError(!renderer, "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
     logsManager.logMessage("Renderer created successfully.");
 
-    if (openGLMode) {
-      glContext = SDL_GL_GetCurrentContext();
-      if (logsManager.checkAndLogError(!glContext, "OpenGL context could not be obtained! SDL_Error: " + std::string(SDL_GetError()))) {
-        return false;
-      }
-
-      if (!gladLoadGLLoader((SDL_GL_GetProcAddress))) {
-        logsManager.logError("Failed to initialize GLAD.");
-        return false;
-      }
-
-      SDL_GL_SetSwapInterval(vsync ? 1 : 0);
-    } else {
-      glContext = nullptr;
-    }
 
     initialized = true;
     return true;
   }
 
   void SDLManager::clear() {
-    if (glContext) {
-      glClearColor(
-        Constants::DEFAULT_BACKGROUND_COLOR.r / Constants::FLOAT_255,
-        Constants::DEFAULT_BACKGROUND_COLOR.g / Constants::FLOAT_255,
-        Constants::DEFAULT_BACKGROUND_COLOR.b / Constants::FLOAT_255,
-        Constants::DEFAULT_BACKGROUND_COLOR.a / Constants::FLOAT_255
-      );
-      glClear(GL_COLOR_BUFFER_BIT);
-    }
-
     if (renderer) {
       SDL_SetRenderDrawColor(renderer,
         Constants::DEFAULT_BACKGROUND_COLOR.r,
         Constants::DEFAULT_BACKGROUND_COLOR.g,
         Constants::DEFAULT_BACKGROUND_COLOR.b,
-        Constants::DEFAULT_BACKGROUND_COLOR.a
-      );
+        Constants::DEFAULT_BACKGROUND_COLOR.a);
       SDL_RenderClear(renderer);
     } else {
-      logsManager.logError("Attempted to clear but renderer is null.");
-    }
-
-    if (glContext) {
-      SDL_GL_SwapWindow(window);
+      logsManager.logError("Attempted to clear but renderer is null.");  
     }
   }
 
@@ -142,14 +96,9 @@ namespace Project::Core {
       renderer = nullptr;
     }
 
-    if (glContext) {
-      SDL_GL_DeleteContext(glContext);
-      glContext = nullptr;
-    }
-
     if (window)  {
       SDL_DestroyWindow(window);
-      window = nullptr;
+      window = nullptr;  
     }
 
     SDL_Quit();

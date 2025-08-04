@@ -345,7 +345,8 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_cameraZoomOut(lua_State* L) {
-
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    float amount = static_cast<float>(luaL_optnumber(L, Constants::INDEX_ONE, Constants::DEFAULT_CAMERA_ZOOM_STEP));
   }
 
   int lua_setBackgroundColor(lua_State* L) {

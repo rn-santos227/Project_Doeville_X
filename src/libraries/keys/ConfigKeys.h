@@ -9,8 +9,10 @@ namespace Project::Libraries::Keys {
   constexpr const char* WINDOW_WIDTH = "width";
   constexpr const char* WINDOW_HEIGHT = "height";
   constexpr const char* WINDOW_FULLSCREEN = "fullscreen";
-  constexpr const char* WINDOW_VSYNC = "vsync";
   constexpr const char* WINDOW_SCALE_FACTORY = "scale_factor";
+  constexpr const char* VIDEO_SECTION = "Video";
+  constexpr const char* VIDEO_OPENGL = "opengl";
+  constexpr const char* VIDEO_VSYNC = "vsync";
   constexpr const char* CAMERA_SECTION = "Camera";
   constexpr const char* CAMERA_TYPE = "type";
   constexpr const char* CURSOR_SECTION = "Cursor";

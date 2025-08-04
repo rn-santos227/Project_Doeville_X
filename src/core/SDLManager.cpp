@@ -9,21 +9,29 @@ namespace Project::Core {
   using Project::Utilities::LogsManager;
 
   SDLManager::SDLManager(LogsManager& logsManager)
-    : window(nullptr), renderer(nullptr), glContext(nullptr), logsManager(logsManager), initialized(false), exitRequested(false), vsyncEnabled(false) {}
+    : window(nullptr), renderer(nullptr), glContext(nullptr), logsManager(logsManager), initialized(false), exitRequested(false), vsyncEnabled(false), openGLMode(false) {}
 
   SDLManager::~SDLManager() {
     cleanup();
   }
 
-  bool SDLManager::init(const std::string& title, int width, int height, bool fullscreen, bool vsync) {
+  bool SDLManager::init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL) {
     if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0,
     "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    openGLMode = useOpenGL;
+    if (openGLMode) {
+      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+      SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    }
+
+    Uint32 windowFlags = SDL_WINDOW_SHOWN;
+    if (openGLMode) {
+      windowFlags |= SDL_WINDOW_OPENGL;
+    }
 
     Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
     if (fullscreen) {
@@ -52,17 +60,21 @@ namespace Project::Core {
     }
     logsManager.logMessage("Renderer created successfully.");
 
-    glContext = SDL_GL_GetCurrentContext();
-    if (logsManager.checkAndLogError(!glContext, "OpenGL context could not be obtained! SDL_Error: " + std::string(SDL_GetError()))) {
-      return false;
-    }
+    if (openGLMode) {
+      glContext = SDL_GL_GetCurrentContext();
+      if (logsManager.checkAndLogError(!glContext, "OpenGL context could not be obtained! SDL_Error: " + std::string(SDL_GetError()))) {
+        return false;
+      }
 
-    if (!gladLoadGLLoader((SDL_GL_GetProcAddress))) {
-      logsManager.logError("Failed to initialize GLAD.");
-      return false;
-    }
+      if (!gladLoadGLLoader((SDL_GL_GetProcAddress))) {
+        logsManager.logError("Failed to initialize GLAD.");
+        return false;
+      }
 
-    SDL_GL_SetSwapInterval(vsync ? 1 : 0);
+      SDL_GL_SetSwapInterval(vsync ? 1 : 0);
+    } else {
+      glContext = nullptr;
+    }
 
     initialized = true;
     return true;
@@ -71,10 +83,10 @@ namespace Project::Core {
   void SDLManager::clear() {
     if (glContext) {
       glClearColor(
-        Constants::DEFAULT_BACKGROUND_COLOR.r / 255.0f,
-        Constants::DEFAULT_BACKGROUND_COLOR.g / 255.0f,
-        Constants::DEFAULT_BACKGROUND_COLOR.b / 255.0f,
-        Constants::DEFAULT_BACKGROUND_COLOR.a / 255.0f
+        Constants::DEFAULT_BACKGROUND_COLOR.r / Constants::FLOAT_255,
+        Constants::DEFAULT_BACKGROUND_COLOR.g / Constants::FLOAT_255,
+        Constants::DEFAULT_BACKGROUND_COLOR.b / Constants::FLOAT_255,
+        Constants::DEFAULT_BACKGROUND_COLOR.a / Constants::FLOAT_255
       );
       glClear(GL_COLOR_BUFFER_BIT);
     }

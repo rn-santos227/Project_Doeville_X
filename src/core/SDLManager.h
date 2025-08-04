@@ -15,7 +15,7 @@ namespace Project::Core {
     
     void cleanup() override;
     
-    bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync);
+    bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL);
     void clear();
     void present();
 
@@ -36,6 +36,8 @@ namespace Project::Core {
 
     bool exitRequested;
     bool initialized;
+
+    bool openGLMode;
     bool vsyncEnabled;
   };
 }

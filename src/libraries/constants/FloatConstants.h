@@ -13,6 +13,8 @@ namespace Project::Libraries::Constants {
 
   constexpr float MIN_CELL = 32.0f;
   constexpr float MAX_CELL = 256.0f;
+
+  constexpr float FLOAT_255 = 255.0f;
 }
 
 #endif

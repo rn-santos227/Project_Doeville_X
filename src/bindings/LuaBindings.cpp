@@ -335,7 +335,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_cameraZoomIn(lua_State* L) {
-
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
   }
 
   int lua_setBackgroundColor(lua_State* L) {

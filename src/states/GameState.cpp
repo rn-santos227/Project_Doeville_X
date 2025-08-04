@@ -384,6 +384,9 @@ namespace Project::States {
         auto contains = [&](const std::string& name){ return code.find(name) != std::string::npos; };
         auto record = [&](const std::string& name){ if (contains(name)) funcs.push_back(name); };
         record(Keys::LUA_SET_ACTIVE_CAMERA);
+        record(Keys::LUA_CAMERA_ZOOM_IN);
+        record(Keys::LUA_CAMERA_ZOOM_OUT);
+        record(Keys::LUA_CAMERA_SHAKE);
         record(Keys::LUA_CHANGE_STATE);
         record(Keys::LUA_RESET_STATE);
         record(Keys::LUA_SET_BACKGROUND_COLOR);
@@ -406,6 +409,12 @@ namespace Project::States {
     for (const auto& f : funcs) {
       if (f == Keys::LUA_SET_ACTIVE_CAMERA) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setActiveCamera, this);
+      } else if (f == Keys::LUA_CAMERA_ZOOM_IN) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_cameraZoomIn, this);
+      } else if (f == Keys::LUA_CAMERA_ZOOM_OUT) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_cameraZoomOut, this);
+      } else if (f == Keys::LUA_CAMERA_SHAKE) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_cameraShake, this);
       } else if (f == Keys::LUA_CHANGE_STATE) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_changeState, this);
       } else if (f == Keys::LUA_RESET_STATE) {

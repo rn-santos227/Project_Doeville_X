@@ -32,6 +32,7 @@ namespace Project::Core {
 
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_GLContext glContext;
 
     bool exitRequested;
     bool initialized;

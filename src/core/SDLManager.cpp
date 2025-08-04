@@ -1,5 +1,7 @@
 #include "SDLManager.h"
 
+#include <glad/glad.h>
+
 #include "libraries/constants/Constants.h"
 
 namespace Constants = Project::Libraries::Constants;
@@ -7,7 +9,7 @@ namespace Project::Core {
   using Project::Utilities::LogsManager;
 
   SDLManager::SDLManager(LogsManager& logsManager)
-    : window(nullptr), renderer(nullptr), logsManager(logsManager), initialized(false), exitRequested(false), vsyncEnabled(false) {}
+    : window(nullptr), renderer(nullptr), glContext(nullptr), logsManager(logsManager), initialized(false), exitRequested(false), vsyncEnabled(false) {}
 
   SDLManager::~SDLManager() {
     cleanup();
@@ -19,7 +21,11 @@ namespace Project::Core {
       return false;
     }
 
-    Uint32 windowFlags = SDL_WINDOW_SHOWN;
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+    Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
     if (fullscreen) {
       windowFlags |= SDL_WINDOW_FULLSCREEN;
     }
@@ -46,21 +52,47 @@ namespace Project::Core {
     }
     logsManager.logMessage("Renderer created successfully.");
 
+    glContext = SDL_GL_GetCurrentContext();
+    if (logsManager.checkAndLogError(!glContext, "OpenGL context could not be obtained! SDL_Error: " + std::string(SDL_GetError()))) {
+      return false;
+    }
+
+    if (!gladLoadGLLoader((SDL_GL_GetProcAddress))) {
+      logsManager.logError("Failed to initialize GLAD.");
+      return false;
+    }
+
+    SDL_GL_SetSwapInterval(vsync ? 1 : 0);
 
     initialized = true;
     return true;
   }
 
   void SDLManager::clear() {
+    if (glContext) {
+      glClearColor(
+        Constants::DEFAULT_BACKGROUND_COLOR.r / 255.0f,
+        Constants::DEFAULT_BACKGROUND_COLOR.g / 255.0f,
+        Constants::DEFAULT_BACKGROUND_COLOR.b / 255.0f,
+        Constants::DEFAULT_BACKGROUND_COLOR.a / 255.0f
+      );
+      glClear(GL_COLOR_BUFFER_BIT);
+    }
+
     if (renderer) {
       SDL_SetRenderDrawColor(renderer,
         Constants::DEFAULT_BACKGROUND_COLOR.r,
         Constants::DEFAULT_BACKGROUND_COLOR.g,
         Constants::DEFAULT_BACKGROUND_COLOR.b,
-        Constants::DEFAULT_BACKGROUND_COLOR.a);
+        Constants::DEFAULT_BACKGROUND_COLOR.a
+      );
       SDL_RenderClear(renderer);
     } else {
-      logsManager.logError("Attempted to clear but renderer is null.");  
+      logsManager.logError("Attempted to clear but renderer is null.");
+    }
+
+    if (glContext) {
+      SDL_GL_SwapWindow(window);
     }
   }
 
@@ -98,9 +130,14 @@ namespace Project::Core {
       renderer = nullptr;
     }
 
+    if (glContext) {
+      SDL_GL_DeleteContext(glContext);
+      glContext = nullptr;
+    }
+
     if (window)  {
       SDL_DestroyWindow(window);
-      window = nullptr;  
+      window = nullptr;
     }
 
     SDL_Quit();

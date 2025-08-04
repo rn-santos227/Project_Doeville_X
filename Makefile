@@ -7,12 +7,14 @@ CXXFLAGS += -std=c++17 -O3 -Isrc \
   -Ilib/SDL2_image_build/include/SDL2 \
   -Ilib/SDL2_ttf_build/include \
   -Ilib/SDL2_ttf_build/include/SDL2 \
-  -Ilib/Lua_build/include
+  -Ilib/Lua_build/include \
+  -Ilib/GLAD_build/include
 
 LDFLAGS += 	-Llib/SDL2_build/lib \
   -Llib/SDL2_image_build/lib \
   -Llib/SDL2_ttf_build/lib \
   -Llib/Lua_build/lib \
+  -Llib/GLAD_build/lib \
   -lSDL2 -lSDL2_image -lSDL2_ttf -llua -lz
 
 UNAME_S := $(shell uname -s)
@@ -28,7 +30,8 @@ else
   LDFLAGS += -Wl,-rpath,$(RPATH_BASE)/SDL2_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/SDL2_image_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/SDL2_ttf_build/lib \
-    -Wl,-rpath,$(RPATH_BASE)/Lua_build/lib
+    -Wl,-rpath,$(RPATH_BASE)/Lua_build/lib \
+    -Wl,-rpath,$(RPATH_BASE)/GLAD_build/lib
 endif
 
 SRC_DIR = src

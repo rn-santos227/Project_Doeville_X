@@ -29,5 +29,13 @@
     "source_dir": "Lua",
     "output_dir": "Lua_build",
     "sha256": "52974b0596b58d0987ac6bd653256bb9f0869630248c3accf20e48717d80a9cf"
+  },
+
+  "GLAD": {
+    "url": "https://github.com/Dav1dde/glad/archive/refs/tags/v0.1.36.tar.gz",
+    "archive": "glad-0.1.36.tar.gz",
+    "source_dir": "glad-0.1.36",
+    "output_dir": "GLAD_build",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   }
 }

@@ -9,7 +9,9 @@ group = "gameplay"
 components = {
   CameraComponent = {
     component = "CameraComponent",
-    active = true
+    active = true,
+    intensity = 5.0,
+    follow_speed = 10.0,
   },
 
   BoundingBoxComponent = {
@@ -98,6 +100,9 @@ end
 
 function update()
   ignoreCollisionsWith(id, {"bullet_p"})
+  if getCollidedEntity(id, {"wall_h", "wall_v"}) then
+    cameraShake()
+  end
   if isActionPressed("player", "move_left") then
     turnLeft("player", rot_speed)
   elseif isActionPressed("player", "move_right") then

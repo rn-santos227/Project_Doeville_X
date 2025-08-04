@@ -82,6 +82,15 @@ namespace Project::Components {
     float t = std::min(Constants::DEFAULT_WHOLE, data.followSpeed * deltaTime);
     int camX = Project::Utilities::MathUtils::interpolate(currentX, desiredX, t);
     int camY = Project::Utilities::MathUtils::interpolate(currentY, desiredY, t);
+
+    if (shakeTime > 0.0f) {
+      float shakeX = ((static_cast<float>(std::rand()) / RAND_MAX) * Constants::DEFAULT_DOUBLE - Constants::DEFAULT_WHOLE) * data.shakeIntensity;
+      float shakeY = ((static_cast<float>(std::rand()) / RAND_MAX) * Constants::DEFAULT_DOUBLE - Constants::DEFAULT_WHOLE) * data.shakeIntensity;
+      camX += static_cast<int>(shakeX);
+      camY += static_cast<int>(shakeY);
+      shakeTime -= deltaTime;
+    }
+
     cameraHandler->setPosition(camX, camY);
     data.rotation += data.spinSpeed * deltaTime;
     cameraHandler->setRotation(data.rotation);

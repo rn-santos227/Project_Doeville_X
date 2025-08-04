@@ -405,6 +405,15 @@ namespace Project::States {
     } else {
       funcs = it->second;
     }
+    
+    auto ensure = [&](const std::string& name){
+      if (std::find(funcs.begin(), funcs.end(), name) == funcs.end()) {
+        funcs.push_back(name);
+      }
+    };
+    ensure(Keys::LUA_CAMERA_ZOOM_IN);
+    ensure(Keys::LUA_CAMERA_ZOOM_OUT);
+    ensure(Keys::LUA_CAMERA_SHAKE);
 
     for (const auto& f : funcs) {
       if (f == Keys::LUA_SET_ACTIVE_CAMERA) {

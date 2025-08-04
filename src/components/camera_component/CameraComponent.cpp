@@ -114,7 +114,7 @@ namespace Project::Components {
     data.offsetY = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::OFFSET_Y, 0.0));
     data.shakeIntensity = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::INTENSITY, Constants::DEFAULT_CAMERA_SHAKE_INTENSITY));
 
-    shakeTime = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::DURATION, Constants::DEFAULT_CAMERA_SHAKE_DURATION));
+    shakeTime = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::DURATION, 0.0));
 
     data.targetName = luaStateWrapper.getTableString(tableName, Keys::TARGET, Constants::EMPTY_STRING);
     if (cameraHandler) {

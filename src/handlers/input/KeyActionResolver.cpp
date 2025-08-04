@@ -1,6 +1,8 @@
 #include "KeyActionResolver.h"
 
+#include <algorithm>
 #include <array>
+#include <string>
 #include <string_view>
 
 #include "utilities/string/StringUtils.h"
@@ -62,8 +64,12 @@ namespace Project::Handlers {
       {CodeKeys::MAP_TOGGLE, KeyAction::MAP_TOGGLE}
     }};
 
+    std::string normalized(name);
+    std::replace(normalized.begin(), normalized.end(), '-', '_');
+    std::replace(normalized.begin(), normalized.end(), ' ', '_');
+
     for (const auto& [key, value] : map) {
-      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
+      if (Project::Utilities::StringUtils::iequals(key, normalized)) return value;
     }
     return KeyAction::NONE;
   }

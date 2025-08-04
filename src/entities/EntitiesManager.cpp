@@ -553,6 +553,15 @@ namespace Project::Entities {
         functions = cacheIt->second;
       }
 
+      auto ensure = [&](const std::string& name){
+        if (std::find(functions.begin(), functions.end(), name) == functions.end()) {
+          functions.push_back(name);
+        }
+      };
+      ensure(Keys::LUA_CAMERA_ZOOM_IN);
+      ensure(Keys::LUA_CAMERA_ZOOM_OUT);
+      ensure(Keys::LUA_CAMERA_SHAKE);
+
       for (const auto& func : functions) {
         if (func == Keys::LUA_GET_ENTITY_DETAILS) {
           entity->registerLuaFunction(func, LuaBindings::lua_getEntityDetails, this);

@@ -4,6 +4,9 @@
 namespace Project::Libraries::Keys {
   //lua function names
   constexpr const char* LUA_SET_ACTIVE_CAMERA = "setActiveCamera";
+  constexpr const char* LUA_CAMERA_ZOOM_IN = "cameraZoomIn";
+  constexpr const char* LUA_CAMERA_ZOOM_OUT = "cameraZoomOut";
+  constexpr const char* LUA_CAMERA_SHAKE = "cameraShake";
   constexpr const char* LUA_SET_BACKGROUND_COLOR = "setBackgroundColor";
   constexpr const char* LUA_SET_BACKGROUND_IMAGE = "setBackgroundImage";
   constexpr const char* LUA_GET_COLLIDED_ENTITY = "getCollidedEntity";

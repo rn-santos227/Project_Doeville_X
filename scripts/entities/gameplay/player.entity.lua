@@ -10,8 +10,8 @@ components = {
   CameraComponent = {
     component = "CameraComponent",
     active = true,
-    intensity = 5.0,
-    follow_speed = 10.0,
+    intensity = 10.0,
+    follow_speed = 40.0
   },
 
   BoundingBoxComponent = {
@@ -46,11 +46,15 @@ components = {
       { key = "left", action = "move_left" },
       { key = "right", action = "move_right" },
       { key = "z", action = "action_1" },
-      { key = "x", action = "action_2" }
+      { key = "x", action = "action_2" },
+      { key = "equals", action = "camera_zoom_in" },
+      { key = "minus", action = "camera_zoom_out" }
     },
     bindings = {
       action_1 = "action_1",
-      action_2 = "brake"
+      action_2 = "brake",
+      camera_zoom_in = "cameraZoomIn",
+      camera_zoom_out = "cameraZoomOut"
     }
   },
 

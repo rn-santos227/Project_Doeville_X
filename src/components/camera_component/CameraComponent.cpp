@@ -103,6 +103,7 @@ namespace Project::Components {
     data.spinSpeed = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::ROTATION_SPEED, Constants::DEFAULT_CAMERA_SPIN_SPEED));
     data.offsetX = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::OFFSET_X, 0.0));
     data.offsetY = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::OFFSET_Y, 0.0));
+    data.shakeIntensity = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::INTENSITY, Constants::DEFAULT_CAMERA_SHAKE_INTENSITY));
     
     data.targetName = luaStateWrapper.getTableString(tableName, Keys::TARGET, Constants::EMPTY_STRING);
     if (cameraHandler) {

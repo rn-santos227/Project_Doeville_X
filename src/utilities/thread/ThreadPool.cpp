@@ -9,7 +9,7 @@ namespace Project::Utilities {
     return instance;
   }
 
-  ThreadPool::ThreadPool() : stop(false), active(0) {
+  ThreadPool::ThreadPool() : stop(false), active(0), logger(nullptr) {
     size_t count = std::max(2u, std::thread::hardware_concurrency());
     workers.reserve(count);
     for (size_t i = 0; i < count; ++i) {
@@ -47,18 +47,21 @@ namespace Project::Utilities {
   void ThreadPool::worker() {
     while (true) {
       std::function<void()> job;
-      if (!tasks.pop(job)) {
+      bool hasJob = false;
+      
+      hasJob = tasks.pop(job);
+      
+      if (!hasJob) {
         std::unique_lock<std::mutex> lock(cvMutex);
         cv.wait(lock, [this] {
           return stop.load(std::memory_order_acquire) || !tasks.empty();
         });
+        
         if (stop.load(std::memory_order_acquire) && tasks.empty()) {
-          if (logger)
-            logger->logMessage("ThreadPool: worker exiting");
+          if (logger) logger->logMessage("ThreadPool: worker exiting");
           return;
-        } else {
-          continue;
         }
+        continue;
       }
 
       active.fetch_add(1, std::memory_order_acq_rel);
@@ -69,8 +72,8 @@ namespace Project::Utilities {
       } catch (...) {
         if (logger) logger->logMessage("ThreadPool: task threw unknown exception");
       }
-
       active.fetch_sub(1, std::memory_order_acq_rel);
+      
       if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
         std::lock_guard<std::mutex> lock(cvMutex);
         cv.notify_all();

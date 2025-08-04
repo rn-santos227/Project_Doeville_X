@@ -50,12 +50,21 @@ namespace Project::Systems {
   void SystemScheduler::update(float deltaTime) {
     resolveOrder();
     auto& pool = Project::Utilities::ThreadPool::getInstance();
+    
     for (auto& layer : layers) {
+      std::vector<std::future<void>> futures;
+      futures.reserve(layer.size());
+      
       for (auto* sys : layer) {
         if (!sys) continue;
-        pool.enqueue([sys, deltaTime]() { sys->update(deltaTime); });
+        futures.emplace_back(std::async(std::launch::async, [sys, deltaTime]() {
+          sys->update(deltaTime);
+        }));
       }
-      pool.wait();
+      
+      for (auto& future : futures) {
+        future.wait();
+      }
     }
   }
 }

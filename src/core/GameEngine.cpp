@@ -8,11 +8,13 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/exception/EngineException.h"
+#include "utilities/thread/ThreadPool.h"
 
 namespace Project::Core {
   using Project::Utilities::LogsManager;
   using Project::Utilities::ConfigReader;
   using Project::Utilities::EngineException;
+  using Project::Utilities::ThreadPool;
   using Project::Core::SDLManager;
   using Project::Handlers::ResourcesHandler;
   using Project::Factories::ComponentsFactory;
@@ -81,9 +83,9 @@ namespace Project::Core {
 
       SDL_ShowCursor(SDL_DISABLE);
       std::string fontRelPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
-        if (!Project::Helpers::checkNotNull(logsManager, resourcesHandler.get(), "ResourcesHandler is null.")) {
-          throw EngineException("ResourcesHandler is null", Project::Utilities::ErrorCategory::RESOURCE);
-        }
+      if (!Project::Helpers::checkNotNull(logsManager, resourcesHandler.get(), "ResourcesHandler is null.")) {
+        throw EngineException("ResourcesHandler is null", Project::Utilities::ErrorCategory::RESOURCE);
+      }
       std::string fontPath = resourcesHandler->getResourcePath(fontRelPath);
 
       if (!Project::Helpers::checkNotNull(logsManager, screenHandler.get(), "ScreenHandler is null.")) {
@@ -120,6 +122,13 @@ namespace Project::Core {
         keyHandler->setKeyBinding(Project::Handlers::KeyAction::HELP_TOGGLE, Constants::KEY_FUNC_HELP);
       } else {
         throw EngineException("KeyHandler is null", Project::Utilities::ErrorCategory::INPUT);
+      }
+
+      auto& threadPool = Project::Utilities::ThreadPool::getInstance();
+      threadPool.setLogger(&logsManager);
+      
+      if (logsManager.checkAndLogError(!configReader.loadConfig(Keys::CONFIG_FILE), "Failed to load config.ini")) {
+        throw EngineException("Failed to load configuration", Project::Utilities::ErrorCategory::CONFIG);
       }
 
       logsManager.logMessage("Game Engine has been initialized successfully.");

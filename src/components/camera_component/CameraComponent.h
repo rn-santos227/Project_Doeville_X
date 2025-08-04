@@ -30,6 +30,9 @@ namespace Project::Components {
     void setZoom(float z);
     float getZoom() const { return data.zoom; }
 
+    void zoomIn(float amount);
+    void zoomOut(float amount);
+
     void setFollowSpeed(float speed) { data.followSpeed = speed; }
     float getFollowSpeed() const { return data.followSpeed; }
 
@@ -38,6 +41,11 @@ namespace Project::Components {
 
     void setSpinSpeed(float speed) { data.spinSpeed = speed; }
     float getSpinSpeed() const { return data.spinSpeed; }
+
+    void setShakeIntensity(float intensity) { data.shakeIntensity = intensity; }
+    float getShakeIntensity() const { return data.shakeIntensity; }
+    
+    void shake(float duration);
 
     void setOffset(float x, float y);
     float getOffsetX() const { return data.offsetX; }
@@ -50,7 +58,9 @@ namespace Project::Components {
     Project::Entities::Entity* owner = nullptr;
     Project::Entities::Entity* target = nullptr;
     Project::Handlers::CameraHandler* cameraHandler = nullptr;
+    
     CameraData data;
+    float shakeTime = 0.0f;
   };
 }
 

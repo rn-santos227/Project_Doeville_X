@@ -11,6 +11,7 @@ namespace Project::Components {
     float followSpeed = Project::Libraries::Constants::DEFAULT_CAMERA_SPEED;
     float rotation = Project::Libraries::Constants::DEFAULT_CAMERA_ROTATION;
     float spinSpeed = Project::Libraries::Constants::DEFAULT_CAMERA_SPIN_SPEED;
+    float shakeIntensity = Project::Libraries::Constants::DEFAULT_CAMERA_SHAKE_INTENSITY;
 
     float offsetX = 0.0f;
     float offsetY = 0.0f;

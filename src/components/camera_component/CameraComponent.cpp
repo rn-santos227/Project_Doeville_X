@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
@@ -104,6 +105,13 @@ namespace Project::Components {
   void CameraComponent::setZoom(float z) {
     data.zoom = z;
     if (cameraHandler) cameraHandler->setZoom(z);
+  }
+
+  void CameraComponent::zoomIn(float amount) {
+    if (cameraHandler) {
+      cameraHandler->zoomIn(amount);
+      data.zoom = cameraHandler->getZoom();
+    }
   }
 
   void CameraComponent::setRotation(float angle) {

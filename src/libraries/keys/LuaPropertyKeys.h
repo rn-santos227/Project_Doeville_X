@@ -29,6 +29,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* DELTA_TIME = "deltaTime";
   constexpr const char* DENSITY = "density";
   constexpr const char* DIMENSION = "dimension";
+  constexpr const char* DURATION = "duration";
   constexpr const char* ENABLED = "enabled";
   constexpr const char* FOLLOW_CAMERA = "follow_camera";
   constexpr const char* FOLLOW_SPEED = "follow_speed";

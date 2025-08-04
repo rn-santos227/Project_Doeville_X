@@ -350,7 +350,7 @@ namespace Project::Bindings::LuaBindings {
     if (!state || !state->getActiveCamera()) {
       return 0;
     }
-    state->getActiveCamera()->zoomIn(amount);
+    state->getActiveCamera()->zoomOut(amount);
     return 0;
   }
 

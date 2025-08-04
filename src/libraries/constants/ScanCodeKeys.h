@@ -66,6 +66,16 @@ namespace Project::Libraries::Constants {
   constexpr const char* FUNC_FREEZE = "FUNC_FREEZE";
   constexpr const char* FUNC_RESTART = "FUNC_RESTART";
   constexpr const char* FUNC_EXIT = "FUNC_EXIT";
+
+  constexpr const char* WORD_PLUS = "plus";
+  constexpr const char* WORD_MINUS = "minus";
+  constexpr const char* WORD_EQUALS = "equals";
+
+  constexpr const char SYM_PLUS = '+';
+  constexpr const char SYM_MINUS = '=';
+  constexpr const char SYM_EQUALS = '-';
+
+
 }
 
 #endif

@@ -33,9 +33,18 @@ namespace Project::Components {
         }
       }
     }
+
     if (cameraHandler) {
       cameraHandler->setZoom(data.zoom);
       cameraHandler->setRotation(data.rotation);
+    }
+
+    if (isActive() && owner) {
+      if (auto* mgr = owner->getEntitiesManager()) {
+        if (auto* state = mgr->getGameState()) {
+          state->setActiveCamera(this);
+        }
+      }
     }
   }
 
@@ -104,7 +113,9 @@ namespace Project::Components {
     data.offsetX = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::OFFSET_X, 0.0));
     data.offsetY = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::OFFSET_Y, 0.0));
     data.shakeIntensity = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::INTENSITY, Constants::DEFAULT_CAMERA_SHAKE_INTENSITY));
-    
+
+    shakeTime = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::DURATION, Constants::DEFAULT_CAMERA_SHAKE_DURATION));
+
     data.targetName = luaStateWrapper.getTableString(tableName, Keys::TARGET, Constants::EMPTY_STRING);
     if (cameraHandler) {
       cameraHandler->setZoom(data.zoom);

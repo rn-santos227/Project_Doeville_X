@@ -1,7 +1,13 @@
 #include "KeyCodeResolver.h"
+
 #include <algorithm>
+#include <string>
+
+#include "libraries/constants/ScanCodeKeys.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Handlers {
+  namespace ScanCodes = Project::Libraries::Constants;
   SDL_Scancode KeyCodeResolver::resolve(const std::string& name) {
     if (name.empty()) return SDL_SCANCODE_UNKNOWN;
 
@@ -11,6 +17,17 @@ namespace Project::Handlers {
     }
 
     if (code != SDL_SCANCODE_UNKNOWN) return code;
+
+    if (Project::Utilities::StringUtils::iequals(name, ScanCodes::WORD_MINUS) || 
+      name == std::string(1, ScanCodes::SYM_MINUS)) {
+      return SDL_SCANCODE_MINUS;
+    }
+    if (Project::Utilities::StringUtils::iequals(name, ScanCodes::WORD_EQUALS) ||
+        Project::Utilities::StringUtils::iequals(name, ScanCodes::WORD_PLUS) ||
+        name == std::string(1, ScanCodes::SYM_EQUALS) ||
+        name == std::string(1, ScanCodes::SYM_PLUS)) {
+      return SDL_SCANCODE_EQUALS;
+    }
 
     if (name.size() == 1) {
       char c = name[0];

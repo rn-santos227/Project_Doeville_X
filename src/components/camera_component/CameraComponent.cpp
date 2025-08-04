@@ -102,14 +102,20 @@ namespace Project::Components {
     }
   }
 
-  void CameraComponent::setZoom(float z) {
-    data.zoom = z;
-    if (cameraHandler) cameraHandler->setZoom(z);
+  void CameraComponent::shake(float duration) {
+    shakeTime = duration;
   }
 
   void CameraComponent::zoomIn(float amount) {
     if (cameraHandler) {
       cameraHandler->zoomIn(amount);
+      data.zoom = cameraHandler->getZoom();
+    }
+  }
+
+  void CameraComponent::zoomOut(float amount) {
+    if (cameraHandler) {
+      cameraHandler->zoomOut(amount);
       data.zoom = cameraHandler->getZoom();
     }
   }

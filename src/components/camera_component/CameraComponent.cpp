@@ -111,10 +111,7 @@ namespace Project::Components {
   }
 
   void CameraComponent::zoomOut(float amount) {
-    if (cameraHandler) {
-      cameraHandler->zoomOut(amount);
-      data.zoom = cameraHandler->getZoom();
-    }
+    setZoom(data.zoom - amount);
   }
 
   void CameraComponent::setRotation(float angle) {

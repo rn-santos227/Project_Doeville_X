@@ -350,6 +350,8 @@ namespace Project::Bindings::LuaBindings {
     if (!state || !state->getActiveCamera()) {
       return 0;
     }
+    state->getActiveCamera()->zoomIn(amount);
+    return 0;
   }
 
   int lua_setBackgroundColor(lua_State* L) {

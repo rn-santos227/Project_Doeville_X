@@ -538,6 +538,9 @@ namespace Project::Entities {
           record(Keys::LUA_TURN_RIGHT);
           record(Keys::LUA_IS_ACTION_PRESSED);
           record(Keys::LUA_IGNORE_COLLISIONS_WITH);
+          record(Keys::LUA_CAMERA_ZOOM_IN);
+          record(Keys::LUA_CAMERA_ZOOM_OUT);
+          record(Keys::LUA_CAMERA_SHAKE);
           record(Keys::LUA_EXIT_GAME);
 
           std::string serialized;
@@ -591,6 +594,12 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_ignoreCollisionsWith, this);
         } else if (func == Keys::LUA_SPAWN_ENTITY && gameState) {
           entity->registerLuaFunction(func, LuaBindings::lua_spawnEntity, gameState);
+        } else if (func == Keys::LUA_CAMERA_ZOOM_IN && gameState) {
+          entity->registerLuaFunction(func, LuaBindings::lua_cameraZoomIn, gameState);
+        } else if (func == Keys::LUA_CAMERA_ZOOM_OUT && gameState) {
+          entity->registerLuaFunction(func, LuaBindings::lua_cameraZoomOut, gameState);
+        } else if (func == Keys::LUA_CAMERA_SHAKE && gameState) {
+          entity->registerLuaFunction(func, LuaBindings::lua_cameraShake, gameState);
         } else if (func == Keys::LUA_EXIT_GAME && sdlManager) {
           entity->registerLuaFunction(func, LuaBindings::lua_exitGame, sdlManager);
         }

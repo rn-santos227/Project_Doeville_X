@@ -16,5 +16,11 @@
 #include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Components {
+  using Project::Utilities::ColorUtils;
+  using Project::Utilities::MathUtils;
+  using Project::Services::Style;
+  using Project::Services::StyleManager;
 
+  namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 }

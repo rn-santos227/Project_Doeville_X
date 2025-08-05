@@ -28,6 +28,17 @@ namespace Project::Components {
     void applyStyle() override;
     void onAttach() override;
 
+    void setSize(int w, int h);
+    void setNumericComponent(NumericComponent* comp, const std::string& name);
+    void setBarColor(SDL_Color color) { data.barColor = color; }
+    void setBackgroundColor(SDL_Color color) { data.backgroundColor = color; }
+    void setBorderColor(SDL_Color color) { data.borderColor = color; }
+    void setBorderWidth(int width) { data.borderWidth = width; }
+    void setCornerRadius(int radius) { data.cornerRadius = radius; }
+    void setOrientation(MeterOrientation orient) { data.orientation = orient; }
+    void setRound(bool round) { data.isRound = round; }
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+  
   private:
     SDL_Renderer* renderer = nullptr;
     Project::Entities::Entity* owner = nullptr;

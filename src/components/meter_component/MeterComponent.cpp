@@ -102,4 +102,59 @@ namespace Project::Components {
       }
     }
   }
+
+  void MeterComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
+    int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
+    setSize(width, height);
+
+    std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::COLOR_HEX_GREEN);
+    Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
+    data.barColor = ColorUtils::hexToRGB(colorHex, alpha);
+    data.cornerRadius = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::BORDER_RADIUS, 0));
+
+    std::string orientation = luaStateWrapper.getTableString(tableName, Keys::ORIENTATION, Constants::STR_VERTICAL);
+    if (orientation == Constants::STR_HORIZONTAL) data.orientation = MeterOrientation::HORIZONTAL; else data.orientation = MeterOrientation::VERTICAL;
+    data.isRound = luaStateWrapper.getTableBoolean(tableName, Keys::ROUND, false);
+
+    std::string name = luaStateWrapper.getTableString(tableName, Keys::NAME, Constants::EMPTY_STRING);
+    numericName = name;
+    targetName = luaStateWrapper.getTableString(tableName, Keys::TARGET, Constants::EMPTY_STRING);
+  }
+
+  void MeterComponent::onAttach() {
+    if (!owner) return;
+    Project::Entities::Entity* target = owner;
+    if (targetName.empty()) {
+      targetName = owner->getEntityID();
+    } else if (auto* mgr = owner->getEntitiesManager()) {
+      auto ent = mgr->getEntity(targetName);
+      if (ent) {
+        target = ent.get();
+      } else {
+        targetName = owner->getEntityID();
+      }
+    }
+
+    if (auto* comp = target->getComponent(Project::Libraries::Categories::Components::NUMERIC_COMPONENT)) {
+      if (auto* num = dynamic_cast<NumericComponent*>(comp)) {
+        setNumericComponent(num, numericName);
+      }
+    }
+  }
+
+  void MeterComponent::applyStyle() {
+    std::istringstream classes(getClass());
+    std::string cls;
+    while (classes >> cls) {
+      Style s = StyleManager::getInstance().getStyle("." + cls);
+      if (s.width > 0) data.rect.w = s.width;
+      if (s.height > 0) data.rect.h = s.height;
+      if (s.background.a != 0) data.backgroundColor = s.background;
+      if (s.foreground.a != 0) data.barColor = s.foreground;
+      if (s.borderColor.a != 0) data.borderColor = s.borderColor;
+      if (s.borderWidth > 0) data.borderWidth = s.borderWidth;
+      if (s.borderRadius > 0) data.cornerRadius = static_cast<int>(s.borderRadius);
+    }
+  }
 }

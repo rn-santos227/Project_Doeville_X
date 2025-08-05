@@ -146,4 +146,11 @@ namespace Project::Utilities {
       }
     }
   }
+
+  void GeometryUtils::renderRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r) {
+    if (r <= 0) {
+      SDL_RenderDrawRect(renderer, &rect);
+      return;
+    }
+  }
 }

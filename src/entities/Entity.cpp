@@ -7,7 +7,9 @@
 #include "components/camera_component/CameraComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/keys_component/KeysComponent.h"
+#include "components/meter_component/MeterComponent.h"
 #include "components/motion_component/MotionComponent.h"
+#include "components/numeric_component/NumericComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/timer_component/TimerComponent.h"
@@ -159,9 +161,17 @@ namespace Project::Entities {
       keys->setEntityReference(this);
     }
 
+    if (auto* meter = dynamic_cast<Components::MeterComponent*>(component.get())) {
+      meter->setEntityReference(this);
+    }
+
     if (auto* motion = dynamic_cast<Components::MotionComponent*>(component.get())) {
       motion->setEntityReference(this);
       motion->onAttach();
+    }
+
+    if (auto* numeric = dynamic_cast<Components::NumericComponent*>(component.get())) {
+      numeric->setEntityReference(this);
     }
 
     if (auto* physicsComp = dynamic_cast<Components::PhysicsComponent*>(component.get())) {

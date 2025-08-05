@@ -18,10 +18,13 @@ namespace Project::Components {
     SDL_Color borderColor = Project::Libraries::Constants::COLOR_WHITE;
     
     MeterOrientation orientation = MeterOrientation::VERTICAL;
-    
+
     float interpolationSpeed = Project::Libraries::Constants::DEFAULT_BAR_SPEED;
 
     int borderWidth = 0;
+    int cornerRadius = 0;
+    int currentValue = 0;
+    int currentAngle = 0;
     int currentBarWidth = 0;
   };
 }

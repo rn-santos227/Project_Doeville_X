@@ -12,6 +12,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* BINDING = "binding";
   constexpr const char* BINDINGS = "bindings";
   constexpr const char* BOXES = "boxes";
+  constexpr const char* BORDER_RADIUS = "border_radius";
   constexpr const char* BRAKE_POWER  = "brake_power"; 
   constexpr const char* CALLBACKS = "callbacks";
   constexpr const char* CATEGORY = "category";
@@ -68,6 +69,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* OFFSET_X = "offset_x";
   constexpr const char* OFFSET_Y = "offset_y";
   constexpr const char* OK_CALLBACK = "ok_callback";
+  constexpr const char* ORIENTATION = "orientation";
   constexpr const char* PLAYER = "player";
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";
@@ -78,6 +80,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* RESTITUTION = "restitution";
   constexpr const char* ROTATION = "rotation";
   constexpr const char* ROTATION_SPEED = "rotation_speed";
+  constexpr const char* ROUND = "round";
   constexpr const char* SCALE = "scale";
   constexpr const char* SECONDS = "seconds";
   constexpr const char* SIZE = "size";

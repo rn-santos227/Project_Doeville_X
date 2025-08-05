@@ -168,6 +168,16 @@ namespace Project::Utilities {
     clip = {x, y, radius, radius};
     SDL_RenderSetClipRect(renderer, &clip);
     renderCircle(renderer, x + radius, y + radius, radius);
-    clip = {x + w - radius, y, radius, radius};  
+    clip = {x + w - radius, y, radius, radius};
+
+    SDL_RenderSetClipRect(renderer, &clip);
+    renderCircle(renderer, x + w - 1 - radius, y + radius, radius);
+    clip = {x, y + h - radius, radius, radius};
+    SDL_RenderSetClipRect(renderer, &clip);
+    renderCircle(renderer, x + radius, y + h - 1 - radius, radius);
+    clip = {x + w - radius, y + h - radius, radius, radius};
+    SDL_RenderSetClipRect(renderer, &clip);
+    renderCircle(renderer, x + w - 1 - radius, y + h - 1 - radius, radius);
+    SDL_RenderSetClipRect(renderer, nullptr);
   }
 }

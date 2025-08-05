@@ -3,7 +3,11 @@
 #include <algorithm>
 #include <cmath>
 
+#include "libraries/constants/IndexConstants.h"
+#include "libraries/constants/PhysicsConstants.h"
+
 namespace Project::Utilities {
+  namespace Constants = Project::Libraries::Constants;
   Circle GeometryUtils::makeCircle(int x, int y, int r) { 
     return {x, y, r}; 
   }
@@ -51,7 +55,7 @@ namespace Project::Utilities {
       return std::sqrt(dx*dx + dy*dy);
     }
     float t = ((px - x1) * dx + (py - y1) * dy) / (dx*dx + dy*dy);
-    t = std::clamp(t, 0.0f, 1.0f);
+    t = std::clamp(t, 0.0f, Constants::DEFAULT_WHOLE);
     float projX = x1 + t * dx;
     float projY = y1 + t * dy;
     dx = px - projX;
@@ -117,12 +121,12 @@ namespace Project::Utilities {
       if (err <= 0) {
         y++;
         err += dy;
-        dy += 2;
+        dy += Constants::INDEX_TWO;
       }
       
       if (err > 0) {
         x--;
-        dx += 2;
+        dx += Constants::INDEX_TWO;
         err += dx - (r << 1);
       }
     }
@@ -139,10 +143,10 @@ namespace Project::Utilities {
       SDL_RenderDrawLine(renderer, cx - y, cy - x, cx + y, cy - x);
       ++y;
       if (err < 0) {
-        err += 2 * y + 1;
+        err += Constants::INDEX_TWO * y + 1;
       } else {
         --x;
-        err += 2 * (y - x + 1);
+        err += Constants::INDEX_TWO * (y - x + 1);
       }
     }
   }
@@ -186,5 +190,18 @@ namespace Project::Utilities {
       SDL_RenderFillRect(renderer, &rect);
       return;
     }
+    
+    int radius = std::min(r, std::min(rect.w, rect.h) / Constants::INDEX_TWO);
+
+    SDL_Rect core{rect.x + radius, rect.y, rect.w - Constants::INDEX_TWO * radius, rect.h};
+    SDL_RenderFillRect(renderer, &core);
+    SDL_Rect left{rect.x, rect.y + radius, radius, rect.h - Constants::INDEX_TWO * radius};
+    SDL_RenderFillRect(renderer, &left);
+    SDL_Rect right{rect.x + rect.w - radius, rect.y + radius, radius, rect.h - Constants::INDEX_TWO * radius};
+    SDL_RenderFillRect(renderer, &right);
+
+    SDL_Rect clip;
+    clip = {rect.x, rect.y, radius, radius};
+    SDL_RenderSetClipRect(renderer, &clip);
   }
 }

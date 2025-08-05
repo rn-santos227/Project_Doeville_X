@@ -159,5 +159,9 @@ namespace Project::Utilities {
     int w = rect.w;
     int h = rect.h;
 
+    SDL_RenderDrawLine(renderer, x + radius, y, x + w - radius - 1, y);
+    SDL_RenderDrawLine(renderer, x + radius, y + h - 1, x + w - radius - 1, y + h - 1);
+    SDL_RenderDrawLine(renderer, x, y + radius, x, y + h - radius - 1);
+    SDL_RenderDrawLine(renderer, x + w - 1, y + radius, x + w - 1, y + h - radius - 1);
   }
 }

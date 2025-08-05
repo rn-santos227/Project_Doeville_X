@@ -180,4 +180,11 @@ namespace Project::Utilities {
     renderCircle(renderer, x + w - 1 - radius, y + h - 1 - radius, radius);
     SDL_RenderSetClipRect(renderer, nullptr);
   }
+
+  void GeometryUtils::renderFilledRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r) {
+    if (r <= 0) {
+      SDL_RenderFillRect(renderer, &rect);
+      return;
+    }
+  }
 }

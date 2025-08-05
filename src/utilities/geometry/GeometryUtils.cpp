@@ -163,5 +163,11 @@ namespace Project::Utilities {
     SDL_RenderDrawLine(renderer, x + radius, y + h - 1, x + w - radius - 1, y + h - 1);
     SDL_RenderDrawLine(renderer, x, y + radius, x, y + h - radius - 1);
     SDL_RenderDrawLine(renderer, x + w - 1, y + radius, x + w - 1, y + h - radius - 1);
+  
+    SDL_Rect clip;
+    clip = {x, y, radius, radius};
+    SDL_RenderSetClipRect(renderer, &clip);
+    renderCircle(renderer, x + radius, y + radius, radius);
+    clip = {x + w - radius, y, radius, radius};  
   }
 }

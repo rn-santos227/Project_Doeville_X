@@ -152,5 +152,12 @@ namespace Project::Utilities {
       SDL_RenderDrawRect(renderer, &rect);
       return;
     }
+
+    int radius = std::min(r, std::min(rect.w, rect.h) / 2);
+    int x = rect.x;
+    int y = rect.y;
+    int w = rect.w;
+    int h = rect.h;
+
   }
 }

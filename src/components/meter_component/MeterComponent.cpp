@@ -23,4 +23,7 @@ namespace Project::Components {
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
+
+  MeterComponent::MeterComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager)
+    : BaseComponent(logsManager), renderer(renderer) {}
 }

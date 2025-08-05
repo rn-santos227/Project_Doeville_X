@@ -157,4 +157,32 @@ namespace Project::Components {
       if (s.borderRadius > 0) data.cornerRadius = static_cast<int>(s.borderRadius);
     }
   }
+
+  void MeterComponent::setEntityPosition(int x, int y) {
+    data.rect.x = x;
+    data.rect.y = y;
+  }
+
+  void MeterComponent::setSize(int w, int h) {
+    data.rect.w = w;
+    data.rect.h = h;
+  }
+
+  void MeterComponent::setNumericComponent(NumericComponent* comp, const std::string& name) {
+    numericComponent = comp;
+    numericName = name;
+    if (numericComponent) {
+      float value = numericComponent->getValue(numericName);
+      float limit = numericComponent->getLimit(numericName);
+      if (limit > 0.0f) {
+        if (data.isRound) {
+          data.currentAngle = static_cast<int>((value / limit) * Constants::ANGLE_360_DEG);
+        } else if (data.orientation == MeterOrientation::HORIZONTAL) {
+          data.currentValue = static_cast<int>((value / limit) * data.rect.w);
+        } else {
+          data.currentValue = static_cast<int>((value / limit) * data.rect.h);
+        }
+      }
+    }
+  }
 }

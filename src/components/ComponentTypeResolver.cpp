@@ -23,6 +23,8 @@ namespace Project::Components {
       {Components::INPUT_COMPONENT, ComponentType::INPUT},
       {Components::KEYS, ComponentType::KEYS},
       {Components::KEYS_COMPONENT, ComponentType::KEYS},
+      {Components::METER, ComponentType::METER},
+      {Components::METER_COMPONENT, ComponentType::METER},
       {Components::MODAL, ComponentType::MODAL},
       {Components::MODAL_COMPONENT, ComponentType::MODAL},
       {Components::MOTION, ComponentType::MOTION},

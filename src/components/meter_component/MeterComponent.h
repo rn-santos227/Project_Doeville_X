@@ -20,6 +20,8 @@ namespace Project::Components {
     MeterComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager);
     ~MeterComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
@@ -33,7 +35,8 @@ namespace Project::Components {
     MeterData data;
     
     NumericComponent* numericComponent = nullptr;
-    std::string numericName;    
+    std::string numericName;
+    std::string targetName;  
   };
 }
 

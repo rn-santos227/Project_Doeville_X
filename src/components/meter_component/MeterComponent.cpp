@@ -88,5 +88,18 @@ namespace Project::Components {
     } else {
       SDL_RenderFillRect(renderer, &barRect);
     }
+
+    if (data.borderWidth > 0) {
+      SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
+      for (int i = 0; i < data.borderWidth; ++i) {
+        SDL_Rect bRect{data.rect.x + i, data.rect.y + i, data.rect.w - 2 * i, data.rect.h - 2 * i};
+        int radius = std::max(0, data.cornerRadius - i);
+        if (radius > 0) {
+          Project::Utilities::GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+        } else {
+          SDL_RenderDrawRect(renderer, &bRect);
+        }
+      }
+    }
   }
 }

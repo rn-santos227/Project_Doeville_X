@@ -45,7 +45,13 @@ namespace Project::Components {
   void MeterComponent::render() {
     if (!renderer) return;
     if (data.isRound) {
+      int cx = data.rect.x + data.rect.w / Constants::INDEX_TWO;
+      int cy = data.rect.y + data.rect.h / Constants::INDEX_TWO;
+      int r = std::min(data.rect.w, data.rect.h) / Constants::INDEX_TWO;
 
+      SDL_SetRenderDrawColor(renderer, data.backgroundColor.r, data.backgroundColor.g, data.backgroundColor.b, data.backgroundColor.a);
+      Project::Utilities::GeometryUtils::renderFilledCircle(renderer, cx, cy, r);
+      SDL_SetRenderDrawColor(renderer, data.barColor.r, data.barColor.g, data.barColor.b, data.barColor.a);
     }
   }
 }

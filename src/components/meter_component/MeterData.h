@@ -26,6 +26,8 @@ namespace Project::Components {
     int currentValue = 0;
     int currentAngle = 0;
     int currentBarWidth = 0;
+
+    bool isRound = false;
   };
 }
 

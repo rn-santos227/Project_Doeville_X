@@ -41,4 +41,11 @@ namespace Project::Components {
       data.currentValue = MathUtils::interpolate(data.currentValue, target, data.interpolationSpeed);
     }
   }
+
+  void MeterComponent::render() {
+    if (!renderer) return;
+    if (data.isRound) {
+
+    }
+  }
 }

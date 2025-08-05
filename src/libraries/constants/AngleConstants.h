@@ -20,6 +20,8 @@ namespace Project::Libraries::Constants {
   constexpr float ANGLE_TWO_PI_RAD = ANGLE_PI_RAD * 2.0f;
   constexpr float DEG_TO_RAD = ANGLE_PI_RAD / 180.0f;
   constexpr float RAD_TO_DEG = 180.0f / ANGLE_PI_RAD;
+
+   constexpr float PI = 3.14159265f;
 }
 
 #endif

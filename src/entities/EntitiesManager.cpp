@@ -531,6 +531,9 @@ namespace Project::Entities {
           record(Keys::LUA_DESTROY_SELF);
           record(Keys::LUA_SET_TIMER_ACTIVE);
           record(Keys::LUA_ADD_NUMERIC_VALUE);
+          record(Keys::LUA_SUBTRACT_NUMERIC_VALUE);
+          record(Keys::LUA_MULTIPLY_NUMERIC_VALUE);
+          record(Keys::LUA_DIVIDE_NUMERIC_VALUE);
           record(Keys::LUA_SET_NUMERIC_VALUE);
           record(Keys::LUA_GET_NUMERIC_VALUE);
           record(Keys::LUA_STOP_TIMER);
@@ -562,7 +565,6 @@ namespace Project::Entities {
       ensure(Keys::LUA_CAMERA_ZOOM_IN);
       ensure(Keys::LUA_CAMERA_ZOOM_OUT);
       ensure(Keys::LUA_CAMERA_SHAKE);
-      ensure(Keys::LUA_SET_COLOR);
 
       for (const auto& func : functions) {
         if (func == Keys::LUA_GET_ENTITY_DETAILS) {
@@ -589,6 +591,12 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_setTimerActive, this);
         } else if (func == Keys::LUA_ADD_NUMERIC_VALUE) {
           entity->registerLuaFunction(func, LuaBindings::lua_addNumericValue, this);
+        } else if (func == Keys::LUA_SUBTRACT_NUMERIC_VALUE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_subtractNumericValue, this);
+        } else if (func == Keys::LUA_MULTIPLY_NUMERIC_VALUE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_multiplyNumericValue, this);
+        } else if (func == Keys::LUA_DIVIDE_NUMERIC_VALUE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_divideNumericValue, this);
         } else if (func == Keys::LUA_SET_NUMERIC_VALUE) {
           entity->registerLuaFunction(func, LuaBindings::lua_setNumericValue, this);
         } else if (func == Keys::LUA_GET_NUMERIC_VALUE) {

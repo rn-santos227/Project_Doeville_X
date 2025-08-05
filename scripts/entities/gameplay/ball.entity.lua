@@ -24,6 +24,12 @@ components = {
     radius = 16
   },
 
+  NumericComponent = {
+    component = "NumericComponent",
+    active = true,
+    hp = { value = 3, limit = 3 }
+  },
+
   MotionComponent = {
     component = "MotionComponent",
     active = true,

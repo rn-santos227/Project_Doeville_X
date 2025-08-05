@@ -22,6 +22,9 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_PLAYER_ENTITY = "setPlayerEntity";
   constexpr const char* LUA_SET_MAP_SIZE = "setMapSize";
   constexpr const char* LUA_ADD_NUMERIC_VALUE = "addNumericValue";
+  constexpr const char* LUA_SUBTRACT_NUMERIC_VALUE = "subtractNumericValue";
+  constexpr const char* LUA_MULTIPLY_NUMERIC_VALUE = "multiplyNumericValue";
+  constexpr const char* LUA_DIVIDE_NUMERIC_VALUE = "divideNumericValue";
   constexpr const char* LUA_SET_NUMERIC_VALUE = "setNumericValue";
   constexpr const char* LUA_GET_NUMERIC_VALUE = "getNumericValue";
   constexpr const char* LUA_STOP_TIMER = "stopTimer";

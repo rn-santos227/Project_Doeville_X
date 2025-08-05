@@ -8,14 +8,14 @@
 .ball {
   width: 32;
   height: 32;
-  background-color: #808080;
+  background-color: #00FF00;
   opacity: 255;
 }
 
 .box {
   width: 32;
   height: 32;
-  background-color: #808080;
+  background-color: #00FF00;
   opacity: 255;
 }
 

@@ -667,12 +667,12 @@ namespace Project::Bindings::LuaBindings {
     auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(entity->getComponent(Components::GRAPHICS_COMPONENT));
     if (!gfx) return 0;
 
-    int r = static_cast<int>(luaL_checkinteger(L, 2));
-    int g = static_cast<int>(luaL_checkinteger(L, 3));
-    int b = static_cast<int>(luaL_checkinteger(L, 4));
-    int a = 255;
-    if (lua_gettop(L) >= 5 && lua_isnumber(L, 5)) {
-      a = static_cast<int>(luaL_checkinteger(L, 5));
+    int r = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_TWO));
+    int g = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_THREE));
+    int b = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_FOUR));
+    int a = Constants::FULL_ALPHA;
+    if (lua_gettop(L) >= Constants::INDEX_FIVE && lua_isnumber(L, Constants::INDEX_FIVE)) {
+      a = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_FIVE));
     }
 
     SDL_Color color{static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b), static_cast<Uint8>(a)};
@@ -683,7 +683,7 @@ namespace Project::Bindings::LuaBindings {
   int lua_addNumericValue(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);
-    const char* key = luaL_checkstring(L, 2);
+    const char* key = luaL_checkstring(L, Constants::INDEX_TWO);
     if (!manager || !name || !key) {
       return 0;
     }
@@ -696,8 +696,71 @@ namespace Project::Bindings::LuaBindings {
     auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
     if (!numeric) return 0;
 
-    float amount = static_cast<float>(luaL_checknumber(L, 3));
+    float amount = static_cast<float>(luaL_checknumber(L, Constants::INDEX_THREE));
     numeric->add(key, amount);
+    return 0;
+  }
+
+  int lua_subtractNumericValue(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* key = luaL_checkstring(L, Constants::INDEX_TWO);
+    if (!manager || !name || !key) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric) return 0;
+
+    float amount = static_cast<float>(luaL_checknumber(L, Constants::INDEX_THREE));
+    numeric->subtract(key, amount);
+    return 0;
+  }
+
+  int lua_multiplyNumericValue(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* key = luaL_checkstring(L, Constants::INDEX_TWO);
+    if (!manager || !name || !key) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric) return 0;
+
+    float amount = static_cast<float>(luaL_checknumber(L, Constants::INDEX_THREE));
+    numeric->multiply(key, amount);
+    return 0;
+  }
+
+  int lua_divideNumericValue(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    const char* key = luaL_checkstring(L, Constants::INDEX_TWO);
+    if (!manager || !name || !key) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric) return 0;
+
+    float amount = static_cast<float>(luaL_checknumber(L, Constants::INDEX_THREE));
+    numeric->divide(key, amount);
     return 0;
   }
 

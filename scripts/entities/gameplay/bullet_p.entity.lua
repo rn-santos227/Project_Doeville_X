@@ -65,7 +65,15 @@ function update(deltaTime)
   local count = 0
   while target and not seen[target] and count < 10 do
     seen[target] = true
-    destroyEntity(target)
+    subtractNumericValue(target, "hp", 1)
+    local hp = getNumericValue(target, "hp")
+    if hp <= 0 then
+      destroyEntity(target)
+    elseif hp == 1 then
+      setColor(target, 255, 0, 0)
+    else
+      setColor(target, 255, 255, 0)
+    end
     count = count + 1
     target = getCollidedEntity(id, {"box", "ball"})
     destroySelf()

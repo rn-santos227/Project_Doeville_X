@@ -67,5 +67,26 @@ namespace Project::Components {
       }
       return;
     }
+
+    SDL_SetRenderDrawColor(renderer, data.backgroundColor.r, data.backgroundColor.g, data.backgroundColor.b, data.backgroundColor.a);
+    if (data.cornerRadius > 0) {
+      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.cornerRadius);
+    } else {
+      SDL_RenderFillRect(renderer, &data.rect);
+    }
+
+    SDL_Rect barRect;
+    if (data.orientation == MeterOrientation::HORIZONTAL) {
+      barRect = {data.rect.x, data.rect.y, data.currentValue, data.rect.h};
+    } else {
+      barRect = {data.rect.x, data.rect.y + (data.rect.h - data.currentValue), data.rect.w, data.currentValue};
+    }
+
+    SDL_SetRenderDrawColor(renderer, data.barColor.r, data.barColor.g, data.barColor.b, data.barColor.a);
+    if (data.cornerRadius > 0) {
+      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, barRect, data.cornerRadius);
+    } else {
+      SDL_RenderFillRect(renderer, &barRect);
+    }
   }
 }

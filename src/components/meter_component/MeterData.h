@@ -6,11 +6,18 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Components {
+  enum class MeterOrientation {
+    HORIZONTAL,
+    VERTICAL
+  };
+
   struct MeterData {
     SDL_Rect rect{0, 0, 0, 0};
     SDL_Color barColor = Project::Libraries::Constants::COLOR_GREEN;
     SDL_Color backgroundColor = Project::Libraries::Constants::COLOR_GRAY;
     SDL_Color borderColor = Project::Libraries::Constants::COLOR_WHITE;
+    
+    MeterOrientation orientation = MeterOrientation::VERTICAL;
     
     float interpolationSpeed = Project::Libraries::Constants::DEFAULT_BAR_SPEED;
 

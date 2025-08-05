@@ -47,6 +47,9 @@ namespace Project::Utilities {
 
     static void renderCircle(SDL_Renderer* renderer, int cx, int cy, int r);
     static void renderFilledCircle(SDL_Renderer* renderer, int cx, int cy, int r);
+  
+    static void renderRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r);
+    static void renderFilledRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r);
   };
 }
 

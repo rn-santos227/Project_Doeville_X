@@ -1,40 +1,3 @@
-# ====================
-# Cross-Platform Setup
-# ====================
-
-ifeq ($(OS),Windows_NT)
-  NUL = NUL
-  PYTHON = python
-  MKDIR = mkdir
-  COPY = xcopy /E /I /Y
-  RM = rmdir /S /Q
-  SLASH = \\
-  SEP = ;
-  RPATH_FLAG =
-else
-  NUL = /dev/null
-  PYTHON = python3
-  MKDIR = mkdir -p
-  COPY = cp -r
-  RM = rm -rf
-  SLASH = /
-  SEP = :
-  UNAME_S := $(shell uname -s)
-  ifeq ($(UNAME_S),Darwin)
-    RPATH_BASE = @loader_path/../lib
-  else
-    RPATH_BASE = \$$ORIGIN/../lib
-  endif
-  RPATH_FLAG = -Wl,-rpath,$(RPATH_BASE)/SDL2_build/lib \
-               -Wl,-rpath,$(RPATH_BASE)/SDL2_image_build/lib \
-               -Wl,-rpath,$(RPATH_BASE)/SDL2_ttf_build/lib \
-               -Wl,-rpath,$(RPATH_BASE)/Lua_build/lib
-endif
-
-# ====================
-# Compiler and Flags
-# ====================
-
 CXX = g++
 CXXFLAGS += -std=c++17 -O3 -Isrc \
   -Ilib/SDL2_build/include \
@@ -43,22 +6,32 @@ CXXFLAGS += -std=c++17 -O3 -Isrc \
   -Ilib/SDL2_image_build/include/SDL2 \
   -Ilib/SDL2_ttf_build/include \
   -Ilib/SDL2_ttf_build/include/SDL2 \
-  -Ilib/Lua_build/include
+  -Ilib/Lua_build/include \
+  -Ilib/GLAD_build/include
 
-LDFLAGS += -Llib/SDL2_build/lib \
+LDFLAGS += 	-Llib/SDL2_build/lib \
   -Llib/SDL2_image_build/lib \
   -Llib/SDL2_ttf_build/lib \
   -Llib/Lua_build/lib \
-  -lSDL2 -lSDL2_image -lSDL2_ttf -llua -lz \
-  $(RPATH_FLAG)
+  -Llib/GLAD_build/lib \
+  -lSDL2 -lSDL2_image -lSDL2_ttf -llua -lz
 
-ifeq ($(OS),Windows_NT)
-  LDFLAGS += -lpsapi
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+RPATH_BASE=@loader_path/../lib
+else
+RPATH_BASE=\$$ORIGIN/../lib
 endif
 
-# ====================
-# Directories & Files
-# ====================
+ifeq ($(OS), Windows_NT)
+	LDFLAGS += -lpsapi
+else
+  LDFLAGS += -Wl,-rpath,$(RPATH_BASE)/SDL2_build/lib \
+    -Wl,-rpath,$(RPATH_BASE)/SDL2_image_build/lib \
+    -Wl,-rpath,$(RPATH_BASE)/SDL2_ttf_build/lib \
+    -Wl,-rpath,$(RPATH_BASE)/Lua_build/lib \
+    -Wl,-rpath,$(RPATH_BASE)/GLAD_build/lib
+endif
 
 SRC_DIR = src
 BUILD_DIR = build
@@ -78,14 +51,10 @@ TSAN_TARGET = $(BIN_DIR)/project_doeville_x_tsan
 PGO_GEN_TARGET = $(BIN_DIR)/project_doeville_x_pgo_gen
 PGO_USE_TARGET = $(BIN_DIR)/project_doeville_x_pgo_use
 
-# ====================
-# Main Targets
-# ====================
-
 all: deps $(TARGET) copy_config
 
 debug: CXXFLAGS += -g -O0
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS), Windows_NT)
 debug: LDFLAGS += -mconsole
 endif
 debug: deps $(DEBUG_TARGET) copy_config
@@ -106,81 +75,68 @@ pgo-use: CXXFLAGS += -O3 -fprofile-use
 pgo-use: LDFLAGS += -fprofile-use
 pgo-use: deps $(PGO_USE_TARGET) copy_config
 
-# ====================
-# Build Rules
-# ====================
-
 $(TARGET): $(OBJECTS)
-	@$(MKDIR) $(BIN_DIR)
+	@mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	$(COPY) $(RESOURCE_DIR) $(BIN_DIR)
-	$(COPY) $(SCRIPT_DIR) $(BIN_DIR)
-	@$(MKDIR) $(BIN_DIR)/$(CACHE_DIR)
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
 
 $(DEBUG_TARGET): $(OBJECTS)
-	@$(MKDIR) $(BIN_DIR)
+	@mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	$(COPY) $(RESOURCE_DIR) $(BIN_DIR)
-	$(COPY) $(SCRIPT_DIR) $(BIN_DIR)
-	@$(MKDIR) $(BIN_DIR)/$(CACHE_DIR)
-
-$(ASAN_TARGET): $(OBJECTS)
-	@$(MKDIR) $(BIN_DIR)
-	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
-	@echo "Copying resources and scripts..."
-	$(COPY) $(RESOURCE_DIR) $(BIN_DIR)
-	$(COPY) $(SCRIPT_DIR) $(BIN_DIR)
-	@$(MKDIR) $(BIN_DIR)/$(CACHE_DIR)
-
-$(TSAN_TARGET): $(OBJECTS)
-	@$(MKDIR) $(BIN_DIR)
-	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
-	@echo "Copying resources and scripts..."
-	$(COPY) $(RESOURCE_DIR) $(BIN_DIR)
-	$(COPY) $(SCRIPT_DIR) $(BIN_DIR)
-	@$(MKDIR) $(BIN_DIR)/$(CACHE_DIR)
-
-$(PGO_GEN_TARGET): $(OBJECTS)
-	@$(MKDIR) $(BIN_DIR)
-	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
-	@echo "Copying resources and scripts..."
-	$(COPY) $(RESOURCE_DIR) $(BIN_DIR)
-	$(COPY) $(SCRIPT_DIR) $(BIN_DIR)
-	@$(MKDIR) $(BIN_DIR)/$(CACHE_DIR)
-
-$(PGO_USE_TARGET): $(OBJECTS)
-	@$(MKDIR) $(BIN_DIR)
-	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
-	@echo "Copying resources and scripts..."
-	$(COPY) $(RESOURCE_DIR) $(BIN_DIR)
-	$(COPY) $(SCRIPT_DIR) $(BIN_DIR)
-	@$(MKDIR) $(BIN_DIR)/$(CACHE_DIR)
-
-# ====================
-# Object Compilation
-# ====================
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@$(MKDIR) $(@D)
+	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# ====================
-# Helper Targets
-# ====================
+$(ASAN_TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
 
-copy_config:
+$(TSAN_TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+
+$(PGO_GEN_TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+
+$(PGO_USE_TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+	@echo "Copying resources and scripts..."
+	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
+	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
+	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+
+  copy_config:
 	@echo "Copying config.ini to bin/"
-	$(COPY) config.ini $(BIN_DIR)
+	cp config.ini $(BIN_DIR)/
 
 deps:
-	@$(PYTHON) package_check.py --fail-on-missing >$(NUL) 2>&1 || \
-	$(PYTHON) package.py
+	@python3 package_check.py --fail-on-missing >/dev/null 2>&1 || \
+	python3 package.py
 
 clean:
-	$(RM) $(BUILD_DIR)
-	$(RM) $(BIN_DIR)
+	rm -rf $(BUILD_DIR) $(BIN_DIR)
 	@echo "Cleaned build directories."
 
-.PHONY: all clean debug asan tsan pgo-generate pgo-use deps copy_config
+.PHONY: all clean debug asan tsan pgo-generate pgo-use deps

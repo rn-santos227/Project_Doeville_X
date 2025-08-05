@@ -31,6 +31,7 @@ namespace Project::Bindings {
     int lua_getEntityRotation(lua_State* L);
     int lua_setEntityText(lua_State* L);
     int lua_setTimerActive(lua_State* L);
+    int lua_setColor(lua_State* L);
     int lua_addNumericValue(lua_State* L);
     int lua_setNumericValue(lua_State* L);
     int lua_getNumericValue(lua_State* L);

@@ -17,6 +17,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_ENTITY_SPEED = "setEntitySpeed";
   constexpr const char* LUA_GET_ENTITY_TEXT = "getEntityText";
   constexpr const char* LUA_SET_ENTITY_TEXT = "setEntityText";
+  constexpr const char* LUA_SET_COLOR = "setColor";
   constexpr const char* LUA_SET_TIMER_ACTIVE = "setTimerActive";
   constexpr const char* LUA_SET_PLAYER_ENTITY = "setPlayerEntity";
   constexpr const char* LUA_SET_MAP_SIZE = "setMapSize";

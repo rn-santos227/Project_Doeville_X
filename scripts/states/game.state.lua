@@ -21,7 +21,7 @@ function initialize()
   addEntityToSeed("wall_v", seeder_id, 5)
   addEntityToSeed("wall_h", seeder_id, 5)
 
-  spawnEntity("speed_text", nil, nil, "hud")
+  spawnEntity("speed_meter", nil, nil, "hud")
 end
 
 function onEnter()

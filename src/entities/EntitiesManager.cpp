@@ -524,6 +524,7 @@ namespace Project::Entities {
           record(Keys::LUA_GET_ENTITY_VELOCITY);
           record(Keys::LUA_GET_ENTITY_ROTATION);
           record(Keys::LUA_SET_ENTITY_TEXT);
+          record(Keys::LUA_SET_COLOR);
           record(Keys::LUA_SPAWN_ENTITY);
           record(Keys::LUA_DESTROY_ENTITY);
           record(Keys::LUA_DESTROY_ENTITIES);
@@ -561,6 +562,7 @@ namespace Project::Entities {
       ensure(Keys::LUA_CAMERA_ZOOM_IN);
       ensure(Keys::LUA_CAMERA_ZOOM_OUT);
       ensure(Keys::LUA_CAMERA_SHAKE);
+      ensure(Keys::LUA_SET_COLOR);
 
       for (const auto& func : functions) {
         if (func == Keys::LUA_GET_ENTITY_DETAILS) {
@@ -575,6 +577,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_getEntityRotation, this);
         } else if (func == Keys::LUA_SET_ENTITY_TEXT) {
           entity->registerLuaFunction(func, LuaBindings::lua_setEntityText, this);
+        } else if (func == Keys::LUA_SET_COLOR) {
+          entity->registerLuaFunction(func, LuaBindings::lua_setColor, this);
         } else if (func == Keys::LUA_DESTROY_ENTITY) {
           entity->registerLuaFunction(func, LuaBindings::lua_destroyEntity, this);
         } else if (func == Keys::LUA_DESTROY_ENTITIES) {

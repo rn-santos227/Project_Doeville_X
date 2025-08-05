@@ -192,6 +192,10 @@ namespace Project::Components {
     data.radius = r;
   }
 
+  void GraphicsComponent::setColor(SDL_Color color) {
+    data.shapeColor = color;
+  }
+
   void GraphicsComponent::setPosition(int x, int y, int width, int height) {
     data.destRect.x = x;
     data.destRect.y = y;

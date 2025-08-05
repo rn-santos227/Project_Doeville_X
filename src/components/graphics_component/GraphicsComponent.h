@@ -44,6 +44,7 @@ namespace Project::Components {
     bool setTexture(Project::Handlers::ResourcesHandler& resourcesHandler, const std::string& imagePath);
     void setShape(int width, int height, SDL_Color color);
     void setCircle(int radius, SDL_Color color);
+    void setColor(SDL_Color color);
     void setPosition(int x, int y, int width, int height);
 
     void setBorderColor(SDL_Color _color) { data.borderColor = _color; }

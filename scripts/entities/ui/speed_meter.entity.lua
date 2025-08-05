@@ -14,8 +14,8 @@ components = {
     component = "MeterComponent",
     class = "meter",
     active = true,
-    width = 100,
-    height = 10,
+    width = 160,
+    height = 16,
     name = "speed",
     orientation = "horizontal"
   }

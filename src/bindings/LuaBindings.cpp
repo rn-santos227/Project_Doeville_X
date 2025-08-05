@@ -1,9 +1,11 @@
 #include "LuaBindings.h"
 
 #include <cmath>
+#include <SDL.h>
 
 #include "components/camera_component/CameraComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "components/graphics_component/GraphicsComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
@@ -647,6 +649,34 @@ namespace Project::Bindings::LuaBindings {
     if (active) {
       timer->reset();
     }
+    return 0;
+  }
+
+  int lua_setColor(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(entity->getComponent(Components::GRAPHICS_COMPONENT));
+    if (!gfx) return 0;
+
+    int r = static_cast<int>(luaL_checkinteger(L, 2));
+    int g = static_cast<int>(luaL_checkinteger(L, 3));
+    int b = static_cast<int>(luaL_checkinteger(L, 4));
+    int a = 255;
+    if (lua_gettop(L) >= 5 && lua_isnumber(L, 5)) {
+      a = static_cast<int>(luaL_checkinteger(L, 5));
+    }
+
+    SDL_Color color{static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b), static_cast<Uint8>(a)};
+    gfx->setColor(color);
     return 0;
   }
 

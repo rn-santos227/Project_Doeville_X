@@ -52,6 +52,20 @@ namespace Project::Components {
       SDL_SetRenderDrawColor(renderer, data.backgroundColor.r, data.backgroundColor.g, data.backgroundColor.b, data.backgroundColor.a);
       Project::Utilities::GeometryUtils::renderFilledCircle(renderer, cx, cy, r);
       SDL_SetRenderDrawColor(renderer, data.barColor.r, data.barColor.g, data.barColor.b, data.barColor.a);
+
+      for (int angle = 0; angle < data.currentAngle; ++angle) {
+        float rad = static_cast<float>(angle) * Constants::PI / Constants::ANGLE_180_DEG;
+        int x = cx + static_cast<int>(std::cos(rad) * r);
+        int y = cy - static_cast<int>(std::sin(rad) * r);
+        SDL_RenderDrawLine(renderer, cx, cy, x, y);
+      }
+      if (data.borderWidth > 0) {
+        SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
+        for (int i = 0; i < data.borderWidth; ++i) {
+          Project::Utilities::GeometryUtils::renderCircle(renderer, cx, cy, r - i);
+        }
+      }
+      return;
     }
   }
 }

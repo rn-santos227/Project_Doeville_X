@@ -223,8 +223,12 @@ namespace Project::Components {
     }
     
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    data.rect.w = surface->w;
-    data.rect.h = surface->h;
+    data.textRect.w = surface->w;
+    data.textRect.h = surface->h;
+    data.rect.w = data.textRect.w + data.paddingLeft + data.paddingRight;
+    data.rect.h = data.textRect.h + data.paddingTop + data.paddingBottom;
+    data.textRect.x = data.rect.x + data.paddingLeft;
+    data.textRect.y = data.rect.y + data.paddingTop;
     SDL_FreeSurface(surface);
     if (!texture) {
       logsManager.logWarning(std::string("Failed to create texture from text: ") + SDL_GetError());

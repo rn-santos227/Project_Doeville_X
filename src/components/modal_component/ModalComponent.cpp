@@ -1,6 +1,7 @@
 #include "ModalComponent.h"
 #include "ModalTypeResolver.h"
 
+#include <algorithm>
 #include <sstream>
 
 #include "entities/Entity.h"
@@ -8,6 +9,7 @@
 #include "libraries/keys/Keys.h"
 #include "services/styling/StyleManager.h"
 #include "utilities/color/ColorUtils.h"
+#include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::ColorUtils;
@@ -29,17 +31,26 @@ namespace Project::Components {
       SDL_DestroyTexture(data.titleTexture);
       data.titleTexture = nullptr;
     }
+    
     if (data.subtitleTexture) {
       SDL_DestroyTexture(data.subtitleTexture);
       data.subtitleTexture = nullptr;
     }
+    
     if (data.messageTexture) {
       SDL_DestroyTexture(data.messageTexture);
       data.messageTexture = nullptr;
+    
     }
     if (data.okTextTexture) {
       SDL_DestroyTexture(data.okTextTexture);
       data.okTextTexture = nullptr;
+    }
+
+    if (data.cancelTextTexture) {
+      SDL_DestroyTexture(data.cancelTextTexture);
+      data.cancelTextTexture = nullptr;
+    
     }
     if (data.font) {
       TTF_CloseFont(data.font);

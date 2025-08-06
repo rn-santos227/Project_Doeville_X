@@ -13,6 +13,7 @@
 
 namespace Project::Components {
   using Project::Utilities::ColorUtils;
+  using Project::Utilities::GeometryUtils;
   using Project::Services::Style;
   using Project::Services::StyleManager;
 
@@ -97,7 +98,7 @@ namespace Project::Components {
     if (!renderer || !isActive()) return;
     SDL_SetRenderDrawColor(renderer, data.color.r, data.color.g, data.color.b, data.color.a);
     if (data.borderRadius > 0) {
-      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
+      GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
     } else {
       SDL_RenderFillRect(renderer, &data.rect);
     }
@@ -108,7 +109,7 @@ namespace Project::Components {
         SDL_Rect bRect = {data.rect.x + i, data.rect.y + i, data.rect.w - Constants::INDEX_TWO * i, data.rect.h - Constants::INDEX_TWO * i};
         if (data.borderRadius > 0) {
           int radius = std::max(0, data.borderRadius - i);
-          Project::Utilities::GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+          GeometryUtils::renderRoundedRect(renderer, bRect, radius);
         } else {
           SDL_RenderDrawRect(renderer, &bRect);
         }
@@ -125,15 +126,24 @@ namespace Project::Components {
       SDL_RenderCopy(renderer, data.messageTexture, nullptr, &data.messageRect);
     }
 
-    if (data.modalType == ModalType::NOTIFICATION) {
+    if (data.modalType == ModalType::NOTIFICATION || data.modalType == ModalType::QUESTION) {
       SDL_SetRenderDrawColor(renderer, data.okColor.r, data.okColor.g, data.okColor.b, data.okColor.a);
-      SDL_RenderFillRect(renderer, &data.okRect);
+      if (data.okBorderRadius > 0) {
+        GeometryUtils::renderFilledRoundedRect(renderer, data.okRect, data.okBorderRadius);
+      } else {
+        SDL_RenderFillRect(renderer, &data.okRect);
+      }
 
       if (data.okBorderWidth > 0) {
         SDL_SetRenderDrawColor(renderer, data.okBorderColor.r, data.okBorderColor.g, data.okBorderColor.b, data.okBorderColor.a);
         for (int i = 0; i < data.okBorderWidth; ++i) {
           SDL_Rect bRect = {data.okRect.x + i, data.okRect.y + i, data.okRect.w - 2 * i, data.okRect.h - 2 * i};
-          SDL_RenderDrawRect(renderer, &bRect);
+          if (data.okBorderRadius > 0) {
+            int radius = std::max(0, data.okBorderRadius - i);
+            GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+          } else {
+            SDL_RenderDrawRect(renderer, &bRect);
+          }
         }
       }
 

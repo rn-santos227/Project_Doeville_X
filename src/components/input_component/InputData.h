@@ -36,6 +36,11 @@ namespace Project::Components {
     int textureW{0};
     int textureH{0};
 
+    int paddingTop{0};
+    int paddingRight{0};
+    int paddingBottom{0};
+    int paddingLeft{0};
+
     std::size_t maxChars{Project::Libraries::Constants::DEFAULT_MAX_CHARS};
     std::size_t caretPos{0};
 

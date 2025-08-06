@@ -105,8 +105,8 @@ namespace Project::Components {
       }
     }
 
-    int textX = data.rect.x + Constants::INDEX_FOUR;
-    int viewWidth = data.rect.w - Constants::INDEX_EIGHT;
+    int textX = data.rect.x + data.paddingLeft;
+    int viewWidth = data.rect.w - data.paddingLeft - data.paddingRight;
     if (texture) {
       int caretPixels = 0;
       if (font && data.caretPos > 0) {
@@ -123,14 +123,14 @@ namespace Project::Components {
       }
 
       SDL_Rect src = {data.textOffset, 0, std::min(viewWidth, data.textureW - data.textOffset), data.textureH};
-      SDL_Rect dst = {textX, data.rect.y + (data.rect.h - src.h) / Constants::INDEX_TWO, src.w, src.h};
+      SDL_Rect dst = {textX, data.rect.y + data.paddingTop + (data.rect.h - data.paddingTop - data.paddingBottom - src.h) / Constants::INDEX_TWO, src.w, src.h};
       SDL_RenderCopy(renderer, texture, &src, &dst);
     } else if (!data.placeholder.empty() && font) {
       SDL_Color phColor = {data.textColor.r, data.textColor.g, data.textColor.b, static_cast<Uint8>(data.textColor.a / Constants::INDEX_TWO)};
       SDL_Surface* surface = TTF_RenderText_Blended(font, data.placeholder.c_str(), phColor);
       if (surface) {
         SDL_Texture* tmp = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_Rect dst = {textX, data.rect.y + (data.rect.h - surface->h) / Constants::INDEX_TWO, surface->w, surface->h};
+        SDL_Rect dst = {textX, data.rect.y + data.paddingTop + (data.rect.h - data.paddingTop - data.paddingBottom - surface->h) / Constants::INDEX_TWO, surface->w, surface->h};
         SDL_RenderCopy(renderer, tmp, nullptr, &dst);
         SDL_DestroyTexture(tmp);
         SDL_FreeSurface(surface);
@@ -138,8 +138,8 @@ namespace Project::Components {
     }
     if (data.activeInput && data.showCaret) {
       SDL_SetRenderDrawColor(renderer, data.textColor.r, data.textColor.g, data.textColor.b, data.textColor.a);
-      int top = data.rect.y + Constants::INDEX_FOUR;
-      int bottom = data.rect.y + data.rect.h - Constants::INDEX_FOUR;
+      int top = data.rect.y + data.paddingTop;
+      int bottom = data.rect.y + data.rect.h - data.paddingBottom;
       int offset = 0;
       if (font && data.caretPos > 0) {
         std::string left = data.currentText.substr(0, data.caretPos);

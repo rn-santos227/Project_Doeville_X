@@ -189,6 +189,8 @@ namespace Project::Components {
     data.title = luaStateWrapper.getTableString(tableName, Keys::TITLE, Constants::DEFAULT_TEXT);
     data.subtitle = luaStateWrapper.getTableString(tableName, Keys::SUBTITLE, Constants::EMPTY_STRING);
     data.message = luaStateWrapper.getTableString(tableName, Keys::MESSAGE, Constants::EMPTY_STRING);
+    data.okText = luaStateWrapper.getTableString(tableName, Keys::OK_TEXT, data.okText);
+    data.cancelText = luaStateWrapper.getTableString(tableName, Keys::CANCEL_TEXT, data.cancelText);
 
     std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);
     std::string fontPath = luaStateWrapper.getTableString(tableName, Keys::FONT_PATH, defaultFontPath);
@@ -204,18 +206,25 @@ namespace Project::Components {
     }
 
     std::string fontColorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
-    data.fontColor = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
+    SDL_Color fc = ColorUtils::hexToRGB(fontColorHex, Constants::FULL_ALPHA);
+    data.titleColor = fc;
+    data.subtitleColor = fc;
+    data.messageColor = fc;
 
     data.conditionFunc = luaStateWrapper.getTableString(tableName, Keys::CONDITION, Constants::EMPTY_STRING);
     data.okCallback = luaStateWrapper.getTableString(tableName, Keys::OK_CALLBACK, Constants::EMPTY_STRING);
+    data.cancelCallback = luaStateWrapper.getTableString(tableName, Keys::CANCEL_CALLBACK, Constants::EMPTY_STRING);
     std::string typeStr = luaStateWrapper.getTableString(tableName, Keys::TYPE, Constants::EMPTY_STRING);
     data.modalType = ModalTypeResolver::resolve(typeStr);
 
     createTitleTexture();
     createSubtitleTexture();
     createMessageTexture();
-    if (data.modalType == ModalType::NOTIFICATION) {
+    if (data.modalType == ModalType::NOTIFICATION || data.modalType == ModalType::QUESTION) {
       createOkTextTexture();
+      if (data.modalType == ModalType::QUESTION) {
+        createCancelTextTexture();
+      }
     }
     onAttach();
   }
@@ -229,7 +238,19 @@ namespace Project::Components {
       if (s.width > 0) data.rect.w = s.width;
       if (s.height > 0) data.rect.h = s.height;
       if (s.background.a != 0) data.color = s.background;
-      if (s.fontColor.a != 0) data.fontColor = s.fontColor;
+      if (s.opacity != 1.0f) {
+        if (s.opacity > 1.0f) {
+          data.color.a = static_cast<Uint8>(std::min(s.opacity, static_cast<float>(Constants::FULL_ALPHA)));
+        } else {
+          data.color.a = static_cast<Uint8>(s.opacity * Constants::FULL_ALPHA);
+        }
+      }
+      if (s.fontColor.a != 0) {
+        data.titleColor = s.fontColor;
+        data.subtitleColor = s.fontColor;
+        data.messageColor = s.fontColor;
+        data.okTextColor = s.fontColor;
+      }
       if (s.fontSize > 0) {
         if (data.font) TTF_CloseFont(data.font);
         std::string defaultFontPath = configReader.getValue(Keys::FONT_SECTION, Keys::FONT_DEFAULT_PATH, Constants::DEFAULT_FONT_PATH);

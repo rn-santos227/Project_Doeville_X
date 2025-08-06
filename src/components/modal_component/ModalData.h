@@ -25,7 +25,9 @@ namespace Project::Components {
     int borderRadius{0};
 
     TTF_Font* font = nullptr;
-    SDL_Color fontColor = Constants::COLOR_WHITE;
+    SDL_Color titleColor = Constants::COLOR_WHITE;
+    SDL_Color subtitleColor = Constants::COLOR_WHITE;
+    SDL_Color messageColor = Constants::COLOR_WHITE;
     int fontSize = Constants::DEFAULT_FONT_SIZE;
 
     std::string title;

@@ -52,7 +52,7 @@ namespace Project::Components {
         SDL_RenderFillRect(renderer, &data.rect);
       }
     }
-    
+
     if (animationHandler.isAnimationActive()) {
       SDL_Texture* frame = animationHandler.getCurrentFrameTexture();
       if (frame) {
@@ -61,7 +61,7 @@ namespace Project::Components {
     }
 
     if (texture) {
-      SDL_RenderCopy(renderer, texture, nullptr, &data.rect);
+      SDL_RenderCopy(renderer, texture, nullptr, &data.textRect);
     }
 
     if (data.borderWidth > 0) {

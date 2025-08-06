@@ -163,7 +163,7 @@ namespace Project::Components {
       if (s.borderRadius > 0) {
         data.borderRadius = static_cast<int>(s.borderRadius);
       }
-      
+
       if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
         data.paddingTop = s.paddingTop;
         data.paddingRight = s.paddingRight;
@@ -195,6 +195,8 @@ namespace Project::Components {
   void TextComponent::setPosition(int x, int y) {
     data.rect.x = x;
     data.rect.y = y;
+    data.textRect.x = x + data.paddingLeft;
+    data.textRect.y = y + data.paddingTop;
   }
 
   void TextComponent::setEntityPosition(int x, int y) {

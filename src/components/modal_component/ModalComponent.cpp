@@ -447,13 +447,44 @@ namespace Project::Components {
     data.okTextRect.w = surface->w;
     data.okTextRect.h = surface->h;
     SDL_FreeSurface(surface);
-    positionOkButton();
+    if (data.modalType == ModalType::NOTIFICATION) {
+      positionOkButton();
+    } else if (data.modalType == ModalType::QUESTION) {
+      positionQuestionButtons();
+    }
+  }
+
+  void ModalComponent::createCancelTextTexture() {
+    if (!renderer || !data.font) return;
+    if (data.cancelTextTexture) {
+      SDL_DestroyTexture(data.cancelTextTexture);
+      data.cancelTextTexture = nullptr;
+    }
+    SDL_Surface* surface = TTF_RenderText_Blended(data.font, data.cancelText.c_str(), data.cancelTextColor);
+    if (!surface) return;
+    data.cancelTextTexture = SDL_CreateTextureFromSurface(renderer, surface);
+    data.cancelTextRect.w = surface->w;
+    data.cancelTextRect.h = surface->h;
+    SDL_FreeSurface(surface);
+    positionQuestionButtons();
   }
 
   void ModalComponent::positionOkButton() {
     data.okRect.x = data.rect.x + (data.rect.w - data.okRect.w) / Constants::INDEX_TWO;
-    data.okRect.y = data.rect.y + data.rect.h - data.okRect.h - Constants::DEFAULT_TEXT_MARGIN;
+    data.okRect.y = data.rect.y + data.rect.h - data.okRect.h - data.paddingBottom;
     data.okTextRect.x = data.okRect.x + (data.okRect.w - data.okTextRect.w) / Constants::INDEX_TWO;
     data.okTextRect.y = data.okRect.y + (data.okRect.h - data.okTextRect.h) / Constants::INDEX_TWO;
+  }
+
+  void ModalComponent::positionQuestionButtons() {
+    int totalWidth = data.okRect.w + data.cancelRect.w + Constants::DEFAULT_TEXT_MARGIN;
+    int startX = data.rect.x + (data.rect.w - totalWidth) / Constants::INDEX_TWO;
+    data.okRect.x = startX;
+    data.cancelRect.x = startX + data.okRect.w + Constants::DEFAULT_TEXT_MARGIN;
+    data.okRect.y = data.cancelRect.y = data.rect.y + data.rect.h - data.okRect.h - data.paddingBottom;
+    data.okTextRect.x = data.okRect.x + (data.okRect.w - data.okTextRect.w) / Constants::INDEX_TWO;
+    data.okTextRect.y = data.okRect.y + (data.okRect.h - data.okTextRect.h) / Constants::INDEX_TWO;
+    data.cancelTextRect.x = data.cancelRect.x + (data.cancelRect.w - data.cancelTextRect.w) / Constants::INDEX_TWO;
+    data.cancelTextRect.y = data.cancelRect.y + (data.cancelRect.h - data.cancelTextRect.h) / Constants::INDEX_TWO;
   }
 }

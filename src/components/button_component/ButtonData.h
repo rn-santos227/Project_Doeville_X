@@ -21,6 +21,7 @@ namespace Project::Components {
 
     int fontSize = Project::Libraries::Constants::DEBUG_FONT_SIZE;
     int borderWidth = 0;
+    int borderRadius = 0;
 
     int paddingTop = 0;
     int paddingRight = 0;

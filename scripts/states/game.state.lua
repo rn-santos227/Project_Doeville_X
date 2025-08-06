@@ -21,6 +21,7 @@ function initialize()
   addEntityToSeed("wall_v", seeder_id, 5)
   addEntityToSeed("wall_h", seeder_id, 5)
 
+  spawnEntity("ammo_meter", nil, nil, "hud")
   spawnEntity("speed_meter", nil, nil, "hud")
 end
 

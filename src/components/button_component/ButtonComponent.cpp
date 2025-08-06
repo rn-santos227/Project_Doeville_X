@@ -1,11 +1,13 @@
 #include "ButtonComponent.h"
 
-#include "entities/Entity.h"
+#include <algorithm>
 
+#include "entities/Entity.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/color/ColorUtils.h"
 #include "services/styling/StyleManager.h"
+#include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::ColorUtils;
@@ -81,7 +83,11 @@ namespace Project::Components {
     if (!renderer) return;
     SDL_Color drawColor = data.hovered ? data.hoverColor : data.color;
     SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, drawColor.a);
-    SDL_RenderFillRect(renderer, &data.rect);
+    if (data.borderRadius > 0) {
+      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
+    } else {
+      SDL_RenderFillRect(renderer, &data.rect);
+    }
 
     if (data.borderWidth > 0) {
       SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);

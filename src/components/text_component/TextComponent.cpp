@@ -145,7 +145,7 @@ namespace Project::Components {
             return;
           }
         }
-        createTexture();
+        needsTexture = true;
       }
 
       if (s.borderColor.a != 0) {
@@ -155,6 +155,25 @@ namespace Project::Components {
       if (s.borderWidth > 0) {
         data.borderWidth = s.borderWidth;
       }
+
+      if (s.background.a != 0) {
+        data.bgColor = s.background;
+      }
+
+      if (s.borderRadius > 0) {
+        data.borderRadius = static_cast<int>(s.borderRadius);
+      }
+      
+      if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
+        data.paddingTop = s.paddingTop;
+        data.paddingRight = s.paddingRight;
+        data.paddingBottom = s.paddingBottom;
+        data.paddingLeft = s.paddingLeft;
+        needsTexture = true;
+      }
+    }
+    if (needsTexture) {
+      createTexture();
     }
   }
 

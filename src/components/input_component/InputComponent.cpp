@@ -200,6 +200,7 @@ namespace Project::Components {
       if (s.background.a != 0) data.bgColor = s.background;
       if (s.borderColor.a != 0) data.borderColor = s.borderColor;
       if (s.borderWidth > 0) data.borderWidth = s.borderWidth;
+      if (s.borderRadius > 0) data.borderRadius = static_cast<int>(s.borderRadius);
       if (s.fontColor.a != 0) data.textColor = s.fontColor;
       if (s.fontSize > 0 && data.fontPath.size() > 0) {
         if (font) TTF_CloseFont(font);

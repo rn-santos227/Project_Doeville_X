@@ -96,7 +96,11 @@ namespace Project::Components {
   void ModalComponent::render() {
     if (!renderer || !isActive()) return;
     SDL_SetRenderDrawColor(renderer, data.color.r, data.color.g, data.color.b, data.color.a);
-    SDL_RenderFillRect(renderer, &data.rect);
+    if (data.borderRadius > 0) {
+      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
+    } else {
+      SDL_RenderFillRect(renderer, &data.rect);
+    }
 
     if (data.borderWidth > 0) {
       SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);

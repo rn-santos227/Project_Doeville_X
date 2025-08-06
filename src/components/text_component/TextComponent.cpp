@@ -111,11 +111,14 @@ namespace Project::Components {
   void TextComponent::applyStyle() {
     std::istringstream classes(getClass());
     std::string cls;
+    bool needsTexture = false;
+    
     while (classes >> cls) {
       std::string selector = "." + cls;
       Project::Services::Style s = Project::Services::StyleManager::getInstance().getStyle(selector);
       if (s.fontColor.a != 0) {
         data.textColor = s.fontColor;
+        needsTexture = true;
       }
 
       if (s.opacity != Constants::DEFAULT_WHOLE) {
@@ -125,10 +128,7 @@ namespace Project::Components {
         } else {
           data.textColor.a = static_cast<Uint8>(opacity * Project::Libraries::Constants::FULL_ALPHA);
         }
-      }
-
-      if (s.fontColor.a != 0 || s.opacity != Constants::DEFAULT_WHOLE) {
-        createTexture();
+        needsTexture = true;
       }
 
       if (s.fontSize > 0 && data.fontPath.size() > 0) {

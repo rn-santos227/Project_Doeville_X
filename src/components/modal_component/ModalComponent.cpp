@@ -150,6 +150,30 @@ namespace Project::Components {
       if (data.okTextTexture) {
         SDL_RenderCopy(renderer, data.okTextTexture, nullptr, &data.okTextRect);
       }
+
+      if (data.modalType == ModalType::QUESTION) {
+        SDL_SetRenderDrawColor(renderer, data.cancelColor.r, data.cancelColor.g, data.cancelColor.b, data.cancelColor.a);
+        if (data.cancelBorderRadius > 0) {
+          GeometryUtils::renderFilledRoundedRect(renderer, data.cancelRect, data.cancelBorderRadius);
+        } else {
+          SDL_RenderFillRect(renderer, &data.cancelRect);
+        }
+        if (data.cancelBorderWidth > 0) {
+          SDL_SetRenderDrawColor(renderer, data.cancelBorderColor.r, data.cancelBorderColor.g, data.cancelBorderColor.b, data.cancelBorderColor.a);
+          for (int i = 0; i < data.cancelBorderWidth; ++i) {
+            SDL_Rect bRect = {data.cancelRect.x + i, data.cancelRect.y + i, data.cancelRect.w - Constants::INDEX_TWO * i, data.cancelRect.h - Constants::INDEX_TWO * i};
+            if (data.cancelBorderRadius > 0) {
+              int radius = std::max(0, data.cancelBorderRadius - i);
+              GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+            } else {
+              SDL_RenderDrawRect(renderer, &bRect);
+            }
+          }
+        }
+        if (data.cancelTextTexture) {
+          SDL_RenderCopy(renderer, data.cancelTextTexture, nullptr, &data.cancelTextRect);
+        }
+      }
     }
   }
 

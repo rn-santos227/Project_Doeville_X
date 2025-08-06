@@ -105,8 +105,13 @@ namespace Project::Components {
     if (data.borderWidth > 0) {
       SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
       for (int i = 0; i < data.borderWidth; ++i) {
-        SDL_Rect bRect = {data.rect.x + i, data.rect.y + i, data.rect.w - 2 * i, data.rect.h - 2 * i};
-        SDL_RenderDrawRect(renderer, &bRect);
+        SDL_Rect bRect = {data.rect.x + i, data.rect.y + i, data.rect.w - Constants::INDEX_TWO * i, data.rect.h - Constants::INDEX_TWO * i};
+        if (data.borderRadius > 0) {
+          int radius = std::max(0, data.borderRadius - i);
+          Project::Utilities::GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+        } else {
+          SDL_RenderDrawRect(renderer, &bRect);
+        }
       }
     }
 

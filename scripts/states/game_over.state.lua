@@ -16,7 +16,7 @@ function onExit()
   print("Exit GameOverState")
 end
 
-function update(deltaTime)
+function update()
   print("Updating GameOverState")
 end
 

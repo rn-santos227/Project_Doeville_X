@@ -15,7 +15,7 @@ function onExit()
   print("Exit SettingsState")
 end
 
-function update(deltaTime)
+function update()
   print("Updating SettingsState")
 end
 

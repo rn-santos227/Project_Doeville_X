@@ -32,7 +32,7 @@ function onExit()
   print("Exit GameState")
 end
 
-function update(deltaTime)
+function update()
   print("Updating GameState")
 end
 

@@ -22,7 +22,7 @@ function onExit()
   print("Exit MainMenuState")
 end
 
-function update(deltaTime)
+function update()
   print("Updating MainMenuState")
 end
 

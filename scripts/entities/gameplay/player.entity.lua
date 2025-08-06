@@ -3,6 +3,9 @@ y = 360
 z = 0
 
 local rot_speed = 10
+local max_ammo = 8
+local reload_time = 2
+local reload_timer = 0
 
 group = "gameplay"
 
@@ -30,6 +33,13 @@ components = {
     rotation = true
   },
 
+  NumericComponent = {
+    component = "NumericComponent",
+    active = true,
+    ammo = { value = max_ammo, limit = max_ammo }
+  },
+
+
   SpawnerComponent = {
     component = "SpawnerComponent",
     active = true,
@@ -47,14 +57,10 @@ components = {
       { key = "right", action = "move_right" },
       { key = "z", action = "action_1" },
       { key = "x", action = "action_2" },
-      { key = "e", action = "camera_zoom_in" },
-      { key = "q", action = "camera_zoom_out" }
     },
     bindings = {
       action_1 = "action_1",
       action_2 = "brake",
-      camera_zoom_in = "cameraZoomIn",
-      camera_zoom_out = "cameraZoomOut"
     }
   },
 
@@ -83,27 +89,41 @@ components = {
 }
 
 function action_1()
-  local vx, vy = getEntityVelocity("player")
-  local dx, dy
-  local facing
-  if vx and vy and (vx ~= 0 or vy ~= 0) then
-    local mag = math.sqrt(vx * vx + vy * vy)
-    dx = vx / mag
-    dy = vy / mag
-    facing = math.deg(math.atan2(dy, dx))
-  else
-    facing = getEntityRotation("player") or 0
-    local rad = math.rad(facing)
-    dx = math.cos(rad)
-    dy = math.sin(rad)
-  end
+  local ammo = getNumericValue("player", "ammo")
+  if ammo and ammo > 0 and reload_timer <= 0 then
+    local vx, vy = getEntityVelocity("player")
+    local dx, dy
+    local facing
+    if vx and vy and (vx ~= 0 or vy ~= 0) then
+      local mag = math.sqrt(vx * vx + vy * vy)
+      dx = vx / mag
+      dy = vy / mag
+      facing = math.deg(math.atan2(dy, dx))
+    else
+      facing = getEntityRotation("player") or 0
+      local rad = math.rad(facing)
+      dx = math.cos(rad)
+      dy = math.sin(rad)
+    end
 
-  local spawnDist = 33
-  spawn(8 + dx * spawnDist, 8 + dy * spawnDist, dx * 800, dy * 800, facing)
+    local spawnDist = 33
+    spawn(8 + dx * spawnDist, 8 + dy * spawnDist, dx * 800, dy * 800, facing)
+    subtractNumericValue("player", "ammo", 1)
+    ammo = ammo - 1
+    if ammo == 0 then
+      reload_timer = reload_time
+    end
+  end
 end
 
 function update()
   ignoreCollisionsWith(id, {"bullet_p"})
+  if reload_timer > 0 then
+    reload_timer = reload_timer - deltaTime
+    if reload_timer <= 0 then
+      setNumericValue("player", "ammo", max_ammo)
+    end
+  end
   if getCollidedEntity(id, {"wall_h", "wall_v"}) then
     cameraShake()
   end

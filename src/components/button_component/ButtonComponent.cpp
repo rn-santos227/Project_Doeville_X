@@ -170,6 +170,7 @@ namespace Project::Components {
       }
       if (s.borderColor.a != 0) data.borderColor = s.borderColor;
       if (s.borderWidth > 0) data.borderWidth = s.borderWidth;
+      if (s.borderRadius > 0) data.borderRadius = static_cast<int>(s.borderRadius);
       if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
         data.paddingTop = s.paddingTop; data.paddingRight = s.paddingRight; data.paddingBottom = s.paddingBottom; data.paddingLeft = s.paddingLeft;
       }

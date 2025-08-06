@@ -22,6 +22,10 @@ namespace Project::Libraries::Constants {
 
   constexpr const char* STR_VERTICAL = "vertical";
   constexpr const char* STR_HORIZONTAL = "horizontal";
+
+  constexpr const char* BTN_CANCEL = "CANCEL";
+  constexpr const char* BTN_OKAY = "OKAY";
+  constexpr const char* BTN_YES = "YES";
 }
 
 #endif

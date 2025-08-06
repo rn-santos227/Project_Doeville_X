@@ -211,6 +211,13 @@ namespace Project::Components {
           font = TTF_OpenFont(Project::Libraries::Constants::DEFAULT_FONT_PATH, data.fontSize);
         }
       }
+
+      if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
+        data.paddingTop = s.paddingTop;
+        data.paddingRight = s.paddingRight;
+        data.paddingBottom = s.paddingBottom;
+        data.paddingLeft = s.paddingLeft;
+      }
     }
     createTexture();
   }

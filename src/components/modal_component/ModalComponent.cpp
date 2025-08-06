@@ -266,6 +266,75 @@ namespace Project::Components {
       }
       if (s.borderColor.a != 0) data.borderColor = s.borderColor;
       if (s.borderWidth > 0) data.borderWidth = s.borderWidth;
+      if (s.borderRadius > 0) data.borderRadius = static_cast<int>(s.borderRadius);
+      if (s.paddingTop || s.paddingRight || s.paddingBottom || s.paddingLeft) {
+        data.paddingTop = s.paddingTop;
+        data.paddingRight = s.paddingRight;
+        data.paddingBottom = s.paddingBottom;
+        data.paddingLeft = s.paddingLeft;
+      }
+
+      Style sub = StyleManager::getInstance().getStyle(selector + "-subtitle");
+      if (sub.fontColor.a != 0) data.subtitleColor = sub.fontColor;
+      if (sub.opacity != 1.0f) {
+        if (sub.opacity > 1.0f) {
+          data.subtitleColor.a = static_cast<Uint8>(std::min(sub.opacity, static_cast<float>(Constants::FULL_ALPHA)));
+        } else {
+          data.subtitleColor.a = static_cast<Uint8>(sub.opacity * Constants::FULL_ALPHA);
+        }
+      }
+
+      Style ttl = StyleManager::getInstance().getStyle(selector + "-title");
+      if (ttl.fontColor.a != 0) data.titleColor = ttl.fontColor;
+      if (ttl.opacity != 1.0f) {
+        if (ttl.opacity > 1.0f) {
+          data.titleColor.a = static_cast<Uint8>(std::min(ttl.opacity, static_cast<float>(Constants::FULL_ALPHA)));
+        } else {
+          data.titleColor.a = static_cast<Uint8>(ttl.opacity * Constants::FULL_ALPHA);
+        }
+      }
+
+      Style txt = StyleManager::getInstance().getStyle(selector + "-text");
+      if (txt.fontColor.a != 0) data.messageColor = txt.fontColor;
+      if (txt.opacity != 1.0f) {
+        if (txt.opacity > 1.0f) {
+          data.messageColor.a = static_cast<Uint8>(std::min(txt.opacity, static_cast<float>(Constants::FULL_ALPHA)));
+        } else {
+          data.messageColor.a = static_cast<Uint8>(txt.opacity * Constants::FULL_ALPHA);
+        }
+      }
+
+      Style btn = StyleManager::getInstance().getStyle(selector + "-button");
+      if (btn.width > 0) data.okRect.w = btn.width;
+      if (btn.height > 0) data.okRect.h = btn.height;
+      if (btn.background.a != 0) data.okColor = btn.background;
+      if (btn.fontColor.a != 0) data.okTextColor = btn.fontColor;
+      if (btn.borderColor.a != 0) data.okBorderColor = btn.borderColor;
+      if (btn.borderWidth > 0) data.okBorderWidth = btn.borderWidth;
+      if (btn.borderRadius > 0) data.okBorderRadius = static_cast<int>(btn.borderRadius);
+      if (btn.opacity != 1.0f) {
+        if (btn.opacity > 1.0f) {
+          data.okColor.a = static_cast<Uint8>(std::min(btn.opacity, static_cast<float>(Constants::FULL_ALPHA)));
+        } else {
+          data.okColor.a = static_cast<Uint8>(btn.opacity * Constants::FULL_ALPHA);
+        }
+      }
+
+      Style cancelBtn = StyleManager::getInstance().getStyle(selector + "-cancel-button");
+      if (cancelBtn.width > 0) data.cancelRect.w = cancelBtn.width;
+      if (cancelBtn.height > 0) data.cancelRect.h = cancelBtn.height;
+      if (cancelBtn.background.a != 0) data.cancelColor = cancelBtn.background;
+      if (cancelBtn.fontColor.a != 0) data.cancelTextColor = cancelBtn.fontColor;
+      if (cancelBtn.borderColor.a != 0) data.cancelBorderColor = cancelBtn.borderColor;
+      if (cancelBtn.borderWidth > 0) data.cancelBorderWidth = cancelBtn.borderWidth;
+      if (cancelBtn.borderRadius > 0) data.cancelBorderRadius = static_cast<int>(cancelBtn.borderRadius);
+      if (cancelBtn.opacity != 1.0f) {
+        if (cancelBtn.opacity > 1.0f) {
+          data.cancelColor.a = static_cast<Uint8>(std::min(cancelBtn.opacity, static_cast<float>(Constants::FULL_ALPHA)));
+        } else {
+          data.cancelColor.a = static_cast<Uint8>(cancelBtn.opacity * Constants::FULL_ALPHA);
+        }
+      }
     }
 
     createTitleTexture();

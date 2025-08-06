@@ -24,6 +24,11 @@ namespace Project::Components {
     int borderWidth{0};
     int borderRadius{0};
 
+    int paddingTop{0};
+    int paddingRight{0};
+    int paddingBottom{0};
+    int paddingLeft{0};
+
     TTF_Font* font = nullptr;
     SDL_Color titleColor = Constants::COLOR_WHITE;
     SDL_Color subtitleColor = Constants::COLOR_WHITE;

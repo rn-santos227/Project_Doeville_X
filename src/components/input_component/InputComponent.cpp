@@ -1,6 +1,8 @@
 #include "InputComponent.h"
 #include "InputTypeResolver.h"
 
+#include <algorithm>
+
 #include "handlers/input/MouseHandler.h"
 #include "handlers/input/CursorHandler.h"
 #include "libraries/categories/InputCategories.h"
@@ -8,6 +10,7 @@
 #include "libraries/keys/Keys.h"
 #include "services/styling/StyleManager.h"
 #include "utilities/color/ColorUtils.h"
+#include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::LogsManager;
@@ -83,8 +86,12 @@ namespace Project::Components {
   void InputComponent::render() {
     if (!renderer) return;
     SDL_SetRenderDrawColor(renderer, data.bgColor.r, data.bgColor.g, data.bgColor.b, data.bgColor.a);
-    SDL_RenderFillRect(renderer, &data.rect);
-
+    if (data.borderRadius > 0) {
+      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
+    } else {
+      SDL_RenderFillRect(renderer, &data.rect);
+    }
+    
     if (data.borderWidth > 0) {
       SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
       for (int i = 0; i < data.borderWidth; ++i) {

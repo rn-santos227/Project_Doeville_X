@@ -1,8 +1,11 @@
+#include <algorithm>
+
 #include "TextComponent.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "services/styling/StyleManager.h"
 #include "utilities/color/ColorUtils.h"
+#include "utilities/geometry/GeometryUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::LogsManager;
@@ -41,6 +44,15 @@ namespace Project::Components {
   }
 
   void TextComponent::render() {
+    if (data.bgColor.a > 0) {
+      SDL_SetRenderDrawColor(renderer, data.bgColor.r, data.bgColor.g, data.bgColor.b, data.bgColor.a);
+      if (data.borderRadius > 0) {
+        Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
+      } else {
+        SDL_RenderFillRect(renderer, &data.rect);
+      }
+    }
+    
     if (animationHandler.isAnimationActive()) {
       SDL_Texture* frame = animationHandler.getCurrentFrameTexture();
       if (frame) {

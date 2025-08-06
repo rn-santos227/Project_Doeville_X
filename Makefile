@@ -24,14 +24,25 @@ RPATH_BASE=\$$ORIGIN/../lib
 endif
 
 ifeq ($(OS), Windows_NT)
-	LDFLAGS += -lpsapi
+  LDFLAGS += -lpsapi
+  MKDIR_P = mkdir -p
+  CP = cp
+  CPDIR = cp -r
+  RM = rm -rf
+  PYTHON = python3
 else
   LDFLAGS += -Wl,-rpath,$(RPATH_BASE)/SDL2_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/SDL2_image_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/SDL2_ttf_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/Lua_build/lib \
     -Wl,-rpath,$(RPATH_BASE)/GLAD_build/lib
+	MKDIR_P = mkdir
+	CP = copy
+	CPDIR = xcopy /E /I /Y
+	RM = rmdir /S /Q
+	PYTHON = python
 endif
+
 
 SRC_DIR = src
 BUILD_DIR = build
@@ -76,67 +87,66 @@ pgo-use: LDFLAGS += -fprofile-use
 pgo-use: deps $(PGO_USE_TARGET) copy_config
 
 $(TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
+	@$(MKDIR_P) $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
-	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
-	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+	$(CPDIR) $(RESOURCE_DIR) $(BIN_DIR)/
+	$(CPDIR) $(SCRIPT_DIR) $(BIN_DIR)/
+	@$(MKDIR_P) $(BIN_DIR)/$(CACHE_DIR)
 
 $(DEBUG_TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
+	@$(MKDIR_P) $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
-	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
-	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+	$(CPDIR) $(RESOURCE_DIR) $(BIN_DIR)/
+	$(CPDIR) $(SCRIPT_DIR) $(BIN_DIR)/
+	@$(MKDIR_P) $(BIN_DIR)/$(CACHE_DIR)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(@D)
+	@$(MKDIR_P) $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(ASAN_TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
+	@$(MKDIR_P) $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
-	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
-	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+	$(CPDIR) $(RESOURCE_DIR) $(BIN_DIR)/
+	$(CPDIR) $(SCRIPT_DIR) $(BIN_DIR)/
+	@$(MKDIR_P) $(BIN_DIR)/$(CACHE_DIR)
 
 $(TSAN_TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
+	@$(MKDIR_P) $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
-	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
-	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+	$(CPDIR) $(RESOURCE_DIR) $(BIN_DIR)/
+	$(CPDIR) $(SCRIPT_DIR) $(BIN_DIR)/
+	@$(MKDIR_P) $(BIN_DIR)/$(CACHE_DIR)
 
 $(PGO_GEN_TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
+	@$(MKDIR_P) $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
-	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
-	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+	$(CPDIR) $(RESOURCE_DIR) $(BIN_DIR)/
+	$(CPDIR) $(SCRIPT_DIR) $(BIN_DIR)/
+	@$(MKDIR_P) $(BIN_DIR)/$(CACHE_DIR)
 
 $(PGO_USE_TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
+	@$(MKDIR_P) $(BIN_DIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 	@echo "Copying resources and scripts..."
-	cp -r $(RESOURCE_DIR) $(BIN_DIR)/
-	cp -r $(SCRIPT_DIR) $(BIN_DIR)/
-	@mkdir -p $(BIN_DIR)/$(CACHE_DIR)
+	$(CPDIR) $(RESOURCE_DIR) $(BIN_DIR)/
+	$(CPDIR) $(SCRIPT_DIR) $(BIN_DIR)/
+	@$(MKDIR_P) $(BIN_DIR)/$(CACHE_DIR)
 
   copy_config:
 	@echo "Copying config.ini to bin/"
-	cp config.ini $(BIN_DIR)/
+	$(CP) config.ini $(BIN_DIR)/
 
 deps:
-	@python3 package_check.py --fail-on-missing >/dev/null 2>&1 || \
-	python3 package.py
+	@$(PYTHON) package_check.py --fail-on-missing >/dev/null 2>&1 || $(PYTHON) package.py
 
 clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR)
-	@echo "Cleaned build directories."
+	-$(RM) $(BUILD_DIR)
+	-$(RM) $(BIN_DIR)
 
 .PHONY: all clean debug asan tsan pgo-generate pgo-use deps

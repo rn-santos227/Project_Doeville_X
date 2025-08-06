@@ -67,21 +67,30 @@ namespace Project::Components {
       if (!result) data.dismissed = false;
       setActive(result && !data.dismissed);
     }
-    if (!isActive() || data.modalType != ModalType::NOTIFICATION || !mouseHandler) return;
+    if (!isActive() || (data.modalType != ModalType::NOTIFICATION && data.modalType != ModalType::QUESTION) || !mouseHandler) return;
 
     int mx = mouseHandler->getMouseX();
     int my = mouseHandler->getMouseY();
     SDL_Point p{mx, my};
-    bool inside = SDL_PointInRect(&p, &data.okRect);
     bool pressed = mouseHandler->isButtonDown(SDL_BUTTON_LEFT);
-    if (inside && pressed && !data.okWasPressed) {
+    bool insideOk = SDL_PointInRect(&p, &data.okRect);
+    bool insideCancel = SDL_PointInRect(&p, &data.cancelRect);
+    if (insideOk && pressed && !data.okWasPressed) {
       data.dismissed = true;
       setActive(false);
       if (!data.okCallback.empty()) {
         lua.callGlobalFunction(data.okCallback);
       }
     }
-    data.okWasPressed = pressed;
+    if (data.modalType == ModalType::QUESTION && insideCancel && pressed && !data.cancelWasPressed) {
+      data.dismissed = true;
+      setActive(false);
+      if (!data.cancelCallback.empty()) {
+        lua.callGlobalFunction(data.cancelCallback);
+      }
+    }
+    data.okWasPressed = insideOk && pressed;
+    data.cancelWasPressed = insideCancel && pressed;
   }
 
   void ModalComponent::render() {

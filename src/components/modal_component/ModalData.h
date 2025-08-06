@@ -12,6 +12,7 @@
 #include "libraries/constants/NumericConstants.h"
 
 namespace Project::Components {
+  namespace Constants = Project::Libraries::Constants;
   struct ModalData {
     ModalType modalType{ModalType::NOTIFICATION};
 
@@ -43,6 +44,7 @@ namespace Project::Components {
     SDL_Color okColor{200, 200, 200, 255};
     SDL_Color okBorderColor{0, 0, 0, 0};
     int okBorderWidth{0};
+    int okBorderRadius{0};
 
     std::string okText = Constants::BTN_OKAY;
     SDL_Color okTextColor{0, 0, 0, 255};
@@ -50,11 +52,24 @@ namespace Project::Components {
     SDL_Rect okTextRect{0, 0, 0, 0};
     int okBorderRadius{0};
 
+    SDL_Rect cancelRect{0, 0, 80, 30};
+    SDL_Color cancelColor{200, 200, 200, 255};
+    SDL_Color cancelBorderColor{0, 0, 0, 0};
+    int cancelBorderWidth{0};
+    int cancelBorderRadius{0};
+
+    std::string cancelText = Constants::BTN_CANCEL;
+    SDL_Color cancelTextColor{0, 0, 0, 255};
+    SDL_Texture* cancelTextTexture = nullptr;
+    SDL_Rect cancelTextRect{0, 0, 0, 0};
+
     bool okWasPressed{false};
+    bool cancelWasPressed{false};
     bool dismissed{false};
 
     std::string conditionFunc;
     std::string okCallback;
+    std::string cancelCallback;
   };
 }
 

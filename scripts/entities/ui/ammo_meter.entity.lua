@@ -5,6 +5,12 @@ z = 0
 group = "ui"
 
 components = {
+  NumericComponent = {
+    component = "NumericComponent",
+    active = true,
+    ammo = { value = 8, limit = 8 }
+  },
+
   MeterComponent = {
     component = "MeterComponent",
     class = "meter",
@@ -13,10 +19,16 @@ components = {
     height = 16,
     name = "ammo",
     orientation = "horizontal",
-    target = "player"
   }
 }
 
+function update(deltaTime)
+  local ammo = getNumericValue("player", "ammo")
+  if speed then
+    setNumericValue("ammo_meter", "ammo", ammo)
+  end
+end
+
 return {
-  name = "bullet_meter",
+  name = "ammo_meter",
 }

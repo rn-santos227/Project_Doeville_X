@@ -53,7 +53,9 @@ namespace Project::Components {
     void createSubtitleTexture();
     void createMessageTexture();
     void createOkTextTexture();
+    void createCancelTextTexture();
     void positionOkButton();
+    void positionQuestionButtons();
   };
 }
 

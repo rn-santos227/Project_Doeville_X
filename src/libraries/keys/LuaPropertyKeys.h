@@ -16,6 +16,8 @@ namespace Project::Libraries::Keys {
   constexpr const char* BRAKE_POWER  = "brake_power"; 
   constexpr const char* CALLBACKS = "callbacks";
   constexpr const char* CATEGORY = "category";
+  constexpr const char* CANCEL_CALLBACK = "cancel_callback";
+  constexpr const char* CANCEL_TEXT = "cancel_text";
   constexpr const char* CENTER_X = "center_x";
   constexpr const char* CENTER_Y = "center_y";
   constexpr const char* CLASS = "class";
@@ -69,6 +71,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* OFFSET_X = "offset_x";
   constexpr const char* OFFSET_Y = "offset_y";
   constexpr const char* OK_CALLBACK = "ok_callback";
+  constexpr const char* OK_TEXT = "ok_text";
   constexpr const char* ORIENTATION = "orientation";
   constexpr const char* PLAYER = "player";
   constexpr const char* POSITION = "position";

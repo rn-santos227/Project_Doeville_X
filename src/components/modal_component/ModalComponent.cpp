@@ -358,6 +358,7 @@ namespace Project::Components {
     data.rect.h = h;
     createTitleTexture();
     createSubtitleTexture();
+    createMessageTexture();
   }
 
   void ModalComponent::createTitleTexture() {
@@ -367,10 +368,10 @@ namespace Project::Components {
       data.titleTexture = nullptr;
     }
     if (data.title.empty()) return;
-    SDL_Surface* surface = TTF_RenderText_Blended(data.font, data.title.c_str(), data.fontColor);
+    SDL_Surface* surface = TTF_RenderText_Blended(data.font, data.title.c_str(), data.titleColor);
     if (!surface) return;
     data.titleTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    data.titleRect = {data.rect.x + Constants::DEFAULT_TEXT_MARGIN, data.rect.y + Constants::DEFAULT_TEXT_MARGIN, surface->w, surface->h};
+    data.titleRect = {data.rect.x + data.paddingLeft, data.rect.y + data.paddingTop, surface->w, surface->h};
     SDL_FreeSurface(surface);
   }
 
@@ -381,14 +382,14 @@ namespace Project::Components {
       data.subtitleTexture = nullptr;
     }
     if (data.subtitle.empty()) return;
-    SDL_Surface* surface = TTF_RenderText_Blended(data.font, data.subtitle.c_str(), data.fontColor);
+    SDL_Surface* surface = TTF_RenderText_Blended(data.font, data.subtitle.c_str(), data.subtitleColor);
     if (!surface) return;
-    int y = data.rect.y + Constants::DEFAULT_TEXT_HEIGHT_OFFSET;
+    int y = data.rect.y + data.paddingTop;
     if (data.titleTexture) {
       y = data.titleRect.y + data.titleRect.h + Constants::DEFAULT_TEXT_MARGIN;
     }
     data.subtitleTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    data.subtitleRect = {data.rect.x + Constants::DEFAULT_TEXT_MARGIN, y, surface->w, surface->h};
+    data.subtitleRect = {data.rect.x + data.paddingLeft, y, surface->w, surface->h};
     SDL_FreeSurface(surface);
   }
 
@@ -398,30 +399,39 @@ namespace Project::Components {
       SDL_DestroyTexture(data.messageTexture);
       data.messageTexture = nullptr;
     }
+
     if (data.message.empty()) {
       if (data.modalType == ModalType::NOTIFICATION) {
         positionOkButton();
+      } else if (data.modalType == ModalType::QUESTION) {
+        positionQuestionButtons();
       }
       return;
     }
-    SDL_Surface* surface = TTF_RenderText_Blended(data.font, data.message.c_str(), data.fontColor);
+
+    SDL_Surface* surface = TTF_RenderText_Blended(data.font, data.message.c_str(), data.messageColor);
     if (!surface) {
       if (data.modalType == ModalType::NOTIFICATION) {
         positionOkButton();
+      } else if (data.modalType == ModalType::QUESTION) {
+        positionQuestionButtons();
       }
       return;
     }
-    int y = data.rect.y + Constants::DEFAULT_TEXT_MARGIN;
+
+    int y = data.rect.y + data.paddingTop;
     if (data.subtitleTexture) {
       y = data.subtitleRect.y + data.subtitleRect.h + Constants::DEFAULT_TEXT_HEIGHT_OFFSET;
     } else if (data.titleTexture) {
       y = data.titleRect.y + data.titleRect.h + Constants::DEFAULT_TEXT_HEIGHT_OFFSET;
     }
     data.messageTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    data.messageRect = {data.rect.x + Constants::DEFAULT_TEXT_MARGIN, y, surface->w, surface->h};
+    data.messageRect = {data.rect.x + data.paddingLeft, y, surface->w, surface->h};
     SDL_FreeSurface(surface);
     if (data.modalType == ModalType::NOTIFICATION) {
       positionOkButton();
+    } else if (data.modalType == ModalType::QUESTION) {
+      positionQuestionButtons();
     }
   }
 

@@ -36,5 +36,9 @@ namespace Project::Assets {
   std::vector<BaseAsset*> AssetsManager::getAssetsByCategory(AssetCategory category) const {
     std::vector<BaseAsset*> results;
     auto it = categoryMap.find(category);
+    if (it != categoryMap.end()) {
+
+    }
+    return results;
   }
 }

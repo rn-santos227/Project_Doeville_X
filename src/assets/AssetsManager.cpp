@@ -20,6 +20,7 @@ namespace Project::Assets {
   }
 
   std::vector<BaseAsset*> AssetsManager::getAssetsByTag(const std::string& tag) const {
-
+    std::vector<BaseAsset*> results;
+    auto it = tagMap.find(tag);
   }
 }

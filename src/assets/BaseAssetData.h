@@ -9,6 +9,7 @@ namespace Project::Assets {
   struct BaseAssetData {
     std::string name;
     std::string path;
+    std::string tag;
     AssetCategory category = AssetCategory::TEXTURE;
   };
 }

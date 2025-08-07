@@ -26,6 +26,7 @@ namespace Project::Assets {
 
     AssetCategory getCategory() const { return data.category; }
     const std::string& getName() const { return data.name; }
+    const std::string& getTag() const { return data.tag; }
     
     virtual bool loadFromLua(const std::string& scriptPath) = 0; 
 

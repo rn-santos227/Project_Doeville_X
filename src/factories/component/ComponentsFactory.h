@@ -35,7 +35,6 @@
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/config_reader/ConfigReader.h"
 
-namespace Constants = Project::Libraries::Constants;
 namespace Project::Factories {
   class ComponentsFactory {
   public:

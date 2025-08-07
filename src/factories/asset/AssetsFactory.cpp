@@ -2,6 +2,7 @@
 
 #include "assets/BaseAsset.h"
 #include "assets/AssetCategoryResolver.h"
+#include "libraries/keys/LuaAssetKeys.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
 namespace Project::Factories {
@@ -13,6 +14,8 @@ namespace Project::Factories {
   using Project::Utilities::LogsManager;
   using Project::Utilities::LuaStateWrapper;
 
+  namespace Keys = Project::Libraries::Keys;
+
   AssetsFactory::AssetsFactory(
     SDL_Renderer* renderer,
     LogsManager& logsManager,
@@ -22,4 +25,59 @@ namespace Project::Factories {
       logsManager(logsManager),
       resourcesHandler(resourcesHandler),
       assetsManager(assetsManager) {}
+
+  bool AssetsFactory::createAssetFromLua(const std::string &scriptPath) {
+    LuaStateWrapper lua(logsManager);
+    if (!lua.loadScript(scriptPath)) {
+      logsManager.logError("Failed to load asset script: " + scriptPath);
+      return false;
+    }
+
+    lua_State* L = lua.get();
+    lua_getglobal(L, Keys::LUA_ASSET_GET_ASSET);
+    if (!lua_isfunction(L, -1)) {
+      logsManager.logError("Asset script missing get_asset function: " + scriptPath);
+      return false;
+    }
+
+    if (lua_pcall(L, 0, 1, 0) != LUA_OK) {
+      const char* msg = lua_tostring(L, -1);
+      logsManager.logError(std::string("Error executing get_asset: ") + (msg ? msg : Keys::LUA_ASSET_UNKNOWN));
+      return false;
+    }
+
+    if (!lua_istable(L, -1)) {
+      logsManager.logError("get_asset must return a table");
+      lua_pop(L, 1);
+      return false;
+    }
+
+    AssetCategory category = AssetCategory::TEXTURE;
+    lua_getfield(L, -1, Keys::LUA_ASSET_CATEGORY);
+    if (lua_isstring(L, -1)) {
+      category = AssetCategoryResolver::resolve(lua_tostring(L, -1));
+    }
+    lua_pop(L, 1);
+
+    lua_pop(L, 1);
+
+    std::unique_ptr<BaseAsset> asset;
+    switch (category) {
+
+    }
+
+    if (!asset || !asset->loadFromLua(scriptPath)) {
+      logsManager.logError("Failed to load asset from Lua: " + scriptPath);
+      return false;
+    }
+
+    std::string name = asset->getName();
+    if (name.empty()) {
+      logsManager.logWarning("Asset name is empty after loading: " + scriptPath);
+      return false;
+    }
+
+    assetsManager.addAsset(name, std::move(asset));
+    return true;
+  }
 }

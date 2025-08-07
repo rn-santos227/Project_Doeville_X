@@ -13,4 +13,9 @@ namespace Project::Assets {
   bool AssetsManager::hasAsset(const std::string& id) const {
     return objects.find(id) != objects.end();
   }
+
+  BaseAsset* AssetsManager::getAsset(const std::string& id) {
+    auto it = objects.find(id);
+    return it != objects.end() ? it->second.get() : nullptr;
+  }
 }

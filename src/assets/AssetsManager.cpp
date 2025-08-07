@@ -32,4 +32,8 @@ namespace Project::Assets {
     }
     return results;
   }
+
+  std::vector<BaseAsset*> AssetsManager::getAssetsByCategory(AssetCategory category) const {
+
+  }
 }

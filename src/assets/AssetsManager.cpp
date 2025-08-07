@@ -18,4 +18,8 @@ namespace Project::Assets {
     auto it = objects.find(id);
     return it != objects.end() ? it->second.get() : nullptr;
   }
+
+  std::vector<BaseAsset*> AssetsManager::getAssetsByTag(const std::string& tag) const {
+
+  }
 }

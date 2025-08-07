@@ -7,8 +7,7 @@ namespace Project::Services {
     LAYER,
     ENTITY,
     ITEM,
-    ANIMATION,
-    MAP,
+    ASSET,
     OTHER,
     INVALID
   };

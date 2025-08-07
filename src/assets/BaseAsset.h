@@ -1,8 +1,9 @@
 #ifndef BASE_ASSET_H
 #define BASE_ASSET_H
 
-#include <string>
+#include "BaseAssetData.h"
 
+#include <string>
 #include <SDL.h>
 
 #include "handlers/resources/ResourcesHandler.h"
@@ -11,13 +12,25 @@
 namespace Project::Assets {
   class BaseAsset {
   public:
-    BaseAsset(
-      SDL_Renderer* renderer,
+    explicit BaseAsset(
       Project::Utilities::LogsManager& logsManager,
-      Project::Handlers::ResourcesHandler& resourcesHandler
-    );
+      Project::Handlers::ResourcesHandler& resourcesHandler)
+      : logsManager(logsManager), resourcesHandler(resourcesHandler) {}
     
     virtual ~BaseAsset() = default;
+    BaseAsset(const BaseAsset&) = delete;
+    BaseAsset& operator=(const BaseAsset&) = delete;
+    BaseAsset(BaseAsset&&) = default;
+    BaseAsset& operator=(BaseAsset&&) = default;
+
+    AssetCategory getCategory() const { return data.category; }
+    const std::string& getName() const { return data.name; }
+    const std::string& getPaty() const { return data.name; }    
+
+  protected:
+    Project::Utilities::LogsManager& logsManager;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
+    BaseAssetData data;
   };
 }
 

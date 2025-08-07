@@ -10,11 +10,10 @@ namespace Project::Services {
   namespace Scripts = Project::Libraries::Categories::Scripts;
   
   ScriptCategory ScriptingCategoryResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, ScriptCategory>, 7> map{{
+    static constexpr std::array<std::pair<std::string_view, ScriptCategory>, 6> map{{
       {Scripts::ENTITY, ScriptCategory::ENTITY},
       {Scripts::ITEM, ScriptCategory::ITEM},
-      {Scripts::ANIMATION, ScriptCategory::ANIMATION},
-      {Scripts::MAP, ScriptCategory::MAP},
+      {Scripts::ASSET, ScriptCategory::ASSET},
       {Scripts::LAYER, ScriptCategory::LAYER},
       {Scripts::STATE, ScriptCategory::STATE},
       {Scripts::OTHER, ScriptCategory::OTHER}
@@ -30,8 +29,7 @@ namespace Project::Services {
     switch(category) {
       case ScriptCategory::ENTITY: return Scripts::ENTITY;
       case ScriptCategory::ITEM: return Scripts::ITEM;
-      case ScriptCategory::ANIMATION: return Scripts::ANIMATION;
-      case ScriptCategory::MAP: return Scripts::MAP;
+      case ScriptCategory::ASSET: return Scripts::ASSET;
       case ScriptCategory::LAYER: return Scripts::LAYER;
       case ScriptCategory::STATE: return Scripts::STATE;
       case ScriptCategory::OTHER: return Scripts::OTHER;

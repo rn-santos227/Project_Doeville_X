@@ -3,10 +3,13 @@
 
 #include <string>
 
+#include "AssetCategory.h"
+
 namespace Project::Assets {
-  struct AssetData {
+  struct BaseAssetData {
     std::string name;
     std::string path;
+    AssetCategory category = AssetCategory::TEXTURE;
   };
 }
 

@@ -13,6 +13,8 @@
 
 namespace Project::Assets {
   class AssetsManager : public Project::Helpers::ObjectsManager<BaseAsset, std::unique_ptr<BaseAsset>> {
+    AssetsManager() = default;
+    ~AssetsManager() = default;
   };
 
 }

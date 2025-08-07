@@ -13,9 +13,10 @@ namespace Project::Assets {
   class BaseAsset {
   public:
     explicit BaseAsset(
+      SDL_Renderer* renderer,
       Project::Utilities::LogsManager& logsManager,
       Project::Handlers::ResourcesHandler& resourcesHandler)
-      : logsManager(logsManager), resourcesHandler(resourcesHandler) {}
+      : renderer(renderer), logsManager(logsManager), resourcesHandler(resourcesHandler) {}
     
     virtual ~BaseAsset() = default;
     BaseAsset(const BaseAsset&) = delete;
@@ -25,9 +26,11 @@ namespace Project::Assets {
 
     AssetCategory getCategory() const { return data.category; }
     const std::string& getName() const { return data.name; }
-    const std::string& getPaty() const { return data.name; }    
+    
+    virtual bool loadFromLua(const std::string& scriptPath) = 0; 
 
   protected:
+    SDL_Renderer* renderer;
     Project::Utilities::LogsManager& logsManager;
     Project::Handlers::ResourcesHandler& resourcesHandler;
     BaseAssetData data;

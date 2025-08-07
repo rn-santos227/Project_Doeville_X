@@ -17,6 +17,13 @@ namespace Project::Assets {
     AssetsManager() = default;
     ~AssetsManager() = default;
 
+    void addAsset(const std::string& id, std::unique_ptr<BaseAsset> asset);
+    bool hasAsset(const std::string& id) const;
+    BaseAsset* getAsset(const std::string& id);
+    
+    std::vector<BaseAsset*> getAssetsByTag(const std::string& tag) const;
+    std::vector<BaseAsset*> getAssetsByCategory(AssetCategory category) const;
+
   private:
     std::unordered_map<std::string, std::vector<std::string>> tagMap;
     std::unordered_map<AssetCategory, std::vector<std::string>> categoryMap;

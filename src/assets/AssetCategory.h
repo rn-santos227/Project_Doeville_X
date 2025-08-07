@@ -9,6 +9,7 @@ namespace Project::Handlers {
     FONT,
     MAP,
     SPRITE,
+    TEXTURE,
     UNKNOWN
   };
 }

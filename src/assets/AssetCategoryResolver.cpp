@@ -6,7 +6,7 @@
 #include "libraries/categories/Categories.h"
 #include "utilities/string/StringUtils.h"
 
-namespace Project::Handlers {
+namespace Project::Assets {
   namespace Assets = Project::Libraries::Categories::Assets;
 
   AssetCategory AssetCategoryResolver::resolve(std::string_view name) {

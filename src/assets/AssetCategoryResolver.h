@@ -5,7 +5,7 @@
 
 #include <string_view>
 
-namespace Project::Handlers {
+namespace Project::Assets {
   class AssetCategoryResolver {
   public:
     static AssetCategory resolve(std::string_view name);

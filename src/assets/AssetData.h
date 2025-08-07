@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace Project::Handlers {
+namespace Project::Assets {
   struct AssetData {
     std::string name;
     std::string path;

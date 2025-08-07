@@ -5,8 +5,7 @@ namespace Project::Libraries::Categories {
   namespace Scripts {
     constexpr const char* ENTITY = "ENTITY";
     constexpr const char* ITEM = "ITEM";
-    constexpr const char* ANIMATION = "ANIMATION";
-    constexpr const char* MAP = "MAP";
+    constexpr const char* ASSET = "ASSET";
     constexpr const char* LAYER = "LAYER";
     constexpr const char* STATE = "STATE";
     constexpr const char* OTHER = "OTHER";

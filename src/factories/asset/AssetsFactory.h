@@ -11,7 +11,13 @@
 
 namespace Project::Factories {
   class AssetsFactory {
+  public:
 
+  private:
+    SDL_Renderer* renderer;
+    Project::Utilities::LogsManager& logsManager;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
+    Project::Assets::AssetsManager& assetsManager;
   };
 }
 

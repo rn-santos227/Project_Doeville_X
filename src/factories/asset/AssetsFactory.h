@@ -12,6 +12,13 @@
 namespace Project::Factories {
   class AssetsFactory {
   public:
+    explicit AssetsFactory(
+      SDL_Renderer* renderer,
+      Project::Utilities::LogsManager& logsManager,
+      Project::Handlers::ResourcesHandler& resourcesHandler,
+      Project::Assets::AssetsManager& assetsManager
+    );
+    bool createAssetFromLua(const std::string& scriptPath);
 
   private:
     SDL_Renderer* renderer;

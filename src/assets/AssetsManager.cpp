@@ -30,5 +30,6 @@ namespace Project::Assets {
         }
       }
     }
+    return results;
   }
 }

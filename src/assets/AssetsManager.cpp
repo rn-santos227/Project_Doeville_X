@@ -9,4 +9,8 @@ namespace Project::Assets {
     categoryMap[asset->getCategory()].push_back(id);
     ObjectsManager<BaseAsset, std::unique_ptr<BaseAsset>>::add(id, std::move(asset));
   }
+
+  bool AssetsManager::hasAsset(const std::string& id) const {
+    return objects.find(id) != objects.end();
+  }
 }

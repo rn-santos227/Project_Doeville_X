@@ -22,5 +22,13 @@ namespace Project::Assets {
   std::vector<BaseAsset*> AssetsManager::getAssetsByTag(const std::string& tag) const {
     std::vector<BaseAsset*> results;
     auto it = tagMap.find(tag);
+    if (it != tagMap.end()) {
+      for (const auto& name : it->second) {
+        auto objIt = objects.find(name);
+        if (objIt != objects.end()) {
+          results.push_back(objIt->second.get());
+        }
+      }
+    }
   }
 }

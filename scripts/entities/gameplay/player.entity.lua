@@ -6,6 +6,8 @@ local rot_speed = 10
 local max_ammo = 8
 local reload_time = 2
 local reload_timer = 0
+local fire_rate = 0.2
+local fire_timer = 0
 
 group = "gameplay"
 
@@ -90,7 +92,7 @@ components = {
 
 function action_1()
   local ammo = getNumericValue("player", "ammo")
-  if ammo and ammo > 0 and reload_timer <= 0 then
+  if ammo and ammo > 0 and reload_timer <= 0 and fire_timer <= 0 then
     local vx, vy = getEntityVelocity("player")
     local dx, dy
     local facing
@@ -110,6 +112,7 @@ function action_1()
     spawn(8 + dx * spawnDist, 8 + dy * spawnDist, dx * 800, dy * 800, facing)
     subtractNumericValue("player", "ammo", 1)
     ammo = ammo - 1
+    fire_timer = fire_rate
     if ammo == 0 then
       reload_timer = reload_time
     end
@@ -124,9 +127,16 @@ function update()
       setNumericValue("player", "ammo", max_ammo)
     end
   end
+
+  if fire_timer > 0 then
+    fire_timer = fire_timer - deltaTime
+    if fire_timer < 0 then fire_timer = 0 end
+  end
+
   if getCollidedEntity(id, {"wall_h", "wall_v"}) then
     cameraShake()
   end
+  
   if isActionPressed("player", "move_left") then
     turnLeft("player", rot_speed)
   elseif isActionPressed("player", "move_right") then

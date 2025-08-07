@@ -24,7 +24,7 @@ components = {
 
 function update(deltaTime)
   local ammo = getNumericValue("player", "ammo")
-  if speed then
+  if ammo then
     setNumericValue("ammo_meter", "ammo", ammo)
   end
 end

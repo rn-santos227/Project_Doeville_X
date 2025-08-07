@@ -41,6 +41,8 @@ namespace Project::Services {
       gameStateManager(gameStateManager),
       resourcesHandler(resourcesHandler),
       luaStateWrapper(logsManager),
+      assetsManager(logsManager),
+      assetsFactory(renderer, logsManager, resourcesHandler, assetsManager),
       entitiesFactory(logsManager, configReader, componentsFactory, gameStateManager),
       layersFactory(logsManager),
       gameStateFactory(logsManager, sdlManager, resourcesHandler, 
@@ -49,8 +51,7 @@ namespace Project::Services {
   inline const std::vector<ScriptCategory> loadOrder = {
     ScriptCategory::ENTITY,
     ScriptCategory::ITEM,
-    ScriptCategory::ANIMATION,
-    ScriptCategory::MAP,
+    ScriptCategory::ASSET,
     ScriptCategory::LAYER,
     ScriptCategory::STATE,
     ScriptCategory::OTHER
@@ -118,9 +119,7 @@ namespace Project::Services {
       {Constants::LUA_STATE_SUFFIX, ScriptCategory::STATE},
       {Constants::LUA_LAYER_SUFFIX, ScriptCategory::LAYER},
       {Constants::LUA_ENTITY_SUFFIX, ScriptCategory::ENTITY},
-      {Constants::LUA_MAP_SUFFIX, ScriptCategory::MAP},
       {Constants::LUA_ITEM_SUFFIX, ScriptCategory::ITEM},
-      {Constants::LUA_ANIMATION_SUFFIX, ScriptCategory::ANIMATION}
     };
 
     for (const auto& [suffix, category] : extensionMap) {
@@ -156,6 +155,13 @@ namespace Project::Services {
         auto layer = layersFactory.createLayerFromLua(scriptPath);
         if (layer) {
           logsManager.logMessage("Layer loaded from " + scriptPath);
+        }
+        break;
+      }
+
+      case ScriptCategory::ASSET: {
+        if (assetsFactory.createAssetFromLua(scriptPath)) {
+          logsManager.logMessage("Asset loaded from " + scriptPath);
         }
         break;
       }

@@ -8,13 +8,13 @@
 #include <unordered_map>
 #include <vector>
 
-
 #include "helpers/objects_manager/ObjectsManager.h"
+#include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Assets {
   class AssetsManager : public Project::Helpers::ObjectsManager<BaseAsset, std::unique_ptr<BaseAsset>> {
   public:
-    AssetsManager() = default;
+    explicit AssetsManager(Project::Utilities::LogsManager& logsManager);
     ~AssetsManager() = default;
 
     void addAsset(const std::string& id, std::unique_ptr<BaseAsset> asset);
@@ -25,6 +25,8 @@ namespace Project::Assets {
     std::vector<BaseAsset*> getAssetsByCategory(AssetCategory category) const;
 
   private:
+    Project::Utilities::LogsManager& logsManager;
+    
     std::unordered_map<std::string, std::vector<std::string>> tagMap;
     std::unordered_map<AssetCategory, std::vector<std::string>> categoryMap;
   };

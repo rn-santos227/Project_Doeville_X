@@ -12,6 +12,8 @@
 #include <SDL2/SDL.h>
 
 #include "core/SDLManager.h"
+#include "assets/AssetsManager.h"
+#include "factories/asset/AssetsFactory.h"
 #include "factories/component/ComponentsFactory.h"
 #include "factories/entity/EntitiesFactory.h"
 #include "factories/layer/LayersFactory.h"
@@ -37,6 +39,9 @@ namespace Project::Services {
     
     ~ScriptingService() = default;
 
+    Project::Assets::AssetsManager& getAssetsManager() { return assetsManager; }
+    Project::Factories::AssetsFactory& getAssetsFactory() { return assetsFactory; }
+
     bool validateScript(const std::string& scriptPath);
     void loadScriptsFromFolder(const std::string& folderPath);
 
@@ -48,12 +53,15 @@ namespace Project::Services {
     Project::States::GameStateManager& gameStateManager;
     Project::Handlers::ResourcesHandler& resourcesHandler;
 
+    Project::Assets::AssetsManager assetsManager;
     Project::Utilities::LuaStateWrapper luaStateWrapper;
+    
     SDL_Renderer* renderer;
 
     Project::Factories::EntitiesFactory entitiesFactory;
     Project::Factories::LayersFactory layersFactory;
     Project::Factories::GameStateFactory gameStateFactory;
+    Project::Factories::AssetsFactory assetsFactory;
 
     ScriptCategory determineScriptType(const std::string& scriptName);
     void loadScriptByCategory(const std::string& scriptPath, ScriptCategory category);

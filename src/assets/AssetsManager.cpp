@@ -1,7 +1,11 @@
 #include "AssetsManager.h"
 
 namespace Project::Assets {
+  using Project::Utilities::LogsManager;
   using Project::Helpers::ObjectsManager;
+
+  AssetsManager::AssetsManager(LogsManager& logsManager)
+  : logsManager(logsManager) {}
 
   void AssetsManager::addAsset(const std::string& id, std::unique_ptr<BaseAsset> asset) {
     if (!asset) return;

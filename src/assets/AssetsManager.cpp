@@ -37,7 +37,12 @@ namespace Project::Assets {
     std::vector<BaseAsset*> results;
     auto it = categoryMap.find(category);
     if (it != categoryMap.end()) {
-
+      for (const auto& name : it->second) {
+        auto objIt = objects.find(name);
+        if (objIt != objects.end()) {
+          results.push_back(objIt->second.get());
+        }
+      }
     }
     return results;
   }

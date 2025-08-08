@@ -21,6 +21,9 @@ namespace Project::Components {
 
     float interpolationSpeed = Project::Libraries::Constants::DEFAULT_BAR_SPEED;
 
+    int offsetX{0};
+    int offsetY{0};
+
     int borderWidth = 0;
     int cornerRadius = 0;
     int currentValue = 0;

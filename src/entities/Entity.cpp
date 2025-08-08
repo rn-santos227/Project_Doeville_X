@@ -72,14 +72,18 @@ namespace Project::Entities {
     luaStateWrapper.setGlobalNumber(Keys::DELTA_TIME, deltaTime);
     luaStateWrapper.callFunctionIfExists(Keys::UPDATE);
 
-    for (auto& [name, component] : components) {
-      if (component && component->isActive()) {
-        if (dynamic_cast<Components::MotionComponent*>(component.get()) ||
-            dynamic_cast<Components::PhysicsComponent*>(component.get()) ||
-            dynamic_cast<Components::GraphicsComponent*>(component.get())) {
-          continue;
+    for (const auto& name : componentOrder) {
+      auto it = components.find(name);
+      if (it != components.end()) {
+        auto& component = it->second;
+        if (component && component->isActive()) {
+          if (dynamic_cast<Components::MotionComponent*>(component.get()) ||
+              dynamic_cast<Components::PhysicsComponent*>(component.get()) ||
+              dynamic_cast<Components::GraphicsComponent*>(component.get())) {
+            continue;
+          }
+          component->update(deltaTime);
         }
-        component->update(deltaTime);
       }
     }
   }

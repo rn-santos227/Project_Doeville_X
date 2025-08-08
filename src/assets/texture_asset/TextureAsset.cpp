@@ -21,4 +21,8 @@ namespace Project::Assets {
       texture = nullptr;
     }
   }
+
+  bool TextureAsset::loadFromLua(const std::string& scriptPath) {
+    LuaStateWrapper lua(logsManager);
+  }
 }

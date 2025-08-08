@@ -3,7 +3,8 @@
 #include <algorithm>
 #include <cmath>
 
-#include "libraries/constants/Constants.h"
+#include "libraries/constants/FloatConstants.h"
+#include "libraries/constants/NumericConstants.h"
 #include "utilities/geometry/GeometryUtils.h"
 #include "utilities/math/MathUtils.h"
 

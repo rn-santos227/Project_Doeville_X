@@ -20,6 +20,12 @@ namespace Project::Libraries::Constants {
   constexpr float MAX_CELL = 256.0f;
 
   constexpr float FLOAT_255 = 255.0f;
+
+  constexpr float DEFAULT_DENOMINATOR = 2.0f;
+  constexpr float DEFAULT_WHOLE = 1.0f;
+  constexpr float DEFAULT_HALF = 0.5f;
+  constexpr float DEFAULT_DOUBLE = 2.0;
+  constexpr float DEFAULT_TRIPLE = 3.0;
 }
 
 #endif

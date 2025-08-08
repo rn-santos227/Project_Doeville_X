@@ -9,7 +9,7 @@
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
 #include "libraries/categories/Categories.h"
-#include "libraries/constants/Constants.h"
+#include "libraries/constants/FloatConstants.h"
 #include "libraries/keys/Keys.h"
 
 namespace Project::Components {

@@ -6,6 +6,7 @@
 
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
+#include "libraries/constants/FloatConstants.h"
 #include "libraries/constants/IndexConstants.h"
 #include "libraries/constants/NameConstants.h"
 #include "libraries/keys/Keys.h"

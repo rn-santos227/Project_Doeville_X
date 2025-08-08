@@ -3,7 +3,8 @@
 #include <algorithm>
 #include <cmath>
 
-#include "libraries/constants/Constants.h"
+#include "libraries/constants/AngleConstants.h"
+#include "libraries/constants/FloatConstants.h"
 
 namespace Project::Utilities {
   namespace Constants = Project::Libraries::Constants;

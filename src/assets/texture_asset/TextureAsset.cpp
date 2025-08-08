@@ -72,6 +72,25 @@ namespace Project::Assets {
     if (lua_isnumber(L, -1)) textureData.scale = static_cast<float>(lua_tonumber(L, -1));
     lua_pop(L, 1);
 
-    lua_pop(L, 1); // pop table
+    lua_pop(L, 1);
+
+    data.category = AssetCategory::TEXTURE;
+
+    if (data.path.empty()) {
+      logsManager.logError("TextureAsset path is empty: " + scriptPath);
+      return false;
+    }
+
+    texture = resourcesHandler.loadTexture(renderer, data.path);
+    if (!texture) {
+      logsManager.logError("Failed to load texture: " + data.path);
+      return false;
+    }
+
+    if (textureData.width == 0 || textureData.height == 0) {
+      SDL_QueryTexture(texture, nullptr, nullptr, &textureData.width, &textureData.height);
+    }
+
+    return true;
   }
 }

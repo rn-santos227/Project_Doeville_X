@@ -213,6 +213,7 @@ namespace Project::Entities {
       }
     }
 
+    bool isNew = components.find(componentName) == components.end();
     components[componentName] = std::move(component);
     if (entitiesManager) {
       auto* compPtr = components[componentName].get();

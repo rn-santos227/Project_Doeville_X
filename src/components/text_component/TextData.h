@@ -23,6 +23,9 @@ namespace Project::Components {
     int paddingRight{0};
     int paddingBottom{0};
     int paddingLeft{0};
+
+    int offsetX{0};
+    int offsetY{0};
   };
 }
 

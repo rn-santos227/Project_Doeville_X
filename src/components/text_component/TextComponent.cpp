@@ -79,6 +79,8 @@ namespace Project::Components {
   }
 
   void TextComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    data.offsetX = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::X, 0.0f));
+    data.offsetY = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::Y, 0.0f));
     std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::FONT_COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
     Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::FONT_COLOR_ALPHA, Constants::FULL_ALPHA));
     data.textColor = Project::Utilities::ColorUtils::hexToRGB(colorHex, alpha);
@@ -200,7 +202,7 @@ namespace Project::Components {
   }
 
   void TextComponent::setEntityPosition(int x, int y) {
-    setPosition(x, y);
+    setPosition(x + data.offsetX, y + data.offsetY);
   }
 
   void TextComponent::createTexture() {

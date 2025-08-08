@@ -1,12 +1,14 @@
 #include "AssetsFactory.h"
 
 #include "assets/BaseAsset.h"
+#include "assets/texture_asset/TextureAsset.h"
 #include "assets/AssetCategoryResolver.h"
 #include "libraries/keys/LuaAssetKeys.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
 namespace Project::Factories {
   using Project::Assets::BaseAsset;
+  using Project::Assets::TextureAsset;
   using Project::Assets::AssetsManager;
   using Project::Assets::AssetCategory;
   using Project::Assets::AssetCategoryResolver;
@@ -63,7 +65,9 @@ namespace Project::Factories {
 
     std::unique_ptr<BaseAsset> asset;
     switch (category) {
-
+      case AssetCategory::TEXTURE:
+        asset = std::make_unique<TextureAsset>(renderer, logsManager, resourcesHandler);
+        break;
     }
 
     if (!asset || !asset->loadFromLua(scriptPath)) {

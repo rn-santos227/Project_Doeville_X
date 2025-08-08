@@ -93,4 +93,8 @@ namespace Project::Assets {
 
     return true;
   }
+
+  bool TextureAsset::setColor(SDL_Color color) {
+
+  }
 }

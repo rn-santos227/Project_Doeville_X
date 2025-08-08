@@ -264,6 +264,7 @@ namespace Project::Entities {
     }
 
     components.erase(it);
+    componentOrder.erase(std::remove(componentOrder.begin(), componentOrder.end(), componentName), componentOrder.end());
   }
 
   bool Entity::hasComponent(const std::string& componentName) const {

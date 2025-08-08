@@ -13,7 +13,13 @@
 namespace Project::Assets {
   class TextureAsset : public BaseAsset {
   public:
-
+    TextureAsset(
+      SDL_Renderer* renderer,
+      Project::Utilities::LogsManager& logsManager,
+      Project::Handlers::ResourcesHandler& resourcesHandler
+    );
+    ~TextureAsset() override;
+    
   private:
     SDL_Texture* texture;
     TextureAssetData textureData;

@@ -51,6 +51,10 @@ namespace Project::Services {
             StyleBinding::setBackground(style, value);
             break;
 
+          case StyleProperty::FOREGROUND:
+            StyleBinding::setForeground(style, value);
+            break;
+
           case StyleProperty::HOVER_COLOR:
             StyleBinding::setHoverColor(style, value);
             break;

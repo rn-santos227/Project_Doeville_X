@@ -33,6 +33,10 @@ namespace Project::Services::StyleBinding {
     style.background = ColorUtils::hexToRGB(value);
   }
 
+  void setForeground(Style& style, const std::string& value) {
+    style.foreground = ColorUtils::hexToRGB(value);
+  }
+
   void setHoverColor(Style& style, const std::string& value) {
     style.hoverColor = ColorUtils::hexToRGB(value);
   }

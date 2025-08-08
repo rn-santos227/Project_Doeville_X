@@ -108,6 +108,8 @@ namespace Project::Components {
   }
 
   void ButtonComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    data.offsetX = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::X, 0.0f));
+    data.offsetY = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::Y, 0.0f));
     int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
     int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
     setSize(width, height);
@@ -182,8 +184,8 @@ namespace Project::Components {
   }
 
   void ButtonComponent::setEntityPosition(int x, int y) {
-    data.rect.x = x;
-    data.rect.y = y;
+    data.rect.x = x + data.offsetX;
+    data.rect.y = y + data.offsetY;
     createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);
   }
 

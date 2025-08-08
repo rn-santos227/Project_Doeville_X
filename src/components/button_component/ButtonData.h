@@ -19,6 +19,9 @@ namespace Project::Components {
     std::string luaFunction;
     std::string text;
 
+    int offsetX{0};
+    int offsetY{0};
+
     int fontSize = Project::Libraries::Constants::DEBUG_FONT_SIZE;
     int borderWidth = 0;
     int borderRadius = 0;

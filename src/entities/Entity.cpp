@@ -1,6 +1,8 @@
 #include "Entity.h"
 #include "EntityAttributeResolver.h"
 
+#include <algorithm>
+
 #include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/button_component/ButtonComponent.h"
@@ -53,11 +55,15 @@ namespace Project::Entities {
     };
 
 
-    for (auto& [name, component] : components) {
-      if (component) {
-        component->onAttach();
-        positionComponent(component.get());
-        applyComponentStyle(component.get());
+    for (const auto& name : componentOrder) {
+      auto it = components.find(name);
+      if (it != components.end()) {
+        auto& component = it->second;
+        if (component) {
+          component->onAttach();
+          positionComponent(component.get());
+          applyComponentStyle(component.get());
+        }
       }
     }
   }

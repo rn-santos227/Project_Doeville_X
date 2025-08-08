@@ -116,7 +116,8 @@ namespace Project::Entities {
 
     std::unordered_map<std::string, ComponentPtr> components;
     std::unordered_set<EntityAttribute> attributes;
-    
+    std::vector<std::string> componentOrder;
+        
     Project::Entities::EntitiesManager* entitiesManager = nullptr;
   };
 }

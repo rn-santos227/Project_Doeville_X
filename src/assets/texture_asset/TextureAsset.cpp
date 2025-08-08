@@ -24,5 +24,16 @@ namespace Project::Assets {
 
   bool TextureAsset::loadFromLua(const std::string& scriptPath) {
     LuaStateWrapper lua(logsManager);
+    if (!lua.loadScript(scriptPath)) {
+      logsManager.logError("Failed to load asset script: " + scriptPath);
+      return false;
+    }
+
+    lua_State* L = lua.get();
+    lua_getglobal(L, LUA_ASSET_GET_ASSET);
+    if (!lua_isfunction(L, -1)) {
+      logsManager.logError("Asset script missing getAsset function: " + scriptPath);
+      return false;
+    }
   }
 }

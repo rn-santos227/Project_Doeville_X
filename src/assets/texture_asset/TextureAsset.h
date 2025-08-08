@@ -19,6 +19,8 @@ namespace Project::Assets {
       Project::Handlers::ResourcesHandler& resourcesHandler
     );
     ~TextureAsset() override;
+
+    bool loadFromLua(const std::string& scriptPath) override;
     
   private:
     SDL_Texture* texture;

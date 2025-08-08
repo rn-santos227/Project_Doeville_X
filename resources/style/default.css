@@ -39,6 +39,12 @@
   opacity: 255;
 }
 
+.meter-label {
+  font-color: #FFFFFF;
+  font-size: 16;
+  opacity: 255;
+}
+
 .title {
   font-color: #FFFF00;
   font-size: 36;
@@ -110,4 +116,8 @@
   border-width: 1;
   font-color: #FFFFFF;
   font-size: 18;
+}
+
+.ammo-meter {
+  foreground: #0000FF;
 }

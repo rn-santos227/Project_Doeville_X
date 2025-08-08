@@ -57,7 +57,6 @@ namespace Project::Components {
     SDL_Color okTextColor{0, 0, 0, 255};
     SDL_Texture* okTextTexture = nullptr;
     SDL_Rect okTextRect{0, 0, 0, 0};
-    int okBorderRadius{0};
 
     SDL_Rect cancelRect{0, 0, 80, 30};
     SDL_Color cancelColor{200, 200, 200, 255};

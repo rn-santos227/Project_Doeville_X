@@ -11,6 +11,13 @@ components = {
     ammo = { value = 8, limit = 8 }
   },
 
+  TextComponent = {
+    component = "TextComponent",
+    class = "meter-label",
+    active = true,
+    text = "Ammo"
+  },
+
   MeterComponent = {
     component = "MeterComponent",
     class = "meter",
@@ -19,6 +26,7 @@ components = {
     height = 16,
     name = "ammo",
     orientation = "horizontal",
+    x = 60
   }
 }
 

@@ -10,14 +10,23 @@ components = {
     active = true,
     speed = { value = 0, limit = 200 }
   },
+  
+  TextComponent = {
+    component = "TextComponent",
+    class = "meter-label",
+    active = true,
+    text = "Speed"
+  },
+
   MeterComponent = {
     component = "MeterComponent",
-    class = "meter",
+    class = "ammo-meter",
     active = true,
     width = 160,
     height = 16,
     name = "speed",
-    orientation = "horizontal"
+    orientation = "horizontal",
+    x = 60
   }
 }
 

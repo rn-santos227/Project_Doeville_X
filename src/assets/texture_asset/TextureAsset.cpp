@@ -47,5 +47,31 @@ namespace Project::Assets {
       lua_pop(L, 1);
       return false;
     }
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_NAME);
+    if (lua_isstring(L, -1)) data.name = lua_tostring(L, -1);
+    lua_pop(L, 1);
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_PATH);
+    if (lua_isstring(L, -1)) data.path = lua_tostring(L, -1);
+    lua_pop(L, 1);
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_TAG);
+    if (lua_isstring(L, -1)) data.tag = lua_tostring(L, -1);
+    lua_pop(L, 1);
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_WIDTH);
+    if (lua_isnumber(L, -1)) textureData.width = static_cast<int>(lua_tointeger(L, -1));
+    lua_pop(L, 1);
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_HEIGHT);
+    if (lua_isnumber(L, -1)) textureData.height = static_cast<int>(lua_tointeger(L, -1));
+    lua_pop(L, 1);
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_SCALE);
+    if (lua_isnumber(L, -1)) textureData.scale = static_cast<float>(lua_tonumber(L, -1));
+    lua_pop(L, 1);
+
+    lua_pop(L, 1); // pop table
   }
 }

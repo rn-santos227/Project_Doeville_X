@@ -23,13 +23,16 @@ namespace Project::Assets {
     bool loadFromLua(const std::string& scriptPath) override;
 
     SDL_Texture* getTexture() const { return texture; }
-    int getWidth() const { return data.width; }
-    int getHeight() const { return data.height; }
-    float getScale() const { return data.scale; }
+    int getWidth() const { return textureData.width; }
+    int getHeight() const { return textureData.height; }
+    float getScale() const { return textureData.scale; }
+
+    SDL_Color getColor() const { return textureData.color; }
+    bool setColor(SDL_Color color);
     
   private:
     SDL_Texture* texture;
-    TextureAssetData data;
+    TextureAssetData textureData;
   };
 }
 

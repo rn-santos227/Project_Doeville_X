@@ -215,6 +215,9 @@ namespace Project::Entities {
 
     bool isNew = components.find(componentName) == components.end();
     components[componentName] = std::move(component);
+    if (isNew) {
+      componentOrder.push_back(componentName);
+    }
     if (entitiesManager) {
       auto* compPtr = components[componentName].get();
       if (auto* motion = dynamic_cast<Components::MotionComponent*>(compPtr)) {

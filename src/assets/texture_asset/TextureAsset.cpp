@@ -15,4 +15,10 @@ namespace Project::Assets {
     : BaseAsset(renderer, logsManager, resourcesHandler),
       texture(nullptr) {}
 
+  TextureAsset::~TextureAsset() {
+    if (texture) {
+      SDL_DestroyTexture(texture);
+      texture = nullptr;
+    }
+  }
 }

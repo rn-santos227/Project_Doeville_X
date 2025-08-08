@@ -90,12 +90,16 @@ namespace Project::Entities {
 
   void Entity::render() {
     luaStateWrapper.callFunctionIfExists(Keys::RENDER);
-    for (auto& [name, component] : components) {
-      if (component && component->isActive()) {
-        if (dynamic_cast<Components::GraphicsComponent*>(component.get())) {
-          continue;
+    for (const auto& name : componentOrder) {
+      auto it = components.find(name);
+      if (it != components.end()) {
+        auto& component = it->second;
+        if (component && component->isActive()) {
+          if (dynamic_cast<Components::GraphicsComponent*>(component.get())) {
+            continue;
+          }
+          component->render();
         }
-        component->render();
       }
     }
   }

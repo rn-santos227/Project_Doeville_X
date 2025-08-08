@@ -95,6 +95,13 @@ namespace Project::Assets {
   }
 
   bool TextureAsset::setColor(SDL_Color color) {
-
+    if (!texture) {
+      return false;
+    }
+    if (!Project::Utilities::ColorShader::apply(texture, color)) {
+      return false;
+    }
+    textureData.color = color;
+    return true;
   }
 }

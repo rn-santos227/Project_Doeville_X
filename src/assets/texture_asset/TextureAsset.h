@@ -21,10 +21,15 @@ namespace Project::Assets {
     ~TextureAsset() override;
 
     bool loadFromLua(const std::string& scriptPath) override;
+
+    SDL_Texture* getTexture() const { return texture; }
+    int getWidth() const { return data.width; }
+    int getHeight() const { return data.height; }
+    float getScale() const { return data.scale; }
     
   private:
     SDL_Texture* texture;
-    TextureAssetData textureData;
+    TextureAssetData data;
   };
 }
 

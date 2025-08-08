@@ -12,7 +12,11 @@
 
 namespace Project::Assets {
   class TextureAsset : public BaseAsset {
+  public:
 
+  private:
+    SDL_Texture* texture;
+    TextureAssetData textureData;
   };
 }
 

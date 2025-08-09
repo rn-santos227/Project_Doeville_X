@@ -19,6 +19,10 @@ namespace Project::Assets {
   }
 
   bool TileAsset::loadFromLua(const std::string& scriptPath, const std::string& assetName) {
-
+    LuaStateWrapper lua(logsManager);
+    if (!lua.loadScript(scriptPath)) {
+      logsManager.logError("Failed to load asset script: " + scriptPath);
+      return false;
+    }
   }
 }

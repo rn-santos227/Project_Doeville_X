@@ -7,10 +7,8 @@ namespace Project::Assets {
   using Project::Utilities::LogsManager;
   using Project::Utilities::LuaStateWrapper;
   using Project::Handlers::ResourcesHandler;
-  using Project::Libraries::Keys::LUA_ASSET_GET_ASSET;
   
   namespace Keys = Project::Libraries::Keys;
-
   TextureAsset::TextureAsset(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
     : BaseAsset(renderer, logsManager, resourcesHandler) {}
 
@@ -29,7 +27,7 @@ namespace Project::Assets {
     }
 
     lua_State* L = lua.get();
-    lua_getglobal(L, LUA_ASSET_GET_ASSET);
+    lua_getglobal(L, Keys::LUA_ASSET_GET_ASSET);
     if (!lua_isfunction(L, -1)) {
       logsManager.logError("Asset script missing getAsset function: " + scriptPath);
       return false;
@@ -105,7 +103,7 @@ namespace Project::Assets {
     if (!Project::Utilities::ColorShader::apply(data.texture, color)) {
       return false;
     }
-    
+
     textureData.color = color;
     return true;
   }

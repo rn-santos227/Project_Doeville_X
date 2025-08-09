@@ -26,8 +26,8 @@ namespace Project::Assets {
     ) override;
 
     SDL_Texture* getTexture() const { return data.texture; }
-    SDL_Rect getTileRect(char id) const;
-    bool isTilePassable(char id) const;
+    SDL_Rect getTileRect(char id) const  { return tileData.rect; }
+    bool isTilePassable(char id) const { return tileData.passable; }
     
     int getTileWidth() const { return tileData.width; }
     int getTileHeight() const { return tileData.height; }

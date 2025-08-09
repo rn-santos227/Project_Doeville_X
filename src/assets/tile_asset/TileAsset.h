@@ -13,7 +13,14 @@
 namespace Project::Assets {
   class TileAsset : public BaseAsset {
   public:
+    TileAsset(
+      SDL_Renderer* renderer,
+      Project::Utilities::LogsManager& logsManager,
+      Project::Handlers::ResourcesHandler& resourcesHandler
+    );
+    ~TileAsset() override;
 
+    
   private:
     TileAssetData tileData;
   };

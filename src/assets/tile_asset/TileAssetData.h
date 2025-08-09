@@ -4,7 +4,7 @@
 #include <SDL.h>
 
 namespace Project::Assets {
-  struct SpriteAssetData {
+  struct TileAssetData {
     SDL_Rect rect;
     
     int x = 0;

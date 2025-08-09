@@ -12,13 +12,12 @@ namespace Project::Assets {
   namespace Keys = Project::Libraries::Keys;
 
   TextureAsset::TextureAsset(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-    : BaseAsset(renderer, logsManager, resourcesHandler),
-      texture(nullptr) {}
+    : BaseAsset(renderer, logsManager, resourcesHandler) {}
 
   TextureAsset::~TextureAsset() {
-    if (texture) {
-      SDL_DestroyTexture(texture);
-      texture = nullptr;
+    if (data.texture) {
+      SDL_DestroyTexture(data.texture);
+      data.texture = nullptr;
     }
   }
 
@@ -85,26 +84,28 @@ namespace Project::Assets {
       return false;
     }
 
-    texture = resourcesHandler.loadTexture(renderer, data.path);
-    if (!texture) {
+    data.texture = resourcesHandler.loadTexture(renderer, data.path);
+    if (!data.texture) {
       logsManager.logError("Failed to load texture: " + data.path);
       return false;
     }
 
     if (textureData.width == 0 || textureData.height == 0) {
-      SDL_QueryTexture(texture, nullptr, nullptr, &textureData.width, &textureData.height);
+      SDL_QueryTexture(data.texture, nullptr, nullptr, &textureData.width, &textureData.height);
     }
 
     return true;
   }
 
   bool TextureAsset::setColor(SDL_Color color) {
-    if (!texture) {
+    if (!data.texture) {
       return false;
     }
-    if (!Project::Utilities::ColorShader::apply(texture, color)) {
+
+    if (!Project::Utilities::ColorShader::apply(data.texture, color)) {
       return false;
     }
+    
     textureData.color = color;
     return true;
   }

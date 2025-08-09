@@ -26,7 +26,7 @@ namespace Project::Assets {
       const std::string& assetName = Project::Libraries::Constants::EMPTY_STRING
     ) override;
 
-    SDL_Texture* getTexture() const { return texture; }
+    SDL_Texture* getTexture() const { return data.texture; }
     int getWidth() const { return textureData.width; }
     int getHeight() const { return textureData.height; }
     float getScale() const { return textureData.scale; }
@@ -35,7 +35,6 @@ namespace Project::Assets {
     bool setColor(SDL_Color color);
     
   private:
-    SDL_Texture* texture;
     TextureAssetData textureData;
   };
 }

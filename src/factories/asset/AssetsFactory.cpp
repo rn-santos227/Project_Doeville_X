@@ -2,6 +2,7 @@
 
 #include "assets/BaseAsset.h"
 #include "assets/texture_asset/TextureAsset.h"
+#include "assets/tile_asset/TileAsset.h"
 #include "assets/AssetCategoryResolver.h"
 #include "libraries/keys/LuaAssetKeys.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
@@ -9,6 +10,7 @@
 namespace Project::Factories {
   using Project::Assets::BaseAsset;
   using Project::Assets::TextureAsset;
+  using Project::Assets::TileAsset;
   using Project::Assets::AssetsManager;
   using Project::Assets::AssetCategory;
   using Project::Assets::AssetCategoryResolver;
@@ -72,6 +74,14 @@ namespace Project::Factories {
       case AssetCategory::TEXTURE:
         asset = std::make_unique<TextureAsset>(renderer, logsManager, resourcesHandler);
         break;
+
+      case AssetCategory::TILE:
+        asset = std::make_unique<TileAsset>(renderer, logsManager, resourcesHandler);
+        break;
+
+      default:
+        logsManager.logError("No available category.");
+        return false;
     }
 
     if (!asset || !asset->loadFromLua(scriptPath, assetName)) {

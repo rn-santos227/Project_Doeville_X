@@ -41,7 +41,7 @@ namespace Project::Services {
       gameStateManager(gameStateManager),
       resourcesHandler(resourcesHandler),
       luaStateWrapper(logsManager),
-      assetsManager(logsManager),
+      assetsManager(logsManager, resourcesHandler),
       assetsFactory(renderer, logsManager, resourcesHandler, assetsManager),
       entitiesFactory(logsManager, configReader, componentsFactory, gameStateManager),
       layersFactory(logsManager),

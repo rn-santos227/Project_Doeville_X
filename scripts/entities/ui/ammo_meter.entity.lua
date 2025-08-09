@@ -20,7 +20,7 @@ components = {
 
   MeterComponent = {
     component = "MeterComponent",
-    class = "meter",
+    class = "ammo-meter",
     active = true,
     width = 160,
     height = 16,

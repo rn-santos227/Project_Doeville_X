@@ -1,5 +1,6 @@
 #include "ComponentsFactory.h"
 
+#include "assets/AssetsManager.h"
 #include "handlers/input/KeyActionResolver.h"
 #include "handlers/input/KeyCodeResolver.h"
 #include "libraries/constants/Constants.h"
@@ -7,6 +8,7 @@
 #include "utilities/color/ColorUtils.h"
 
 namespace Project::Factories {
+  using Project::Assets::AssetsManager;
   using Project::Components::BaseComponent;
   using Project::Components::ComponentType;
   using Project::Components::ComponentTypeResolver;
@@ -45,7 +47,8 @@ namespace Project::Factories {
   : logsManager(logsManager), configReader(configReader),
     resourcesHandler(resourcesHandler),
     renderer(nullptr), keyHandler(nullptr),
-    mouseHandler(nullptr), cursorHandler(nullptr) {}
+    mouseHandler(nullptr), cursorHandler(nullptr),
+    assetsManager(nullptr) {}
 
   void ComponentsFactory::configurePools() {
     int limit = configReader.getIntValue(Keys::POOLS_SECTION, Keys::POOL_COMPONENT_MAX, Constants::DEFAULT_COMPONENT_SIZE);
@@ -109,7 +112,11 @@ namespace Project::Factories {
       }
 
       case ComponentType::GRAPHICS: {
-        auto component = ComponentPool<GraphicsComponent>::getInstance().acquire(renderer, &resourcesHandler, logsManager);
+        if (!assetsManager) {
+          logsManager.logError("AssetsManager is null for GraphicsComponent");
+          return nullptr;
+        }
+        auto component = ComponentPool<GraphicsComponent>::getInstance().acquire(renderer, &resourcesHandler, *assetsManager, logsManager);
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
@@ -254,5 +261,9 @@ namespace Project::Factories {
 
   void ComponentsFactory::setMouseHandler(MouseHandler* _handler) {
     this->mouseHandler = _handler;
+  }
+
+  void ComponentsFactory::setAssetsManager(AssetsManager* _manager) {
+    this->assetsManager = _manager;
   }
 }

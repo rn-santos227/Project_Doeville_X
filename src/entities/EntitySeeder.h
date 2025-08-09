@@ -16,7 +16,9 @@
 #include <SDL.h>
 
 #include "interfaces/update_interface/Updatable.h"
+#include "libraries/constants/IndexConstants.h"
 #include "libraries/constants/FloatConstants.h"
+#include "libraries/constants/NumericConstants.h"
 
 namespace Project::Factories { class EntitiesFactory; }
 namespace Project::Entities {

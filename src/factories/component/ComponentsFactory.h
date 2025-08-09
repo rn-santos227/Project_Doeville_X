@@ -6,6 +6,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "assets/AssetsManager.h"
 #include "components/BaseComponent.h"
 #include "components/ComponentTypeResolver.h"
 #include "components/camera_component/CameraComponent.h"
@@ -54,10 +55,12 @@ namespace Project::Factories {
     void setCursorHandler(Project::Handlers::CursorHandler* _handler);
     void setKeyHandler(Project::Handlers::KeyHandler* _handler);
     void setMouseHandler(Project::Handlers::MouseHandler* _handler);
+    void setAssetsManager(Project::Assets::AssetsManager* _manager);
 
   private:
     SDL_Renderer* renderer = nullptr;
-    
+
+    Project::Assets::AssetsManager* assetsManager = nullptr;
     Project::Handlers::CameraHandler* cameraHandler = nullptr;
     Project::Handlers::CursorHandler* cursorHandler = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;

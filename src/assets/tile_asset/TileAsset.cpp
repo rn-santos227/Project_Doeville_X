@@ -31,5 +31,21 @@ namespace Project::Assets {
       logsManager.logError("Asset script missing getAsset function: " + scriptPath);
       return false;
     }
+
+    if (!assetName.empty()) {
+      lua_pushstring(L, assetName.c_str());
+    }
+
+    if (lua_pcall(L, assetName.empty() ? 0 : 1, 1, 0) != LUA_OK) {
+      const char* msg = lua_tostring(L, -1);
+      logsManager.logError(std::string("Error executing getAsset: ") + (msg ? msg : "unknown"));
+      return false;
+    }
+
+    if (!lua_istable(L, -1)) {
+      logsManager.logError("getAsset must return a table");
+      lua_pop(L, 1);
+      return false;
+    }
   }
 }

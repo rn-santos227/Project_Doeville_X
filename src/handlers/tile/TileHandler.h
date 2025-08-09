@@ -9,7 +9,12 @@
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Handlers {
-
+  struct BuiltTile {
+    SDL_Texture* texture;
+    SDL_Rect src;
+    SDL_Rect dest;
+    bool passable;
+  };
 }
 
 #endif

@@ -22,6 +22,7 @@ namespace Project::Components {
     SDL_Rect srcRect{0, 0, 0, 0};
     
     std::string pendingTexturePath;
+    std::string assetName;
 
     Project::Services::Style style{};
     Project::Services::GradientType gradient = Project::Services::GradientType::NONE;

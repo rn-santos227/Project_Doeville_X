@@ -46,12 +46,9 @@ namespace Project::Components {
   }
 
   GraphicsComponent::~GraphicsComponent() {
-    if (!data.pendingTexturePath.empty()) {
-      destroyTexture();
-    }
+    destroyTexture();
     textureFuture = std::future<SDL_Texture*>();
     data.pendingTexturePath.clear();
-    data.assetName.clear();
   }
 
   void GraphicsComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {
@@ -88,7 +85,7 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    const std::string imagePath = luaStateWrapper.getTableString(tableName, Keys::TEXTURE_PATH, Constants::EMPTY_STRING);
+    const std::string assetName = luaStateWrapper.getTableString(tableName, Keys::ASSET_NAME, Constants::EMPTY_STRING);
     const std::string colorHex = luaStateWrapper.getTableString(tableName, Keys::COLOR_HEX, Constants::DEFAULT_SHAPE_COLOR_HEX);
     const int radius = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::RADIUS, 0));
     const int width = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::WIDTH, Constants::DEFAULT_COMPONENT_SIZE));
@@ -96,8 +93,18 @@ namespace Project::Components {
     const Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
     const bool rotation = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
 
-    if (!imagePath.empty() && resourcesHandler) {
-      setTexture(*resourcesHandler, imagePath);
+    if (!assetName.empty()) {
+      auto* baseAsset = assetsManager.getAsset(assetName);
+      if (auto* textureAsset = dynamic_cast<Project::Assets::TextureAsset*>(baseAsset)) {
+        texture = textureAsset->getTexture();
+        SDL_SetTextureBlendMode(texture, data.blendMode);
+        data.destRect.w = textureAsset->getWidth();
+        data.destRect.h = textureAsset->getHeight();
+        data.drawShape = false;
+        data.assetName = assetName;
+      } else {
+        logsManager.logError("Asset not found or not a texture: " + assetName);
+      }
     } else {
       const SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
       if (radius > 0) {

@@ -12,4 +12,6 @@ namespace Project::Assets {
   using Project::Handlers::ResourcesHandler;
 
   namespace Keys = Project::Libraries::Keys;
+  MapAsset::MapAsset(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
+    : BaseAsset(renderer, logsManager, resourcesHandler) {}
 }

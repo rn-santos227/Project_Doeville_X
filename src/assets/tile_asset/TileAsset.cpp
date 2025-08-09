@@ -17,4 +17,8 @@ namespace Project::Assets {
       data.texture = nullptr;
     }
   }
+
+  bool TileAsset::loadFromLua(const std::string& scriptPath, const std::string& assetName) {
+
+  }
 }

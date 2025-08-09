@@ -187,10 +187,14 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::setShape(int width, int height, SDL_Color color) {
-    destroyTexture();
+    if (!data.pendingTexturePath.empty()) {
+      destroyTexture();
+    }
+    
     textureFuture = std::future<SDL_Texture*>();
     data.pendingTexturePath.clear();
-    data.pendingTexturePath.clear();
+    data.assetName.clear();
+    
     if (data.destRect.w != width || data.destRect.h != height) data.verticesDirty = true;
 
     data.destRect.w = width;

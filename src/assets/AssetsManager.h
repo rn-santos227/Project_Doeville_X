@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <SDL.h>
+
 #include "assets/tile_asset/TileAsset.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "utilities/logs_manager/LogsManager.h"
@@ -15,7 +17,7 @@
 namespace Project::Assets {
   class AssetsManager : public Project::Helpers::ObjectsManager<BaseAsset, std::unique_ptr<BaseAsset>> {
   public:
-    explicit AssetsManager(Project::Utilities::LogsManager& logsManager);
+    AssetsManager(Project::Utilities::LogsManager& logsManager, Project::Handlers::ResourcesHandler& resourcesHandler);
     ~AssetsManager() = default;
 
     void addAsset(const std::string& id, std::unique_ptr<BaseAsset> asset);
@@ -24,16 +26,20 @@ namespace Project::Assets {
 
     void addTile(const std::string& id, std::unique_ptr<TileAsset> tile);
     TileAsset* getTile(const std::string& id);
+
+    SDL_Texture* getTexture(const std::string& id);
+    Project::Handlers::ResourcesHandler& getResourcesHandler() { return resourcesHandler; }
     
     std::vector<BaseAsset*> getAssetsByTag(const std::string& tag) const;
     std::vector<BaseAsset*> getAssetsByCategory(AssetCategory category) const;
 
   private:
     Project::Utilities::LogsManager& logsManager;
+    Project::Handlers::ResourcesHandler& resourcesHandler;
     
     std::unordered_map<std::string, std::vector<std::string>> tagMap;
+    std::unordered_map<std::string, TileAsset*> tiles;
     std::unordered_map<AssetCategory, std::vector<std::string>> categoryMap;
-    std::unordered_map<char, TileAsset> tiles;
   };
 
 }

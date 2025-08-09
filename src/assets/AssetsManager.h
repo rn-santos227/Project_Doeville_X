@@ -24,7 +24,7 @@ namespace Project::Assets {
     bool hasAsset(const std::string& id) const;
     BaseAsset* getAsset(const std::string& id);
 
-    void addTile(const std::string& id, std::unique_ptr<TileAsset> tile);
+    void addTile(const std::string& id, TileAsset* tile);
     TileAsset* getTile(const std::string& id);
 
     SDL_Texture* getTexture(const std::string& id);

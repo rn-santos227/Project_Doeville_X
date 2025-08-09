@@ -14,4 +14,12 @@ namespace Project::Assets {
   namespace Keys = Project::Libraries::Keys;
   MapAsset::MapAsset(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
     : BaseAsset(renderer, logsManager, resourcesHandler) {}
+
+  bool MapAsset::loadFromLua(const std::string& scriptPath, const std::string& assetName) {
+    LuaStateWrapper lua(logsManager);
+    if (!lua.loadScript(scriptPath)) {
+      logsManager.logError("Failed to load asset script: " + scriptPath);
+      return false;
+    }
+  }
 }

@@ -7,6 +7,7 @@
 #include <SDL.h>
 
 #include "assets/BaseAsset.h"
+#include "libraries/constants/NameConstants.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 
 
@@ -20,7 +21,10 @@ namespace Project::Assets {
     );
     ~TextureAsset() override;
 
-    bool loadFromLua(const std::string& scriptPath) override;
+    bool loadFromLua(
+      const std::string& scriptPath,
+      const std::string& assetName = Project::Libraries::Constants::EMPTY_STRING
+    ) override;
 
     SDL_Texture* getTexture() const { return texture; }
     int getWidth() const { return textureData.width; }

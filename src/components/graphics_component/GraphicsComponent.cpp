@@ -95,7 +95,8 @@ namespace Project::Components {
     const int height = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::HEIGHT, Constants::DEFAULT_COMPONENT_SIZE));
     const Uint8 alpha = static_cast<Uint8>(luaStateWrapper.getTableNumber(tableName, Keys::COLOR_ALPHA, Constants::FULL_ALPHA));
     const bool rotation = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
-
+    
+    const SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
     if (!assetName.empty()) {
       auto* baseAsset = assetsManager.getAsset(assetName);
       if (auto* textureAsset = dynamic_cast<Project::Assets::TextureAsset*>(baseAsset)) {
@@ -106,10 +107,14 @@ namespace Project::Components {
         data.drawShape = false;
         data.assetName = assetName;
       } else {
-        logsManager.logError("Asset not found or not a texture: " + assetName);
+        logsManager.logError("Asset not found or not a texture: " + assetName + ", using shape instead");
+        if (radius > 0) {
+          setCircle(radius, color);
+        } else {
+          setShape(width, height, color);
+        }
       }
     } else {
-      const SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
       if (radius > 0) {
         setCircle(radius, color);
       } else {

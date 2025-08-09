@@ -7,6 +7,7 @@
 #include <SDL.h>
 
 #include "handlers/resources/ResourcesHandler.h"
+#include "libraries/constants/NameConstants.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Assets {
@@ -28,7 +29,10 @@ namespace Project::Assets {
     const std::string& getName() const { return data.name; }
     const std::string& getTag() const { return data.tag; }
     
-    virtual bool loadFromLua(const std::string& scriptPath) = 0; 
+    virtual bool loadFromLua(
+      const std::string& scriptPath, 
+      const std::string& assetName = Project::Libraries::Constants::EMPTY_STRING
+    ) = 0;
 
   protected:
     SDL_Renderer* renderer;

@@ -16,7 +16,7 @@ namespace Project::Assets {
       {Assets::FONT, AssetCategory::FONT},
       {Assets::MAP, AssetCategory::MAP},
       {Assets::FONT, AssetCategory::FONT},
-      {Assets::SPRITE, AssetCategory::SPRITE},
+      {Assets::TILE, AssetCategory::TILE},
       {Assets::TEXTURE, AssetCategory::TEXTURE}
     }};
     for (const auto& [key, value] : map) {

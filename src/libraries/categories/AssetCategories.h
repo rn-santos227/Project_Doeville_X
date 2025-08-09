@@ -8,8 +8,8 @@ namespace Project::Libraries::Categories {
     constexpr const char* CURSOR = "cursor";
     constexpr const char* FONT = "font";
     constexpr const char* MAP = "map";
-    constexpr const char* SPRITE = "sprite";
     constexpr const char* TEXTURE = "texture";
+    constexpr const char* TILE = "tile";
   }
 }
 

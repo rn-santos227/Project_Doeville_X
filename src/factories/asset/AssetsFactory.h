@@ -7,6 +7,7 @@
 
 #include "assets/AssetsManager.h"
 #include "handlers/resources/ResourcesHandler.h"
+#include "libraries/constants/NameConstants.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Factories {
@@ -18,7 +19,11 @@ namespace Project::Factories {
       Project::Handlers::ResourcesHandler& resourcesHandler,
       Project::Assets::AssetsManager& assetsManager
     );
-    bool createAssetFromLua(const std::string& scriptPath);
+
+    bool createAssetFromLua(
+      const std::string& scriptPath,
+      const std::string& assetName = Project::Libraries::Constants::EMPTY_STRING
+    );
 
   private:
     SDL_Renderer* renderer;

@@ -8,8 +8,8 @@ namespace Project::Assets {
     CURSOR,
     FONT,
     MAP,
-    SPRITE,
     TEXTURE,
+    TILE,
     UNKNOWN
   };
 }

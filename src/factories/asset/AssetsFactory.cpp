@@ -28,7 +28,7 @@ namespace Project::Factories {
       resourcesHandler(resourcesHandler),
       assetsManager(assetsManager) {}
 
-  bool AssetsFactory::createAssetFromLua(const std::string &scriptPath) {
+  bool AssetsFactory::createAssetFromLua(const std::string &scriptPath, const std::string& assetName) {
     LuaStateWrapper lua(logsManager);
     if (!lua.loadScript(scriptPath)) {
       logsManager.logError("Failed to load asset script: " + scriptPath);
@@ -42,7 +42,11 @@ namespace Project::Factories {
       return false;
     }
 
-    if (lua_pcall(L, 0, 1, 0) != LUA_OK) {
+    if (!assetName.empty()) {
+      lua_pushstring(L, assetName.c_str());
+    }
+
+    if (lua_pcall(L, assetName.empty() ? 0 : 1, 1, 0) != LUA_OK) {
       const char* msg = lua_tostring(L, -1);
       logsManager.logError(std::string("Error executing get_asset: ") + (msg ? msg : Keys::LUA_ASSET_UNKNOWN));
       return false;
@@ -70,7 +74,7 @@ namespace Project::Factories {
         break;
     }
 
-    if (!asset || !asset->loadFromLua(scriptPath)) {
+    if (!asset || !asset->loadFromLua(scriptPath, assetName)) {
       logsManager.logError("Failed to load asset from Lua: " + scriptPath);
       return false;
     }

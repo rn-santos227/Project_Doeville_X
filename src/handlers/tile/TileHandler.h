@@ -18,7 +18,11 @@ namespace Project::Handlers {
 
   class TileHandler {
   public:
+    TileHandler(SDL_Renderer* renderer, Project::Assets::AssetsManager& assetsManager, Project::Utilities::LogsManager& logsManager);
+    ~TileHandler() = default;
 
+    std::vector<BuiltTile> buildMap(const std::string& mapAssetId);
+ 
   private:
     SDL_Renderer* renderer;
     Project::Assets::AssetsManager& assetsManager;

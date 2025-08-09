@@ -174,10 +174,13 @@ namespace Project::Components {
   }
 
   bool GraphicsComponent::setTexture(ResourcesHandler& resourcesHandler, const std::string& imagePath) {
-    destroyTexture();
+    if (!data.pendingTexturePath.empty()) {
+      destroyTexture();
+    }
 
     textureFuture = resourcesHandler.loadTextureAsync(renderer, imagePath);
     data.pendingTexturePath = imagePath;
+    data.assetName.clear();
     data.drawShape = false;
     data.srcRect = SDL_Rect{0,0,0,0};
     return true;

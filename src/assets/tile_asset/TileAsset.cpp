@@ -81,5 +81,25 @@ namespace Project::Assets {
     lua_pop(L, 1);
 
     lua_pop(L, 1);
+
+    data.category = AssetCategory::TILE;
+
+    if (data.path.empty()) {
+      logsManager.logError("TileAsset path is empty: " + scriptPath);
+      return false;
+    }
+
+    data.texture = resourcesHandler.loadTexture(renderer, data.path);
+    if (!data.texture) {
+      logsManager.logError("Failed to load texture: " + data.path);
+      return false;
+    }
+
+    if (tileData.width == 0 || tileData.height == 0) {
+      SDL_QueryTexture(data.texture, nullptr, nullptr, &tileData.width, &tileData.height);
+    }
+
+    tileData.rect = {tileData.x, tileData.y, tileData.width, tileData.height};
+    return true;
   }
 }

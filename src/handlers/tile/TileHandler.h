@@ -15,6 +15,15 @@ namespace Project::Handlers {
     SDL_Rect dest;
     bool passable;
   };
+
+  class TileHandler {
+  public:
+
+  private:
+    SDL_Renderer* renderer;
+    Project::Assets::AssetsManager& assetsManager;
+    Project::Utilities::LogsManager& logsManager;
+  };
 }
 
 #endif

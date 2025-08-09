@@ -46,9 +46,12 @@ namespace Project::Components {
   }
 
   GraphicsComponent::~GraphicsComponent() {
-    destroyTexture();
+    if (!data.pendingTexturePath.empty()) {
+      destroyTexture();
+    }
     textureFuture = std::future<SDL_Texture*>();
     data.pendingTexturePath.clear();
+    data.assetName.clear();
   }
 
   void GraphicsComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {

@@ -8,6 +8,7 @@
 
 #include <SDL.h>
 
+#include "assets/AssetsManager.h"
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/TextureHolder.h"
@@ -25,7 +26,11 @@
 namespace Project::Components {
   class GraphicsComponent : public BaseComponent, public PositionableComponent, public TextureHolder, public Project::Interfaces::Rotatable, public Project::Interfaces::Stylable  {
   public:
-    GraphicsComponent(SDL_Renderer* renderer, Project::Handlers::ResourcesHandler* resourcesHandler, Project::Utilities::LogsManager& logsManager);
+    GraphicsComponent(
+      SDL_Renderer* renderer,
+      Project::Handlers::ResourcesHandler* resourcesHandler,
+      Project::Assets::AssetsManager& assetsManager,
+      Project::Utilities::LogsManager& logsManager);
     ~GraphicsComponent();
 
     static void setCameraHandler(Project::Handlers::CameraHandler* handler);
@@ -81,6 +86,8 @@ namespace Project::Components {
     SDL_Renderer* renderer;
     
     Project::Handlers::ResourcesHandler* resourcesHandler;
+    
+    Project::Assets::AssetsManager& assetsManager;
     Project::Utilities::LogsManager& logsManager;
     GraphicsData data;
 

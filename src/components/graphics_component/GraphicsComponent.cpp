@@ -6,6 +6,7 @@
 
 #include <SDL_image.h>
 
+#include "assets/texture_asset/TextureAsset.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/keys/Keys.h"
 #include "libraries/constants/Constants.h"
@@ -26,10 +27,18 @@ namespace Project::Components {
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
-  GraphicsComponent::GraphicsComponent(SDL_Renderer* renderer, ResourcesHandler* resourcesHandler, LogsManager& logsManager)
-    : BaseComponent(logsManager), renderer(renderer), resourcesHandler(resourcesHandler), logsManager(logsManager) {
-    animationHandler = std::make_unique<AnimationHandler>(renderer, logsManager);
+  GraphicsComponent::GraphicsComponent(
+    SDL_Renderer* renderer,
+    ResourcesHandler* resourcesHandler,
+    Project::Assets::AssetsManager& assetsManager,
+    LogsManager& logsManager)
+    : BaseComponent(logsManager),
+      renderer(renderer),
+      resourcesHandler(resourcesHandler),
+      assetsManager(assetsManager),
+      logsManager(logsManager) {
 
+    animationHandler = std::make_unique<AnimationHandler>(renderer, logsManager);
     shapeVertices.reserve(Constants::INDEX_FOUR);
     data.shapeIndices.reserve(Constants::INDEX_SIX);
     data.verticesDirty = true;
@@ -37,9 +46,12 @@ namespace Project::Components {
   }
 
   GraphicsComponent::~GraphicsComponent() {
-    destroyTexture();
+    if (!data.pendingTexturePath.empty()) {
+      destroyTexture();
+    }
     textureFuture = std::future<SDL_Texture*>();
     data.pendingTexturePath.clear();
+    data.assetName.clear();
   }
 
   void GraphicsComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {

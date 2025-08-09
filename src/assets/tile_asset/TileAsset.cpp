@@ -8,5 +8,13 @@ namespace Project::Assets {
   using Project::Handlers::ResourcesHandler;
   
   namespace Keys = Project::Libraries::Keys;
-
+  TileAsset::TileAsset(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
+    : BaseAsset(renderer, logsManager, resourcesHandler) {}
+    
+  TileAsset::~TileAsset() {
+    if (data.texture) {
+      SDL_DestroyTexture(data.texture);
+      data.texture = nullptr;
+    }
+  }
 }

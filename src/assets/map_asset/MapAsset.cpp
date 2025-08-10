@@ -131,5 +131,9 @@ namespace Project::Assets {
       }
     }
     lua_pop(L, 1);
+
+    lua_pop(L, 1);
+    data.category = AssetCategory::MAP;
+    return !mapData.layout.empty();
   }
 }

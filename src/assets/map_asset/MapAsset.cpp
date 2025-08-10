@@ -88,5 +88,14 @@ namespace Project::Assets {
       mapData.rows = static_cast<int>(mapData.layout.size());
     }
     lua_pop(L, 1);
+    
+    if (mapData.layout.empty()) {
+      lua_getfield(L, -1, Keys::LUA_ASSET_MAP_FILE);
+      if (lua_isstring(L, -1)) {
+        std::string filePath = lua_tostring(L, -1);
+        std::ifstream file(filePath);
+      }
+      lua_pop(L, 1);
+    }
   }
 }

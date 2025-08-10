@@ -99,7 +99,12 @@ namespace Project::Assets {
         } else {
           std::string line;
           while (std::getline(file, line)) {
-
+            std::istringstream iss(line);
+            int v;
+            std::vector<int> rowValues;
+            while (iss >> v) {
+              rowValues.push_back(v);
+            }
           }
           mapData.rows = static_cast<int>(mapData.layout.size());
         }

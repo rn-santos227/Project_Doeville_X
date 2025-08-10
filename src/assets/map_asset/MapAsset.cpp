@@ -52,5 +52,10 @@ namespace Project::Assets {
     lua_getfield(L, -1, Keys::LUA_ASSET_TAG);
     if (lua_isstring(L, -1)) data.tag = lua_tostring(L, -1);
     lua_pop(L, 1);
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_MAP);
+    if (lua_istable(L, -1)) {
+            size_t len = lua_rawlen(L, -1);
+    }
   }
 }

@@ -60,7 +60,12 @@ namespace Project::Assets {
         lua_rawgeti(L, -1, i);
         std::vector<int> rowValues;
         if (lua_isstring(L, -1)) {
-
+          std::string row = lua_tostring(L, -1);
+          std::istringstream iss(row);
+          int v;
+          while (iss >> v) {
+            rowValues.push_back(v);
+          }
         } else if (lua_istable(L, -1)) {
 
         }

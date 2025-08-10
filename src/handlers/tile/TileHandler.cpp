@@ -31,12 +31,17 @@ namespace Project::Handlers {
         int id = line[col];
         auto it = mapping.find(id);
         if (it == mapping.end()) continue;
+
         TileAsset* tileAsset = assetsManager.getTile(it->second);
         if (!tileAsset) continue;
         if (tileWidth == 0 || tileHeight == 0) {
           tileWidth = tileAsset->getTileWidth();
           tileHeight = tileAsset->getTileHeight();
         }
+
+        SDL_Rect src = tileAsset->getTileRect(static_cast<char>(id));
+        SDL_Rect dest{static_cast<int>(col * tileWidth), static_cast<int>(row * tileHeight), tileWidth, tileHeight};
+        tilesOut.push_back({tileAsset->getTexture(), src, dest, tileAsset->isTilePassable(static_cast<char>(id))});
       }
     }
 

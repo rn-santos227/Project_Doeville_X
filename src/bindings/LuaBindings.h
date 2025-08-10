@@ -5,6 +5,9 @@ extern "C" {
   #include <lua.h>
 }
 
+namespace Project { namespace Assets { class AssetsManager; } }
+namespace Project { namespace Factories { class AssetsFactory; } }
+
 namespace Project::Bindings {
   namespace LuaBindings {
     //Gamestate Bindings
@@ -22,6 +25,7 @@ namespace Project::Bindings {
     int lua_setPlayerEntity(lua_State* L);
     int lua_setMapSize(lua_State* L);
     int lua_startEntitySeeder(lua_State* L);
+    int lua_loadMapAsset(lua_State* L);
 
     // EntitiesManager Bindings
     int lua_getCollidedEntity(lua_State* L);
@@ -53,6 +57,9 @@ namespace Project::Bindings {
 
     // SpawnerComponent bindings
     int lua_spawn(lua_State* L);
+
+    void setAssetsManager(Project::Assets::AssetsManager* manager);
+    void setAssetsFactory(Project::Factories::AssetsFactory* factory);
   }
 }
 

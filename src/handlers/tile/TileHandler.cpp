@@ -31,6 +31,12 @@ namespace Project::Handlers {
         int id = line[col];
         auto it = mapping.find(id);
         if (it == mapping.end()) continue;
+        TileAsset* tileAsset = assetsManager.getTile(it->second);
+        if (!tileAsset) continue;
+        if (tileWidth == 0 || tileHeight == 0) {
+          tileWidth = tileAsset->getTileWidth();
+          tileHeight = tileAsset->getTileHeight();
+        }
       }
     }
 

@@ -10,12 +10,12 @@ layer_scripts = {
 function initialize()
   print("Initializing GameState")
   setBackgroundColor(50, 45, 34, 255)
-  setMapSize(5120, 2880)
+  setMapSize(1280, 800)
   
   spawnEntity("player", nil, nil, "game")
   setPlayerEntity("player", 100, 100)
 
-  local seeder_id = startEntitySeeder(nil, "game", nil, { x = 1280, y = 720 })
+  local seeder_id = startEntitySeeder(nil, "game", nil, { x = 1280, y = 800 })
   addEntityToSeed("ball", seeder_id, 5)
   addEntityToSeed("box", seeder_id, 5)
   addEntityToSeed("wall_v", seeder_id, 5)

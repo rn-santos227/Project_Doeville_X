@@ -6,6 +6,7 @@
 #include <SDL.h>
 
 #include "assets/AssetsManager.h"
+#include "assets/map_asset/MapAsset.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Handlers {
@@ -18,7 +19,7 @@ namespace Project::Handlers {
 
   class TileHandler {
   public:
-    TileHandler(SDL_Renderer* renderer, Project::Assets::AssetsManager& assetsManager, Project::Utilities::LogsManager& logsManager);
+    TileHandler(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager, Project::Assets::AssetsManager& assetsManager);
     ~TileHandler() = default;
 
     std::vector<BuiltTile> buildMap(const std::string& mapAssetId);

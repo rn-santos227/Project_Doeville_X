@@ -98,6 +98,10 @@ namespace Project::Assets {
           logsManager.logError("Failed to open map file: " + filePath);
         } else {
           std::string line;
+          while (std::getline(file, line)) {
+
+          }
+          mapData.rows = static_cast<int>(mapData.layout.size());
         }
       }
       lua_pop(L, 1);

@@ -67,7 +67,14 @@ namespace Project::Assets {
             rowValues.push_back(v);
           }
         } else if (lua_istable(L, -1)) {
-
+          size_t innerLen = lua_rawlen(L, -1);
+          for (size_t j = 1; j <= innerLen; ++j) {
+            lua_rawgeti(L, -1, j);
+            if (lua_isnumber(L, -1)) {
+              rowValues.push_back(static_cast<int>(lua_tointeger(L, -1)));
+            }
+            lua_pop(L, 1);
+          }
         }
 
         if (!rowValues.empty()) {

@@ -44,5 +44,13 @@ namespace Project::Assets {
       lua_pop(L, 1);
       return false;
     }
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_NAME);
+    if (lua_isstring(L, -1)) data.name = lua_tostring(L, -1);
+    lua_pop(L, 1);
+
+    lua_getfield(L, -1, Keys::LUA_ASSET_TAG);
+    if (lua_isstring(L, -1)) data.tag = lua_tostring(L, -1);
+    lua_pop(L, 1);
   }
 }

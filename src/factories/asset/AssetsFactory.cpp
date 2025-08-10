@@ -1,6 +1,7 @@
 #include "AssetsFactory.h"
 
 #include "assets/BaseAsset.h"
+#include "assets/map_asset/MapAsset.h"
 #include "assets/texture_asset/TextureAsset.h"
 #include "assets/tile_asset/TileAsset.h"
 #include "assets/AssetCategoryResolver.h"
@@ -9,6 +10,7 @@
 
 namespace Project::Factories {
   using Project::Assets::BaseAsset;
+  using Project::Assets::MapAsset;
   using Project::Assets::TextureAsset;
   using Project::Assets::TileAsset;
   using Project::Assets::AssetsManager;
@@ -71,6 +73,10 @@ namespace Project::Factories {
 
     std::unique_ptr<BaseAsset> asset;
     switch (category) {
+      case AssetCategory::MAP:
+        asset = std::make_unique<MapAsset>(renderer, logsManager, resourcesHandler);
+        break;
+
       case AssetCategory::TEXTURE:
         asset = std::make_unique<TextureAsset>(renderer, logsManager, resourcesHandler);
         break;

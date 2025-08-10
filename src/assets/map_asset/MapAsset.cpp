@@ -105,6 +105,12 @@ namespace Project::Assets {
             while (iss >> v) {
               rowValues.push_back(v);
             }
+            if (!rowValues.empty()) {
+              if (static_cast<int>(rowValues.size()) > mapData.cols) {
+                mapData.cols = static_cast<int>(rowValues.size());
+              }
+              mapData.layout.push_back(rowValues);
+            }
           }
           mapData.rows = static_cast<int>(mapData.layout.size());
         }

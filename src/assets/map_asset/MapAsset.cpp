@@ -55,7 +55,12 @@ namespace Project::Assets {
 
     lua_getfield(L, -1, Keys::LUA_ASSET_MAP);
     if (lua_istable(L, -1)) {
-            size_t len = lua_rawlen(L, -1);
+      size_t len = lua_rawlen(L, -1);
+      for (size_t i = 1; i <= len; ++i) {
+
+      }
+      mapData.rows = static_cast<int>(mapData.layout.size());
     }
+    lua_pop(L, 1);
   }
 }

@@ -117,5 +117,19 @@ namespace Project::Assets {
       }
       lua_pop(L, 1);
     }
+  
+    lua_getfield(L, -1, Keys::LUA_ASSET_TILES);
+    if (lua_istable(L, -1)) {
+      lua_pushnil(L);
+      while (lua_next(L, -2) != 0) {
+        if (lua_isnumber(L, -2) && lua_isstring(L, -1)) {
+          int key = static_cast<int>(lua_tointeger(L, -2));
+          const char* value = lua_tostring(L, -1);
+          mapData.tiles[key] = value;
+        }
+        lua_pop(L, 1);
+      }
+    }
+    lua_pop(L, 1);
   }
 }

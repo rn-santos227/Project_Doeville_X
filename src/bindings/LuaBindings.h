@@ -10,6 +10,9 @@ namespace Project { namespace Factories { class AssetsFactory; } }
 
 namespace Project::Bindings {
   namespace LuaBindings {
+    void setAssetsManager(Project::Assets::AssetsManager* manager);
+    void setAssetsFactory(Project::Factories::AssetsFactory* factory);
+
     //Gamestate Bindings
     int lua_addEntityToSeed(lua_State* L);
     int lua_changeState(lua_State* L);
@@ -57,9 +60,6 @@ namespace Project::Bindings {
 
     // SpawnerComponent bindings
     int lua_spawn(lua_State* L);
-
-    void setAssetsManager(Project::Assets::AssetsManager* manager);
-    void setAssetsFactory(Project::Factories::AssetsFactory* factory);
   }
 }
 

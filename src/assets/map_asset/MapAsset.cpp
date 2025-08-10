@@ -21,5 +21,12 @@ namespace Project::Assets {
       logsManager.logError("Failed to load asset script: " + scriptPath);
       return false;
     }
+
+    lua_State* L = lua.get();
+    lua_getglobal(L, Keys::LUA_ASSET_GET_ASSET);
+    if (!lua_isfunction(L, -1)) {
+      logsManager.logError("Asset script missing getAsset function: " + scriptPath);
+      return false;
+    }
   }
 }

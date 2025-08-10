@@ -24,5 +24,11 @@ namespace Project::Handlers {
     const auto& mapping = mapAsset->getTileMappings();
     int tileWidth = 0;
     int tileHeight = 0;
+
+    for (size_t row = 0; row < layout.size(); ++row) {
+      const auto& line = layout[row];
+    }
+
+    return tilesOut;
   }
 }

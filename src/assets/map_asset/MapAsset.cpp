@@ -59,6 +59,19 @@ namespace Project::Assets {
       for (size_t i = 1; i <= len; ++i) {
         lua_rawgeti(L, -1, i);
         std::vector<int> rowValues;
+        if (lua_isstring(L, -1)) {
+
+        } else if (lua_istable(L, -1)) {
+
+        }
+
+        if (!rowValues.empty()) {
+          if (static_cast<int>(rowValues.size()) > mapData.cols) {
+            mapData.cols = static_cast<int>(rowValues.size());
+          }
+          mapData.layout.push_back(rowValues);
+        }
+        lua_pop(L, 1);
       }
       mapData.rows = static_cast<int>(mapData.layout.size());
     }

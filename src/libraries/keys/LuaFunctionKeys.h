@@ -21,6 +21,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_TIMER_ACTIVE = "setTimerActive";
   constexpr const char* LUA_SET_PLAYER_ENTITY = "setPlayerEntity";
   constexpr const char* LUA_SET_MAP_SIZE = "setMapSize";
+  constexpr const char* LUA_LOAD_MAP_ASSET = "loadMapAsset";
   constexpr const char* LUA_ADD_NUMERIC_VALUE = "addNumericValue";
   constexpr const char* LUA_SUBTRACT_NUMERIC_VALUE = "subtractNumericValue";
   constexpr const char* LUA_MULTIPLY_NUMERIC_VALUE = "multiplyNumericValue";

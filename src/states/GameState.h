@@ -73,6 +73,7 @@ namespace Project::States {
     
     void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
     Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
+    SDL_Renderer* getRenderer() const { return renderer; }
 
     void setActiveCamera(Project::Components::CameraComponent* camera);
     Project::Components::CameraComponent* getActiveCamera() const { return activeCamera; }

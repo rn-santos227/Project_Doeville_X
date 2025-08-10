@@ -9,6 +9,7 @@ namespace Project::States {
     HORIZONTAL_SCROLL,
     ISOMETRIC,
     LOOPING,
+    MAPPED,
     THREE_DIMENSION,
     VERTICAL_SCROLL,
     WRAPPING

@@ -1,6 +1,6 @@
 state_name = "GameState"
 state_category = "STATIC_GAME_STATE"
-dimension = "BOUNDED"
+dimension = "MAPPED"
 
 layer_scripts = {
   "scripts/layers/gameplay/game.layer.lua",
@@ -10,7 +10,7 @@ layer_scripts = {
 function initialize()
   print("Initializing GameState")
   setBackgroundColor(50, 45, 34, 255)
-  setMapSize(1280, 800)
+  loadMapAsset("scripts/assets/maps/grass_map.asset.lua", "grass_map")
   
   spawnEntity("player", nil, nil, "game")
   setPlayerEntity("player", 100, 100)

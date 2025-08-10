@@ -1,6 +1,5 @@
 local COLS = 40
 local ROWS = 25
-local TILE_COUNT = 9
 
 local tiles = {
   [1] = "grass_1",
@@ -14,13 +13,11 @@ local tiles = {
   [9] = "grass_9"
 }
 
-math.randomseed(os.time())
-
 local map = {}
 for row = 1, ROWS do
   map[row] = {}
   for col = 1, COLS do
-    map[row][col] = math.random(TILE_COUNT)
+    map[row][col] = 1
   end
 end
 

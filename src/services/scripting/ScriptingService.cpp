@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "bindings/LuaBindings.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 
@@ -45,15 +46,17 @@ namespace Project::Services {
       assetsFactory(renderer, logsManager, resourcesHandler, assetsManager),
       entitiesFactory(logsManager, configReader, componentsFactory, gameStateManager),
       layersFactory(logsManager),
-      gameStateFactory(logsManager, sdlManager, resourcesHandler, 
+      gameStateFactory(logsManager, sdlManager, resourcesHandler,
       gameStateManager, entitiesFactory, layersFactory) {
         componentsFactory.setAssetsManager(&assetsManager);
+        Project::Bindings::LuaBindings::setAssetsManager(&assetsManager);
+        Project::Bindings::LuaBindings::setAssetsFactory(&assetsFactory);
       }
 
   inline const std::vector<ScriptCategory> loadOrder = {
+    ScriptCategory::ASSET,
     ScriptCategory::ENTITY,
     ScriptCategory::ITEM,
-    ScriptCategory::ASSET,
     ScriptCategory::LAYER,
     ScriptCategory::STATE,
     ScriptCategory::OTHER
@@ -118,10 +121,11 @@ namespace Project::Services {
 
   ScriptCategory ScriptingService::determineScriptType(const std::string& scriptName) {
     static const std::unordered_map<std::string, ScriptCategory> extensionMap = {
-      {Constants::LUA_STATE_SUFFIX, ScriptCategory::STATE},
-      {Constants::LUA_LAYER_SUFFIX, ScriptCategory::LAYER},
+      {Constants::LUA_ASSET_SUFFIX, ScriptCategory::ASSET},
       {Constants::LUA_ENTITY_SUFFIX, ScriptCategory::ENTITY},
       {Constants::LUA_ITEM_SUFFIX, ScriptCategory::ITEM},
+      {Constants::LUA_LAYER_SUFFIX, ScriptCategory::LAYER},
+      {Constants::LUA_STATE_SUFFIX, ScriptCategory::STATE}
     };
 
     for (const auto& [suffix, category] : extensionMap) {

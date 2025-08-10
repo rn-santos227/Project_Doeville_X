@@ -81,7 +81,7 @@ namespace Project::States {
       } else if (entitiesManager) {
         entitiesManager->clampEntitiesToRect(camRect);
       }
-    } else if (data.dimensionMode == DimensionMode::BOUNDED) {
+    } else if (data.dimensionMode == DimensionMode::BOUNDED || data.dimensionMode == DimensionMode::MAPPED) {
       if (data.mapRect.w > 0 && data.mapRect.h > 0) {
         if (layersManager) {
           layersManager->clampEntitiesToRect(data.mapRect);
@@ -330,7 +330,7 @@ namespace Project::States {
     if (ent) {
       playerEntity = ent;
       if (setPosition) {
-        if (data.dimensionMode == DimensionMode::BOUNDED) {
+        if (data.dimensionMode == DimensionMode::BOUNDED || data.dimensionMode == DimensionMode::MAPPED) {
           ensureMapSize();
           float maxX = static_cast<float>(data.mapRect.w);
           float maxY = static_cast<float>(data.mapRect.h);
@@ -396,6 +396,7 @@ namespace Project::States {
         record(Keys::LUA_ADD_ENTITY_TO_SEEDER);
         record(Keys::LUA_SET_PLAYER_ENTITY);
         record(Keys::LUA_SET_MAP_SIZE);
+        record(Keys::LUA_LOAD_MAP_ASSET);
         record(Keys::LUA_EXIT_GAME);
         std::string serialized;
         for (const auto& f : funcs) serialized += f + "\n";
@@ -442,6 +443,8 @@ namespace Project::States {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setPlayerEntity, this);
       } else if (f == Keys::LUA_SET_MAP_SIZE) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setMapSize, this);
+      } else if (f == Keys::LUA_LOAD_MAP_ASSET) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_loadMapAsset, this);
       } else if (f == Keys::LUA_EXIT_GAME && sdlManager) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_exitGame, sdlManager);
       }
@@ -454,7 +457,7 @@ namespace Project::States {
   }
 
   void GameState::ensureMapSize() {
-    if (data.dimensionMode != DimensionMode::BOUNDED) return;
+    if (data.dimensionMode != DimensionMode::BOUNDED && data.dimensionMode != DimensionMode::MAPPED) return;
     if (data.mapRect.w > 0 && data.mapRect.h > 0) return;
 
     data.mapRect.x = 0;

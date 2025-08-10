@@ -496,6 +496,58 @@ namespace Project::Bindings::LuaBindings {
     return 1;
   }
 
+  int lua_loadMapAsset(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_loadMapAsset.");
+    }
+
+    if (!assetsFactoryPtr || !assetsManagerPtr) {
+      return luaL_error(L, "Assets system not initialized for lua_loadMapAsset.");
+    }
+
+    const char* path = luaL_checkstring(L, 1);
+    const char* name = nullptr;
+    if (lua_gettop(L) >= 2 && lua_isstring(L, 2)) {
+      name = lua_tostring(L, 2);
+    }
+
+    std::string assetId = name ? name : "";
+    if (!assetsFactoryPtr->createAssetFromLua(path, assetId)) {
+      return luaL_error(L, ("Failed to load asset: " + std::string(path)).c_str());
+    }
+
+    if (assetId.empty()) {
+      return 0;
+    }
+
+    MapAsset* mapAsset = dynamic_cast<MapAsset*>(assetsManagerPtr->getAsset(assetId));
+    if (!mapAsset) {
+      return luaL_error(L, "Map asset not found after loading.");
+    }
+
+    int tileW = 0;
+    int tileH = 0;
+    const auto& mappings = mapAsset->getTileMappings();
+    if (!mappings.empty()) {
+      auto tileAssetName = mappings.begin()->second;
+      TileAsset* tile = assetsManagerPtr->getTile(tileAssetName);
+      if (tile) {
+        tileW = tile->getTileWidth();
+        tileH = tile->getTileHeight();
+      }
+    }
+
+    if (tileW > 0 && tileH > 0) {
+      state->setMapSize(mapAsset->getWidth() * tileW, mapAsset->getHeight() * tileH);
+    }
+
+    TileHandler builder(state->getRenderer(), state->getLogsManager(), *assetsManagerPtr);
+    builder.buildMap(assetId);
+
+    return 0;
+  }
+
   int lua_getEntityDetails(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, 1);

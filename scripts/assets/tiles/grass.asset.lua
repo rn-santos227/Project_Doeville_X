@@ -26,5 +26,5 @@ for row = 0, 2 do
 end
 
 function getAsset(name)
-  return tiles[name]
+  return tiles[name or "grass_1"]
 end

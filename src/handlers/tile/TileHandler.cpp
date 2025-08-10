@@ -27,6 +27,11 @@ namespace Project::Handlers {
 
     for (size_t row = 0; row < layout.size(); ++row) {
       const auto& line = layout[row];
+      for (size_t col = 0; col < line.size(); ++col) {
+        int id = line[col];
+        auto it = mapping.find(id);
+        if (it == mapping.end()) continue;
+      }
     }
 
     return tilesOut;

@@ -94,6 +94,11 @@ namespace Project::Assets {
       if (lua_isstring(L, -1)) {
         std::string filePath = lua_tostring(L, -1);
         std::ifstream file(filePath);
+        if (!file.is_open()) {
+          logsManager.logError("Failed to open map file: " + filePath);
+        } else {
+          std::string line;
+        }
       }
       lua_pop(L, 1);
     }

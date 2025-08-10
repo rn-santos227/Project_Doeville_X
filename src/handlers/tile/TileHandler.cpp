@@ -10,4 +10,8 @@ namespace Project::Handlers {
 
   TileHandler::TileHandler(SDL_Renderer* renderer, LogsManager& logsManager, AssetsManager& assetsManager)
     : renderer(renderer), assetsManager(assetsManager), logsManager(logsManager) {}
+
+  std::vector<BuiltTile> TileHandler::buildMap(const std::string& mapAssetId) {
+
+  }
 }

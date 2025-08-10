@@ -57,7 +57,8 @@ namespace Project::Assets {
     if (lua_istable(L, -1)) {
       size_t len = lua_rawlen(L, -1);
       for (size_t i = 1; i <= len; ++i) {
-
+        lua_rawgeti(L, -1, i);
+        std::vector<int> rowValues;
       }
       mapData.rows = static_cast<int>(mapData.layout.size());
     }

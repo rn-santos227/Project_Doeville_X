@@ -19,5 +19,10 @@ namespace Project::Handlers {
       logsManager.logError("Map asset not found: " + mapAssetId);
       return tilesOut;
     }
+
+    const auto& layout = mapAsset->getMap();
+    const auto& mapping = mapAsset->getTileMappings();
+    int tileWidth = 0;
+    int tileHeight = 0;
   }
 }

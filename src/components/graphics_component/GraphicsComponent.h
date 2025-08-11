@@ -3,6 +3,7 @@
 
 #include "GraphicsData.h"
 
+#include <cstdint>
 #include <future>
 #include <string>
 
@@ -15,6 +16,7 @@
 #include "handlers/animation/AnimationHandler.h"
 #include "handlers/camera/CameraHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
+#include "interfaces/render_interface/Material.h"
 #include "interfaces/rotation_interface/Rotatable.h"
 #include "interfaces/style_interface/Stylable.h"
 #include "libraries/constants/Constants.h"
@@ -79,6 +81,10 @@ namespace Project::Components {
 
     SDL_Renderer* getRenderer() const { return renderer; }
     SDL_Texture* getBatchTexture();
+
+    void setMaterial(Project::Interfaces::Material* mat) { material = mat; }
+    Project::Interfaces::Material* getMaterial() const { return material; }
+    std::uint32_t getMaterialId() const { return material ? material->id : 0; }
     
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
@@ -86,6 +92,7 @@ namespace Project::Components {
     SDL_Renderer* renderer;
     
     Project::Handlers::ResourcesHandler* resourcesHandler;
+    Project::Interfaces::Material* material = nullptr;
     
     Project::Assets::AssetsManager& assetsManager;
     Project::Utilities::LogsManager& logsManager;

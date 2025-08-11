@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <limits>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -88,7 +89,7 @@ namespace Project::Systems {
     }
 
     std::sort(candidates.begin(), candidates.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
-      if (a->getDepth() != b->getDepth()) return a->getDepth() > b->getDepth();
+      if (a->getMaterialId() != b->getMaterialId()) return a->getMaterialId() < b->getMaterialId();
       if (a->getBlendMode() != b->getBlendMode()) return a->getBlendMode() < b->getBlendMode();
       return a->getBatchTexture() < b->getBatchTexture();
     });
@@ -99,6 +100,7 @@ namespace Project::Systems {
 
     SDL_Texture* currentTex = nullptr;
     SDL_BlendMode currentBlend = SDL_BLENDMODE_INVALID;
+    std::uint32_t currentMaterial = std::numeric_limits<std::uint32_t>::max();
     SDL_Renderer* renderer = candidates.empty() ? nullptr : candidates.front()->getRenderer();
 
     std::vector<SDL_Vertex> instVerts;
@@ -138,6 +140,13 @@ namespace Project::Systems {
 
       SDL_Texture* tex = comp->getBatchTexture();
       SDL_BlendMode blend = comp->getBlendMode();
+      std::uint32_t matId = comp->getMaterialId();
+
+      if (matId != currentMaterial) {
+        flush();
+        currentMaterial = matId;
+      }
+
       if (blend != currentBlend) {
         flush();
         currentBlend = blend;

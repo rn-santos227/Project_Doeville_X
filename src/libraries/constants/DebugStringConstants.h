@@ -7,6 +7,7 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEBUG_FRAME_SUFFIX = " MS";
   constexpr const char* DEBUG_MEM_PREFIX = "MEM: ";
   constexpr const char* DEBUG_MEM_SUFFIX = " MB";
+  constexpr const char* DEBUG_DRAW_PREFIX = "DRAW: ";
   constexpr const char* DEBUG_PROC_PREFIX = "PROC: ";
   constexpr const char* DEBUG_MOUSE_PREFIX = "Mouse: (";
   constexpr const char* DEBUG_MOUSE_SEPARATOR = ", ";

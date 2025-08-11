@@ -17,6 +17,7 @@
 
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
+#include "utilities/profiler/Profiler.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
@@ -51,6 +52,7 @@ namespace Project::Handlers {
     const std::vector<std::pair<std::string, std::string>> debugLines = {
       {Constants::DEBUG_FPS_PREFIX, std::to_string(framesCounter.getFPS())},
       {Constants::DEBUG_FRAME_PREFIX, std::to_string(static_cast<int>(framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND)) + Constants::DEBUG_FRAME_SUFFIX},
+      {Constants::DEBUG_DRAW_PREFIX, std::to_string(Project::Utilities::Profiler::getInstance().getDrawCalls())},
       {Constants::DEBUG_MEM_PREFIX, std::to_string(getProcessMemoryUsageMB()) + Constants::DEBUG_MEM_SUFFIX},
       {Constants::DEBUG_PROC_PREFIX, std::to_string(getProcessCount())}
     };

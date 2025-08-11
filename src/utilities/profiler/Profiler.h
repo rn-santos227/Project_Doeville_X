@@ -6,7 +6,13 @@
 #include <unordered_map>
 
 namespace Project::Utilities {
+  class Profiler {
+  public:
 
+  private:
+    std::unordered_map<std::string, double> times;
+    int drawCalls = 0;
+  };
 }
 
 #endif

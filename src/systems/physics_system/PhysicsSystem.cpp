@@ -10,6 +10,7 @@
 #include "entities/Entity.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/geometry/GeometryUtils.h"
+#include "utilities/profiler/Profiler.h"
 #include "utilities/thread/ThreadPool.h"
 
 namespace Project::Systems {
@@ -41,6 +42,7 @@ namespace Project::Systems {
   }
 
   void Project::Systems::PhysicsSystem::update(float deltaTime) {
+    PROFILE_SCOPE(Constants::PHYSICS_PROFILE);
     grid.clear();
     highPriorityGrid.clear();
     lowPriorityGrid.clear();

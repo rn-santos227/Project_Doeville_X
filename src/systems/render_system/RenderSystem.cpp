@@ -8,6 +8,7 @@
 #include "components/graphics_component/GraphicsComponent.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/constants/Constants.h"
+#include "utilities/profiler/Profiler.h"
 #include "utilities/thread/ThreadPool.h"
 
 namespace Project::Systems {
@@ -27,6 +28,7 @@ namespace Project::Systems {
   }
 
   void Project::Systems::RenderSystem::update(float deltaTime) {
+    PROFILE_SCOPE(Constants::RENDER_PROFILE);
     auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
       if (comp && comp->isActive()) {
@@ -107,6 +109,7 @@ namespace Project::Systems {
     auto flush = [&]() {
       if (!instVerts.empty() && renderer && currentTex) {
         SDL_RenderGeometry(renderer, currentTex, instVerts.data(), static_cast<int>(instVerts.size()), instIndices.data(), static_cast<int>(instIndices.size()));
+        Project::Utilities::Profiler::getInstance().incrementDrawCalls();
         instVerts.clear();
         instIndices.clear();
       }
@@ -180,6 +183,7 @@ namespace Project::Systems {
       } else {
         flush();
         comp->render();
+        Project::Utilities::Profiler::getInstance().incrementDrawCalls();
       }
 
       drawn.push_back({screenRect, comp->getDepth()});

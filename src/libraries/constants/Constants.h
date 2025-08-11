@@ -10,6 +10,7 @@
 #include "FloatConstants.h"
 #include "AngleConstants.h"
 #include "PhysicsConstants.h"
+#include "ProfileConstants.h"
 #include "DebugStringConstants.h"
 #include "ColorConstants.h"
 #include "RegexConstants.h"

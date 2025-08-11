@@ -23,7 +23,8 @@ namespace Project::Systems {
 
   private:
     std::vector<Project::Components::GraphicsComponent*> components;
-
+    
+    int currentFrame = 0;
     bool rectContains(const SDL_Rect& outer, const SDL_Rect& inner) const;
   };
 }

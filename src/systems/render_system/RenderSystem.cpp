@@ -5,8 +5,10 @@
 #include <limits>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "components/graphics_component/GraphicsComponent.h"
+#include "handlers/camera/Camera.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/profiler/Profiler.h"
@@ -39,6 +41,7 @@ namespace Project::Systems {
   }
 
   void Project::Systems::RenderSystem::render() {
+    ++currentFrame;
     auto hash = [](int x, int y) {
       return (
         static_cast<std::uint64_t>(static_cast<std::int64_t>(x)) << Constants::BIT_32) ^
@@ -64,6 +67,7 @@ namespace Project::Systems {
     auto* camHandler = GraphicsComponent::getCameraHandler();
     float zoom = Constants::DEFAULT_CAMERA_ZOOM;
     SDL_Rect viewport{0, 0, 0, 0};
+    Project::Handlers::Camera cam{};
 
     bool useCull = false;
     std::vector<GraphicsComponent*> candidates;
@@ -84,9 +88,35 @@ namespace Project::Systems {
         }
       }
       candidates.assign(unique.begin(), unique.end());
+      SDL_FRect fr{
+        static_cast<float>(camHandler->getX()), static_cast<float>(camHandler->getY()),
+        static_cast<float>(camHandler->getViewportWidth()), static_cast<float>(camHandler->getViewportHeight())
+      };
     } else {
       candidates = components;
+      SDL_FRect fr{
+        Constants::DEFAULT_FRECT_X,
+        Constants::DEFAULT_FRECT_Y,
+        Constants::DEFAULT_FRECT_W,
+        Constants::DEFAULT_FRECT_H
+      };
+      cam = Project::Handlers::makeCameraFromRect(fr);
     }
+
+    std::vector<SDL_FRect> occlusionBuffer;
+    for (auto* comp : candidates) {
+      if (comp && comp->isActive() && comp->isOccluder() && comp->isInFrustum(cam)) {
+        occlusionBuffer.push_back(comp->getBoundingBox());
+      }
+    }
+
+    std::vector<GraphicsComponent*> visible;
+    for (auto* comp : candidates) {
+      if (comp && comp->isActive() && comp->isVisible(cam, occlusionBuffer, currentFrame)) {
+        visible.push_back(comp);
+      }
+    }
+    candidates.swap(visible);
 
     std::sort(candidates.begin(), candidates.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
       if (a->getMaterialId() != b->getMaterialId()) return a->getMaterialId() < b->getMaterialId();
@@ -205,8 +235,6 @@ namespace Project::Systems {
   }
 
   bool RenderSystem::rectContains(const SDL_Rect& outer, const SDL_Rect& inner) const {
-    return inner.x >= outer.x && inner.y >= outer.y &&
-           (inner.x + inner.w) <= (outer.x + outer.w) &&
-           (inner.y + inner.h) <= (outer.y + outer.h);
+    return inner.x >= outer.x && inner.y >= outer.y && (inner.x + inner.w) <= (outer.x + outer.w) && (inner.y + inner.h) <= (outer.y + outer.h);
   }
 }

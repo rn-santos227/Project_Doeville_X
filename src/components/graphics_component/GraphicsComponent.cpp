@@ -7,6 +7,7 @@
 #include <SDL_image.h>
 
 #include "assets/texture_asset/TextureAsset.h"
+#include "handlers/camera/Camera.h"
 #include "handlers/camera/CameraHandler.h"
 #include "libraries/keys/Keys.h"
 #include "libraries/constants/Constants.h"
@@ -208,6 +209,7 @@ namespace Project::Components {
     data.drawShape = true;
     data.isCircle = false;
     data.radius = 0;
+    updateBoundingBox();
   }
 
   void GraphicsComponent::setCircle(int r, SDL_Color color) {
@@ -224,6 +226,7 @@ namespace Project::Components {
     data.drawShape = true;
     data.isCircle = true;
     data.radius = r;
+    updateBoundingBox();
   }
 
   void GraphicsComponent::setColor(SDL_Color color) {
@@ -236,10 +239,53 @@ namespace Project::Components {
     if (data.destRect.w != width || data.destRect.h != height) data.verticesDirty = true;
     data.destRect.w = width;
     data.destRect.h = height;
+    updateBoundingBox();
   }
 
   void GraphicsComponent::setEntityPosition(int x, int y) {
     setPosition(x, y, data.destRect.w, data.destRect.h);
+  }
+
+  SDL_Texture* GraphicsComponent::getBatchTexture() {
+    return getTextureToRender();
+  }
+
+  bool GraphicsComponent::isInFrustum(const Project::Handlers::Camera& cam) const {
+    SDL_FPoint pts[Constants::INDEX_FOUR] = {
+      {boundingBox.x, boundingBox.y},
+      {boundingBox.x + boundingBox.w, boundingBox.y},
+      {boundingBox.x + boundingBox.w, boundingBox.y + boundingBox.h},
+      {boundingBox.x, boundingBox.y + boundingBox.h}
+    };
+    for (const auto& plane : cam.planes) {
+      bool outside = true;
+      for (const auto& p : pts) {
+        if (plane.test(p.x, p.y)) { outside = false; break; }
+      }
+      if (outside) return false;
+    }
+    return true;
+  }
+
+  bool GraphicsComponent::isVisible(
+    const Project::Handlers::Camera& cam,
+    const std::vector<SDL_FRect>& occluders,
+    int frame) const {
+    if (lastVisibilityFrame == frame) return lastVisibilityResult;
+    lastVisibilityFrame = frame;
+    bool visible = isInFrustum(cam);
+    if (visible && !occluder) {
+      for (const auto& occ : occluders) {
+        if (occ.x <= boundingBox.x && occ.y <= boundingBox.y &&
+            occ.x + occ.w >= boundingBox.x + boundingBox.w &&
+            occ.y + occ.h >= boundingBox.y + boundingBox.h) {
+          visible = false;
+          break;
+        }
+      }
+    }
+    lastVisibilityResult = visible;
+    return visible;
   }
 
   SDL_Rect GraphicsComponent::getRenderRect() const {
@@ -264,13 +310,8 @@ namespace Project::Components {
     return texture;
   }
 
-  SDL_Texture* GraphicsComponent::getBatchTexture() {
-    return getTextureToRender();
-  }
-
   bool GraphicsComponent::isInCameraView() {
     if (!cameraHandler) return true;
-    
     const SDL_Rect cullRect = cameraHandler->getCullingRect();
     SDL_Rect worldRect = data.destRect;
     return SDL_HasIntersection(&worldRect, &cullRect);
@@ -301,6 +342,7 @@ namespace Project::Components {
           }
         }
       }
+      updateBoundingBox();
       data.pendingTexturePath.clear();
     }
   }
@@ -414,6 +456,13 @@ namespace Project::Components {
     }
   }
 
+  void GraphicsComponent::setupShapeIndices() {
+    data.shapeIndices.assign(
+      Constants::RECTANGLE_INDICES.begin(),
+      Constants::RECTANGLE_INDICES.end()
+    );
+  }
+
   void GraphicsComponent::updateRotationCache() {
     if (data.rotation != lastCachedRotation) {
       const float angleRad = data.rotation * static_cast<float>(M_PI) / Constants::ANGLE_180_DEG;
@@ -423,10 +472,10 @@ namespace Project::Components {
     }
   }
 
-  void GraphicsComponent::setupShapeIndices() {
-    data.shapeIndices.assign(
-      Constants::RECTANGLE_INDICES.begin(),
-      Constants::RECTANGLE_INDICES.end()
-    );
+  void GraphicsComponent::updateBoundingBox() {
+    boundingBox.x = static_cast<float>(data.destRect.x);
+    boundingBox.y = static_cast<float>(data.destRect.y);
+    boundingBox.w = static_cast<float>(data.destRect.w);
+    boundingBox.h = static_cast<float>(data.destRect.h);
   }
 }

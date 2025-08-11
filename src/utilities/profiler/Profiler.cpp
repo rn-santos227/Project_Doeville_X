@@ -5,4 +5,9 @@ namespace Project::Utilities {
     static Profiler instance;
     return instance;
   }
+
+  void Profiler::beginFrame() {
+    times.clear();
+    drawCalls = 0;
+  }
 }

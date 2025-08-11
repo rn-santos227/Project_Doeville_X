@@ -10,6 +10,7 @@ namespace Project::Utilities {
   class ColorUtils {
   public:
     static SDL_Color hexToRGB(const std::string& hex, Uint8 alpha = Project::Libraries::Constants::FULL_ALPHA);
+    static bool applyShader(SDL_Texture* texture, SDL_Color color);
   };
 }
 

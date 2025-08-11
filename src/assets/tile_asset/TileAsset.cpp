@@ -1,10 +1,12 @@
 #include "TileAsset.h"
 
 #include "libraries/keys/LuaAssetKeys.h"
+#include "utilities/color/ColorUtils.h"
 
 namespace Project::Assets {
   using Project::Utilities::LogsManager;
   using Project::Utilities::LuaStateWrapper;
+  using Project::Utilities::ColorUtils;
   using Project::Handlers::ResourcesHandler;
   
   namespace Keys = Project::Libraries::Keys;
@@ -80,6 +82,10 @@ namespace Project::Assets {
     if (lua_isboolean(L, -1)) tileData.passable = lua_toboolean(L, -1);
     lua_pop(L, 1);
 
+    lua_getfield(L, -1, Keys::LUA_ASSET_COLOR);
+    if (lua_isstring(L, -1)) tileData.color = ColorUtils::hexToRGB(lua_tostring(L, -1));
+    lua_pop(L, 1);
+
     lua_pop(L, 1);
 
     data.category = AssetCategory::TILE;
@@ -100,6 +106,26 @@ namespace Project::Assets {
     }
 
     tileData.rect = {tileData.x, tileData.y, tileData.width, tileData.height};
+    if (tileData.color) {
+      setColor(*tileData.color);
+    }
     return true;
+  }
+
+  bool TileAsset::setColor(SDL_Color color) {
+    if (!data.texture) {
+      return false;
+    }
+
+    if (!ColorUtils::applyShader(data.texture, color)) {
+      return false;
+    }
+
+    tileData.color = color;
+    return true;
+  }
+
+  bool TileAsset::setColorHex(const std::string& hex) {
+    return setColor(ColorUtils::hexToRGB(hex));
   }
 }

@@ -1,6 +1,7 @@
 #ifndef TEXTURE_ASSET_DATA_H
 #define TEXTURE_ASSET_DATA_H
 
+#include <optional>
 #include <SDL.h>
 
 #include "libraries/constants/ColorConstants.h"
@@ -8,10 +9,8 @@
 
 namespace Project::Assets {
   struct TextureAssetData {
-    SDL_Color color = Project::Libraries::Constants::COLOR_WHITE;
-
+    std::optional<SDL_Color> color;
     float scale = Project::Libraries::Constants::DEFAULT_WHOLE;
-
     int width{0};
     int height{0};
   };

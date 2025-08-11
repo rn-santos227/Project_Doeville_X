@@ -3,6 +3,7 @@
 
 #include "TextureAssetData.h"
 
+#include <optional>
 #include <string>
 #include <SDL.h>
 
@@ -31,8 +32,9 @@ namespace Project::Assets {
     int getHeight() const { return textureData.height; }
     float getScale() const { return textureData.scale; }
 
-    SDL_Color getColor() const { return textureData.color; }
+    std::optional<SDL_Color> getColor() const { return textureData.color; }
     bool setColor(SDL_Color color);
+    bool setColorHex(const std::string& hex);
     
   private:
     TextureAssetData textureData;

@@ -1,11 +1,12 @@
 #include "TextureAsset.h"
 
 #include "libraries/keys/LuaAssetKeys.h"
-#include "utilities/color_shader/ColorShader.h"
+#include "utilities/color/ColorUtils.h"
 
 namespace Project::Assets {
   using Project::Utilities::LogsManager;
   using Project::Utilities::LuaStateWrapper;
+  using Project::Utilities::ColorUtils;
   using Project::Handlers::ResourcesHandler;
   
   namespace Keys = Project::Libraries::Keys;
@@ -73,6 +74,10 @@ namespace Project::Assets {
     if (lua_isnumber(L, -1)) textureData.scale = static_cast<float>(lua_tonumber(L, -1));
     lua_pop(L, 1);
 
+    lua_getfield(L, -1, Keys::LUA_ASSET_COLOR);
+    if (lua_isstring(L, -1)) textureData.color = ColorUtils::hexToRGB(lua_tostring(L, -1));
+    lua_pop(L, 1);
+
     lua_pop(L, 1);
 
     data.category = AssetCategory::TEXTURE;
@@ -92,6 +97,10 @@ namespace Project::Assets {
       SDL_QueryTexture(data.texture, nullptr, nullptr, &textureData.width, &textureData.height);
     }
 
+    if (textureData.color) {
+      setColor(*textureData.color);
+    }
+
     return true;
   }
 
@@ -100,11 +109,15 @@ namespace Project::Assets {
       return false;
     }
 
-    if (!Project::Utilities::ColorShader::apply(data.texture, color)) {
+    if (!ColorUtils::applyShader(data.texture, color)) {
       return false;
     }
 
     textureData.color = color;
     return true;
+  }
+  
+  bool TextureAsset::setColorHex(const std::string& hex) {
+    return setColor(ColorUtils::hexToRGB(hex));
   }
 }

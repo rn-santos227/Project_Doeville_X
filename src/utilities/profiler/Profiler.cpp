@@ -23,4 +23,8 @@ namespace Project::Utilities {
   int Profiler::getDrawCalls() const {
     return drawCalls;
   }
+
+  const std::unordered_map<std::string, double>& Profiler::getTimes() const {
+    return times;
+  }
 }

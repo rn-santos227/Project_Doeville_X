@@ -543,7 +543,8 @@ namespace Project::Bindings::LuaBindings {
     }
 
     TileHandler builder(state->getRenderer(), state->getLogsManager(), *assetsManagerPtr);
-    builder.buildMap(assetId);
+    auto tiles = builder.buildMap(assetId);
+    state->setMapTiles(std::move(tiles));
 
     return 0;
   }

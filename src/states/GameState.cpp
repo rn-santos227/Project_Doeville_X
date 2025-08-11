@@ -135,6 +135,33 @@ namespace Project::States {
       SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     }
     
+    auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
+    float zoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;
+    SDL_Rect viewport{0, 0, 0, 0};
+    int camX = 0;
+    int camY = 0;
+    bool useCull = false;
+    if (camHandler) {
+      zoom = camHandler->getZoom();
+      camX = camHandler->getX();
+      camY = camHandler->getY();
+      viewport = SDL_Rect{0, 0, camHandler->getViewportWidth(), camHandler->getViewportHeight()};
+      useCull = true;
+    }
+
+    for (const auto& tile : mapTiles) {
+      if (!tile.texture) continue;
+      SDL_Rect dest = tile.dest;
+      if (useCull) {
+        dest.x = static_cast<int>((dest.x - camX) * zoom);
+        dest.y = static_cast<int>((dest.y - camY) * zoom);
+        dest.w = static_cast<int>(dest.w * zoom);
+        dest.h = static_cast<int>(dest.h * zoom);
+        if (!SDL_HasIntersection(&dest, &viewport)) continue;
+      }
+      SDL_RenderCopy(renderer, tile.texture, &tile.src, &dest);
+    }
+
     if (layersManager) {
       layersManager->render();
     } else if (entitiesManager) {
@@ -171,6 +198,7 @@ namespace Project::States {
     }
 
     clearBackground();
+    mapTiles.clear();
 
     luaStateWrapper.reset();
     if (!luaScriptPath.empty()) {

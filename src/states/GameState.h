@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include <SDL2/SDL.h>
@@ -18,6 +19,7 @@
 #include "entities/EntitiesManager.h"
 #include "entities/EntitySeeder.h"
 #include "handlers/resources/ResourcesHandler.h"
+#include "handlers/tile/TileHandler.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/render_interface/Renderable.h"
@@ -134,6 +136,9 @@ namespace Project::States {
 
     size_t getEntityCount() const;
 
+    void setMapTiles(std::vector<Project::Handlers::BuiltTile>&& tiles) { mapTiles = std::move(tiles); }
+    const std::vector<Project::Handlers::BuiltTile>& getMapTiles() const { return mapTiles; }
+
   protected:
     static std::unordered_map<std::string, std::vector<std::string>> scriptFunctionCache;
     static Project::Utilities::BinaryFileCache persistentFunctionCache;
@@ -167,6 +172,7 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
     std::unordered_map<std::string, std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
+    std::vector<Project::Handlers::BuiltTile> mapTiles;
 
     void ensureMapSize();
   };

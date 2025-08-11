@@ -19,4 +19,8 @@ namespace Project::Utilities {
     auto it = times.find(name);
     return it != times.end() ? it->second : 0.0;
   }
+
+  int Profiler::getDrawCalls() const {
+    return drawCalls;
+  }
 }

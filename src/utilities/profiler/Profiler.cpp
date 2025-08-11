@@ -27,4 +27,7 @@ namespace Project::Utilities {
   const std::unordered_map<std::string, double>& Profiler::getTimes() const {
     return times;
   }
+
+  ScopeTimer::ScopeTimer(const std::string& name)
+    : name(name), start(std::chrono::high_resolution_clock::now()) {}
 }

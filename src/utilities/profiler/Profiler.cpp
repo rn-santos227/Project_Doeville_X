@@ -30,4 +30,10 @@ namespace Project::Utilities {
 
   ScopeTimer::ScopeTimer(const std::string& name)
     : name(name), start(std::chrono::high_resolution_clock::now()) {}
+
+  ScopeTimer::~ScopeTimer() {
+    auto end = std::chrono::high_resolution_clock::now();
+    double ms = std::chrono::duration<double, std::milli>(end - start).count();
+    Profiler::getInstance().addTime(name, ms);
+  }
 }

@@ -8,6 +8,7 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/exception/EngineException.h"
+#include "utilities/profiler/Profiler.h"
 #include "utilities/thread/ThreadPool.h"
 
 namespace Project::Core {
@@ -152,6 +153,7 @@ namespace Project::Core {
     const double fixedDelta = 1.0 / Constants::TARGET_FPS;
     try {
       while (isRunning) {
+        Project::Utilities::Profiler::getInstance().beginFrame();
         Uint64 frameStartTime = SDL_GetPerformanceCounter();
 
         framesCounter.update();

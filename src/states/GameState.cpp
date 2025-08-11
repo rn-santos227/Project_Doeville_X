@@ -138,6 +138,7 @@ namespace Project::States {
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
     float zoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;
     SDL_Rect viewport{0, 0, 0, 0};
+    SDL_Rect camRect{0, 0, 0, 0};
     int camX = 0;
     int camY = 0;
     bool useCull = false;
@@ -146,17 +147,23 @@ namespace Project::States {
       camX = camHandler->getX();
       camY = camHandler->getY();
       viewport = SDL_Rect{0, 0, camHandler->getViewportWidth(), camHandler->getViewportHeight()};
+      camRect = camHandler->getRect();
       useCull = true;
     }
 
     for (const auto& tile : mapTiles) {
       if (!tile.texture) continue;
-      SDL_Rect dest = tile.dest;
+      SDL_Rect worldRect = tile.dest;
+      if (useCull && !SDL_HasIntersection(&worldRect, &camRect)) {
+        continue;
+      }
+
+      SDL_Rect dest = worldRect;
       if (useCull) {
-        dest.x = static_cast<int>((dest.x - camX) * zoom);
-        dest.y = static_cast<int>((dest.y - camY) * zoom);
-        dest.w = static_cast<int>(dest.w * zoom);
-        dest.h = static_cast<int>(dest.h * zoom);
+        dest.x = static_cast<int>((worldRect.x - camX) * zoom);
+        dest.y = static_cast<int>((worldRect.y - camY) * zoom);
+        dest.w = static_cast<int>(worldRect.w * zoom);
+        dest.h = static_cast<int>(worldRect.h * zoom);
         if (!SDL_HasIntersection(&dest, &viewport)) continue;
       }
       SDL_RenderCopy(renderer, tile.texture, &tile.src, &dest);

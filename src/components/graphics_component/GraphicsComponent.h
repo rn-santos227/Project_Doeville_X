@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <future>
 #include <string>
+#include <vector>
 
 #include <SDL.h>
 
@@ -14,6 +15,7 @@
 #include "components/PositionableComponent.h"
 #include "components/TextureHolder.h"
 #include "handlers/animation/AnimationHandler.h"
+#include "handlers/camera/Camera.h"
 #include "handlers/camera/CameraHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "interfaces/render_interface/Material.h"
@@ -85,11 +87,18 @@ namespace Project::Components {
     void setMaterial(Project::Interfaces::Material* mat) { material = mat; }
     Project::Interfaces::Material* getMaterial() const { return material; }
     std::uint32_t getMaterialId() const { return material ? material->id : 0; }
+
+    const SDL_FRect& getBoundingBox() const { return boundingBox; }
+    void setOccluder(bool value) { occluder = value; }
+    bool isOccluder() const { return occluder; }
+    bool isInFrustum(const Project::Handlers::Camera& cam) const;
+    bool isVisible(const Project::Handlers::Camera& cam, const std::vector<SDL_FRect>& occluders,  int frame) const;
     
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
 
     SDL_Renderer* renderer;
+    SDL_FRect boundingBox{0.0f, 0.0f, 0.0f, 0.0f};
     
     Project::Handlers::ResourcesHandler* resourcesHandler;
     Project::Interfaces::Material* material = nullptr;
@@ -107,10 +116,16 @@ namespace Project::Components {
     mutable float cachedCos = Project::Libraries::Constants::DEFAULT_WHOLE;
     mutable float cachedSin = 0.0f;
 
+    mutable int lastVisibilityFrame = -1;
+
+    mutable bool lastVisibilityResult = false;
+    bool occluder = false;
+
     SDL_Rect getRenderRect() const;
     SDL_Texture* getTextureToRender();
     
     bool isInCameraView();
+    
     void checkAsyncTextureLoad();
     void renderTexture(SDL_Texture* texture, const SDL_Rect& renderRect);
     void renderShape(const SDL_Rect& renderRect);
@@ -119,9 +134,9 @@ namespace Project::Components {
     void renderSimpleRect(const SDL_Rect& renderRect);
     void renderComplexRect(const SDL_Rect& renderRect);
     void renderRectBorder(const SDL_Rect& renderRect);
-    
-    void updateRotationCache();
     void setupShapeIndices();
+    void updateRotationCache();
+    void updateBoundingBox();
   };
 }
 

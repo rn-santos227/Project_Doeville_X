@@ -13,6 +13,14 @@ namespace Project::Utilities {
     std::unordered_map<std::string, double> times;
     int drawCalls = 0;
   };
+
+  class ScopeTimer {
+  public:
+
+  private:
+    std::string name;
+    std::chrono::high_resolution_clock::time_point start;
+  };
 }
 
 #endif

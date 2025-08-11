@@ -379,11 +379,12 @@ namespace Project::Entities {
     for (size_t i = 0; i < chunkCount; ++i) {
       if (entityTemplates.empty()) break;
       std::string tmpl = entityTemplates[templateIndex(localRng)];
-      EntitiesFactory::EntityPtr entity = factory.cloneEntity(tmpl);
-      if (!entity) continue;
 
       bool placed = false;
       for (size_t attempt = 0; attempt < MAX_ATTEMPTS && !placed; ++attempt) {
+        EntitiesFactory::EntityPtr entity = factory.cloneEntity(tmpl);
+        if (!entity) continue;
+
         float ex = posX(localRng);
         float ey = posY(localRng);
 

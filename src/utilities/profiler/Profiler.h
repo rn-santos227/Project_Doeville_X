@@ -8,6 +8,15 @@
 namespace Project::Utilities {
   class Profiler {
   public:
+    static Profiler& getInstance();
+
+    void beginFrame();
+    void addTime(const std::string& name, double ms);
+    void incrementDrawCalls(int count = 1);
+
+    double getTime(const std::string& name) const;
+    int getDrawCalls() const;
+    const std::unordered_map<std::string, double>& getTimes() const;
 
   private:
     std::unordered_map<std::string, double> times;

@@ -16,6 +16,8 @@ namespace Project::Utilities {
 
   class ScopeTimer {
   public:
+    explicit ScopeTimer(const std::string& name);
+    ~ScopeTimer();
 
   private:
     std::string name;
@@ -23,4 +25,5 @@ namespace Project::Utilities {
   };
 }
 
+#define PROFILE_SCOPE(name) Project::Utilities::ScopeTimer timer##__LINE__(name)
 #endif

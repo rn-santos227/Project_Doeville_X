@@ -113,8 +113,10 @@ namespace Project::Entities {
 
       useCull = true;
     }
-    if (auto* state = manager.getGameState()) {
-      if (state->getDimensionMode() == DimensionMode::BOUNDED) {
+    
+    if (auto *state = manager.getGameState()) {
+      auto mode = state->getDimensionMode();
+      if (mode == DimensionMode::BOUNDED || mode == DimensionMode::MAPPED) {
         mapRect = state->getMapRect();
         bounded = mapRect.w > 0 && mapRect.h > 0;
       }
@@ -289,7 +291,8 @@ namespace Project::Entities {
     bool bounded = false;
     SDL_Rect mapRect{0,0,0,0};
     if (auto* state = manager.getGameState()) {
-      if (state->getDimensionMode() == Project::States::DimensionMode::BOUNDED) {
+     auto mode = state->getDimensionMode();
+      if (mode == Project::States::DimensionMode::BOUNDED || mode == Project::States::DimensionMode::MAPPED) {
         mapRect = state->getMapRect();
         bounded = mapRect.w > 0 && mapRect.h > 0;
       }

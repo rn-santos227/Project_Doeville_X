@@ -66,7 +66,7 @@ namespace Project::Components {
             mode == Project::States::DimensionMode::WRAPPING) {
           return;
         }
-        if (mode == Project::States::DimensionMode::BOUNDED) {
+        if (mode == Project::States::DimensionMode::BOUNDED || mode == Project::States::DimensionMode::MAPPED) {
           map = state->getMapRect();
           clamp = map.w > 0 && map.h > 0;
         }

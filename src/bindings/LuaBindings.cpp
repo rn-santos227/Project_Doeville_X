@@ -502,28 +502,15 @@ namespace Project::Bindings::LuaBindings {
       return luaL_error(L, "Invalid GameState reference in lua_loadMapAsset.");
     }
 
-    if (!assetsFactoryPtr || !assetsManagerPtr) {
+    if (!assetsManagerPtr) {
       return luaL_error(L, "Assets system not initialized for lua_loadMapAsset.");
     }
 
-    const char* path = luaL_checkstring(L, 1);
-    const char* name = nullptr;
-    if (lua_gettop(L) >= 2 && lua_isstring(L, 2)) {
-      name = lua_tostring(L, 2);
-    }
-
-    std::string assetId = name ? name : "";
-    if (!assetsFactoryPtr->createAssetFromLua(path, assetId)) {
-      return luaL_error(L, ("Failed to load asset: " + std::string(path)).c_str());
-    }
-
-    if (assetId.empty()) {
-      return 0;
-    }
-
-    MapAsset* mapAsset = dynamic_cast<MapAsset*>(assetsManagerPtr->getAsset(assetId));
+    std::string assetId = luaL_checkstring(L, 1);
+    MapAsset* mapAsset = assetsManagerPtr->getMap(assetId);
     if (!mapAsset) {
-      return luaL_error(L, "Map asset not found after loading.");
+      std::string error = "Map asset not found: " + assetId;
+      return luaL_error(L, error.c_str());
     }
 
     int tileW = 0;

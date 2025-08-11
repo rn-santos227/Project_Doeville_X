@@ -10,6 +10,7 @@
 
 #include <SDL.h>
 
+#include "assets/map_asset/MapAsset.h"
 #include "assets/tile_asset/TileAsset.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "utilities/logs_manager/LogsManager.h"
@@ -27,6 +28,9 @@ namespace Project::Assets {
     void addTile(const std::string& id, TileAsset* tile);
     TileAsset* getTile(const std::string& id);
 
+    void addMap(const std::string& id, MapAsset* map);
+    MapAsset* getMap(const std::string& id);
+
     SDL_Texture* getTexture(const std::string& id);
     Project::Handlers::ResourcesHandler& getResourcesHandler() { return resourcesHandler; }
     
@@ -38,6 +42,7 @@ namespace Project::Assets {
     Project::Handlers::ResourcesHandler& resourcesHandler;
     
     std::unordered_map<std::string, std::vector<std::string>> tagMap;
+    std::unordered_map<std::string, MapAsset*> maps;
     std::unordered_map<std::string, TileAsset*> tiles;
     std::unordered_map<AssetCategory, std::vector<std::string>> categoryMap;
   };

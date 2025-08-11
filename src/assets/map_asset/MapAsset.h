@@ -30,8 +30,8 @@ namespace Project::Assets {
     const std::vector<std::vector<int>>& getMap() const { return mapData.layout; }
     const std::unordered_map<int, std::string>& getTileMappings() const { return mapData.tiles; }
     
-    int getWidth() const { return mapData.cols; }
-    int getHeight() const { return mapData.rows; }
+    int getWidth() const { return mapData.rows; }
+    int getHeight() const { return mapData.cols; }
 
   private:
     MapAssetData mapData;

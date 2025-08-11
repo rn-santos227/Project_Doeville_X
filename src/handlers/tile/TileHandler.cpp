@@ -13,8 +13,7 @@ namespace Project::Handlers {
 
   std::vector<BuiltTile> TileHandler::buildMap(const std::string& mapAssetId) {
     std::vector<BuiltTile> tilesOut;
-    auto* base = assetsManager.getAsset(mapAssetId);
-    auto* mapAsset = dynamic_cast<MapAsset*>(base);
+    MapAsset* mapAsset = assetsManager.getMap(mapAssetId);
     if (!mapAsset) {
       logsManager.logError("Map asset not found: " + mapAssetId);
       return tilesOut;

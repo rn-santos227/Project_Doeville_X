@@ -1,5 +1,6 @@
 #include "AssetsManager.h"
 
+#include "map_asset/MapAsset.h"
 #include "texture_asset/TextureAsset.h"
 
 namespace Project::Assets {
@@ -16,6 +17,8 @@ namespace Project::Assets {
     categoryMap[asset->getCategory()].push_back(id);
     if (asset->getCategory() == AssetCategory::TILE) {
       addTile(id, static_cast<TileAsset*>(asset.get()));
+    } else if (asset->getCategory() == AssetCategory::MAP) {
+      addMap(id, static_cast<MapAsset*>(asset.get()));
     }
     ObjectsManager<BaseAsset, std::unique_ptr<BaseAsset>>::add(id, std::move(asset));
   }
@@ -37,6 +40,16 @@ namespace Project::Assets {
   TileAsset* AssetsManager::getTile(const std::string& id) {
     auto it = tiles.find(id);
     return it != tiles.end() ? it->second : nullptr;
+  }
+
+  void AssetsManager::addMap(const std::string& id, MapAsset* map) {
+    if (id.empty() || !map) return;
+    maps[id] = map;
+  }
+
+  MapAsset* AssetsManager::getMap(const std::string& id) {
+    auto it = maps.find(id);
+    return it != maps.end() ? it->second : nullptr;
   }
 
   SDL_Texture* AssetsManager::getTexture(const std::string& id) {

@@ -15,6 +15,10 @@ namespace Project::Utilities {
     times[name] += ms;
   }
 
+  void Profiler::incrementDrawCalls(int count) {
+    drawCalls += count;
+  }
+
   double Profiler::getTime(const std::string& name) const {
     auto it = times.find(name);
     return it != times.end() ? it->second : 0.0;

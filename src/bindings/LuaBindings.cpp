@@ -513,8 +513,8 @@ namespace Project::Bindings::LuaBindings {
       return luaL_error(L, error.c_str());
     }
 
-    int tileW = 0;
-    int tileH = 0;
+    int tileW = Constants::DEFAULT_COMPONENT_SIZE;
+    int tileH = Constants::DEFAULT_COMPONENT_SIZE;
     const auto& mappings = mapAsset->getTileMappings();
     if (!mappings.empty()) {
       auto tileAssetName = mappings.begin()->second;
@@ -525,9 +525,7 @@ namespace Project::Bindings::LuaBindings {
       }
     }
 
-    if (tileW > 0 && tileH > 0) {
-      state->setMapSize(mapAsset->getWidth() * tileW, mapAsset->getHeight() * tileH);
-    }
+    state->setMapSize(mapAsset->getWidth() * tileW, mapAsset->getHeight() * tileH);
 
     TileHandler builder(state->getRenderer(), state->getLogsManager(), *assetsManagerPtr);
     auto tiles = builder.buildMap(assetId);

@@ -10,4 +10,8 @@ namespace Project::Utilities {
     times.clear();
     drawCalls = 0;
   }
+
+  void Profiler::addTime(const std::string& name, double ms) {
+    times[name] += ms;
+  }
 }

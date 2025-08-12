@@ -2,7 +2,6 @@
 #define GAME_ENGINE_H
 
 #include <iostream>
-#include <mutex>
 #include <utility>
 #include <vector>
 
@@ -46,7 +45,6 @@ namespace Project::Core {
     std::unique_ptr<Project::Handlers::MouseHandler> mouseHandler;
     std::unique_ptr<Project::Handlers::ScreenHandler> screenHandler;
 
-    std::mutex updateMutex;
     std::vector<std::pair<Project::Interfaces::Cleanable*, std::string>> cleanupHandlers;
 
     double entityLoadFactor;

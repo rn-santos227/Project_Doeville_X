@@ -215,7 +215,6 @@ namespace Project::Core {
       return;
     }
 
-    std::lock_guard<std::mutex> lock(updateMutex);
     if (Project::Helpers::checkNotNull(logsManager, gameStateManager.get(), "GameStateManager is null.")) {
       gameStateManager->update(deltaTime);
     } else {

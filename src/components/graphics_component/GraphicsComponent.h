@@ -102,6 +102,7 @@ namespace Project::Components {
     
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
+    static std::size_t getTextureMemory(SDL_Texture* tex);
 
     SDL_Renderer* renderer;
     SDL_FRect boundingBox{0.0f, 0.0f, 0.0f, 0.0f};

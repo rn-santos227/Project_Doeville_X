@@ -57,6 +57,11 @@ namespace Project::Components {
     data.assetName.clear();
   }
 
+
+  std::size_t GraphicsComponent::getTextureMemory(SDL_Texture* tex) {
+
+  }
+
   void GraphicsComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {
     cameraHandler = handler;
   }
@@ -81,6 +86,9 @@ namespace Project::Components {
       int newLOD = static_cast<int>(lodLevels.size()) - 1;
       for (int i = 0; i < static_cast<int>(lodLevels.size()); ++i) {
         if (dist2 <= lodLevels[i].distance2) { newLOD = i; break; }
+      }
+      if (newLOD != activeLOD) {
+
       }
     }
 

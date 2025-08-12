@@ -373,6 +373,11 @@ namespace Project::Components {
       }
       updateBoundingBox();
       data.pendingTexturePath.clear();
+      if (lodSwapPending) {
+        std::size_t after = getTextureMemory(texture);
+        Project::Utilities::Profiler::getInstance().setMemoryUsage("lod_after", after);
+        lodSwapPending = false;
+      }
     }
   }
 

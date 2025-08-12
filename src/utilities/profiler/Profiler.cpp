@@ -36,6 +36,11 @@ namespace Project::Utilities {
     return times;
   }
 
+  std::size_t Profiler::getMemoryUsage(const std::string& name) const {
+    auto it = memory.find(name);
+    return it != memory.end() ? it->second : 0u;
+  }
+
   ScopeTimer::ScopeTimer(const std::string& name)
     : name(name), start(std::chrono::high_resolution_clock::now()) {}
 

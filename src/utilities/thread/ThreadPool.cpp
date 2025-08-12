@@ -9,11 +9,13 @@ namespace Project::Utilities {
     return instance;
   }
 
-  ThreadPool::ThreadPool() : stop(false), active(0), logger(nullptr) {
+  ThreadPool::ThreadPool()
+    : stop(false), active(0), pending(0), nextQueue(0), contention(0), logger(nullptr) {
     size_t count = std::max(2u, std::thread::hardware_concurrency());
     workers.reserve(count);
+    taskQueues.resize(count);
     for (size_t i = 0; i < count; ++i) {
-      workers.emplace_back(&ThreadPool::worker, this);
+      workers.emplace_back(&ThreadPool::worker, this, i);
     }
   }
 

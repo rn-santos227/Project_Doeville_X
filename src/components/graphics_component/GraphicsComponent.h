@@ -3,6 +3,7 @@
 
 #include "GraphicsData.h"
 
+#include <cstddef>
 #include <cstdint>
 #include <future>
 #include <string>
@@ -30,6 +31,11 @@
 namespace Project::Components {
   class GraphicsComponent : public BaseComponent, public PositionableComponent, public TextureHolder, public Project::Interfaces::Rotatable, public Project::Interfaces::Stylable  {
   public:
+    struct LODLevel {
+      std::string assetPath;
+      float distance2;
+    };
+    
     GraphicsComponent(
       SDL_Renderer* renderer,
       Project::Handlers::ResourcesHandler* resourcesHandler,

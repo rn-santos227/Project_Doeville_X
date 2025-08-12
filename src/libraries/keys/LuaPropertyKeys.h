@@ -9,6 +9,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ACTIONS = "actions";
   constexpr const char* ALLOW_REVERT = "allow_revert";
   constexpr const char* ASSET_NAME = "asset_name";
+  constexpr const char* ASSET_PATH = "asset_path";
   constexpr const char* ATTRIBUTES = "attributes";
   constexpr const char* BINDING = "binding";
   constexpr const char* BINDINGS = "bindings";
@@ -33,6 +34,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* DELTA_TIME = "deltaTime";
   constexpr const char* DENSITY = "density";
   constexpr const char* DIMENSION = "dimension";
+  constexpr const char* DISTANCE = "distance";
   constexpr const char* DURATION = "duration";
   constexpr const char* ENABLED = "enabled";
   constexpr const char* FOLLOW_CAMERA = "follow_camera";
@@ -64,6 +66,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LAYER_NAME = "layer_name";
   constexpr const char* LAYER_SCRIPTS = "layer_scripts";
   constexpr const char* LIMIT = "limit";
+  constexpr const char* LODS = "lods";
   constexpr const char* MASS = "mass";
   constexpr const char* MAX_CHARS = "max_chars";
   constexpr const char* MESSAGE = "message";

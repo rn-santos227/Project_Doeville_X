@@ -44,8 +44,7 @@ namespace Project::Utilities {
   void ThreadPool::wait() {
     std::unique_lock<std::mutex> lock(cvMutex);
     cv.wait(lock, [this] {
-      return pending.load(std::memory_order_acquire) == 0 &&
-             active.load(std::memory_order_acquire) == 0;
+      return pending.load(std::memory_order_acquire) == 0 && active.load(std::memory_order_acquire) == 0;
     });
     if (logger) {
       logger->logMessage("ThreadPool: contention " + std::to_string(contention.load()));
@@ -53,20 +52,29 @@ namespace Project::Utilities {
     contention.store(0, std::memory_order_release);
   }
 
-  void ThreadPool::worker() {
+  void ThreadPool::worker(size_t index) {
     while (true) {
       std::function<void()> job;
-      bool hasJob = false;
-      
-      hasJob = tasks.pop(job);
+      bool hasJob = taskQueues[index].pop(job);
+
+      if (!hasJob) {
+        for (size_t i = 0; i < taskQueues.size(); ++i) {
+          if (i == index) continue;
+          if (taskQueues[i].pop(job)) {
+            hasJob = true;
+            break;
+          }
+        }
+      }
       
       if (!hasJob) {
+        contention.fetch_add(1, std::memory_order_relaxed);
         std::unique_lock<std::mutex> lock(cvMutex);
         cv.wait(lock, [this] {
-          return stop.load(std::memory_order_acquire) || !tasks.empty();
+          return stop.load(std::memory_order_acquire) || pending.load(std::memory_order_acquire) > 0;
         });
         
-        if (stop.load(std::memory_order_acquire) && tasks.empty()) {
+        if (stop.load(std::memory_order_acquire) && pending.load(std::memory_order_acquire) == 0) {
           if (logger) logger->logMessage("ThreadPool: worker exiting");
           return;
         }
@@ -74,16 +82,19 @@ namespace Project::Utilities {
       }
 
       active.fetch_add(1, std::memory_order_acq_rel);
-      try { 
+      try {
         job();
       } catch (const std::exception &e) {
         if (logger) logger->logMessage(std::string("ThreadPool: task exception - ") + e.what());
       } catch (...) {
         if (logger) logger->logMessage("ThreadPool: task threw unknown exception");
       }
-      active.fetch_sub(1, std::memory_order_acq_rel);
       
-      if (tasks.empty() && active.load(std::memory_order_acquire) == 0) {
+      active.fetch_sub(1, std::memory_order_acq_rel);
+      pending.fetch_sub(1, std::memory_order_acq_rel);
+
+      if (pending.load(std::memory_order_acquire) == 0 &&
+          active.load(std::memory_order_acquire) == 0) {
         std::lock_guard<std::mutex> lock(cvMutex);
         cv.notify_all();
       }

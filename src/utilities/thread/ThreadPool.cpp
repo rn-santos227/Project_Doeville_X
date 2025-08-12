@@ -11,9 +11,10 @@ namespace Project::Utilities {
 
   ThreadPool::ThreadPool()
     : stop(false), active(0), pending(0), nextQueue(0), contention(0), logger(nullptr) {
-    size_t count = std::max(2u, std::thread::hardware_concurrency());
+    size_t count = std::max<size_t>(2u, std::thread::hardware_concurrency());
+    taskQueues = std::vector<decltype(taskQueues)::value_type>(count);
     workers.reserve(count);
-    taskQueues.resize(count);
+
     for (size_t i = 0; i < count; ++i) {
       workers.emplace_back(&ThreadPool::worker, this, i);
     }
@@ -89,7 +90,7 @@ namespace Project::Utilities {
       } catch (...) {
         if (logger) logger->logMessage("ThreadPool: task threw unknown exception");
       }
-      
+
       active.fetch_sub(1, std::memory_order_acq_rel);
       pending.fetch_sub(1, std::memory_order_acq_rel);
 

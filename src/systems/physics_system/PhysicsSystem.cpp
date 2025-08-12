@@ -62,7 +62,6 @@ namespace Project::Systems {
       }
     };
 
-    auto& pool = Project::Utilities::ThreadPool::getInstance();
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
       auto* owner = comp->getOwner();

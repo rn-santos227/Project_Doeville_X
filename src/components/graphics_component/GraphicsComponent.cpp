@@ -75,6 +75,9 @@ namespace Project::Components {
       const float camY = cameraHandler->getY();
       const float cx = data.destRect.x + data.destRect.w * Constants::DEFAULT_HALF;
       const float cy = data.destRect.y + data.destRect.h * Constants::DEFAULT_HALF;
+      const float dx = cx - camX;
+      const float dy = cy - camY;
+      const float dist2 = dx * dx + dy * dy;
     }
 
     if (animationHandler && animationHandler->isAnimationActive()) {

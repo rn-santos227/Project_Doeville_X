@@ -59,7 +59,9 @@ namespace Project::Components {
 
 
   std::size_t GraphicsComponent::getTextureMemory(SDL_Texture* tex) {
-
+    if (!tex) return 0u;
+    Uint32 format;
+    int access, w, h;
   }
 
   void GraphicsComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {

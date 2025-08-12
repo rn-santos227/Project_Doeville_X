@@ -13,6 +13,8 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEBUG_MOUSE_SEPARATOR = ", ";
   constexpr const char* DEBUG_MOUSE_SUFFIX = ")";
 
+  constexpr const char* PROFILE_LOD = "lod_before";
+
   constexpr const char* SEED = "_seed_";
   constexpr const char* ENTITY = "entity";
 }

@@ -93,7 +93,8 @@ namespace Project::Components {
         if (dist2 <= lodLevels[i].distance2) { newLOD = i; break; }
       }
       if (newLOD != activeLOD) {
-
+        std::size_t before = getTextureMemory(texture);
+        Project::Utilities::Profiler::getInstance().setMemoryUsage(Constants::PROFILE_LOD, before);
       }
     }
 

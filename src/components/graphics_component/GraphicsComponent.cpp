@@ -95,6 +95,11 @@ namespace Project::Components {
       if (newLOD != activeLOD) {
         std::size_t before = getTextureMemory(texture);
         Project::Utilities::Profiler::getInstance().setMemoryUsage(Constants::PROFILE_LOD, before);
+        if (resourcesHandler) {
+          setTexture(*resourcesHandler, lodLevels[newLOD].assetPath);
+        }
+        activeLOD = newLOD;
+        lodSwapPending = true;
       }
     }
 

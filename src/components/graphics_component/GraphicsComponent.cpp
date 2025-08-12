@@ -78,6 +78,10 @@ namespace Project::Components {
       const float dx = cx - camX;
       const float dy = cy - camY;
       const float dist2 = dx * dx + dy * dy;
+      int newLOD = static_cast<int>(lodLevels.size()) - 1;
+      for (int i = 0; i < static_cast<int>(lodLevels.size()); ++i) {
+        if (dist2 <= lodLevels[i].distance2) { newLOD = i; break; }
+      }
     }
 
     if (animationHandler && animationHandler->isAnimationActive()) {

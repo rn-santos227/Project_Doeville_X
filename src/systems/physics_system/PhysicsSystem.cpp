@@ -149,11 +149,22 @@ namespace Project::Systems {
     auto end = std::chrono::high_resolution_clock::now();
     metrics.lastBroadPhaseMs = std::chrono::duration<float, std::milli>(end - start).count();
 
-    for (auto* comp : components) {
-      if (comp && comp->isActive()) {
-        comp->update(deltaTime);
-      }
+    auto& pool = Project::Utilities::ThreadPool::getInstance();
+    const size_t chunk = Constants::SZT_32;
+    const size_t total = components.size();
+    for (size_t i = 0; i < total; i += chunk) {
+      size_t begin = i;
+      size_t end = std::min(i + chunk, total);
+      pool.enqueue([this, begin, end, deltaTime]() {
+        for (size_t j = begin; j < end; ++j) {
+          auto* comp = components[j];
+          if (comp && comp->isActive()) {
+            comp->update(deltaTime);
+          }
+        }
+      });
     }
+    pool.wait();
   }
 
   void Project::Systems::PhysicsSystem::clear() {

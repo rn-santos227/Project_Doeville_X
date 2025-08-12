@@ -117,14 +117,17 @@ namespace Project::Components {
 
     mutable std::vector<SDL_Vertex> shapeVertices;
     std::future<SDL_Texture*> textureFuture;
+    std::vector<LODLevel> lodLevels;
     
     mutable float lastCachedRotation = std::numeric_limits<float>::quiet_NaN();
     mutable float cachedCos = Project::Libraries::Constants::DEFAULT_WHOLE;
     mutable float cachedSin = 0.0f;
 
     mutable int lastVisibilityFrame = -1;
+    int activeLOD = -1;
 
     mutable bool lastVisibilityResult = false;
+    bool lodSwapPending = false;
     bool occluder = false;
 
     SDL_Rect getRenderRect() const;

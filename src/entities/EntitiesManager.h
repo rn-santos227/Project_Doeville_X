@@ -19,6 +19,7 @@
 #include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "libraries/constants/Constants.h"
+#include "systems/behavior_system/BehaviorSystem.h"
 #include "systems/motion_system/MotionSystem.h"
 #include "systems/physics_system/PhysicsSystem.h"
 #include "systems/render_system/RenderSystem.h"
@@ -70,6 +71,7 @@ namespace Project::Entities {
       void render();
       void reset();
 
+      Project::Systems::BehaviorSystem& getBehaviorSystem() { return behaviorSystem; }
       Project::Systems::MotionSystem& getMotionSystem() { return motionSystem; }
       Project::Systems::PhysicsSystem& getPhysicsSystem() { return physicsSystem; }
       Project::Systems::RenderSystem& getRenderSystem() { return renderSystem; }
@@ -119,6 +121,7 @@ namespace Project::Entities {
         }
       };
 
+      Project::Systems::BehaviorSystem behaviorSystem;
       Project::Systems::MotionSystem motionSystem;
       Project::Systems::PhysicsSystem physicsSystem;
       Project::Systems::RenderSystem renderSystem;

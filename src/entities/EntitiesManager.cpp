@@ -40,6 +40,7 @@ namespace Project::Entities {
     updateLow.reserve(Constants::MAX_MEMORY_SPACE);
     updateToRemove.reserve(Constants::MAX_MEMORY_SPACE);
 
+    scheduler.addSystem(Components::BEHAVIOR, &behaviorSystem);
     scheduler.addSystem(Components::MOTION, &motionSystem);
     scheduler.addSystem(Components::PHYSICS, &physicsSystem, {Components::MOTION});
     scheduler.addSystem(Components::RENDER, &renderSystem, {Components::PHYSICS});
@@ -372,6 +373,7 @@ namespace Project::Entities {
     physicsSystem.clear();
     renderSystem.clear();
     scheduler.clear();
+    scheduler.addSystem(Components::BEHAVIOR, &behaviorSystem);
     scheduler.addSystem(Components::MOTION, &motionSystem);
     scheduler.addSystem(Components::PHYSICS, &physicsSystem, {Components::MOTION});
     scheduler.addSystem(Components::RENDER, &renderSystem, {Components::PHYSICS});

@@ -6,6 +6,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* SUFFIX = "component";
     constexpr const char* RENDER = "render";
 
+    constexpr const char* BEHAVIOR = "behavior";
     constexpr const char* BOUNDING_BOX = "boundingbox";
     constexpr const char* BUTTON = "button";
     constexpr const char* CAMERA = "camera";
@@ -25,6 +26,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* TRANSFORM = "transform";
     constexpr const char* UNKNOWN = "unknown";
 
+    constexpr const char* BEHAVIOR_COMPONENT = "BehaviorComponent";    
     constexpr const char* BOUNDING_BOX_COMPONENT = "BoundingBoxComponent";
     constexpr const char* BUTTON_COMPONENT = "ButtonComponent";
     constexpr const char* CAMERA_COMPONENT = "CameraComponent";

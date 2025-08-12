@@ -127,28 +127,66 @@ namespace Project::Components {
     const bool rotation = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     
     const SDL_Color color = ColorUtils::hexToRGB(colorHex, alpha);
-    if (!assetName.empty()) {
-      auto* baseAsset = assetsManager.getAsset(assetName);
-      if (auto* textureAsset = dynamic_cast<Project::Assets::TextureAsset*>(baseAsset)) {
-        texture = textureAsset->getTexture();
-        SDL_SetTextureBlendMode(texture, data.blendMode);
-        data.destRect.w = textureAsset->getWidth();
-        data.destRect.h = textureAsset->getHeight();
-        data.drawShape = false;
-        data.assetName = assetName;
+    lua_State* L = luaStateWrapper.get();
+    lua_getglobal(L, tableName.c_str());
+    if (lua_istable(L, -1)) {
+      lua_getfield(L, -1, Keys::LODS);
+      if (lua_istable(L, -1)) {
+        lua_pushnil(L);
+        while (lua_next(L, -2)) {
+          if (lua_istable(L, -1)) {
+            std::string path;
+            float dist = 0.0f;
+            lua_getfield(L, -1, Keys::ASSET_PATH);
+            if (lua_isstring(L, -1)) path = lua_tostring(L, -1);
+            lua_pop(L, 1);
+            lua_getfield(L, -1, Keys::DISTANCE);
+            if (lua_isnumber(L, -1)) dist = static_cast<float>(lua_tonumber(L, -1));
+            lua_pop(L, 1);
+            if (!path.empty()) {
+              lodLevels.push_back({path, dist * dist});
+            }
+          }
+          lua_pop(L, 1);
+        }
+        lua_pop(L, 1);
+        std::sort(lodLevels.begin(), lodLevels.end(), [](const LODLevel& a, const LODLevel& b){ return a.distance2 < b.distance2; });
+        if (!lodLevels.empty() && resourcesHandler) {
+          setTexture(*resourcesHandler, lodLevels.front().assetPath);
+          activeLOD = 0;
+        }
       } else {
-        logsManager.logError("Asset not found or not a texture: " + assetName + ", using shape instead");
+        lua_pop(L, 1);
+      }
+      lua_pop(L, 1);
+    } else {
+      lua_pop(L, 1);
+    }
+
+    if (lodLevels.empty()) {
+      if (!assetName.empty()) {
+        auto* baseAsset = assetsManager.getAsset(assetName);
+        if (auto* textureAsset = dynamic_cast<Project::Assets::TextureAsset*>(baseAsset)) {
+          texture = textureAsset->getTexture();
+          SDL_SetTextureBlendMode(texture, data.blendMode);
+          data.destRect.w = textureAsset->getWidth();
+          data.destRect.h = textureAsset->getHeight();
+          data.drawShape = false;
+          data.assetName = assetName;
+        } else {
+          logsManager.logError("Asset not found or not a texture: " + assetName + ", using shape instead");
+          if (radius > 0) {
+            setCircle(radius, color);
+          } else {
+            setShape(width, height, color);
+          }
+        }
+      } else {
         if (radius > 0) {
           setCircle(radius, color);
         } else {
           setShape(width, height, color);
         }
-      }
-    } else {
-      if (radius > 0) {
-        setCircle(radius, color);
-      } else {
-        setShape(width, height, color);
       }
     }
 

@@ -2,10 +2,12 @@
 #include "EntityAttribute.h"
 
 #include <algorithm>
-#include <exception>
+#include <cstdint>
 #include <bitset>
+#include <exception>
 #include <fstream>
 #include <sstream>
+#include <string>
 
 #include <SDL.h>
 
@@ -22,9 +24,11 @@
 #include "libraries/keys/Keys.h"
 #include "states/GameState.h"
 #include "utilities/binary_cache/BinaryFileCache.h"
+#include "utilities/profiler/CacheProfiler.h"
 #include "utilities/thread/ThreadPool.h"
 
 namespace Project::Entities {
+  using Project::Utilities::LogsManager;
   using Project::Helpers::ObjectsManager;
 
   namespace Components = Project::Libraries::Categories::Components;
@@ -113,8 +117,18 @@ namespace Project::Entities {
       }
 
       size_t key = mask.to_ullong();
-      archetypeMap[key].push_back(entRef.get());
-      entityArchetypes[finalId] = key;
+      size_t archIndex;
+      auto lookup = archetypeLookup.find(key);
+      if (lookup == archetypeLookup.end()) {
+        archIndex = archetypes.size();
+        archetypes.emplace_back();
+        archetypeKeys.push_back(key);
+        archetypeLookup[key] = archIndex;
+      } else {
+        archIndex = lookup->second;
+      }
+      archetypes[archIndex].add(entRef.get());
+      entityArchetypes[finalId] = archIndex;
     }
 
     std::string group = objects[finalId]->getGroup();
@@ -184,10 +198,24 @@ namespace Project::Entities {
 
     auto archIt = entityArchetypes.find(id);
     if (archIt != entityArchetypes.end()) {
-      size_t key = archIt->second;
-      auto& vec = archetypeMap[key];
-      vec.erase(std::remove(vec.begin(), vec.end(), entRaw), vec.end());
-      if (vec.empty()) archetypeMap.erase(key);
+      size_t idx = archIt->second;
+      archetypes[idx].remove(entRaw);
+      if (archetypes[idx].entities.empty()) {
+        size_t last = archetypes.size() - 1;
+        size_t key = archetypeKeys[idx];
+        if (idx != last) {
+          archetypes[idx] = std::move(archetypes[last]);
+          size_t movedKey = archetypeKeys[last];
+          archetypeKeys[idx] = movedKey;
+          archetypeLookup[movedKey] = idx;
+          for (auto* e : archetypes[idx].entities) {
+            if (e) entityArchetypes[e->getEntityID()] = idx;
+          }
+        }
+        archetypes.pop_back();
+        archetypeLookup.erase(key);
+        archetypeKeys.pop_back();
+      }
       entityArchetypes.erase(archIt);
     }
   }
@@ -223,6 +251,10 @@ namespace Project::Entities {
     renderSystem.clear();
     disposableSeenInCamera.clear();
     componentArrays.clear();
+    archetypes.clear();
+    archetypeLookup.clear();
+    archetypeKeys.clear();
+    entityArchetypes.clear();
   }
 
   void EntitiesManager::optimizeEntities() {
@@ -252,6 +284,8 @@ namespace Project::Entities {
   }
 
   void EntitiesManager::update(float deltaTime) {
+    Project::Utilities::CacheProfiler cacheProfiler;
+    cacheProfiler.start();
     std::vector<std::string> pendingRemove;
     {
       updateHighCount = 0;
@@ -406,9 +440,9 @@ namespace Project::Entities {
     std::bitset<Constants::BIT_64> mask;
     for (auto type : types) mask.set(static_cast<size_t>(type));
     size_t key = mask.to_ullong();
-    auto it = archetypeMap.find(key);
-    if (it != archetypeMap.end()) {
-      return it->second;
+    auto it = archetypeLookup.find(key);
+    if (it != archetypeLookup.end()) {
+      return archetypes[it->second].entities;
     }
     std::unordered_map<Entity*, size_t> counts;
     for (auto type : types) {

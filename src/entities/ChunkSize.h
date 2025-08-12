@@ -14,4 +14,3 @@ namespace Project::Entities {
 }
 
 #endif
-

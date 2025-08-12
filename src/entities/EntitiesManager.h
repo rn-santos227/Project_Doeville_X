@@ -121,6 +121,29 @@ namespace Project::Entities {
         }
       };
 
+      struct Archetype {
+        std::vector<Entity*> entities;
+        bool reserved = false;
+        void reserve(size_t cap) {
+          if (!reserved) {
+            entities.reserve(cap);
+            reserved = true;
+          }
+        }
+
+        void add(Entity* ent) { entities.push_back(ent); }
+
+        void remove(Entity* ent) {
+          for (size_t i = 0; i < entities.size(); ++i) {
+            if (entities[i] == ent) {
+              entities[i] = entities.back();
+              entities.pop_back();
+              break;
+            }
+          }
+        }
+      };
+
       Project::Systems::BehaviorSystem behaviorSystem;
       Project::Systems::MotionSystem motionSystem;
       Project::Systems::PhysicsSystem physicsSystem;
@@ -137,7 +160,9 @@ namespace Project::Entities {
       std::unordered_map<std::string, size_t> entityIndices;
       std::unordered_map<std::string, size_t> entityArchetypes;
       std::unordered_map<std::string, int> idCounters;
-      std::unordered_map<size_t, std::vector<Entity*>> archetypeMap;
+      std::vector<Archetype> archetypes;
+      std::vector<size_t> archetypeKeys;
+      std::unordered_map<size_t, size_t> archetypeLookup;
       std::unordered_set<std::string> disposableSeenInCamera;
       
       std::vector<std::shared_ptr<Entity>> entityList;

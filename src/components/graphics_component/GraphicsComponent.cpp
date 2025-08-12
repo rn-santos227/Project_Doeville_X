@@ -73,6 +73,8 @@ namespace Project::Components {
     if (!lodLevels.empty() && cameraHandler) {
       const float camX = cameraHandler->getX();
       const float camY = cameraHandler->getY();
+      const float cx = data.destRect.x + data.destRect.w * Constants::DEFAULT_HALF;
+      const float cy = data.destRect.y + data.destRect.h * Constants::DEFAULT_HALF;
     }
 
     if (animationHandler && animationHandler->isAnimationActive()) {

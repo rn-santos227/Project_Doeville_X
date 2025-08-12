@@ -2,8 +2,10 @@
 #define PROFILER_H
 
 #include <chrono>
+#include <cstddef>
 #include <string>
 #include <unordered_map>
+
 
 namespace Project::Utilities {
   class Profiler {
@@ -13,13 +15,16 @@ namespace Project::Utilities {
     void beginFrame();
     void addTime(const std::string& name, double ms);
     void incrementDrawCalls(int count = 1);
+    void setMemoryUsage(const std::string& name, std::size_t bytes);
 
     double getTime(const std::string& name) const;
     int getDrawCalls() const;
     const std::unordered_map<std::string, double>& getTimes() const;
+    std::size_t getMemoryUsage(const std::string& name) const;
 
   private:
     std::unordered_map<std::string, double> times;
+    std::unordered_map<std::string, std::size_t> memory;
     int drawCalls = 0;
   };
 

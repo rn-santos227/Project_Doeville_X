@@ -28,13 +28,16 @@ namespace Project::Utilities {
     Project::Utilities::LogsManager* logger;
 
     std::vector<std::thread> workers;
-    LockFreeQueue<std::function<void()>> tasks;
+    std::vector<LockFreeQueue<std::function<void()>>> taskQueues;
     std::condition_variable cv;
     std::mutex cvMutex;
-    std::atomic<bool> stop;
     std::atomic<size_t> active;
+    std::atomic<size_t> pending;
+    std::atomic<size_t> nextQueue;
+    std::atomic<size_t> contention;
+    std::atomic<bool> stop;
 
-    void worker();
+    void worker(size_t index);
   };
 }
 

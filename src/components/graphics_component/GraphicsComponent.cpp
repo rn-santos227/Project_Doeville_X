@@ -1,5 +1,6 @@
 #include "GraphicsComponent.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <future>
@@ -14,6 +15,7 @@
 #include "services/styling/StyleManager.h"
 #include "utilities/color/ColorUtils.h"
 #include "utilities/geometry/GeometryUtils.h"
+#include "utilities/profiler/Profiler.h"
 
 namespace Project::Components {
   Project::Handlers::CameraHandler* GraphicsComponent::cameraHandler = nullptr;
@@ -66,6 +68,11 @@ namespace Project::Components {
   void GraphicsComponent::update(float deltaTime) {
     if (!texture && textureFuture.valid()) {
       checkAsyncTextureLoad();
+    }
+
+    if (!lodLevels.empty() && cameraHandler) {
+      const float camX = cameraHandler->getX();
+      const float camY = cameraHandler->getY();
     }
 
     if (animationHandler && animationHandler->isAnimationActive()) {

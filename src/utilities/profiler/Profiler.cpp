@@ -19,6 +19,10 @@ namespace Project::Utilities {
     drawCalls += count;
   }
 
+  void Profiler::setMemoryUsage(const std::string& name, std::size_t bytes) {
+    memory[name] = bytes;
+  }
+
   double Profiler::getTime(const std::string& name) const {
     auto it = times.find(name);
     return it != times.end() ? it->second : 0.0;

@@ -62,6 +62,9 @@ namespace Project::Components {
     if (!tex) return 0u;
     Uint32 format;
     int access, w, h;
+    if (SDL_QueryTexture(tex, &format, &access, &w, &h) != 0) return 0u;
+    int bpp = SDL_BYTESPERPIXEL(format);
+    return static_cast<std::size_t>(w) * static_cast<std::size_t>(h) * static_cast<std::size_t>(bpp);
   }
 
   void GraphicsComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {

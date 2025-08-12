@@ -1,6 +1,5 @@
 #include "SystemScheduler.h"
 
-#include <future>
 #include <queue>
 
 #include "utilities/thread/ThreadPool.h"
@@ -54,19 +53,11 @@ namespace Project::Systems {
     auto& pool = Project::Utilities::ThreadPool::getInstance();
     
     for (auto& layer : layers) {
-      std::vector<std::future<void>> futures;
-      futures.reserve(layer.size());
-      
       for (auto* sys : layer) {
         if (!sys) continue;
-        futures.emplace_back(std::async(std::launch::async, [sys, deltaTime]() {
-          sys->update(deltaTime);
-        }));
+        pool.enqueue([sys, deltaTime]() { sys->update(deltaTime); });
       }
-      
-      for (auto& future : futures) {
-        future.wait();
-      }
+      pool.wait();
     }
   }
 }

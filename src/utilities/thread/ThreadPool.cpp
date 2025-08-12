@@ -39,7 +39,8 @@ namespace Project::Utilities {
     size_t index = nextQueue.fetch_add(1, std::memory_order_relaxed) % taskQueues.size();
     taskQueues[index].push(std::move(job));
     pending.fetch_add(1, std::memory_order_release);
-    cv.notify_one();
+    std::lock_guard<std::mutex> lock(cvMutex);
+    cv.notify_all();
   }
 
   void ThreadPool::wait() {
@@ -47,9 +48,6 @@ namespace Project::Utilities {
     cv.wait(lock, [this] {
       return pending.load(std::memory_order_acquire) == 0 && active.load(std::memory_order_acquire) == 0;
     });
-    if (logger) {
-      logger->logMessage("ThreadPool: contention " + std::to_string(contention.load()));
-    }
     contention.store(0, std::memory_order_release);
   }
 

@@ -40,6 +40,8 @@ namespace Project::Utilities {
   }
 
   std::size_t MemoryBudgetTracker::getUsage(MemorySystem system) const {
-
+    auto it = usage.find(system);
+    if (it != usage.end()) return it->second;
+    return 0;
   }
 }

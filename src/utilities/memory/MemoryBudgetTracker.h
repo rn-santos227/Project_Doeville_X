@@ -14,6 +14,12 @@ namespace Project::Utilities {
   public:
     explicit MemoryBudgetTracker(LogsManager& logs);
 
+    void setBudget(MemorySystem system, std::size_t bytes);
+    bool allocate(MemorySystem system, std::size_t bytes);
+    void release(MemorySystem system, std::size_t bytes);
+    std::size_t getUsage(MemorySystem system) const;
+
+
   private:
     LogsManager& logsManager;
     std::unordered_map<MemorySystem, std::size_t> budgets;

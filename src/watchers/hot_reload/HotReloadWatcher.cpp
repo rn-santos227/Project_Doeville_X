@@ -31,6 +31,21 @@ namespace Project::Watchers {
   }
 
   void HotReloadWatcher::threadFunc() {
-
+    using namespace std::chrono_literals;
+    while (running) {
+      {
+        std::lock_guard<std::mutex> lock(watchMutex);
+        for (auto& w : watches) {
+          if (!std::filesystem::exists(w.path)) continue;
+          auto current = std::filesystem::last_write_time(w.path);
+          if (w.lastWrite != current) {
+            w.lastWrite = current;
+            logsManager.logMessage("Hot reloading " + w.path);
+            if (w.callback) w.callback();
+          }
+        }
+      }
+      std::this_thread::sleep_for(1s);
+    }
   }
 }

@@ -136,6 +136,13 @@ namespace Project::Entities {
       entityGroups[group].push_back(finalId);
     }
 
+    if (gameState) {
+      const SDL_Rect& rect = gameState->getMapRect();
+      if (rect.w > 0 && rect.h > 0) {
+        clampEntitiesToRect(rect);
+      }
+    }
+
     return finalId;
   }
 
@@ -715,20 +722,26 @@ namespace Project::Entities {
   }
 
   std::pair<float, float> EntitiesManager::getEntitySize(const std::shared_ptr<Entity>& entity) const {
-    float w = 0.0f, h = 0.0f;
+    float gfxW = 0.0f, gfxH = 0.0f;
+    float boxW = 0.0f, boxH = 0.0f;
 
     if (auto* gfx = entity->getGraphicsComponent()) {
-      w = static_cast<float>(gfx->getWidth());
-      h = static_cast<float>(gfx->getHeight());
-    } else if (auto* bbox = entity->getBoundingBoxComponent()) {
+      gfxW = static_cast<float>(gfx->getWidth());
+      gfxH = static_cast<float>(gfx->getHeight());
+    }
+
+    if (auto* bbox = entity->getBoundingBoxComponent()) {
       const auto& boxes = bbox->getBoxes();
       if (!boxes.empty()) {
-        w = static_cast<float>(boxes.front().w);
-        h = static_cast<float>(boxes.front().h);
+        boxW = static_cast<float>(boxes.front().w);
+        boxH = static_cast<float>(boxes.front().h);
       }
     }
 
-    return { w, h };
+    float maxW = std::max(gfxW, boxW);
+    float maxH = std::max(gfxH, boxH);
+
+    return { maxW, maxH };
   }
 
   bool EntitiesManager::isEntityInCamera(const std::shared_ptr<Entity>& entity) const {

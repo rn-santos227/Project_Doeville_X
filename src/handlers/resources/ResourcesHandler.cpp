@@ -1,28 +1,41 @@
 #include "ResourcesHandler.h"
-#include "AsyncResourceLoader.h"
 
 #include "helpers/resource_cleaner/ResourceCleaner.h"
 #include "libraries/constants/Constants.h"
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
+  using Project::Utilities::MemorySystem;
   using Project::Helpers::ResourceCleaner;
 
   namespace Constants = Project::Libraries::Constants;
 
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
-    : logsManager(logsManager), asyncLoader(logsManager) {
-      workerThread = std::thread(&ResourcesHandler::workerLoop, this);
-    }
+  : logsManager(logsManager),
+    memoryTracker(logsManager),
+    backgroundLoader(logsManager, memoryTracker),
+    hotReload(logsManager) {
+    memoryTracker.setBudget(
+      MemorySystem::Textures, 
+      Constants::ALLOC_256 * Constants::ALLOC_1024 * Constants::ALLOC_1024
+    );
+    
+    memoryTracker.setBudget(
+      MemorySystem::Meshes, 
+      Constants::ALLOC_128 * Constants::ALLOC_1024 * Constants::ALLOC_1024
+    );
+    
+    memoryTracker.setBudget(
+      MemorySystem::Audio, 
+      Constants::ALLOC_64 * Constants::ALLOC_1024 * Constants::ALLOC_1024
+    );
+  }
 
   ResourcesHandler::~ResourcesHandler() {
     cleanup();
   }
 
   void ResourcesHandler::cleanup() {
-    stopWorker();
-    asyncLoader.stop();
-
     {
       std::lock_guard<std::mutex> lock(textureCacheMutex);
       ResourceCleaner::cleanupMap(textureCache, [](SDL_Texture* texture) {
@@ -78,8 +91,9 @@ namespace Project::Handlers {
       }
     }
 
-    SDL_Surface* surface = IMG_Load(imagePath.c_str());
-    if (logsManager.checkAndLogError(!surface, "Failed to load image: " + imagePath + " - " + IMG_GetError())) {
+    auto future = backgroundLoader.streamTexture(renderer, imagePath);
+    SDL_Texture* texture = future.get();
+    if (!texture) {
       SDL_Texture* fallback = getFallbackTexture(renderer);
       {
         std::lock_guard<std::mutex> lock(textureCacheMutex);
@@ -88,19 +102,9 @@ namespace Project::Handlers {
       return fallback;
     }
 
-    int texW = surface ? surface->w : 0;
-    int texH = surface ? surface->h : 0;
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    if (logsManager.checkAndLogError(!texture, "Failed to create texture from image: " + imagePath + " - " + SDL_GetError())) {
-      SDL_Texture* fallback = getFallbackTexture(renderer);
-      {
-        std::lock_guard<std::mutex> lock(textureCacheMutex);
-        textureCache[imagePath] = fallback;
-      }
-      return fallback;
-    }
+    int texW = 0;
+    int texH = 0;
+    SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH);
 
     SDL_Texture* atlasTex = textureAtlas.addTexture(renderer, texture, texW, texH, imagePath);
     SDL_DestroyTexture(texture);
@@ -108,6 +112,17 @@ namespace Project::Handlers {
       std::lock_guard<std::mutex> lock(textureCacheMutex);
       textureCache[imagePath] = atlasTex;
     }
+    hotReload.watchFile(imagePath, [this, renderer, imagePath]() {
+      auto fut = backgroundLoader.streamTexture(renderer, imagePath);
+      SDL_Texture* tex = fut.get();
+      if (!tex) return;
+      int w = 0, h = 0;
+      SDL_QueryTexture(tex, nullptr, nullptr, &w, &h);
+      SDL_Texture* atlas = textureAtlas.addTexture(renderer, tex, w, h, imagePath);
+      SDL_DestroyTexture(tex);
+      std::lock_guard<std::mutex> lock(textureCacheMutex);
+      textureCache[imagePath] = atlas;
+    });
     return atlasTex;
   }
 
@@ -122,23 +137,36 @@ namespace Project::Handlers {
       }
     }
 
-    TextureTask task;
-    task.renderer = renderer;
-    task.path = imagePath;
-    std::future<SDL_Texture*> fut = task.promise.get_future();
-
-    {
-      std::lock_guard<std::mutex> lock(tasksMutex);
-      if (textureTasks.size() >= Constants::TEXTURE_TASK_QUEUE_MAX_SIZE) {
-        logsManager.logWarning("Texture task queue full, dropping task: " + imagePath);
+    auto future = backgroundLoader.streamTexture(renderer, imagePath);
+    return std::async(std::launch::async, [this, renderer, imagePath, fut = std::move(future)]() mutable {
+      SDL_Texture* texture = fut.get();
+      if (!texture) {
         SDL_Texture* fallback = getFallbackTexture(renderer);
-        task.promise.set_value(fallback);
-        return fut;
+        std::lock_guard<std::mutex> lock(textureCacheMutex);
+        textureCache[imagePath] = fallback;
+        return fallback;
       }
-      textureTasks.push(std::move(task));
-    }
-    tasksCv.notify_one();
-    return fut;
+      int texW = 0, texH = 0;
+      SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH);
+      SDL_Texture* atlasTex = textureAtlas.addTexture(renderer, texture, texW, texH, imagePath);
+      SDL_DestroyTexture(texture);
+      {
+        std::lock_guard<std::mutex> lock(textureCacheMutex);
+        textureCache[imagePath] = atlasTex;
+      }
+      hotReload.watchFile(imagePath, [this, renderer, imagePath]() {
+        auto reloadFuture = backgroundLoader.streamTexture(renderer, imagePath);
+        SDL_Texture* tex = reloadFuture.get();
+        if (!tex) return;
+        int w = 0, h = 0;
+        SDL_QueryTexture(tex, nullptr, nullptr, &w, &h);
+        SDL_Texture* atlas = textureAtlas.addTexture(renderer, tex, w, h, imagePath);
+        SDL_DestroyTexture(tex);
+        std::lock_guard<std::mutex> lock(textureCacheMutex);
+        textureCache[imagePath] = atlas;
+      });
+      return atlasTex;
+    });
   }
 
   SDL_Texture* ResourcesHandler::cropImage(SDL_Renderer* renderer, const std::string& imagePath, SDL_Rect cropRect) {
@@ -197,61 +225,16 @@ namespace Project::Handlers {
     return frames;
   }
 
-  void ResourcesHandler::stopWorker() {
-    running = false;
-    tasksCv.notify_all();
-    if (workerThread.joinable()) {
-      workerThread.join();
-    }
+  SDL_Rect ResourcesHandler::getTextureRegion(SDL_Renderer* renderer, const std::string& imagePath) {
+    return textureAtlas.getRegion(renderer, imagePath);
   }
 
-  void ResourcesHandler::workerLoop() {
-    while (running) {
-      TextureTask task;
-      {
-        std::unique_lock<std::mutex> lock(tasksMutex);
-        tasksCv.wait(lock, [this] { return !textureTasks.empty() || !running; });
-        if (!running && textureTasks.empty()) {
-          return;
-        }
-        task = std::move(textureTasks.front());
-        textureTasks.pop();
-      }
+  std::future<MeshData> ResourcesHandler::loadMeshAsync(const std::string& path) {
+    return backgroundLoader.streamMesh(path);
+  }
 
-      auto surfaceFuture = asyncLoader.loadSurface(task.path);
-      SDL_Surface* surface = surfaceFuture.get();
-      if (logsManager.checkAndLogError(!surface, "Failed to load image asynchronously: " + task.path + " - " + IMG_GetError())) {
-        SDL_Texture* fallback = getFallbackTexture(task.renderer);
-        {
-          std::lock_guard<std::mutex> lock(textureCacheMutex);
-          textureCache[task.path] = fallback;
-        }
-        task.promise.set_value(fallback);
-        continue;
-      }
-
-      SDL_Texture* texture = SDL_CreateTextureFromSurface(task.renderer, surface);
-      SDL_FreeSurface(surface);
-      if (logsManager.checkAndLogError(!texture, "Failed to create texture from image asynchronously: " + task.path + " - " + SDL_GetError())) {
-        SDL_Texture* fallback = getFallbackTexture(task.renderer);
-        {
-          std::lock_guard<std::mutex> lock(textureCacheMutex);
-          textureCache[task.path] = fallback;
-        }
-        task.promise.set_value(fallback);
-        continue;
-      }
-
-      int texW = surface ? surface->w : 0;
-      int texH = surface ? surface->h : 0;
-      SDL_Texture* atlasTex = textureAtlas.addTexture(task.renderer, texture, texW, texH, task.path);
-      SDL_DestroyTexture(texture);
-      {
-        std::lock_guard<std::mutex> lock(textureCacheMutex);
-        textureCache[task.path] = atlasTex;
-      }
-      task.promise.set_value(atlasTex);
-    }
+  std::future<AudioData> ResourcesHandler::loadAudioAsync(const std::string& path) {
+    return backgroundLoader.streamAudio(path);
   }
 
   SDL_Texture* ResourcesHandler::getFallbackTexture(SDL_Renderer* renderer) {
@@ -286,10 +269,6 @@ namespace Project::Handlers {
 
     fallbackTextures[renderer] = texture;
     return texture;
-  }
-
-  SDL_Rect ResourcesHandler::getTextureRegion(SDL_Renderer* renderer, const std::string& imagePath) {
-    return textureAtlas.getRegion(renderer, imagePath);
   }
 
   std::string ResourcesHandler::getBasePath() {

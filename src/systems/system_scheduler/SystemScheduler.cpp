@@ -1,7 +1,6 @@
 #include "SystemScheduler.h"
 
 #include <queue>
-
 #include "utilities/thread/ThreadPool.h"
 
 namespace Project::Systems {

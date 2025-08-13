@@ -8,7 +8,11 @@
 #include "utilities/profiler/Profiler.h"
 
 namespace Project::Utilities {
-  
+  enum class MemorySystem {
+    Audio,
+    Textures,
+    Meshes
+  };
 }
 
 #endif

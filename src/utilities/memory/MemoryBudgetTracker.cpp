@@ -12,4 +12,8 @@ namespace Project::Utilities {
     usage[MemorySystem::Meshes] = 0;
     usage[MemorySystem::Audio] = 0;
   }
+
+  void MemoryBudgetTracker::setBudget(MemorySystem system, std::size_t bytes) {
+    budgets[system] = bytes;
+  }
 }

@@ -28,6 +28,10 @@ namespace Project::Utilities {
   }
 
   void MemoryBudgetTracker::release(MemorySystem system, std::size_t bytes) {
-
+    if (usage[system] >= bytes) {
+      usage[system] -= bytes;
+    } else {
+      usage[system] = 0;
+    }
   }
 }

@@ -8,5 +8,8 @@ namespace Project::Utilities {
     budgets[MemorySystem::Textures] = std::numeric_limits<std::size_t>::max();
     budgets[MemorySystem::Meshes] = std::numeric_limits<std::size_t>::max();
     budgets[MemorySystem::Audio] = std::numeric_limits<std::size_t>::max();
+    usage[MemorySystem::Textures] = 0;
+    usage[MemorySystem::Meshes] = 0;
+    usage[MemorySystem::Audio] = 0;
   }
 }

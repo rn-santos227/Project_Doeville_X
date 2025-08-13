@@ -6,6 +6,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* AUDIO = "audio";
     constexpr const char* MESHES = "meshes";
     constexpr const char* TEXTURE = "texture";
+    constexpr const char* UNKNOWN = "unknown";
   }
 }
 

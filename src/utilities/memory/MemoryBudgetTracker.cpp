@@ -44,4 +44,13 @@ namespace Project::Utilities {
     if (it != usage.end()) return it->second;
     return 0;
   }
+
+  const char* MemoryBudgetTracker::systemName(MemorySystem system) const {
+    switch (system) {
+      case MemorySystem::Textures: return MemorySystems::TEXTURE;
+      case MemorySystem::Meshes: return MemorySystems::MESHES;
+      case MemorySystem::Audio: return MemorySystems::AUDIO;
+    }
+    return MemorySystems::UNKNOWN;
+  }
 }

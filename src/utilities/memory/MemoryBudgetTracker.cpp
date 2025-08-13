@@ -5,6 +5,8 @@
 namespace Project::Utilities {
   MemoryBudgetTracker::MemoryBudgetTracker(LogsManager& logs)
   : logsManager(logs) {
-
+    budgets[MemorySystem::Textures] = std::numeric_limits<std::size_t>::max();
+    budgets[MemorySystem::Meshes] = std::numeric_limits<std::size_t>::max();
+    budgets[MemorySystem::Audio] = std::numeric_limits<std::size_t>::max();
   }
 }

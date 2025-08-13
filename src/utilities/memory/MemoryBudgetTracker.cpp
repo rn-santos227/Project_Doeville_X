@@ -33,5 +33,6 @@ namespace Project::Utilities {
     } else {
       usage[system] = 0;
     }
+    Profiler::getInstance().setMemoryUsage(systemName(system), usage[system]);
   }
 }

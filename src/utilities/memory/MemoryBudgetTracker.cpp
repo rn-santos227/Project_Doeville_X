@@ -2,7 +2,10 @@
 
 #include <limits>
 
+#include "libraries/categories/MemorySystemCategories.h"
+
 namespace Project::Utilities {
+  namespace MemorySystems = Project::Libraries::Categories::MemorySystems;
   MemoryBudgetTracker::MemoryBudgetTracker(LogsManager& logs)
   : logsManager(logs) {
     budgets[MemorySystem::Textures] = std::numeric_limits<std::size_t>::max();
@@ -34,5 +37,9 @@ namespace Project::Utilities {
       usage[system] = 0;
     }
     Profiler::getInstance().setMemoryUsage(systemName(system), usage[system]);
+  }
+
+  std::size_t MemoryBudgetTracker::getUsage(MemorySystem system) const {
+
   }
 }

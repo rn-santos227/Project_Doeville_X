@@ -4,8 +4,8 @@
 namespace Project::Utilities {
   enum class MemorySystem {
     Audio,
-    Textures,
-    Meshes
+    Meshes,
+    Textures
   };
 }
 

@@ -20,5 +20,10 @@ namespace Project::Utilities {
   bool MemoryBudgetTracker::allocate(MemorySystem system, std::size_t bytes) {
     usage[system] += bytes;
     Profiler::getInstance().setMemoryUsage(systemName(system), usage[system]);
+    if (usage[system] > budgets[system]) {
+      logsManager.logWarning(std::string("Memory budget exceeded for ") + systemName(system));
+      return false;
+    }
+    return true;
   }
 }

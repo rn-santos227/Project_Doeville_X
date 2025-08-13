@@ -26,4 +26,8 @@ namespace Project::Utilities {
     }
     return true;
   }
+
+  void MemoryBudgetTracker::release(MemorySystem system, std::size_t bytes) {
+
+  }
 }

@@ -16,4 +16,8 @@ namespace Project::Utilities {
   void MemoryBudgetTracker::setBudget(MemorySystem system, std::size_t bytes) {
     budgets[system] = bytes;
   }
+
+  bool MemoryBudgetTracker::allocate(MemorySystem system, std::size_t bytes) {
+    usage[system] += bytes;
+  }
 }

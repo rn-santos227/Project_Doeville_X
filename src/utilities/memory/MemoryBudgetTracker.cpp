@@ -19,5 +19,6 @@ namespace Project::Utilities {
 
   bool MemoryBudgetTracker::allocate(MemorySystem system, std::size_t bytes) {
     usage[system] += bytes;
+    Profiler::getInstance().setMemoryUsage(systemName(system), usage[system]);
   }
 }

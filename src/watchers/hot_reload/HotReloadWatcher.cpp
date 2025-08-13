@@ -24,7 +24,10 @@ namespace Project::Watchers {
   }
 
   void HotReloadWatcher::stop() {
-
+    if (running) {
+      running = false;
+      if (worker.joinable()) worker.join();
+    }
   }
 
   void HotReloadWatcher::threadFunc() {

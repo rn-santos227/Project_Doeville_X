@@ -7,6 +7,11 @@ namespace Project::Libraries::Constants {
   constexpr int ATLAS_WIDTH = 2048;
   constexpr int ATLAS_HEIGHT = 2048;
 
+  constexpr int ALLOC_64 = 64;
+  constexpr int ALLOC_128 = 128;
+  constexpr int ALLOC_256 = 256;
+  constexpr int ALLOC_1024 = 1024;
+
   constexpr int DEBUG_COLUMN_SPACING = 20;
   constexpr int DEBUG_FONT_SIZE = 14;
   constexpr int DEBUG_LINE_SPACING = 5;
@@ -29,6 +34,7 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_TEXT_MARGIN = 10;
   constexpr int DEFAULT_TEXT_HEIGHT_OFFSET = 5;
   constexpr int DEFAULT_RENDER_CELL_SIZE = 512;
+  constexpr int DEFAULT_MAX_DIM = 2048;
   
   constexpr int INT_ONE = 1;
   constexpr int INT_TEN = 10;

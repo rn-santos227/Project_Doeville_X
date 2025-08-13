@@ -15,7 +15,11 @@ namespace Project::Utilities {
     explicit MemoryBudgetTracker(LogsManager& logs);
 
   private:
-      
+    LogsManager& logsManager;
+    std::unordered_map<MemorySystem, std::size_t> budgets;
+    std::unordered_map<MemorySystem, std::size_t> usage;
+
+    const char* systemName(MemorySystem system) const;
 
   };
 }

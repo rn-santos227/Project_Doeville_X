@@ -124,6 +124,48 @@ namespace Project::Components {
     }
   }
 
+  void CameraComponent::snapToTarget() {
+    if (!cameraHandler) return;
+    Project::Entities::Entity* focus = target ? target : owner;
+    if (!focus) return;
+
+    auto* mgr = focus->getEntitiesManager();
+    bool clamp = false;
+    SDL_Rect map{0, 0, 0, 0};
+
+    if (mgr) {
+      auto* state = mgr->getGameState();
+      if (state) {
+        auto mode = state->getDimensionMode();
+        if (mode == Project::States::DimensionMode::BOXED ||
+            mode == Project::States::DimensionMode::WRAPPING) {
+          return;
+        }
+        if (mode == Project::States::DimensionMode::BOUNDED ||
+            mode == Project::States::DimensionMode::MAPPED) {
+          map = state->getMapRect();
+          clamp = map.w > 0 && map.h > 0;
+        }
+      }
+    }
+
+    float angle = data.rotation;
+    float offsetX = data.offsetX * std::cos(angle) - data.offsetY * std::sin(angle);
+    float offsetY = data.offsetX * std::sin(angle) + data.offsetY * std::cos(angle);
+
+    int camX = static_cast<int>(focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE -
+      cameraHandler->getWidth() / Constants::INDEX_TWO);
+    int camY = static_cast<int>(focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE -
+      cameraHandler->getHeight() / Constants::INDEX_TWO);
+
+    if (clamp) {
+      camX = std::clamp(camX, map.x, map.x + map.w - cameraHandler->getWidth());
+      camY = std::clamp(camY, map.y, map.y + map.h - cameraHandler->getHeight());
+    }
+
+    cameraHandler->setPosition(camX, camY);
+  }
+
   void CameraComponent::shake(float duration) {
     shakeTime = duration;
   }

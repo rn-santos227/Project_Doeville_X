@@ -24,6 +24,9 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void onAttach() override;
 
+    Project::Entities::Entity* getTarget() const { return target; }
+    void snapToTarget();
+
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; target = entity; }
     void setCameraHandler(Project::Handlers::CameraHandler* handler) { cameraHandler = handler; }
 

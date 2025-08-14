@@ -5,13 +5,16 @@
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/camera_component/CameraComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
+#include "components/motion_component/MotionComponent.h"
 #include "handlers/animation/AnimationHandler.h"
+#include "libraries/categories/ComponentCategories.h"
 #include "libraries/constants/NameConstants.h"
 #include "libraries/keys/LuaPropertyKeys.h"
 #include "entities/EntitiesManager.h"
 #include "states/GameState.h"
 
 namespace Project::Components {
+  namespace Components = Project::Libraries::Categories::Components;
   namespace Keys = Project::Libraries::Keys;
   PortalComponent::PortalComponent(Project::Utilities::LogsManager& logsManager)
   : BaseComponent(logsManager) {}
@@ -79,6 +82,46 @@ namespace Project::Components {
         beginTeleport(ent);
         break;
       }
+    }
+  }
+
+  void PortalComponent::beginTeleport(Project::Entities::Entity* entity) {
+    pendingEntity = entity;
+    teleportPending = true;
+    elapsed = 0.0f;
+    if (data.delay > 0.0f) {
+      if (auto* motion = dynamic_cast<MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT))) {
+        motion->setRawVelocity(0.0f, 0.0f);
+        motion->setActive(false);
+      }
+    }
+    if (data.delay <= 0.0f) {
+      teleport(pendingEntity);
+      teleportPending = false;
+      pendingEntity = nullptr;
+    }
+  }
+
+  void PortalComponent::teleport(Project::Entities::Entity* entity) {
+    if (!entity) return;
+    entity->setPosition(data.targetX, data.targetY);
+    if (auto* mgr = entity->getEntitiesManager()) {
+      if (auto* state = mgr->getGameState()) {
+        auto* cam = state->getActiveCamera();
+        if (cam && (cam->getOwner() == entity || cam->getTarget() == entity)) {
+          cam->snapToTarget();
+        }
+      }
+    }
+    if (!data.animation.empty()) {
+      if (auto* gfx = entity->getGraphicsComponent()) {
+        if (auto* handler = gfx->getAnimationHandler()) {
+          handler->playAnimation(data.animation);
+        }
+      }
+    }
+    if (auto* motion = dynamic_cast<MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT))) {
+      motion->setActive(true);
     }
   }
 }

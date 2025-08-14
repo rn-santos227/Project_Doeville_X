@@ -510,7 +510,8 @@ namespace Project::States {
     cropped.reserve(tiles.size());
 
     for (auto& tile : tiles) {
-
+        tile.dest.x += x;
+        tile.dest.y += y;
     }
 
     mapTiles.insert(mapTiles.end(), cropped.begin(), cropped.end());

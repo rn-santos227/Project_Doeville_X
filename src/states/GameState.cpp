@@ -524,6 +524,11 @@ namespace Project::States {
 
         int offsetX = clipX - tile.dest.x;
         int offsetY = clipY - tile.dest.y;
+
+        tile.dest.x = clipX;
+        tile.dest.y = clipY;
+        tile.dest.w = clipRight - clipX;
+        tile.dest.h = clipBottom - clipY;
       }
     }
 

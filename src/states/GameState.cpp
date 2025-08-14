@@ -496,6 +496,12 @@ namespace Project::States {
       getLogsManager().logError("MAPPED dimension allows only one map.");
       return;
     }
+
+    if (data.dimensionMode == DimensionMode::MAPPED) {
+      if (width > 0 && height > 0) {
+        setMapSize(width, height);
+      }
+    }
   }
 
   void GameState::ensureMapSize() {

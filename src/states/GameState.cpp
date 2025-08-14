@@ -508,6 +508,12 @@ namespace Project::States {
 
     std::vector<Project::Handlers::BuiltTile> cropped;
     cropped.reserve(tiles.size());
+
+    for (auto& tile : tiles) {
+
+    }
+
+    mapTiles.insert(mapTiles.end(), cropped.begin(), cropped.end());
   }
 
   void GameState::ensureMapSize() {

@@ -10,5 +10,6 @@
 #include "handlers/animation/AnimationHandler.h"
 
 namespace Project::Components {
-
+  PortalComponent::PortalComponent(Project::Utilities::LogsManager& logsManager)
+  : BaseComponent(logsManager) {}
 }

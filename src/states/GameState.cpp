@@ -502,6 +502,12 @@ namespace Project::States {
         setMapSize(width, height);
       }
     }
+
+    bool bounded = (data.dimensionMode == DimensionMode::BOUNDED && data.mapRect.w > 0 && data.mapRect.h > 0);
+    const SDL_Rect& bounds = data.mapRect;
+
+    std::vector<Project::Handlers::BuiltTile> cropped;
+    cropped.reserve(tiles.size());
   }
 
   void GameState::ensureMapSize() {

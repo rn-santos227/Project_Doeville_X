@@ -540,7 +540,7 @@ namespace Project::Bindings::LuaBindings {
 
     TileHandler builder(state->getRenderer(), state->getLogsManager(), *assetsManagerPtr);
     auto tiles = builder.buildMap(assetId);
-    state->setMapTiles(std::move(tiles));
+    state->setMapTiles(std::move(tiles), x, y, mapW, mapH);
 
     return 0;
   }

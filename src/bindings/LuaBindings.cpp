@@ -528,8 +528,15 @@ namespace Project::Bindings::LuaBindings {
     int top = lua_gettop(L);
     int x = 0;
     int y = 0;
-    if (top >= 2 && lua_isnumber(L, 2)) x = static_cast<int>(lua_tointeger(L, 2));
-    if (top >= 3 && lua_isnumber(L, 3)) y = static_cast<int>(lua_tointeger(L, 3));
+    if (top >= Constants::INDEX_TWO && lua_isnumber(L, Constants::INDEX_TWO)) x = static_cast<int>(lua_tointeger(L, Constants::INDEX_TWO));
+    if (top >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE)) y = static_cast<int>(lua_tointeger(L, Constants::INDEX_THREE));
+
+    int mapW = mapAsset->getWidth() * tileW;
+    int mapH = mapAsset->getHeight() * tileH;
+    if ((state->getMapRect().w == 0 && state->getMapRect().h == 0) ||
+        state->getDimensionMode() == Project::States::DimensionMode::MAPPED) {
+      state->setMapSize(mapW, mapH);
+    }
 
     TileHandler builder(state->getRenderer(), state->getLogsManager(), *assetsManagerPtr);
     auto tiles = builder.buildMap(assetId);

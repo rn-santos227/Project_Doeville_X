@@ -491,6 +491,10 @@ namespace Project::States {
     persistentFunctionCache.load();
   }
 
+  void GameState::setMapTiles(std::vector<Project::Handlers::BuiltTile>&& tiles, int x = 0, int y = 0, int width = 0, int height = 0) {
+    
+  }
+
   void GameState::ensureMapSize() {
     if (data.dimensionMode != DimensionMode::BOUNDED && data.dimensionMode != DimensionMode::MAPPED) return;
     if (data.mapRect.w > 0 && data.mapRect.h > 0) return;

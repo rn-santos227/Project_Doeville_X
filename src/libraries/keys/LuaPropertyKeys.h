@@ -8,6 +8,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ACTION = "action";
   constexpr const char* ACTIONS = "actions";
   constexpr const char* ALLOW_REVERT = "allow_revert";
+  constexpr const char* ANIMATION = "animation";
   constexpr const char* ASSET_NAME = "asset_name";
   constexpr const char* ASSET_PATH = "asset_path";
   constexpr const char* ATTRIBUTES = "attributes";
@@ -32,6 +33,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* DAMPING = "damping";
   constexpr const char* DEFAULT = "default";
   constexpr const char* DELTA_TIME = "deltaTime";
+  constexpr const char* DELAY = "delay";
   constexpr const char* DENSITY = "density";
   constexpr const char* DIMENSION = "dimension";
   constexpr const char* DISTANCE = "distance";
@@ -102,12 +104,17 @@ namespace Project::Libraries::Keys {
   constexpr const char* SURFACE = "surface";
   constexpr const char* TAG = "tag";
   constexpr const char* TARGET = "target";
+  constexpr const char* TARGET_X = "target_x";
+  constexpr const char* TARGET_Y = "target_y";
   constexpr const char* TEMPLATE = "template";
   constexpr const char* TEXT = "text";
   constexpr const char* TEXTURE = "texture";
   constexpr const char* TEXTURE_PATH = "texture_path";
   constexpr const char* TITLE = "title";
   constexpr const char* TIME = "time";
+  constexpr const char* TRIGGER_ON_ACTION = "trigger_on_action";
+  constexpr const char* TRIGGER_ON_INSIDE = "trigger_on_inside";
+  constexpr const char* TRIGGER_ON_TOUCH = "trigger_on_touch";
   constexpr const char* TYPE = "type";
   constexpr const char* UPDATE = "update";
   constexpr const char* USE_ACCELERATION = "use_acceleration";

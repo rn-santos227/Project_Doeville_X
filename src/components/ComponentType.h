@@ -16,6 +16,7 @@ namespace Project::Components {
     MOTION,
     NUMERIC,
     PHYSICS,
+    PORTAL,
     SPAWNER,
     TEXT,
     TIMER,

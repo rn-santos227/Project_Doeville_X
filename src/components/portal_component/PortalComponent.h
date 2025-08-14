@@ -14,6 +14,9 @@ namespace Project::Components {
     explicit PortalComponent(Project::Utilities::LogsManager& logsManager);
     ~PortalComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::PORTAL; }
+
   private:
     Project::Entities::Entity* owner = nullptr;
     PortalData data;

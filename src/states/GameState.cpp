@@ -492,7 +492,10 @@ namespace Project::States {
   }
 
   void GameState::setMapTiles(std::vector<Project::Handlers::BuiltTile>&& tiles, int x = 0, int y = 0, int width = 0, int height = 0) {
-    
+    if (data.dimensionMode == DimensionMode::MAPPED && !mapTiles.empty()) {
+      getLogsManager().logError("MAPPED dimension allows only one map.");
+      return;
+    }
   }
 
   void GameState::ensureMapSize() {

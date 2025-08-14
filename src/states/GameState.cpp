@@ -517,6 +517,10 @@ namespace Project::States {
         int clipY = std::max(tile.dest.y, bounds.y);
         int clipRight = std::min(tile.dest.x + tile.dest.w, bounds.x + bounds.w);
         int clipBottom = std::min(tile.dest.y + tile.dest.h, bounds.y + bounds.h);
+
+        if (clipX >= clipRight || clipY >= clipBottom) {
+          continue;
+        }
       }
     }
 

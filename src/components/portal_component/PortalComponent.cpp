@@ -3,18 +3,33 @@
 #include <SDL.h>
 
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "components/camera_component/CameraComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
+#include "handlers/animation/AnimationHandler.h"
+#include "libraries/keys/LuaPropertyKeys.h"
 #include "entities/EntitiesManager.h"
 #include "states/GameState.h"
-#include "components/camera_component/CameraComponent.h"
-#include "handlers/animation/AnimationHandler.h"
 
 namespace Project::Components {
+  namespace Keys = Project::Libraries::Keys;
   PortalComponent::PortalComponent(Project::Utilities::LogsManager& logsManager)
   : BaseComponent(logsManager) {}
 
   void PortalComponent::update(float deltaTime) {
     if (!isActive()) return;
+    
+    if (teleportPending) {
+      elapsed += deltaTime;
+      if (elapsed >= data.delay) {
+        teleport(pendingEntity);
+        teleportPending = false;
+        pendingEntity = nullptr;
+        elapsed = 0.0f;
+      }
+      return;
+    }
+
+    checkTriggers();
   }
 
   void PortalComponent::trigger(Project::Entities::Entity* entity) {

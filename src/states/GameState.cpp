@@ -510,8 +510,14 @@ namespace Project::States {
     cropped.reserve(tiles.size());
 
     for (auto& tile : tiles) {
-        tile.dest.x += x;
-        tile.dest.y += y;
+      tile.dest.x += x;
+      tile.dest.y += y;
+      if (bounded) {
+        int clipX = std::max(tile.dest.x, bounds.x);
+        int clipY = std::max(tile.dest.y, bounds.y);
+        int clipRight = std::min(tile.dest.x + tile.dest.w, bounds.x + bounds.w);
+        int clipBottom = std::min(tile.dest.y + tile.dest.h, bounds.y + bounds.h);
+      }
     }
 
     mapTiles.insert(mapTiles.end(), cropped.begin(), cropped.end());

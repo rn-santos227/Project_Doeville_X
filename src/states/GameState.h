@@ -137,6 +137,10 @@ namespace Project::States {
     size_t getEntityCount() const;
 
     void setMapTiles(std::vector<Project::Handlers::BuiltTile>&& tiles) { mapTiles = std::move(tiles); }
+    void setMapTiles(
+      std::vector<Project::Handlers::BuiltTile>&& tiles,
+      int x = 0, int y = 0, int width = 0, int height = 0
+    );
     const std::vector<Project::Handlers::BuiltTile>& getMapTiles() const { return mapTiles; }
 
   protected:

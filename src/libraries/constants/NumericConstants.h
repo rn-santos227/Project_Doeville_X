@@ -60,8 +60,8 @@ namespace Project::Libraries::Constants {
   constexpr size_t MAX_DATA_SIZE = 10 * 1024 * 1024;
 
   constexpr size_t DEFAULT_ENTITIES_PER_CHUNK = 32;
+  constexpr size_t DEFAULT_INITIAL_CAPACITY = 1000;
   constexpr size_t MAX_SEEDED_ENTITY = 1000;
-  
 }
 
 #endif

@@ -529,9 +529,14 @@ namespace Project::States {
         tile.dest.y = clipY;
         tile.dest.w = clipRight - clipX;
         tile.dest.h = clipBottom - clipY;
-      }
-    }
 
+        tile.src.x += offsetX;
+        tile.src.y += offsetY;
+        tile.src.w = tile.dest.w;
+        tile.src.h = tile.dest.h;
+      }
+      cropped.push_back(tile);
+    }
     mapTiles.insert(mapTiles.end(), cropped.begin(), cropped.end());
   }
 

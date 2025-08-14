@@ -12,4 +12,13 @@
 namespace Project::Components {
   PortalComponent::PortalComponent(Project::Utilities::LogsManager& logsManager)
   : BaseComponent(logsManager) {}
+
+  void PortalComponent::update(float deltaTime) {
+    if (!isActive()) return;
+  }
+
+  void PortalComponent::trigger(Project::Entities::Entity* entity) {
+    if (!isActive() || !entity || !data.triggerOnAction) return;
+    beginTeleport(entity);
+  }
 }

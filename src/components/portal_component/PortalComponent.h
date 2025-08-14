@@ -37,6 +37,7 @@ namespace Project::Components {
     bool teleportPending = false;
 
     void checkTriggers();
+    void beginTeleport(Project::Entities::Entity* entity);
     void teleport(Project::Entities::Entity* entity);
   };
 }

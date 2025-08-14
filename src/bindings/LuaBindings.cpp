@@ -525,7 +525,11 @@ namespace Project::Bindings::LuaBindings {
       }
     }
 
-    state->setMapSize(mapAsset->getWidth() * tileW, mapAsset->getHeight() * tileH);
+    int top = lua_gettop(L);
+    int x = 0;
+    int y = 0;
+    if (top >= 2 && lua_isnumber(L, 2)) x = static_cast<int>(lua_tointeger(L, 2));
+    if (top >= 3 && lua_isnumber(L, 3)) y = static_cast<int>(lua_tointeger(L, 3));
 
     TileHandler builder(state->getRenderer(), state->getLogsManager(), *assetsManagerPtr);
     auto tiles = builder.buildMap(assetId);

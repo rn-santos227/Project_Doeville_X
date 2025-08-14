@@ -23,6 +23,7 @@ namespace Project::Factories {
   using Project::Components::MotionComponent;
   using Project::Components::NumericComponent;
   using Project::Components::PhysicsComponent;
+  using Project::Components::PortalComponent;
   using Project::Components::SpawnerComponent;
   using Project::Components::TextComponent;
   using Project::Components::TimerComponent;
@@ -62,6 +63,7 @@ namespace Project::Factories {
     ComponentPool<ModalComponent>::getInstance().setMaxSize(limit);
     ComponentPool<NumericComponent>::getInstance().setMaxSize(limit);
     ComponentPool<PhysicsComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<PortalComponent>::getInstance().setMaxSize(limit);
     ComponentPool<SpawnerComponent>::getInstance().setMaxSize(limit);
     ComponentPool<TextComponent>::getInstance().setMaxSize(limit);
     ComponentPool<TimerComponent>::getInstance().setMaxSize(limit);
@@ -192,6 +194,16 @@ namespace Project::Factories {
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
 
         ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<PhysicsComponent*>(b)); });
+        return base;
+      }
+
+      case ComponentType::PORTAL: {
+        auto component = ComponentPool<PortalComponent>::getInstance().acquire(logsManager);
+        component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<PortalComponent*>(b)); });
         return base;
       }
 

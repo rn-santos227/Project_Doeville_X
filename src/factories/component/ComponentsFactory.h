@@ -20,6 +20,7 @@
 #include "components/motion_component/MotionComponent.h"
 #include "components/numeric_component/NumericComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "components/portal_component/PortalComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
 #include "components/timer_component/TimerComponent.h"

@@ -13,6 +13,7 @@ function initialize()
   loadMapAsset("grass_map")
   
   spawnEntity("player", nil, nil, "game")
+  spawnEntity("teleporter", nil, nil, "game")
   setPlayerEntity("player", 100, 100)
 
   local seeder_id = startEntitySeeder(nil, "game", nil, { x = 1280, y = 800 })

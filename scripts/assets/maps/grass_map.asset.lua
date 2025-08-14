@@ -1,5 +1,5 @@
-local COLS = 40
-local ROWS = 25
+local COLS = 80
+local ROWS = 50
 
 local tiles = {
   [1] = "grass_1",

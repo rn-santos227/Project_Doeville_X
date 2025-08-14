@@ -10,7 +10,9 @@ namespace Project { namespace Entities { class Entity; } }
 
 namespace Project::Components {
   class PortalComponent : public BaseComponent {
-
+  public:
+    explicit PortalComponent(Project::Utilities::LogsManager& logsManager);
+    ~PortalComponent() override = default;
 
   private:
     Project::Entities::Entity* owner = nullptr;

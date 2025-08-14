@@ -521,6 +521,9 @@ namespace Project::States {
         if (clipX >= clipRight || clipY >= clipBottom) {
           continue;
         }
+
+        int offsetX = clipX - tile.dest.x;
+        int offsetY = clipY - tile.dest.y;
       }
     }
 

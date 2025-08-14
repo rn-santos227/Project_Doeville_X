@@ -6,6 +6,7 @@
 #include "components/camera_component/CameraComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "handlers/animation/AnimationHandler.h"
+#include "libraries/constants/NameConstants.h"
 #include "libraries/keys/LuaPropertyKeys.h"
 #include "entities/EntitiesManager.h"
 #include "states/GameState.h"
@@ -30,6 +31,19 @@ namespace Project::Components {
     }
 
     checkTriggers();
+  }
+
+  void PortalComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    data.targetX = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::TARGET_X, 0.0f));
+    data.targetY = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::TARGET_Y, 0.0f));
+
+    data.delay = static_cast<float>(luaStateWrapper.getTableNumber(tableName, Keys::DELAY, 0.0f));
+    
+    data.triggerOnAction = luaStateWrapper.getTableBoolean(tableName, Keys::TRIGGER_ON_ACTION, false);
+    data.triggerOnInside = luaStateWrapper.getTableBoolean(tableName, Keys::TRIGGER_ON_INSIDE, false);
+    data.triggerOnTouch = luaStateWrapper.getTableBoolean(tableName, Keys::TRIGGER_ON_TOUCH, false);
+    
+    data.animation = luaStateWrapper.getTableString(tableName, Keys::ANIMATION, Project::Libraries::Constants::EMPTY_STRING);
   }
 
   void PortalComponent::trigger(Project::Entities::Entity* entity) {

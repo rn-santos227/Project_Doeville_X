@@ -21,6 +21,13 @@ namespace Project::Components {
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+    void setTarget(float x, float y) { data.targetX = x; data.targetY = y; }
+    void setDelay(float value) { data.delay = value; }
+    void setAnimation(const std::string& name) { data.animation = name; }
+
+    void trigger(Project::Entities::Entity* entity);
+
   private:
     Project::Entities::Entity* owner = nullptr;
     PortalData data;

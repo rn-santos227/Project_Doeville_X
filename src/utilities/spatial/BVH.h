@@ -19,8 +19,15 @@ namespace Project::Utilities {
 
   class BVH {
   public:
+    void build(const std::vector<std::pair<SDL_Rect, Collider>>& objects);
+    std::vector<Collider> query(const SDL_Rect& area) const;
+    void clear();
 
   private:
+    std::unique_ptr<BVHNode> root;
+    std::unique_ptr<BVHNode> buildRecursive(std::vector<std::pair<SDL_Rect, Collider>>& objs, int start, int end);
+    void queryRecursive(const BVHNode* node, const SDL_Rect& area, std::vector<Collider>& out) const;
+    
   };
 }
 

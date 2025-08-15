@@ -4,4 +4,12 @@
 #include <memory>
 #include <vector>
 
+#include <SDL.h>
+
+#include "SpatialHashGrid.h"
+
+namespace Project::Utilities {
+
+}
+
 #endif

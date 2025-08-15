@@ -24,6 +24,7 @@ namespace Project::Utilities {
     void clear();
   private:
     std::unique_ptr<BVHNode> root;
+    std::unique_ptr<BVHNode> buildRecursive(std::vector<std::pair<SDL_Rect, Collider>>& objs, int start, int end);
   };
 }
 

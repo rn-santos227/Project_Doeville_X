@@ -14,6 +14,7 @@ namespace Project::Utilities {
     Collider collider{};
     std::unique_ptr<BVHNode> left;
     std::unique_ptr<BVHNode> right;
+    bool isLeaf() const { return !left && !right && (collider.box || collider.physics); }
   };
 }
 

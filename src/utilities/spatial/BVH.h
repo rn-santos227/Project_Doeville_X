@@ -24,7 +24,6 @@ namespace Project::Utilities {
     void clear();
   private:
     std::unique_ptr<BVHNode> root;
-
   };
 }
 

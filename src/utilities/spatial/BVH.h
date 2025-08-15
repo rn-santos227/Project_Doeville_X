@@ -18,7 +18,9 @@ namespace Project::Utilities {
   };
 
   class BVH {
-
+  public:
+  
+  private:
   };
 }
 

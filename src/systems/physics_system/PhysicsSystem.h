@@ -7,6 +7,7 @@
 
 #include "interfaces/update_interface/Updatable.h"
 #include "utilities/spatial/QuadTree.h"
+#include "utilities/spatial/BVH.h"
 #include "entities/EntityCategory.h"
 #include "utilities/spatial/SweepAndPrune.h"
 
@@ -40,6 +41,8 @@ namespace Project::Systems {
     Project::Utilities::SpatialHashGrid& getLowPriorityGrid() { return lowPriorityGrid; }
     const Project::Utilities::QuadTree& getQuadTree() const { return quadtree; }
     Project::Utilities::QuadTree& getQuadTree() { return quadtree; }
+    const Project::Utilities::BVH& getBVH() const { return bvh; }
+    Project::Utilities::BVH& getBVH() { return bvh; }
     const std::vector<Project::Utilities::SweepAndPrune::Pair>& getSweepPairs() const { return sweepPairs; }
 
     const PerformanceMetrics& getPerformanceMetrics() const { return metrics; }
@@ -48,6 +51,7 @@ namespace Project::Systems {
   private:
     PerformanceMetrics metrics;
     Project::Utilities::QuadTree quadtree;
+    Project::Utilities::BVH bvh;
     
     Project::Utilities::SpatialHashGrid grid;
     Project::Utilities::SpatialHashGrid highPriorityGrid;

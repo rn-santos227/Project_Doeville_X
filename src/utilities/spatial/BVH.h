@@ -20,7 +20,6 @@ namespace Project::Utilities {
   class BVH {
   public:
     void build(const std::vector<std::pair<SDL_Rect, Collider>>& objects);
-    std::vector<Collider> query(const SDL_Rect& area) const;
 
   private:
   };

@@ -78,6 +78,10 @@ namespace Project::Components {
     void clearShapes();
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 
+    void setUseProxy(bool v) { useProxy = v; }
+    bool usesProxy() const { return useProxy; }
+    SDL_Rect getProxyAABB() const;
+
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
     BoundingBoxData data;
@@ -101,6 +105,7 @@ namespace Project::Components {
     float entityY = 0;
 
     mutable bool worldBoxesDirty = true;
+    bool useProxy = false;
 
     void ensureUpdated() const;
     void markDirty();

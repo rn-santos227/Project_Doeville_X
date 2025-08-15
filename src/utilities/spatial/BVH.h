@@ -21,9 +21,8 @@ namespace Project::Utilities {
   public:
     void build(const std::vector<std::pair<SDL_Rect, Collider>>& objects);
     std::vector<Collider> query(const SDL_Rect& area) const;
-    void clear();
-  private:
 
+  private:
   };
 }
 

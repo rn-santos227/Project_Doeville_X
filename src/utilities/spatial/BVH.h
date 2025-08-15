@@ -23,6 +23,7 @@ namespace Project::Utilities {
     std::vector<Collider> query(const SDL_Rect& area) const;
     void clear();
   private:
+    std::unique_ptr<BVHNode> root;
   };
 }
 

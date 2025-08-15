@@ -9,7 +9,9 @@
 #include "SpatialHashGrid.h"
 
 namespace Project::Utilities {
+  struct BVHNode {
 
+  }
 }
 
 #endif

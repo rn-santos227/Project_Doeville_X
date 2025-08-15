@@ -16,6 +16,10 @@ namespace Project::Utilities {
     std::unique_ptr<BVHNode> right;
     bool isLeaf() const { return !left && !right && (collider.box || collider.physics); }
   };
+
+  class BVH {
+
+  };
 }
 
 #endif

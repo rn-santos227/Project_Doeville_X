@@ -118,6 +118,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* TYPE = "type";
   constexpr const char* UPDATE = "update";
   constexpr const char* USE_ACCELERATION = "use_acceleration";
+  constexpr const char* USE_PROXY = "use_proxy";
   constexpr const char* VALUE = "value";
   constexpr const char* VISIBLE = "visible";
   constexpr const char* W = "w";

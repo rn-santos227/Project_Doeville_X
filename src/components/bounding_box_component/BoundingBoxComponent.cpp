@@ -148,6 +148,12 @@ namespace Project::Components {
     bool rot = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rot);
 
+    bool proxy = luaStateWrapper.getTableBoolean(tableName, Keys::USE_PROXY, false);
+    setUseProxy(proxy);
+    if (!useProxy && (!data.polygons.empty() || !data.capsules.empty())) {
+      useProxy = true;
+    }
+
     markDirty();
   }
 
@@ -193,6 +199,66 @@ namespace Project::Components {
     worldCircles.clear();
     worldPolygons.clear();
     worldCapsules.clear();
+  }
+
+  SDL_Rect BoundingBoxComponent::getProxyAABB() const {
+    SDL_Rect bounds{0,0,0,0};
+    bool hasBounds = false;
+
+    const auto& rects = getBoxes();
+    for (const auto& r : rects) {
+      if (!hasBounds) { bounds = r; hasBounds = true; }
+      else {
+        const int left = std::min(bounds.x, r.x);
+        const int top = std::min(bounds.y, r.y);
+        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        bounds = {left, top, right - left, bottom - top};
+      }
+    }
+
+    const auto& circles = getCircles();
+    for (const auto& c : circles) {
+      SDL_Rect r{c.x - c.r, c.y - c.r,
+        c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER,
+        c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER};
+      if (!hasBounds) { bounds = r; hasBounds = true; }
+      else {
+        const int left = std::min(bounds.x, r.x);
+        const int top = std::min(bounds.y, r.y);
+        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        bounds = {left, top, right - left, bottom - top};
+      }
+    }
+
+    const auto& polys = getPolygons();
+    for (const auto& p : polys) {
+      SDL_Rect r = Project::Utilities::GeometryUtils::polygonBounds(p);
+      if (!hasBounds) { bounds = r; hasBounds = true; }
+      else {
+        const int left = std::min(bounds.x, r.x);
+        const int top = std::min(bounds.y, r.y);
+        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        bounds = {left, top, right - left, bottom - top};
+      }
+    }
+
+    const auto& caps = getCapsules();
+    for (const auto& c : caps) {
+      SDL_Rect r = Project::Utilities::GeometryUtils::capsuleBounds(c);
+      if (!hasBounds) { bounds = r; hasBounds = true; }
+      else {
+        const int left = std::min(bounds.x, r.x);
+        const int top = std::min(bounds.y, r.y);
+        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        bounds = {left, top, right - left, bottom - top};
+      }
+    }
+
+    return bounds;
   }
 
   bool BoundingBoxComponent::isInteractive() const {

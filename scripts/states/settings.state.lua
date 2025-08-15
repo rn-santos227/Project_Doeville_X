@@ -7,18 +7,7 @@ function initialize()
   setBackgroundColor(50, 50, 60, 255)
 end
 
-function onEnter()
-  print("Entering SettingsState")
-end
-
-function onExit()
-  print("Exit SettingsState")
-end
-
-function update()
-  print("Updating SettingsState")
-end
-
-function render()
-  print("Rendering SettingsState")
-end
+function onEnter() end
+function onExit() end
+function update() end
+function render() end

@@ -8,18 +8,7 @@ function initialize()
   spawnEntity("button_main_menu")
 end
 
-function onEnter()
-  print("Entering GameOverState")
-end
-
-function onExit()
-  print("Exit GameOverState")
-end
-
-function update()
-  print("Updating GameOverState")
-end
-
-function render()
-  print("Rendering GameOverState")
-end
+function onEnter() end
+function onExit() end
+function update() end
+function render() end

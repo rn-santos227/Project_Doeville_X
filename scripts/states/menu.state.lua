@@ -14,18 +14,7 @@ function initialize()
   spawnEntity("menu_input")
 end
 
-function onEnter()
-  print("Entering MainMenuState")
-end
-
-function onExit()
-  print("Exit MainMenuState")
-end
-
-function update()
-  print("Updating MainMenuState")
-end
-
-function render()
-  print("Rendering MainMenuState")
-end
+function onEnter() end
+function onExit() end
+function update() end
+function render() end

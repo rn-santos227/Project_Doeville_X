@@ -26,18 +26,7 @@ function initialize()
   spawnEntity("speed_meter", nil, nil, "hud")
 end
 
-function onEnter()
-  print("Entering GameState")
-end
-
-function onExit()
-  print("Exit GameState")
-end
-
-function update()
-  print("Updating GameState")
-end
-
-function render()
-  print("Rendering GameState")
-end
+function onEnter() end
+function onExit() end
+function update() end
+function render() end

@@ -21,7 +21,18 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_ROTATION = 0.0f;
   constexpr float DEFAULT_FLEXIBILITY = 0.5f;
   constexpr float DEFAULT_SPIN = 0.0;
-  
+
+  constexpr float CENTER_FACTOR = Constants::DEFAULT_HALF;
+  constexpr float HIGH_TICK_RATE = 0.0f;
+  constexpr float LOW_TICK_FREQUENCY = 15.0f;
+  constexpr float DEFAULT_TICK_FREQUENCY = 60.0f;
+  constexpr float LOW_TICK_RATE = Constants::DEFAULT_WHOLE / LOW_TICK_FREQUENCY;
+  constexpr float DEFAULT_TICK_RATE = Constants::DEFAULT_WHOLE / DEFAULT_TICK_FREQUENCY;
+  constexpr float FAR_DISTANCE_THRESHOLD = 1000.0f;
+  constexpr float MID_DISTANCE_THRESHOLD = 500.0f;
+  constexpr float MID_TICK_MULTIPLIER = Constants::DEFAULT_DOUBLE;
+  constexpr float FAR_TICK_MULTIPLIER = Constants::DEFAULT_DOUBLE * Constants::DEFAULT_DOUBLE;
+
   constexpr SDL_FPoint DEFAULT_GRAVITY_DIRECTION{0.0f, 1.0f};
 }
 

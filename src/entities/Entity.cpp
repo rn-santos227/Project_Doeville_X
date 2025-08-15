@@ -13,6 +13,7 @@
 #include "components/motion_component/MotionComponent.h"
 #include "components/numeric_component/NumericComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "components/portal_component/PortalComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/timer_component/TimerComponent.h"
 #include "components/transform_component/TransformComponent.h"
@@ -191,6 +192,10 @@ namespace Project::Entities {
     if (auto* physicsComp = dynamic_cast<Components::PhysicsComponent*>(component.get())) {
       physicsComp->setEntityReference(this);
       physics = physicsComp;
+    }
+
+    if (auto* portal = dynamic_cast<Components::PortalComponent*>(component.get())) {
+      portal->setEntityReference(this);
     }
 
     if (auto* spawner = dynamic_cast<Components::SpawnerComponent*>(component.get())) {

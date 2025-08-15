@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 
+#include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/camera_component/CameraComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
@@ -105,6 +106,13 @@ namespace Project::Components {
   void PortalComponent::teleport(Project::Entities::Entity* entity) {
     if (!entity) return;
     entity->setPosition(data.targetX, data.targetY);
+    for (const std::string& name : entity->listComponentNames()) {
+      if (auto* comp = entity->getComponent(name)) {
+        if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
+          pos->setEntityPosition(static_cast<int>(data.targetX), static_cast<int>(data.targetY));
+        }
+      }
+    }
     if (auto* mgr = entity->getEntitiesManager()) {
       if (auto* state = mgr->getGameState()) {
         auto* cam = state->getActiveCamera();

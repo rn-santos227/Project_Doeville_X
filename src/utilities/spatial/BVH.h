@@ -11,6 +11,7 @@
 namespace Project::Utilities {
   struct BVHNode {
     SDL_Rect bounds{0,0,0,0};
+    Collider collider{};
   };
 }
 

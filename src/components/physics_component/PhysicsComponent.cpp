@@ -91,6 +91,15 @@ namespace Project::Components {
   }
 
   void PhysicsComponent::update(float deltaTime) {
+    if (data.tickRate > 0.0f) {
+      data.tickAccumulator += deltaTime;
+      if (data.tickAccumulator < data.tickRate) {
+        return;
+      }
+      deltaTime = data.tickAccumulator;
+      data.tickAccumulator = 0.0f;
+    }
+
     if (isStatic) {
       forceX = forceY = 0.0f;
       accelerationX = accelerationY = 0.0f;
@@ -393,10 +402,13 @@ namespace Project::Components {
     const float velocityDeltaX = velocityX * deltaTime;
     const float velocityDeltaY = velocityY * deltaTime;
 
-    const auto& myRects = myBox->getBoxes();
-    const auto& myCircles = myBox->getCircles();
-    const auto& myOBB = myBox->getOrientedBoxes();
-    const bool myRotationEnabled = myBox->isRotationEnabled();
+    std::vector<SDL_Rect> myProxyRects;
+    std::vector<Project::Utilities::Circle> emptyCircles;
+    std::vector<Project::Utilities::OrientedBox> emptyOBB;
+    const auto& myRects = myBox->usesProxy() ? (myProxyRects.push_back(myBox->getProxyAABB()), myProxyRects) : myBox->getBoxes();
+    const auto& myCircles = myBox->usesProxy() ? emptyCircles : myBox->getCircles();
+    const auto& myOBB = myBox->usesProxy() ? emptyOBB : myBox->getOrientedBoxes();
+    const bool myRotationEnabled = myBox->usesProxy() ? false : myBox->isRotationEnabled();
 
     SDL_Rect myBounds{0,0,0,0};
     if (!computeBounds(myBox, myBounds)) {
@@ -404,9 +416,9 @@ namespace Project::Components {
     }
 
     auto& physSystem = manager->getPhysicsSystem();
-    auto& quadtree = physSystem.getQuadTree();
+    auto& bvh = physSystem.getBVH();
     auto queryStart = std::chrono::high_resolution_clock::now();
-    auto candidates = quadtree.query(myBounds);
+    auto candidates = bvh.query(myBounds);
     auto queryEnd = std::chrono::high_resolution_clock::now();
     physSystem.recordSpatialQuery(std::chrono::duration<float, std::milli>(queryEnd - queryStart).count());
     const auto& sweepPairs = physSystem.getSweepPairs();
@@ -434,10 +446,13 @@ namespace Project::Components {
         continue;
       }
 
-      const auto& otherRects = otherBox->getBoxes();
-      const auto& otherCircles = otherBox->getCircles();
-      const auto& otherOBB = otherBox->getOrientedBoxes();
-      const bool otherRotationEnabled = otherBox->isRotationEnabled();
+      std::vector<SDL_Rect> otherProxyRects;
+      std::vector<Project::Utilities::Circle> otherEmptyCircles;
+      std::vector<Project::Utilities::OrientedBox> otherEmptyOBB;
+      const auto& otherRects = otherBox->usesProxy() ? (otherProxyRects.push_back(otherBox->getProxyAABB()), otherProxyRects) : otherBox->getBoxes();
+      const auto& otherCircles = otherBox->usesProxy() ? otherEmptyCircles : otherBox->getCircles();
+      const auto& otherOBB = otherBox->usesProxy() ? otherEmptyOBB : otherBox->getOrientedBoxes();
+      const bool otherRotationEnabled = otherBox->usesProxy() ? false : otherBox->isRotationEnabled();
       
       if (!broadPhaseCollisionCheck(myBox, otherBox)) {
         continue;
@@ -508,19 +523,19 @@ namespace Project::Components {
   }
 
   bool PhysicsComponent::broadPhaseCollisionCheck(BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox) {
-    const auto& myRects = myBox->getBoxes();
-    const auto& otherRects = otherBox->getBoxes();
-    
-    if (myRects.empty() || otherRects.empty()) return true;
-    
-    SDL_Rect myBounds = myRects[0];
-    for (size_t i = 1; i < myRects.size(); ++i) {
-      myBounds = unionRect(myBounds, myRects[i]);
+    SDL_Rect myBounds{0,0,0,0};
+    SDL_Rect otherBounds{0,0,0,0};
+
+    if (myBox->usesProxy()) {
+      myBounds = myBox->getProxyAABB();
+    } else if (!computeBounds(myBox, myBounds)) {
+      return true;
     }
     
-    SDL_Rect otherBounds = otherRects[0];
-    for (size_t i = 1; i < otherRects.size(); ++i) {
-      otherBounds = unionRect(otherBounds, otherRects[i]);
+    if (otherBox->usesProxy()) {
+      otherBounds = otherBox->getProxyAABB();
+    } else if (!computeBounds(otherBox, otherBounds)) {
+      return true;
     }
     
     const int padding = Constants::DEFAULT_COLLISION_PADDING;

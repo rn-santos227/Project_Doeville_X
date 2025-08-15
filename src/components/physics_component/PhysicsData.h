@@ -8,6 +8,9 @@ namespace Project::Components {
   enum class UpdateFrequency { HIGH, NORMAL, LOW };
   struct PhysicsData {
     UpdateFrequency updateFrequency = UpdateFrequency::NORMAL;
+
+    float tickRate = 0.0f;
+    float tickAccumulator = 0.0f;
     
     // Linear motion
     Project::Utilities::Velocity force;

@@ -33,6 +33,9 @@ namespace Project::Components {
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
 
+    void setTickRate(float rate) { data.tickRate = rate; }
+    float getTickRate() const { return data.tickRate; }
+
     void setVelocity(float vx, float vy) { data.setVelocity(vx, vy); }
     void addVelocity(float vx, float vy) { data.addVelocity(vx, vy); }
     

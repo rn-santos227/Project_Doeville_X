@@ -80,7 +80,7 @@ namespace Project::Components {
     float getRotation() const { return data.rotation; }
     void setRotation(float _angle) { if (data.rotation != _angle) data.verticesDirty = true; data.rotation = _angle; }
 
-    SDL_Rect getRect() const;
+    SDL_FRect getRect() const;
     int getWidth() const { return static_cast<int>(data.destRect.w); }
     int getHeight() const { return static_cast<int>(data.destRect.h); }
     
@@ -139,11 +139,11 @@ namespace Project::Components {
     void checkAsyncTextureLoad();
     void renderTexture(SDL_Texture* texture, const SDL_FRect& renderRect);
     void renderShape(const SDL_FRect& renderRect);
-    void renderCircleShape(const SDL_Rect& renderRect);
-    void renderRectShape(const SDL_Rect& renderRect);
-    void renderSimpleRect(const SDL_Rect& renderRect);
-    void renderComplexRect(const SDL_Rect& renderRect);
-    void renderRectBorder(const SDL_Rect& renderRect);
+    void renderCircleShape(const SDL_FRect& renderRect);
+    void renderRectShape(const SDL_FRect& renderRect);
+    void renderSimpleRect(const SDL_FRect& renderRect);
+    void renderComplexRect(const SDL_FRect& renderRect);
+    void renderRectBorder(const SDL_FRect& renderRect);
     void setupShapeIndices();
     void updateRotationCache();
     void updateBoundingBox();

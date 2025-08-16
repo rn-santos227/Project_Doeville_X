@@ -319,13 +319,8 @@ namespace Project::Components {
     setPosition(x, y, data.destRect.w, data.destRect.h);
   }
 
-  SDL_Rect GraphicsComponent::getRect() const {
-    return SDL_Rect{
-      static_cast<int>(std::round(data.destRect.x)),
-      static_cast<int>(std::round(data.destRect.y)),
-      static_cast<int>(std::round(data.destRect.w)),
-      static_cast<int>(std::round(data.destRect.h))
-    };
+  SDL_FRect GraphicsComponent::getRect() const {
+    return data.destRect;
   }
 
   SDL_Texture* GraphicsComponent::getBatchTexture() {

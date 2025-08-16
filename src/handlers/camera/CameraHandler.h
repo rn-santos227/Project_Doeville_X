@@ -16,7 +16,9 @@ namespace Project::Handlers {
     void setSize(int width, int height);
     void setPosition(int x, int y);
     void setCullingOffset(int x, int y);
-    SDL_Rect getCullingRect() const;
+    
+    SDL_FRect getCullingRect() const;
+    SDL_FRect getRect() const;
 
     void setCameraType(CameraType type);
     CameraType getCameraType() const { return cameraType; }
@@ -37,7 +39,6 @@ namespace Project::Handlers {
     int getViewportWidth() const { return cameraRect.w; }
     int getViewportHeight() const { return cameraRect.h; }
 
-    SDL_Rect getRect() const;
     int getOffsetX() const { return cullingOffset.x; }
     int getOffsetY() const { return cullingOffset.y; }
 

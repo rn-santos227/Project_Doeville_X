@@ -802,7 +802,7 @@ namespace Project::Entities {
     for (const std::string& name : entity->listComponentNames()) {
       if (auto* comp = entity->getComponent(name)) {
         if (auto* pos = dynamic_cast<Project::Components::PositionableComponent*>(comp)) {
-          pos->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+          pos->setEntityPosition(x, y);
         }
       }
     }

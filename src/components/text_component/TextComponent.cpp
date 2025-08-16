@@ -201,8 +201,8 @@ namespace Project::Components {
     data.textRect.y = y + data.paddingTop;
   }
 
-  void TextComponent::setEntityPosition(int x, int y) {
-    setPosition(x + data.offsetX, y + data.offsetY);
+  void TextComponent::setEntityPosition(float x, float y) {
+    setPosition(static_cast<int>(x) + data.offsetX, static_cast<int>(y) + data.offsetY);
   }
 
   void TextComponent::createTexture() {

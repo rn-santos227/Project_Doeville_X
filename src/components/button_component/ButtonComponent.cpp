@@ -183,7 +183,7 @@ namespace Project::Components {
     createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);
   }
 
-  void ButtonComponent::setEntityPosition(int x, int y) {
+  void ButtonComponent::setEntityPosition(float x, float y) {
     data.rect.x = x + data.offsetX;
     data.rect.y = y + data.offsetY;
     createTextTexture(data.hovered ? data.fontHoverColor : data.fontColor);

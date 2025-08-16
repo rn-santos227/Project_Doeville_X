@@ -43,7 +43,7 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void applyStyle() override;
 
-    void setEntityPosition(int x, int y) override;
+    void setEntityPosition(float x, float y) override;
 
     const std::string& getText() const { return data.currentText; }
     void setText(const std::string& text);

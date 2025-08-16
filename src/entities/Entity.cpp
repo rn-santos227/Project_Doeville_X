@@ -45,7 +45,7 @@ namespace Project::Entities {
 
     auto positionComponent = [this](BaseComponent* comp) {
       if (auto* positionable = dynamic_cast<Components::PositionableComponent*>(comp)) {
-        positionable->setEntityPosition(static_cast<int>(data.x), static_cast<int>(data.y));
+        positionable->setEntityPosition(data.x, data.y);
       }
     };
 

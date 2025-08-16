@@ -222,11 +222,11 @@ namespace Project::Components {
     createTexture();
   }
 
-  void InputComponent::setEntityPosition(int x, int y) {
-    data.rect.x = x;
-    data.rect.y = y;
+  void InputComponent::setEntityPosition(float x, float y) {
+    data.rect.x = static_cast<int>(x);
+    data.rect.y = static_cast<int>(y);
   }
-
+  
   void InputComponent::setText(const std::string& text) {
     data.currentText = text;
     createTexture();

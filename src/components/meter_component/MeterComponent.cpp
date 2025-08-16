@@ -160,9 +160,9 @@ namespace Project::Components {
     }
   }
 
-  void MeterComponent::setEntityPosition(int x, int y) {
-    data.rect.x = x + data.offsetX;
-    data.rect.y = y + data.offsetY;
+  void MeterComponent::setEntityPosition(float x, float y) {
+    data.rect.x = static_cast<int>(x) + data.offsetX;
+    data.rect.y = static_cast<int>(y) + data.offsetY;
   }
 
   void MeterComponent::setSize(int w, int h) {

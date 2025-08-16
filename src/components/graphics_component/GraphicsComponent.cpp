@@ -113,7 +113,7 @@ namespace Project::Components {
       return;
     }
 
-    const SDL_Rect renderRect = getRenderRect();
+    const SDL_FRect renderRect = getRenderRect();
     SDL_Texture* textureToRender = getTextureToRender();
 
     if (textureToRender) {
@@ -306,7 +306,7 @@ namespace Project::Components {
     data.shapeColor = color;
   }
 
-  void GraphicsComponent::setPosition(int x, int y, int width, int height) {
+  void GraphicsComponent::setPosition(float x, float y, float width, float height) {
     data.destRect.x = x;
     data.destRect.y = y;
     if (data.destRect.w != width || data.destRect.h != height) data.verticesDirty = true;
@@ -315,8 +315,17 @@ namespace Project::Components {
     updateBoundingBox();
   }
 
-  void GraphicsComponent::setEntityPosition(int x, int y) {
+  void GraphicsComponent::setEntityPosition(float x, float y) {
     setPosition(x, y, data.destRect.w, data.destRect.h);
+  }
+
+  SDL_Rect GraphicsComponent::getRect() const {
+    return SDL_Rect{
+      static_cast<int>(std::round(data.destRect.x)),
+      static_cast<int>(std::round(data.destRect.y)),
+      static_cast<int>(std::round(data.destRect.w)),
+      static_cast<int>(std::round(data.destRect.h))
+    };
   }
 
   SDL_Texture* GraphicsComponent::getBatchTexture() {
@@ -361,14 +370,14 @@ namespace Project::Components {
     return visible;
   }
 
-  SDL_Rect GraphicsComponent::getRenderRect() const {
-    SDL_Rect renderRect = data.destRect;
+  SDL_FRect GraphicsComponent::getRenderRect() const {
+    SDL_FRect renderRect = data.destRect;
     if (cameraHandler) {
       const float zoom = cameraHandler->getZoom();
-      renderRect.x = static_cast<int>((data.destRect.x - cameraHandler->getX()) * zoom);
-      renderRect.y = static_cast<int>((data.destRect.y - cameraHandler->getY()) * zoom);
-      renderRect.w = static_cast<int>(data.destRect.w * zoom);
-      renderRect.h = static_cast<int>(data.destRect.h * zoom);
+      renderRect.x = (data.destRect.x - static_cast<float>(cameraHandler->getX())) * zoom;
+      renderRect.y = (data.destRect.y - static_cast<float>(cameraHandler->getY())) * zoom;
+      renderRect.w = data.destRect.w * zoom;
+      renderRect.h = data.destRect.h * zoom;
     }
     return renderRect;
   }
@@ -386,7 +395,12 @@ namespace Project::Components {
   bool GraphicsComponent::isInCameraView() {
     if (!cameraHandler) return true;
     const SDL_Rect cullRect = cameraHandler->getCullingRect();
-    SDL_Rect worldRect = data.destRect;
+    SDL_Rect worldRect{
+      static_cast<int>(std::floor(data.destRect.x)),
+      static_cast<int>(std::floor(data.destRect.y)),
+      static_cast<int>(std::round(data.destRect.w)),
+      static_cast<int>(std::round(data.destRect.h))
+    };
     return SDL_HasIntersection(&worldRect, &cullRect);
   }
 
@@ -425,21 +439,27 @@ namespace Project::Components {
     }
   }
 
-  void GraphicsComponent::renderTexture(SDL_Texture* textureToRender, const SDL_Rect& renderRect) {
+  void GraphicsComponent::renderTexture(SDL_Texture* textureToRender, const SDL_FRect& renderRect) {
     const SDL_Rect* src = (data.srcRect.w > 0 && data.srcRect.h > 0) ? &data.srcRect : nullptr;
     if (data.rotationEnabled) {
-      SDL_RenderCopyEx(renderer, textureToRender, src, &renderRect, data.rotation, nullptr, SDL_FLIP_NONE);
+      SDL_RenderCopyExF(renderer, textureToRender, src, &renderRect, data.rotation, nullptr, SDL_FLIP_NONE);
     } else {
-      SDL_RenderCopy(renderer, textureToRender, src, &renderRect);
+      SDL_RenderCopyF(renderer, textureToRender, src, &renderRect);
     }
   }
 
 
-  void GraphicsComponent::renderShape(const SDL_Rect& renderRect) {
+  void GraphicsComponent::renderShape(const SDL_FRect& renderRect) {
+    SDL_Rect r{
+      static_cast<int>(std::round(renderRect.x)),
+      static_cast<int>(std::round(renderRect.y)),
+      static_cast<int>(std::round(renderRect.w)),
+      static_cast<int>(std::round(renderRect.h))
+    };
     if (data.isCircle) {
-      renderCircleShape(renderRect);
+      renderCircleShape(r);
     } else {
-      renderRectShape(renderRect);
+      renderRectShape(r);
     }
   }
 

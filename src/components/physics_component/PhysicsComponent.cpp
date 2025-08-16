@@ -436,6 +436,14 @@ namespace Project::Components {
     auto candidates = bvh.query(myBounds);
     auto queryEnd = std::chrono::high_resolution_clock::now();
     physSystem.recordSpatialQuery(std::chrono::duration<float, std::milli>(queryEnd - queryStart).count());
+
+    std::sort(candidates.begin(), candidates.end(),
+      [](const Project::Utilities::Collider& a, const Project::Utilities::Collider& b) {
+        if (a.physics != b.physics) return a.physics < b.physics;
+        if (a.box != b.box) return a.box < b.box;
+        return a.entity < b.entity;
+      });
+      
     const auto& pairKeys = physSystem.getSweepPairKeys();
     auto makeKey = [](PhysicsComponent* a, PhysicsComponent* b) {
       auto pa = reinterpret_cast<std::uintptr_t>(a);

@@ -18,7 +18,7 @@ namespace Project::Components {
     SDL_Color gradientStart{0, 0, 0, 0};
     SDL_Color gradientEnd{0, 0, 0, 0};
 
-    SDL_Rect destRect{0, 0, 0, 0};
+    SDL_FRect destRect{0.0f, 0.0f, 0.0f, 0.0f};
     SDL_Rect srcRect{0, 0, 0, 0};
     
     std::string pendingTexturePath;

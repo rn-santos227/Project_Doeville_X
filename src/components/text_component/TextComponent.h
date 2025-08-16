@@ -32,7 +32,7 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void applyStyle() override;
     
-    void setEntityPosition(int x, int y) override;
+    void setEntityPosition(float x, float y) override;
 
     void setText(const std::string& newText);
     void setColor(SDL_Color newColor);

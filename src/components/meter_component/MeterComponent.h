@@ -28,7 +28,8 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
     void applyStyle() override;
     void onAttach() override;
-    void setEntityPosition(int x, int y) override;
+    
+    void setEntityPosition(float x, float y) override;
 
     void setSize(int w, int h);
     void setNumericComponent(NumericComponent* comp, const std::string& name);

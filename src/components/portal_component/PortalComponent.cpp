@@ -109,7 +109,7 @@ namespace Project::Components {
     for (const std::string& name : entity->listComponentNames()) {
       if (auto* comp = entity->getComponent(name)) {
         if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
-          pos->setEntityPosition(static_cast<int>(data.targetX), static_cast<int>(data.targetY));
+          pos->setEntityPosition(data.targetX, data.targetY);
         }
       }
     }

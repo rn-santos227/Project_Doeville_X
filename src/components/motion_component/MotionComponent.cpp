@@ -88,7 +88,7 @@ namespace Project::Components {
       for (const std::string& name : owner->listComponentNames()) {
         if (auto* comp = owner->getComponent(name)) {
           if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
-            pos->setEntityPosition(static_cast<int>(newX), static_cast<int>(newY));
+            pos->setEntityPosition(newX, newY);
           }
         }
       }

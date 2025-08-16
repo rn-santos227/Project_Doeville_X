@@ -66,7 +66,7 @@ namespace Project::Components {
     void setRestitution(float value) { data.restitution = value; }
     float getRestitution() const { return data.restitution; }
 
-    void setEntityPosition(int x, int y) override;
+    void setEntityPosition(float x, float y) override;
     void setEntityRotation(float angle) override;
 
     void setSurfaceType(Project::Components::SurfaceType type) { data.surfaceType = type; }

@@ -5,7 +5,7 @@ namespace Project::Components {
   class PositionableComponent {
   public:
     virtual ~PositionableComponent() = default;
-    virtual void setEntityPosition(int x, int y) = 0;
+    virtual void setEntityPosition(float x, float y) = 0;
   };
 }
 

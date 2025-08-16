@@ -321,7 +321,7 @@ namespace Project::Components {
     return true;
   }
 
-  void BoundingBoxComponent::setEntityPosition(int x, int y) {
+  void BoundingBoxComponent::setEntityPosition(float x, float y) {
      if (entityX != x || entityY != y) {
       entityX = x;
       entityY = y;

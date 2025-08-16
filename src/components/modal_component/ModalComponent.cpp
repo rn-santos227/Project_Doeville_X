@@ -345,9 +345,9 @@ namespace Project::Components {
     }
   }
 
-  void ModalComponent::setEntityPosition(int x, int y) {
-    data.rect.x = x;
-    data.rect.y = y;
+  void ModalComponent::setEntityPosition(float x, float y) {
+    data.rect.x = static_cast<int>(x);
+    data.rect.y = static_cast<int>(y);
     createTitleTexture();
     createSubtitleTexture();
     createMessageTexture();

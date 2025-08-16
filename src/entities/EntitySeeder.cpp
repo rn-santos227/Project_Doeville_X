@@ -396,7 +396,7 @@ namespace Project::Entities {
         entity->setPosition(ex, ey);
         
         if (auto* box = entity->getBoundingBoxComponent()) {
-          box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
+          box->setEntityPosition(ex, ey);
           const auto& boxes = box->getBoxes();
           if (!boxes.empty()) {
             w = static_cast<float>(boxes.front().w);
@@ -414,7 +414,7 @@ namespace Project::Entities {
           entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
           entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
           if (auto* box = entity->getBoundingBoxComponent()) {
-            box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
+            box->setEntityPosition(ex, ey);
           }
         }
 

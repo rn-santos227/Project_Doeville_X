@@ -133,7 +133,7 @@ namespace Project::Components {
     bool& isKinematic = data.isKinematic;
     bool lastCollidedWithStatic = false;
 
-    SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b) const;
+    SDL_FRect unionRect(const SDL_FRect& a, const SDL_FRect& b) const;
 
     bool checkBoxBoxCollisions(
       const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
@@ -147,7 +147,7 @@ namespace Project::Components {
     );
 
     bool checkBoxCircleCollisions(
-      const std::vector<SDL_Rect>& myRects, const std::vector<Project::Utilities::Circle>& otherCircles,
+      const std::vector<SDL_FRect>& myRects, const std::vector<SDL_FRect>& otherRects,
       Project::Components::BoundingBoxComponent* myBox,
       Project::Components::BoundingBoxComponent* otherBox,
       PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
@@ -164,7 +164,7 @@ namespace Project::Components {
     );
     
     bool checkCircleBoxCollisions(    
-      const std::vector<Project::Utilities::Circle>& myCircles, const std::vector<SDL_Rect>& otherRects,
+      const std::vector<Project::Utilities::Circle>& myCircles, const std::vector<SDL_FRect>& otherRects,
       Project::Components::BoundingBoxComponent* myBox,
       Project::Components::BoundingBoxComponent* otherBox,
       PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
@@ -175,7 +175,7 @@ namespace Project::Components {
       Project::Components::BoundingBoxComponent* myBox,
       Project::Components::BoundingBoxComponent* otherBox,
       PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
-      const SDL_Rect& myRect, const SDL_Rect& otherRect,
+      const SDL_FRect& myRect, const SDL_FRect& otherRect,
       float newX, float newY, float velocityDeltaX, float velocityDeltaY
     );
 
@@ -193,7 +193,7 @@ namespace Project::Components {
       Project::Components::BoundingBoxComponent* otherBox
     );
 
-    bool computeBounds(Project::Components::BoundingBoxComponent* box, SDL_Rect& bounds) const;
+    bool computeBounds(Project::Components::BoundingBoxComponent* box, SDL_FRect& bounds) const;
     bool shouldExitEarly();
     
     void applyFriction(float fric);

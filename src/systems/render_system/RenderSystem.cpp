@@ -52,11 +52,11 @@ namespace Project::Systems {
     std::unordered_map<std::uint64_t, std::vector<GraphicsComponent*>> grid;
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
-      const SDL_Rect rect = comp->getRect();
-      int startCellX = rect.x / Constants::DEFAULT_RENDER_CELL_SIZE;
-      int startCellY = rect.y / Constants::DEFAULT_RENDER_CELL_SIZE;
-      int endCellX = (rect.x + rect.w) / Constants::DEFAULT_RENDER_CELL_SIZE;
-      int endCellY = (rect.y + rect.h) / Constants::DEFAULT_RENDER_CELL_SIZE;
+      const SDL_FRect rect = comp->getRect();
+      int startCellX = static_cast<int>(rect.x / Constants::DEFAULT_RENDER_CELL_SIZE);
+      int startCellY = static_cast<int>(rect.y / Constants::DEFAULT_RENDER_CELL_SIZE);
+      int endCellX = static_cast<int>((rect.x + rect.w) / Constants::DEFAULT_RENDER_CELL_SIZE);
+      int endCellY = static_cast<int>((rect.y + rect.h) / Constants::DEFAULT_RENDER_CELL_SIZE);
       for (int x = startCellX; x <= endCellX; ++x) {
         for (int y = startCellY; y <= endCellY; ++y) {
           grid[hash(x, y)].push_back(comp);
@@ -124,7 +124,7 @@ namespace Project::Systems {
       return a->getBatchTexture() < b->getBatchTexture();
     });
 
-    struct DrawnRect { SDL_Rect rect; int depth; };
+    struct DrawnRect { SDL_FRect rect; int depth; };
     std::vector<DrawnRect> drawn;
     drawn.reserve(candidates.size());
 
@@ -151,15 +151,21 @@ namespace Project::Systems {
     int texW = 0, texH = 0;
     for (auto* comp : candidates) {
       if (!comp || !comp->isActive()) continue;
-      const SDL_Rect rect = comp->getRect();
+      const SDL_FRect rect = comp->getRect();
 
-      SDL_Rect screenRect = rect;
+      SDL_FRect screenRect = rect;
       if (useCull) {
-        screenRect.x = static_cast<int>((rect.x - camHandler->getX()) * zoom);
-        screenRect.y = static_cast<int>((rect.y - camHandler->getY()) * zoom);
-        screenRect.w = static_cast<int>(rect.w * zoom);
-        screenRect.h = static_cast<int>(rect.h * zoom);
-        if (!SDL_HasIntersection(&screenRect, &viewport)) continue;
+        screenRect.x = (rect.x - camHandler->getX()) * zoom;
+        screenRect.y = (rect.y - camHandler->getY()) * zoom;
+        screenRect.w = rect.w * zoom;
+        screenRect.h = rect.h * zoom;
+        
+        SDL_FRect viewportF{
+          static_cast<float>(viewport.x),
+          static_cast<float>(viewport.y),static_cast<float>(viewport.w),static_cast<float>(viewport.h)
+        };
+        
+        if (!SDL_HasIntersectionF(&screenRect, &viewportF)) continue;
       }
 
       bool occluded = false;
@@ -234,7 +240,7 @@ namespace Project::Systems {
     components.clear();
   }
 
-  bool RenderSystem::rectContains(const SDL_Rect& outer, const SDL_Rect& inner) const {
+  bool RenderSystem::rectContains(const SDL_FRect& outer, const SDL_FRect& inner) const {
     return inner.x >= outer.x && inner.y >= outer.y && (inner.x + inner.w) <= (outer.x + outer.w) && (inner.y + inner.h) <= (outer.y + outer.h);
   }
 }

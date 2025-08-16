@@ -75,7 +75,8 @@ namespace Project::States {
     }
 
     if (data.dimensionMode == DimensionMode::BOXED && camHandler) {
-      SDL_Rect camRect = camHandler->getRect();
+      SDL_FRect camRectF = camHandler->getRect();
+      SDL_Rect camRect{static_cast<int>(camRectF.x), static_cast<int>(camRectF.y), static_cast<int>(camRectF.w), static_cast<int>(camRectF.h)};
       if (layersManager) {
         layersManager->clampEntitiesToRect(camRect);
       } else if (entitiesManager) {

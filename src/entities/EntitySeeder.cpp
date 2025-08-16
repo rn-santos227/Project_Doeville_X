@@ -76,7 +76,8 @@ namespace Project::Entities {
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
     
     if (camHandler) {
-      cullRect = camHandler->getCullingRect();
+      SDL_FRect fr = camHandler->getCullingRect();
+      cullRect = {static_cast<int>(fr.x), static_cast<int>(fr.y), static_cast<int>(fr.w), static_cast<int>(fr.h)};
 
       int camX = camHandler->getX();
       int camY = camHandler->getY();

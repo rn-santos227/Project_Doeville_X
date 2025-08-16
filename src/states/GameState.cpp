@@ -148,7 +148,8 @@ namespace Project::States {
       camX = camHandler->getX();
       camY = camHandler->getY();
       viewport = SDL_Rect{0, 0, camHandler->getViewportWidth(), camHandler->getViewportHeight()};
-      camRect = camHandler->getRect();
+      SDL_FRect camRectF = camHandler->getRect();
+      camRect = {static_cast<int>(camRectF.x), static_cast<int>(camRectF.y), static_cast<int>(camRectF.w), static_cast<int>(camRectF.h)};
       useCull = true;
     }
 

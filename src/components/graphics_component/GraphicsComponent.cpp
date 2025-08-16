@@ -527,16 +527,16 @@ namespace Project::Components {
     SDL_RenderGeometry(renderer, nullptr, shapeVertices.data(), Constants::INDEX_FOUR, data.shapeIndices.data(), Constants::INDEX_SIX);
   }
 
-  void GraphicsComponent::renderRectBorder(const SDL_Rect& renderRect) {
+  void GraphicsComponent::renderRectBorder(const SDL_FRect& renderRect) {
     SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
     for (int i = 0; i < data.borderWidth; ++i) {
-      const SDL_Rect borderRect = {
-        renderRect.x + i, 
-        renderRect.y + i, 
-        renderRect.w - Constants::INDEX_TWO * i, 
-        renderRect.h - Constants::INDEX_TWO * i
+      const SDL_FRect borderRect = {
+        renderRect.x + static_cast<float>(i),
+        renderRect.y + static_cast<float>(i),
+        renderRect.w - Constants::INDEX_TWO * static_cast<float>(i),
+        renderRect.h - Constants::INDEX_TWO * static_cast<float>(i)
       };
-      SDL_RenderDrawRect(renderer, &borderRect);
+      SDL_RenderDrawRectF(renderer, &borderRect);
     }
   }
 

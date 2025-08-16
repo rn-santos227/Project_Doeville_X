@@ -235,26 +235,26 @@ namespace Project::Components {
 
     const auto& polys = getPolygons();
     for (const auto& p : polys) {
-      SDL_Rect r = Project::Utilities::GeometryUtils::polygonBounds(p);
+      SDL_FRect r = Project::Utilities::GeometryUtils::polygonBounds(p);
       if (!hasBounds) { bounds = r; hasBounds = true; }
       else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        const float left = std::min(bounds.x, r.x);
+        const float top = std::min(bounds.y, r.y);
+        const float right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const float bottom = std::max(bounds.y + bounds.h, r.y + r.h);
         bounds = {left, top, right - left, bottom - top};
       }
     }
 
     const auto& caps = getCapsules();
     for (const auto& c : caps) {
-      SDL_Rect r = Project::Utilities::GeometryUtils::capsuleBounds(c);
+      SDL_FRect r = Project::Utilities::GeometryUtils::capsuleBounds(c);
       if (!hasBounds) { bounds = r; hasBounds = true; }
       else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        const float left = std::min(bounds.x, r.x);
+        const float top = std::min(bounds.y, r.y);
+        const float right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const float bottom = std::max(bounds.y + bounds.h, r.y + r.h);
         bounds = {left, top, right - left, bottom - top};
       }
     }
@@ -337,7 +337,7 @@ namespace Project::Components {
     }
   }
 
-  const std::vector<SDL_Rect>& BoundingBoxComponent::getBoxes() const {
+ const std::vector<SDL_FRect>& BoundingBoxComponent::getBoxes() const {
     if (worldBoxesDirty) {
       const_cast<BoundingBoxComponent*>(this)->updateWorldBoxes();
       worldBoxesDirty = false;
@@ -411,10 +411,10 @@ namespace Project::Components {
         const float cy = data.boxes[i].y + data.boxes[i].h * Constants::DEFAULT_HALF;
         
         const std::array<SDL_FPoint, 4> localCorners = {{
-          {static_cast<float>(data.boxes[i].x) - cx, static_cast<float>(data.boxes[i].y) - cy},
-          {static_cast<float>(data.boxes[i].x + data.boxes[i].w) - cx, static_cast<float>(data.boxes[i].y) - cy},
-          {static_cast<float>(data.boxes[i].x + data.boxes[i].w) - cx, static_cast<float>(data.boxes[i].y + data.boxes[i].h) - cy},
-          {static_cast<float>(data.boxes[i].x) - cx, static_cast<float>(data.boxes[i].y + data.boxes[i].h) - cy}
+          {data.boxes[i].x - cx, data.boxes[i].y - cy},
+          {data.boxes[i].x + data.boxes[i].w - cx, data.boxes[i].y - cy},
+          {data.boxes[i].x + data.boxes[i].w - cx, data.boxes[i].y + data.boxes[i].h - cy},
+          {data.boxes[i].x - cx, data.boxes[i].y + data.boxes[i].h - cy}
         }};
         
         float minX = std::numeric_limits<float>::max();
@@ -425,37 +425,24 @@ namespace Project::Components {
         for (int j = 0; j < Constants::INDEX_FOUR; ++j) {
           const float rx = localCorners[j].x;
           const float ry = localCorners[j].y;
-          const float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
-          const float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
+          const float newX = rx * cosA - ry * sinA + cx + entityX;
+          const float newY = rx * sinA + ry * cosA + cy + entityY;
 
-          const float roundedX = std::round(newX);
-          const float roundedY = std::round(newY);
-
-          data.orientedBoxes[i].corners[j] = {roundedX, roundedY};
-          minX = std::min(minX, roundedX);
-          minY = std::min(minY, roundedY);
-          maxX = std::max(maxX, roundedX);
-          maxY = std::max(maxY, roundedY);
+          data.orientedBoxes[i].corners[j] = {newX, newY};
+          minX = std::min(minX, newX);
+          minY = std::min(minY, newY);
+          maxX = std::max(maxX, newX);
+          maxY = std::max(maxY, newY);
         }
         
-        worldBoxes[i] = {
-          static_cast<int>(std::round(minX)),
-          static_cast<int>(std::round(minY)),
-          static_cast<int>(std::round(maxX - minX)),
-          static_cast<int>(std::round(maxY - minY))
-        };
+        worldBoxes[i] = {minX, minY, maxX - minX, maxY - minY};
       } else {
-        worldBoxes[i] = {
-          static_cast<int>(std::round(data.boxes[i].x + entityX)),
-          static_cast<int>(std::round(data.boxes[i].y + entityY)),
-          data.boxes[i].w,
-          data.boxes[i].h
-        };
-        
-        const float x = static_cast<float>(worldBoxes[i].x);
-        const float y = static_cast<float>(worldBoxes[i].y);
-        const float w = static_cast<float>(worldBoxes[i].w);
-        const float h = static_cast<float>(worldBoxes[i].h);
+        worldBoxes[i] = {data.boxes[i].x + entityX, data.boxes[i].y + entityY, data.boxes[i].w, data.boxes[i].h};
+
+        const float x = data.boxes[i].x + entityX;
+        const float y = data.boxes[i].y + entityY;
+        const float w = data.boxes[i].w;
+        const float h = data.boxes[i].h;
         
         data.orientedBoxes[i].corners[0] = {x, y};
         data.orientedBoxes[i].corners[1] = {x + w, y};

@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <cmath>
 
-#include "libraries/constants/IndexConstants.h"
+#include "libraries/constants/AngleConstants.h"
 #include "libraries/constants/FloatConstants.h"
+#include "libraries/constants/IndexConstants.h"
+#include "libraries/constants/NumericConstants.h"
 
 namespace Project::Utilities {
   namespace Constants = Project::Libraries::Constants;
@@ -71,27 +73,27 @@ namespace Project::Utilities {
     return distSq <= static_cast<float>(radiusSum * radiusSum);
   }
 
-  bool GeometryUtils::rectIntersect(const SDL_Rect& a, const SDL_Rect& b) {
-    SDL_Rect inter;
-    return SDL_IntersectRect(&a, &b, &inter);
+  bool GeometryUtils::rectIntersect(const SDL_FRect& a, const SDL_FRect& b) {
+    SDL_FRect inter;
+    return SDL_IntersectFRect(&a, &b, &inter);
   }
 
-  bool GeometryUtils::rectCircleIntersect(const SDL_Rect& rect, const Circle& c) {
-    int closestX = std::clamp(c.x, rect.x, rect.x + rect.w);
-    int closestY = std::clamp(c.y, rect.y, rect.y + rect.h);
+  bool GeometryUtils::rectCircleIntersect(const SDL_FRect& rect, const Circle& c) {
+    int closestX = std::clamp(c.x, static_cast<int>(rect.x), static_cast<int>(rect.x + rect.w));
+    int closestY = std::clamp(c.y, static_cast<int>(rect.y), static_cast<int>(rect.y + rect.h));
     int dx = c.x - closestX;
     int dy = c.y - closestY;
     return (dx * dx + dy * dy) <= (c.r * c.r);
   }
 
   bool GeometryUtils::polygonIntersect(const Polygon& a, const Polygon& b) {
-    SDL_Rect ba = polygonBounds(a);
-    SDL_Rect bb = polygonBounds(b);
+    SDL_FRect ba = polygonBounds(a);
+    SDL_FRect bb = polygonBounds(b);
     return rectIntersect(ba, bb);
   }
 
   bool GeometryUtils::polygonCircleIntersect(const Polygon& poly, const Circle& c) {
-    SDL_Rect bounds = polygonBounds(poly);
+    SDL_FRect bounds = polygonBounds(poly);
     if (!rectCircleIntersect(bounds, c)) return false;
     return true;
   }
@@ -151,69 +153,88 @@ namespace Project::Utilities {
     }
   }
 
-  void GeometryUtils::renderRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r) {
+  void GeometryUtils::renderRoundedRect(SDL_Renderer* renderer, const SDL_FRect& rect, int r) {
     if (r <= 0) {
-      SDL_RenderDrawRect(renderer, &rect);
+      SDL_RenderDrawRectF(renderer, &rect);
       return;
     }
 
-    int radius = std::min(r, std::min(rect.w, rect.h) / 2);
-    int x = rect.x;
-    int y = rect.y;
-    int w = rect.w;
-    int h = rect.h;
+    float radius = std::min(static_cast<float>(r), std::min(rect.w, rect.h) / 2.0f);
+    float x = rect.x;
+    float y = rect.y;
+    float w = rect.w;
+    float h = rect.h;
 
-    SDL_RenderDrawLine(renderer, x + radius, y, x + w - radius - 1, y);
-    SDL_RenderDrawLine(renderer, x + radius, y + h - 1, x + w - radius - 1, y + h - 1);
-    SDL_RenderDrawLine(renderer, x, y + radius, x, y + h - radius - 1);
-    SDL_RenderDrawLine(renderer, x + w - 1, y + radius, x + w - 1, y + h - radius - 1);
-  
-    SDL_Rect clip;
-    clip = {x, y, radius, radius};
-    SDL_RenderSetClipRect(renderer, &clip);
-    renderCircle(renderer, x + radius, y + radius, radius);
-    clip = {x + w - radius, y, radius, radius};
+    SDL_RenderDrawLineF(renderer, x + radius, y, x + w - radius, y);
+    SDL_RenderDrawLineF(renderer, x + radius, y + h, x + w - radius, y + h);
+    SDL_RenderDrawLineF(renderer, x, y + radius, x, y + h - radius);
+    SDL_RenderDrawLineF(renderer, x + w, y + radius, x + w, y + h - radius);
 
-    SDL_RenderSetClipRect(renderer, &clip);
-    renderCircle(renderer, x + w - 1 - radius, y + radius, radius);
-    clip = {x, y + h - radius, radius, radius};
-    SDL_RenderSetClipRect(renderer, &clip);
-    renderCircle(renderer, x + radius, y + h - 1 - radius, radius);
-    clip = {x + w - radius, y + h - radius, radius, radius};
-    SDL_RenderSetClipRect(renderer, &clip);
-    renderCircle(renderer, x + w - 1 - radius, y + h - 1 - radius, radius);
-    SDL_RenderSetClipRect(renderer, nullptr);
+    auto drawQuarterCircle = [&](float cx, float cy, float r, int startAngleDeg, int endAngleDeg) {
+      const int steps = Constants::BIT_32;
+      float step = (endAngleDeg - startAngleDeg) * (M_PI / Constants::ANGLE_180_DEG) / steps;
+      float angle = startAngleDeg * (M_PI / 180.0f);
+
+      for (int i = 0; i < steps; i++) {
+        float x1 = cx + cosf(angle) * r;
+        float y1 = cy + sinf(angle) * r;
+        float x2 = cx + cosf(angle + step) * r;
+        float y2 = cy + sinf(angle + step) * r;
+        SDL_RenderDrawLineF(renderer, x1, y1, x2, y2);
+        angle += step;
+      }
+    };
+
+    drawQuarterCircle(x + radius, y + radius, radius, Constants::ANGLE_180_DEG, Constants::ANGLE_270_DEG);
+    drawQuarterCircle(x + w - radius, y + radius, radius, Constants::ANGLE_270_DEG, Constants::ANGLE_360_DEG);
+    drawQuarterCircle(x + w - radius, y + h - radius, radius, Constants::ANGLE_0_DEG, Constants::ANGLE_90_DEG);
+    drawQuarterCircle(x + radius, y + h - radius, radius, Constants::ANGLE_90_DEG, Constants::ANGLE_180_DEG);
   }
 
-  void GeometryUtils::renderFilledRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r) {
+
+  void GeometryUtils::renderFilledRoundedRect(SDL_Renderer* renderer, const SDL_FRect& rect, int r) {
     if (r <= 0) {
-      SDL_RenderFillRect(renderer, &rect);
+      SDL_RenderFillRectF(renderer, &rect);
       return;
     }
-    
-    int radius = std::min(r, std::min(rect.w, rect.h) / Constants::INDEX_TWO);
 
-    SDL_Rect core{rect.x + radius, rect.y, rect.w - Constants::INDEX_TWO * radius, rect.h};
-    SDL_RenderFillRect(renderer, &core);
-    SDL_Rect left{rect.x, rect.y + radius, radius, rect.h - Constants::INDEX_TWO * radius};
-    SDL_RenderFillRect(renderer, &left);
-    SDL_Rect right{rect.x + rect.w - radius, rect.y + radius, radius, rect.h - Constants::INDEX_TWO * radius};
-    SDL_RenderFillRect(renderer, &right);
+    float radius = std::min(static_cast<float>(r), std::min(rect.w, rect.h) / 2.0f);
+    float x = rect.x;
+    float y = rect.y;
+    float w = rect.w;
+    float h = rect.h;
 
-    SDL_Rect clip;
-    clip = {rect.x, rect.y, radius, radius};
-    SDL_RenderSetClipRect(renderer, &clip);
+    SDL_FRect core = { x + radius, y, w - 2 * radius, h };
+    SDL_RenderFillRectF(renderer, &core);
 
-    renderFilledCircle(renderer, rect.x + radius, rect.y + radius, radius);
-    clip = {rect.x + rect.w - radius, rect.y, radius, radius};
-    SDL_RenderSetClipRect(renderer, &clip);
-    renderFilledCircle(renderer, rect.x + rect.w - 1 - radius, rect.y + radius, radius);
-    clip = {rect.x, rect.y + rect.h - radius, radius, radius};
-    SDL_RenderSetClipRect(renderer, &clip);
-    renderFilledCircle(renderer, rect.x + radius, rect.y + rect.h - 1 - radius, radius);
-    clip = {rect.x + rect.w - radius, rect.y + rect.h - radius, radius, radius};
-    SDL_RenderSetClipRect(renderer, &clip);
-    renderFilledCircle(renderer, rect.x + rect.w - 1 - radius, rect.y + rect.h - 1 - radius, radius);
-    SDL_RenderSetClipRect(renderer, nullptr);
+    SDL_FRect left = { x, y + radius, radius, h - 2 * radius };
+    SDL_RenderFillRectF(renderer, &left);
+
+    SDL_FRect right = { x + w - radius, y + radius, radius, h - 2 * radius };
+    SDL_RenderFillRectF(renderer, &right);
+
+    auto fillQuarterCircle = [&](float cx, float cy, float r, int startAngleDeg, int endAngleDeg) {
+      const int steps = Constants::BIT_32;
+        float step = (endAngleDeg - startAngleDeg) * (M_PI / Constants::ANGLE_180_DEG) / steps;
+
+        for (int i = 0; i < steps; i++) {
+            float angle = (startAngleDeg + i * (Constants::ANGLE_180_DEG / steps)) * (M_PI / Constants::ANGLE_180_DEG);
+            float nextAngle = (startAngleDeg + (i + 1) * (Constants::ANGLE_180_DEG / steps)) * (M_PI / Constants::ANGLE_180_DEG);
+
+            float x1 = cx + cosf(angle) * r;
+            float y1 = cy + sinf(angle) * r;
+            float x2 = cx + cosf(nextAngle) * r;
+            float y2 = cy + sinf(nextAngle) * r;
+
+            SDL_RenderDrawLineF(renderer, cx, cy, x1, y1);
+            SDL_RenderDrawLineF(renderer, cx, cy, x2, y2);
+            SDL_RenderDrawLineF(renderer, x1, y1, x2, y2);
+        }
+    };
+
+    fillQuarterCircle(x + radius, y + radius, radius, Constants::ANGLE_180_DEG, Constants::ANGLE_270_DEG);
+    fillQuarterCircle(x + w - radius, y + radius, radius, Constants::ANGLE_270_DEG, Constants::ANGLE_360_DEG);
+    fillQuarterCircle(x + w - radius, y + h - radius, radius, Constants::ANGLE_0_DEG, Constants::ANGLE_90_DEG);
+    fillQuarterCircle(x + radius, y + h - radius, radius, Constants::ANGLE_90_DEG, Constants::ANGLE_180_DEG);
   }
 }

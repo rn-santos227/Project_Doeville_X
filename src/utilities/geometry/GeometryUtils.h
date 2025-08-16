@@ -39,8 +39,8 @@ namespace Project::Utilities {
     static float pointSegmentDistance(float px, float py, float x1, float y1, float x2, float y2);
 
     static bool circleIntersect(const Circle& a, const Circle& b);
-    static bool rectIntersect(const SDL_Rect& a, const SDL_Rect& b);
-    static bool rectCircleIntersect(const SDL_Rect& rect, const Circle& c);
+    static bool rectIntersect(const SDL_FRect& a, const SDL_FRect& b);
+    static bool rectCircleIntersect(const SDL_FRect& rect, const Circle& c);
     static bool polygonIntersect(const Polygon& a, const Polygon& b);
     static bool polygonCircleIntersect(const Polygon& poly, const Circle& c);
     static bool capsuleCircleIntersect(const Capsule& cap, const Circle& c);
@@ -48,8 +48,8 @@ namespace Project::Utilities {
     static void renderCircle(SDL_Renderer* renderer, int cx, int cy, int r);
     static void renderFilledCircle(SDL_Renderer* renderer, int cx, int cy, int r);
   
-    static void renderRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r);
-    static void renderFilledRoundedRect(SDL_Renderer* renderer, const SDL_Rect& rect, int r);
+    static void renderRoundedRect(SDL_Renderer* renderer, const SDL_FRect& rect, int r);
+    static void renderFilledRoundedRect(SDL_Renderer* renderer, const SDL_FRect& rect, int r);
   };
 }
 

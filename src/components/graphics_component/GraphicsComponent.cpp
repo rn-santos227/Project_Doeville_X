@@ -307,8 +307,10 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::setPosition(float x, float y, float width, float height) {
-    data.destRect.x = x;
-    data.destRect.y = y;
+    const float rx = std::round(x);
+    const float ry = std::round(y);
+    data.destRect.x = rx;
+    data.destRect.y = ry;
     if (data.destRect.w != width || data.destRect.h != height) data.verticesDirty = true;
     data.destRect.w = width;
     data.destRect.h = height;
@@ -373,8 +375,8 @@ namespace Project::Components {
   SDL_FRect GraphicsComponent::getRenderRect() const {
     SDL_FRect renderRect = data.destRect;
 
-    float x = std::floor(data.destRect.x);
-    float y = std::floor(data.destRect.y);
+    float x = std::round(data.destRect.x);
+    float y = std::round(data.destRect.y);
     float w = std::round(data.destRect.w);
     float h = std::round(data.destRect.h);
 
@@ -390,7 +392,7 @@ namespace Project::Components {
       renderRect.w = w;
       renderRect.h = h;
     }
-    
+
     return renderRect;
   }
 
@@ -408,8 +410,8 @@ namespace Project::Components {
     if (!cameraHandler) return true;
     const SDL_Rect cullRect = cameraHandler->getCullingRect();
     SDL_Rect worldRect{
-      static_cast<int>(std::floor(data.destRect.x)),
-      static_cast<int>(std::floor(data.destRect.y)),
+      static_cast<int>(std::round(data.destRect.x)),
+      static_cast<int>(std::round(data.destRect.y)),
       static_cast<int>(std::round(data.destRect.w)),
       static_cast<int>(std::round(data.destRect.h))
     };

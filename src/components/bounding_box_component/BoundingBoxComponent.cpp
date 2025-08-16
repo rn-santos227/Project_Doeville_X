@@ -322,9 +322,11 @@ namespace Project::Components {
   }
 
   void BoundingBoxComponent::setEntityPosition(float x, float y) {
-     if (entityX != x || entityY != y) {
-      entityX = x;
-      entityY = y;
+    const float rx = std::round(x);
+    const float ry = std::round(y);
+    if (entityX != rx || entityY != ry) {
+      entityX = rx;
+      entityY = ry;
       markDirty();
     }
   }
@@ -428,19 +430,19 @@ namespace Project::Components {
           const float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
           const float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
 
-          const float flooredX = std::floor(newX);
-          const float flooredY = std::floor(newY);
+          const float roundedX = std::round(newX);
+          const float roundedY = std::round(newY);
 
-          data.orientedBoxes[i].corners[j] = {flooredX, flooredY};
-          minX = std::min(minX, flooredX);
-          minY = std::min(minY, flooredY);
-          maxX = std::max(maxX, flooredX);
-          maxY = std::max(maxY, flooredY);
+          data.orientedBoxes[i].corners[j] = {roundedX, roundedY};
+          minX = std::min(minX, roundedX);
+          minY = std::min(minY, roundedY);
+          maxX = std::max(maxX, roundedX);
+          maxY = std::max(maxY, roundedY);
         }
         
         worldBoxes[i] = {
-          static_cast<int>(std::floor(minX)),
-          static_cast<int>(std::floor(minY)),
+          static_cast<int>(std::round(minX)),
+          static_cast<int>(std::round(minY)),
           static_cast<int>(std::round(maxX - minX)),
           static_cast<int>(std::round(maxY - minY))
         };

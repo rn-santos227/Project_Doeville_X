@@ -102,11 +102,12 @@ namespace Project::Components {
         if (data.borderRadius > 0) {
           int radius = std::max(0, data.borderRadius - i);
           SDL_FRect bRectF{
-            static_cast<float>(bRect.x),
+          static_cast<float>(bRect.x),
             static_cast<float>(bRect.y),
             static_cast<float>(bRect.w),
             static_cast<float>(bRect.h)
           };
+          
           Project::Utilities::GeometryUtils::renderRoundedRect(renderer, bRectF, radius);
         } else {
           SDL_RenderDrawRect(renderer, &bRect);

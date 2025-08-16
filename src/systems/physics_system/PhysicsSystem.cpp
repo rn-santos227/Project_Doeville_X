@@ -97,8 +97,8 @@ namespace Project::Systems {
 
     std::vector<std::pair<SDL_Rect, Project::Utilities::Collider>> dynamicObjects;
     dynamicObjects.reserve(components.size());
-    std::vector<std::pair<SDL_Rect, Project::Utilities::Collider>> allObjects;
-    allObjects.reserve(components.size() + staticColliders.size());
+    std::vector<std::pair<SDL_FRect, Project::Utilities::Collider>> bvhObjects;
+    bvhObjects.reserve(components.size() + staticColliders.size());
 
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
@@ -127,7 +127,13 @@ namespace Project::Systems {
       
       quadtree.insert(collider, bounds);
       dynamicObjects.emplace_back(bounds, collider);
-      allObjects.emplace_back(bounds, collider);
+      SDL_FRect fBounds{
+        static_cast<float>(bounds.x),
+        static_cast<float>(bounds.y),
+        static_cast<float>(bounds.w),
+        static_cast<float>(bounds.h)
+      };
+      bvhObjects.emplace_back(fBounds, collider);
 
       float centerX = worldBounds.x + worldBounds.w * Constants::CENTER_FACTOR;
       float centerY = worldBounds.y + worldBounds.h * Constants::CENTER_FACTOR;
@@ -157,7 +163,13 @@ namespace Project::Systems {
 
       Project::Utilities::Collider collider{box, nullptr, box->getOwner()};
       quadtree.insert(collider, bounds);
-      allObjects.emplace_back(bounds, collider);
+      SDL_FRect fBounds{
+        static_cast<float>(bounds.x),
+        static_cast<float>(bounds.y),
+        static_cast<float>(bounds.w),
+        static_cast<float>(bounds.h)
+      };
+      bvhObjects.emplace_back(fBounds, collider);
       if (collider.entity) {
         auto& catGrid = categoryGrids[collider.entity->getEntityCategory()];
         catGrid.setCellSize(targetCell);
@@ -178,7 +190,7 @@ namespace Project::Systems {
     for (const auto& p : sweepPairs) {
       sweepPairKeys.insert(makeKey(p.first.physics, p.second.physics));
     }
-    bvh.build(std::move(allObjects));
+    bvh.build(std::move(bvhObjects));
     auto end = std::chrono::high_resolution_clock::now();
     metrics.lastBroadPhaseMs = std::chrono::duration<float, std::milli>(end - start).count();
 
@@ -212,12 +224,18 @@ namespace Project::Systems {
 
     bool hasBounds = false;
     const auto& rects = box->getBoxes();
-    for (size_t i = 0; i < rects.size(); ++i) {
+    for (const auto& fr : rects) {
+      SDL_Rect r{
+        static_cast<int>(fr.x),
+        static_cast<int>(fr.y),
+        static_cast<int>(fr.w),
+        static_cast<int>(fr.h)
+      };
+
       if (!hasBounds) {
-        bounds = rects[i];
+        bounds = r;
         hasBounds = true;
       } else {
-        const SDL_Rect& r = rects[i];
         const int left = std::min(bounds.x, r.x);
         const int top = std::min(bounds.y, r.y);
         const int right = std::max(bounds.x + bounds.w, r.x + r.w);
@@ -248,7 +266,14 @@ namespace Project::Systems {
 
     const auto& polys = box->getPolygons();
     for (const auto& p : polys) {
-      SDL_Rect r = Project::Utilities::GeometryUtils::polygonBounds(p);
+      SDL_FRect fr = Project::Utilities::GeometryUtils::polygonBounds(p);
+      SDL_Rect r{
+        static_cast<int>(fr.x),
+        static_cast<int>(fr.y),
+        static_cast<int>(fr.w),
+        static_cast<int>(fr.h)
+      };
+
       if (!hasBounds) {
         bounds = r;
         hasBounds = true;
@@ -263,7 +288,14 @@ namespace Project::Systems {
 
     const auto& caps = box->getCapsules();
     for (const auto& c : caps) {
-      SDL_Rect r = Project::Utilities::GeometryUtils::capsuleBounds(c);
+      SDL_FRect fr = Project::Utilities::GeometryUtils::capsuleBounds(c);
+      SDL_Rect r{
+        static_cast<int>(fr.x),
+        static_cast<int>(fr.y),
+        static_cast<int>(fr.w),
+        static_cast<int>(fr.h)
+      };
+      
       if (!hasBounds) {
         bounds = r;
         hasBounds = true;

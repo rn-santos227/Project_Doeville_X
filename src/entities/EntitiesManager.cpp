@@ -776,34 +776,34 @@ namespace Project::Entities {
     if (!entity) return true;
     auto* cam = Project::Components::GraphicsComponent::getCameraHandler();
     if (!cam) return true;
-    const SDL_Rect cullRect = cam->getCullingRect();
+    const SDL_FRect cullRect = cam->getCullingRect();
 
     if (auto* gfx = entity->getGraphicsComponent()) {
-      SDL_Rect rect = gfx->getRect();
+      SDL_FRect rect = gfx->getRect();
       
-      if (rect.w <= 0) {
+      if (rect.w <= 0.0f) {
         int w = gfx->getWidth();
-        rect.w = w > 0 ? w : 1;
+        rect.w = w > 0 ? static_cast<float>(w) : 1.0f;
       }
       
-      if (rect.h <= 0) {
+      if (rect.h <= 0.0f) {
         int h = gfx->getHeight();
-        rect.h = h > 0 ? h : 1;
+        rect.h = h > 0 ? static_cast<float>(h) : 1.0f;
       }
-      
-      if (SDL_HasIntersection(&rect, &cullRect)) return true;
+
+      if (SDL_HasIntersectionF(&rect, &cullRect)) return true;
     }
 
     if (auto* bbox = entity->getBoundingBoxComponent()) {
       const auto& boxes = bbox->getBoxes();
       for (const auto& box : boxes) {
-        if (SDL_HasIntersection(&box, &cullRect)) return true;
+        if (SDL_HasIntersectionF(&box, &cullRect)) return true;
       }
       return false;
     }
 
-    SDL_Rect point{static_cast<int>(entity->getX()), static_cast<int>(entity->getY()), 1, 1};
-    return SDL_HasIntersection(&point, &cullRect);
+    SDL_FRect point{entity->getX(), entity->getY(), 1.0f, 1.0f};
+    return SDL_HasIntersectionF(&point, &cullRect);
   }
 
   bool EntitiesManager::isEntityOutOfBounds(const std::shared_ptr<Entity>& entity) const {

@@ -427,24 +427,27 @@ namespace Project::Components {
           const float ry = localCorners[j].y;
           const float newX = rx * cosA - ry * sinA + cx + static_cast<float>(entityX);
           const float newY = rx * sinA + ry * cosA + cy + static_cast<float>(entityY);
-          
-          data.orientedBoxes[i].corners[j] = {newX, newY};
-          minX = std::min(minX, newX);
-          minY = std::min(minY, newY);
-          maxX = std::max(maxX, newX);
-          maxY = std::max(maxY, newY);
+
+          const float flooredX = std::floor(newX);
+          const float flooredY = std::floor(newY);
+
+          data.orientedBoxes[i].corners[j] = {flooredX, flooredY};
+          minX = std::min(minX, flooredX);
+          minY = std::min(minY, flooredY);
+          maxX = std::max(maxX, flooredX);
+          maxY = std::max(maxY, flooredY);
         }
         
         worldBoxes[i] = {
-          static_cast<int>(minX),
-          static_cast<int>(minY),
-          static_cast<int>(maxX - minX),
-          static_cast<int>(maxY - minY)
+          static_cast<int>(std::floor(minX)),
+          static_cast<int>(std::floor(minY)),
+          static_cast<int>(std::round(maxX - minX)),
+          static_cast<int>(std::round(maxY - minY))
         };
       } else {
         worldBoxes[i] = {
-          static_cast<int>(data.boxes[i].x + entityX),
-          static_cast<int>(data.boxes[i].y + entityY),
+          static_cast<int>(std::round(data.boxes[i].x + entityX)),
+          static_cast<int>(std::round(data.boxes[i].y + entityY)),
           data.boxes[i].w,
           data.boxes[i].h
         };
@@ -462,24 +465,24 @@ namespace Project::Components {
     }
 
     for (size_t i = 0; i < data.circles.size(); ++i) {
-      worldCircles[i].x = data.circles[i].x + entityX;
-      worldCircles[i].y = data.circles[i].y + entityY;
+      worldCircles[i].x = static_cast<int>(std::floor(data.circles[i].x + entityX));
+      worldCircles[i].y = static_cast<int>(std::floor(data.circles[i].y + entityY));
       worldCircles[i].r = data.circles[i].r;
     }
 
     for (size_t i = 0; i < data.polygons.size(); ++i) {
       worldPolygons[i].vertices.resize(data.polygons[i].vertices.size());
       for (size_t j = 0; j < data.polygons[i].vertices.size(); ++j) {
-        worldPolygons[i].vertices[j].x = data.polygons[i].vertices[j].x + entityX;
-        worldPolygons[i].vertices[j].y = data.polygons[i].vertices[j].y + entityY;
+        worldPolygons[i].vertices[j].x = std::floor(data.polygons[i].vertices[j].x + entityX);
+        worldPolygons[i].vertices[j].y = std::floor(data.polygons[i].vertices[j].y + entityY);
       }
     }
 
     for (size_t i = 0; i < data.capsules.size(); ++i) {
-      worldCapsules[i].start.x = data.capsules[i].start.x + entityX;
-      worldCapsules[i].start.y = data.capsules[i].start.y + entityY;
-      worldCapsules[i].end.x = data.capsules[i].end.x + entityX;
-      worldCapsules[i].end.y = data.capsules[i].end.y + entityY;
+      worldCapsules[i].start.x = std::floor(data.capsules[i].start.x + entityX);
+      worldCapsules[i].start.y = std::floor(data.capsules[i].start.y + entityY);
+      worldCapsules[i].end.x = std::floor(data.capsules[i].end.x + entityX);
+      worldCapsules[i].end.y = std::floor(data.capsules[i].end.y + entityY);
       worldCapsules[i].r = data.capsules[i].r;
     }
   }

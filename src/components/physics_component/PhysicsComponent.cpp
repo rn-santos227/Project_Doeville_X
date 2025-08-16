@@ -587,9 +587,10 @@ namespace Project::Components {
     const auto& circles = box->getCircles();
     for (const auto& c : circles) {
       SDL_Rect r{
-        c.x - c.r, c.y - c.r,
-        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER,
-        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER
+        static_cast<int>(std::round(c.x - c.r)),
+        static_cast<int>(std::round(c.y - c.r)),
+        static_cast<int>(std::round(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER)),
+        static_cast<int>(std::round(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER))
       };
 
       if (!hasBounds) {
@@ -642,7 +643,7 @@ namespace Project::Components {
     for (const std::string& name : componentNames) {
       if (auto* component = owner->getComponent(name)) {
         if (auto* positionable = dynamic_cast<PositionableComponent*>(component)) {
-          positionable->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+          positionable->setEntityPosition(x, y);
         }
       }
     }

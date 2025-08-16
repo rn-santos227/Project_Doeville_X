@@ -22,7 +22,12 @@ namespace Project::Utilities {
     float minY = std::min(cap.start.y, cap.end.y) - cap.r;
     float maxX = std::max(cap.start.x, cap.end.x) + cap.r;
     float maxY = std::max(cap.start.y, cap.end.y) + cap.r;
-    return SDL_Rect{static_cast<int>(minX), static_cast<int>(minY), static_cast<int>(maxX - minX), static_cast<int>(maxY - minY)};
+    return SDL_Rect{
+      static_cast<int>(std::round(minX)),
+      static_cast<int>(std::round(minY)),
+      static_cast<int>(std::round(maxX - minX)),
+      static_cast<int>(std::round(maxY - minY))
+    };
   }
 
   SDL_Rect GeometryUtils::polygonBounds(const Polygon& poly) {
@@ -37,7 +42,12 @@ namespace Project::Utilities {
       if (v.x > maxX) maxX = v.x;
       if (v.y > maxY) maxY = v.y;
     }
-    return SDL_Rect{static_cast<int>(minX), static_cast<int>(minY), static_cast<int>(maxX - minX), static_cast<int>(maxY - minY)};
+    return SDL_Rect{
+      static_cast<int>(std::round(minX)),
+      static_cast<int>(std::round(minY)),
+      static_cast<int>(std::round(maxX - minX)),
+      static_cast<int>(std::round(maxY - minY))
+    };
   }
 
   float GeometryUtils::distance(float x1, float y1, float x2, float y2) {

@@ -12,26 +12,21 @@ namespace Project::Utilities {
     return {x, y, r}; 
   }
 
-  SDL_Rect GeometryUtils::makeRect(int x, int y, int w, int h) {
-    SDL_Rect rect{x, y, w, h};
+  SDL_FRect GeometryUtils::makeRect(int x, int y, int w, int h) {
+    SDL_FRect rect{static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h)};
     return rect;
   }
 
-  SDL_Rect GeometryUtils::capsuleBounds(const Capsule& cap) {
+  SDL_FRect GeometryUtils::capsuleBounds(const Capsule& cap) {
     float minX = std::min(cap.start.x, cap.end.x) - cap.r;
     float minY = std::min(cap.start.y, cap.end.y) - cap.r;
     float maxX = std::max(cap.start.x, cap.end.x) + cap.r;
     float maxY = std::max(cap.start.y, cap.end.y) + cap.r;
-    return SDL_Rect{
-      static_cast<int>(std::round(minX)),
-      static_cast<int>(std::round(minY)),
-      static_cast<int>(std::round(maxX - minX)),
-      static_cast<int>(std::round(maxY - minY))
-    };
+    return SDL_FRect{minX, minY, maxX - minX, maxY - minY};
   }
 
-  SDL_Rect GeometryUtils::polygonBounds(const Polygon& poly) {
-    if (poly.vertices.empty()) return SDL_Rect{0,0,0,0};
+  SDL_FRect GeometryUtils::polygonBounds(const Polygon& poly) {
+    if (poly.vertices.empty()) return SDL_FRect{0.f, 0.f, 0.f, 0.f};
     float minX = poly.vertices[0].x;
     float minY = poly.vertices[0].y;
     float maxX = poly.vertices[0].x;
@@ -42,12 +37,7 @@ namespace Project::Utilities {
       if (v.x > maxX) maxX = v.x;
       if (v.y > maxY) maxY = v.y;
     }
-    return SDL_Rect{
-      static_cast<int>(std::round(minX)),
-      static_cast<int>(std::round(minY)),
-      static_cast<int>(std::round(maxX - minX)),
-      static_cast<int>(std::round(maxY - minY))
-    };
+    return SDL_FRect{minX, minY, maxX - minX, maxY - minY};
   }
 
   float GeometryUtils::distance(float x1, float y1, float x2, float y2) {

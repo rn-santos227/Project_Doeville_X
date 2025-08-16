@@ -31,9 +31,9 @@ namespace Project::Utilities {
   public:
     static Circle makeCircle(int x, int y, int r);
     
-    static SDL_Rect makeRect(int x, int y, int w, int h);
-    static SDL_Rect capsuleBounds(const Capsule& cap);
-    static SDL_Rect polygonBounds(const Polygon& poly);
+    static SDL_FRect makeRect(int x, int y, int w, int h);
+    static SDL_FRect capsuleBounds(const Capsule& cap);
+    static SDL_FRect polygonBounds(const Polygon& poly);
 
     static float distance(float x1, float y1, float x2, float y2);
     static float pointSegmentDistance(float px, float py, float x1, float y1, float x2, float y2);

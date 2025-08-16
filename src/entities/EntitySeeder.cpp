@@ -67,8 +67,8 @@ namespace Project::Entities {
     int pcx = static_cast<int>(std::floor(px / chunkSize.x));
     int pcy = static_cast<int>(std::floor(py / chunkSize.y));
 
-    SDL_Rect cullRect{0,0,0,0};
-    SDL_Rect expandedCull{0,0,0,0};
+    SDL_FRect cullRect{0,0,0,0};
+    SDL_FRect expandedCull{0,0,0,0};
     bool useCull = false;
     bool bounded = false;
     SDL_Rect mapRect{0,0,0,0};
@@ -77,7 +77,7 @@ namespace Project::Entities {
     
     if (camHandler) {
       SDL_FRect fr = camHandler->getCullingRect();
-      cullRect = {static_cast<int>(fr.x), static_cast<int>(fr.y), static_cast<int>(fr.w), static_cast<int>(fr.h)};
+      cullRect = {fr.x, fr.y, fr.w, fr.h};
 
       int camX = camHandler->getX();
       int camY = camHandler->getY();
@@ -130,13 +130,12 @@ namespace Project::Entities {
         long long k = key(cx, cy);
         if (!chunks.count(k) && scheduledChunks.insert(k).second) {
           if (useCull) {
-            SDL_Rect chunkRect{
-              static_cast<int>(cx * chunkSize.x),
-              static_cast<int>(cy * chunkSize.y),
-              static_cast<int>(chunkSize.x),
-              static_cast<int>(chunkSize.y)
+            SDL_FRect chunkRect{
+              cx * chunkSize.x,
+              cy * chunkSize.y,
+              chunkSize.x, chunkSize.y
             };
-            if (!SDL_HasIntersection(&chunkRect, &cullRect)) {
+            if (!SDL_HasIntersectionF(&chunkRect, &cullRect)) {
               scheduledChunks.erase(k);
               continue;
             }
@@ -177,13 +176,12 @@ namespace Project::Entities {
       bool outsideRadius = std::abs(cx - pcx) > chunkRadius || std::abs(cy - pcy) > chunkRadius;
 
       if (outsideRadius && useCull) {
-        SDL_Rect chunkRect{
-          static_cast<int>(cx * chunkSize.x),
-          static_cast<int>(cy * chunkSize.y),
-          static_cast<int>(chunkSize.x),
-          static_cast<int>(chunkSize.y)
+        SDL_FRect chunkRect{
+          cx * chunkSize.x,
+          cy * chunkSize.y,
+          chunkSize.x, chunkSize.y
         };
-        if (SDL_HasIntersection(&chunkRect, &expandedCull)) {
+        if (SDL_HasIntersectionF(&chunkRect, &expandedCull)) {
           continue;
         }
 
@@ -191,7 +189,7 @@ namespace Project::Entities {
         for (const std::string& id : chunk.ids) {
           auto ent = manager.getEntity(id);
           if (!ent) continue;
-          SDL_Rect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 1, 1};
+          SDL_FRect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 1, 1};
           if (auto* gfx = ent->getGraphicsComponent()) {
             int w = gfx->getWidth();
             int h = gfx->getHeight();
@@ -205,7 +203,7 @@ namespace Project::Entities {
               if (r.h <= 0) r.h = 1;
             }
           }
-          if (SDL_HasIntersection(&r, &expandedCull)) {
+          if (SDL_HasIntersectionF(&r, &expandedCull)) {
             entityVisible = true;
             break;
           }
@@ -355,7 +353,7 @@ namespace Project::Entities {
     std::uniform_real_distribution<float> posY(startY, endY);
     std::uniform_int_distribution<size_t> templateIndex(0, entityTemplates.empty() ? 0 : entityTemplates.size() - 1);
 
-    std::vector<SDL_Rect> existingRects;
+    std::vector<SDL_FRect> existingRects;
     for (const auto& [existingKey, existingChunk] : chunks) {
       int ecx = static_cast<int>(existingKey >> Constants::BIT_32);
       int ecy = static_cast<int>(static_cast<unsigned int>(existingKey));
@@ -363,7 +361,7 @@ namespace Project::Entities {
       for (const std::string& eid : existingChunk.ids) {
         auto ent = manager.getEntity(eid);
         if (!ent) continue;
-        SDL_Rect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 0, 0};
+        SDL_FRect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 0, 0};
         if (auto* gfx = ent->getGraphicsComponent()) {
           r.w = gfx->getWidth();
           r.h = gfx->getHeight();
@@ -397,7 +395,7 @@ namespace Project::Entities {
         entity->setPosition(ex, ey);
         
         if (auto* box = entity->getBoundingBoxComponent()) {
-          box->setEntityPosition(ex, ey);
+          box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
           const auto& boxes = box->getBoxes();
           if (!boxes.empty()) {
             w = static_cast<float>(boxes.front().w);
@@ -415,14 +413,14 @@ namespace Project::Entities {
           entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
           entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
           if (auto* box = entity->getBoundingBoxComponent()) {
-            box->setEntityPosition(ex, ey);
+            box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
           }
         }
 
-        SDL_Rect newRect{static_cast<int>(ex), static_cast<int>(ey), static_cast<int>(w), static_cast<int>(h)};
+        SDL_FRect newRect{static_cast<int>(ex), static_cast<int>(ey), static_cast<int>(w), static_cast<int>(h)};
         bool overlap = false;
         for (const auto& r : existingRects) {
-          if (SDL_HasIntersection(&newRect, &r)) { overlap = true; break; }
+          if (SDL_HasIntersectionF(&newRect, &r)) { overlap = true; break; }
         }
         if (!overlap) {
           placed = true;

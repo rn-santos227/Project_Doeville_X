@@ -15,7 +15,7 @@ namespace Project::Components {
     bool allowRevert = true;
     bool transformed = false;
 
-    std::vector<SDL_Rect> originalBoxes;
+    std::vector<SDL_FRect> originalBoxes;
     std::vector<Project::Utilities::Circle> originalCircles;
 
     void set(float newFlexibility, float newSpin, bool canRevert) {

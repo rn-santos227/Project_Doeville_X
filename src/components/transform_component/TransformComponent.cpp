@@ -4,6 +4,7 @@
 #include "components/graphics_component/GraphicsComponent.h"
 #include "entities/Entity.h"
 #include "entities/EntitiesManager.h"
+#include "libraries/constants/FloatConstants.h"
 #include "libraries/keys/Keys.h"
 #include "utilities/physics/PhysicsUtils.h"
 
@@ -75,11 +76,11 @@ namespace Project::Components {
 
     myBox->clearShapes();
     for (const auto& b : data.originalBoxes) {
-      SDL_Rect n;
-      n.w = static_cast<int>(b.w * data.flexibility);
-      n.h = static_cast<int>(b.h * data.flexibility);
-      n.x = b.x + (b.w - n.w) / 2;
-      n.y = b.y + (b.h - n.h) / 2;
+      SDL_FRect n;
+      n.w = b.w * data.flexibility;
+      n.h = b.h * data.flexibility;
+      n.x = b.x + (b.w - n.w) * Project::Libraries::Constants::DEFAULT_HALF;
+      n.y = b.y + (b.h - n.h) * Project::Libraries::Constants::DEFAULT_HALF;
       myBox->addBox(n);
     }
     for (const auto& c : data.originalCircles) {

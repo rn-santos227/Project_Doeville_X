@@ -49,12 +49,12 @@ namespace Project::Systems {
     highPriorityGrid.clear();
     lowPriorityGrid.clear();
 
-    SDL_Rect worldBounds{0, 0, 0, 0};
+    SDL_FRect worldBounds{0.f, 0.f, 0.f, 0.f};
     bool hasWorldBounds = false;
 
     auto accumulateBounds = [&](BoundingBoxComponent* box) {
       if (!box || !box->isActive()) return;
-      SDL_Rect b{0,0,0,0};
+      SDL_FRect b{0.f, 0.f, 0.f, 0.f};
       if (!computeBounds(box, b)) return;
       if (!hasWorldBounds) {
         worldBounds = b;
@@ -77,14 +77,18 @@ namespace Project::Systems {
     }
 
     if (!hasWorldBounds) {
-      worldBounds = SDL_Rect{0,0,Constants::INT_TEN_THOUSAND, Constants::INT_TEN_THOUSAND};
+      worldBounds = SDL_FRect{
+        0.f, 0.f,
+        static_cast<float>(Constants::INT_TEN_THOUSAND),
+        static_cast<float>(Constants::INT_TEN_THOUSAND)
+      };
     } else {
-      if (worldBounds.w <= 0) worldBounds.w = 1;
-      if (worldBounds.h <= 0) worldBounds.h = 1;
+      if (worldBounds.w <= 0.f) worldBounds.w = 1.f;
+      if (worldBounds.h <= 0.f) worldBounds.h = 1.f;
     }
 
     const size_t totalColliders = components.size() + staticColliders.size();
-    const float area = static_cast<float>(worldBounds.w) * static_cast<float>(worldBounds.h);
+    const float area = worldBounds.w * worldBounds.h;
     float targetCell = std::sqrt(area / (static_cast<float>(totalColliders) + Constants::DEFAULT_WHOLE));
     targetCell = std::clamp(targetCell, Constants::MIN_CELL, Constants::MAX_CELL);
     
@@ -92,7 +96,13 @@ namespace Project::Systems {
     highPriorityGrid.setCellSize(targetCell);
     lowPriorityGrid.setCellSize(targetCell);
 
-    quadtree = Project::Utilities::QuadTree(worldBounds);
+    SDL_Rect qBounds{
+      static_cast<int>(std::floor(worldBounds.x)),
+      static_cast<int>(std::floor(worldBounds.y)),
+      static_cast<int>(std::ceil(worldBounds.w)),
+      static_cast<int>(std::ceil(worldBounds.h))
+    };
+    quadtree = Project::Utilities::QuadTree(qBounds);
     quadtree.clear();
 
     std::vector<std::pair<SDL_Rect, Project::Utilities::Collider>> dynamicObjects;
@@ -109,8 +119,14 @@ namespace Project::Systems {
       Project::Components::BoundingBoxComponent* box = owner->getBoundingBoxComponent();
       if (!box) continue;
       
-      SDL_Rect bounds{0,0,0,0};
-      if (!computeBounds(box, bounds)) continue;
+      SDL_FRect fBounds{0.f,0.f,0.f,0.f};
+      if (!computeBounds(box, fBounds)) continue;
+      SDL_Rect bounds{
+        static_cast<int>(std::floor(fBounds.x)),
+        static_cast<int>(std::floor(fBounds.y)),
+        static_cast<int>(std::ceil(fBounds.w)),
+        static_cast<int>(std::ceil(fBounds.h))
+      };
       
       Project::Utilities::Collider collider{box, comp, owner};
       switch (comp->getUpdateFrequency()) {
@@ -127,12 +143,6 @@ namespace Project::Systems {
       
       quadtree.insert(collider, bounds);
       dynamicObjects.emplace_back(bounds, collider);
-      SDL_FRect fBounds{
-        static_cast<float>(bounds.x),
-        static_cast<float>(bounds.y),
-        static_cast<float>(bounds.w),
-        static_cast<float>(bounds.h)
-      };
       bvhObjects.emplace_back(fBounds, collider);
 
       float centerX = worldBounds.x + worldBounds.w * Constants::CENTER_FACTOR;
@@ -158,17 +168,17 @@ namespace Project::Systems {
     for (auto* box : staticColliders) {
       if (!box || !box->isActive()) continue;
 
-      SDL_Rect bounds{0,0,0,0};
-      if (!computeBounds(box, bounds)) continue;
+      SDL_FRect fBounds{0.f, 0.f, 0.f, 0.f};
+      if (!computeBounds(box, fBounds)) continue;
+      SDL_Rect bounds{
+        static_cast<int>(std::floor(fBounds.x)),
+        static_cast<int>(std::floor(fBounds.y)),
+        static_cast<int>(std::ceil(fBounds.w)),
+        static_cast<int>(std::ceil(fBounds.h))
+      };
 
       Project::Utilities::Collider collider{box, nullptr, box->getOwner()};
       quadtree.insert(collider, bounds);
-      SDL_FRect fBounds{
-        static_cast<float>(bounds.x),
-        static_cast<float>(bounds.y),
-        static_cast<float>(bounds.w),
-        static_cast<float>(bounds.h)
-      };
       bvhObjects.emplace_back(fBounds, collider);
       if (collider.entity) {
         auto& catGrid = categoryGrids[collider.entity->getEntityCategory()];
@@ -211,103 +221,66 @@ namespace Project::Systems {
     metrics.totalQueryTimeMs += ms;
   }
 
-  SDL_Rect PhysicsSystem::unionRect(const SDL_Rect& a, const SDL_Rect& b) const {
-    const int left = std::min(a.x, b.x);
-    const int top = std::min(a.y, b.y);
-    const int right = std::max(a.x + a.w, b.x + b.w);
-    const int bottom = std::max(a.y + a.h, b.y + b.h);
+  SDL_FRect PhysicsSystem::unionRect(const SDL_FRect& a, const SDL_FRect& b) const {
+    const float left = std::min(a.x, b.x);
+    const float top = std::min(a.y, b.y);
+    const float right = std::max(a.x + a.w, b.x + b.w);
+    const float bottom = std::max(a.y + a.h, b.y + b.h);
     return {left, top, right - left, bottom - top};
   }
 
-  bool PhysicsSystem::computeBounds(BoundingBoxComponent* box, SDL_Rect& bounds) const {
+  bool PhysicsSystem::computeBounds(BoundingBoxComponent* box, SDL_FRect& bounds) const {
     if (!box) return false;
 
     bool hasBounds = false;
     const auto& rects = box->getBoxes();
     for (const auto& fr : rects) {
-      SDL_Rect r{
-        static_cast<int>(fr.x),
-        static_cast<int>(fr.y),
-        static_cast<int>(fr.w),
-        static_cast<int>(fr.h)
-      };
-
       if (!hasBounds) {
-        bounds = r;
+        bounds = fr;
         hasBounds = true;
       } else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
-        bounds = {left, top, right - left, bottom - top};
+        bounds = unionRect(bounds, fr);
       }
     }
 
     const auto& circles = box->getCircles();
     for (const auto& c : circles) {
-      SDL_Rect r{
-        c.x - c.r, c.y - c.r,
-        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER,
-        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER
+      SDL_FRect r{
+        static_cast<float>(c.x - c.r),
+        static_cast<float>(c.y - c.r),
+        static_cast<float>(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER),
+        static_cast<float>(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER)
       };
       
       if (!hasBounds) {
         bounds = r;
         hasBounds = true;
       } else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
-        bounds = {left, top, right - left, bottom - top};
+        bounds = unionRect(bounds, r);
       }
     }
 
     const auto& polys = box->getPolygons();
     for (const auto& p : polys) {
       SDL_FRect fr = Project::Utilities::GeometryUtils::polygonBounds(p);
-      SDL_Rect r{
-        static_cast<int>(fr.x),
-        static_cast<int>(fr.y),
-        static_cast<int>(fr.w),
-        static_cast<int>(fr.h)
-      };
-
       if (!hasBounds) {
-        bounds = r;
+        bounds = fr;
         hasBounds = true;
       } else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
-        bounds = {left, top, right - left, bottom - top};
+        bounds = unionRect(bounds, fr);
       }
     }
 
     const auto& caps = box->getCapsules();
     for (const auto& c : caps) {
       SDL_FRect fr = Project::Utilities::GeometryUtils::capsuleBounds(c);
-      SDL_Rect r{
-        static_cast<int>(fr.x),
-        static_cast<int>(fr.y),
-        static_cast<int>(fr.w),
-        static_cast<int>(fr.h)
-      };
-      
       if (!hasBounds) {
-        bounds = r;
+        bounds = fr;
         hasBounds = true;
       } else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
-        bounds = {left, top, right - left, bottom - top};
+        bounds = unionRect(bounds, fr);
       }
     }
-
     return hasBounds;
   }
 }

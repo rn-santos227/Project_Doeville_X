@@ -64,6 +64,9 @@ namespace Project::Components {
     
     CameraData data;
     float shakeTime = 0.0f;
+    float camXF = 0.0f;
+    float camYF = 0.0f;
+    bool havePos = false;
   };
 }
 

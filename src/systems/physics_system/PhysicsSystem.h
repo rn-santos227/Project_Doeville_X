@@ -65,8 +65,8 @@ namespace Project::Systems {
     std::vector<Project::Components::PhysicsComponent*> components;
     std::vector<Project::Components::BoundingBoxComponent*> staticColliders;
 
-    SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b) const;
-    bool computeBounds(Project::Components::BoundingBoxComponent* box, SDL_Rect& bounds) const;
+    SDL_FRect unionRect(const SDL_FRect& a, const SDL_FRect& b) const;
+    bool computeBounds(Project::Components::BoundingBoxComponent* box, SDL_FRect& bounds) const;
     void resetMetrics() { metrics.queryCount = 0; metrics.totalQueryTimeMs = 0.0f; metrics.lastBroadPhaseMs = 0.0f; }
   };
 }

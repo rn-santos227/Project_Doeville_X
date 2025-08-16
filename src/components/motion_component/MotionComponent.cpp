@@ -79,16 +79,14 @@ namespace Project::Components {
     float dy = localVelY * deltaTime;
 
     if (!physics && (dx != 0.0f || dy != 0.0f)) {
-      float oldX = owner->getX();
-      float oldY = owner->getY();
-      float newX = oldX + dx;
-      float newY = oldY + dy;
-      owner->setPosition(newX, newY);
+      posX += dx;
+      posY += dy;
+      owner->setPosition(posX, posY);
 
       for (const std::string& name : owner->listComponentNames()) {
         if (auto* comp = owner->getComponent(name)) {
           if (auto* pos = dynamic_cast<PositionableComponent*>(comp)) {
-            pos->setEntityPosition(newX, newY);
+            pos->setEntityPosition(posX, posY);
           }
         }
       }
@@ -129,12 +127,17 @@ namespace Project::Components {
 
   void MotionComponent::reset() {
     data = MotionData{};
+    if (owner) {
+      posX = owner->getX();
+      posY = owner->getY();
+    }
   }
 
   void MotionComponent::onAttach() {
     if (owner) {
-      keysComp = dynamic_cast<KeysComponent*>(
-        owner->getComponent(Components::KEYS_COMPONENT));
+      keysComp = dynamic_cast<KeysComponent*>(owner->getComponent(Components::KEYS_COMPONENT));
+      posX = owner->getX();
+      posY = owner->getY();
     } else {
       keysComp = nullptr;
     }

@@ -77,29 +77,43 @@ namespace Project::Components {
     float offsetX = data.offsetX * std::cos(angle) - data.offsetY * std::sin(angle);
     float offsetY = data.offsetX * std::sin(angle) + data.offsetY * std::cos(angle);
 
-    int desiredX = static_cast<int>(focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE -
-      cameraHandler->getWidth() / Constants::INDEX_TWO);
-    int desiredY = static_cast<int>(focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE -
-      cameraHandler->getHeight() / Constants::INDEX_TWO);
+    float desiredXF = focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getWidth()) / Constants::INDEX_TWO;
+    float desiredYF = focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getHeight()) / Constants::INDEX_TWO;
 
     if (clamp) {
-      desiredX = std::clamp(desiredX, map.x, map.x + map.w - cameraHandler->getWidth());
-      desiredY = std::clamp(desiredY, map.y, map.y + map.h - cameraHandler->getHeight());
+      float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
+      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
+      desiredXF = std::clamp(desiredXF, static_cast<float>(map.x), maxX);
+      desiredYF = std::clamp(desiredYF, static_cast<float>(map.y), maxY);
     }
 
-    int currentX = cameraHandler->getX();
-    int currentY = cameraHandler->getY();
+    if (!havePos) {
+      camXF = static_cast<float>(cameraHandler->getX());
+      camYF = static_cast<float>(cameraHandler->getY());
+      havePos = true;
+    }
+
     float t = std::min(Constants::DEFAULT_WHOLE, data.followSpeed * deltaTime);
-    int camX = Project::Utilities::MathUtils::interpolate(currentX, desiredX, t);
-    int camY = Project::Utilities::MathUtils::interpolate(currentY, desiredY, t);
+    camXF = Project::Utilities::MathUtils::lerp(camXF, desiredXF, t);
+    camYF = Project::Utilities::MathUtils::lerp(camYF, desiredYF, t);
 
     if (shakeTime > 0.0f) {
       float shakeX = ((static_cast<float>(std::rand()) / RAND_MAX) * Constants::DEFAULT_DOUBLE - Constants::DEFAULT_WHOLE) * data.shakeIntensity;
       float shakeY = ((static_cast<float>(std::rand()) / RAND_MAX) * Constants::DEFAULT_DOUBLE - Constants::DEFAULT_WHOLE) * data.shakeIntensity;
-      camX += static_cast<int>(shakeX);
-      camY += static_cast<int>(shakeY);
+      camXF += shakeX;
+      camYF += shakeY;
       shakeTime -= deltaTime;
     }
+
+    if (clamp) {
+      float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
+      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
+      camXF = std::clamp(camXF, static_cast<float>(map.x), maxX);
+      camYF = std::clamp(camYF, static_cast<float>(map.y), maxY);
+    }
+
+    int camX = static_cast<int>(std::round(camXF));
+    int camY = static_cast<int>(std::round(camYF));
 
     cameraHandler->setPosition(camX, camY);
     data.rotation += data.spinSpeed * deltaTime;
@@ -153,17 +167,18 @@ namespace Project::Components {
     float offsetX = data.offsetX * std::cos(angle) - data.offsetY * std::sin(angle);
     float offsetY = data.offsetX * std::sin(angle) + data.offsetY * std::cos(angle);
 
-    int camX = static_cast<int>(focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE -
-      cameraHandler->getWidth() / Constants::INDEX_TWO);
-    int camY = static_cast<int>(focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE -
-      cameraHandler->getHeight() / Constants::INDEX_TWO);
+    camXF = focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getWidth()) / Constants::INDEX_TWO;
+    camYF = focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getHeight()) / Constants::INDEX_TWO;
 
     if (clamp) {
-      camX = std::clamp(camX, map.x, map.x + map.w - cameraHandler->getWidth());
-      camY = std::clamp(camY, map.y, map.y + map.h - cameraHandler->getHeight());
+      float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
+      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
+      camXF = std::clamp(camXF, static_cast<float>(map.x), maxX);
+      camYF = std::clamp(camYF, static_cast<float>(map.y), maxY);
     }
 
-    cameraHandler->setPosition(camX, camY);
+    cameraHandler->setPosition(static_cast<int>(std::round(camXF)), static_cast<int>(std::round(camYF)));
+    havePos = true;
   }
 
   void CameraComponent::shake(float duration) {

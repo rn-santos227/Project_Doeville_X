@@ -74,6 +74,8 @@ namespace Project::Components {
     float& acceleration = data.acceleration;
     float& brakePower = data.brakePower;
     float& friction = data.friction;
+    float& posX = data.posX;
+    float& posY = data.posY;
     float& velocityX = data.velocity.x;
     float& velocityY = data.velocity.y;
     MovementMode& movementMode = data.movementMode;

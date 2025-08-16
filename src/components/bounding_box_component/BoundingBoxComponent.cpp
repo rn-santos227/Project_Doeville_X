@@ -460,16 +460,16 @@ namespace Project::Components {
     for (size_t i = 0; i < data.polygons.size(); ++i) {
       worldPolygons[i].vertices.resize(data.polygons[i].vertices.size());
       for (size_t j = 0; j < data.polygons[i].vertices.size(); ++j) {
-        worldPolygons[i].vertices[j].x = std::floor(data.polygons[i].vertices[j].x + entityX);
-        worldPolygons[i].vertices[j].y = std::floor(data.polygons[i].vertices[j].y + entityY);
+        worldPolygons[i].vertices[j].x = data.polygons[i].vertices[j].x + entityX;
+        worldPolygons[i].vertices[j].y = data.polygons[i].vertices[j].y + entityY;
       }
     }
 
     for (size_t i = 0; i < data.capsules.size(); ++i) {
-      worldCapsules[i].start.x = std::floor(data.capsules[i].start.x + entityX);
-      worldCapsules[i].start.y = std::floor(data.capsules[i].start.y + entityY);
-      worldCapsules[i].end.x = std::floor(data.capsules[i].end.x + entityX);
-      worldCapsules[i].end.y = std::floor(data.capsules[i].end.y + entityY);
+      worldCapsules[i].start.x = data.capsules[i].start.x + entityX;
+      worldCapsules[i].start.y = data.capsules[i].start.y + entityY;
+      worldCapsules[i].end.x = data.capsules[i].end.x + entityX;
+      worldCapsules[i].end.y = data.capsules[i].end.y + entityY;
       worldCapsules[i].r = data.capsules[i].r;
     }
   }

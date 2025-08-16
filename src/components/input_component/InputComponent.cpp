@@ -87,7 +87,14 @@ namespace Project::Components {
     if (!renderer) return;
     SDL_SetRenderDrawColor(renderer, data.bgColor.r, data.bgColor.g, data.bgColor.b, data.bgColor.a);
     if (data.borderRadius > 0) {
-      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
+      SDL_FRect rectF{
+        static_cast<float>(data.rect.x),
+        static_cast<float>(data.rect.y),
+        static_cast<float>(data.rect.w),
+        static_cast<float>(data.rect.h)
+      };
+      
+      Project::Utilities::GeometryUtils::renderFilledRoundedRect(renderer, rectF, data.borderRadius);
     } else {
       SDL_RenderFillRect(renderer, &data.rect);
     }
@@ -98,7 +105,14 @@ namespace Project::Components {
         SDL_Rect b{data.rect.x + i, data.rect.y + i, data.rect.w - Constants::INDEX_TWO * i, data.rect.h - Constants::INDEX_TWO * i};
         if (data.borderRadius > 0) {
           int radius = std::max(0, data.borderRadius - i);
-          Project::Utilities::GeometryUtils::renderRoundedRect(renderer, b, radius);
+          SDL_FRect bF{
+            static_cast<float>(b.x),
+            static_cast<float>(b.y),
+            static_cast<float>(b.w),
+            static_cast<float>(b.h)
+          };
+          
+          Project::Utilities::GeometryUtils::renderRoundedRect(renderer, bF, radius);
         } else {
           SDL_RenderDrawRect(renderer, &b);
         }
@@ -226,7 +240,7 @@ namespace Project::Components {
     data.rect.x = static_cast<int>(x);
     data.rect.y = static_cast<int>(y);
   }
-  
+
   void InputComponent::setText(const std::string& text) {
     data.currentText = text;
     createTexture();

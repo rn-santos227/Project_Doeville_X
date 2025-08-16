@@ -1,8 +1,10 @@
 #include "PhysicsSystem.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
 #include <limits>
+#include <utility>
 
 #include "components/physics_component/PhysicsData.h"
 #include "components/physics_component/PhysicsComponent.h"
@@ -94,7 +96,9 @@ namespace Project::Systems {
     quadtree.clear();
 
     std::vector<std::pair<SDL_Rect, Project::Utilities::Collider>> dynamicObjects;
+    dynamicObjects.reserve(components.size());
     std::vector<std::pair<SDL_Rect, Project::Utilities::Collider>> allObjects;
+    allObjects.reserve(components.size() + staticColliders.size());
 
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
@@ -163,7 +167,18 @@ namespace Project::Systems {
 
     auto start = std::chrono::high_resolution_clock::now();
     sweepPairs = Project::Utilities::SweepAndPrune::findPairs(dynamicObjects);
-    bvh.build(allObjects);
+    sweepPairKeys.clear();
+    sweepPairKeys.reserve(sweepPairs.size());
+    auto makeKey = [](PhysicsComponent* a, PhysicsComponent* b) {
+      auto pa = reinterpret_cast<std::uintptr_t>(a);
+      auto pb = reinterpret_cast<std::uintptr_t>(b);
+      if (pa > pb) std::swap(pa, pb);
+      return static_cast<std::size_t>(pa ^ (pb + Constants::DEFAULT_HASH + (pa << 6) + (pa >> 2)));
+    };
+    for (const auto& p : sweepPairs) {
+      sweepPairKeys.insert(makeKey(p.first.physics, p.second.physics));
+    }
+    bvh.build(std::move(allObjects));
     auto end = std::chrono::high_resolution_clock::now();
     metrics.lastBroadPhaseMs = std::chrono::duration<float, std::milli>(end - start).count();
 

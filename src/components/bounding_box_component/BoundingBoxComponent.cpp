@@ -2,6 +2,7 @@
 #include "SurfaceType.h"
 #include "SurfaceTypeResolver.h"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 

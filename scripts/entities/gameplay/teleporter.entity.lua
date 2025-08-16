@@ -10,8 +10,8 @@ components = {
     active = true,
     solid = false,
     boxes = {
-      { x = 64, y = 64, radius = 64 }
-    },
+      { x = 0, y = 0, w = 64, h = 64 }
+    }
   },
 
   GraphicsComponent = {

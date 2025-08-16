@@ -271,7 +271,7 @@ namespace Project::Entities {
 
   size_t EntitySeeder::generateChunkSeed(size_t base, long long key) {
     base ^= static_cast<size_t>(key) +
-            static_cast<size_t>(Constants::DEFAULT_SEEDER) +
+            static_cast<size_t>(Constants::DEFAULT_HASH) +
             (base << Constants::INDEX_SIX) + (base >> Constants::INDEX_TWO);
     base ^= sessionSalt +
             (base << Constants::INDEX_THREE) + (base >> Constants::INDEX_FIVE);

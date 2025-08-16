@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <string>
 
 #include "components/PositionableComponent.h"
@@ -195,18 +196,33 @@ namespace Project::Components {
 
   bool PhysicsComponent::checkBoxBoxCollisions(
     const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
-    const std::vector<Project::Utilities::OrientedBox>& myOBB, 
+    const std::vector<Project::Utilities::OrientedBox>& myOBB,
     const std::vector<Project::Utilities::OrientedBox>& otherOBB,
     bool myRotationEnabled, bool otherRotationEnabled,
     BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
     float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
+
+    auto rectToOBB = [](const SDL_Rect& r) {
+      Project::Utilities::OrientedBox obb;
+      obb.corners[Constants::INDEX_ZERO] = {static_cast<float>(r.x), static_cast<float>(r.y)};
+      obb.corners[Constants::INDEX_ONE] = {static_cast<float>(r.x + r.w), static_cast<float>(r.y)};
+      obb.corners[Constants::INDEX_TWO] = {static_cast<float>(r.x + r.w), static_cast<float>(r.y + r.h)};
+      obb.corners[Constants::INDEX_THREE] = {static_cast<float>(r.x), static_cast<float>(r.y + r.h)};
+      return obb;
+    };
     
     for (size_t i = 0; i < myRects.size(); ++i) {
       for (size_t j = 0; j < otherRects.size(); ++j) {
         bool collides = false;
-        if (myRotationEnabled || otherRotationEnabled) {
+        if (myRotationEnabled && otherRotationEnabled) {
           collides = PhysicsUtils::checkCollision(myOBB[i], otherOBB[j]);
+        } else if (myRotationEnabled) {
+          auto orect = rectToOBB(otherRects[j]);
+          collides = PhysicsUtils::checkCollision(myOBB[i], orect);
+        } else if (otherRotationEnabled) {
+          auto orect = rectToOBB(myRects[i]);
+          collides = PhysicsUtils::checkCollision(orect, otherOBB[j]);
         } else {
           collides = PhysicsUtils::checkCollision(myRects[i], otherRects[j]);
         }
@@ -214,7 +230,7 @@ namespace Project::Components {
         if (collides) {
           return handleCollision(
             myBox, otherBox, otherPhysics, entity,
-            myRects[i], otherRects[j], newX, newY, 
+            myRects[i], otherRects[j], newX, newY,
             velocityDeltaX, velocityDeltaY
           );
         }
@@ -355,7 +371,6 @@ namespace Project::Components {
           return false;
         }
       } else {
-         collidedWithStatic = true;
         resolveCollisionWith(otherPhysics, bounce);
         applyFriction(fric);
         otherPhysics->applyFriction(fric);
@@ -421,26 +436,26 @@ namespace Project::Components {
     auto candidates = bvh.query(myBounds);
     auto queryEnd = std::chrono::high_resolution_clock::now();
     physSystem.recordSpatialQuery(std::chrono::duration<float, std::milli>(queryEnd - queryStart).count());
-    const auto& sweepPairs = physSystem.getSweepPairs();
-    auto pairAllowed = [&](PhysicsComponent* a, PhysicsComponent* b) {
-      return std::any_of(sweepPairs.begin(), sweepPairs.end(), [&](const auto& p){
-        return (p.first.physics == a && p.second.physics == b) || (p.first.physics == b && p.second.physics == a);
-      });
+    const auto& pairKeys = physSystem.getSweepPairKeys();
+    auto makeKey = [](PhysicsComponent* a, PhysicsComponent* b) {
+      auto pa = reinterpret_cast<std::uintptr_t>(a);
+      auto pb = reinterpret_cast<std::uintptr_t>(b);
+      if (pa > pb) std::swap(pa, pb);
+      return static_cast<std::size_t>(pa ^ (pb + Constants::DEFAULT_HASH + (pa << 6) + (pa >> 2)));
     };
 
     for (const auto& coll : candidates) {
       auto* candidate = coll.physics;
       if (candidate == this) continue;
-      if (candidate && !pairAllowed(this, candidate)) continue;
-      auto* entity = coll.entity;
+      if (candidate && !pairKeys.count(makeKey(this, candidate))) continue;
+      auto* entity = candidate ? candidate->getOwner() : coll.entity;
       auto* otherBox = coll.box;
+      if (!entity || !otherBox) continue;
       
-      if (entity) {
-        if (myBox->isIgnoring(entity->getEntityName())) continue;
-        if (otherBox && otherBox->isIgnoring(owner->getEntityName())) continue;
-      }
+      if (myBox->isIgnoring(entity->getEntityName())) continue;
+      if (otherBox->isIgnoring(owner->getEntityName())) continue;
 
-      if (!otherBox || !otherBox->isInteractive()) continue;
+      if (!otherBox->isInteractive()) continue;
       if (myBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT &&
           otherBox->getSurfaceType() == SurfaceType::DESTROY_ON_HIT) {
         continue;
@@ -613,6 +628,7 @@ namespace Project::Components {
   }
 
   void PhysicsComponent::syncPositionWithComponents(float x, float y) {
+    if (!owner) return;
     owner->setPosition(x, y);
     const auto& componentNames = owner->listComponentNames();
     for (const std::string& name : componentNames) {

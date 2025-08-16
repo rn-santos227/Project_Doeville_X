@@ -44,6 +44,7 @@ namespace Project::Systems {
     const Project::Utilities::BVH& getBVH() const { return bvh; }
     Project::Utilities::BVH& getBVH() { return bvh; }
     const std::vector<Project::Utilities::SweepAndPrune::Pair>& getSweepPairs() const { return sweepPairs; }
+    const std::unordered_set<std::size_t>& getSweepPairKeys() const { return sweepPairKeys; }
 
     const PerformanceMetrics& getPerformanceMetrics() const { return metrics; }
     void recordSpatialQuery(float ms);
@@ -59,6 +60,7 @@ namespace Project::Systems {
     std::unordered_map<Project::Entities::EntityCategory, Project::Utilities::SpatialHashGrid> categoryGrids;
 
     std::vector<Project::Utilities::SweepAndPrune::Pair> sweepPairs;
+    std::unordered_set<std::size_t> sweepPairKeys;
     
     std::vector<Project::Components::PhysicsComponent*> components;
     std::vector<Project::Components::BoundingBoxComponent*> staticColliders;

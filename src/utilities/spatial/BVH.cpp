@@ -47,9 +47,10 @@ namespace Project::Utilities {
     return node;
   }
 
-  void BVH::build(const std::vector<ObjPair>& objects) {
-    std::vector<ObjPair> objs = objects;
-    root = buildRecursive(objs, 0, static_cast<int>(objs.size()));
+  void BVH::build(std::vector<ObjPair> objects) {
+    clear();
+    if (objects.empty()) return;
+    root = buildRecursive(objects, 0, static_cast<int>(objects.size()));
   }
 
   void BVH::queryRecursive(const BVHNode* node, const SDL_Rect& area, std::vector<Collider>& out) const {

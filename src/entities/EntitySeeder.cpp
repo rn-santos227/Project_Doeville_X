@@ -189,7 +189,7 @@ namespace Project::Entities {
         for (const std::string& id : chunk.ids) {
           auto ent = manager.getEntity(id);
           if (!ent) continue;
-          SDL_FRect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 1, 1};
+          SDL_FRect r{ent->getX(), ent->getY(), 1.0f, 1.0f};
           if (auto* gfx = ent->getGraphicsComponent()) {
             int w = gfx->getWidth();
             int h = gfx->getHeight();
@@ -361,7 +361,7 @@ namespace Project::Entities {
       for (const std::string& eid : existingChunk.ids) {
         auto ent = manager.getEntity(eid);
         if (!ent) continue;
-        SDL_FRect r{static_cast<int>(ent->getX()), static_cast<int>(ent->getY()), 0, 0};
+        SDL_FRect r{ent->getX(), ent->getY(), 0.0f, 0.0f};
         if (auto* gfx = ent->getGraphicsComponent()) {
           r.w = gfx->getWidth();
           r.h = gfx->getHeight();
@@ -417,7 +417,7 @@ namespace Project::Entities {
           }
         }
 
-        SDL_FRect newRect{static_cast<int>(ex), static_cast<int>(ey), static_cast<int>(w), static_cast<int>(h)};
+        SDL_FRect newRect{ex, ey, w, h};
         bool overlap = false;
         for (const auto& r : existingRects) {
           if (SDL_HasIntersectionF(&newRect, &r)) { overlap = true; break; }

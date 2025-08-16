@@ -8,11 +8,11 @@ namespace Project::Utilities {
   using ObjPair = std::pair<SDL_FRect, Collider>;
 
   static SDL_FRect unionRect(const SDL_FRect& a, const SDL_FRect& b) {
-    const int left = std::min(a.x, b.x);
-    const int top = std::min(a.y, b.y);
-    const int right = std::max(a.x + a.w, b.x + b.w);
-    const int bottom = std::max(a.y + a.h, b.y + b.h);
-    return {left, top, right - left, bottom - top};
+    const float left = std::min(a.x, b.x);
+    const float top = std::min(a.y, b.y);
+    const float right = std::max(a.x + a.w, b.x + b.w);
+    const float bottom = std::max(a.y + a.h, b.y + b.h);
+    return SDL_FRect{left, top, right - left, bottom - top};
   }
 
   void BVH::build(std::vector<ObjPair> objects) {

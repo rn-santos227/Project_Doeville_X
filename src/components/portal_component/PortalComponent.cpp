@@ -63,7 +63,7 @@ namespace Project::Components {
     if (!portalBox) return;
     const auto& portalBoxes = portalBox->getBoxes();
     if (portalBoxes.empty()) return;
-    SDL_Rect portalRect = portalBoxes.front();
+    SDL_FRect portalRect = portalBoxes.front();
 
     auto* manager = owner->getEntitiesManager();
     if (!manager) return;
@@ -74,11 +74,11 @@ namespace Project::Components {
       if (!bbox) continue;
       const auto& boxes = bbox->getBoxes();
       if (boxes.empty()) continue;
-      SDL_Rect rect = boxes.front();
+      SDL_FRect rect = boxes.front();
       bool inside = rect.x >= portalRect.x && rect.y >= portalRect.y &&
         rect.x + rect.w <= portalRect.x + portalRect.w &&
         rect.y + rect.h <= portalRect.y + portalRect.h;
-      bool overlap = SDL_HasIntersection(&rect, &portalRect);
+      bool overlap = SDL_HasIntersectionF(&rect, &portalRect);
       if ((data.triggerOnInside && inside) || (data.triggerOnTouch && overlap)) {
         beginTeleport(ent);
         break;

@@ -5,14 +5,26 @@
 #include <algorithm>
 
 namespace Project::Utilities {
-  using ObjPair = std::pair<SDL_Rect, Collider>;
+  using ObjPair = std::pair<SDL_FRect, Collider>;
 
-  static SDL_Rect unionRect(const SDL_Rect& a, const SDL_Rect& b) {
+  static SDL_FRect unionRect(const SDL_FRect& a, const SDL_FRect& b) {
     const int left = std::min(a.x, b.x);
     const int top = std::min(a.y, b.y);
     const int right = std::max(a.x + a.w, b.x + b.w);
     const int bottom = std::max(a.y + a.h, b.y + b.h);
     return {left, top, right - left, bottom - top};
+  }
+
+  void BVH::build(std::vector<ObjPair> objects) {
+    clear();
+    if (objects.empty()) return;
+    root = buildRecursive(objects, 0, static_cast<int>(objects.size()));
+  }
+
+  std::vector<Collider> BVH::query(const SDL_FRect& area) const {
+    std::vector<Collider> result;
+    queryRecursive(root.get(), area, result);
+    return result;
   }
 
   void BVH::clear() {
@@ -28,7 +40,7 @@ namespace Project::Utilities {
       return node;
     }
 
-    SDL_Rect bounds = objs[start].first;
+    SDL_FRect bounds = objs[start].first;
     for (int i = start + 1; i < end; ++i) {
       bounds = unionRect(bounds, objs[i].first);
     }
@@ -47,26 +59,14 @@ namespace Project::Utilities {
     return node;
   }
 
-  void BVH::build(std::vector<ObjPair> objects) {
-    clear();
-    if (objects.empty()) return;
-    root = buildRecursive(objects, 0, static_cast<int>(objects.size()));
-  }
-
-  void BVH::queryRecursive(const BVHNode* node, const SDL_Rect& area, std::vector<Collider>& out) const {
+  void BVH::queryRecursive(const BVHNode* node, const SDL_FRect& area, std::vector<Collider>& out) const {
     if (!node) return;
-    if (!SDL_HasIntersection(&node->bounds, &area)) return;
+    if (!SDL_HasIntersectionF(&node->bounds, &area)) return;
     if (node->isLeaf()) {
       out.push_back(node->collider);
       return;
     }
     queryRecursive(node->left.get(), area, out);
     queryRecursive(node->right.get(), area, out);
-  }
-
-  std::vector<Collider> BVH::query(const SDL_Rect& area) const {
-    std::vector<Collider> result;
-    queryRecursive(root.get(), area, result);
-    return result;
   }
 }

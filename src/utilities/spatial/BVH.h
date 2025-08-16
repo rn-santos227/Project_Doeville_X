@@ -10,7 +10,7 @@
 
 namespace Project::Utilities {
   struct BVHNode {
-    SDL_Rect bounds{0,0,0,0};
+    SDL_FRect bounds{0,0,0,0};
     Collider collider{};
     std::unique_ptr<BVHNode> left;
     std::unique_ptr<BVHNode> right;
@@ -19,14 +19,14 @@ namespace Project::Utilities {
 
   class BVH {
   public:
-    void build(std::vector<std::pair<SDL_Rect, Collider>> objects);
-    std::vector<Collider> query(const SDL_Rect& area) const;
+    void build(std::vector<std::pair<SDL_FRect, Collider>> objects);
+    std::vector<Collider> query(const SDL_FRect& area) const;
     void clear();
 
   private:
     std::unique_ptr<BVHNode> root;
-    std::unique_ptr<BVHNode> buildRecursive(std::vector<std::pair<SDL_Rect, Collider>>& objs, int start, int end);
-    void queryRecursive(const BVHNode* node, const SDL_Rect& area, std::vector<Collider>& out) const;
+    std::unique_ptr<BVHNode> buildRecursive(std::vector<std::pair<SDL_FRect, Collider>>& objs, int start, int end);
+    void queryRecursive(const BVHNode* node, const SDL_FRect& area, std::vector<Collider>& out) const;
     
   };
 }

@@ -98,7 +98,14 @@ namespace Project::Components {
     if (!renderer || !isActive()) return;
     SDL_SetRenderDrawColor(renderer, data.color.r, data.color.g, data.color.b, data.color.a);
     if (data.borderRadius > 0) {
-      GeometryUtils::renderFilledRoundedRect(renderer, data.rect, data.borderRadius);
+      SDL_FRect rectF{
+        static_cast<float>(data.rect.x),
+        static_cast<float>(data.rect.y),
+        static_cast<float>(data.rect.w),
+        static_cast<float>(data.rect.h)
+      };
+      
+      GeometryUtils::renderFilledRoundedRect(renderer, rectF, data.borderRadius);
     } else {
       SDL_RenderFillRect(renderer, &data.rect);
     }
@@ -109,7 +116,14 @@ namespace Project::Components {
         SDL_Rect bRect = {data.rect.x + i, data.rect.y + i, data.rect.w - Constants::INDEX_TWO * i, data.rect.h - Constants::INDEX_TWO * i};
         if (data.borderRadius > 0) {
           int radius = std::max(0, data.borderRadius - i);
-          GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+          SDL_FRect bRectF{
+            static_cast<float>(bRect.x),
+            static_cast<float>(bRect.y),
+            static_cast<float>(bRect.w),
+            static_cast<float>(bRect.h)
+          };
+          
+          GeometryUtils::renderRoundedRect(renderer, bRectF, radius);
         } else {
           SDL_RenderDrawRect(renderer, &bRect);
         }
@@ -129,7 +143,14 @@ namespace Project::Components {
     if (data.modalType == ModalType::NOTIFICATION || data.modalType == ModalType::QUESTION) {
       SDL_SetRenderDrawColor(renderer, data.okColor.r, data.okColor.g, data.okColor.b, data.okColor.a);
       if (data.okBorderRadius > 0) {
-        GeometryUtils::renderFilledRoundedRect(renderer, data.okRect, data.okBorderRadius);
+        SDL_FRect okF{
+          static_cast<float>(data.okRect.x),
+          static_cast<float>(data.okRect.y),
+          static_cast<float>(data.okRect.w),
+          static_cast<float>(data.okRect.h)
+        };
+
+        GeometryUtils::renderFilledRoundedRect(renderer, okF, data.okBorderRadius);
       } else {
         SDL_RenderFillRect(renderer, &data.okRect);
       }
@@ -140,7 +161,14 @@ namespace Project::Components {
           SDL_Rect bRect = {data.okRect.x + i, data.okRect.y + i, data.okRect.w - 2 * i, data.okRect.h - 2 * i};
           if (data.okBorderRadius > 0) {
             int radius = std::max(0, data.okBorderRadius - i);
-            GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+            SDL_FRect bRectF{
+              static_cast<float>(bRect.x),
+              static_cast<float>(bRect.y),
+              static_cast<float>(bRect.w),
+              static_cast<float>(bRect.h)
+            };
+
+            GeometryUtils::renderRoundedRect(renderer, bRectF, radius);
           } else {
             SDL_RenderDrawRect(renderer, &bRect);
           }
@@ -154,7 +182,14 @@ namespace Project::Components {
       if (data.modalType == ModalType::QUESTION) {
         SDL_SetRenderDrawColor(renderer, data.cancelColor.r, data.cancelColor.g, data.cancelColor.b, data.cancelColor.a);
         if (data.cancelBorderRadius > 0) {
-          GeometryUtils::renderFilledRoundedRect(renderer, data.cancelRect, data.cancelBorderRadius);
+          SDL_FRect cancelF{
+            static_cast<float>(data.cancelRect.x),
+            static_cast<float>(data.cancelRect.y),
+            static_cast<float>(data.cancelRect.w),
+            static_cast<float>(data.cancelRect.h)
+          };
+          
+          GeometryUtils::renderFilledRoundedRect(renderer, cancelF, data.cancelBorderRadius);
         } else {
           SDL_RenderFillRect(renderer, &data.cancelRect);
         }
@@ -164,7 +199,14 @@ namespace Project::Components {
             SDL_Rect bRect = {data.cancelRect.x + i, data.cancelRect.y + i, data.cancelRect.w - Constants::INDEX_TWO * i, data.cancelRect.h - Constants::INDEX_TWO * i};
             if (data.cancelBorderRadius > 0) {
               int radius = std::max(0, data.cancelBorderRadius - i);
-              GeometryUtils::renderRoundedRect(renderer, bRect, radius);
+              SDL_FRect bRectF{
+                static_cast<float>(bRect.x),
+                static_cast<float>(bRect.y),
+                static_cast<float>(bRect.w),
+                static_cast<float>(bRect.h)
+              };
+              
+              GeometryUtils::renderRoundedRect(renderer, bRectF, radius);
             } else {
               SDL_RenderDrawRect(renderer, &bRect);
             }

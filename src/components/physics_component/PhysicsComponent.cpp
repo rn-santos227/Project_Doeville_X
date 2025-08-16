@@ -305,8 +305,8 @@ namespace Project::Components {
     BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
     const SDL_FPoint& offset, float newX, float newY) {
-    const float bounce = (myBox->getRestitution() + otherBox->getRestitution()) * 0.5f;
-    const float fric = (myBox->getFriction() + otherBox->getFriction()) * 0.5f;
+    const float bounce = (myBox->getRestitution() + otherBox->getRestitution()) * Constants::DEFAULT_HALF;
+    const float fric = (myBox->getFriction() + otherBox->getFriction()) * Constants::DEFAULT_HALF;
 
     const bool triggerOnly = !myBox->isSolid() || !otherBox->isSolid();
     if (triggerOnly) {
@@ -417,7 +417,7 @@ namespace Project::Components {
     const float velocityDeltaX = velocityX * deltaTime;
     const float velocityDeltaY = velocityY * deltaTime;
 
-    std::vector<SDL_Rect> myProxyRects;
+    std::vector<SDL_FRect> myProxyRects;
     std::vector<Project::Utilities::Circle> emptyCircles;
     std::vector<Project::Utilities::OrientedBox> emptyOBB;
     const auto& myRects = myBox->usesProxy() ? (myProxyRects.push_back(myBox->getProxyAABB()), myProxyRects) : myBox->getBoxes();
@@ -425,9 +425,9 @@ namespace Project::Components {
     const auto& myOBB = myBox->usesProxy() ? emptyOBB : myBox->getOrientedBoxes();
     const bool myRotationEnabled = myBox->usesProxy() ? false : myBox->isRotationEnabled();
 
-    SDL_Rect myBounds{0,0,0,0};
+    SDL_FRect myBounds{0.f, 0.f, 0.f, 0.f};
     if (!computeBounds(myBox, myBounds)) {
-      myBounds = SDL_Rect{static_cast<int>(newX), static_cast<int>(newY), 0, 0};
+      myBounds = SDL_FRect{newX, newY, 0.f, 0.f};
     }
 
     auto& physSystem = manager->getPhysicsSystem();
@@ -469,7 +469,7 @@ namespace Project::Components {
         continue;
       }
 
-      std::vector<SDL_Rect> otherProxyRects;
+      std::vector<SDL_FRect> otherProxyRects;
       std::vector<Project::Utilities::Circle> otherEmptyCircles;
       std::vector<Project::Utilities::OrientedBox> otherEmptyOBB;
       const auto& otherRects = otherBox->usesProxy() ? (otherProxyRects.push_back(otherBox->getProxyAABB()), otherProxyRects) : otherBox->getBoxes();
@@ -546,8 +546,8 @@ namespace Project::Components {
   }
 
   bool PhysicsComponent::broadPhaseCollisionCheck(BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox) {
-    SDL_Rect myBounds{0,0,0,0};
-    SDL_Rect otherBounds{0,0,0,0};
+    SDL_FRect myBounds{0.f, 0.f, 0.f, 0.f};
+    SDL_FRect otherBounds{0.f, 0.f, 0.f ,0.f};
 
     if (myBox->usesProxy()) {
       myBounds = myBox->getProxyAABB();
@@ -561,16 +561,16 @@ namespace Project::Components {
       return true;
     }
     
-    const int padding = Constants::DEFAULT_COLLISION_PADDING;
+    const float padding = static_cast<float>(Constants::DEFAULT_COLLISION_PADDING);
     myBounds.x -= padding;
     myBounds.y -= padding;
     myBounds.w += Constants::INDEX_TWO * padding;
     myBounds.h += Constants::INDEX_TWO * padding;
     
-    return SDL_HasIntersection(&myBounds, &otherBounds);
+    return SDL_HasIntersectionF(&myBounds, &otherBounds);
   }
 
-  bool PhysicsComponent::computeBounds(BoundingBoxComponent* box, SDL_Rect& bounds) const {
+  bool PhysicsComponent::computeBounds(BoundingBoxComponent* box, SDL_FRect& bounds) const {
     if (!box) return false;
     bool hasBounds = false;
 
@@ -586,11 +586,11 @@ namespace Project::Components {
 
     const auto& circles = box->getCircles();
     for (const auto& c : circles) {
-      SDL_Rect r{
-        static_cast<int>(std::round(c.x - c.r)),
-        static_cast<int>(std::round(c.y - c.r)),
-        static_cast<int>(std::round(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER)),
-        static_cast<int>(std::round(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER))
+      SDL_FRect r{
+        static_cast<float>(c.x - c.r),
+        static_cast<float>(c.y - c.r),
+        static_cast<float>(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER),
+        static_cast<float>(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER)
       };
 
       if (!hasBounds) {
@@ -603,7 +603,7 @@ namespace Project::Components {
 
     const auto& polys = box->getPolygons();
     for (const auto& p : polys) {
-      SDL_Rect r = Project::Utilities::GeometryUtils::polygonBounds(p);
+      SDL_FRect r = Project::Utilities::GeometryUtils::polygonBounds(p);
       if (!hasBounds) {
         bounds = r;
         hasBounds = true;
@@ -614,7 +614,7 @@ namespace Project::Components {
 
     const auto& caps = box->getCapsules();
     for (const auto& c : caps) {
-      SDL_Rect r = Project::Utilities::GeometryUtils::capsuleBounds(c);
+      SDL_FRect r = Project::Utilities::GeometryUtils::capsuleBounds(c);
       if (!hasBounds) {
         bounds = r;
         hasBounds = true;

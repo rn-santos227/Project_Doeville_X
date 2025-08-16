@@ -2,6 +2,7 @@
 #include "EntityAttribute.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdint>
 #include <bitset>
 #include <exception>
@@ -684,8 +685,35 @@ namespace Project::Entities {
       float clampedX = std::clamp(ex, static_cast<float>(rect.x), static_cast<float>(rect.x + rect.w - w));
       float clampedY = std::clamp(ey, static_cast<float>(rect.y), static_cast<float>(rect.y + rect.h - h));
 
-      if (clampedX != ex || clampedY != ey) {
-        updateEntityPosition(entity, clampedX, clampedY);
+      bool clampedXChanged = clampedX != ex;
+      bool clampedYChanged = clampedY != ey;
+
+      if (clampedXChanged || clampedYChanged) {
+        float newX = clampedXChanged ? std::round(clampedX) : ex;
+        float newY = clampedYChanged ? std::round(clampedY) : ey;
+
+        updateEntityPosition(entity, newX, newY);
+
+        if (auto* bbox = entity->getBoundingBoxComponent()) {
+          bbox->getBoxes();
+        }
+
+        if (auto* motion = dynamic_cast<Project::Components::MotionComponent*>(
+              entity->getComponent(Components::MOTION_COMPONENT))) {
+          float vx = motion->getVelocityX();
+          float vy = motion->getVelocityY();
+          if (clampedXChanged) vx = 0.0f;
+          if (clampedYChanged) vy = 0.0f;
+          motion->setRawVelocity(vx, vy);
+        }
+
+        if (auto* physics = entity->getPhysicsComponent()) {
+          float vx = physics->getVelocityX();
+          float vy = physics->getVelocityY();
+          if (clampedXChanged) vx = 0.0f;
+          if (clampedYChanged) vy = 0.0f;
+          physics->setVelocity(vx, vy);
+        }
       }
     }
   }

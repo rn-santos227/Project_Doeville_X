@@ -28,9 +28,9 @@ namespace Project::Utilities {
 
 	class PhysicsUtils {
 	public:
-    static bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);
+    static bool checkCollision(const SDL_FRect& a, const SDL_FRect& b);
     static bool checkCollision(const Project::Utilities::Circle& a, const Project::Utilities::Circle& b);
-    static bool checkCollision(const SDL_Rect& rect, const Project::Utilities::Circle& c);
+    static bool checkCollision(const SDL_FRect& rect, const Project::Utilities::Circle& c);
     static bool checkCollision(const Project::Utilities::OrientedBox& a,const Project::Utilities::OrientedBox& b);
 		
     static float calculateDistance(float x1, float y1, float x2, float y2);
@@ -42,10 +42,10 @@ namespace Project::Utilities {
     static void applyForces(Velocity& velocity, Velocity& acceleration, Velocity& force, float mass, float deltaTime);
     static void applyResistance(Velocity& velocity, float friction, float density, bool isKinematic, float deltaTime);
 		
-    static SDL_FPoint getSnapOffset(const SDL_Rect& moving, const SDL_Rect& other, float dx, float dy);
+    static SDL_FPoint getSnapOffset(const SDL_FRect& moving, const SDL_FRect& other, float dx, float dy);
     static SDL_FPoint getCircleSnapOffset(const Project::Utilities::Circle& moving, const Project::Utilities::Circle& other, float dx, float dy);
-    static SDL_FPoint getCircleRectSnapOffset(const Project::Utilities::Circle& moving, const SDL_Rect& other, float dx, float dy);
-    static SDL_FPoint getRectCircleSnapOffset(const SDL_Rect& moving, const Project::Utilities::Circle& other, float dx, float dy);
+    static SDL_FPoint getCircleRectSnapOffset(const Project::Utilities::Circle& moving, const SDL_FRect& other, float dx, float dy);
+    static SDL_FPoint getRectCircleSnapOffset(const SDL_FRect& moving, const Project::Utilities::Circle& other, float dx, float dy);
 	};
 }
 

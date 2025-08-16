@@ -14,9 +14,9 @@ namespace Project::Utilities {
 
   namespace Constants = Project::Libraries::Constants;
 
-  bool PhysicsUtils::checkCollision(const SDL_Rect& a, const SDL_Rect& b) {
-    SDL_Rect intersection;
-    return SDL_IntersectRect(&a, &b, &intersection);
+  bool PhysicsUtils::checkCollision(const SDL_FRect& a, const SDL_FRect& b) {
+    SDL_FRect intersection;
+    return SDL_IntersectFRect(&a, &b, &intersection);
   }
 
   bool PhysicsUtils::checkCollision(const Project::Utilities::Circle& a, const Project::Utilities::Circle& b) {
@@ -27,12 +27,12 @@ namespace Project::Utilities {
     return distSq <= static_cast<float>(radiusSum * radiusSum);
   }
 
-  bool PhysicsUtils::checkCollision(const SDL_Rect& rect, const Project::Utilities::Circle& c) {
-    int closestX = std::clamp(c.x, rect.x, rect.x + rect.w);
-    int closestY = std::clamp(c.y, rect.y, rect.y + rect.h);
-    int dx = c.x - closestX;
-    int dy = c.y - closestY;
-    return (dx * dx + dy * dy) <= (c.r * c.r);
+  bool PhysicsUtils::checkCollision(const SDL_FRect& rect, const Project::Utilities::Circle& c) {
+    float closestX = std::clamp(static_cast<float>(c.x), rect.x, rect.x + rect.w);
+    float closestY = std::clamp(static_cast<float>(c.y), rect.y, rect.y + rect.h);
+    float dx = static_cast<float>(c.x) - closestX;
+    float dy = static_cast<float>(c.y) - closestY;
+    return (dx * dx + dy * dy) <= static_cast<float>(c.r * c.r);
   }
 
   bool PhysicsUtils::checkCollision(const OrientedBox& a, const OrientedBox& b) {
@@ -167,28 +167,28 @@ namespace Project::Utilities {
     }
   }
 
-  SDL_FPoint PhysicsUtils::getSnapOffset(const SDL_Rect& moving, const SDL_Rect& other, float dx, float dy) {
-    SDL_Rect inter;
+  SDL_FPoint PhysicsUtils::getSnapOffset(const SDL_FRect& moving, const SDL_FRect& other, float dx, float dy) {
+    SDL_FRect inter;
     SDL_FPoint result{0.0f, 0.0f};
-    if (!SDL_IntersectRect(&moving, &other, &inter)) {
+    if (!SDL_IntersectFRect(&moving, &other, &inter)) {
       return result;
     }
 
     if (inter.w < inter.h) {
       if (dx > 0) {
-        result.x = -static_cast<float>(inter.w);
+        result.x = -inter.w;
       } else if (dx < 0) {
-        result.x = static_cast<float>(inter.w);
+        result.x = (moving.x < other.x) ? -inter.w : inter.w;
       } else {
         result.x = (moving.x < other.x) ? -static_cast<float>(inter.w) : static_cast<float>(inter.w);
       }
     } else {
       if (dy > 0) {
-        result.y = -static_cast<float>(inter.h);
+        result.y = -inter.h;
       } else if (dy < 0) {
-        result.y = static_cast<float>(inter.h);
+        result.y = inter.h;
       } else {
-        result.y = (moving.y < other.y) ? -static_cast<float>(inter.h) : static_cast<float>(inter.h);
+        result.y = (moving.y < other.y) ? -inter.h : inter.h;
       }
     }
     return result;
@@ -217,10 +217,10 @@ namespace Project::Utilities {
     return result;
   }
 
-  SDL_FPoint PhysicsUtils::getCircleRectSnapOffset(const Circle& moving, const SDL_Rect& other, float dx, float dy) {
+  SDL_FPoint PhysicsUtils::getCircleRectSnapOffset(const Circle& moving, const SDL_FRect& other, float dx, float dy) {
     SDL_FPoint result{0.0f, 0.0f};
-    float closestX = std::clamp(static_cast<float>(moving.x), static_cast<float>(other.x), static_cast<float>(other.x + other.w));
-    float closestY = std::clamp(static_cast<float>(moving.y), static_cast<float>(other.y), static_cast<float>(other.y + other.h));
+    float closestX = std::clamp(static_cast<float>(moving.x), other.x, other.x + other.w);
+    float closestY = std::clamp(static_cast<float>(moving.y), other.y, other.y + other.h);
     float cx = static_cast<float>(moving.x) - closestX;
     float cy = static_cast<float>(moving.y) - closestY;
     float distance = MathUtils::magnitude(cx, cy);
@@ -228,25 +228,19 @@ namespace Project::Utilities {
     
     if (overlap > 0.0f) {
       if (distance == 0.0f) {
-        float leftDist = static_cast<float>(moving.x - other.x);
-        float rightDist = static_cast<float>(other.x + other.w - moving.x);
-        float topDist = static_cast<float>(moving.y - other.y);
-        float bottomDist = static_cast<float>(other.y + other.h - moving.y);
+        float leftDist = static_cast<float>(moving.x) - other.x;
+        float rightDist = (other.x + other.w) - static_cast<float>(moving.x);
+        float topDist = static_cast<float>(moving.y) - other.y;
+        float bottomDist = (other.y + other.h) - static_cast<float>(moving.y);
         float minDist = std::min({leftDist, rightDist, topDist, bottomDist});
 
         if (leftDist == minDist) {
           result.x = -(static_cast<float>(moving.r) - leftDist);
-        }
-         
-        else if (rightDist == minDist) {
+        } else if (rightDist == minDist) {
           result.x = static_cast<float>(moving.r) - rightDist;
-        }
-
-        else if (topDist == minDist) {
+        } else if (topDist == minDist) {
           result.y = -(static_cast<float>(moving.r) - topDist);
-        }
-          
-        else {
+        } else {
           result.y = static_cast<float>(moving.r) - bottomDist;
         }
       } else {
@@ -257,7 +251,7 @@ namespace Project::Utilities {
     return result;
   }
 
-  SDL_FPoint PhysicsUtils::getRectCircleSnapOffset(const SDL_Rect& moving, const Circle& other, float dx, float dy) {
+  SDL_FPoint PhysicsUtils::getRectCircleSnapOffset(const SDL_FRect& moving, const Circle& other, float dx, float dy) {
     SDL_FPoint offset = getCircleRectSnapOffset(other, moving, -dx, -dy);
     offset.x = -offset.x;
     offset.y = -offset.y;

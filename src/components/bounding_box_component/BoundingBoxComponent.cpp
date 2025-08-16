@@ -67,7 +67,7 @@ namespace Project::Components {
       }
     } else {
       for (const auto& rect : worldBoxes) {
-        SDL_Rect r = {rect.x - camX, rect.y - camY, rect.w, rect.h};
+        SDL_Rect r = {static_cast<int>(rect.x - camX), static_cast<int>(rect.y - camY), static_cast<int>(rect.w), static_cast<int>(rect.h)};
         SDL_RenderDrawRect(renderer, &r);
       }
     }
@@ -121,7 +121,7 @@ namespace Project::Components {
             if (r > 0) {
               addCircle(x, y, r);
             } else {
-              SDL_Rect rect{x, y, w, h};
+              SDL_FRect rect{static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h)};
               addBox(rect);
             }
           }
@@ -158,7 +158,7 @@ namespace Project::Components {
     markDirty();
   }
 
-  void BoundingBoxComponent::addBox(const SDL_Rect& rect) {
+  void BoundingBoxComponent::addBox(const SDL_FRect& rect) {
     data.boxes.push_back(rect);
     updateWorldBoxes();
   }
@@ -202,33 +202,33 @@ namespace Project::Components {
     worldCapsules.clear();
   }
 
-  SDL_Rect BoundingBoxComponent::getProxyAABB() const {
-    SDL_Rect bounds{0,0,0,0};
+  SDL_FRect BoundingBoxComponent::getProxyAABB() const {
+    SDL_FRect bounds{0.f,0.f,0.f,0.f};
     bool hasBounds = false;
 
     const auto& rects = getBoxes();
     for (const auto& r : rects) {
       if (!hasBounds) { bounds = r; hasBounds = true; }
       else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        const float left = std::min(bounds.x, r.x);
+        const float top = std::min(bounds.y, r.y);
+        const float right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const float bottom = std::max(bounds.y + bounds.h, r.y + r.h);
         bounds = {left, top, right - left, bottom - top};
       }
     }
 
     const auto& circles = getCircles();
     for (const auto& c : circles) {
-      SDL_Rect r{c.x - c.r, c.y - c.r,
-        c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER,
-        c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER};
+      SDL_FRect r{static_cast<float>(c.x - c.r), static_cast<float>(c.y - c.r),
+        static_cast<float>(c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER),
+        static_cast<float>(c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER)};
       if (!hasBounds) { bounds = r; hasBounds = true; }
       else {
-        const int left = std::min(bounds.x, r.x);
-        const int top = std::min(bounds.y, r.y);
-        const int right = std::max(bounds.x + bounds.w, r.x + r.w);
-        const int bottom = std::max(bounds.y + bounds.h, r.y + r.h);
+        const float left = std::min(bounds.x, r.x);
+        const float top = std::min(bounds.y, r.y);
+        const float right = std::max(bounds.x + bounds.w, r.x + r.w);
+        const float bottom = std::max(bounds.y + bounds.h, r.y + r.h);
         bounds = {left, top, right - left, bottom - top};
       }
     }
@@ -322,11 +322,9 @@ namespace Project::Components {
   }
 
   void BoundingBoxComponent::setEntityPosition(float x, float y) {
-    const float rx = std::round(x);
-    const float ry = std::round(y);
-    if (entityX != rx || entityY != ry) {
-      entityX = rx;
-      entityY = ry;
+    if (entityX != x || entityY != y) {
+      entityX = x;
+      entityY = y;
       markDirty();
     }
   }

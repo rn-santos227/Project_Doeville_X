@@ -307,10 +307,8 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::setPosition(float x, float y, float width, float height) {
-    const float rx = std::round(x);
-    const float ry = std::round(y);
-    data.destRect.x = rx;
-    data.destRect.y = ry;
+    data.destRect.x = x;
+    data.destRect.y = y;
     if (data.destRect.w != width || data.destRect.h != height) data.verticesDirty = true;
     data.destRect.w = width;
     data.destRect.h = height;
@@ -375,22 +373,12 @@ namespace Project::Components {
   SDL_FRect GraphicsComponent::getRenderRect() const {
     SDL_FRect renderRect = data.destRect;
 
-    float x = std::round(data.destRect.x);
-    float y = std::round(data.destRect.y);
-    float w = std::round(data.destRect.w);
-    float h = std::round(data.destRect.h);
-
     if (cameraHandler) {
       const float zoom = cameraHandler->getZoom();
-      renderRect.x = (x - static_cast<float>(cameraHandler->getX())) * zoom;
-      renderRect.y = (y - static_cast<float>(cameraHandler->getY())) * zoom;
-      renderRect.w = w * zoom;
-      renderRect.h = h * zoom;
-    } else {
-      renderRect.x = x;
-      renderRect.y = y;
-      renderRect.w = w;
-      renderRect.h = h;
+      renderRect.x = (data.destRect.x - static_cast<float>(cameraHandler->getX())) * zoom;
+      renderRect.y = (data.destRect.y - static_cast<float>(cameraHandler->getY())) * zoom;
+      renderRect.w = data.destRect.w * zoom;
+      renderRect.h = data.destRect.h * zoom;
     }
 
     return renderRect;

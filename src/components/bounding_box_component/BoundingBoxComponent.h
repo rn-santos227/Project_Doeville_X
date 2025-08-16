@@ -30,12 +30,12 @@ namespace Project::Components {
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
-    void addBox(const SDL_Rect& rect);
+    void addBox(const SDL_FRect& rect);
     void addCircle(int x, int y, int r);
     void addPolygon(const std::vector<SDL_FPoint>& points);
     void addCapsule(const Project::Utilities::Capsule& cap);
     
-    const std::vector<SDL_Rect>& getBoxes() const;
+    const std::vector<SDL_FRect>& getBoxes() const;
     const std::vector<Project::Utilities::Circle>& getCircles() const;
     const std::vector<Project::Utilities::OrientedBox>& getOrientedBoxes() const;
     const std::vector<Project::Utilities::Polygon>& getPolygons() const { return worldPolygons; }
@@ -80,7 +80,7 @@ namespace Project::Components {
 
     void setUseProxy(bool v) { useProxy = v; }
     bool usesProxy() const { return useProxy; }
-    SDL_Rect getProxyAABB() const;
+    SDL_FRect getProxyAABB() const;
 
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
@@ -88,7 +88,7 @@ namespace Project::Components {
     
     Project::Entities::Entity* owner = nullptr;
 
-    std::vector<SDL_Rect> worldBoxes;
+    std::vector<SDL_FRect> worldBoxes;
     std::vector<Project::Utilities::Circle> worldCircles;
     std::vector<Project::Utilities::Polygon> worldPolygons;
     std::vector<Project::Utilities::Capsule> worldCapsules;

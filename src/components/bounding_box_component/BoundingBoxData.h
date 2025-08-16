@@ -15,7 +15,7 @@ namespace Project::Components {
   struct BoundingBoxData {
     SurfaceType surfaceType = SurfaceType::REST;
 
-    std::vector<SDL_Rect> boxes;
+    std::vector<SDL_FRect> boxes;
     std::vector<Project::Utilities::Circle> circles;
     std::vector<Project::Utilities::OrientedBox> orientedBoxes;
     std::vector<Project::Utilities::Polygon> polygons;

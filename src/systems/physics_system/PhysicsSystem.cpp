@@ -232,6 +232,11 @@ namespace Project::Systems {
   bool PhysicsSystem::computeBounds(BoundingBoxComponent* box, SDL_FRect& bounds) const {
     if (!box) return false;
 
+    if (box->usesProxy()) {
+      bounds = box->getProxyAABB();
+      return true;
+    }
+
     bool hasBounds = false;
     const auto& rects = box->getBoxes();
     for (const auto& fr : rects) {

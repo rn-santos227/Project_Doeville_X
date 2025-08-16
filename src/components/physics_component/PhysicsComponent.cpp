@@ -444,18 +444,14 @@ namespace Project::Components {
         return a.entity < b.entity;
       });
       
-    const auto& pairKeys = physSystem.getSweepPairKeys();
-    auto makeKey = [](PhysicsComponent* a, PhysicsComponent* b) {
-      auto pa = reinterpret_cast<std::uintptr_t>(a);
-      auto pb = reinterpret_cast<std::uintptr_t>(b);
-      if (pa > pb) std::swap(pa, pb);
-      return static_cast<std::size_t>(pa ^ (pb + Constants::DEFAULT_HASH + (pa << 6) + (pa >> 2)));
-    };
+    candidates.erase(std::unique(candidates.begin(), candidates.end(),
+      [](const Project::Utilities::Collider& a, const Project::Utilities::Collider& b) {
+        return a.physics == b.physics && a.box == b.box && a.entity == b.entity;
+      }), candidates.end());
 
     for (const auto& coll : candidates) {
       auto* candidate = coll.physics;
       if (candidate == this) continue;
-      if (candidate && !pairKeys.count(makeKey(this, candidate))) continue;
       auto* entity = candidate ? candidate->getOwner() : coll.entity;
       auto* otherBox = coll.box;
       if (!entity || !otherBox) continue;

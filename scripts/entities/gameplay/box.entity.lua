@@ -14,7 +14,8 @@ components = {
     },
     friction = 0.2,
     rotation = true,
-    restitution = 0.0
+    restitution = 0.0,
+    use_proxy = true
   },
 
   GraphicsComponent = {

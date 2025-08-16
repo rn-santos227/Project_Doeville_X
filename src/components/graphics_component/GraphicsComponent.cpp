@@ -391,14 +391,9 @@ namespace Project::Components {
 
   bool GraphicsComponent::isInCameraView() {
     if (!cameraHandler) return true;
-    const SDL_Rect cullRect = cameraHandler->getCullingRect();
-    SDL_Rect worldRect{
-      static_cast<int>(std::round(data.destRect.x)),
-      static_cast<int>(std::round(data.destRect.y)),
-      static_cast<int>(std::round(data.destRect.w)),
-      static_cast<int>(std::round(data.destRect.h))
-    };
-    return SDL_HasIntersection(&worldRect, &cullRect);
+    const SDL_FRect cullRect = cameraHandler->getCullingRect();
+    SDL_FRect worldRect = data.destRect;
+    return SDL_HasIntersectionF(&worldRect, &cullRect);
   }
 
   void GraphicsComponent::checkAsyncTextureLoad() {
@@ -447,22 +442,16 @@ namespace Project::Components {
 
 
   void GraphicsComponent::renderShape(const SDL_FRect& renderRect) {
-    SDL_Rect r{
-      static_cast<int>(std::round(renderRect.x)),
-      static_cast<int>(std::round(renderRect.y)),
-      static_cast<int>(std::round(renderRect.w)),
-      static_cast<int>(std::round(renderRect.h))
-    };
     if (data.isCircle) {
-      renderCircleShape(r);
+      renderCircleShape(renderRect);
     } else {
-      renderRectShape(r);
+      renderRectShape(renderRect);
     }
   }
 
-  void GraphicsComponent::renderCircleShape(const SDL_Rect& renderRect) {
-    const int centerX = renderRect.x + static_cast<int>(data.radius);
-    const int centerY = renderRect.y + static_cast<int>(data.radius);
+  void GraphicsComponent::renderCircleShape(const SDL_FRect& renderRect) {
+    const int centerX = static_cast<int>(renderRect.x + data.radius);
+    const int centerY = static_cast<int>(renderRect.y + data.radius);
     const int circleRadius = static_cast<int>(data.radius);
 
     SDL_SetRenderDrawColor(renderer, data.shapeColor.r, data.shapeColor.g, data.shapeColor.b, data.shapeColor.a);
@@ -476,7 +465,7 @@ namespace Project::Components {
     }
   }
 
-  void GraphicsComponent::renderRectShape(const SDL_Rect& renderRect) {
+  void GraphicsComponent::renderRectShape(const SDL_FRect& renderRect) {
     const bool needsComplexRendering = data.rotationEnabled || data.useGradient;
     
     if (needsComplexRendering) {
@@ -490,26 +479,26 @@ namespace Project::Components {
     }
   }
 
-  void GraphicsComponent::renderSimpleRect(const SDL_Rect& renderRect) {
+  void GraphicsComponent::renderSimpleRect(const SDL_FRect& renderRect) {
     SDL_SetRenderDrawColor(renderer, data.shapeColor.r, data.shapeColor.g, data.shapeColor.b, data.shapeColor.a);
-    SDL_RenderFillRect(renderer, &renderRect);
+    SDL_RenderFillRectF(renderer, &renderRect);
   }
 
-  void GraphicsComponent::renderComplexRect(const SDL_Rect& renderRect) {
+  void GraphicsComponent::renderComplexRect(const SDL_FRect& renderRect) {
     updateRotationCache();
     
     if (data.verticesDirty) {
       const float cx = renderRect.x + renderRect.w * Constants::DEFAULT_HALF;
-      const float cy = renderRect.y + renderRect.h * Constants::DEFAULT_HALF;   
+      const float cy = renderRect.y + renderRect.h * Constants::DEFAULT_HALF;
 
       shapeVertices.clear();
       shapeVertices.resize(Constants::INDEX_FOUR);
 
       const std::array<SDL_FPoint, Constants::INDEX_FOUR> localCorners = {{
-        {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y)},
-        {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y)},
-        {static_cast<float>(renderRect.x + renderRect.w), static_cast<float>(renderRect.y + renderRect.h)},
-        {static_cast<float>(renderRect.x), static_cast<float>(renderRect.y + renderRect.h)}
+        {renderRect.x, renderRect.y},
+        {renderRect.x + renderRect.w, renderRect.y},
+        {renderRect.x + renderRect.w, renderRect.y + renderRect.h},
+        {renderRect.x, renderRect.y + renderRect.h}
       }};
 
       for (int i = 0; i < Constants::INDEX_FOUR; ++i) {

@@ -186,16 +186,16 @@ namespace Project::Components {
     setKinematic(kine);
   }
 
-  SDL_Rect PhysicsComponent::unionRect(const SDL_Rect& a, const SDL_Rect& b) const {
-    const int left = std::min(a.x, b.x);
-    const int top = std::min(a.y, b.y);
-    const int right = std::max(a.x + a.w, b.x + b.w);
-    const int bottom = std::max(a.y + a.h, b.y + b.h);
+  SDL_FRect PhysicsComponent::unionRect(const SDL_FRect& a, const SDL_FRect& b) const {
+    const float left = std::min(a.x, b.x);
+    const float top = std::min(a.y, b.y);
+    const float right = std::max(a.x + a.w, b.x + b.w);
+    const float bottom = std::max(a.y + a.h, b.y + b.h);
     return {left, top, right - left, bottom - top};
   }
 
   bool PhysicsComponent::checkBoxBoxCollisions(
-    const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
+    const std::vector<SDL_FRect>& myRects, const std::vector<SDL_FRect>& otherRects,
     const std::vector<Project::Utilities::OrientedBox>& myOBB,
     const std::vector<Project::Utilities::OrientedBox>& otherOBB,
     bool myRotationEnabled, bool otherRotationEnabled,
@@ -203,12 +203,12 @@ namespace Project::Components {
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
     float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
 
-    auto rectToOBB = [](const SDL_Rect& r) {
+    auto rectToOBB = [](const SDL_FRect& r) {
       Project::Utilities::OrientedBox obb;
-      obb.corners[Constants::INDEX_ZERO] = {static_cast<float>(r.x), static_cast<float>(r.y)};
-      obb.corners[Constants::INDEX_ONE] = {static_cast<float>(r.x + r.w), static_cast<float>(r.y)};
-      obb.corners[Constants::INDEX_TWO] = {static_cast<float>(r.x + r.w), static_cast<float>(r.y + r.h)};
-      obb.corners[Constants::INDEX_THREE] = {static_cast<float>(r.x), static_cast<float>(r.y + r.h)};
+      obb.corners[Constants::INDEX_ZERO] = {r.x, r.y};
+      obb.corners[Constants::INDEX_ONE] = {r.x + r.w, r.y};
+      obb.corners[Constants::INDEX_TWO] = {r.x + r.w, r.y + r.h};
+      obb.corners[Constants::INDEX_THREE] = {r.x, r.y + r.h};
       return obb;
     };
     
@@ -240,7 +240,7 @@ namespace Project::Components {
   }
 
   bool PhysicsComponent::checkBoxCircleCollisions(
-    const std::vector<SDL_Rect>& myRects, const std::vector<Project::Utilities::Circle>& otherCircles,
+    const std::vector<SDL_FRect>& myRects, const std::vector<Project::Utilities::Circle>& otherCircles,
     BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
     float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
@@ -275,7 +275,7 @@ namespace Project::Components {
   }
 
   bool PhysicsComponent::checkCircleBoxCollisions(
-    const std::vector<Project::Utilities::Circle>& myCircles, const std::vector<SDL_Rect>& otherRects,
+    const std::vector<Project::Utilities::Circle>& myCircles, const std::vector<SDL_FRect>& otherRects,
     BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
     float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
@@ -294,7 +294,7 @@ namespace Project::Components {
   bool PhysicsComponent::handleCollision(
     BoundingBoxComponent* myBox, BoundingBoxComponent* otherBox,
     PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,
-    const SDL_Rect& myRect, const SDL_Rect& otherRect,
+    const SDL_FRect& myRect, const SDL_FRect& otherRect,
     float newX, float newY, float velocityDeltaX, float velocityDeltaY) {
     
     const SDL_FPoint offset = PhysicsUtils::getSnapOffset(myRect, otherRect, velocityDeltaX, velocityDeltaY);

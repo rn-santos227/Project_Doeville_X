@@ -136,7 +136,7 @@ namespace Project::Components {
     SDL_FRect unionRect(const SDL_FRect& a, const SDL_FRect& b) const;
 
     bool checkBoxBoxCollisions(
-      const std::vector<SDL_Rect>& myRects, const std::vector<SDL_Rect>& otherRects,
+      const std::vector<SDL_FRect>& myRects, const std::vector<SDL_FRect>& otherRects,
       const std::vector<Project::Utilities::OrientedBox>& myOBB, 
       const std::vector<Project::Utilities::OrientedBox>& otherOBB,
       bool myRotationEnabled, bool otherRotationEnabled,
@@ -147,7 +147,7 @@ namespace Project::Components {
     );
 
     bool checkBoxCircleCollisions(
-      const std::vector<SDL_FRect>& myRects, const std::vector<SDL_FRect>& otherRects,
+      const std::vector<SDL_FRect>& myRects, const std::vector<Project::Utilities::Circle>& otherCircles,
       Project::Components::BoundingBoxComponent* myBox,
       Project::Components::BoundingBoxComponent* otherBox,
       PhysicsComponent* otherPhysics, Project::Entities::Entity* entity,

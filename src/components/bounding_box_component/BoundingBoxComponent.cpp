@@ -60,15 +60,24 @@ namespace Project::Components {
         for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
           const SDL_FPoint& p1 = box.corners[i];
           const SDL_FPoint& p2 = box.corners[(i + 1) % Constants::INDEX_FOUR];
-          SDL_RenderDrawLine(renderer,
-            static_cast<int>(p1.x - camX), static_cast<int>(p1.y - camY),
-            static_cast<int>(p2.x - camX), static_cast<int>(p2.y - camY));
+          
+          const float x1 = std::floor(p1.x);
+          const float y1 = std::floor(p1.y);
+          const float x2 = std::floor(p2.x);
+          const float y2 = std::floor(p2.y);
+
+          SDL_RenderDrawLineF(renderer, x1 - camX, y1 - camY, x2 - camX, y2 - camY);
         }
       }
     } else {
       for (const auto& rect : worldBoxes) {
-        SDL_Rect r = {static_cast<int>(rect.x - camX), static_cast<int>(rect.y - camY), static_cast<int>(rect.w), static_cast<int>(rect.h)};
-        SDL_RenderDrawRect(renderer, &r);
+        const float x = std::floor(rect.x);
+        const float y = std::floor(rect.y);
+        const float w = std::round(rect.w);
+        const float h = std::round(rect.h);
+
+        SDL_FRect r {x - camX, y - camY, w, h};
+        SDL_RenderDrawRectF(renderer, &r);
       }
     }
 

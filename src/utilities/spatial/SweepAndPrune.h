@@ -11,7 +11,7 @@ namespace Project::Utilities {
   class SweepAndPrune {
   public:
     using Pair = std::pair<Collider, Collider>;
-    static std::vector<Pair> findPairs(const std::vector<std::pair<SDL_Rect, Collider>>& objects);
+    static std::vector<Pair> findPairs(const std::vector<std::pair<SDL_FRect, Collider>>& objects);
   };
 }
 

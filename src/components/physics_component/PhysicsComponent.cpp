@@ -568,6 +568,10 @@ namespace Project::Components {
 
   bool PhysicsComponent::computeBounds(BoundingBoxComponent* box, SDL_FRect& bounds) const {
     if (!box) return false;
+    if (box->usesProxy()) {
+      bounds = box->getProxyAABB();
+      return true;
+    }
     bool hasBounds = false;
 
     const auto& rects = box->getBoxes();

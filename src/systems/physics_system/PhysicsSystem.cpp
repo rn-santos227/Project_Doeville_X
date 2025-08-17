@@ -104,11 +104,12 @@ namespace Project::Systems {
     };
     quadtree = Project::Utilities::QuadTree(qBounds);
     quadtree.clear();
+    bvh.clear();
 
-    std::vector<std::pair<SDL_Rect, Project::Utilities::Collider>> dynamicObjects;
+    std::vector<std::pair<SDL_FRect, Project::Utilities::Collider>> dynamicObjects;
     dynamicObjects.reserve(components.size());
-    std::vector<std::pair<SDL_FRect, Project::Utilities::Collider>> bvhObjects;
-    bvhObjects.reserve(components.size() + staticColliders.size());
+    std::vector<std::pair<SDL_FRect, Project::Utilities::Collider>> allObjects;
+    allObjects.reserve(components.size() + staticColliders.size());
 
     for (auto* comp : components) {
       if (!comp || !comp->isActive()) continue;
@@ -143,7 +144,7 @@ namespace Project::Systems {
       
       quadtree.insert(collider, bounds);
       dynamicObjects.emplace_back(bounds, collider);
-      bvhObjects.emplace_back(fBounds, collider);
+      allObjects.emplace_back(bounds, collider);
 
       float centerX = worldBounds.x + worldBounds.w * Constants::CENTER_FACTOR;
       float centerY = worldBounds.y + worldBounds.h * Constants::CENTER_FACTOR;
@@ -152,12 +153,18 @@ namespace Project::Systems {
       float dist = std::sqrt(dx * dx + dy * dy);
       float tick = Constants::HIGH_TICK_RATE;
       switch (comp->getUpdateFrequency()) {
-        case Project::Components::UpdateFrequency::HIGH: tick = Constants::HIGH_TICK_RATE; break;
-        case Project::Components::UpdateFrequency::LOW: tick = Constants::LOW_TICK_RATE; break;
-        default: tick = Constants::DEFAULT_TICK_RATE; break;
+        case Project::Components::UpdateFrequency::LOW:
+          tick = Constants::LOW_TICK_RATE;
+          break;
+        default:
+          tick = Constants::HIGH_TICK_RATE;
+          break;
       }
-      if (dist > Constants::FAR_DISTANCE_THRESHOLD) tick *= Constants::FAR_TICK_MULTIPLIER;
-      else if (dist > Constants::MID_DISTANCE_THRESHOLD) tick *= Constants::MID_TICK_MULTIPLIER;
+      if (dist > Constants::FAR_DISTANCE_THRESHOLD) {
+        tick = (tick > Constants::HIGH_TICK_RATE ? tick : Constants::DEFAULT_TICK_RATE) * Constants::FAR_TICK_MULTIPLIER;
+      } else if (dist > Constants::MID_DISTANCE_THRESHOLD) {
+        tick = (tick > Constants::HIGH_TICK_RATE ? tick : Constants::DEFAULT_TICK_RATE) * Constants::MID_TICK_MULTIPLIER;
+      }
       comp->setTickRate(tick);
 
       auto& catGrid = categoryGrids[owner->getEntityCategory()];
@@ -179,7 +186,7 @@ namespace Project::Systems {
 
       Project::Utilities::Collider collider{box, nullptr, box->getOwner()};
       quadtree.insert(collider, bounds);
-      bvhObjects.emplace_back(fBounds, collider);
+      allObjects.emplace_back(fBounds, collider);
       if (collider.entity) {
         auto& catGrid = categoryGrids[collider.entity->getEntityCategory()];
         catGrid.setCellSize(targetCell);
@@ -200,7 +207,7 @@ namespace Project::Systems {
     for (const auto& p : sweepPairs) {
       sweepPairKeys.insert(makeKey(p.first.physics, p.second.physics));
     }
-    bvh.build(std::move(bvhObjects));
+    bvh.build(allObjects);
     auto end = std::chrono::high_resolution_clock::now();
     metrics.lastBroadPhaseMs = std::chrono::duration<float, std::milli>(end - start).count();
 

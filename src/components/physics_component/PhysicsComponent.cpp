@@ -356,7 +356,14 @@ namespace Project::Components {
       return true;
     }
 
-    if (otherPhysics && pushForce > 0.0f && !otherPhysics->getStatic()) {
+    const bool dynamicCollision = otherPhysics && !otherPhysics->getStatic();
+    const bool primaryHandler = !dynamicCollision || this < otherPhysics;
+
+    if (dynamicCollision && !primaryHandler) {
+      return true;
+    }
+
+    if (otherPhysics && pushForce > 0.0f && primaryHandler && !otherPhysics->getStatic()) {
       const float pushX = velocityX * pushForce;
       const float pushY = velocityY * pushForce;
       otherPhysics->addVelocity(pushX, pushY);
@@ -364,9 +371,26 @@ namespace Project::Components {
       velocityY -= pushY;
     }
 
-    const float snapX = newX + offset.x;
-    const float snapY = newY + offset.y;
-    syncPositionWithComponents(snapX, snapY);
+    float snapX = newX + offset.x;
+    float snapY = newY + offset.y;
+
+    if (otherPhysics && !otherPhysics->getStatic()) {
+      const float halfOffsetX = offset.x * Constants::DEFAULT_HALF;
+      const float halfOffsetY = offset.y * Constants::DEFAULT_HALF;
+
+      snapX = newX + halfOffsetX;
+      snapY = newY + halfOffsetY;
+      syncPositionWithComponents(snapX, snapY);
+
+      if (auto* otherOwner = otherPhysics->getOwner()) {
+        const float otherSnapX = otherOwner->getX() - halfOffsetX;
+        const float otherSnapY = otherOwner->getY() - halfOffsetY;
+        otherPhysics->syncPositionWithComponents(otherSnapX, otherSnapY);
+      }
+    } else {
+      syncPositionWithComponents(snapX, snapY);
+    }
+    
     bool collidedWithStatic = false;
 
     if (otherPhysics) {
@@ -377,10 +401,19 @@ namespace Project::Components {
           syncPositionWithComponents(newX, newY);
           return false;
         }
-      } else {
+      } else if (primaryHandler) {
         resolveCollisionWith(otherPhysics, bounce);
         applyFriction(fric);
         otherPhysics->applyFriction(fric);
+
+        if (std::abs(velocityX) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityX = 0.0f;
+        if (std::abs(velocityY) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityY = 0.0f;
+        if (std::abs(otherPhysics->velocityX) < Constants::DEFAULT_COLLISION_THRESHOLD) {
+          otherPhysics->velocityX = 0.0f;
+        }
+        if (std::abs(otherPhysics->velocityY) < Constants::DEFAULT_COLLISION_THRESHOLD) {
+          otherPhysics->velocityY = 0.0f;
+        }
       }
     } else {
       const auto surface = otherBox->getSurfaceType();

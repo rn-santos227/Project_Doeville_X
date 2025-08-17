@@ -259,6 +259,8 @@ namespace Project::Utilities {
   }
 
   SDL_FPoint PhysicsUtils::getOBBSnapOffset(const OrientedBox& a, const OrientedBox& b, float /*dx*/, float /*dy*/) {
+    auto project = [](const OrientedBox& box, const SDL_FPoint& axis, float& min, float& max) {
 
+    };
   }
 }

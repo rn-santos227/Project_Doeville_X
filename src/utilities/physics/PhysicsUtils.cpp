@@ -313,7 +313,8 @@ namespace Project::Utilities {
           bestAxis = axis;
         }
       }
-
     }
+
+    return {bestAxis.x * smallestOverlap, bestAxis.y * smallestOverlap};
   }
 }

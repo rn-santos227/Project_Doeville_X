@@ -14,7 +14,7 @@ namespace Project::Handlers {
     ~CameraHandler() = default;
 
     void setSize(int width, int height);
-    void setPosition(int x, int y);
+    void setPosition(float x, float y);
     void setCullingOffset(int x, int y);
     
     SDL_FRect getCullingRect() const;
@@ -34,10 +34,10 @@ namespace Project::Handlers {
 
     int getWidth() const { return static_cast<int>(cameraRect.w / zoom); }
     int getHeight() const { return static_cast<int>(cameraRect.h / zoom); }
-    int getX() const { return cameraRect.x; }
-    int getY() const { return cameraRect.y; }
-    int getViewportWidth() const { return cameraRect.w; }
-    int getViewportHeight() const { return cameraRect.h; }
+    float getX() const { return cameraRect.x; }
+    float getY() const { return cameraRect.y; }
+    int getViewportWidth() const { return static_cast<int>(cameraRect.w); }
+    int getViewportHeight() const { return static_cast<int>(cameraRect.h); }
 
     int getOffsetX() const { return cullingOffset.x; }
     int getOffsetY() const { return cullingOffset.y; }
@@ -45,7 +45,7 @@ namespace Project::Handlers {
   private:
     CameraType cameraType = CameraType::FREE_ROAMING;
     
-    SDL_Rect cameraRect{0,0,0,0};
+    SDL_FRect cameraRect{0.0f, 0.0f, 0.0f, 0.0f};
     SDL_Point cullingOffset{0,0};
 
     float zoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;

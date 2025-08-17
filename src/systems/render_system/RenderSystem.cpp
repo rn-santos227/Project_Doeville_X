@@ -76,10 +76,10 @@ namespace Project::Systems {
       zoom = camHandler->getZoom();
       viewport = SDL_Rect{0, 0, camHandler->getViewportWidth(), camHandler->getViewportHeight()};
       useCull = true;
-      int startX = camHandler->getX() / Constants::DEFAULT_RENDER_CELL_SIZE;
-      int startY = camHandler->getY() / Constants::DEFAULT_RENDER_CELL_SIZE;
-      int endX = (camHandler->getX() + camHandler->getViewportWidth()) / Constants::DEFAULT_RENDER_CELL_SIZE;
-      int endY = (camHandler->getY() + camHandler->getViewportHeight()) / Constants::DEFAULT_RENDER_CELL_SIZE;
+      int startX = static_cast<int>(camHandler->getX() / Constants::DEFAULT_RENDER_CELL_SIZE);
+      int startY = static_cast<int>(camHandler->getY() / Constants::DEFAULT_RENDER_CELL_SIZE);
+      int endX = static_cast<int>((camHandler->getX() + camHandler->getViewportWidth()) / Constants::DEFAULT_RENDER_CELL_SIZE);
+      int endY = static_cast<int>((camHandler->getY() + camHandler->getViewportHeight()) / Constants::DEFAULT_RENDER_CELL_SIZE);
       std::unordered_set<GraphicsComponent*> unique;
       for (int x = startX; x <= endX; ++x) {
         for (int y = startY; y <= endY; ++y) {
@@ -89,7 +89,7 @@ namespace Project::Systems {
       }
       candidates.assign(unique.begin(), unique.end());
       SDL_FRect fr{
-        static_cast<float>(camHandler->getX()), static_cast<float>(camHandler->getY()),
+        camHandler->getX(), camHandler->getY(),
         static_cast<float>(camHandler->getViewportWidth()), static_cast<float>(camHandler->getViewportHeight())
       };
     } else {

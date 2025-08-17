@@ -6,11 +6,11 @@
 
 namespace Project::Handlers {
   void CameraHandler::setSize(int width, int height) {
-    cameraRect.w = width;
-    cameraRect.h = height;
+    cameraRect.w = static_cast<float>(width);
+    cameraRect.h = static_cast<float>(height);
   }
 
-  void CameraHandler::setPosition(int x, int y) {
+  void CameraHandler::setPosition(float x, float y) {
     cameraRect.x = x;
     cameraRect.y = y;
   }
@@ -21,12 +21,7 @@ namespace Project::Handlers {
   }
 
   SDL_FRect CameraHandler::getCullingRect() const {
-    SDL_FRect rect{
-      static_cast<float>(cameraRect.x),
-      static_cast<float>(cameraRect.y),
-      static_cast<float>(cameraRect.w),
-      static_cast<float>(cameraRect.h)
-    };
+    SDL_FRect rect{cameraRect.x, cameraRect.y, cameraRect.w, cameraRect.h};
     rect.w /= zoom;
     rect.h /= zoom;
     rect.x -= static_cast<float>(cullingOffset.x);
@@ -37,12 +32,7 @@ namespace Project::Handlers {
   }
 
   SDL_FRect CameraHandler::getRect() const {
-    SDL_FRect rect{
-      static_cast<float>(cameraRect.x),
-      static_cast<float>(cameraRect.y),
-      static_cast<float>(cameraRect.w),
-      static_cast<float>(cameraRect.h)
-    };
+    SDL_FRect rect{cameraRect.x, cameraRect.y, cameraRect.w, cameraRect.h};
     rect.w /= zoom;
     rect.h /= zoom;
     return rect;

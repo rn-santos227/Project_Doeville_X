@@ -140,8 +140,8 @@ namespace Project::States {
     float zoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;
     SDL_Rect viewport{0, 0, 0, 0};
     SDL_Rect camRect{0, 0, 0, 0};
-    int camX = 0;
-    int camY = 0;
+    float camX = 0.0f;
+    float camY = 0.0f;
     bool useCull = false;
     if (camHandler) {
       zoom = camHandler->getZoom();

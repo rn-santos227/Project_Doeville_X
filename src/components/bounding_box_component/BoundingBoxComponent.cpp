@@ -46,8 +46,8 @@ namespace Project::Components {
   void BoundingBoxComponent::render() {
     if (!renderer || !keyHandler || !keyHandler->isGameDebugMode()) return;
     
-    const int camX = cameraHandler ? cameraHandler->getX() : 0;
-    const int camY = cameraHandler ? cameraHandler->getY() : 0;
+    const float camX = cameraHandler ? cameraHandler->getX() : 0.0f;
+    const float camY = cameraHandler ? cameraHandler->getY() : 0.0f;
     const float zoom = cameraHandler ? cameraHandler->getZoom() : 1.0f;
 
     SDL_SetRenderDrawColor(renderer, data.debugColor.r, data.debugColor.g, data.debugColor.b, data.debugColor.a);

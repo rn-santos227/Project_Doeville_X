@@ -88,8 +88,8 @@ namespace Project::Components {
     }
 
     if (!havePos) {
-      camXF = static_cast<float>(cameraHandler->getX());
-      camYF = static_cast<float>(cameraHandler->getY());
+      camXF = cameraHandler->getX();
+      camYF = cameraHandler->getY();
       havePos = true;
     }
 
@@ -112,10 +112,7 @@ namespace Project::Components {
       camYF = std::clamp(camYF, static_cast<float>(map.y), maxY);
     }
 
-    int camX = static_cast<int>(std::round(camXF));
-    int camY = static_cast<int>(std::round(camYF));
-
-    cameraHandler->setPosition(camX, camY);
+    cameraHandler->setPosition(camXF, camYF);
     data.rotation += data.spinSpeed * deltaTime;
     cameraHandler->setRotation(data.rotation);
   }
@@ -177,7 +174,7 @@ namespace Project::Components {
       camYF = std::clamp(camYF, static_cast<float>(map.y), maxY);
     }
 
-    cameraHandler->setPosition(static_cast<int>(std::round(camXF)), static_cast<int>(std::round(camYF)));
+    cameraHandler->setPosition(camXF, camYF);
     havePos = true;
   }
 

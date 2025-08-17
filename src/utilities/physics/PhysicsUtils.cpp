@@ -289,5 +289,11 @@ namespace Project::Utilities {
       centerB.x += b.corners[i].x;
       centerB.y += b.corners[i].y;
     }
+
+    const float quarter = Constants::DEFAULT_HALF * Constants::DEFAULT_HALF;
+    centerA.x *= quarter;
+    centerA.y *= quarter;
+    centerB.x *= quarter;
+    centerB.y *= quarter;
   }
 }

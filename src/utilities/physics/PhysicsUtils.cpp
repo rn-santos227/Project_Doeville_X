@@ -257,4 +257,8 @@ namespace Project::Utilities {
     offset.y = -offset.y;
     return offset;
   }
+
+  SDL_FPoint PhysicsUtils::getOBBSnapOffset(const OrientedBox& a, const OrientedBox& b, float /*dx*/, float /*dy*/) {
+
+  }
 }

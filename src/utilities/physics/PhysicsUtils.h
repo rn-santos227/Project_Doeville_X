@@ -46,6 +46,7 @@ namespace Project::Utilities {
     static SDL_FPoint getCircleSnapOffset(const Project::Utilities::Circle& moving, const Project::Utilities::Circle& other, float dx, float dy);
     static SDL_FPoint getCircleRectSnapOffset(const Project::Utilities::Circle& moving, const SDL_FRect& other, float dx, float dy);
     static SDL_FPoint getRectCircleSnapOffset(const SDL_FRect& moving, const Project::Utilities::Circle& other, float dx, float dy);
+    static SDL_FPoint getOBBSnapOffset(const Project::Utilities::OrientedBox& a, const Project::Utilities::OrientedBox& b, float dx, float dy);
 	};
 }
 

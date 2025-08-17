@@ -689,8 +689,8 @@ namespace Project::Entities {
       bool clampedYChanged = clampedY != ey;
 
       if (clampedXChanged || clampedYChanged) {
-        float newX = clampedXChanged ? std::round(clampedX) : ex;
-        float newY = clampedYChanged ? std::round(clampedY) : ey;
+        float newX = clampedXChanged ? clampedX : ex;
+        float newY = clampedYChanged ? clampedY : ey;
 
         updateEntityPosition(entity, newX, newY);
 

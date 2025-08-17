@@ -270,5 +270,10 @@ namespace Project::Utilities {
     };
 
     SDL_FPoint axes[Constants::INDEX_FOUR];
+    for (int i = 0; i < 2; ++i) {
+      const SDL_FPoint& p1 = a.corners[i];
+      const SDL_FPoint& p2 = a.corners[(i + 1) % Constants::INDEX_FOUR];
+      axes[i] = MathUtils::normalize(-(p2.y - p1.y), p2.x - p1.x);
+    }
   }
 }

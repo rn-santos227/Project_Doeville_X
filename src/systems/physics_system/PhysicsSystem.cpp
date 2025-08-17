@@ -143,8 +143,8 @@ namespace Project::Systems {
       }
       
       quadtree.insert(collider, bounds);
-      dynamicObjects.emplace_back(bounds, collider);
-      allObjects.emplace_back(bounds, collider);
+      dynamicObjects.emplace_back(fBounds, collider);
+      allObjects.emplace_back(fBounds, collider);
 
       float centerX = worldBounds.x + worldBounds.w * Constants::CENTER_FACTOR;
       float centerY = worldBounds.y + worldBounds.h * Constants::CENTER_FACTOR;

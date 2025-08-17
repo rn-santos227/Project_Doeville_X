@@ -303,6 +303,17 @@ namespace Project::Utilities {
       float minA, maxA, minB, maxB;
       project(a, axis, minA, maxA);
       project(b, axis, minB, maxB);
+      float overlap = std::min(maxA, maxB) - std::max(minA, minB);
+      if (overlap < smallestOverlap) {
+        smallestOverlap = overlap;
+        float dir = MathUtils::dot(centerB.x - centerA.x, centerB.y - centerA.y, axis.x, axis.y);
+        if (dir < 0.0f) {
+          bestAxis = {-axis.x, -axis.y};
+        } else {
+          bestAxis = axis;
+        }
+      }
+
     }
   }
 }

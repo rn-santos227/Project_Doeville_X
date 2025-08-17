@@ -280,5 +280,14 @@ namespace Project::Utilities {
       const SDL_FPoint& p2 = b.corners[(i + 1) % Constants::INDEX_FOUR];
       axes[i + 2] = MathUtils::normalize(-(p2.y - p1.y), p2.x - p1.x);
     }
+
+    SDL_FPoint centerA{0.0f, 0.0f};
+    SDL_FPoint centerB{0.0f, 0.0f};
+    for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
+      centerA.x += a.corners[i].x;
+      centerA.y += a.corners[i].y;
+      centerB.x += b.corners[i].x;
+      centerB.y += b.corners[i].y;
+    }
   }
 }

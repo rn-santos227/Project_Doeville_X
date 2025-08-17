@@ -48,6 +48,7 @@ namespace Project::Components {
     
     const int camX = cameraHandler ? cameraHandler->getX() : 0;
     const int camY = cameraHandler ? cameraHandler->getY() : 0;
+    const float zoom = cameraHandler ? cameraHandler->getZoom() : 1.0f;
 
     SDL_SetRenderDrawColor(renderer, data.debugColor.r, data.debugColor.g, data.debugColor.b, data.debugColor.a);
     if (worldBoxesDirty) {
@@ -66,7 +67,13 @@ namespace Project::Components {
           const float x2 = std::floor(p2.x);
           const float y2 = std::floor(p2.y);
 
-          SDL_RenderDrawLineF(renderer, x1 - camX, y1 - camY, x2 - camX, y2 - camY);
+          SDL_RenderDrawLineF(
+            renderer,
+            (x1 - camX) * zoom,
+            (y1 - camY) * zoom,
+            (x2 - camX) * zoom,
+            (y2 - camY) * zoom
+          );
         }
       }
     } else {
@@ -76,7 +83,12 @@ namespace Project::Components {
         const float w = std::round(rect.w);
         const float h = std::round(rect.h);
 
-        SDL_FRect r {x - camX, y - camY, w, h};
+        SDL_FRect r {
+          (x - camX) * zoom,
+          (y - camY) * zoom,
+          w * zoom,
+          h * zoom
+        };
         SDL_RenderDrawRectF(renderer, &r);
       }
     }
@@ -95,9 +107,9 @@ namespace Project::Components {
     for (const auto& circle : worldCircles) {
       for (int angle = 0; angle < Constants::ANGLE_360_DEG; ++angle) {
         float rad = angle * Constants::DEG_TO_RAD;
-        int px = static_cast<int>(circle.x + circle.r * std::cos(rad) - camX);
-        int py = static_cast<int>(circle.y + circle.r * std::sin(rad) - camY);
-        SDL_RenderDrawPoint(renderer, px, py);
+        float px = (static_cast<float>(circle.x) + circle.r * std::cos(rad) - camX) * zoom;
+        float py = (static_cast<float>(circle.y) + circle.r * std::sin(rad) - camY) * zoom;
+        SDL_RenderDrawPointF(renderer, px, py);
       }
     }
   }
@@ -334,7 +346,8 @@ namespace Project::Components {
     if (entityX != x || entityY != y) {
       entityX = x;
       entityY = y;
-      markDirty();
+      updateWorldBoxes();
+      worldBoxesDirty = false;
     }
   }
 
@@ -342,7 +355,8 @@ namespace Project::Components {
     if (data.rotation != angle) {
       data.rotation = angle;
       lastCachedRotation = std::numeric_limits<float>::quiet_NaN();
-      markDirty();
+      updateWorldBoxes();
+      worldBoxesDirty = false;
     }
   }
 

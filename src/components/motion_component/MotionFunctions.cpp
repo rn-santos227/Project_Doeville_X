@@ -83,10 +83,8 @@ namespace Project::Components {
     if (comp->accelerationEnabled) {
       if (left) {
         velX -= comp->acceleration * deltaTime;
-        if (velX < -comp->maxSpeed) velX = -comp->maxSpeed;
       } else if (right) {
         velX += comp->acceleration * deltaTime;
-        if (velX > comp->maxSpeed) velX = comp->maxSpeed;
       } else {
         if (velX > 0.0f) {
           velX -= comp->friction * deltaTime;
@@ -99,10 +97,8 @@ namespace Project::Components {
 
       if (up) {
         velY -= comp->acceleration * deltaTime;
-        if (velY < -comp->maxSpeed) velY = -comp->maxSpeed;
       } else if (down) {
         velY += comp->acceleration * deltaTime;
-        if (velY > comp->maxSpeed) velY = comp->maxSpeed;
       } else {
         if (velY > 0.0f) {
           velY -= comp->friction * deltaTime;

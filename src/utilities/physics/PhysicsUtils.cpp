@@ -268,5 +268,7 @@ namespace Project::Utilities {
         if (proj > max) max = proj;
       }
     };
+
+    SDL_FPoint axes[Constants::INDEX_FOUR];
   }
 }

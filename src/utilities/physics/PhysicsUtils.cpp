@@ -167,30 +167,30 @@ namespace Project::Utilities {
     }
   }
 
-  SDL_FPoint PhysicsUtils::getSnapOffset(const SDL_FRect& moving, const SDL_FRect& other, float dx, float dy) {
-    SDL_FRect inter;
+  SDL_FPoint PhysicsUtils::getSnapOffset(const SDL_FRect& moving, const SDL_FRect& other, float /*dx*/, float /*dy*/) {
     SDL_FPoint result{0.0f, 0.0f};
+    SDL_FRect inter;
     if (!SDL_IntersectFRect(&moving, &other, &inter)) {
       return result;
     }
 
-    if (inter.w < inter.h) {
-      if (dx > 0) {
-        result.x = -inter.w;
-      } else if (dx < 0) {
-        result.x = (moving.x < other.x) ? -inter.w : inter.w;
-      } else {
-        result.x = (moving.x < other.x) ? -static_cast<float>(inter.w) : static_cast<float>(inter.w);
-      }
+    float centerAx = moving.x + moving.w * Constants::DEFAULT_HALF;
+    float centerAy = moving.y + moving.h * Constants::DEFAULT_HALF;
+    float centerBx = other.x + other.w * Constants::DEFAULT_HALF;
+    float centerBy = other.y + other.h * Constants::DEFAULT_HALF;
+
+    float diffX = centerAx - centerBx;
+    float diffY = centerAy - centerBy;
+
+    float overlapX = (moving.w + other.w) * Constants::DEFAULT_HALF - std::abs(diffX);
+    float overlapY = (moving.h + other.h) * Constants::DEFAULT_HALF - std::abs(diffY);
+
+    if (overlapX < overlapY) {
+      result.x = (diffX < 0.0f) ? -overlapX : overlapX;
     } else {
-      if (dy > 0) {
-        result.y = -inter.h;
-      } else if (dy < 0) {
-        result.y = inter.h;
-      } else {
-        result.y = (moving.y < other.y) ? -inter.h : inter.h;
-      }
+      result.y = (diffY < 0.0f) ? -overlapY : overlapY;
     }
+    
     return result;
   }
 

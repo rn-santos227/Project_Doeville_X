@@ -161,11 +161,11 @@ namespace Project::Components {
     bool rot = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rot);
 
-    // bool proxy = luaStateWrapper.getTableBoolean(tableName, Keys::USE_PROXY, false);
-    // setUseProxy(proxy);
-    // if (!useProxy && (!data.polygons.empty() || !data.capsules.empty())) {
-    //   useProxy = true;
-    // }
+    bool proxy = luaStateWrapper.getTableBoolean(tableName, Keys::USE_PROXY, false);
+    setUseProxy(proxy);
+    if (!useProxy && (!data.polygons.empty() || !data.capsules.empty())) {
+      useProxy = true;
+    }
 
     markDirty();
   }

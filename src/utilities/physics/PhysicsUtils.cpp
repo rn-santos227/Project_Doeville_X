@@ -295,5 +295,8 @@ namespace Project::Utilities {
     centerA.y *= quarter;
     centerB.x *= quarter;
     centerB.y *= quarter;
+
+    float smallestOverlap = std::numeric_limits<float>::max();
+    SDL_FPoint bestAxis{0.0f, 0.0f};
   }
 }

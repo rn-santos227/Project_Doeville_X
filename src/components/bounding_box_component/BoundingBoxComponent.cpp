@@ -61,33 +61,24 @@ namespace Project::Components {
         for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
           const SDL_FPoint& p1 = box.corners[i];
           const SDL_FPoint& p2 = box.corners[(i + 1) % Constants::INDEX_FOUR];
-          
-          const float x1 = std::floor(p1.x);
-          const float y1 = std::floor(p1.y);
-          const float x2 = std::floor(p2.x);
-          const float y2 = std::floor(p2.y);
 
           SDL_RenderDrawLineF(
             renderer,
-            (x1 - camX) * zoom,
-            (y1 - camY) * zoom,
-            (x2 - camX) * zoom,
-            (y2 - camY) * zoom
+            (p1.x - camX) * zoom,
+            (p1.y - camY) * zoom,
+            (p2.x - camX) * zoom,
+            (p2.y - camY) * zoom
           );
         }
       }
     } else {
       for (const auto& rect : worldBoxes) {
-        const float x = std::floor(rect.x);
-        const float y = std::floor(rect.y);
-        const float w = std::round(rect.w);
-        const float h = std::round(rect.h);
 
         SDL_FRect r {
-          (x - camX) * zoom,
-          (y - camY) * zoom,
-          w * zoom,
-          h * zoom
+          (rect.x - camX) * zoom,
+          (rect.y - camY) * zoom,
+          rect.w * zoom,
+          rect.h * zoom
         };
         SDL_RenderDrawRectF(renderer, &r);
       }
@@ -482,18 +473,45 @@ namespace Project::Components {
 
     for (size_t i = 0; i < data.polygons.size(); ++i) {
       worldPolygons[i].vertices.resize(data.polygons[i].vertices.size());
-      for (size_t j = 0; j < data.polygons[i].vertices.size(); ++j) {
-        worldPolygons[i].vertices[j].x = data.polygons[i].vertices[j].x + entityX;
-        worldPolygons[i].vertices[j].y = data.polygons[i].vertices[j].y + entityY;
+      if (data.rotationEnabled) {
+        SDL_FRect bounds = GeometryUtils::polygonBounds(data.polygons[i]);
+        const float cx = bounds.x + bounds.w * Constants::DEFAULT_HALF;
+        const float cy = bounds.y + bounds.h * Constants::DEFAULT_HALF;
+        for (size_t j = 0; j < data.polygons[i].vertices.size(); ++j) {
+          const float rx = data.polygons[i].vertices[j].x - cx;
+          const float ry = data.polygons[i].vertices[j].y - cy;
+          worldPolygons[i].vertices[j].x = rx * cosA - ry * sinA + cx + entityX;
+          worldPolygons[i].vertices[j].y = rx * sinA + ry * cosA + cy + entityY;
+        }
+      } else {
+        for (size_t j = 0; j < data.polygons[i].vertices.size(); ++j) {
+          worldPolygons[i].vertices[j].x = data.polygons[i].vertices[j].x + entityX;
+          worldPolygons[i].vertices[j].y = data.polygons[i].vertices[j].y + entityY;
+        }
       }
     }
 
     for (size_t i = 0; i < data.capsules.size(); ++i) {
-      worldCapsules[i].start.x = data.capsules[i].start.x + entityX;
-      worldCapsules[i].start.y = data.capsules[i].start.y + entityY;
-      worldCapsules[i].end.x = data.capsules[i].end.x + entityX;
-      worldCapsules[i].end.y = data.capsules[i].end.y + entityY;
-      worldCapsules[i].r = data.capsules[i].r;
+      if (data.rotationEnabled) {
+        const auto& cap = data.capsules[i];
+        const float cx = (cap.start.x + cap.end.x) * Constants::DEFAULT_HALF;
+        const float cy = (cap.start.y + cap.end.y) * Constants::DEFAULT_HALF;
+        float sx = cap.start.x - cx;
+        float sy = cap.start.y - cy;
+        float ex = cap.end.x - cx;
+        float ey = cap.end.y - cy;
+        worldCapsules[i].start.x = sx * cosA - sy * sinA + cx + entityX;
+        worldCapsules[i].start.y = sx * sinA + sy * cosA + cy + entityY;
+        worldCapsules[i].end.x   = ex * cosA - ey * sinA + cx + entityX;
+        worldCapsules[i].end.y   = ex * sinA + ey * cosA + cy + entityY;
+        worldCapsules[i].r = cap.r;
+      } else {
+        worldCapsules[i].start.x = data.capsules[i].start.x + entityX;
+        worldCapsules[i].start.y = data.capsules[i].start.y + entityY;
+        worldCapsules[i].end.x = data.capsules[i].end.x + entityX;
+        worldCapsules[i].end.y = data.capsules[i].end.y + entityY;
+        worldCapsules[i].r = data.capsules[i].r;
+      }
     }
   }
 }

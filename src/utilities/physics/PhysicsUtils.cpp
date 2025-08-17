@@ -262,6 +262,11 @@ namespace Project::Utilities {
     auto project = [](const OrientedBox& box, const SDL_FPoint& axis, float& min, float& max) {
       min = std::numeric_limits<float>::max();
       max = std::numeric_limits<float>::lowest();
+      for (int i = 0; i < Constants::INDEX_FOUR; ++i) {
+        float proj = MathUtils::dot(box.corners[i].x, box.corners[i].y, axis.x, axis.y);
+        if (proj < min) min = proj;
+        if (proj > max) max = proj;
+      }
     };
   }
 }

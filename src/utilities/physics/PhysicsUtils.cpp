@@ -298,5 +298,11 @@ namespace Project::Utilities {
 
     float smallestOverlap = std::numeric_limits<float>::max();
     SDL_FPoint bestAxis{0.0f, 0.0f};
+
+    for (SDL_FPoint& axis : axes) {
+      float minA, maxA, minB, maxB;
+      project(a, axis, minA, maxA);
+      project(b, axis, minB, maxB);
+    }
   }
 }

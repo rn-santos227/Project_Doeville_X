@@ -228,10 +228,17 @@ namespace Project::Components {
         }
 
         if (collides) {
+          SDL_FPoint offset;
+          if (myRotationEnabled || otherRotationEnabled) {
+            auto oA = myRotationEnabled ? myOBB[i] : rectToOBB(myRects[i]);
+            auto oB = otherRotationEnabled ? otherOBB[j] : rectToOBB(otherRects[j]);
+            offset = PhysicsUtils::getOBBSnapOffset(oA, oB, velocityDeltaX, velocityDeltaY);
+          } else {
+            offset = PhysicsUtils::getSnapOffset(myRects[i], otherRects[j], velocityDeltaX, velocityDeltaY);
+          }
+          
           return handleCollision(
-            myBox, otherBox, otherPhysics, entity,
-            myRects[i], otherRects[j], newX, newY,
-            velocityDeltaX, velocityDeltaY
+            myBox, otherBox, otherPhysics, entity, offset, newX, newY
           );
         }
       }

@@ -8,18 +8,24 @@
 #include <SDL.h>
 
 #include "SpatialHashGrid.h"
+#include "libraries/constants/IndexConstants.h"
 
 namespace Project::Utilities {
   class QuadTree {
   public:
-    QuadTree(const SDL_Rect& bounds, int maxDepth = 5, int maxObjects = 4);
+    QuadTree(
+      const SDL_FRect& bounds, 
+      int maxDepth = Project::Libraries::Constants::INDEX_FIVE,
+      int maxObjects = Project::Libraries::Constants::INDEX_FOUR
+    );
 
     void clear();
-    void insert(const Collider& obj, const SDL_Rect& bounds);
-    std::vector<Collider> query(const SDL_Rect& area) const;
+    void insert(const Collider& obj, const SDL_FRect& bounds);
+    std::vector<Collider> query(const SDL_FRect& area) const;
 
   private:
-    SDL_Rect boundary;
+    SDL_FRect boundary;
+    
     int depth;
     int maxDepth;
     int maxObjects;
@@ -28,7 +34,7 @@ namespace Project::Utilities {
 
     bool subdivided() const { return !children.empty(); }
     void subdivide();
-    void queryInternal(const SDL_Rect& area, std::vector<Collider>& result, std::unordered_set<void*>& seen) const;
+    void queryInternal(const SDL_FRect& area, std::vector<Collider>& result, std::unordered_set<void*>& seen) const;
   };
 }
 

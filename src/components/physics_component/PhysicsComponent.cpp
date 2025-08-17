@@ -92,14 +92,14 @@ namespace Project::Components {
   }
 
   void PhysicsComponent::update(float deltaTime) {
-    if (data.tickRate > 0.0f) {
-      data.tickAccumulator += deltaTime;
-      if (data.tickAccumulator < data.tickRate) {
-        return;
-      }
-      deltaTime = data.tickAccumulator;
-      data.tickAccumulator = 0.0f;
-    }
+    // if (data.tickRate > 0.0f) {
+    //   data.tickAccumulator += deltaTime;
+    //   if (data.tickAccumulator < data.tickRate) {
+    //     return;
+    //   }
+    //   deltaTime = data.tickAccumulator;
+    //   data.tickAccumulator = 0.0f;
+    // }
 
     if (isStatic) {
       forceX = forceY = 0.0f;
@@ -424,13 +424,18 @@ namespace Project::Components {
     const float velocityDeltaX = velocityX * deltaTime;
     const float velocityDeltaY = velocityY * deltaTime;
 
-    std::vector<SDL_FRect> myProxyRects;
-    std::vector<Project::Utilities::Circle> emptyCircles;
-    std::vector<Project::Utilities::OrientedBox> emptyOBB;
-    const auto& myRects = myBox->usesProxy() ? (myProxyRects.push_back(myBox->getProxyAABB()), myProxyRects) : myBox->getBoxes();
-    const auto& myCircles = myBox->usesProxy() ? emptyCircles : myBox->getCircles();
-    const auto& myOBB = myBox->usesProxy() ? emptyOBB : myBox->getOrientedBoxes();
-    const bool myRotationEnabled = myBox->usesProxy() ? false : myBox->isRotationEnabled();
+
+    const auto& myRects = myBox->getBoxes();
+    const auto& myCircles = myBox->getCircles();
+    const auto& myOBB = myBox->getOrientedBoxes();
+    const bool myRotationEnabled = myBox->isRotationEnabled();   
+    // std::vector<SDL_FRect> myProxyRects;
+    // std::vector<Project::Utilities::Circle> emptyCircles;
+    // std::vector<Project::Utilities::OrientedBox> emptyOBB;
+    // const auto& myRects = myBox->usesProxy() ? (myProxyRects.push_back(myBox->getProxyAABB()), myProxyRects) : myBox->getBoxes();
+    // const auto& myCircles = myBox->usesProxy() ? emptyCircles : myBox->getCircles();
+    // const auto& myOBB = myBox->usesProxy() ? emptyOBB : myBox->getOrientedBoxes();
+    // const bool myRotationEnabled = myBox->usesProxy() ? false : myBox->isRotationEnabled();
 
     SDL_FRect myBounds{0.f, 0.f, 0.f, 0.f};
     if (!computeBounds(myBox, myBounds)) {
@@ -438,9 +443,12 @@ namespace Project::Components {
     }
 
     auto& physSystem = manager->getPhysicsSystem();
-    auto& bvh = physSystem.getBVH();
+    // auto& bvh = physSystem.getBVH();
+    auto& quadtree = physSystem.getQuadTree();
     auto queryStart = std::chrono::high_resolution_clock::now();
-    auto candidates = bvh.query(myBounds);
+   
+    // auto candidates = bvh.query(myBounds);
+    auto candidates = quadtree.query(myBounds);
     auto queryEnd = std::chrono::high_resolution_clock::now();
     physSystem.recordSpatialQuery(std::chrono::duration<float, std::milli>(queryEnd - queryStart).count());
 
@@ -472,13 +480,17 @@ namespace Project::Components {
         continue;
       }
 
-      std::vector<SDL_FRect> otherProxyRects;
-      std::vector<Project::Utilities::Circle> otherEmptyCircles;
-      std::vector<Project::Utilities::OrientedBox> otherEmptyOBB;
-      const auto& otherRects = otherBox->usesProxy() ? (otherProxyRects.push_back(otherBox->getProxyAABB()), otherProxyRects) : otherBox->getBoxes();
-      const auto& otherCircles = otherBox->usesProxy() ? otherEmptyCircles : otherBox->getCircles();
-      const auto& otherOBB = otherBox->usesProxy() ? otherEmptyOBB : otherBox->getOrientedBoxes();
-      const bool otherRotationEnabled = otherBox->usesProxy() ? false : otherBox->isRotationEnabled();
+      const auto& otherRects = otherBox->getBoxes();
+      const auto& otherCircles = otherBox->getCircles();
+      const auto& otherOBB = otherBox->getOrientedBoxes();
+      const bool otherRotationEnabled = otherBox->isRotationEnabled();
+      // std::vector<SDL_FRect> otherProxyRects;
+      // std::vector<Project::Utilities::Circle> otherEmptyCircles;
+      // std::vector<Project::Utilities::OrientedBox> otherEmptyOBB;
+      // const auto& otherRects = otherBox->usesProxy() ? (otherProxyRects.push_back(otherBox->getProxyAABB()), otherProxyRects) : otherBox->getBoxes();
+      // const auto& otherCircles = otherBox->usesProxy() ? otherEmptyCircles : otherBox->getCircles();
+      // const auto& otherOBB = otherBox->usesProxy() ? otherEmptyOBB : otherBox->getOrientedBoxes();
+      // const bool otherRotationEnabled = otherBox->usesProxy() ? false : otherBox->isRotationEnabled();
       
       if (!broadPhaseCollisionCheck(myBox, otherBox)) {
         continue;

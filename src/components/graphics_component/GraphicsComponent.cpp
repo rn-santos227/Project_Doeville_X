@@ -370,10 +370,12 @@ namespace Project::Components {
 
     if (cameraHandler) {
       const float zoom = cameraHandler->getZoom();
-      renderRect.x = (data.destRect.x - cameraHandler->getX()) * zoom;
-      renderRect.y = (data.destRect.y - cameraHandler->getY()) * zoom;
-      renderRect.w = data.destRect.w * zoom;
-      renderRect.h = data.destRect.h * zoom;
+      const float camX = std::floor(cameraHandler->getX());
+      const float camY = std::floor(cameraHandler->getY());
+      renderRect.x = std::round((data.destRect.x - camX) * zoom);
+      renderRect.y = std::round((data.destRect.y - camY) * zoom);
+      renderRect.w = std::round(data.destRect.w * zoom);
+      renderRect.h = std::round(data.destRect.h * zoom);
     }
 
     return renderRect;

@@ -138,8 +138,8 @@ namespace Project::States {
     
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
     float zoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;
-    SDL_Rect viewport{0, 0, 0, 0};
-    SDL_Rect camRect{0, 0, 0, 0};
+    SDL_FRect viewport{0.0f, 0.0f, 0.0f, 0.0f};
+    SDL_FRect camRect{0.0f, 0.0f, 0.0f, 0.0f};
     float camX = 0.0f;
     float camY = 0.0f;
     bool useCull = false;
@@ -147,28 +147,27 @@ namespace Project::States {
       zoom = camHandler->getZoom();
       camX = camHandler->getX();
       camY = camHandler->getY();
-      viewport = SDL_Rect{0, 0, camHandler->getViewportWidth(), camHandler->getViewportHeight()};
-      SDL_FRect camRectF = camHandler->getRect();
-      camRect = {static_cast<int>(camRectF.x), static_cast<int>(camRectF.y), static_cast<int>(camRectF.w), static_cast<int>(camRectF.h)};
+      viewport = SDL_FRect{0.0f, 0.0f, static_cast<float>(camHandler->getViewportWidth()), static_cast<float>(camHandler->getViewportHeight())};
+      camRect = camHandler->getRect();
       useCull = true;
     }
 
     for (const auto& tile : mapTiles) {
       if (!tile.texture) continue;
-      SDL_Rect worldRect = tile.dest;
-      if (useCull && !SDL_HasIntersection(&worldRect, &camRect)) {
+      SDL_FRect worldRect{static_cast<float>(tile.dest.x), static_cast<float>(tile.dest.y), static_cast<float>(tile.dest.w), static_cast<float>(tile.dest.h)};
+      if (useCull && !SDL_HasIntersectionF(&worldRect, &camRect)) {
         continue;
       }
 
-      SDL_Rect dest = worldRect;
+      SDL_FRect dest = worldRect;
       if (useCull) {
-        dest.x = static_cast<int>((worldRect.x - camX) * zoom);
-        dest.y = static_cast<int>((worldRect.y - camY) * zoom);
-        dest.w = static_cast<int>(worldRect.w * zoom);
-        dest.h = static_cast<int>(worldRect.h * zoom);
-        if (!SDL_HasIntersection(&dest, &viewport)) continue;
+        dest.x = (worldRect.x - camX) * zoom;
+        dest.y = (worldRect.y - camY) * zoom;
+        dest.w = worldRect.w * zoom;
+        dest.h = worldRect.h * zoom;
+        if (!SDL_HasIntersectionF(&dest, &viewport)) continue;
       }
-      SDL_RenderCopy(renderer, tile.texture, &tile.src, &dest);
+      SDL_RenderCopyF(renderer, tile.texture, &tile.src, &dest);
     }
 
     if (layersManager) {

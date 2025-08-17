@@ -46,8 +46,8 @@ namespace Project::Components {
   void BoundingBoxComponent::render() {
     if (!renderer || !keyHandler || !keyHandler->isGameDebugMode()) return;
     
-    const float camX = cameraHandler ? cameraHandler->getX() : 0.0f;
-    const float camY = cameraHandler ? cameraHandler->getY() : 0.0f;
+    const float camX = cameraHandler ? std::floor(cameraHandler->getX()) : 0.0f;
+    const float camY = cameraHandler ? std::floor(cameraHandler->getY()) : 0.0f;
     const float zoom = cameraHandler ? cameraHandler->getZoom() : 1.0f;
 
     SDL_SetRenderDrawColor(renderer, data.debugColor.r, data.debugColor.g, data.debugColor.b, data.debugColor.a);
@@ -64,10 +64,10 @@ namespace Project::Components {
 
           SDL_RenderDrawLineF(
             renderer,
-            (p1.x - camX) * zoom,
-            (p1.y - camY) * zoom,
-            (p2.x - camX) * zoom,
-            (p2.y - camY) * zoom
+            std::round((p1.x - camX) * zoom),
+            std::round((p1.y - camY) * zoom),
+            std::round((p2.x - camX) * zoom),
+            std::round((p2.y - camY) * zoom)
           );
         }
       }
@@ -75,10 +75,10 @@ namespace Project::Components {
       for (const auto& rect : worldBoxes) {
 
         SDL_FRect r {
-          (rect.x - camX) * zoom,
-          (rect.y - camY) * zoom,
-          rect.w * zoom,
-          rect.h * zoom
+          std::round((rect.x - camX) * zoom),
+          std::round((rect.y - camY) * zoom),
+          std::round(rect.w * zoom),
+          std::round(rect.h * zoom)
         };
         SDL_RenderDrawRectF(renderer, &r);
       }
@@ -98,8 +98,8 @@ namespace Project::Components {
     for (const auto& circle : worldCircles) {
       for (int angle = 0; angle < Constants::ANGLE_360_DEG; ++angle) {
         float rad = angle * Constants::DEG_TO_RAD;
-        float px = (static_cast<float>(circle.x) + circle.r * std::cos(rad) - camX) * zoom;
-        float py = (static_cast<float>(circle.y) + circle.r * std::sin(rad) - camY) * zoom;
+        float px = std::round((static_cast<float>(circle.x) + circle.r * std::cos(rad) - camX) * zoom);
+        float py = std::round((static_cast<float>(circle.y) + circle.r * std::sin(rad) - camY) * zoom);
         SDL_RenderDrawPointF(renderer, px, py);
       }
     }
@@ -161,11 +161,11 @@ namespace Project::Components {
     bool rot = luaStateWrapper.getTableBoolean(tableName, Keys::ROTATION, false);
     setRotationEnabled(rot);
 
-    bool proxy = luaStateWrapper.getTableBoolean(tableName, Keys::USE_PROXY, false);
-    setUseProxy(proxy);
-    if (!useProxy && (!data.polygons.empty() || !data.capsules.empty())) {
-      useProxy = true;
-    }
+    // bool proxy = luaStateWrapper.getTableBoolean(tableName, Keys::USE_PROXY, false);
+    // setUseProxy(proxy);
+    // if (!useProxy && (!data.polygons.empty() || !data.capsules.empty())) {
+    //   useProxy = true;
+    // }
 
     markDirty();
   }

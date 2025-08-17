@@ -4,8 +4,8 @@
 #include <unordered_set>
 
 namespace Project::Utilities {
-  QuadTree::QuadTree(const SDL_Rect& bounds, int maxDepth, int maxObjects)
-      : boundary(bounds), depth(0), maxDepth(maxDepth), maxObjects(maxObjects) {}
+  QuadTree::QuadTree(const SDL_FRect& bounds, int maxDepth, int maxObjects)
+  : boundary(bounds), depth(0), maxDepth(maxDepth), maxObjects(maxObjects) {}
 
   void QuadTree::clear() {
     objects.clear();
@@ -13,17 +13,17 @@ namespace Project::Utilities {
   }
 
   void QuadTree::subdivide() {
-    int hw = boundary.w / 2;
-    int hh = boundary.h / 2;
-    children.emplace_back(SDL_Rect{boundary.x, boundary.y, hw, hh}, maxDepth - 1, maxObjects);
-    children.emplace_back(SDL_Rect{boundary.x + hw, boundary.y, hw, hh}, maxDepth - 1, maxObjects);
-    children.emplace_back(SDL_Rect{boundary.x, boundary.y + hh, hw, hh}, maxDepth - 1, maxObjects);
-    children.emplace_back(SDL_Rect{boundary.x + hw, boundary.y + hh, hw, hh}, maxDepth - 1, maxObjects);
+    float hw = boundary.w / 2.0f;
+    float hh = boundary.h / 2.0f;
+    children.emplace_back(SDL_FRect{boundary.x, boundary.y, hw, hh}, maxDepth - 1, maxObjects);
+    children.emplace_back(SDL_FRect{boundary.x + hw, boundary.y, hw, hh}, maxDepth - 1, maxObjects);
+    children.emplace_back(SDL_FRect{boundary.x, boundary.y + hh, hw, hh}, maxDepth - 1, maxObjects);
+    children.emplace_back(SDL_FRect{boundary.x + hw, boundary.y + hh, hw, hh}, maxDepth - 1, maxObjects);
     for (auto& child : children) child.depth = depth + 1;
   }
 
-  void QuadTree::insert(const Collider& obj, const SDL_Rect& bounds) {
-    if (!SDL_HasIntersection(&boundary, &bounds)) return;
+  void QuadTree::insert(const Collider& obj, const SDL_FRect& bounds) {
+    if (!SDL_HasIntersectionF(&boundary, &bounds)) return;
 
     if (objects.size() < static_cast<size_t>(maxObjects) || depth >= maxDepth) {
       objects.push_back(obj);
@@ -39,15 +39,15 @@ namespace Project::Utilities {
     }
   }
 
-  std::vector<Collider> QuadTree::query(const SDL_Rect& area) const {
+  std::vector<Collider> QuadTree::query(const SDL_FRect& area) const {
     std::vector<Collider> result;
     std::unordered_set<void*> seen;
     queryInternal(area, result, seen);
     return result;
   }
 
-  void QuadTree::queryInternal(const SDL_Rect& area, std::vector<Collider>& result, std::unordered_set<void*>& seen) const {
-    if (!SDL_HasIntersection(&boundary, &area)) return;
+  void QuadTree::queryInternal(const SDL_FRect& area, std::vector<Collider>& result, std::unordered_set<void*>& seen) const {
+    if (!SDL_HasIntersectionF(&boundary, &area)) return;
 
     for (const auto& obj : objects) {
       void* key = obj.physics ? static_cast<void*>(obj.physics) : static_cast<void*>(obj.box);

@@ -58,6 +58,7 @@ namespace Project::Entities {
   std::string EntitiesManager::addEntity(std::shared_ptr<Entity> entity, const std::string& id) {
     if (!entity) return Constants::EMPTY_STRING;
 
+    std::lock_guard<std::mutex> lock(managerMutex);
     entity->setEntitiesManager(this);
     registerEntityLuaFunctions(entity.get());
     
@@ -74,7 +75,8 @@ namespace Project::Entities {
     }
     
     entity->setEntityID(finalId);
-    add(finalId, std::move(entity));
+    
+    objects[finalId] = std::move(entity);
     objects[finalId]->getLuaStateWrapper().setGlobalString(Keys::ID, finalId);
     entityList.push_back(objects[finalId]);
     entityIndices[finalId] = entityList.size() - 1;

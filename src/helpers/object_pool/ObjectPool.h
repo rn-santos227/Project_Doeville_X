@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <vector>
 
 #include "helpers/memory_pool/MemoryPoolAllocator.h"
@@ -18,17 +19,26 @@ namespace Project::Helpers {
       return instance;
     }
 
-    void setMaxSize(size_t size) { maxSize = size; }
-    size_t getMaxSize() const { return maxSize; }
+    void setMaxSize(size_t size) {
+      std::lock_guard<std::mutex> lock(poolMutex);
+      maxSize = size;
+    }
+    size_t getMaxSize() const {
+      std::lock_guard<std::mutex> lock(poolMutex);
+      return maxSize;
+    }
 
     template <typename... Args>
     std::unique_ptr<T, Deleter> acquire(Args&&... args) {
       T* mem = nullptr;
-      if (!pool.empty()) {
-        mem = pool.back();
-        pool.pop_back();
-      } else {
-        mem = allocator.allocate(1);
+      {
+        std::lock_guard<std::mutex> lock(poolMutex);
+        if (!pool.empty()) {
+          mem = pool.back();
+          pool.pop_back();
+        } else {
+          mem = allocator.allocate(1);
+        }
       }
 
       new (mem) T(std::forward<Args>(args)...);
@@ -45,6 +55,7 @@ namespace Project::Helpers {
     void release(T* obj) {
       if (!obj) return;
       obj->~T();
+      std::lock_guard<std::mutex> lock(poolMutex);
       if (maxSize == 0 || pool.size() < maxSize) {
         pool.push_back(obj);
       } else {
@@ -57,6 +68,7 @@ namespace Project::Helpers {
 
     std::vector<T*> pool;
     size_t maxSize = 0;
+    mutable std::mutex poolMutex;
     
     ObjectPool() = default;
     ~ObjectPool() {

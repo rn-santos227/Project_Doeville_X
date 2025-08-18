@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <string>
+#include <mutex>
 
 #include <SDL.h>
 
@@ -373,27 +374,44 @@ namespace Project::Entities {
       }
     }
 
-    const size_t MAX_ATTEMPTS = 5;
+    struct SpawnResult {
+      EntitiesFactory::EntityPtr entity;
+      float x;
+      float y;
+      float w;
+      float h;
+      std::string tmpl;
+    };
+
+    std::vector<std::tuple<std::string, float, float>> requests;
+    requests.reserve(chunkCount);
     
     for (size_t i = 0; i < chunkCount; ++i) {
       if (entityTemplates.empty()) break;
       std::string tmpl = entityTemplates[templateIndex(localRng)];
+      float ex = posX(localRng);
+      float ey = posY(localRng);
+      requests.emplace_back(tmpl, ex, ey);
+    }
 
-      bool placed = false;
-      for (size_t attempt = 0; attempt < MAX_ATTEMPTS && !placed; ++attempt) {
+    std::vector<SpawnResult> results;
+    std::mutex resultsMutex;
+    auto& pool = Project::Utilities::ThreadPool::getInstance();
+
+    for (const auto& req : requests) {
+      pool.enqueue([&, req]() {
+        const std::string& tmpl = std::get<0>(req);
+        float ex = std::get<1>(req);
+        float ey = std::get<2>(req);
         EntitiesFactory::EntityPtr entity = factory.cloneEntity(tmpl);
-        if (!entity) continue;
-
-        float ex = posX(localRng);
-        float ey = posY(localRng);
-
-        float w = 0.0f, h = 0.0f;
+        if (!entity) return;
 
         entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
         entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
         entity->initialize();
         entity->setPosition(ex, ey);
         
+        float w = 0.0f, h = 0.0f;
         if (auto* box = entity->getBoundingBoxComponent()) {
           box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
           const auto& boxes = box->getBoxes();
@@ -405,31 +423,42 @@ namespace Project::Entities {
           w = static_cast<float>(gfx->getWidth());
           h = static_cast<float>(gfx->getHeight());
         }
+        
+        std::lock_guard<std::mutex> lock(resultsMutex);
+        results.push_back({std::move(entity), ex, ey, w, h, tmpl});
+      });
+    }
+    pool.wait();
+    
+    for (auto& res : results) {
+      float ex = res.x;
+      float ey = res.y;
+      float w = res.w;
+      float h = res.h;
 
-        if (bounded) {
-          ex = std::clamp(ex, static_cast<float>(mapRect.x), static_cast<float>(mapRect.x + mapRect.w - w));
-          ey = std::clamp(ey, static_cast<float>(mapRect.y), static_cast<float>(mapRect.y + mapRect.h - h));
-          entity->setPosition(ex, ey);
-          entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
-          entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
-          if (auto* box = entity->getBoundingBoxComponent()) {
-            box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
-          }
+      if (bounded) {
+        ex = std::clamp(ex, static_cast<float>(mapRect.x), static_cast<float>(mapRect.x + mapRect.w - w));
+        ey = std::clamp(ey, static_cast<float>(mapRect.y), static_cast<float>(mapRect.y + mapRect.h - h));
+        res.entity->setPosition(ex, ey);
+        res.entity->getLuaStateWrapper().setGlobalNumber(Keys::X, ex);
+        res.entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, ey);
+        if (auto* box = res.entity->getBoundingBoxComponent()) {
+          box->setEntityPosition(static_cast<int>(ex), static_cast<int>(ey));
         }
+      }
 
-        SDL_FRect newRect{ex, ey, w, h};
-        bool overlap = false;
-        for (const auto& r : existingRects) {
-          if (SDL_HasIntersectionF(&newRect, &r)) { overlap = true; break; }
-        }
-        if (!overlap) {
-          placed = true;
-          existingRects.push_back(newRect);
-          std::shared_ptr<Entity> shared = std::move(entity);
-          std::string id = tmpl + std::string(Constants::SEED) + std::to_string(idCounter++);
-          std::string finalId = manager.addEntity(shared, id);
-          chunk.ids.push_back(finalId);
-        }
+      SDL_FRect newRect{ex, ey, w, h};
+      bool overlap = false;
+      for (const auto& r : existingRects) {
+        if (SDL_HasIntersectionF(&newRect, &r)) { overlap = true; break; }
+      }
+      if (!overlap) {
+        existingRects.push_back(newRect);
+        size_t newId = idCounter.fetch_add(1);
+        std::shared_ptr<Entity> shared = std::move(res.entity);
+        std::string id = res.tmpl + std::string(Constants::SEED) + std::to_string(newId);
+        std::string finalId = manager.addEntity(shared, id);
+        chunk.ids.push_back(finalId);
       }
     }
   }

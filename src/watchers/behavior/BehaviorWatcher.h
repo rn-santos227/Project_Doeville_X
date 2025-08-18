@@ -9,6 +9,9 @@ namespace Project::Watchers {
     using Condition = std::function<bool()>;
     using Command = std::function<void()>;
 
+  private:
+    Condition condition;
+    Command command;
   };
 }
 

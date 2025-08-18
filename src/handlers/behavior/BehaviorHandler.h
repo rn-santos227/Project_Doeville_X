@@ -4,7 +4,13 @@
 #include <string>
 #include <vector>
 
+#include "watchers/behavior/BehaviorWatcher.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+namespace Project::Handlers {
+  class BehaviorHandler {
+
+  };
+}
 
 #endif

@@ -245,7 +245,7 @@ namespace Project::Utilities {
         } else if (topDist == minDist) {
           result.y = -(static_cast<float>(moving.r) - topDist + eps);
         } else {
-          result.y = static_cast<float>(moving.r) - bottomDist;
+          result.y = static_cast<float>(moving.r) - bottomDist + eps;
         }
       } else {
         result.x = (cx / distance) * overlap;

@@ -5,6 +5,9 @@
 
 namespace Project::Watchers {
   class BehaviorWatcher {
+  public:
+    using Condition = std::function<bool()>;
+    using Command = std::function<void()>;
 
   };
 }

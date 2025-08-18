@@ -12,6 +12,9 @@ namespace Project::Handlers {
   public:
     explicit BehaviorHandler(Project::Utilities::LogsManager& logsManager);
 
+    void update();
+    void addWatcher(const Project::Watchers::BehaviorWatcher& watcher);
+
   private:
     Project::Utilities::LogsManager& logsManager;
     std::string state;

@@ -243,7 +243,7 @@ namespace Project::Utilities {
         } else if (rightDist == minDist) {
           result.x = static_cast<float>(moving.r) - rightDist + eps;
         } else if (topDist == minDist) {
-          result.y = -(static_cast<float>(moving.r) - topDist);
+          result.y = -(static_cast<float>(moving.r) - topDist + eps);
         } else {
           result.y = static_cast<float>(moving.r) - bottomDist;
         }

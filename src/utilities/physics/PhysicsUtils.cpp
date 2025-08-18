@@ -228,7 +228,9 @@ namespace Project::Utilities {
     float distance = MathUtils::magnitude(cx, cy);
     float overlap = static_cast<float>(moving.r) - distance;
     
-    if (overlap > 0.0f) {
+    if (overlap >= 0.0f) {
+      const float eps = 0.01f;
+      float separation = overlap + eps;
       if (distance == 0.0f) {
         float leftDist = static_cast<float>(moving.x) - other.x;
         float rightDist = (other.x + other.w) - static_cast<float>(moving.x);

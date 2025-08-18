@@ -9,7 +9,11 @@
 
 namespace Project::Handlers {
   class BehaviorHandler {
+  public:
+    explicit BehaviorHandler(Project::Utilities::LogsManager& logsManager);
 
+  private:
+    
   };
 }
 

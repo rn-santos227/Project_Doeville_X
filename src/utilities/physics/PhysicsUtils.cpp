@@ -239,7 +239,7 @@ namespace Project::Utilities {
         float minDist = std::min({leftDist, rightDist, topDist, bottomDist});
 
         if (leftDist == minDist) {
-          result.x = -(static_cast<float>(moving.r) - leftDist);
+          result.x = -(static_cast<float>(moving.r) - leftDist + eps);
         } else if (rightDist == minDist) {
           result.x = static_cast<float>(moving.r) - rightDist;
         } else if (topDist == minDist) {

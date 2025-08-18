@@ -210,8 +210,8 @@ namespace Project::Utilities {
           result.y = (dy > 0 ? -overlap : overlap);
         }
       } else {
-        result.x = (dx / distance) * overlap;
-        result.y = (dy / distance) * overlap;
+        result.x = (cx / distance) * overlap;
+        result.y = (cy / distance) * overlap;
       }
     }
     return result;

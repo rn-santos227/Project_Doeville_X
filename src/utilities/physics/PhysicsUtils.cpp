@@ -203,11 +203,13 @@ namespace Project::Utilities {
 
     float overlap = minDist - distance;
     if (overlap > 0.0f) {
+      const float eps = 0.01f;
+      float separation = overlap + eps;
       if (distance == 0.0f) {
         if (std::abs(dx) > std::abs(dy)) {
-          result.x = (dx > 0 ? -overlap : overlap);
+          result.x = (dx > 0 ? -separation : separation);
         } else {
-          result.y = (dy > 0 ? -overlap : overlap);
+          result.y = (dy > 0 ? -separation : separation);
         }
       } else {
         result.x = (cx / distance) * overlap;

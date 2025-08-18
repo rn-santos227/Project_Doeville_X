@@ -4,7 +4,9 @@
 #include <functional>
 
 namespace Project::Watchers {
+  class BehaviorWatcher {
 
+  };
 }
 
 #endif

@@ -70,9 +70,9 @@ namespace Project::Entities {
     Project::Factories::EntitiesFactory& factory;
 
     std::queue<long long> pendingChunks;
-    std::unordered_set<long long> scheduledChunks;
-    
+    std::queue<std::function<void()>> spawnQueue;
     std::unordered_map<long long, Chunk> chunks;
+    std::unordered_set<long long> scheduledChunks;
     std::vector<std::string> entityTemplates;
     std::vector<std::string> spawnedIds;
 
@@ -81,13 +81,14 @@ namespace Project::Entities {
 
     float spawnRadius = Project::Libraries::Constants::DEFAULT_SPAWN_RADIUS;
     int chunkRadius = Project::Libraries::Constants::INT_ONE;
-    
+
     std::atomic<size_t> idCounter{0};
     size_t baseSeed = 0;
     size_t sessionSalt = 0;
     size_t maxChunksPerFrame = 1;
     size_t maxSeededEntities = Project::Libraries::Constants::MAX_SEEDED_ENTITY;
     size_t maxEntitiesPerChunk = Project::Libraries::Constants::DEFAULT_ENTITIES_PER_CHUNK;
+    size_t maxSpawnPerFrame = Project::Libraries::Constants::INDEX_FIVE;
 
     int lastCameraX = 0;
     int lastCameraY = 0;

@@ -91,6 +91,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ROTATION_SPEED = "rotation_speed";
   constexpr const char* ROUND = "round";
   constexpr const char* SCALE = "scale";
+  constexpr const char* SCRIPT_PATH = "script_path";
   constexpr const char* SECONDS = "seconds";
   constexpr const char* SIZE = "size";
   constexpr const char* SOLID = "solid";

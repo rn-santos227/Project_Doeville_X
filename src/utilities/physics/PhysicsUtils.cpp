@@ -241,7 +241,7 @@ namespace Project::Utilities {
         if (leftDist == minDist) {
           result.x = -(static_cast<float>(moving.r) - leftDist + eps);
         } else if (rightDist == minDist) {
-          result.x = static_cast<float>(moving.r) - rightDist;
+          result.x = static_cast<float>(moving.r) - rightDist + eps;
         } else if (topDist == minDist) {
           result.y = -(static_cast<float>(moving.r) - topDist);
         } else {

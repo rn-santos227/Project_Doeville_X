@@ -248,8 +248,8 @@ namespace Project::Utilities {
           result.y = static_cast<float>(moving.r) - bottomDist + eps;
         }
       } else {
-        result.x = (cx / distance) * overlap;
-        result.y = (cy / distance) * overlap;
+        result.x = (cx / distance) * separation;
+        result.y = (cy / distance) * separation;
       }
     }
     return result;

@@ -3,6 +3,7 @@
 
 namespace Project::Components {
   enum class ComponentType {
+    BEHAVIOR,
     BOUNDING_BOX,
     BUTTON,
     CAMERA,

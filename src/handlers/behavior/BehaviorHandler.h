@@ -15,6 +15,9 @@ namespace Project::Handlers {
     void update();
     void addWatcher(const Project::Watchers::BehaviorWatcher& watcher);
 
+    void setState(const std::string& newState) { state = newState; }
+    const std::string& getState() const { return state; }
+
   private:
     Project::Utilities::LogsManager& logsManager;
     std::string state;

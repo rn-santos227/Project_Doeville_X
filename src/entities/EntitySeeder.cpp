@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cmath>
 #include <string>
-#include <mutex>
 
 #include <SDL.h>
 
@@ -220,6 +219,14 @@ namespace Project::Entities {
     }
     for (long long k : remove) {
       unloadChunk(k);
+    }
+
+    size_t processed = 0;
+    while (!spawnQueue.empty() && processed < maxSpawnPerFrame) {
+      auto task = std::move(spawnQueue.front());
+      spawnQueue.pop();
+      task();
+      ++processed;
     }
   }
 

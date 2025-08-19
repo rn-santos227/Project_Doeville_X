@@ -98,8 +98,8 @@ namespace Project::Components {
     for (const auto& circle : worldCircles) {
       for (int angle = 0; angle < Constants::ANGLE_360_DEG; ++angle) {
         float rad = angle * Constants::DEG_TO_RAD;
-        float px = std::round((static_cast<float>(circle.x) + circle.r * std::cos(rad) - camX) * zoom);
-        float py = std::round((static_cast<float>(circle.y) + circle.r * std::sin(rad) - camY) * zoom);
+        float px = std::round((circle.x + circle.r * std::cos(rad) - camX) * zoom);
+        float py = std::round((circle.y + circle.r * std::sin(rad) - camY) * zoom);
         SDL_RenderDrawPointF(renderer, px, py);
       }
     }
@@ -114,26 +114,26 @@ namespace Project::Components {
         lua_pushnil(L);
         while (lua_next(L, -2)) {
           if (lua_istable(L, -1)) {
-            int x = 0, y = 0, w = 0, h = 0, r = 0;
+            float x = 0.0f, y = 0.0f, w = 0.0f, h = 0.0f, r = 0.0f;
             lua_getfield(L, -1, Keys::X);
-            if (lua_isnumber(L, -1)) x = static_cast<int>(lua_tonumber(L, -1));
+            if (lua_isnumber(L, -1)) x = static_cast<float>(lua_tonumber(L, -1));
             lua_pop(L, 1);
             lua_getfield(L, -1, Keys::Y);
-            if (lua_isnumber(L, -1)) y = static_cast<int>(lua_tonumber(L, -1));
+            if (lua_isnumber(L, -1)) y = static_cast<float>(lua_tonumber(L, -1));
             lua_pop(L, 1);
             lua_getfield(L, -1, Keys::W);
-            if (lua_isnumber(L, -1)) w = static_cast<int>(lua_tonumber(L, -1));
+            if (lua_isnumber(L, -1)) w = static_cast<float>(lua_tonumber(L, -1));
             lua_pop(L, 1);
             lua_getfield(L, -1, Keys::H);
-            if (lua_isnumber(L, -1)) h = static_cast<int>(lua_tonumber(L, -1));
+            if (lua_isnumber(L, -1)) h = static_cast<float>(lua_tonumber(L, -1));
             lua_pop(L, 1);
             lua_getfield(L, -1, Keys::RADIUS);
-            if (lua_isnumber(L, -1)) r = static_cast<int>(lua_tonumber(L, -1));
+            if (lua_isnumber(L, -1)) r = static_cast<float>(lua_tonumber(L, -1));
             lua_pop(L, 1);
-            if (r > 0) {
+            if (r > 0.0f) {
               addCircle(x, y, r);
             } else {
-              SDL_FRect rect{static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h)};
+              SDL_FRect rect{x, y, w, h};
               addBox(rect);
             }
           }
@@ -175,7 +175,7 @@ namespace Project::Components {
     updateWorldBoxes();
   }
 
-  void BoundingBoxComponent::addCircle(int x, int y, int r) {
+  void BoundingBoxComponent::addCircle(float x, float y, float r) {
     data.circles.push_back({x, y, r});
     updateWorldBoxes();
   }

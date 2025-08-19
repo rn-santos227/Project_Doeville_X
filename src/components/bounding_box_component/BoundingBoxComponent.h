@@ -31,7 +31,7 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void addBox(const SDL_FRect& rect);
-    void addCircle(int x, int y, int r);
+    void addCircle(float x, float y, float r);
     void addPolygon(const std::vector<SDL_FPoint>& points);
     void addCapsule(const Project::Utilities::Capsule& cap);
     

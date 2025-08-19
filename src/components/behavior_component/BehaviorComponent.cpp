@@ -12,6 +12,6 @@ namespace Project::Components {
   }
 
   void BehaviorComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-
+    scriptPath = luaStateWrapper.getTableString(tableName, Project::Libraries::Keys::SCRIPT_PATH, Project::Libraries::Constants::EMPTY_STRING);
   }
 }

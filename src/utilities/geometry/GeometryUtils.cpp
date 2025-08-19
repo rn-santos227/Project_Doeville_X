@@ -98,7 +98,7 @@ namespace Project::Utilities {
   }
 
   bool GeometryUtils::capsuleCircleIntersect(const Capsule& cap, const Circle& c) {
-    float dist = pointSegmentDistance(static_cast<float>(c.x), static_cast<float>(c.y), cap.start.x, cap.start.y, cap.end.x, cap.end.y);
+    float dist = pointSegmentDistance(c.x, c.y, cap.start.x, cap.start.y, cap.end.x, cap.end.y);
     return dist <= cap.r + c.r;
   }
 

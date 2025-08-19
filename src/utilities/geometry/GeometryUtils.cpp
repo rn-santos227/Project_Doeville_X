@@ -78,10 +78,10 @@ namespace Project::Utilities {
   }
 
   bool GeometryUtils::rectCircleIntersect(const SDL_FRect& rect, const Circle& c) {
-    int closestX = std::clamp(c.x, static_cast<int>(rect.x), static_cast<int>(rect.x + rect.w));
-    int closestY = std::clamp(c.y, static_cast<int>(rect.y), static_cast<int>(rect.y + rect.h));
-    int dx = c.x - closestX;
-    int dy = c.y - closestY;
+    float closestX = std::clamp(c.x, rect.x, rect.x + rect.w);
+    float closestY = std::clamp(c.y, rect.y, rect.y + rect.h);
+    float dx = c.x - closestX;
+    float dy = c.y - closestY;
     return (dx * dx + dy * dy) <= (c.r * c.r);
   }
 

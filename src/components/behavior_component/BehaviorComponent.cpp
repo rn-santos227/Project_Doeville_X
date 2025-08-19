@@ -10,4 +10,8 @@ namespace Project::Components {
   void BehaviorComponent::update(float /*deltaTime*/) {
     handler.update();
   }
+
+  void BehaviorComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+
+  }
 }

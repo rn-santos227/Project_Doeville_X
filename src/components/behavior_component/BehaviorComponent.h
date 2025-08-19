@@ -14,6 +14,9 @@ namespace Project::Components {
     explicit BehaviorComponent(Project::Utilities::LogsManager& logsManager);
     ~BehaviorComponent() override = default;
 
+    Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::BEHAVIOR; }
+
   private:
     Project::Entities::Entity* owner = nullptr;
     Project::Handlers::BehaviorHandler handler;

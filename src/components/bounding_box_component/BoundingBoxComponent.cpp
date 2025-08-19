@@ -232,9 +232,11 @@ namespace Project::Components {
 
     const auto& circles = getCircles();
     for (const auto& c : circles) {
-      SDL_FRect r{static_cast<float>(c.x - c.r), static_cast<float>(c.y - c.r),
-        static_cast<float>(c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER),
-        static_cast<float>(c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER)};
+      SDL_FRect r{
+        c.x - c.r, c.y - c.r,
+        c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER,
+        c.r * Project::Libraries::Constants::CIRCLE_DIAMETER_MULTIPLIER}
+        ;
       if (!hasBounds) { bounds = r; hasBounds = true; }
       else {
         const float left = std::min(bounds.x, r.x);
@@ -466,8 +468,8 @@ namespace Project::Components {
     }
 
     for (size_t i = 0; i < data.circles.size(); ++i) {
-      worldCircles[i].x = static_cast<int>(std::floor(data.circles[i].x + entityX));
-      worldCircles[i].y = static_cast<int>(std::floor(data.circles[i].y + entityY));
+      worldCircles[i].x = data.circles[i].x + entityX;
+      worldCircles[i].y = data.circles[i].y + entityY;
       worldCircles[i].r = data.circles[i].r;
     }
 

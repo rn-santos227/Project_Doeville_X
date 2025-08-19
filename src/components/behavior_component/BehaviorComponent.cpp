@@ -6,4 +6,8 @@
 namespace Project::Components {
   BehaviorComponent::BehaviorComponent(Project::Utilities::LogsManager& logsManager)
   : BaseComponent(logsManager), handler(logsManager) {}
+
+  void BehaviorComponent::update(float /*deltaTime*/) {
+    handler.update();
+  }
 }

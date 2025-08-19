@@ -21,6 +21,9 @@ namespace Project::Components {
     void render() override {}
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
+    void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+    Project::Handlers::BehaviorHandler& getHandler() { return handler; }
+
   private:
     Project::Entities::Entity* owner = nullptr;
     Project::Handlers::BehaviorHandler handler;

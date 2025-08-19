@@ -20,19 +20,19 @@ namespace Project::Utilities {
   }
 
   bool PhysicsUtils::checkCollision(const Project::Utilities::Circle& a, const Project::Utilities::Circle& b) {
-    float distX = static_cast<float>(a.x - b.x);
-    float distY = static_cast<float>(a.y - b.y);
+    float distX = a.x - b.x;
+    float distY = a.y - b.y;
     float distSq = distX * distX + distY * distY;
-    int radiusSum = a.r + b.r;
-    return distSq <= static_cast<float>(radiusSum * radiusSum);
+    float radiusSum = a.r + b.r;
+    return distSq <= radiusSum * radiusSum;
   }
 
   bool PhysicsUtils::checkCollision(const SDL_FRect& rect, const Project::Utilities::Circle& c) {
-    float closestX = std::clamp(static_cast<float>(c.x), rect.x, rect.x + rect.w);
-    float closestY = std::clamp(static_cast<float>(c.y), rect.y, rect.y + rect.h);
-    float dx = static_cast<float>(c.x) - closestX;
-    float dy = static_cast<float>(c.y) - closestY;
-    return (dx * dx + dy * dy) <= static_cast<float>(c.r * c.r);
+    float closestX = std::clamp(c.x, rect.x, rect.x + rect.w);
+    float closestY = std::clamp(c.y, rect.y, rect.y + rect.h);
+    float dx = c.x - closestX;
+    float dy = c.y - closestY;
+    return (dx * dx + dy * dy) <= (c.r * c.r);
   }
 
   bool PhysicsUtils::checkCollision(const OrientedBox& a, const OrientedBox& b) {

@@ -34,11 +34,6 @@ components = {
     radius = 4
   },
 
-  PhysicsComponent = {
-    component = "PhysicsComponent",
-    active = true,
-  },
-
   TimerComponent = {
     component = "TimerComponent",
     active = true,

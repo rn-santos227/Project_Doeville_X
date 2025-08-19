@@ -92,66 +92,70 @@ namespace Project::Components {
   }
 
   void PhysicsComponent::update(float deltaTime) {
-    // if (data.tickRate > 0.0f) {
-    //   data.tickAccumulator += deltaTime;
-    //   if (data.tickAccumulator < data.tickRate) {
-    //     return;
-    //   }
-    //   deltaTime = data.tickAccumulator;
-    //   data.tickAccumulator = 0.0f;
-    // }
+    auto stepUpdate = [&](float step) {
+      if (isStatic) {
+        forceX = forceY = 0.0f;
+        accelerationX = accelerationY = 0.0f;
+        return;
+      }
+      lastCollidedWithStatic = false;
 
-    if (isStatic) {
+      if (!isKinematic && gravityEnabled) {
+        const float weight = mass * Constants::GRAVITY * gravityScale;
+        forceX += Constants::DEFAULT_GRAVITY_DIRECTION.x * weight;
+        forceY += Constants::DEFAULT_GRAVITY_DIRECTION.y * weight;
+      }
+
+      PhysicsUtils::applyForces(
+        data.velocity, data.acceleration,
+        data.force, mass, step
+      );
+
+      PhysicsUtils::applyResistance(
+        data.velocity,
+        friction, density,
+        isKinematic, step
+      );
+
+      Project::Utilities::Velocity temp{velocityX, velocityY};
+      PhysicsUtils::clampVelocity(temp, Constants::TERMINAL_VELOCITY);
+      velocityX = temp.x;
+      velocityY = temp.y;
+
+      if (!owner) return;
+      const float oldX = owner->getX();
+      const float oldY = owner->getY();
+      const float newX = oldX + velocityX * step;
+      const float newY = oldY + velocityY * step;
+
+      bool collisionOccurred = performContinuousCollisionDetection(newX, newY, oldX, oldY, step);
+      if (rotationEnabled) {
+        updateRotationState(step, collisionOccurred);
+      }
+
+      if (lastCollidedWithStatic && damping > 0.0f) {
+        const float factor = std::max(0.0f, Constants::DEFAULT_WHOLE - damping * step);
+        velocityX *= factor;
+        velocityY *= factor;
+        if (std::abs(velocityX) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityX = 0.0f;
+        if (std::abs(velocityY) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityY = 0.0f;
+      }
+
       forceX = forceY = 0.0f;
       accelerationX = accelerationY = 0.0f;
-      return;
-    }
+    };
 
-    lastCollidedWithStatic = false;
+    // if (data.tickRate > 0.0f) {
+    //   data.tickAccumulator += deltaTime;
+    //   while (data.tickAccumulator >= data.tickRate) {
+    //     float step = data.tickRate;
+    //     data.tickAccumulator -= data.tickRate;
+    //     stepUpdate(step);
+    //   }
+    //   return;
+    // }
 
-    if (!isKinematic && gravityEnabled) {
-      const float weight = mass * Constants::GRAVITY * gravityScale;
-      forceX += Constants::DEFAULT_GRAVITY_DIRECTION.x * weight;
-      forceY += Constants::DEFAULT_GRAVITY_DIRECTION.y * weight;
-    }
-
-    PhysicsUtils::applyForces(
-      data.velocity, data.acceleration,
-      data.force, mass, deltaTime
-    );
-
-    PhysicsUtils::applyResistance(
-      data.velocity,
-      friction, density,
-      isKinematic, deltaTime
-    );
-
-    Project::Utilities::Velocity temp{velocityX, velocityY};
-    PhysicsUtils::clampVelocity(temp, Constants::TERMINAL_VELOCITY);
-    velocityX = temp.x;
-    velocityY = temp.y;
-
-    if (!owner) return;
-    const float oldX = owner->getX();
-    const float oldY = owner->getY();
-    const float newX = oldX + velocityX * deltaTime;
-    const float newY = oldY + velocityY * deltaTime;
-
-    bool collisionOccurred = performContinuousCollisionDetection(newX, newY, oldX, oldY, deltaTime);
-    if (rotationEnabled) {
-      updateRotationState(deltaTime, collisionOccurred);
-    }
-
-    if (lastCollidedWithStatic && damping > 0.0f) {
-      const float factor = std::max(0.0f, Constants::DEFAULT_WHOLE - damping * deltaTime);
-      velocityX *= factor;
-      velocityY *= factor;
-      if (std::abs(velocityX) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityX = 0.0f;
-      if (std::abs(velocityY) < Constants::DEFAULT_COLLISION_THRESHOLD) velocityY = 0.0f;
-    }
-
-    forceX = forceY = 0.0f;
-    accelerationX = accelerationY = 0.0f;
+    stepUpdate(deltaTime);
   }
 
   void PhysicsComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

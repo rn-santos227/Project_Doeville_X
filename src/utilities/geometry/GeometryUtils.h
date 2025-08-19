@@ -14,9 +14,9 @@ namespace Project::Utilities {
   };
 
   struct Circle {
-    int x;
-    int y;
-    int r;
+    float x;
+    float y;
+    float r;
   };
 
   struct OrientedBox {
@@ -29,9 +29,9 @@ namespace Project::Utilities {
 
   class GeometryUtils {
   public:
-    static Circle makeCircle(int x, int y, int r);
+    static Circle makeCircle(float x, float y, float r);
     
-    static SDL_FRect makeRect(int x, int y, int w, int h);
+    static SDL_FRect makeRect(float x, float y, float w, float h);
     static SDL_FRect capsuleBounds(const Capsule& cap);
     static SDL_FRect polygonBounds(const Polygon& poly);
 

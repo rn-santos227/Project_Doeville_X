@@ -13,6 +13,11 @@ namespace Project::Components {
   public:
     explicit BehaviorComponent(Project::Utilities::LogsManager& logsManager);
     ~BehaviorComponent() override = default;
+
+  private:
+    Project::Entities::Entity* owner = nullptr;
+    Project::Handlers::BehaviorHandler handler;
+    std::string scriptPath;
   };
 }
 

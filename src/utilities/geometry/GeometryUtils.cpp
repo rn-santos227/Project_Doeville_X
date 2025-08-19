@@ -10,15 +10,14 @@
 
 namespace Project::Utilities {
   namespace Constants = Project::Libraries::Constants;
-  Circle GeometryUtils::makeCircle(int x, int y, int r) { 
-    return {x, y, r}; 
+  Circle GeometryUtils::makeCircle(float x, float y, float r) {
+    return {x, y, r};
   }
 
-  SDL_FRect GeometryUtils::makeRect(int x, int y, int w, int h) {
-    SDL_FRect rect{static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h)};
-    return rect;
+  SDL_FRect GeometryUtils::makeRect(float x, float y, float w, float h) {
+    return SDL_FRect{x, y, w, h};
   }
-
+  
   SDL_FRect GeometryUtils::capsuleBounds(const Capsule& cap) {
     float minX = std::min(cap.start.x, cap.end.x) - cap.r;
     float minY = std::min(cap.start.y, cap.end.y) - cap.r;

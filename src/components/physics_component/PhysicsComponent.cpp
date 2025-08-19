@@ -638,10 +638,10 @@ namespace Project::Components {
     const auto& circles = box->getCircles();
     for (const auto& c : circles) {
       SDL_FRect r{
-        static_cast<float>(c.x - c.r),
-        static_cast<float>(c.y - c.r),
-        static_cast<float>(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER),
-        static_cast<float>(c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER)
+        c.x - c.r,
+        c.y - c.r,
+        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER,
+        c.r * Constants::CIRCLE_DIAMETER_MULTIPLIER
       };
 
       if (!hasBounds) {

@@ -84,7 +84,7 @@ namespace Project::Components {
       myBox->addBox(n);
     }
     for (const auto& c : data.originalCircles) {
-      int nr = static_cast<int>(c.r * data.flexibility);
+      float nr = c.r * data.flexibility;
       myBox->addCircle(c.x, c.y, nr);
     }
     if (myPhys) {

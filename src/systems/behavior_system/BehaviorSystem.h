@@ -15,6 +15,9 @@ namespace Project::Systems {
     void add(Project::Components::BehaviorComponent* component);
     void remove(Project::Components::BehaviorComponent* component);
     void clear();
+
+  private:
+    std::vector<Project::Components::BehaviorComponent*> components;
   };
 }
 

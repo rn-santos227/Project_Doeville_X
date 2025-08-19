@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "components/PositionableComponent.h"
+#include "components/behavior_component/BehaviorComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/button_component/ButtonComponent.h"
 #include "components/camera_component/CameraComponent.h"
@@ -78,11 +79,12 @@ namespace Project::Entities {
       if (it != components.end()) {
         auto& component = it->second;
         if (component && component->isActive()) {
-          if (dynamic_cast<Components::MotionComponent*>(component.get()) ||
-              dynamic_cast<Components::PhysicsComponent*>(component.get()) ||
-              dynamic_cast<Components::GraphicsComponent*>(component.get())) {
-            continue;
-          }
+            if (dynamic_cast<Components::MotionComponent*>(component.get()) ||
+                dynamic_cast<Components::PhysicsComponent*>(component.get()) ||
+                dynamic_cast<Components::GraphicsComponent*>(component.get()) ||
+                dynamic_cast<Components::BehaviorComponent*>(component.get())) {
+              continue;
+            }
           component->update(deltaTime);
         }
       }

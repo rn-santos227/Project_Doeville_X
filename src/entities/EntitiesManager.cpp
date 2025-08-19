@@ -14,6 +14,7 @@
 
 #include "bindings/LuaBindings.h"
 #include "components/PositionableComponent.h"
+#include "components/behavior_component/BehaviorComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/motion_component/MotionComponent.h"
@@ -97,6 +98,9 @@ namespace Project::Entities {
         mask.set(static_cast<size_t>(type));
 
         switch (type) {
+          case Project::Components::ComponentType::BEHAVIOR:
+            behaviorSystem.add(static_cast<Project::Components::BehaviorComponent*>(comp));
+            break;
           case Project::Components::ComponentType::MOTION:
             motionSystem.add(static_cast<Project::Components::MotionComponent*>(comp));
             break;
@@ -166,6 +170,9 @@ namespace Project::Entities {
           auto type = comp->getType();
           componentArrays[type].remove(comp);
           switch (type) {
+            case Project::Components::ComponentType::BEHAVIOR:
+              behaviorSystem.remove(static_cast<Project::Components::BehaviorComponent*>(comp));
+              break;
             case Project::Components::ComponentType::MOTION:
               motionSystem.remove(static_cast<Project::Components::MotionComponent*>(comp));
               break;
@@ -413,6 +420,7 @@ namespace Project::Entities {
     entityGroups.clear();
     entityIndices.clear();
     idCounters.clear();
+    behaviorSystem.clear();
     motionSystem.clear();
     physicsSystem.clear();
     renderSystem.clear();

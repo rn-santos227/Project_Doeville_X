@@ -17,7 +17,7 @@ namespace Project::Utilities {
   SDL_FRect GeometryUtils::makeRect(float x, float y, float w, float h) {
     return SDL_FRect{x, y, w, h};
   }
-  
+
   SDL_FRect GeometryUtils::capsuleBounds(const Capsule& cap) {
     float minX = std::min(cap.start.x, cap.end.x) - cap.r;
     float minY = std::min(cap.start.y, cap.end.y) - cap.r;
@@ -65,11 +65,11 @@ namespace Project::Utilities {
   }
 
   bool GeometryUtils::circleIntersect(const Circle& a, const Circle& b) {
-    float dx = static_cast<float>(a.x - b.x);
-    float dy = static_cast<float>(a.y - b.y);
+    float dx = a.x - b.x;
+    float dy = a.y - b.y;
     float distSq = dx * dx + dy * dy;
-    int radiusSum = a.r + b.r;
-    return distSq <= static_cast<float>(radiusSum * radiusSum);
+    float radiusSum = a.r + b.r;
+    return distSq <= radiusSum * radiusSum;
   }
 
   bool GeometryUtils::rectIntersect(const SDL_FRect& a, const SDL_FRect& b) {

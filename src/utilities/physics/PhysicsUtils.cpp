@@ -196,10 +196,10 @@ namespace Project::Utilities {
 
   SDL_FPoint PhysicsUtils::getCircleSnapOffset(const Circle& moving, const Circle& other, float dx, float dy) {
     SDL_FPoint result{0.0f, 0.0f};
-    float cx = static_cast<float>(moving.x - other.x);
-    float cy = static_cast<float>(moving.y - other.y);
+    float cx = moving.x - other.x;
+    float cy = moving.y - other.y;
     float distance = MathUtils::magnitude(cx, cy);
-    float minDist = static_cast<float>(moving.r + other.r);
+    float minDist = moving.r + other.r;
 
     float overlap = minDist - distance;
     if (overlap > 0.0f) {
@@ -221,31 +221,31 @@ namespace Project::Utilities {
 
   SDL_FPoint PhysicsUtils::getCircleRectSnapOffset(const Circle& moving, const SDL_FRect& other, float dx, float dy) {
     SDL_FPoint result{0.0f, 0.0f};
-    float closestX = std::clamp(static_cast<float>(moving.x), other.x, other.x + other.w);
-    float closestY = std::clamp(static_cast<float>(moving.y), other.y, other.y + other.h);
-    float cx = static_cast<float>(moving.x) - closestX;
-    float cy = static_cast<float>(moving.y) - closestY;
+    float closestX = std::clamp(moving.x, other.x, other.x + other.w);
+    float closestY = std::clamp(moving.y, other.y, other.y + other.h);
+    float cx = moving.x - closestX;
+    float cy = moving.y - closestY;
     float distance = MathUtils::magnitude(cx, cy);
-    float overlap = static_cast<float>(moving.r) - distance;
+    float overlap = moving.r - distance;
     
     if (overlap >= 0.0f) {
       const float eps = 0.01f;
       float separation = overlap + eps;
       if (distance == 0.0f) {
-        float leftDist = static_cast<float>(moving.x) - other.x;
-        float rightDist = (other.x + other.w) - static_cast<float>(moving.x);
-        float topDist = static_cast<float>(moving.y) - other.y;
-        float bottomDist = (other.y + other.h) - static_cast<float>(moving.y);
+        float leftDist = moving.x - other.x;
+        float rightDist = (other.x + other.w) - moving.x;
+        float topDist = moving.y - other.y;
+        float bottomDist = (other.y + other.h) - moving.y;
         float minDist = std::min({leftDist, rightDist, topDist, bottomDist});
 
         if (leftDist == minDist) {
-          result.x = -(static_cast<float>(moving.r) - leftDist + eps);
+          result.x = -(moving.r - leftDist + eps);
         } else if (rightDist == minDist) {
-          result.x = static_cast<float>(moving.r) - rightDist + eps;
+          result.x = moving.r - rightDist + eps;
         } else if (topDist == minDist) {
-          result.y = -(static_cast<float>(moving.r) - topDist + eps);
+          result.y = -(moving.r - topDist + eps);
         } else {
-          result.y = static_cast<float>(moving.r) - bottomDist + eps;
+          result.y = moving.r - bottomDist + eps;
         }
       } else {
         result.x = (cx / distance) * separation;

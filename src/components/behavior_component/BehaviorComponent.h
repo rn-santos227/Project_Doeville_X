@@ -10,7 +10,9 @@ namespace Project { namespace Entities { class Entity; } }
 
 namespace Project::Components {
   class BehaviorComponent : public BaseComponent {
-
+  public:
+    explicit BehaviorComponent(Project::Utilities::LogsManager& logsManager);
+    ~BehaviorComponent() override = default;
   };
 }
 

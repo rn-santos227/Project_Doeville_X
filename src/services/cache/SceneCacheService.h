@@ -12,7 +12,12 @@
 
 namespace Project::Services {
   class SceneCacheService {
+  public:
 
+  private:
+    struct CacheStats {
+
+    };
   };
 }
 

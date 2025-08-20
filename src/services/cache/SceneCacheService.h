@@ -30,6 +30,16 @@ namespace Project::Services {
     std::unordered_map<std::string, CacheStats> stats;
     std::unordered_map<std::string, std::uint64_t> lastComputeTime;
     std::unordered_map<std::string, std::uint64_t> lastComputeMisses;
+
+    template <typename T, typename Func>
+    bool fetch(
+      Project::Utilities::BinaryFileCache& cache, 
+      const std::string& type,
+      const std::string& sceneId,
+      const std::string& suffix,
+      T& outData,
+      const Func& recompute
+    );
   };
 }
 

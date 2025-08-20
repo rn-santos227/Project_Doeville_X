@@ -13,6 +13,12 @@
 namespace Project::Services {
   class SceneCacheService {
   public:
+    using LightProbeData = std::vector<float>;
+    using PathfindingGrid = std::vector<int>;
+    using ShaderBinary = std::vector<char>;
+
+    explicit SceneCacheService(Project::Utilities::LogsManager& logsManager);
+    ~SceneCacheService();
 
   private:
     struct CacheStats {
@@ -23,9 +29,7 @@ namespace Project::Services {
     };
 
     static std::string makeKey(const std::string& sceneId, const std::string& suffix);
-    static void serializeData(const LightProbeData& in, std::vector<char>& out);
-    static void serializeData(const PathfindingGrid& in, std::vector<char>& out);
-    static void serializeData(const ShaderBinary& in, std::vector<char>& out);
+
 
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::BinaryFileCache lightProbeCache;

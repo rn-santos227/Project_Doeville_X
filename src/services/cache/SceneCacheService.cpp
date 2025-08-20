@@ -25,6 +25,10 @@ namespace Project::Services {
     shaderCache.save();
   }
 
+  bool SceneCacheService::getLightProbe(const std::string& sceneId, LightProbeData& outData, const std::function<LightProbeData()>& recompute) {
+    return fetch(lightProbeCache, Constants::LIGHT_PROBE, sceneId, Constants::LIGHT_PROBE_SYM, outData, recompute);
+  }
+
   std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {
     return sceneId + "_" + suffix;
   }

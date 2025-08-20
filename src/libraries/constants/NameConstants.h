@@ -26,6 +26,14 @@ namespace Project::Libraries::Constants {
   constexpr const char* BTN_CANCEL = "CANCEL";
   constexpr const char* BTN_OKAY = "OKAY";
   constexpr const char* BTN_YES = "YES";
+
+  constexpr const char* LIGHT_PROBE = "light_probe";
+  constexpr const char* PATHFINDING = "pathfinding";
+  constexpr const char* SHADER = "shader";
+
+  constexpr const char* LIGHT_PROBE_SYM = "lp";
+  constexpr const char* PATHFINDING_SYM = "pf";
+  constexpr const char* SHADER_SYM = "sh";  
 }
 
 #endif

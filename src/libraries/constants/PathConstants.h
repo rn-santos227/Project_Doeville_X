@@ -19,9 +19,12 @@ namespace Project::Libraries::Constants {
   
   constexpr const char* HAND_CURSOR_PATH = "resources/system/cursor_hand.png";
   constexpr const char* TEXT_CURSOR_PATH = "resources/system/cursor_text.png";
-  
+
+  constexpr const char* LIGHT_PROBE_CACHE_FILE = "cache/light_probe.cache";
   constexpr const char* LUA_BYTECODE_CACHE_FILE = "cache/lua_bytecode.cache";
+  constexpr const char* PATHFINDING_CACHE_FILE = "cache/pathfinding.cache";
   constexpr const char* SCRIPT_FUNCTION_CACHE_FILE = "cache/script_function_cache.cache";
+  constexpr const char* SHADER_CACHE_FILE = "cache/shader.cache";
   constexpr const char* STYLE_CACHE_FILE = "cache/style.cache";
 }
 

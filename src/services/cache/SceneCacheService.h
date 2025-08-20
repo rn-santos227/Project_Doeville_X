@@ -18,6 +18,8 @@ namespace Project::Services {
     struct CacheStats {
       size_t hits = 0;
       size_t misses = 0;
+      std::uint64_t cpuSavedNs = 0;
+      std::uint64_t cacheMissesSaved = 0;
     };
   };
 }

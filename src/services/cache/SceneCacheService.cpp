@@ -55,6 +55,10 @@ namespace Project::Services {
     std::memcpy(out.data(), in.data(), in.size());
   }
 
+  void SceneCacheService::deserializeData(const std::vector<char>& in, ShaderBinary& out) {
+    out = in;
+  }
+
   template <typename T, typename Func>
   bool SceneCacheService::fetch(
     BinaryFileCache& cache, 

@@ -16,7 +16,8 @@ namespace Project::Services {
 
   private:
     struct CacheStats {
-
+      size_t hits = 0;
+      size_t misses = 0;
     };
   };
 }

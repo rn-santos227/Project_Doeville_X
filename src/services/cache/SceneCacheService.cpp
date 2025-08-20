@@ -18,4 +18,10 @@ namespace Project::Services {
     lightProbeCache(Constants::LIGHT_PROBE_CACHE_FILE),
     pathfindingCache(Constants::PATHFINDING_CACHE_FILE),
     shaderCache(Constants::SHADER_CACHE_FILE) {}
+
+  SceneCacheService::~SceneCacheService() {
+    lightProbeCache.save();
+    pathfindingCache.save();
+    shaderCache.save();
+  }
 }

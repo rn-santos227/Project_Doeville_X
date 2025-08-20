@@ -43,6 +43,12 @@ namespace Project::Services {
     out = in;
   }
 
+  void SceneCacheService::deserializeData(const std::vector<char>& in, LightProbeData& out) {
+    size_t count = in.size() / sizeof(float);
+    out.resize(count);
+    std::memcpy(out.data(), in.data(), in.size());
+  }
+
   template <typename T, typename Func>
   bool SceneCacheService::fetch(
     BinaryFileCache& cache, 

@@ -20,6 +20,10 @@ namespace Project::Services {
     explicit SceneCacheService(Project::Utilities::LogsManager& logsManager);
     ~SceneCacheService();
 
+    bool getLightProbe(const std::string& sceneId, LightProbeData& outData, const std::function<LightProbeData()>& recompute);
+    bool getPathfindingGrid(const std::string& sceneId, PathfindingGrid& outData, const std::function<PathfindingGrid()>& recompute);
+    bool getCompiledShader(const std::string& sceneId, ShaderBinary& outData, const std::function<ShaderBinary()>& recompute);
+
   private:
     struct CacheStats {
       size_t hits = 0;

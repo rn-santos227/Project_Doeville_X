@@ -29,6 +29,10 @@ namespace Project::Services {
     return fetch(lightProbeCache, Constants::LIGHT_PROBE, sceneId, Constants::LIGHT_PROBE_SYM, outData, recompute);
   }
 
+  bool SceneCacheService::getPathfindingGrid(const std::string& sceneId, PathfindingGrid& outData, const std::function<PathfindingGrid()>& recompute) {
+    return fetch(pathfindingCache, Constants::PATHFINDING, sceneId, Constants::PATHFINDING_SYM, outData, recompute);
+  }
+
   std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {
     return sceneId + "_" + suffix;
   }

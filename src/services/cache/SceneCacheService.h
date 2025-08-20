@@ -32,6 +32,9 @@ namespace Project::Services {
     static void serializeData(const LightProbeData& in, std::vector<char>& out);
     static void serializeData(const PathfindingGrid& in, std::vector<char>& out);
     static void serializeData(const ShaderBinary& in, std::vector<char>& out);
+    static void deserializeData(const std::vector<char>& in, LightProbeData& out);
+    static void deserializeData(const std::vector<char>& in, PathfindingGrid& out);
+    static void deserializeData(const std::vector<char>& in, ShaderBinary& out);
 
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::BinaryFileCache lightProbeCache;

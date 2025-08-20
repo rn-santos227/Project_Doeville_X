@@ -25,6 +25,10 @@ namespace Project::Services {
     shaderCache.save();
   }
 
+  std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {
+    return sceneId + "_" + suffix;
+  }
+
   template <typename T, typename Func>
   bool SceneCacheService::fetch(
     BinaryFileCache& cache, 

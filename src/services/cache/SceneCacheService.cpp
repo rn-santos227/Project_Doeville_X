@@ -24,4 +24,15 @@ namespace Project::Services {
     pathfindingCache.save();
     shaderCache.save();
   }
+
+  template <typename T, typename Func>
+  bool SceneCacheService::fetch(
+    BinaryFileCache& cache, 
+    const std::string& type,
+    const std::string& sceneId, 
+    const std::string& suffix, 
+    T& outData, 
+    const Func& recompute) {
+
+  }
 }

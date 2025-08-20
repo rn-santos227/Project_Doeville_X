@@ -98,6 +98,10 @@ namespace Project::Utilities {
     cache[path] = { getTimestamp(path), data };
   }
 
+  void BinaryFileCache::removeData(const std::string& path) {
+    cache.erase(path);
+  }
+
   long long BinaryFileCache::getTimestamp(const std::string& path) {
     if (!fs::exists(path)) return 0;
     return toSeconds(fs::last_write_time(path));

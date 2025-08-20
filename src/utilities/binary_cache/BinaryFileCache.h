@@ -15,6 +15,7 @@ namespace Project::Utilities {
 
     bool getData(const std::string& path, std::vector<char>& outData) const;
     void setData(const std::string& path, const std::vector<char>& data);
+    void removeData(const std::string& path);
 
   private:
     std::unordered_map<std::string, std::pair<long long, std::vector<char>>> cache;

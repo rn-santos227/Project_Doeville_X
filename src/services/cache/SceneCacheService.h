@@ -24,6 +24,9 @@ namespace Project::Services {
     bool getPathfindingGrid(const std::string& sceneId, PathfindingGrid& outData, const std::function<PathfindingGrid()>& recompute);
     bool getCompiledShader(const std::string& sceneId, ShaderBinary& outData, const std::function<ShaderBinary()>& recompute);
 
+    void invalidateScene(const std::string& sceneId);
+    void logDiagnostics() const;
+
   private:
     struct CacheStats {
       size_t hits = 0;

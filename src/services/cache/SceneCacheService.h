@@ -26,6 +26,10 @@ namespace Project::Services {
     Project::Utilities::BinaryFileCache lightProbeCache;
     Project::Utilities::BinaryFileCache pathfindingCache;
     Project::Utilities::BinaryFileCache shaderCache;
+
+    std::unordered_map<std::string, CacheStats> stats;
+    std::unordered_map<std::string, std::uint64_t> lastComputeTime;
+    std::unordered_map<std::string, std::uint64_t> lastComputeMisses;
   };
 }
 

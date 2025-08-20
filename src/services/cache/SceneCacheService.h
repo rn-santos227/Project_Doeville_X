@@ -29,7 +29,9 @@ namespace Project::Services {
     };
 
     static std::string makeKey(const std::string& sceneId, const std::string& suffix);
-
+    static void serializeData(const LightProbeData& in, std::vector<char>& out);
+    static void serializeData(const PathfindingGrid& in, std::vector<char>& out);
+    static void serializeData(const ShaderBinary& in, std::vector<char>& out);
 
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::BinaryFileCache lightProbeCache;

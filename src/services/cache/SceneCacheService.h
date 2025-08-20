@@ -21,6 +21,11 @@ namespace Project::Services {
       std::uint64_t cpuSavedNs = 0;
       std::uint64_t cacheMissesSaved = 0;
     };
+
+    Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::BinaryFileCache lightProbeCache;
+    Project::Utilities::BinaryFileCache pathfindingCache;
+    Project::Utilities::BinaryFileCache shaderCache;
   };
 }
 

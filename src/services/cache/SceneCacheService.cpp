@@ -29,6 +29,11 @@ namespace Project::Services {
     return sceneId + "_" + suffix;
   }
 
+  void SceneCacheService::serializeData(const LightProbeData& in, std::vector<char>& out) {
+    out.resize(in.size() * sizeof(float));
+    std::memcpy(out.data(), in.data(), out.size());
+  }
+
   template <typename T, typename Func>
   bool SceneCacheService::fetch(
     BinaryFileCache& cache, 

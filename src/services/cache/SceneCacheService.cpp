@@ -33,6 +33,10 @@ namespace Project::Services {
     return fetch(pathfindingCache, Constants::PATHFINDING, sceneId, Constants::PATHFINDING_SYM, outData, recompute);
   }
 
+  bool SceneCacheService::getCompiledShader(const std::string& sceneId, ShaderBinary& outData, const std::function<ShaderBinary()>& recompute) {
+    return fetch(shaderCache, Constants::SHADER, sceneId, Constants::SHADER_SYM, outData, recompute);
+  }
+
   std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {
     return sceneId + "_" + suffix;
   }

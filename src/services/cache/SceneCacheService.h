@@ -22,6 +22,8 @@ namespace Project::Services {
       std::uint64_t cacheMissesSaved = 0;
     };
 
+    static std::string makeKey(const std::string& sceneId, const std::string& suffix);
+
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::BinaryFileCache lightProbeCache;
     Project::Utilities::BinaryFileCache pathfindingCache;

@@ -108,7 +108,9 @@ namespace Project::Services {
 
     auto& stat = stats[type];
     if (hit) {
-
+      deserializeData(raw, outData);
+      auto computeNs = lastComputeTime[key];
+      auto computeMisses = lastComputeMisses[key];
     }
   }
 }

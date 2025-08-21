@@ -1,6 +1,10 @@
 #include "Profiler.h"
 
+#include "libraries/constants/FloatConstants.h"
+
 namespace Project::Utilities {
+  namespace Constant = Project::Libraries::Constants;
+  
   Profiler& Profiler::getInstance() {
     static Profiler instance;
     return instance;
@@ -14,6 +18,10 @@ namespace Project::Utilities {
 
   void Profiler::addTime(const std::string& name, double ms) {
     times[name] += ms;
+  }
+
+  void Profiler::addGPUTime(const std::string& name, double ms) {
+    gpuTimes[name] += ms;
   }
 
   void Profiler::incrementDrawCalls(int count) {

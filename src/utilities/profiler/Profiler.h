@@ -44,7 +44,18 @@ namespace Project::Utilities {
     std::string name;
     std::chrono::high_resolution_clock::time_point start;
   };
+
+  class GPUScopeTimer {
+  public:
+    explicit GPUScopeTimer(const std::string& name);
+    ~GPUScopeTimer();
+
+  private:
+    std::string name;
+    std::chrono::high_resolution_clock::time_point start;
+  };
 }
 
 #define PROFILE_SCOPE(name) Project::Utilities::ScopeTimer timer##__LINE__(name)
+#define GPU_PROFILE_SCOPE(name) Project::Utilities::GPUScopeTimer gpuTimer##__LINE__(name)
 #endif

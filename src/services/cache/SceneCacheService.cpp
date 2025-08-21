@@ -96,6 +96,6 @@ namespace Project::Services {
     const std::string& suffix, 
     T& outData, 
     const Func& recompute) {
-
+    const std::string key = makeKey(sceneId, suffix);
   }
 }

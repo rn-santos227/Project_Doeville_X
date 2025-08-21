@@ -44,7 +44,14 @@ namespace Project::Services {
   }
 
   void SceneCacheService::logDiagnostics() const {
-
+    for (const auto& [type, stat] : stats) {
+      logsManager.logMessage(
+        type + " cache: hits=" + std::to_string(stat.hits) +
+        ", misses=" + std::to_string(stat.misses) +
+        ", cpuSavedNs=" + std::to_string(stat.cpuSavedNs) +
+        ", cacheMissesSaved=" + std::to_string(stat.cacheMissesSaved)
+      );   
+    }
   }
 
   std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {

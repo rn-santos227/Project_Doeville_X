@@ -60,10 +60,12 @@ components = {
       { key = "right", action = "move_right" },
       { key = "z", action = "action_1" },
       { key = "x", action = "action_2" },
+      { key = "r", action = "reload" }
     },
     bindings = {
       action_1 = "action_1",
       action_2 = "brake",
+      reload = "reload",
     }
   },
 
@@ -120,6 +122,18 @@ function action_1()
   end
 end
 
+function reload()
+  local ammo = getNumericValue("player", "ammo")
+  if ammo and ammo < max_ammo and reload_timer <= 0 then
+    reload_timer = reload_time
+    setNumericValue("player", "ammo", 0)
+  end
+end
+
+function brake()
+  brakeEntity("player")
+end
+
 function update()
   ignoreCollisionsWith(id, {"bullet_p"})
   if reload_timer > 0 then
@@ -143,10 +157,6 @@ function update()
   elseif isActionPressed("player", "move_right") then
     turnRight("player", rot_speed)
   end
-end
-
-function brake()
-  brakeEntity("player")
 end
 
 return {

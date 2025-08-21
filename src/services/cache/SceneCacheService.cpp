@@ -39,7 +39,7 @@ namespace Project::Services {
 
   void SceneCacheService::invalidateScene(const std::string& sceneId) {
     lightProbeCache.removeData(makeKey(sceneId, Constants::LIGHT_PROBE_SYM));
-
+    pathfindingCache.removeData(makeKey(sceneId, Constants::PATHFINDING_SYM));
   }
 
   std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {

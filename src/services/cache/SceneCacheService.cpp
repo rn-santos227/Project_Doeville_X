@@ -121,5 +121,7 @@ namespace Project::Services {
     start = std::chrono::high_resolution_clock::now();
     outData = recompute();
     end = std::chrono::high_resolution_clock::now();
+    auto missMisses = profiler.stop();
+    auto missNs = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
   }
 }

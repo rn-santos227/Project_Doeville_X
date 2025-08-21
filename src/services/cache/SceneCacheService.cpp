@@ -111,6 +111,10 @@ namespace Project::Services {
       deserializeData(raw, outData);
       auto computeNs = lastComputeTime[key];
       auto computeMisses = lastComputeMisses[key];
+      if (computeNs > cachedNs) stat.cpuSavedNs += computeNs - cachedNs;
+      if (computeMisses > cachedMisses) stat.cacheMissesSaved += computeMisses - cachedMisses;
+      stat.hits++;
+      return true;
     }
   }
 }

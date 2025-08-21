@@ -38,7 +38,7 @@ namespace Project::Services {
   }
 
   void SceneCacheService::invalidateScene(const std::string& sceneId) {
-
+    lightProbeCache.removeData(makeKey(sceneId, Constants::LIGHT_PROBE_SYM));
 
   }
 

@@ -13,6 +13,10 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEBUG_MOUSE_SEPARATOR = ", ";
   constexpr const char* DEBUG_MOUSE_SUFFIX = "cpu_frame";
 
+  constexpr const char* DEBUG_CPU_PREFIX = "CPU: ";
+  constexpr const char* DEBUG_GPU_PREFIX = "GPU: ";
+  constexpr const char* DEBUG_OCC_PREFIX = "OCC: ";
+
   constexpr const char* PROFILE_LOD = "lod_before";
   constexpr const char* CPU_FRAME = ")";
 

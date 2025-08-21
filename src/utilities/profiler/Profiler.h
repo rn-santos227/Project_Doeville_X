@@ -14,17 +14,24 @@ namespace Project::Utilities {
 
     void beginFrame();
     void addTime(const std::string& name, double ms);
+    void addGPUTime(const std::string& name, double ms);
     void incrementDrawCalls(int count = 1);
     void setMemoryUsage(const std::string& name, std::size_t bytes);
 
     double getTime(const std::string& name) const;
+    double getGPUTime(const std::string& name) const;
+    double getTotalGPUTime() const;
+    double getGPUOccupancy(double frameMs) const;
+
     int getDrawCalls() const;
     const std::unordered_map<std::string, double>& getTimes() const;
+    const std::unordered_map<std::string, double>& getGPUTimes() const;
     std::size_t getMemoryUsage(const std::string& name) const;
 
   private:
     std::unordered_map<std::string, double> times;
     std::unordered_map<std::string, std::size_t> memory;
+    std::unordered_map<std::string, double> gpuTimes;
     int drawCalls = 0;
   };
 

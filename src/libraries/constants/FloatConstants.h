@@ -26,6 +26,7 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_HALF = 0.5f;
   constexpr float DEFAULT_DOUBLE = 2.0;
   constexpr float DEFAULT_TRIPLE = 3.0;
+  constexpr float FLOAT_HUNDRED = 100.0;
 
   constexpr float DEFAULT_FRECT_X = -1e9f;
   constexpr float DEFAULT_FRECT_Y = -1e9f;

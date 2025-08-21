@@ -80,4 +80,13 @@ namespace Project::Utilities {
     double ms = std::chrono::duration<double, std::milli>(end - start).count();
     Profiler::getInstance().addTime(name, ms);
   }
+
+  GPUScopeTimer::GPUScopeTimer(const std::string& name)
+    : name(name), start(std::chrono::high_resolution_clock::now()) {}
+
+  GPUScopeTimer::~GPUScopeTimer() {
+    auto end = std::chrono::high_resolution_clock::now();
+    double ms = std::chrono::duration<double, std::milli>(end - start).count();
+    Profiler::getInstance().addGPUTime(name, ms);
+  }
 }

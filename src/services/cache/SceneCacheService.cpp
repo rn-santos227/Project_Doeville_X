@@ -116,5 +116,8 @@ namespace Project::Services {
       stat.hits++;
       return true;
     }
+
+    profiler.start();
+    start = std::chrono::high_resolution_clock::now();
   }
 }

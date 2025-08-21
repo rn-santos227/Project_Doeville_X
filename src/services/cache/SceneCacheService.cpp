@@ -127,5 +127,7 @@ namespace Project::Services {
     lastComputeMisses[key] = missMisses;
     serializeData(outData, raw);
     cache.setData(key, raw);
+    stat.misses++;
+    return false;
   }
 }

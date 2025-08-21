@@ -151,13 +151,17 @@ namespace Project::Core {
 
   void GameEngine::run() {
     double accumulator = 0.0;
-    const double fixedDelta = 1.0 / Constants::TARGET_FPS;
+    const double fixedDelta = Constants::DEFAULT_WHOLE / Constants::TARGET_FPS;
     try {
       while (isRunning) {
         Project::Utilities::Profiler::getInstance().beginFrame();
         Uint64 frameStartTime = SDL_GetPerformanceCounter();
 
         framesCounter.update();
+        Project::Utilities::Profiler::getInstance().addTime(
+          Constants::CPU_FRAME,
+          framesCounter.getDeltaTime() * Project::Libraries::Constants::MILLISECONDS_PER_SECOND
+        );
         accumulator += framesCounter.getDeltaTime();
 
         handleEvents();

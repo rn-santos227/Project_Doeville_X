@@ -11,9 +11,10 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEBUG_PROC_PREFIX = "PROC: ";
   constexpr const char* DEBUG_MOUSE_PREFIX = "Mouse: (";
   constexpr const char* DEBUG_MOUSE_SEPARATOR = ", ";
-  constexpr const char* DEBUG_MOUSE_SUFFIX = ")";
+  constexpr const char* DEBUG_MOUSE_SUFFIX = "cpu_frame";
 
   constexpr const char* PROFILE_LOD = "lod_before";
+  constexpr const char* CPU_FRAME = ")";
 
   constexpr const char* SEED = "_seed_";
   constexpr const char* ENTITY = "entity";

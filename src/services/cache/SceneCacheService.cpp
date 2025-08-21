@@ -125,5 +125,7 @@ namespace Project::Services {
     auto missNs = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     lastComputeTime[key] = missNs;
     lastComputeMisses[key] = missMisses;
+    serializeData(outData, raw);
+    cache.setData(key, raw);
   }
 }

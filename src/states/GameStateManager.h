@@ -17,6 +17,7 @@
 #include "interfaces/update_interface/Updatable.h"
 #include "handlers/input/CursorHandler.h"
 #include "helpers/objects_manager/ObjectsManager.h"
+#include "services/cache/SceneCacheService.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::States {
@@ -29,7 +30,8 @@ namespace Project::States {
     GameStateManager(
       size_t cacheLimit, Project::Utilities::LogsManager& logsManager,
       Project::Core::SDLManager* sdlManager = nullptr,
-      Project::Handlers::CursorHandler* cursorHandler = nullptr
+      Project::Handlers::CursorHandler* cursorHandler = nullptr,
+      Project::Services::SceneCacheService* sceneCache = nullptr
     );
     ~GameStateManager() = default;
 
@@ -60,6 +62,7 @@ namespace Project::States {
   private:
     Project::Helpers::ObjectsManager<GameState, std::unique_ptr<GameState>> stateManager;
     Project::Handlers::CursorHandler* cursorHandler = nullptr;
+    Project::Services::SceneCacheService* sceneCache;
     Project::Utilities::LogsManager& logsManager;
     size_t cacheLimit;
 

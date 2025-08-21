@@ -6,10 +6,11 @@ namespace Project::States {
   using Project::Helpers::ObjectsManager;
 
   GameStateManager::GameStateManager(
-    size_t cacheLimit, LogsManager& logsManager, 
+    size_t cacheLimit, LogsManager& logsManager,
     Project::Core::SDLManager* sdlManager,
-    Project::Handlers::CursorHandler* cursorHandler)
-    : cacheLimit(cacheLimit), logsManager(logsManager), cursorHandler(cursorHandler) {
+    Project::Handlers::CursorHandler* cursorHandler,
+    Project::Services::SceneCacheService* sceneCache)
+    : cacheLimit(cacheLimit), logsManager(logsManager), cursorHandler(cursorHandler), sceneCache(sceneCache) {
       if (globalEntitiesManager && sdlManager) {
         globalEntitiesManager->setSDLManager(sdlManager);
       }
@@ -22,6 +23,7 @@ namespace Project::States {
   void GameStateManager::changeState(const std::string& name) {
     if (!stateStack.empty()) {
       auto currentName = stateStack.top()->getStateName();
+      if (sceneCache) sceneCache->invalidateScene(currentName);
       stateStack.top()->onExit();
 
       auto& states = stateManager.getObjects();
@@ -90,7 +92,8 @@ namespace Project::States {
     if (!stateStack.empty()) {
       auto currentName = stateStack.top()->getStateName();
       stateStack.top()->onExit();
-
+      if (sceneCache) sceneCache->invalidateScene(currentName);
+      
       auto& states = stateManager.getObjects();
       auto it = states.find(currentName);
       if (it != states.end()) {

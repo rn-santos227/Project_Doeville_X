@@ -105,5 +105,10 @@ namespace Project::Services {
     auto end = std::chrono::high_resolution_clock::now();
     auto cachedMisses = profiler.stop();
     auto cachedNs = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+    auto& stat = stats[type];
+    if (hit) {
+
+    }
   }
 }

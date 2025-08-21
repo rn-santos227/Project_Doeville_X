@@ -100,5 +100,8 @@ namespace Project::Services {
     std::vector<char> raw;
     CacheProfiler profiler;
     profiler.start();
+    auto start = std::chrono::high_resolution_clock::now();
+    bool hit = cache.getData(key, raw);
+    auto end = std::chrono::high_resolution_clock::now();
   }
 }

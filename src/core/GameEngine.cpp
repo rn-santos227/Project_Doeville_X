@@ -34,7 +34,8 @@ namespace Project::Core {
   framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   componentsFactory(std::make_unique<ComponentsFactory>(logsManager, configReader, *resourcesHandler)),
-  gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager, &sdlManager)),
+  sceneCache(std::make_unique<Project::Services::SceneCacheService>(logsManager)),
+  gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager, &sdlManager, nullptr, sceneCache.get())),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)),
   fontHandler(std::make_unique<FontHandler>(logsManager)),
   keyHandler(std::make_unique<KeyHandler>(logsManager, sdlManager, gameStateManager.get())),
@@ -292,6 +293,9 @@ namespace Project::Core {
     IMG_Quit();
     isRunning = false;
 
+    if (sceneCache) {
+      sceneCache->logDiagnostics();
+    }
     logsManager.logMessage("Game engine cleanup complete.");
     logsManager.flushLogs();
   }

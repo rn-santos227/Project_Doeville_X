@@ -14,6 +14,7 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 #include "interfaces/cleanup_interface/Cleanable.h"
+#include "services/cache/SceneCacheService.h"
 #include "states/GameStateManager.h"
 #include "utilities/config_reader/ConfigReader.h"
 #include "utilities/logs_manager/LogsManager.h"
@@ -37,6 +38,7 @@ namespace Project::Core {
 
     std::unique_ptr<Project::Handlers::ResourcesHandler> resourcesHandler;
     std::unique_ptr<Project::Factories::ComponentsFactory> componentsFactory;
+    std::unique_ptr<Project::Services::SceneCacheService> sceneCache;
     std::unique_ptr<Project::States::GameStateManager> gameStateManager;
 
     std::unique_ptr<Project::Handlers::CursorHandler> cursorHandler;

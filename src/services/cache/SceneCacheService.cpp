@@ -43,6 +43,10 @@ namespace Project::Services {
     shaderCache.removeData(makeKey(sceneId, Constants::SHADER_SYM));
   }
 
+  void SceneCacheService::logDiagnostics() const {
+
+  }
+
   std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {
     return sceneId + "_" + suffix;
   }

@@ -119,5 +119,7 @@ namespace Project::Services {
 
     profiler.start();
     start = std::chrono::high_resolution_clock::now();
+    outData = recompute();
+    end = std::chrono::high_resolution_clock::now();
   }
 }

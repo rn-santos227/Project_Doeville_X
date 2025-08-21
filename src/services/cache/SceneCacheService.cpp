@@ -99,5 +99,6 @@ namespace Project::Services {
     const std::string key = makeKey(sceneId, suffix);
     std::vector<char> raw;
     CacheProfiler profiler;
+    profiler.start();
   }
 }

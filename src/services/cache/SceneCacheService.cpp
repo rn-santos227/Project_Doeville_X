@@ -103,5 +103,7 @@ namespace Project::Services {
     auto start = std::chrono::high_resolution_clock::now();
     bool hit = cache.getData(key, raw);
     auto end = std::chrono::high_resolution_clock::now();
+    auto cachedMisses = profiler.stop();
+    auto cachedNs = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
   }
 }

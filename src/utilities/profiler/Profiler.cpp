@@ -4,7 +4,7 @@
 
 namespace Project::Utilities {
   namespace Constant = Project::Libraries::Constants;
-  
+
   Profiler& Profiler::getInstance() {
     static Profiler instance;
     return instance;
@@ -37,12 +37,34 @@ namespace Project::Utilities {
     return it != times.end() ? it->second : 0.0;
   }
 
+  double Profiler::getGPUTime(const std::string& name) const {
+    auto it = gpuTimes.find(name);
+    return it != gpuTimes.end() ? it->second : 0.0;
+  }
+
+  double Profiler::getTotalGPUTime() const {
+    double total = 0.0;
+    for (const auto& [k, v] : gpuTimes) total += v;
+    return total;
+  }
+
+  double Profiler::getGPUOccupancy(double frameMs) const {
+    double gpu = getTotalGPUTime();
+    if (frameMs <= 0.0) return 0.0;
+    double occ = gpu / frameMs;
+    return occ > Constant::DEFAULT_WHOLE ? Constant::DEFAULT_WHOLE : occ;
+  }
+
   int Profiler::getDrawCalls() const {
     return drawCalls;
   }
 
   const std::unordered_map<std::string, double>& Profiler::getTimes() const {
     return times;
+  }
+
+  const std::unordered_map<std::string, double>& Profiler::getGPUTimes() const {
+    return gpuTimes;
   }
 
   std::size_t Profiler::getMemoryUsage(const std::string& name) const {

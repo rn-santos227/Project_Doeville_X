@@ -8,6 +8,7 @@ namespace Project::Utilities {
 
   void Profiler::beginFrame() {
     times.clear();
+    gpuTimes.clear();
     drawCalls = 0;
   }
 

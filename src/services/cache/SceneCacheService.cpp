@@ -97,5 +97,7 @@ namespace Project::Services {
     T& outData, 
     const Func& recompute) {
     const std::string key = makeKey(sceneId, suffix);
+    std::vector<char> raw;
+    CacheProfiler profiler;
   }
 }

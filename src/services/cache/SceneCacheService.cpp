@@ -37,6 +37,11 @@ namespace Project::Services {
     return fetch(shaderCache, Constants::SHADER, sceneId, Constants::SHADER_SYM, outData, recompute);
   }
 
+  void SceneCacheService::invalidateScene(const std::string& sceneId) {
+
+
+  }
+
   std::string SceneCacheService::makeKey(const std::string& sceneId, const std::string& suffix) {
     return sceneId + "_" + suffix;
   }

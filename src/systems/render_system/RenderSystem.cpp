@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include "components/graphics_component/GraphicsComponent.h"
-#include "libraries/constants//IndexConstants.h"
 #include "libraries/constants/NumericConstants.h"
 #include "libraries/constants/ProfileConstants.h"
 #include "utilities/profiler/Profiler.h"
@@ -56,6 +55,8 @@ namespace Project::Systems {
     components.clear();
     commandBuffers[0].clear();
     commandBuffers[1].clear();
+    firstFrame = true;
+    currentFrame = 0;
   }
 
   bool RenderSystem::rectContains(const SDL_FRect& outer, const SDL_FRect& inner) const {

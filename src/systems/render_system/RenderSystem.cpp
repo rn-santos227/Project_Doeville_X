@@ -48,6 +48,8 @@ namespace Project::Systems {
     pool.enqueue([](){ GPU_PROFILE_SCOPE(Constants::PARTICLE_SCOPE); });
 
     prepareCommandBuffer(commandBuffers[writeIndex]);
+    std::swap(readIndex, writeIndex);
+    ++currentFrame;
   }
 
   void Project::Systems::RenderSystem::clear() {

@@ -74,4 +74,8 @@ namespace Project::Systems {
       return a->getBatchTexture() < b->getBatchTexture();
     });
   }
+
+  void RenderSystem::drawBuffer(const std::vector<GraphicsComponent*>& buffer) {
+
+  }
 }

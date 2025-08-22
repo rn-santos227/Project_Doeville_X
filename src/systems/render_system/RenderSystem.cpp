@@ -23,13 +23,10 @@ namespace Project::Systems {
     components.erase(std::remove(components.begin(), components.end(), component), components.end());
   }
 
-  void Project::Systems::RenderSystem::update(float deltaTime) {
-    PROFILE_SCOPE(Constants::RENDER_PROFILE);
-    auto& pool = Project::Utilities::ThreadPool::getInstance();
+  void RenderSystem::update(float deltaTime) {
+    PROFILE_SCOPE(Project::Libraries::Constants::RENDER_PROFILE);
     for (auto* comp : components) {
-      if (comp && comp->isActive()) {
-        comp->update(deltaTime);
-      }
+      if (comp && comp->isActive()) comp->update(deltaTime);
     }
   }
 

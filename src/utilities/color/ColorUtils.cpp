@@ -37,6 +37,14 @@ namespace Project::Utilities {
     return color;
   }
 
+  SDL_Color ColorUtils::negative(SDL_Color color) {
+    constexpr Uint8 MAX_CHANNEL = Project::Libraries::Constants::FULL_ALPHA;
+    color.r = static_cast<Uint8>(MAX_CHANNEL - color.r);
+    color.g = static_cast<Uint8>(MAX_CHANNEL - color.g);
+    color.b = static_cast<Uint8>(MAX_CHANNEL - color.b);
+    return color;
+  }
+
   bool ColorUtils::applyShader(SDL_Texture* texture, SDL_Color color) {
     if (!texture) {
       return false;

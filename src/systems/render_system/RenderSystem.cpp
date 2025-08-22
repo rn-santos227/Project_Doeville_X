@@ -69,7 +69,9 @@ namespace Project::Systems {
       if (comp && comp->isActive()) buffer.push_back(comp);
     }
     std::sort(buffer.begin(), buffer.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
-
+      if (a->getMaterialId() != b->getMaterialId()) return a->getMaterialId() < b->getMaterialId();
+      if (a->getBlendMode() != b->getBlendMode()) return a->getBlendMode() < b->getBlendMode();
+      return a->getBatchTexture() < b->getBatchTexture();
     });
   }
 }

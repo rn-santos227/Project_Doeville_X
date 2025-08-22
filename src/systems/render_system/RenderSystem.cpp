@@ -3,7 +3,9 @@
 #include <algorithm>
 
 #include "components/graphics_component/GraphicsComponent.h"
-#include "libraries/constants/Constants.h"
+#include "libraries/constants//IndexConstants.h"
+#include "libraries/constants/NumericConstants.h"
+#include "libraries/constants/ProfileConstants.h"
 #include "utilities/profiler/Profiler.h"
 #include "utilities/thread/ThreadPool.h"
 
@@ -38,9 +40,12 @@ namespace Project::Systems {
     }
 
     {
-      GPU_PROFILE_SCOPE("render");
+      GPU_PROFILE_SCOPE(Constants::RENDER_SCOPE);
       drawBuffer(commandBuffers[readIndex]);
     }
+
+    pool.enqueue([](){ GPU_PROFILE_SCOPE(Constants::POST_PROCESS_SCOPE); });
+    pool.enqueue([](){ GPU_PROFILE_SCOPE(Constants::PARTICLE_SCOPE); });
   }
 
   void Project::Systems::RenderSystem::clear() {

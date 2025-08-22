@@ -46,6 +46,8 @@ namespace Project::Systems {
 
     pool.enqueue([](){ GPU_PROFILE_SCOPE(Constants::POST_PROCESS_SCOPE); });
     pool.enqueue([](){ GPU_PROFILE_SCOPE(Constants::PARTICLE_SCOPE); });
+
+    prepareCommandBuffer(commandBuffers[writeIndex]);
   }
 
   void Project::Systems::RenderSystem::clear() {

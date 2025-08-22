@@ -9,7 +9,7 @@ namespace Project::Assets {
   using Project::Helpers::ObjectsManager;
 
   AssetsManager::AssetsManager(LogsManager& logsManager, ResourcesHandler& resourcesHandler)
-  : logsManager(logsManager), resourcesHandler(resourcesHandler) {}
+    : logsManager(logsManager), resourcesHandler(resourcesHandler) {}
 
   void AssetsManager::addAsset(const std::string& id, std::unique_ptr<BaseAsset> asset) {
     if (!asset) return;

@@ -36,6 +36,11 @@ namespace Project::Systems {
       prepareCommandBuffer(commandBuffers[readIndex]);
       firstFrame = false;
     }
+
+    {
+      GPU_PROFILE_SCOPE("render");
+      drawBuffer(commandBuffers[readIndex]);
+    }
   }
 
   void Project::Systems::RenderSystem::clear() {

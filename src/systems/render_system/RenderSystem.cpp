@@ -68,5 +68,8 @@ namespace Project::Systems {
     for (auto* comp : components) {
       if (comp && comp->isActive()) buffer.push_back(comp);
     }
+    std::sort(buffer.begin(), buffer.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
+
+    });
   }
 }

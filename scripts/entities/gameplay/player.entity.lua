@@ -40,9 +40,9 @@ components = {
   NumericComponent = {
     component = "NumericComponent",
     active = true,
+    hp = { value = max_hp, limit = max_hp },
     ammo = { value = max_ammo, limit = max_ammo }
   },
-
 
   SpawnerComponent = {
     component = "SpawnerComponent",

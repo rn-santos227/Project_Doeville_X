@@ -62,4 +62,8 @@ namespace Project::Systems {
   bool RenderSystem::rectContains(const SDL_FRect& outer, const SDL_FRect& inner) const {
     return inner.x >= outer.x && inner.y >= outer.y && inner.x + inner.w <= outer.x + outer.w && inner.y + inner.h <= outer.y + outer.h;
   }
+
+  void RenderSystem::prepareCommandBuffer(std::vector<GraphicsComponent*>& buffer) {
+
+  }
 }

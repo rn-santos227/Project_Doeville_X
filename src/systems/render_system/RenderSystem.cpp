@@ -15,11 +15,11 @@ namespace Project::Systems {
     components.reserve(Constants::MAX_MEMORY_SPACE);
   }
 
-  void Project::Systems::RenderSystem::add(GraphicsComponent* component) {
+  void RenderSystem::add(GraphicsComponent* component) {
     if (component) components.push_back(component);
   }
 
-  void Project::Systems::RenderSystem::remove(GraphicsComponent* component) {
+  void RenderSystem::remove(GraphicsComponent* component) {
     components.erase(std::remove(components.begin(), components.end(), component), components.end());
   }
 

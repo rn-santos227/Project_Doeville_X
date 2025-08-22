@@ -8,6 +8,7 @@ local reload_time = 2
 local reload_timer = 0
 local fire_rate = 0.2
 local fire_timer = 0
+local max_hp = 5
 
 group = "gameplay"
 

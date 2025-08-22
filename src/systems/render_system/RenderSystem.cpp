@@ -64,6 +64,6 @@ namespace Project::Systems {
   }
 
   void RenderSystem::prepareCommandBuffer(std::vector<GraphicsComponent*>& buffer) {
-
+    buffer.clear();
   }
 }

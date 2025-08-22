@@ -65,5 +65,8 @@ namespace Project::Systems {
 
   void RenderSystem::prepareCommandBuffer(std::vector<GraphicsComponent*>& buffer) {
     buffer.clear();
+    for (auto* comp : components) {
+      if (comp && comp->isActive()) buffer.push_back(comp);
+    }
   }
 }

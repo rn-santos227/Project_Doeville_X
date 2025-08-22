@@ -30,4 +30,13 @@ components = {
   }
 }
 
+function update(deltaTime)
+  local hp = getNumericValue("player", "hp")
+  if hp then
+    setNumericValue("hp_meter", "hp", hp)
+  end
+end
 
+return {
+  name = "hp_meter",
+}

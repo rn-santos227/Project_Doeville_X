@@ -121,3 +121,7 @@
 .ammo-meter {
   foreground: #0000FF;
 }
+
+.hp-meter {
+  foreground: #FF0000;
+}

@@ -421,6 +421,18 @@ namespace Project::Entities {
           maxY = std::min(maxY, static_cast<float>(mapLocal.y + mapLocal.h - h));
         }
 
+        if (maxX < minX || maxY < minY) return;
+
+        x = std::clamp(x, minX, maxX);
+        y = std::clamp(y, minY, maxY);
+
+        entity->setPosition(x, y);
+        entity->getLuaStateWrapper().setGlobalNumber(Keys::X, x);
+        entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, y);
+        if (auto* box = entity->getBoundingBoxComponent()) {
+          box->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
+        }
+
         SDL_FRect newRect{x, y, w, h};
         bool overlap = false;
         for (const auto& [existingKey, existingChunk] : chunks) {

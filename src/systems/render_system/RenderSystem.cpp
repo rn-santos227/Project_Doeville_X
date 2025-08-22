@@ -52,8 +52,10 @@ namespace Project::Systems {
     ++currentFrame;
   }
 
-  void Project::Systems::RenderSystem::clear() {
+  void RenderSystem::clear() {
     components.clear();
+    commandBuffers[0].clear();
+    commandBuffers[1].clear();
   }
 
   bool RenderSystem::rectContains(const SDL_FRect& outer, const SDL_FRect& inner) const {

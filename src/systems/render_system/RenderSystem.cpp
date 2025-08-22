@@ -32,7 +32,10 @@ namespace Project::Systems {
 
   void RenderSystem::render() {
     auto& pool = Project::Utilities::ThreadPool::getInstance();
-
+    if (firstFrame) {
+      prepareCommandBuffer(commandBuffers[readIndex]);
+      firstFrame = false;
+    }
   }
 
   void Project::Systems::RenderSystem::clear() {

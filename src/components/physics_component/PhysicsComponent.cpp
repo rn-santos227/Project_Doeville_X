@@ -145,15 +145,20 @@ namespace Project::Components {
       accelerationX = accelerationY = 0.0f;
     };
 
-    // if (data.tickRate > 0.0f) {
-    //   data.tickAccumulator += deltaTime;
-    //   while (data.tickAccumulator >= data.tickRate) {
-    //     float step = data.tickRate;
-    //     data.tickAccumulator -= data.tickRate;
-    //     stepUpdate(step);
-    //   }
-    //   return;
-    // }
+    if (data.tickRate > 0.0f) {
+      data.tickAccumulator += deltaTime;
+      while (data.tickAccumulator >= data.tickRate) {
+        float step = data.tickRate;
+        data.tickAccumulator -= data.tickRate;
+        stepUpdate(step);
+      }
+      if (data.tickAccumulator > 0.0f) {
+        float step = data.tickAccumulator;
+        stepUpdate(step);
+        data.tickAccumulator = 0.0f;
+      }
+      return;
+    }
 
     stepUpdate(deltaTime);
   }

@@ -403,18 +403,22 @@ namespace Project::Entities {
           w = static_cast<float>(gfx->getWidth());
           h = static_cast<float>(gfx->getHeight());
         }
+
+        float chunkMinX = cx * chunkSize.x;
+        float chunkMinY = cy * chunkSize.y;
+        float chunkMaxX = chunkMinX + chunkSize.x - w;
+        float chunkMaxY = chunkMinY + chunkSize.y - h;
+
+        float minX = chunkMinX;
+        float maxX = chunkMaxX;
+        float minY = chunkMinY;
+        float maxY = chunkMaxY;
         
         if (boundedLocal) {
-          x = std::clamp(x, static_cast<float>(mapLocal.x),
-                         static_cast<float>(mapLocal.x + mapLocal.w - w));
-          y = std::clamp(y, static_cast<float>(mapLocal.y),
-                         static_cast<float>(mapLocal.y + mapLocal.h - h));
-          entity->setPosition(x, y);
-          entity->getLuaStateWrapper().setGlobalNumber(Keys::X, x);
-          entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, y);
-          if (auto* box = entity->getBoundingBoxComponent()) {
-            box->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
-          }
+          minX = std::max(minX, static_cast<float>(mapLocal.x));
+          maxX = std::min(maxX, static_cast<float>(mapLocal.x + mapLocal.w - w));
+          minY = std::max(minY, static_cast<float>(mapLocal.y));
+          maxY = std::min(maxY, static_cast<float>(mapLocal.y + mapLocal.h - h));
         }
 
         SDL_FRect newRect{x, y, w, h};

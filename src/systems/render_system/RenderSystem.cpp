@@ -76,6 +76,8 @@ namespace Project::Systems {
   }
 
   void RenderSystem::drawBuffer(const std::vector<GraphicsComponent*>& buffer) {
+    for (auto* comp : buffer) {
 
+    }
   }
 }

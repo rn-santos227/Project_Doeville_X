@@ -23,6 +23,7 @@ namespace Project::Systems {
     void clear();
 
   private:
+    std::vector<Project::Components::GraphicsComponent*> components;
     std::vector<Project::Components::GraphicsComponent*> commandBuffers[Project::Libraries::Constants::INDEX_TWO];
     int readIndex = 0;
     int writeIndex = Project::Libraries::Constants::INDEX_ONE;

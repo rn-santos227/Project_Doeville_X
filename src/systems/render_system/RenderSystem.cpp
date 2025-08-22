@@ -1,15 +1,8 @@
 #include "RenderSystem.h"
 
 #include <algorithm>
-#include <cstdint>
-#include <limits>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
 #include "components/graphics_component/GraphicsComponent.h"
-#include "handlers/camera/Camera.h"
-#include "handlers/camera/CameraHandler.h"
 #include "libraries/constants/Constants.h"
 #include "utilities/profiler/Profiler.h"
 #include "utilities/thread/ThreadPool.h"
@@ -19,7 +12,7 @@ namespace Project::Systems {
 
   namespace Constants = Project::Libraries::Constants;
   RenderSystem::RenderSystem() {
-    components.reserve(Project::Libraries::Constants::MAX_MEMORY_SPACE);
+    components.reserve(Constants::MAX_MEMORY_SPACE);
   }
 
   void Project::Systems::RenderSystem::add(GraphicsComponent* component) {

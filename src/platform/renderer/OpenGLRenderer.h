@@ -5,7 +5,10 @@
 
 namespace Project::Platform {
   class OpenGLRenderer : public RendererAPI {
-
+  public:
+    bool init() override;
+    void clear() override;
+    void present() override;
   };
 }
 

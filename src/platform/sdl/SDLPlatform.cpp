@@ -4,6 +4,8 @@
 
 namespace Project::Platform {
   using Project::Utilities::LogsManager;
+
+  namespace Constants = Project::Libraries::Constants;
   SDLPlatform::SDLPlatform(LogsManager& logsManager)
     : logsManager(logsManager), rendererAPI(nullptr), 
       window(nullptr), renderer(nullptr), glContext(nullptr), 
@@ -20,6 +22,36 @@ namespace Project::Platform {
 
   SDL_Window* SDLPlatform::getWindow() const {
     return window;
+  }
+
+  void SDLPlatform::clear() {
+    if (rendererAPI) {
+      rendererAPI->clear();
+      return;
+    }
+
+    if (renderer) {
+      SDL_SetRenderDrawColor(renderer,
+        Constants::DEFAULT_BACKGROUND_COLOR.r,
+        Constants::DEFAULT_BACKGROUND_COLOR.g,
+        Constants::DEFAULT_BACKGROUND_COLOR.b,
+        Constants::DEFAULT_BACKGROUND_COLOR.a);
+      SDL_RenderClear(renderer);
+    } else {
+      logsManager.logError("Attempted to clear but renderer is null.");
+    }
+  }
+
+  void SDLPlatform::present() {
+    if (rendererAPI) {
+      rendererAPI->present();
+      return;
+    }
+    if (renderer) {
+      SDL_RenderPresent(renderer);
+    } else {
+      logsManager.logError("Attempted to present but renderer is null.");
+    }
   }
 
   void SDLPlatform::requestExit() {

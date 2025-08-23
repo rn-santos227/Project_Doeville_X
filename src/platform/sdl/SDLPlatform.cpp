@@ -14,6 +14,14 @@ namespace Project::Platform {
     cleanup();
   }
 
+  SDL_Renderer* SDLPlatform::getRenderer() const {
+    return renderer;
+  }
+
+  SDL_Window* SDLPlatform::getWindow() const {
+    return window;
+  }
+
   void SDLPlatform::requestExit() {
     exitRequested = true;
   }

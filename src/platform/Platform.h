@@ -1,0 +1,18 @@
+#ifndef PLATFORM_H
+#define PLATFORM_H
+
+#include <string>
+
+struct SDL_Renderer;
+struct SDL_Window;
+
+namespace Project::Platform {
+  class Platform {
+  public:
+    virtual ~Platform() = default;  
+    virtual bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL) = 0;
+
+  };
+}
+
+#endif

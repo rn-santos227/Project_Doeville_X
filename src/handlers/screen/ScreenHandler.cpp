@@ -153,12 +153,14 @@ namespace Project::Handlers {
         running = false;
       }
       keyHandler.handleInput(e);
+      mouseHandler.handleEvent(e);
 
       if (e.type == SDL_MOUSEMOTION) {
         int x = e.motion.x;
         int y = e.motion.y;
       }
     }
+    mouseHandler.updateMousePosition();
   }
 
   bool ScreenHandler::isRunning() const {

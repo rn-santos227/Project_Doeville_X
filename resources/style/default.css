@@ -88,6 +88,8 @@
   background-color: #222222;
   border-color: #FFFFFF;
   border-width: 2;
+  border-radius: 6;
+  padding: 10 10;
   font-color: #FFFFFF;
   font-size: 20;
 }
@@ -114,8 +116,12 @@
   background-color: #888888;
   border-color: #FFFFFF;
   border-width: 1;
+  border-radius: 4;
+  margin: 5;
   font-color: #FFFFFF;
   font-size: 18;
+  hover-color: #AAAAAA;
+  font-hover-color: #FFFF00;
 }
 
 .ammo-meter {

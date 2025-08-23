@@ -16,6 +16,9 @@ namespace Project::Platform {
     explicit SDLPlatform(Project::Utilities::LogsManager& logsManager);
     ~SDLPlatform();
 
+    SDL_Renderer* getRenderer() const override;
+    SDL_Window* getWindow() const override;
+
     bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL) override;
     void clear() override;
     void present() override;
@@ -25,10 +28,6 @@ namespace Project::Platform {
     void clearExitRequest() override;
 
     void cleanup() override;
-
-    SDL_Renderer* getRenderer() const override;
-    SDL_Window* getWindow() const override;
-
     void setRendererAPI(std::unique_ptr<RendererAPI> api);
 
   private:

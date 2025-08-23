@@ -33,7 +33,10 @@ namespace Project::Libraries::Constants {
 
   constexpr const char* LIGHT_PROBE_SYM = "lp";
   constexpr const char* PATHFINDING_SYM = "pf";
-  constexpr const char* SHADER_SYM = "sh";  
+  constexpr const char* SHADER_SYM = "sh";
+
+  constexpr const char* FULLSCREEN = "Fullscreen";
+  constexpr const char* WINDOWED = "Windowed";
 }
 
 #endif

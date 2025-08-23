@@ -14,6 +14,18 @@ namespace Project::Platform {
     cleanup();
   }
 
+  void SDLPlatform::requestExit() {
+    exitRequested = true;
+  }
+
+  bool SDLPlatform::isExitRequested() const {
+    return exitRequested;
+  }
+
+  void SDLPlatform::clearExitRequest() {
+    exitRequested = false;
+  }
+
   void SDLPlatform::cleanup() {
     if (renderer) {
       SDL_DestroyRenderer(renderer);

@@ -12,6 +12,8 @@ namespace Project::Platform {
     virtual ~Platform() = default;  
     virtual bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL) = 0;
 
+    virtual void clear() = 0;
+    virtual void present() = 0;
   };
 }
 

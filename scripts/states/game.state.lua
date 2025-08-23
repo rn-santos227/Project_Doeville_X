@@ -2,6 +2,8 @@ state_name = "GameState"
 state_category = "STATIC_GAME_STATE"
 dimension = "MAPPED"
 
+exit_to_menu_requested = false
+
 layer_scripts = {
   "scripts/layers/gameplay/game.layer.lua",
   "scripts/layers/gameplay/hud.layer.lua"
@@ -25,6 +27,22 @@ function initialize()
   spawnEntity("hp_meter", nil, nil, "hud")
   spawnEntity("ammo_meter", nil, nil, "hud")
   spawnEntity("speed_meter", nil, nil, "hud")
+
+  spawnEntity("game_input")
+  spawnEntity("exit_modal", nil, nil, "hud")
+end
+
+function show_exit_modal()
+  return exit_to_menu_requested
+end
+
+function confirm_exit_to_menu()
+  exit_to_menu_requested = false
+  changeState("MainMenuState")
+end
+
+function cancel_exit_to_menu()
+  exit_to_menu_requested = false
 end
 
 function onEnter() end

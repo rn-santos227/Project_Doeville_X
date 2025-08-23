@@ -27,7 +27,9 @@ namespace Project::Platform {
     void cleanup() override;
 
     SDL_Renderer* getRenderer() const override;
-    SDL_Window* getWindow() const override
+    SDL_Window* getWindow() const override;
+
+    void setRendererAPI(std::unique_ptr<RendererAPI> api);
 
   private:
     Project::Utilities::LogsManager& logsManager;

@@ -14,6 +14,9 @@ namespace Project::Platform {
 
     virtual void clear() = 0;
     virtual void present() = 0;
+
+    virtual SDL_Renderer* getRenderer() const = 0;
+    virtual SDL_Window* getWindow() const = 0;
   };
 }
 

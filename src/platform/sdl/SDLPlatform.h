@@ -16,9 +16,15 @@ namespace Project::Platform {
     explicit SDLPlatform(Project::Utilities::LogsManager& logsManager);
     ~SDLPlatform();
 
-    bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL);
-    void clear();
-    void present();
+    bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL) override;
+    void clear() override;
+    void present() override;
+
+    void requestExit() override;
+    bool isExitRequested() const override;
+    void clearExitRequest() override;
+
+    void cleanup() override;
 
   private:
     Project::Utilities::LogsManager& logsManager;

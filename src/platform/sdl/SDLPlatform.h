@@ -16,6 +16,10 @@ namespace Project::Platform {
     explicit SDLPlatform(Project::Utilities::LogsManager& logsManager);
     ~SDLPlatform();
 
+    bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL);
+    void clear();
+    void present();
+
   private:
     Project::Utilities::LogsManager& logsManager;
     std::unique_ptr<RendererAPI> rendererAPI;

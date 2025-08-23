@@ -1,0 +1,19 @@
+#ifndef SDL_PLATFORM_H
+#define SDL_PLATFORM_H
+
+#include <SDL.h>
+#include <string>
+#include <memory>
+
+#include "platform/Platform.h"
+#include "platform/renderer/RendererAPI.h"
+#include "interfaces/cleanup_interface/Cleanable.h"
+#include "utilities/logs_manager/LogsManager.h"
+
+namespace Project::Platform {
+  class SDLPlatform : public Platform, public Project::Interfaces::Cleanable {
+
+  };
+}
+
+#endif

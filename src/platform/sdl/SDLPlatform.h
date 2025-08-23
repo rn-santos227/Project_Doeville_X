@@ -12,7 +12,9 @@
 
 namespace Project::Platform {
   class SDLPlatform : public Platform, public Project::Interfaces::Cleanable {
-
+  public:
+    explicit SDLPlatform(Project::Utilities::LogsManager& logsManager);
+    ~SDLPlatform();
   };
 }
 

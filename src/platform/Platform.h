@@ -21,6 +21,8 @@ namespace Project::Platform {
     virtual void requestExit() = 0;
     virtual bool isExitRequested() const = 0;
     virtual void clearExitRequest() = 0;
+
+    virtual void cleanup() = 0;
   };
 }
 

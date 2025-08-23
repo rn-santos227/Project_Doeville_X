@@ -17,6 +17,10 @@ namespace Project::Platform {
 
     virtual SDL_Renderer* getRenderer() const = 0;
     virtual SDL_Window* getWindow() const = 0;
+
+    virtual void requestExit() = 0;
+    virtual bool isExitRequested() const = 0;
+    virtual void clearExitRequest() = 0;
   };
 }
 

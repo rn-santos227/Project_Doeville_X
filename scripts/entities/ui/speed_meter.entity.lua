@@ -26,7 +26,7 @@ components = {
     height = 16,
     name = "speed",
     orientation = "horizontal",
-    x = 60
+    x = 70
   }
 }
 

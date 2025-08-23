@@ -1,5 +1,5 @@
 x = 15
-y = 35
+y = 15
 z = 0
 
 group = "ui"
@@ -8,14 +8,14 @@ components = {
   NumericComponent = {
     component = "NumericComponent",
     active = true,
-    hp = { value = 3, limit = 3 }
+    health = { value = 5, limit = 5 }
   },
 
   TextComponent = {
     component = "TextComponent",
     class = "meter-label",
     active = true,
-    text = "HP"
+    text = "Health"
   },
 
   MeterComponent = {
@@ -24,19 +24,19 @@ components = {
     active = true,
     width = 160,
     height = 16,
-    name = "hp",
+    name = "health",
     orientation = "horizontal",
-    x = 60
+    x = 70
   }
 }
 
 function update(deltaTime)
-  local hp = getNumericValue("player", "hp")
+  local hp = getNumericValue("player", "health")
   if hp then
-    setNumericValue("hp_meter", "hp", hp)
+    setNumericValue("health_meter", "health", hp)
   end
 end
 
 return {
-  name = "hp_meter",
+  name = "health_meter",
 }

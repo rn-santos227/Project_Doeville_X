@@ -1,5 +1,5 @@
 x = 15
-y = 15
+y = 35
 z = 0
 
 group = "ui"
@@ -26,7 +26,7 @@ components = {
     height = 16,
     name = "ammo",
     orientation = "horizontal",
-    x = 60
+    x = 70
   }
 }
 

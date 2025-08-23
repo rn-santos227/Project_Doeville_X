@@ -9,4 +9,27 @@ namespace Project::Platform {
       window(nullptr), renderer(nullptr), glContext(nullptr), 
       exitRequested(false), initialized(false),
       openGLMode(false), vsyncEnabled(false) {}
+
+  SDLPlatform::~SDLPlatform() {
+    cleanup();
+  }
+
+  void SDLPlatform::cleanup() {
+    if (renderer) {
+      SDL_DestroyRenderer(renderer);
+      renderer = nullptr;
+    }
+
+    if (window)  {
+      SDL_DestroyWindow(window);
+      window = nullptr;
+    }
+
+    SDL_Quit();
+    initialized = false;
+  }
+
+  void SDLPlatform::setRendererAPI(std::unique_ptr<RendererAPI> api) {
+    rendererAPI = std::move(api);
+  }
 }

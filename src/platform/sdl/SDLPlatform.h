@@ -15,6 +15,20 @@ namespace Project::Platform {
   public:
     explicit SDLPlatform(Project::Utilities::LogsManager& logsManager);
     ~SDLPlatform();
+
+  private:
+    Project::Utilities::LogsManager& logsManager;
+    std::unique_ptr<RendererAPI> rendererAPI;
+
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    SDL_GLContext glContext;
+
+    bool exitRequested;
+    bool initialized;
+
+    bool openGLMode;
+    bool vsyncEnabled;
   };
 }
 

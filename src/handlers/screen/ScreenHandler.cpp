@@ -11,7 +11,6 @@ namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Utilities::FramesCounter;
   using Project::Utilities::ConfigReader;
-  using Project::Core::SDLManager;
   using Project::Factories::ComponentsFactory;
   using Project::States::GameStateManager;
   using Project::Handlers::CursorHandler;
@@ -19,6 +18,7 @@ namespace Project::Handlers {
   using Project::Handlers::KeyHandler;
   using Project::Handlers::MouseHandler;
   using Project::Handlers::ResourcesHandler;
+  using Project::Platform::Platform;
   using Project::Services::ScriptingService;
   using Project::Services::StyleService;
 
@@ -27,7 +27,7 @@ namespace Project::Handlers {
 
   ScreenHandler::ScreenHandler(
       LogsManager& logsManager, FramesCounter& framesCounter, ConfigReader& configReader, 
-      SDLManager& sdlManager,
+      Platform& platform,
       ComponentsFactory& componentsFactory, 
       GameStateManager& gameStateManager, 
       CursorHandler& cursorHandler, 
@@ -37,20 +37,20 @@ namespace Project::Handlers {
       ResourcesHandler& resourcesHandler)
       : running(false), 
       logsManager(logsManager), framesCounter(framesCounter),
-      configReader(configReader), sdlManager(sdlManager),
+      configReader(configReader), platform(platform),
       componentsFactory(componentsFactory), gameStateManager(gameStateManager),
       cursorHandler(cursorHandler),
       fontHandler(fontHandler),
       keyHandler(keyHandler),
       mouseHandler(mouseHandler),
       resourcesHandler(resourcesHandler),
-      debugDisplay(logsManager, framesCounter, configReader, sdlManager, fontHandler, mouseHandler)
+      debugDisplay(logsManager, framesCounter, configReader, platform, fontHandler, mouseHandler)
     {}
 
   ScreenHandler::~ScreenHandler() = default;
 
   bool ScreenHandler::init() {
-    SDL_Renderer* renderer = sdlManager.getRenderer();
+    SDL_Renderer* renderer = platform.getRenderer();
     componentsFactory.setRenderer(renderer);
     componentsFactory.setKeyHandler(&keyHandler);
     componentsFactory.setMouseHandler(&mouseHandler);
@@ -89,7 +89,7 @@ namespace Project::Handlers {
     
     styleService = std::make_unique<StyleService>(logsManager, resourcesHandler);
     scriptingService = std::make_unique<ScriptingService>(
-      renderer, sdlManager, logsManager, configReader, resourcesHandler, componentsFactory, gameStateManager
+      renderer, platform, logsManager, configReader, resourcesHandler, componentsFactory, gameStateManager
     );
 
     if (logsManager.checkAndLogError(!scriptingService, "Failed to validate main.lua script.")) {
@@ -116,7 +116,7 @@ namespace Project::Handlers {
 
   void ScreenHandler::render() {
     std::lock_guard<std::mutex> lock(renderMutex);
-    SDL_Renderer* renderer = sdlManager.getRenderer();
+    SDL_Renderer* renderer = platform.getRenderer();
 
     gameStateManager.render();
     if (keyHandler.isGameDebugMode()) {
@@ -141,7 +141,7 @@ namespace Project::Handlers {
       logsManager.logError("Failed to render cursor: Texture is null.");
     }
 
-    sdlManager.present(); 
+    platform.present(); 
   }
 
   void ScreenHandler::handleEvents() {
@@ -172,10 +172,10 @@ namespace Project::Handlers {
   }
   
   SDL_Renderer* ScreenHandler::getRenderer() const {
-    return sdlManager.getRenderer();
+    return platform.getRenderer();
   }
 
   SDL_Window* ScreenHandler::getWindow() const {
-    return sdlManager.getWindow();
+    return platform.getWindow();
   }
 }

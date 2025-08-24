@@ -7,7 +7,6 @@
 #include <memory>
 #include <mutex>
 
-#include "core/SDLManager.h"
 #include "factories/component/ComponentsFactory.h"
 #include "handlers/camera/CameraHandler.h"
 #include "handlers/font/FontHandler.h"
@@ -16,6 +15,7 @@
 #include "handlers/input/MouseHandler.h"
 #include "handlers/resources/ResourcesHandler.h"
 #include "libraries/constants/Constants.h"
+#include "platform/Platform.h"
 #include "services/scripting/ScriptingService.h"
 #include "services/styling/StyleService.h"
 #include "states/GameStateManager.h"
@@ -27,9 +27,9 @@ namespace Project::Handlers {
   class ScreenHandler {
   public:
     ScreenHandler(Project::Utilities::LogsManager& logsManager, 
-      Project::Utilities::FramesCounter& frameCounter, 
-      Project::Utilities::ConfigReader& configReader, 
-      Project::Core::SDLManager& sdlManager, 
+      Project::Utilities::FramesCounter& frameCounter,
+      Project::Utilities::ConfigReader& configReader,
+      Project::Platform::Platform& platform,
       Project::Factories::ComponentsFactory& componentsFactory, 
       Project::States::GameStateManager& gameStateManager, 
       Project::Handlers::CursorHandler& cursorHandler, 
@@ -53,7 +53,7 @@ namespace Project::Handlers {
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::FramesCounter& framesCounter;
     Project::Utilities::ConfigReader& configReader;
-    Project::Core::SDLManager& sdlManager;
+    Project::Platform::Platform& platform;
 
     Project::Factories::ComponentsFactory& componentsFactory;
     Project::States::GameStateManager& gameStateManager;

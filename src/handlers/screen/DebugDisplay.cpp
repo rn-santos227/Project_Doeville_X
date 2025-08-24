@@ -23,18 +23,15 @@ namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Utilities::FramesCounter;
   using Project::Utilities::ConfigReader;
-  using Project::Core::SDLManager;
   using Project::Handlers::FontHandler;
   using Project::Handlers::MouseHandler;
+  using Project::Platform::Platform;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
 
-  DebugDisplay::DebugDisplay(LogsManager& logsManager,
-    FramesCounter& framesCounter, ConfigReader& configReader,
-    SDLManager& sdlManager, FontHandler& fontHandler, MouseHandler& mouseHandler)
-    : logsManager(logsManager), framesCounter(framesCounter), configReader(configReader),
-      sdlManager(sdlManager), fontHandler(fontHandler), mouseHandler(mouseHandler) {}
+  DebugDisplay::DebugDisplay(LogsManager& logsManager, FramesCounter& framesCounter, ConfigReader& configReader, Platform& platform, FontHandler& fontHandler, MouseHandler& mouseHandler)
+    : logsManager(logsManager), framesCounter(framesCounter), configReader(configReader), platform(platform), fontHandler(fontHandler), mouseHandler(mouseHandler) {}
 
   void DebugDisplay::init() {
     debugTextColor = configReader.getColorValue(Keys::DEBUG_SECTION, Keys::DEBUG_TEXT_COLOR, debugTextColor);
@@ -46,7 +43,7 @@ namespace Project::Handlers {
     renderGrid();
     renderAxes();
 
-    SDL_Renderer* renderer = sdlManager.getRenderer();
+    SDL_Renderer* renderer = platform.getRenderer();
     int yOffset = Constants::DEBUG_TEXT_MARGIN;
 
     const std::vector<std::pair<std::string, std::string>> debugLines = {
@@ -103,7 +100,7 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::renderAxes() {
-    SDL_Renderer* renderer = sdlManager.getRenderer();
+    SDL_Renderer* renderer = platform.getRenderer();
     int screenWidth, screenHeight;
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
@@ -115,7 +112,7 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::renderGrid() {
-    SDL_Renderer* renderer = sdlManager.getRenderer();
+    SDL_Renderer* renderer = platform.getRenderer();
     int screenWidth, screenHeight;
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
     SDL_SetRenderDrawColor(renderer, gridColor.r, gridColor.g, gridColor.b, gridColor.a);
@@ -130,7 +127,7 @@ namespace Project::Handlers {
   }
 
   void DebugDisplay::renderMousePosition() {
-    SDL_Renderer* renderer = sdlManager.getRenderer();
+    SDL_Renderer* renderer = platform.getRenderer();
     mouseHandler.updateMousePosition();
     int mouseX = mouseHandler.getMouseX();
     int mouseY = mouseHandler.getMouseY();

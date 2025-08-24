@@ -4,10 +4,10 @@
 #include <SDL.h>
 #include <string>
 
-#include "core/SDLManager.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/MouseHandler.h"
 #include "libraries/constants/Constants.h"
+#include "platform/Platform.h"
 #include "utilities/config_reader/ConfigReader.h"
 #include "utilities/frames_counter/FramesCounter.h"
 #include "utilities/logs_manager/LogsManager.h"
@@ -18,7 +18,7 @@ namespace Project::Handlers {
     DebugDisplay(Project::Utilities::LogsManager& logsManager,
       Project::Utilities::FramesCounter& framesCounter,
       Project::Utilities::ConfigReader& configReader,
-      Project::Core::SDLManager& sdlManager,
+      Project::Platform::Platform& platform,
       Project::Handlers::FontHandler& fontHandler,
       Project::Handlers::MouseHandler& mouseHandler);
     ~DebugDisplay() = default;
@@ -30,9 +30,9 @@ namespace Project::Handlers {
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::FramesCounter& framesCounter;
     Project::Utilities::ConfigReader& configReader;
-    Project::Core::SDLManager& sdlManager;
     Project::Handlers::FontHandler& fontHandler;
     Project::Handlers::MouseHandler& mouseHandler;
+    Project::Platform::Platform& platform;
 
     SDL_Color debugTextColor = Project::Libraries::Constants::DEFAULT_DEBUG_TEXT_COLOR;
     SDL_Color axisXColor = Project::Libraries::Constants::DEFAULT_X_AXIS_COLOR;

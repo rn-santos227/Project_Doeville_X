@@ -41,6 +41,15 @@ namespace Project::Helpers {
     T le = hostToLittleEndian(value);
     out.write(reinterpret_cast<const char*>(&le), sizeof(T));
   }
+
+  template <typename T>
+  inline bool readLittleEndian(std::istream& in, T& value) {
+    T tmp;
+    in.read(reinterpret_cast<char*>(&tmp), sizeof(T));
+    if (!in) return false;
+    value = littleEndianToHost(tmp);
+    return true;
+  }
 }
 
 #endif

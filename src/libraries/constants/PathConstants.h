@@ -3,6 +3,7 @@
 
 namespace Project::Libraries::Constants {
   constexpr const char* DEFAULT_CACHE_DIRECTORY = "cache";
+  constexpr const char* DEFAULT_CSS_FILE = "default.css";
   constexpr const char* DEFAULT_CURSOR_PATH = "resources/system/cursor_default.png";
   constexpr const char* DEFAULT_ENTITY_SCRIPT_FOLDER = "scripts/entities/";
   constexpr const char* DEFAULT_FONT = "system";

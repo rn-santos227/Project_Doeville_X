@@ -26,10 +26,25 @@ namespace Project::Services {
     }
 
     try {
+      std::vector<fs::path> cssFiles;
       for (const auto& entry : fs::recursive_directory_iterator(absPath, fs::directory_options::skip_permission_denied)) {
         if (!entry.is_regular_file()) continue;
         if (entry.path().extension() != Constants::SCRIPT_CSS_SUFFIX) continue;
-        loadStyleFile(entry.path().string());
+        cssFiles.push_back(entry.path());
+      }
+
+      std::sort(cssFiles.begin(), cssFiles.end());
+
+      auto defaultIt = std::find_if(cssFiles.begin(), cssFiles.end(), [](const fs::path& p) {
+        return p.filename() == Constants::DEFAULT_CSS_FILE;
+      });
+      
+      if (defaultIt != cssFiles.end()) {
+        std::rotate(cssFiles.begin(), defaultIt, defaultIt + 1);
+      }
+
+      for (const auto& file : cssFiles) {
+        loadStyleFile(file.string());
       }
     } catch (const fs::filesystem_error& e) {
       logsManager.logError(std::string("Error iterating styles directory: ") + e.what());

@@ -1,5 +1,4 @@
 #include "GameStateManager.h"
-#include "core/SDLManager.h"
 
 #include "platform/Platform.h"
 

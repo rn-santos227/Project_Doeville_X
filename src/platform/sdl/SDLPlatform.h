@@ -7,11 +7,10 @@
 
 #include "platform/Platform.h"
 #include "platform/renderer/RendererAPI.h"
-#include "interfaces/cleanup_interface/Cleanable.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Platform {
-  class SDLPlatform : public Platform, public Project::Interfaces::Cleanable {
+  class SDLPlatform : public Platform {
   public:
     explicit SDLPlatform(Project::Utilities::LogsManager& logsManager);
     ~SDLPlatform();

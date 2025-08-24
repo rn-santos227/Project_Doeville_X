@@ -6,9 +6,11 @@
 struct SDL_Renderer;
 struct SDL_Window;
 
+#include "interfaces/cleanup_interface/Cleanable.h"
+
 namespace Project::Platform {
   class RendererAPI;
-  class Platform {
+  class Platform: public Project::Interfaces::Cleanable {
   public:
     virtual ~Platform() = default;  
     virtual SDL_Renderer* getRenderer() const = 0;

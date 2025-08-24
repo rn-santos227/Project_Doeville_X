@@ -7,6 +7,7 @@ struct SDL_Renderer;
 struct SDL_Window;
 
 namespace Project::Platform {
+  class RendererAPI;
   class Platform {
   public:
     virtual ~Platform() = default;  

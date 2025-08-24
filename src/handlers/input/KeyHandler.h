@@ -9,14 +9,14 @@
 #include <unordered_map> 
 #include <vector>
 
-#include "core/SDLManager.h"
+#include "platform/Platform.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::States { class GameStateManager; }
 namespace Project::Handlers {
   class KeyHandler {
   public:
-    KeyHandler(Project::Utilities::LogsManager& logsManager, Project::Core::SDLManager& sdlManager, Project::States::GameStateManager* gameStateManager = nullptr);
+    KeyHandler(Project::Utilities::LogsManager& logsManager, Project::Platform::Platform& platform, Project::States::GameStateManager* gameStateManager = nullptr);
     ~KeyHandler();
 
     void handleInput(SDL_Event& event);
@@ -37,7 +37,7 @@ namespace Project::Handlers {
 
     KeyAction currentAction;
 
-    Project::Core::SDLManager& sdlManager;
+    Project::Platform::Platform& platform;
     Project::Utilities::LogsManager& logsManager;
     Project::States::GameStateManager* gameStateManager;
 

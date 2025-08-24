@@ -4,10 +4,10 @@
 #include "states/GameStateManager.h"
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
-  using Project::Core::SDLManager;
+  using Project::Platform::Platform;
 
-  KeyHandler::KeyHandler(LogsManager& logsManager, SDLManager& sdlManager, Project::States::GameStateManager* gameStateManager)
-    : logsManager(logsManager), sdlManager(sdlManager), gameStateManager(gameStateManager) {
+  KeyHandler::KeyHandler(LogsManager& logsManager, Platform& platform, Project::States::GameStateManager* gameStateManager)
+    : logsManager(logsManager), platform(platform), gameStateManager(gameStateManager) {
     for (int i = static_cast<int>(KeyAction::NONE);
          i <= static_cast<int>(KeyAction::IMMEDIATE_EXIT); ++i) {
       keyBindings[static_cast<KeyAction>(i)] = SDL_SCANCODE_UNKNOWN;
@@ -106,6 +106,6 @@ namespace Project::Handlers {
 
     logsManager.logMessage("Exiting immediately.");
     logsManager.flushLogs();
-    sdlManager.requestExit();
+    platform.requestExit();
   }
 }

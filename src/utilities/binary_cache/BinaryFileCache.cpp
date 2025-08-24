@@ -4,6 +4,7 @@
 #include <fstream>
 #include <chrono>
 
+#include "helpers/serialization/EndianHelper.h"
 #include "libraries/constants/NumericConstants.h"
 
 namespace Project::Utilities {
@@ -24,43 +25,41 @@ namespace Project::Utilities {
     std::ifstream in(cacheFilePath, std::ios::binary);
     if (!in.is_open()) return;
 
-    size_t entries = 0;
-    in.read(reinterpret_cast<char*>(&entries), sizeof(entries));
-    for (size_t i = 0; i < entries; ++i) {
-      size_t pathSize = 0;
-      in.read(reinterpret_cast<char*>(&pathSize), sizeof(pathSize));
+    std::uint64_t entries = 0;
+    Project::Helpers::readLittleEndian(in, entries);
+    for (std::uint64_t i = 0; i < entries; ++i) {
+      std::uint64_t pathSize = 0;
+      Project::Helpers::readLittleEndian(in, pathSize);
 
       if (!in || pathSize > Constants::MAX_PATH_SIZE) {
-        if (in && pathSize > 0) in.seekg(pathSize, std::ios::cur);
-        long long ts = 0;
-        in.read(reinterpret_cast<char*>(&ts), sizeof(ts));
-        size_t dataSize = 0;
-        in.read(reinterpret_cast<char*>(&dataSize), sizeof(dataSize));
-        if (in && dataSize > 0) in.seekg(dataSize, std::ios::cur);
+        if (in && pathSize > 0) in.seekg(static_cast<std::streamoff>(pathSize), std::ios::cur);
+        std::int64_t ts = 0;
+        Project::Helpers::readLittleEndian(in, ts);
+        std::uint64_t dataSize = 0;
+        Project::Helpers::readLittleEndian(in, dataSize);
+        if (in && dataSize > 0) in.seekg(static_cast<std::streamoff>(dataSize), std::ios::cur);
         if (!in) break;
         continue;
       }
 
       std::string path(pathSize, '\0');
-      in.read(path.data(), pathSize);
+      in.read(path.data(), static_cast<std::streamsize>(pathSize));
 
-      long long ts = 0;
-      in.read(reinterpret_cast<char*>(&ts), sizeof(ts));
+      std::int64_t ts = 0;
+      Project::Helpers::readLittleEndian(in, ts);
 
-      size_t dataSize = 0;
-      in.read(reinterpret_cast<char*>(&dataSize), sizeof(dataSize));
+      std::uint64_t dataSize = 0;
+      Project::Helpers::readLittleEndian(in, dataSize);
 
       if (!in || dataSize > Constants::MAX_DATA_SIZE) {
-        if (in && dataSize > 0) in.seekg(dataSize, std::ios::cur);
+        if (in && dataSize > 0) in.seekg(static_cast<std::streamoff>(dataSize), std::ios::cur);
         if (!in) break;
         continue;
       }
 
       std::vector<char> data(dataSize);
-      if (dataSize > 0) in.read(data.data(), dataSize);
-
+      if (dataSize > 0) in.read(data.data(), static_cast<std::streamsize>(dataSize));
       if (!in) break;
-
       if (ts == getTimestamp(path)) {
         cache[path] = {ts, std::move(data)};
       }

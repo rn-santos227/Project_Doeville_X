@@ -11,7 +11,6 @@
 
 #include <SDL2/SDL.h>
 
-#include "core/SDLManager.h"
 #include "assets/AssetsManager.h"
 #include "factories/asset/AssetsFactory.h"
 #include "factories/component/ComponentsFactory.h"
@@ -19,6 +18,7 @@
 #include "factories/layer/LayersFactory.h"
 #include "factories/state/GameStateFactory.h"
 #include "handlers/resources/ResourcesHandler.h"
+#include "platform/Platform.h"
 #include "states/GameStateManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
@@ -29,11 +29,11 @@ namespace Project::Services {
   public:
     explicit ScriptingService(
       SDL_Renderer* renderer,
-      Project::Core::SDLManager& sdlManager,
+      Project::Platform::Platform& platform,
       Project::Utilities::LogsManager& logsManager,
       Project::Utilities::ConfigReader& configReader,
-      Project::Handlers::ResourcesHandler& resourcesHandler, 
-      Project::Factories::ComponentsFactory& componentsFactory, 
+      Project::Handlers::ResourcesHandler& resourcesHandler,
+      Project::Factories::ComponentsFactory& componentsFactory,
       Project::States::GameStateManager& gameStateManager
     );
     
@@ -46,7 +46,7 @@ namespace Project::Services {
     void loadScriptsFromFolder(const std::string& folderPath);
 
   private:
-    Project::Core::SDLManager& sdlManager;
+    Project::Platform::Platform& platform;
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::ConfigReader& configReader;
     Project::Factories::ComponentsFactory& componentsFactory;

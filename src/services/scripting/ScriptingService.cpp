@@ -10,17 +10,17 @@
 #include "libraries/constants/Constants.h"
 
 namespace Project::Services {
-  using Project::Core::SDLManager;
   using Project::Utilities::LogsManager;
   using Project::Utilities::ConfigReader;
   using Project::Utilities::LuaStateWrapper;
   using Project::Handlers::ResourcesHandler;
   using Project::Factories::ComponentsFactory;
-  using Project::Services::ScriptingCategoryResolver;
-  using Project::States::GameStateManager;
   using Project::Factories::EntitiesFactory;
   using Project::Factories::LayersFactory;
   using Project::Factories::GameStateFactory;
+  using Project::Platform::Platform;
+  using Project::Services::ScriptingCategoryResolver;
+  using Project::States::GameStateManager;
 
   namespace Constants = Project::Libraries::Constants;
   namespace Scripts = Project::Libraries::Categories::Scripts;
@@ -28,14 +28,14 @@ namespace Project::Services {
 
   ScriptingService::ScriptingService(
     SDL_Renderer* renderer,
-    SDLManager& sdlManager,
+    Platform& platform,
     LogsManager& logsManager,
     ConfigReader& configReader,
     ResourcesHandler& resourcesHandler,
     ComponentsFactory& componentsFactory,
     GameStateManager& gameStateManager)
     : renderer(renderer), 
-      sdlManager(sdlManager),
+      platform(platform),
       logsManager(logsManager),
       configReader(configReader),
       componentsFactory(componentsFactory),
@@ -46,7 +46,7 @@ namespace Project::Services {
       assetsFactory(renderer, logsManager, resourcesHandler, assetsManager),
       entitiesFactory(logsManager, configReader, componentsFactory, gameStateManager),
       layersFactory(logsManager),
-      gameStateFactory(logsManager, sdlManager, resourcesHandler,
+      gameStateFactory(logsManager, platform, resourcesHandler,
       gameStateManager, entitiesFactory, layersFactory) {
         componentsFactory.setAssetsManager(&assetsManager);
         Project::Bindings::LuaBindings::setAssetsManager(&assetsManager);
@@ -191,6 +191,6 @@ namespace Project::Services {
     SDL_Event quitEvent{};
     quitEvent.type = SDL_QUIT;
     SDL_PushEvent(&quitEvent);
-    sdlManager.requestExit();
+    platform.requestExit();
   }
 }

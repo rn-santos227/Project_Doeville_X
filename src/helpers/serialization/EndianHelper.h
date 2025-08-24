@@ -50,6 +50,16 @@ namespace Project::Helpers {
     value = littleEndianToHost(tmp);
     return true;
   }
+
+  template <typename T>
+  inline void serializeVector(const std::vector<T>& in, std::vector<char>& out) {
+    out.resize(in.size() * sizeof(T));
+    for (size_t i = 0; i < in.size(); ++i) {
+      T le = hostToLittleEndian(in[i]);
+      std::memcpy(out.data() + i * sizeof(T), &le, sizeof(T));
+    }
+  }
+
 }
 
 #endif

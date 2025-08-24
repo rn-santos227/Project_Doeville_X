@@ -11,7 +11,10 @@
 #include <vector>
 
 namespace Project::Helpers {
-
+  inline bool isLittleEndian() {
+    const std::uint16_t one = 1;
+    return *reinterpret_cast<const std::uint8_t*>(&one) == 1;
+  }
 }
 
 #endif

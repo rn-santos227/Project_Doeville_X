@@ -145,6 +145,11 @@ namespace Project::States {
   void GameStateManager::reset() {
     std::lock_guard<std::mutex> lock(gameStateMutex);
 
+    while (!stateStack.empty()) {
+      stateStack.top()->onExit();
+      stateStack.pop();
+    }
+
     for (auto& [name, state] : stateManager.getObjects()) {
       if (state) {
         state->reset();

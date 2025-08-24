@@ -197,6 +197,7 @@ namespace Project::States {
     seedIndex = 0;
     lastSeederId.clear();
     entitySeeders.clear();
+    clearEntityScriptOverrides();
 
     if (layersManager) {
       layersManager->reset();
@@ -504,6 +505,13 @@ namespace Project::States {
     }
   }
 
+  void GameState::removeEntityScriptOverride(const std::string& entityName) {
+    entityScriptOverrides.erase(entityName);
+  }
+
+  void GameState::clearEntityScriptOverrides() {
+    entityScriptOverrides.clear();
+  }
 
   void GameState::setMapTiles(std::vector<Project::Handlers::BuiltTile>&& tiles, int x, int y, int width, int height) {
     if (data.dimensionMode == DimensionMode::MAPPED && !mapTiles.empty()) {

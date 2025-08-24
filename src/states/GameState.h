@@ -72,6 +72,8 @@ namespace Project::States {
 
     void registerEntityScriptOverride(const std::string& entityName, const std::string& scriptPath);
     void applyEntityScriptOverride(Project::Entities::Entity* entity) const;
+    void removeEntityScriptOverride(const std::string& entityName);
+    void clearEntityScriptOverrides();
     
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);

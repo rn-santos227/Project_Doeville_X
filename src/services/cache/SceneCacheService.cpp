@@ -76,9 +76,7 @@ namespace Project::Services {
   }
 
   void SceneCacheService::deserializeData(const std::vector<char>& in, PathfindingGrid& out) {
-    size_t count = in.size() / sizeof(int);
-    out.resize(count);
-    std::memcpy(out.data(), in.data(), in.size());
+    Project::Helpers::deserializeVector(in, out);
   }
 
   void SceneCacheService::deserializeData(const std::vector<char>& in, ShaderBinary& out) {

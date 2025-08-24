@@ -46,7 +46,13 @@ namespace Project::Platform {
     vsyncEnabled = vsync;
     if (vsyncEnabled) {
       rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
-    }  
+    }
+
+    openGLMode = opengl;
+    if (openGLMode) {
+      windowFlags |= SDL_WINDOW_OPENGL;
+    }
+
   }
 
   void SDLPlatform::present() {

@@ -65,6 +65,14 @@ namespace Project::Platform {
       }
       SDL_GL_SetSwapInterval(vsyncEnabled ? 1 : 0);
     }
+
+    if (rendererAPI) {
+      rendererAPI->init();
+    }
+
+    logsManager.logMessage("Renderer created successfully.");
+    initialized = true;
+    return true;
   }
 
   void SDLPlatform::present() {

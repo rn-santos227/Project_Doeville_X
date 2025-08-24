@@ -52,6 +52,19 @@ namespace Project::Platform {
     if (vsyncEnabled) {
       rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
     }
+
+    if (!openGLMode) {
+      renderer = SDL_CreateRenderer(window, -1, rendererFlags);
+      if (logsManager.checkAndLogError(!renderer, "Renderer could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
+        return false;
+      }
+    } else {
+      glContext = SDL_GL_CreateContext(window);
+      if (logsManager.checkAndLogError(!glContext, "OpenGL context could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
+        return false;
+      }
+      SDL_GL_SetSwapInterval(vsyncEnabled ? 1 : 0);
+    }
   }
 
   void SDLPlatform::present() {

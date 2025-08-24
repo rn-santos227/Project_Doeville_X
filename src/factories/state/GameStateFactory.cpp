@@ -13,22 +13,22 @@
 
 namespace Project::Factories {
   using Project::Utilities::LogsManager;
-  using Project::Core::SDLManager;
   using Project::Handlers::ResourcesHandler;
+  using Project::Factories::EntitiesFactory;
+  using Project::Factories::LayersFactory;
+  using Project::Platform::Platform;
   using Project::States::DimensionMode;
   using Project::States::DimensionModeResolver;
   using Project::States::GameState;
   using Project::States::GameStateCategory;
   using Project::States::GameStateCategoryResolver;
   using Project::States::GameStateManager;
-  using Project::Factories::EntitiesFactory;
-  using Project::Factories::LayersFactory;
 
   namespace Keys = Project::Libraries::Keys;
   namespace Layers = Project::Libraries::Categories::Layers;
 
-  GameStateFactory::GameStateFactory(LogsManager& logsManager, SDLManager& sdlManager, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory, LayersFactory& layersFactory)
-  : logsManager(logsManager), sdlManager(sdlManager), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory), layersFactory(layersFactory) {}
+  GameStateFactory::GameStateFactory(LogsManager& logsManager, Platform& platform, ResourcesHandler& resourcesHandler, GameStateManager& gameStateManager, EntitiesFactory& entitiesFactory, LayersFactory& layersFactory)
+    : logsManager(logsManager), platform(platform), gameStateManager(gameStateManager), resourcesHandler(resourcesHandler), entitiesFactory(entitiesFactory), layersFactory(layersFactory) {}
 
   bool GameStateFactory::createStateFromLua(SDL_Renderer* renderer, const std::string& scriptPath) {
     auto newState = std::make_unique<GameState>(renderer, logsManager, resourcesHandler);
@@ -38,8 +38,8 @@ namespace Project::Factories {
       return false;
     }
 
-    newState->setSDLManager(&sdlManager);
-    newState->registerLuaFunctions(&sdlManager);
+    newState->setPlatform(&platform);
+    newState->registerLuaFunctions(&platform);
     
     lua_State* L = newState->getLuaState();
     lua_getglobal(L, Keys::STATE_NAME);
@@ -90,7 +90,7 @@ namespace Project::Factories {
     lua_pop(L, 1);
 
     auto entitiesMgr = std::make_shared<Project::Entities::EntitiesManager>();
-    entitiesMgr->setSDLManager(&sdlManager);
+    entitiesMgr->setPlatform(&platform);
     entitiesMgr->setLogsManager(&logsManager);
     newState->setEntitiesManager(std::move(entitiesMgr));
     newState->setGlobalEntitiesManager(gameStateManager.getGlobalEntitiesManager());

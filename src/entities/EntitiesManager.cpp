@@ -61,6 +61,10 @@ namespace Project::Entities {
 
     std::lock_guard<std::mutex> lock(managerMutex);
     entity->setEntitiesManager(this);
+
+    if (gameState) {
+      gameState->applyEntityScriptOverride(entity.get());
+    }
     registerEntityLuaFunctions(entity.get());
     
     std::string baseId = id.empty() ? entity->getEntityName() : id;

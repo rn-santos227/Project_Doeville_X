@@ -492,6 +492,19 @@ namespace Project::States {
     persistentFunctionCache.load();
   }
 
+  void GameState::registerEntityScriptOverride(const std::string& entityName, const std::string& scriptPath) {
+    entityScriptOverrides[entityName] = scriptPath;
+  }
+
+  void GameState::applyEntityScriptOverride(Entity* entity) const {
+    if (!entity) return;
+    auto it = entityScriptOverrides.find(entity->getEntityName());
+    if (it != entityScriptOverrides.end()) {
+      entity->attachLuaScript(it->second);
+    }
+  }
+
+
   void GameState::setMapTiles(std::vector<Project::Handlers::BuiltTile>&& tiles, int x, int y, int width, int height) {
     if (data.dimensionMode == DimensionMode::MAPPED && !mapTiles.empty()) {
       getLogsManager().logError("MAPPED dimension allows only one map.");

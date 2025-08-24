@@ -70,6 +70,9 @@ namespace Project::States {
     void registerLuaFunctions(Project::Platform::Platform* platform = nullptr);
     void clearScriptFunctionCache();
 
+    void registerEntityScriptOverride(const std::string& entityName, const std::string& scriptPath);
+    void applyEntityScriptOverride(Project::Entities::Entity* entity) const;
+    
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
     
@@ -172,6 +175,7 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager;
     std::unique_ptr<Project::Layers::LayersManager> layersManager;
     std::unordered_map<std::string, std::unique_ptr<Project::Entities::EntitySeeder>> entitySeeders;
+    std::unordered_map<std::string, std::string> entityScriptOverrides;
     std::vector<Project::Handlers::BuiltTile> mapTiles;
 
     void ensureMapSize();

@@ -38,6 +38,9 @@ namespace Project::Platform {
     if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
+
+    std::string mode = fullscreen ? Constants::FULLSCREEN : Constants::WINDOWED;
+    logsManager.logMessage("Window and renderer validated. Mode: " + mode + ", Size: " + std::to_string(width) + "x" + std::to_string(height));
   }
 
   void SDLPlatform::present() {

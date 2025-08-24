@@ -2,6 +2,7 @@
 #define BACKGROUND_LOADER_H
 
 #include <future>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -10,12 +11,14 @@
 
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/memory/MemoryBudgetTracker.h"
+#include "utilities/memory/PoolAllocator.h"
 #include "utilities/texture/TextureUtils.h"
 #include "libraries/constants/NumericConstants.h"
 
 namespace Project::Handlers {
   struct MeshData {
-    std::vector<char> data;
+    std::shared_ptr<unsigned char> data{nullptr};
+    std::size_t size{0};
   };
 
   struct AudioData {
@@ -26,7 +29,11 @@ namespace Project::Handlers {
 
   class BackgroundLoader {
   public:
-    BackgroundLoader(Project::Utilities::LogsManager& logsManager, Project::Utilities::MemoryBudgetTracker& budgetTracker);
+    BackgroundLoader(
+      Project::Utilities::LogsManager& logsManager,
+      Project::Utilities::MemoryBudgetTracker& budgetTracker,
+      Project::Utilities::PoolAllocator& pool
+    );
     ~BackgroundLoader();
 
     std::future<SDL_Texture*> streamTexture(SDL_Renderer* renderer, const std::string& path, int maxDim = Project::Libraries::Constants::DEFAULT_MAX_DIM);
@@ -36,6 +43,7 @@ namespace Project::Handlers {
   private:
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::MemoryBudgetTracker& budgetTracker;
+    Project::Utilities::PoolAllocator& pool;
   };
 }
 

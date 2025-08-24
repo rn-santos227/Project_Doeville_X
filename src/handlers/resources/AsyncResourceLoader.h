@@ -14,7 +14,7 @@
 #include <SDL_image.h>
 
 #include "utilities/logs_manager/LogsManager.h"
-#include "helpers/resource_pool/ResourcePool.h"
+#include "utilities/memory/PoolAllocator.h"
 
 namespace Project::Handlers {
   struct Task {
@@ -24,7 +24,7 @@ namespace Project::Handlers {
 
   class AsyncResourceLoader {
   public:
-    explicit AsyncResourceLoader(Project::Utilities::LogsManager& logsManager);
+    AsyncResourceLoader(Project::Utilities::LogsManager& logsManager, Project::Utilities::PoolAllocator& pool);
     ~AsyncResourceLoader();
 
     std::future<SDL_Surface*> loadSurface(const std::string& imagePath);
@@ -32,7 +32,7 @@ namespace Project::Handlers {
 
   private:
     Project::Utilities::LogsManager& logsManager;
-    Project::Helpers::ResourcePool<std::vector<unsigned char>> bufferPool;
+    Project::Utilities::PoolAllocator& pool;
 
     SDL_Surface* loadFromFile(const std::string& path);
     

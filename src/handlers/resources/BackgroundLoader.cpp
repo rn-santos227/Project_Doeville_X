@@ -9,11 +9,12 @@ namespace Project::Handlers {
   using Project::Utilities::LogsManager;
   using Project::Utilities::MemorySystem;
   using Project::Utilities::MemoryBudgetTracker;
+  using Project::Utilities::PoolAllocator;
   using Project::Utilities::TextureUtils::compress;
   using Project::Utilities::TextureUtils::selectMip;
 
-  BackgroundLoader::BackgroundLoader(LogsManager& logsManager, MemoryBudgetTracker& budgetTracker)
-    : logsManager(logsManager), budgetTracker(budgetTracker) {}
+  BackgroundLoader::BackgroundLoader(LogsManager& logsManager, MemoryBudgetTracker& budgetTracker, PoolAllocator& pool)
+    : logsManager(logsManager), budgetTracker(budgetTracker), pool(pool) {}
 
   BackgroundLoader::~BackgroundLoader() = default;
 
@@ -37,10 +38,23 @@ namespace Project::Handlers {
   std::future<MeshData> BackgroundLoader::streamMesh(const std::string& path) {
     return std::async(std::launch::async, [this, path]() {
       MeshData data;
-      std::ifstream file(path, std::ios::binary);
+      std::ifstream file(path, std::ios::binary | std::ios::ate);
       if (file) {
-        data.data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-        budgetTracker.allocate(MemorySystem::Meshes, data.data.size());
+        std::streamsize fileSize = file.tellg();
+        file.seekg(0, std::ios::beg);
+        if (fileSize > 0 && static_cast<std::size_t>(fileSize) <= pool.getBlockSize()) {
+          void* block = pool.acquire();
+          if (block && file.read(reinterpret_cast<char*>(block), fileSize)) {
+            data.size = static_cast<std::size_t>(fileSize);
+            data.data.reset(static_cast<unsigned char*>(block), [this](unsigned char* p){ pool.release(p); });
+            budgetTracker.allocate(MemorySystem::Meshes, data.size);
+          } else if (block) {
+            pool.release(block);
+            logsManager.logError("Failed to read mesh: " + path);
+          }
+        } else {
+          logsManager.logError("Mesh too large or empty: " + path);
+        }
       } else {
         logsManager.logError("Failed to load mesh: " + path);
       }

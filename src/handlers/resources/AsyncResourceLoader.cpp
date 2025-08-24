@@ -7,9 +7,10 @@
 
 namespace Project::Handlers {
   using Project::Utilities::LogsManager;
+  using Project::Utilities::PoolAllocator;
 
-  AsyncResourceLoader::AsyncResourceLoader(LogsManager& logsManager)
-    : logsManager(logsManager) {
+  AsyncResourceLoader::AsyncResourceLoader(LogsManager& logsManager, PoolAllocator& pool)
+    : logsManager(logsManager), pool(pool) {
     threadCount = std::max(1u, std::thread::hardware_concurrency());
     for (size_t i = 0; i < threadCount; ++i) {
       workers.emplace_back(&AsyncResourceLoader::workerLoop, this);
@@ -59,15 +60,20 @@ namespace Project::Handlers {
     size_t size = mmf.size();
     SDL_Surface* surface = nullptr;
     if (path.size() > 3 && path.substr(path.size() - 3) == ".gz") {
-      auto buffer = bufferPool.acquire();
-      if (!Project::Utilities::CompressionUtils::decompress(data, size, *buffer)) {
-        logsManager.logError("Failed to decompress: " + path);
-        bufferPool.release(std::move(buffer));
+      void* block = pool.acquire();
+      if (!block) {
+        logsManager.logError("Failed to acquire buffer block for: " + path);
         return nullptr;
       }
-      SDL_RWops* rw = SDL_RWFromConstMem(buffer->data(), static_cast<int>(buffer->size()));
+      size_t outSize = 0;
+      if (!Project::Utilities::CompressionUtils::decompressTo(data, size, static_cast<unsigned char*>(block), pool.getBlockSize(), outSize)) {
+        logsManager.logError("Failed to decompress: " + path);
+        pool.release(block);
+        return nullptr;
+      }
+      SDL_RWops* rw = SDL_RWFromConstMem(block, static_cast<int>(outSize));
       surface = IMG_Load_RW(rw, 1);
-      bufferPool.release(std::move(buffer));
+      pool.release(block);
     } else {
       SDL_RWops* rw = SDL_RWFromConstMem(data, static_cast<int>(size));
       surface = IMG_Load_RW(rw, 1);

@@ -41,6 +41,12 @@ namespace Project::Platform {
 
     std::string mode = fullscreen ? Constants::FULLSCREEN : Constants::WINDOWED;
     logsManager.logMessage("Window and renderer validated. Mode: " + mode + ", Size: " + std::to_string(width) + "x" + std::to_string(height));
+  
+    Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
+    vsyncEnabled = vsync;
+    if (vsyncEnabled) {
+      rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+    }  
   }
 
   void SDLPlatform::present() {

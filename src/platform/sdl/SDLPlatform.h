@@ -20,14 +20,14 @@ namespace Project::Platform {
     SDL_Window* getWindow() const override;
 
     bool init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool useOpenGL) override;
+    void present() override;    
+    void cleanup() override;
     void clear() override;
-    void present() override;
 
     void requestExit() override;
     bool isExitRequested() const override;
     void clearExitRequest() override;
 
-    void cleanup() override;
     void setRendererAPI(std::unique_ptr<RendererAPI> api);
 
   private:

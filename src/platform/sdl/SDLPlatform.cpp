@@ -24,6 +24,37 @@ namespace Project::Platform {
     return window;
   }
 
+  bool SDLPlatform::init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool opengl) {
+
+  }
+
+  void SDLPlatform::present() {
+    if (rendererAPI) {
+      rendererAPI->present();
+      return;
+    }
+    if (renderer) {
+      SDL_RenderPresent(renderer);
+    } else {
+      logsManager.logError("Attempted to present but renderer is null.");
+    }
+  }
+
+  void SDLPlatform::cleanup() {
+    if (renderer) {
+      SDL_DestroyRenderer(renderer);
+      renderer = nullptr;
+    }
+
+    if (window)  {
+      SDL_DestroyWindow(window);
+      window = nullptr;
+    }
+
+    SDL_Quit();
+    initialized = false;
+  }
+
   void SDLPlatform::clear() {
     if (rendererAPI) {
       rendererAPI->clear();
@@ -42,18 +73,6 @@ namespace Project::Platform {
     }
   }
 
-  void SDLPlatform::present() {
-    if (rendererAPI) {
-      rendererAPI->present();
-      return;
-    }
-    if (renderer) {
-      SDL_RenderPresent(renderer);
-    } else {
-      logsManager.logError("Attempted to present but renderer is null.");
-    }
-  }
-
   void SDLPlatform::requestExit() {
     exitRequested = true;
   }
@@ -64,21 +83,6 @@ namespace Project::Platform {
 
   void SDLPlatform::clearExitRequest() {
     exitRequested = false;
-  }
-
-  void SDLPlatform::cleanup() {
-    if (renderer) {
-      SDL_DestroyRenderer(renderer);
-      renderer = nullptr;
-    }
-
-    if (window)  {
-      SDL_DestroyWindow(window);
-      window = nullptr;
-    }
-
-    SDL_Quit();
-    initialized = false;
   }
 
   void SDLPlatform::setRendererAPI(std::unique_ptr<RendererAPI> api) {

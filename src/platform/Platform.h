@@ -1,6 +1,7 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
+#include <memory>
 #include <string>
 
 struct SDL_Renderer;

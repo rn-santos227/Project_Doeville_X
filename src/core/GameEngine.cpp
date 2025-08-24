@@ -84,11 +84,11 @@ namespace Project::Core {
       bool opengl = configReader.getBoolValue(Keys::VIDEO_SECTION, Keys::VIDEO_OPENGL, true);
       bool vsync = configReader.getBoolValue(Keys::VIDEO_SECTION, Keys::VIDEO_VSYNC, true);
 
-      if (opengl) {
-        platform->setRendererAPI(std::make_unique<Project::Platform::OpenGLRenderer>());
-      } else {
-        platform->setRendererAPI(std::make_unique<Project::Platform::VulkanRenderer>());
-      }
+      // if (opengl) {
+      //   platform->setRendererAPI(std::make_unique<Project::Platform::OpenGLRenderer>());
+      // } else {
+      //   platform->setRendererAPI(std::make_unique<Project::Platform::VulkanRenderer>());
+      // }
 
       if (!platform->init(title, screenWidth, screenHeight, isFullscreen, vsync, opengl)) {
         logsManager.logError("Failed to initialize SDL platform.");

@@ -3,6 +3,8 @@
 
 #include "BackgroundLoader.h"
 #include "TextureAtlas.h"
+#include "AsyncResourceLoader.h"
+#include "StreamingManager.h"
 
 #include <atomic>
 #include <condition_variable>
@@ -19,6 +21,7 @@
 #include "interfaces/cleanup_interface/Cleanable.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/memory/MemoryBudgetTracker.h"
+#include "utilities/memory/PoolAllocator.h"
 #include "watchers/hot_reload/HotReloadWatcher.h"
 
 namespace Project::Handlers {
@@ -44,8 +47,12 @@ namespace Project::Handlers {
   private:
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::MemoryBudgetTracker memoryTracker;
-    BackgroundLoader backgroundLoader;
+    Project::Utilities::PoolAllocator resourcePool;
     Project::Watchers::HotReloadWatcher hotReload;
+    
+    AsyncResourceLoader asyncLoader;
+    BackgroundLoader backgroundLoader;
+    StreamingManager streamingManager;
     TextureAtlas textureAtlas;
 
     std::unordered_map<SDL_Renderer*, SDL_Texture*> fallbackTextures;

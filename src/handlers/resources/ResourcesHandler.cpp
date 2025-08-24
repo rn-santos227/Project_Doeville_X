@@ -13,7 +13,10 @@ namespace Project::Handlers {
   ResourcesHandler::ResourcesHandler(LogsManager& logsManager)
   : logsManager(logsManager),
     memoryTracker(logsManager),
-    backgroundLoader(logsManager, memoryTracker),
+    resourcePool(Constants::INDEX_FOUR * Constants::ALLOC_1024 * Constants::ALLOC_1024, Constants::BIT_32),
+    asyncLoader(logsManager, resourcePool),
+    backgroundLoader(logsManager, memoryTracker, resourcePool),
+    streamingManager(asyncLoader, backgroundLoader),
     hotReload(logsManager) {
     memoryTracker.setBudget(
       MemorySystem::Textures, 

@@ -69,6 +69,13 @@ namespace Project::Systems {
       if (comp && comp->isActive()) buffer.push_back(comp);
     }
     std::sort(buffer.begin(), buffer.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
+      const auto& boxA = a->getBoundingBox();
+      const auto& boxB = b->getBoundingBox();
+
+      const float bottomA = boxA.y + boxA.h;
+      const float bottomB = boxB.y + boxB.h;
+      if (bottomA != bottomB) return bottomA < bottomB;
+
       if (a->getMaterialId() != b->getMaterialId()) return a->getMaterialId() < b->getMaterialId();
       if (a->getBlendMode() != b->getBlendMode()) return a->getBlendMode() < b->getBlendMode();
       return a->getBatchTexture() < b->getBatchTexture();

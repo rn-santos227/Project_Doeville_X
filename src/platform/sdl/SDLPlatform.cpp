@@ -28,6 +28,11 @@ namespace Project::Platform {
     if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0, "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
       return false;
     }
+
+    Uint32 windowFlags = SDL_WINDOW_SHOWN;
+    if (fullscreen) {
+      windowFlags |= SDL_WINDOW_FULLSCREEN;
+    }
   }
 
   void SDLPlatform::present() {

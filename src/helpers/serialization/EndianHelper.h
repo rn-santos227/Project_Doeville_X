@@ -25,7 +25,11 @@ namespace Project::Helpers {
     std::memcpy(&value, bytes.data(), sizeof(T));
     return value;
   }
-
+  
+  template <typename T>
+  inline T hostToLittleEndian(T value) {
+    return isLittleEndian() ? value : byteswap(value);
+  }
 }
 
 #endif

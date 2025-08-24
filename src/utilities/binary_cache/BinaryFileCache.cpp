@@ -70,18 +70,18 @@ namespace Project::Utilities {
     std::ofstream out(cacheFilePath, std::ios::binary | std::ios::trunc);
     if (!out.is_open()) return;
 
-    size_t entries = cache.size();
-    out.write(reinterpret_cast<const char*>(&entries), sizeof(entries));
+    std::uint64_t entries = cache.size();
+    Project::Helpers::writeLittleEndian(out, entries);
     for (const auto& [path, pair] : cache) {
       long long ts = getTimestamp(path);
-      size_t pathSize = path.size();
-      out.write(reinterpret_cast<const char*>(&pathSize), sizeof(pathSize));
-      out.write(path.data(), pathSize);
-      out.write(reinterpret_cast<const char*>(&ts), sizeof(ts));
+      std::uint64_t pathSize = path.size();
+      Project::Helpers::writeLittleEndian(out, pathSize);
+      out.write(path.data(), static_cast<std::streamsize>(pathSize));
+      Project::Helpers::writeLittleEndian(out, static_cast<std::int64_t>(ts));
       const auto& data = pair.second;
-      size_t dataSize = data.size();
-      out.write(reinterpret_cast<const char*>(&dataSize), sizeof(dataSize));
-      if (dataSize > 0) out.write(data.data(), dataSize);
+      std::uint64_t dataSize = data.size();
+      Project::Helpers::writeLittleEndian(out, dataSize);
+      if (dataSize > 0) out.write(data.data(), static_cast<std::streamsize>(dataSize));
     }
   }
 

@@ -9,7 +9,6 @@
 #include <mutex>
 #include <unordered_map>
 
-#include "core/SDLManager.h"
 #include "entities/EntitiesManager.h"
 #include "interfaces/cleanup_interface/Cleanable.h"
 #include "interfaces/render_interface/Renderable.h"
@@ -17,6 +16,7 @@
 #include "interfaces/update_interface/Updatable.h"
 #include "handlers/input/CursorHandler.h"
 #include "helpers/objects_manager/ObjectsManager.h"
+#include "platform/Platform.h"
 #include "services/cache/SceneCacheService.h"
 #include "utilities/logs_manager/LogsManager.h"
 
@@ -29,7 +29,7 @@ namespace Project::States {
   public:
     GameStateManager(
       size_t cacheLimit, Project::Utilities::LogsManager& logsManager,
-      Project::Core::SDLManager* sdlManager = nullptr,
+      Project::Platform::Platform* platform = nullptr,
       Project::Handlers::CursorHandler* cursorHandler = nullptr,
       Project::Services::SceneCacheService* sceneCache = nullptr
     );

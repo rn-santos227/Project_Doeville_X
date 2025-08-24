@@ -1,20 +1,21 @@
 #include "GameStateManager.h"
 #include "core/SDLManager.h"
 
+#include "platform/Platform.h"
+
 namespace Project::States {
   using Project::Utilities::LogsManager;
+  using Project::Handlers::CursorHandler;
   using Project::Helpers::ObjectsManager;
+  using Project::Platform::Platform;
+  using Project::Services::SceneCacheService;
 
-  GameStateManager::GameStateManager(
-    size_t cacheLimit, LogsManager& logsManager,
-    Project::Core::SDLManager* sdlManager,
-    Project::Handlers::CursorHandler* cursorHandler,
-    Project::Services::SceneCacheService* sceneCache)
+  GameStateManager::GameStateManager(size_t cacheLimit, LogsManager& logsManager, Platform* platform, CursorHandler* cursorHandler, SceneCacheService* sceneCache)
     : cacheLimit(cacheLimit), logsManager(logsManager), cursorHandler(cursorHandler), sceneCache(sceneCache) {
-      if (globalEntitiesManager && sdlManager) {
-        globalEntitiesManager->setSDLManager(sdlManager);
-      }
+    if (globalEntitiesManager && platform) {
+      globalEntitiesManager->setPlatform(platform);
     }
+  }
 
   void GameStateManager::addState(const std::string& name, std::unique_ptr<GameState> state) {
     stateManager.add(name, std::move(state));

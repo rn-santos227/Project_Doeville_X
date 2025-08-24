@@ -675,8 +675,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_cameraZoomOut, gameState);
         } else if (func == Keys::LUA_CAMERA_SHAKE && gameState) {
           entity->registerLuaFunction(func, LuaBindings::lua_cameraShake, gameState);
-        } else if (func == Keys::LUA_EXIT_GAME && sdlManager) {
-          entity->registerLuaFunction(func, LuaBindings::lua_exitGame, sdlManager);
+        } else if (func == Keys::LUA_EXIT_GAME && platform) {
+          entity->registerLuaFunction(func, LuaBindings::lua_exitGame, platform);
         }
       }
     }

@@ -13,19 +13,19 @@
 
 #include <SDL.h>
 
-#include "core/SDLManager.h"
+#include "components/BaseComponent.h"
+#include "components/ComponentType.h"
 #include "helpers/objects_manager/ObjectsManager.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/reset_interface/Resetable.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "libraries/constants/Constants.h"
+#include "platform/Platform.h"
 #include "systems/behavior_system/BehaviorSystem.h"
 #include "systems/motion_system/MotionSystem.h"
 #include "systems/physics_system/PhysicsSystem.h"
 #include "systems/render_system/RenderSystem.h"
 #include "systems/system_scheduler/SystemScheduler.h"
-#include "components/BaseComponent.h"
-#include "components/ComponentType.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/binary_cache/BinaryFileCache.h"
 #include "utilities/thread/ThreadPool.h"
@@ -44,8 +44,8 @@ namespace Project::Entities {
       void setGameState(Project::States::GameState* state) { gameState = state; }
       Project::States::GameState* getGameState() const { return gameState; }
 
-      void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
-      Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
+      void setPlatform(Project::Platform::Platform* platformPtr) { platform = platformPtr; }
+      Project::Platform::Platform* getPlatform() const { return platform; }
 
       void setLogsManager(Project::Utilities::LogsManager* manager) {
         logsManager = manager;
@@ -172,7 +172,7 @@ namespace Project::Entities {
       std::vector<std::string> updateToRemove;
       
       Project::States::GameState* gameState = nullptr;
-      Project::Core::SDLManager* sdlManager = nullptr;
+      Project::Platform::Platform* platform = nullptr;
 
       size_t updateHighCount = 0;
       size_t updateNormalCount = 0;

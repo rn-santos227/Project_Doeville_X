@@ -25,7 +25,9 @@ namespace Project::Platform {
   }
 
   bool SDLPlatform::init(const std::string& title, int width, int height, bool fullscreen, bool vsync, bool opengl) {
-
+    if (logsManager.checkAndLogError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0, "SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()))) {
+      return false;
+    }
   }
 
   void SDLPlatform::present() {

@@ -35,6 +35,12 @@ namespace Project::Helpers {
   inline T littleEndianToHost(T value) {
     return isLittleEndian() ? value : byteswap(value);
   }
+
+  template <typename T>
+  inline void writeLittleEndian(std::ostream& out, T value) {
+    T le = hostToLittleEndian(value);
+    out.write(reinterpret_cast<const char*>(&le), sizeof(T));
+  }
 }
 
 #endif

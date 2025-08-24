@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cstring>
 
+#include "helpers/serialization/EndianHelper.h"
 #include "libraries/constants/NameConstants.h"
 #include "libraries/constants/PathConstants.h"
 #include "utilities/profiler/CacheProfiler.h"
@@ -59,8 +60,7 @@ namespace Project::Services {
   }
 
   void SceneCacheService::serializeData(const LightProbeData& in, std::vector<char>& out) {
-    out.resize(in.size() * sizeof(float));
-    std::memcpy(out.data(), in.data(), out.size());
+    Project::Helpers::serializeVector(in, out);
   }
 
   void SceneCacheService::serializeData(const PathfindingGrid& in, std::vector<char>& out) {

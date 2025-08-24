@@ -60,6 +60,16 @@ namespace Project::Helpers {
     }
   }
 
+  template <typename T>
+  inline void deserializeVector(const std::vector<char>& in, std::vector<T>& out) {
+    size_t count = in.size() / sizeof(T);
+    out.resize(count);
+    for (size_t i = 0; i < count; ++i) {
+      T val;
+      std::memcpy(&val, in.data() + i * sizeof(T), sizeof(T));
+      out[i] = littleEndianToHost(val);
+    }
+  }
 }
 
 #endif

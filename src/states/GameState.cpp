@@ -395,8 +395,8 @@ namespace Project::States {
     return count;
   }
 
-  void GameState::registerLuaFunctions(Project::Core::SDLManager* manager) {
-    if (manager) sdlManager = manager;
+  void GameState::registerLuaFunctions(Project::Platform::Platform* platformPtr) {
+    if (platformPtr) platform = platformPtr;
     const std::string& path = luaScriptPath;
     if (path.empty()) return;
 
@@ -481,8 +481,8 @@ namespace Project::States {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setMapSize, this);
       } else if (f == Keys::LUA_LOAD_MAP_ASSET) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_loadMapAsset, this);
-      } else if (f == Keys::LUA_EXIT_GAME && sdlManager) {
-        luaStateWrapper.registerFunction(f, LuaBindings::lua_exitGame, sdlManager);
+      } else if (f == Keys::LUA_EXIT_GAME && platform) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_exitGame, platform);
       }
     }
   }

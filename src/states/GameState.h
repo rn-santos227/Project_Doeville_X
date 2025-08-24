@@ -13,7 +13,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "core/SDLManager.h"
 #include "components/camera_component/CameraComponent.h"
 #include "entities/ChunkSize.h"
 #include "entities/EntitiesManager.h"
@@ -25,11 +24,12 @@
 #include "interfaces/render_interface/Renderable.h"
 #include "layers/LayersManager.h"
 #include "libraries/constants/Constants.h"
+#include "platform/Platform.h"
 #include "utilities/binary_cache/BinaryFileCache.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
 
 namespace Project::Factories { class EntitiesFactory; }
-namespace Project::Core { class SDLManager; }
+namespace Project::Platform { class Platform; }
 
 namespace Project::States {
   class GameStateManager;
@@ -67,14 +67,14 @@ namespace Project::States {
     void markInitialized() { data.initialized = true; }
 
     bool attachLuaScript(const std::string& scriptPath);
-    void registerLuaFunctions(Project::Core::SDLManager* manager = nullptr);
+    void registerLuaFunctions(Project::Platform::Platform* platform = nullptr);
     void clearScriptFunctionCache();
 
     bool setBackgroundImage(const std::string& imagePath);
     void setBackgroundColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
     
-    void setSDLManager(Project::Core::SDLManager* manager) { sdlManager = manager; }
-    Project::Core::SDLManager* getSDLManager() const { return sdlManager; }
+    void setPlatform(Project::Platform::Platform* platformPtr) { platform = platformPtr; }
+    Project::Platform::Platform* getPlatform() const { return platform; }
     SDL_Renderer* getRenderer() const { return renderer; }
 
     void setActiveCamera(Project::Components::CameraComponent* camera);
@@ -148,9 +148,9 @@ namespace Project::States {
 
     std::weak_ptr<Project::Entities::Entity> playerEntity;
     
-    Project::Core::SDLManager* sdlManager = nullptr;
     Project::Components::CameraComponent* activeCamera = nullptr;
     Project::Factories::EntitiesFactory* entitiesFactory = nullptr;
+    Project::Platform::Platform* platform = nullptr;
     Project::States::GameStateManager* gameStateManager = nullptr;
     
     SDL_Texture* backgroundTexture = nullptr;

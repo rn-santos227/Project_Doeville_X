@@ -15,6 +15,17 @@ namespace Project::Helpers {
     const std::uint16_t one = 1;
     return *reinterpret_cast<const std::uint8_t*>(&one) == 1;
   }
+
+  template <typename T>
+  inline T byteswap(T value) {
+    static_assert(std::is_arithmetic<T>::value, "T must be arithmetic");
+    std::array<std::uint8_t, sizeof(T)> bytes{};
+    std::memcpy(bytes.data(), &value, sizeof(T));
+    std::reverse(bytes.begin(), bytes.end());
+    std::memcpy(&value, bytes.data(), sizeof(T));
+    return value;
+  }
+
 }
 
 #endif

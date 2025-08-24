@@ -35,6 +35,9 @@ namespace Project::Platform {
     }
 
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, windowFlags);
+    if (logsManager.checkAndLogError(!window, "Window could not be created! SDL_Error: " + std::string(SDL_GetError()))) {
+      return false;
+    }
   }
 
   void SDLPlatform::present() {

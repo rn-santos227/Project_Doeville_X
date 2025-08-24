@@ -7,6 +7,8 @@
 #include "helpers/null_checker/NullChecker.h"
 #include "libraries/constants/Constants.h"
 #include "libraries/keys/Keys.h"
+#include "platform/renderer/OpenGLRenderer.h"
+#include "platform/renderer/VulkanRenderer.h"
 #include "utilities/exception/EngineException.h"
 #include "utilities/profiler/Profiler.h"
 #include "utilities/thread/ThreadPool.h"
@@ -16,9 +18,10 @@ namespace Project::Core {
   using Project::Utilities::ConfigReader;
   using Project::Utilities::EngineException;
   using Project::Utilities::ThreadPool;
-  using Project::Core::SDLManager;
-  using Project::Handlers::ResourcesHandler;
   using Project::Factories::ComponentsFactory;
+  using Project::Handlers::ResourcesHandler;
+  using Project::Platform::Platform;
+  using Project::Platform::SDLPlatform;
   using Project::States::GameStateManager;
   using Project::Handlers::CursorHandler;
   using Project::Handlers::FontHandler;
@@ -30,18 +33,19 @@ namespace Project::Core {
   namespace Keys = Project::Libraries::Keys;
 
   GameEngine::GameEngine() :
-  isRunning(false), maxFPS(Constants::DEFAULT_MAX_FPS), entityLoadFactor(Constants::DEFAULT_WHOLE), frameTimeAvg(0.0), 
-  framesCounter(), logsManager(), configReader(logsManager), sdlManager(logsManager),
+  isRunning(false), maxFPS(Constants::DEFAULT_MAX_FPS), entityLoadFactor(Constants::DEFAULT_WHOLE), frameTimeAvg(0.0),
+  framesCounter(), logsManager(), configReader(logsManager),
+  platform(std::make_unique<SDLPlatform>(logsManager)),
   resourcesHandler(std::make_unique<ResourcesHandler>(logsManager)),
   componentsFactory(std::make_unique<ComponentsFactory>(logsManager, configReader, *resourcesHandler)),
   sceneCache(std::make_unique<Project::Services::SceneCacheService>(logsManager)),
-  gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager, &sdlManager, nullptr, sceneCache.get())),
+  gameStateManager(std::make_unique<GameStateManager>(Constants::DEFAULT_STATE_CACHE_LIMIT, logsManager, platform.get(), nullptr, sceneCache.get())),
   cursorHandler(std::make_unique<CursorHandler>(logsManager)),
   fontHandler(std::make_unique<FontHandler>(logsManager)),
-  keyHandler(std::make_unique<KeyHandler>(logsManager, sdlManager, gameStateManager.get())),
+  keyHandler(std::make_unique<KeyHandler>(logsManager, *platform, gameStateManager.get())),
   mouseHandler(std::make_unique<MouseHandler>(logsManager)),
   screenHandler(std::make_unique<ScreenHandler>(
-    logsManager, framesCounter, configReader, sdlManager,
+    logsManager, framesCounter, configReader, *platform,
     *componentsFactory, *gameStateManager,
     *cursorHandler, *fontHandler, *keyHandler,
     *mouseHandler, *resourcesHandler))
@@ -49,7 +53,7 @@ namespace Project::Core {
     if (gameStateManager && cursorHandler) {
       gameStateManager->setCursorHandler(cursorHandler.get());
     }
-    cleanupHandlers.emplace_back(&sdlManager, "SDLManager is null.");
+    cleanupHandlers.emplace_back(platform.get(), "Platform is null.");
     cleanupHandlers.emplace_back(gameStateManager.get(), "GameStateManager is null.");
     cleanupHandlers.emplace_back(cursorHandler.get(), "CursorHandler is null.");
     cleanupHandlers.emplace_back(fontHandler.get(), "FontHandler is null.");
@@ -80,8 +84,14 @@ namespace Project::Core {
       bool opengl = configReader.getBoolValue(Keys::VIDEO_SECTION, Keys::VIDEO_OPENGL, true);
       bool vsync = configReader.getBoolValue(Keys::VIDEO_SECTION, Keys::VIDEO_VSYNC, true);
 
-      if (!sdlManager.init(title, screenWidth, screenHeight, isFullscreen, vsync, opengl)) {
-        logsManager.logError("Failed to initialize SDLManager.");
+      if (opengl) {
+        platform->setRendererAPI(std::make_unique<Project::Platform::OpenGLRenderer>());
+      } else {
+        platform->setRendererAPI(std::make_unique<Project::Platform::VulkanRenderer>());
+      }
+
+      if (!platform->init(title, screenWidth, screenHeight, isFullscreen, vsync, opengl)) {
+        logsManager.logError("Failed to initialize SDL platform.");
         throw EngineException("SDL initialization failed", Project::Utilities::ErrorCategory::SDL);
       }
 
@@ -204,10 +214,10 @@ namespace Project::Core {
       mouseHandler->updateMousePosition();
     }
 
-    if (sdlManager.isExitRequested()) {
+    if (platform->isExitRequested()) {
       logsManager.logMessage("Exit flag detected");
       clean();
-      sdlManager.clearExitRequest();
+      platform->clearExitRequest();
     }
   }
 
@@ -226,7 +236,7 @@ namespace Project::Core {
       return;
     }
 
-    sdlManager.clear();
+    platform->clear();
   }
 
   void GameEngine::render() {

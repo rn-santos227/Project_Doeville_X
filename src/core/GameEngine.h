@@ -4,8 +4,8 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <memory>
 
-#include "core/SDLManager.h"
 #include "factories/component/ComponentsFactory.h"
 #include "handlers/font/FontHandler.h"
 #include "handlers/input/CursorHandler.h"
@@ -14,6 +14,8 @@
 #include "handlers/resources/ResourcesHandler.h"
 #include "handlers/screen/ScreenHandler.h"
 #include "interfaces/cleanup_interface/Cleanable.h"
+#include "platform/Platform.h"
+#include "platform/sdl/SDLPlatform.h"
 #include "services/cache/SceneCacheService.h"
 #include "states/GameStateManager.h"
 #include "utilities/config_reader/ConfigReader.h"
@@ -34,8 +36,8 @@ namespace Project::Core {
     Project::Utilities::LogsManager logsManager;
     Project::Utilities::FramesCounter framesCounter;
     Project::Utilities::ConfigReader configReader;
-    Project::Core::SDLManager sdlManager;
-
+    
+    std::unique_ptr<Project::Platform::Platform> platform;
     std::unique_ptr<Project::Handlers::ResourcesHandler> resourcesHandler;
     std::unique_ptr<Project::Factories::ComponentsFactory> componentsFactory;
     std::unique_ptr<Project::Services::SceneCacheService> sceneCache;

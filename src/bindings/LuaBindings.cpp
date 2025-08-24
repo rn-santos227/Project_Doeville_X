@@ -13,7 +13,6 @@
 #include "components/motion_component/MotionComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
-#include "core/SDLManager.h"
 #include "entities/ChunkSize.h"
 #include "entities/EntitiesManager.h"
 #include "factories/entity/EntitiesFactory.h"
@@ -24,12 +23,12 @@
 #include "libraries/constants/Constants.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/keys/Keys.h"
+#include "platform/Platform.h"
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Bindings::LuaBindings {
-  using Project::Core::SDLManager;
   using Project::States::GameState;
   using Project::States::GameStateManager;
   using Project::Entities::EntitiesManager;
@@ -40,6 +39,7 @@ namespace Project::Bindings::LuaBindings {
   using Project::Factories::AssetsFactory;
   using Project::Factories::EntitiesFactory;
   using Project::Handlers::TileHandler;
+  using Project::Platform::Platform;
   using Project::Utilities::PhysicsUtils;
 
   namespace Components = Project::Libraries::Categories::Components;
@@ -318,15 +318,15 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_exitGame(lua_State* L) {
-    auto* manager = static_cast<SDLManager*>(lua_touserdata(L, lua_upvalueindex(1)));
-    if (!manager) {
-      return luaL_error(L, "Invalid SDLManager reference in lua_exitGame.");
+    auto* platform = static_cast<Project::Platform::Platform*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!platform) {
+      return luaL_error(L, "Invalid Platform reference in lua_exitGame.");
     }
 
     SDL_Event quitEvent{};
     quitEvent.type = SDL_QUIT;
     SDL_PushEvent(&quitEvent);
-    manager->requestExit();
+    platform->requestExit();
     return 0;
   }
 

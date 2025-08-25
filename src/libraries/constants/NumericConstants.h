@@ -63,7 +63,18 @@ namespace Project::Libraries::Constants {
   constexpr size_t DEFAULT_ENTITIES_PER_CHUNK = 32;
   constexpr size_t DEFAULT_INITIAL_CAPACITY = 1000;
   constexpr size_t MAX_SEEDED_ENTITY = 1000;
+  
+  constexpr size_t ASSET_NAME_ALIAS_COUNT = 7;
+  constexpr size_t CAMERA_NAME_ALIAS_COUNT = 13;
   constexpr size_t COMPONENT_NAME_ALIAS_COUNT = 38;
+  constexpr size_t ENTITY_ATTRIBUTE_NAME_ALIAS_COUNT = 25;
+  constexpr size_t INPUT_NAME_ALIAS_COUNT = 3;
+  constexpr size_t KEY_ACTION_NAME_ALIAS_COUNT = 50;
+  constexpr size_t LAYER_NAME_ALIAS_COUNT = 7;
+  constexpr size_t MODAL_NAME_ALIAS_COUNT = 4;
+  constexpr size_t SCRIPTING_NAME_ALIAS_COUNT = 6;
+  constexpr size_t STYLING_NAME_ALIAS_COUNT = 49;
+  constexpr size_t SURFACE_NAME_ALIAS_COUNT = 7;
 }
 
 #endif

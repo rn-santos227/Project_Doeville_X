@@ -4,12 +4,15 @@
 #include <string_view>
 
 #include "libraries/categories/InputCategories.h"
+#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Components {
   namespace Inputs = Project::Libraries::Categories::Inputs;
+  namespace Constants = Project::Libraries::Constants;
+
   InputType InputTypeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, InputType>, 3> map{{
+    static constexpr std::array<std::pair<std::string_view, InputType>, Constants::INPUT_NAME_ALIAS_COUNT> map{{
       {Inputs::TEXT, InputType::TEXT},
       {Inputs::NUMERIC, InputType::NUMERIC},
       {Inputs::PASSWORD, InputType::PASSWORD}

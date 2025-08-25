@@ -5,12 +5,15 @@
 #include <string_view>
 
 #include "libraries/categories/Categories.h"
+#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Components {
   namespace Components = Project::Libraries::Categories::Components;
+  namespace Constants = Project::Libraries::Constants;
+
   ComponentType ComponentTypeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, ComponentType>, 38> map{{
+    static constexpr std::array<std::pair<std::string_view, ComponentType>, Constants::COMPONENT_NAME_ALIAS_COUNT> map{{
       {Components::BEHAVIOR, ComponentType::BEHAVIOR},
       {Components::BEHAVIOR_COMPONENT, ComponentType::BEHAVIOR},
       {Components::BOUNDING_BOX, ComponentType::BOUNDING_BOX},

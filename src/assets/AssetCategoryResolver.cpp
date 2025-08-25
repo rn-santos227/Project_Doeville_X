@@ -4,13 +4,15 @@
 #include <string_view>
 
 #include "libraries/categories/Categories.h"
+#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Assets {
   namespace Assets = Project::Libraries::Categories::Assets;
+  namespace Constants = Project::Libraries::Constants;
 
   AssetCategory AssetCategoryResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, AssetCategory>, 7> map{{
+    static constexpr std::array<std::pair<std::string_view, AssetCategory>, Constants::ASSET_NAME_ALIAS_COUNT> map{{
       {Assets::AUDIO, AssetCategory::AUDIO},
       {Assets::BGM, AssetCategory::BGM},
       {Assets::FONT, AssetCategory::FONT},

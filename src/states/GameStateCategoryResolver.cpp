@@ -4,12 +4,15 @@
 #include <string_view>
 
 #include "libraries/categories/Categories.h"
+#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::States {
   namespace States = Project::Libraries::Categories::States;
+  namespace Constants = Project::Libraries::Constants;
+
   GameStateCategory GameStateCategoryResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, GameStateCategory>, 24> map{{
+    static constexpr std::array<std::pair<std::string_view, GameStateCategory>, Constants::STATE_NAME_ALIAS_COUNT> map{{
       {States::MAIN_MENU_STATE, GameStateCategory::MAIN_MENU_STATE},
       {States::SETTINGS_STATE, GameStateCategory::SETTINGS_STATE},
       {States::PAUSE_STATE, GameStateCategory::PAUSE_STATE},

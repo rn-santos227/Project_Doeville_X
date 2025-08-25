@@ -13,7 +13,14 @@
 
 namespace Project::Components {
   class LoSComponent : public BaseComponent, public PositionableComponent {
+  public:
+    LoSComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager);
 
+  private:
+    SDL_Renderer* renderer;
+    Project::Entities::EntitiesManager* entitiesManager = nullptr;
+    Project::Entities::Entity* owner = nullptr;
+    LoSData data; 
   };
 }
 

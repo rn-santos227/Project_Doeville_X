@@ -4,13 +4,15 @@
 #include <string_view>
 
 #include "libraries/categories/Categories.h"
+#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Services {
   namespace Scripts = Project::Libraries::Categories::Scripts;
+  namespace Constants = Project::Libraries::Constants;
   
   ScriptCategory ScriptingCategoryResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, ScriptCategory>, 6> map{{
+    static constexpr std::array<std::pair<std::string_view, ScriptCategory>, Constants::STYLING_NAME_ALIAS_COUNT> map{{
       {Scripts::ENTITY, ScriptCategory::ENTITY},
       {Scripts::ITEM, ScriptCategory::ITEM},
       {Scripts::ASSET, ScriptCategory::ASSET},

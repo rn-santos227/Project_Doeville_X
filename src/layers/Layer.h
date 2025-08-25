@@ -15,6 +15,9 @@ namespace Project::Layers {
   public:
     explicit Layer(const std::string& name, LayerCategory category);
 
+    void update(float deltaTime) override;
+    void render() override;
+
     //overloading constructor
     explicit Layer(const std::string& name, LayerCategory category, std::shared_ptr<Project::Entities::EntitiesManager> entityManager);
     
@@ -36,13 +39,19 @@ namespace Project::Layers {
     std::shared_ptr<Project::Entities::EntitiesManager> getEntitiesManager() const { return entitiesManager; }
     void setEntitiesManager(std::shared_ptr<Project::Entities::EntitiesManager> mgr) { entitiesManager = std::move(mgr); }
 
-    void update(float deltaTime) override;
-    void render() override;
+    void setDarkness(float value);
+    float getDarkness() const { return darkness; }
+
+    void setRenderer(SDL_Renderer* r) { renderer = r; }
+    SDL_Renderer* getRenderer() const { return renderer; }
 
   private:
     std::shared_ptr<Project::Entities::EntitiesManager> entitiesManager;
     LayerCategory category = LayerCategory::CUSTOM;
     std::string name;
+
+    SDL_Renderer* renderer = nullptr;
+    float darkness = 0.0f;
     
     bool active = true;
     bool followCamera = true;

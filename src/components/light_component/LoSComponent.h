@@ -15,7 +15,12 @@ namespace Project::Components {
   class LoSComponent : public BaseComponent, public PositionableComponent {
   public:
     LoSComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager);
+    ComponentType getType() const override { return ComponentType::LOS; }
 
+    void update(float deltaTime) override;
+    void render() override;
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+    
   private:
     SDL_Renderer* renderer;
     Project::Entities::EntitiesManager* entitiesManager = nullptr;

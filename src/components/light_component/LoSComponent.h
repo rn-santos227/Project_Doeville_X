@@ -20,7 +20,13 @@ namespace Project::Components {
     SDL_Renderer* renderer;
     Project::Entities::EntitiesManager* entitiesManager = nullptr;
     Project::Entities::Entity* owner = nullptr;
-    LoSData data; 
+    LoSData data;
+
+    std::vector<SDL_FPoint> endpoints;
+    std::vector<Project::Entities::Entity*> visibleEntities;
+
+    void castRays();
+    std::pair<SDL_FPoint, Project::Entities::Entity*> castSingleRay(float angleDegrees);
   };
 }
 

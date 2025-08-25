@@ -31,6 +31,14 @@ namespace Project::Components {
     void setRevealDarkness(bool v) { data.revealDarkness = v; }
     bool doesRevealDarkness() const { return data.revealDarkness; }
 
+    const std::vector<SDL_FPoint>& getRayEndpoints() const { return endpoints; }
+    const std::vector<Project::Entities::Entity*>& getVisibleEntities() const { return visibleEntities; }
+
+    void setEntityReference(Project::Entities::Entity* entity);
+    Project::Entities::Entity* getOwner() const override { return owner; }
+
+    void renderMask(SDL_Renderer* target);
+
   private:
     SDL_Renderer* renderer;
     Project::Entities::EntitiesManager* entitiesManager = nullptr;

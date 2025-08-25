@@ -20,7 +20,17 @@ namespace Project::Components {
     void update(float deltaTime) override;
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
-    
+
+    void setEntityPosition(float x, float y) override { data.position = {x, y}; }
+
+    void setShape(LoSShape s) { data.shape = s; }
+    void setRadius(float r) { data.radius = r; }
+    void setAngle(float a) { data.angle = a; }
+    void setDirection(float d) { data.direction = d; }
+    void setRayCount(int c) { data.rays = c; }
+    void setRevealDarkness(bool v) { data.revealDarkness = v; }
+    bool doesRevealDarkness() const { return data.revealDarkness; }
+
   private:
     SDL_Renderer* renderer;
     Project::Entities::EntitiesManager* entitiesManager = nullptr;

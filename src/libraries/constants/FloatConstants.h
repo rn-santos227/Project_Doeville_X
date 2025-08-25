@@ -28,6 +28,10 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_TRIPLE = 3.0;
   constexpr float FLOAT_HUNDRED = 100.0;
 
+  constexpr float DEFAULT_LIGHT_RADIUS = 100.0f;
+  constexpr float RAYCAST_MAX_DISTANCE = 1e9f;
+  constexpr float RAYCAST_EPSILON = 1e-6f;
+
   constexpr float DEFAULT_FRECT_X = -1e9f;
   constexpr float DEFAULT_FRECT_Y = -1e9f;
   constexpr float DEFAULT_FRECT_W = 2e9;

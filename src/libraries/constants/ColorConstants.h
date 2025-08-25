@@ -12,6 +12,7 @@ namespace Project::Libraries::Constants {
   constexpr SDL_Color DEFAULT_Y_AXIS_COLOR{0, 0, 255, 255};
   constexpr SDL_Color DEFAULT_Z_AXIS_COLOR{0, 255, 0, 255};
   constexpr SDL_Color DEFAULT_GRID_COLOR{0, 100, 0, 255};
+  constexpr SDL_Color DEFAULT_LIGHT_COLOR{255, 255, 200, 255};
 
   constexpr const char* DEFAULT_DEBUG_TEXT_COLOR_HEX = "#90EE90";
   constexpr const char* DEFAULT_BOUNDING_BOX_COLOR_HEX = "#000000";

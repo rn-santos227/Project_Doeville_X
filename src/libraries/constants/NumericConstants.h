@@ -25,6 +25,7 @@ namespace Project::Libraries::Constants {
   constexpr int DEFAULT_CAMERA_CULL_OFFSET = 200;
   constexpr int DEFAULT_CURSOR_SIZE = 32;
   constexpr int DEFAULT_COMPONENT_SIZE = 32;
+  constexpr int DEFAULT_LIGHT_RAY_COUNT = 32;
   constexpr int DEFAULT_FONT_SIZE = 24;
   constexpr int DEFAULT_BASE_FONT_SIZE = 16;
   constexpr int DEFAULT_GRID_SPACING = 32;
@@ -62,6 +63,7 @@ namespace Project::Libraries::Constants {
   constexpr size_t DEFAULT_ENTITIES_PER_CHUNK = 32;
   constexpr size_t DEFAULT_INITIAL_CAPACITY = 1000;
   constexpr size_t MAX_SEEDED_ENTITY = 1000;
+  constexpr size_t COMPONENT_NAME_ALIAS_COUNT = 38;
 }
 
 #endif

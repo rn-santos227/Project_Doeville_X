@@ -10,7 +10,7 @@
 namespace Project::Components {
   namespace Components = Project::Libraries::Categories::Components;
   ComponentType ComponentTypeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, ComponentType>, 34> map{{
+    static constexpr std::array<std::pair<std::string_view, ComponentType>, 38> map{{
       {Components::BEHAVIOR, ComponentType::BEHAVIOR},
       {Components::BEHAVIOR_COMPONENT, ComponentType::BEHAVIOR},
       {Components::BOUNDING_BOX, ComponentType::BOUNDING_BOX},
@@ -25,6 +25,10 @@ namespace Project::Components {
       {Components::INPUT_COMPONENT, ComponentType::INPUT},
       {Components::KEYS, ComponentType::KEYS},
       {Components::KEYS_COMPONENT, ComponentType::KEYS},
+      {Components::LIGHT, ComponentType::LIGHT},
+      {Components::LIGHT_COMPONENT, ComponentType::LIGHT},
+      {Components::LOS, ComponentType::LOS},
+      {Components::LOS_COMPONENT, ComponentType::LOS},
       {Components::METER, ComponentType::METER},
       {Components::METER_COMPONENT, ComponentType::METER},
       {Components::MODAL, ComponentType::MODAL},

@@ -56,6 +56,11 @@ namespace Project::Components {
     if (data.zoom != targetZoom) {
       float diff = targetZoom - data.zoom;
       float step = data.zoomSpeed * deltaTime;
+      if (std::abs(diff) <= step) {
+        data.zoom = targetZoom;
+      } else {
+        data.zoom += (diff > 0 ? step : -step);
+      }
     }
 
     Project::Entities::Entity* focus = target ? target : owner;

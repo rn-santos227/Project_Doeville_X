@@ -148,7 +148,15 @@ namespace Project::Layers {
   }
 
   void LayersManager::renderVisionMask(SDL_Renderer* renderer) {
-
+    for (auto& layer : layers) {
+      auto mgr = layer.getEntitiesManager();
+      if (!mgr) continue;
+      auto& comps = mgr->getComponentArray(Project::Components::ComponentType::VISION);
+      for (auto* base : comps) {
+        auto* vision = dynamic_cast<Project::Components::VisionComponent*>(base);
+        if (vision) vision->renderMask(renderer);
+      }
+    }
   }
 
   void LayersManager::setLayerActive(const std::string& name, bool active) {

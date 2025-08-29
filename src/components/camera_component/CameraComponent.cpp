@@ -200,12 +200,12 @@ namespace Project::Components {
   }
 
   void CameraComponent::setZoom(float z) {
-    targetZoom = z;
+    targetZoom = std::clamp(z, Constants::DEFAULT_CAMERA_MIN_ZOOM, Constants::DEFAULT_CAMERA_MAX_ZOOM);
     if (cameraHandler) {
-      cameraHandler->setZoom(z);
+      cameraHandler->setZoom(targetZoom);
       data.zoom = cameraHandler->getZoom();
     } else {
-      data.zoom = z;
+      data.zoom = targetZoom;
     }
   }
 

@@ -175,30 +175,35 @@ namespace Project::States {
       layersManager->render();
     } else if (entitiesManager) {
       entitiesManager->render();
-      if (renderer && data.darkness > Project::Libraries::Constants::ANGLE_0_DEG) {
-        int w = 0, h = 0;
-        SDL_GetRendererOutputSize(renderer, &w, &h);
-        SDL_Texture* mask = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
-        if (mask) {
-          SDL_SetTextureBlendMode(mask, SDL_BLENDMODE_BLEND);
-          SDL_SetRenderTarget(renderer, mask);
-          SDL_SetRenderDrawColor(
-            renderer,
-            Project::Libraries::Constants::COLOR_BLACK.r,
-            Project::Libraries::Constants::COLOR_BLACK.g,
-            Project::Libraries::Constants::COLOR_BLACK.b,
-            static_cast<Uint8>(data.darkness * Project::Libraries::Constants::FLOAT_255)
-          );
-          SDL_RenderClear(renderer);
+    }
+
+    if (renderer && data.darkness > Project::Libraries::Constants::ANGLE_0_DEG) {
+      int w = 0, h = 0;
+      SDL_GetRendererOutputSize(renderer, &w, &h);
+      SDL_Texture* mask = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+      if (mask) {
+        SDL_SetTextureBlendMode(mask, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderTarget(renderer, mask);
+        SDL_SetRenderDrawColor(
+          renderer,
+          Project::Libraries::Constants::COLOR_BLACK.r,
+          Project::Libraries::Constants::COLOR_BLACK.g,
+          Project::Libraries::Constants::COLOR_BLACK.b,
+          static_cast<Uint8>(data.darkness * Project::Libraries::Constants::FLOAT_255)
+        );
+        SDL_RenderClear(renderer);
+        if (layersManager) {
+          layersManager->renderVisionMask(renderer);
+        } else if (entitiesManager) {
           auto& comps = entitiesManager->getComponentArray(Project::Components::ComponentType::VISION);
           for (auto* base : comps) {
             auto* vision = dynamic_cast<Project::Components::VisionComponent*>(base);
             if (vision) vision->renderMask(renderer);
           }
-          SDL_SetRenderTarget(renderer, nullptr);
-          SDL_RenderCopy(renderer, mask, nullptr, nullptr);
-          SDL_DestroyTexture(mask);
         }
+        SDL_SetRenderTarget(renderer, nullptr);
+        SDL_RenderCopy(renderer, mask, nullptr, nullptr);
+        SDL_DestroyTexture(mask);
       }
     }
 

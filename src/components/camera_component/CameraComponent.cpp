@@ -97,10 +97,13 @@ namespace Project::Components {
     float desiredXF = focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getWidth()) / Constants::INDEX_TWO;
     float desiredYF = focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getHeight()) / Constants::INDEX_TWO;
 
-    if (clamp) {
+    if (clampX) {
       float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
-      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
       desiredXF = std::clamp(desiredXF, static_cast<float>(map.x), maxX);
+    }
+    
+    if (clampY) {
+      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
       desiredYF = std::clamp(desiredYF, static_cast<float>(map.y), maxY);
     }
 

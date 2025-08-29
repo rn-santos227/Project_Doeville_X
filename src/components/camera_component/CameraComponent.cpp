@@ -61,6 +61,7 @@ namespace Project::Components {
       } else {
         data.zoom += (diff > 0 ? step : -step);
       }
+      cameraHandler->setZoom(data.zoom);
     }
 
     Project::Entities::Entity* focus = target ? target : owner;

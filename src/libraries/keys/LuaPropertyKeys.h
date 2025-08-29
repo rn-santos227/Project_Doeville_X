@@ -8,6 +8,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ACTION = "action";
   constexpr const char* ACTIONS = "actions";
   constexpr const char* ALLOW_REVERT = "allow_revert";
+  constexpr const char* ANGLE = "angle";
   constexpr const char* ANIMATION = "animation";
   constexpr const char* ASSET_NAME = "asset_name";
   constexpr const char* ASSET_PATH = "asset_path";
@@ -36,6 +37,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* DELAY = "delay";
   constexpr const char* DENSITY = "density";
   constexpr const char* DIMENSION = "dimension";
+  constexpr const char* DIRECTION = "direction";
   constexpr const char* DISTANCE = "distance";
   constexpr const char* DURATION = "duration";
   constexpr const char* ENABLED = "enabled";

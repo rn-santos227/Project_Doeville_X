@@ -18,6 +18,7 @@ namespace Project::Factories {
   using Project::Components::GraphicsComponent;
   using Project::Components::InputComponent;
   using Project::Components::KeysComponent;
+  using Project::Components::LightComponent;
   using Project::Components::MeterComponent;
   using Project::Components::ModalComponent;
   using Project::Components::MotionComponent;
@@ -28,6 +29,7 @@ namespace Project::Factories {
   using Project::Components::TextComponent;
   using Project::Components::TimerComponent;
   using Project::Components::TransformComponent;
+  using Project::Components::VisionComponent;
   using Project::Handlers::CameraHandler;
   using Project::Handlers::CursorHandler;
   using Project::Handlers::KeyHandler;
@@ -59,6 +61,7 @@ namespace Project::Factories {
     ComponentPool<GraphicsComponent>::getInstance().setMaxSize(limit);
     ComponentPool<InputComponent>::getInstance().setMaxSize(limit);
     ComponentPool<KeysComponent>::getInstance().setMaxSize(limit);
+   ComponentPool<LightComponent>::getInstance().setMaxSize(limit);
     ComponentPool<MeterComponent>::getInstance().setMaxSize(limit);
     ComponentPool<ModalComponent>::getInstance().setMaxSize(limit);
     ComponentPool<NumericComponent>::getInstance().setMaxSize(limit);
@@ -67,6 +70,7 @@ namespace Project::Factories {
     ComponentPool<SpawnerComponent>::getInstance().setMaxSize(limit);
     ComponentPool<TextComponent>::getInstance().setMaxSize(limit);
     ComponentPool<TimerComponent>::getInstance().setMaxSize(limit);
+    ComponentPool<VisionComponent>::getInstance().setMaxSize(limit);
 
     MotionComponentPool::getInstance().setMaxSize(limit);
     TransformComponentPool::getInstance().setMaxSize(limit);
@@ -144,6 +148,16 @@ namespace Project::Factories {
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
 
         ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<KeysComponent*>(b)); });
+        return base;
+      }
+
+      case ComponentType::LIGHT: {
+        auto component = ComponentPool<LightComponent>::getInstance().acquire(renderer, logsManager);
+        component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<LightComponent*>(b)); });
         return base;
       }
 
@@ -244,6 +258,16 @@ namespace Project::Factories {
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
         
         ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<TransformComponent*>(b)); });
+        return base;
+      }
+
+      case ComponentType::VISION: {
+        auto component = ComponentPool<VisionComponent>::getInstance().acquire(renderer, logsManager);
+        component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<VisionComponent*>(b)); });
         return base;
       }
 

@@ -37,6 +37,10 @@ namespace Project::Libraries::Constants {
 
   constexpr const char* FULLSCREEN = "Fullscreen";
   constexpr const char* WINDOWED = "Windowed";
+
+  constexpr const char* CIRCLE = "circle";
+  constexpr const char* CONE = "cone";
+  constexpr const char* SQUARE = "square";
 }
 
 #endif

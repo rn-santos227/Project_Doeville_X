@@ -85,6 +85,11 @@ namespace Project::Components {
       }
     }
 
+    targetZoom = std::max(minZoom, targetZoom);
+    float zoomT = std::min(Constants::DEFAULT_WHOLE, data.zoomSpeed * deltaTime);
+    data.zoom = Project::Utilities::MathUtils::lerp(data.zoom, targetZoom, zoomT);
+    cameraHandler->setZoom(data.zoom);
+
     float angle = data.rotation;
     float offsetX = data.offsetX * std::cos(angle) - data.offsetY * std::sin(angle);
     float offsetY = data.offsetX * std::sin(angle) + data.offsetY * std::cos(angle);

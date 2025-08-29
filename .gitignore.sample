@@ -1,0 +1,73 @@
+# Ignore build directories
+/build/
+/bin/
+/lib/
+/obj/
+/Debug/
+/Release/
+
+# Ignore compiled binary files
+*.exe
+*.out
+*.o
+*.a
+*.so
+*.dll
+*.pdb
+*.dSYM/
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.log
+*.swp
+*.swo
+*.bak
+
+# Ignore dependency management files (if using any package manager)
+*.d
+*.cmake
+CMakeCache.txt
+CMakeFiles/
+Makefile*
+
+# Ignore Python virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Python packages
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Ignore Lua files if using Lua for scripting
+*.luac
+
+# Ignore database files (for saved games, machine learning data)
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Ignore .gitignore itself in case it's being edited by a user in the repo
+.gitignore
+
+# Ignore configuration files specific to CI/CD pipelines
+*.yml
+*.yaml
+.gitlab-ci.yml
+.travis.yml
+*.github/
+
+# Ignore Logs
+/resources/logs/

@@ -1,0 +1,33 @@
+{
+  "SDL2": {
+    "url": "https://www.libsdl.org/release/SDL2-2.26.5.tar.gz",
+    "archive": "SDL2-2.26.5.tar.gz",
+    "source_dir": "SDL2",
+    "output_dir": "SDL2_build",
+    "sha256": "ad8fea3da1be64c83c45b1d363a6b4ba8fd60f5bde3b23ec73855709ec5eabf7"
+  },
+
+  "SDL2_ttf": {
+    "url": "https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.20.1.tar.gz",
+    "archive": "SDL2_ttf-2.20.1.tar.gz",
+    "source_dir": "SDL2_ttf",
+    "output_dir": "SDL2_ttf_build",
+    "sha256": "78cdad51f3cc3ada6932b1bb6e914b33798ab970a1e817763f22ddbfd97d0c57"
+  },
+
+  "SDL2_image": {
+    "url": "https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.6.3.tar.gz",
+    "archive": "SDL2_image-2.6.3.tar.gz",
+    "source_dir": "SDL2_image",
+    "output_dir": "SDL2_image_build",
+    "sha256": "931c9be5bf1d7c8fae9b7dc157828b7eee874e23c7f24b44ba7eff6b4836312c"
+  },
+
+  "Lua": {
+    "url": "https://www.lua.org/ftp/lua-5.4.6.tar.gz",
+    "archive": "lua-5.4.6.tar.gz",
+    "source_dir": "Lua",
+    "output_dir": "Lua_build",
+    "sha256": "7d5ea1b9cb6aa0b59ca3dde1c6adcb57ef83a1ba8e5432c0ecd06bf439b3ad88"
+  }
+}

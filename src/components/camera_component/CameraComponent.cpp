@@ -125,10 +125,13 @@ namespace Project::Components {
       shakeTime -= deltaTime;
     }
 
-    if (clamp) {
+    if (clampX) {
       float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
-      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
       camXF = std::clamp(camXF, static_cast<float>(map.x), maxX);
+    }
+
+    if (clampY) {
+      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
       camYF = std::clamp(camYF, static_cast<float>(map.y), maxY);
     }
 

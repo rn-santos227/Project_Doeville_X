@@ -156,6 +156,7 @@ namespace Project::Components {
       cameraHandler->setZoom(data.zoom);
       cameraHandler->setRotation(data.rotation);
     }
+    targetZoom = data.zoom;
   }
 
   void CameraComponent::snapToTarget() {

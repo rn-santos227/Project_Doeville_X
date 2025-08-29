@@ -56,39 +56,23 @@ namespace Project::Components {
     if (!focus) return;
 
     auto* mgr = focus->getEntitiesManager();
-    float minZoom = Constants::DEFAULT_CAMERA_MIN_ZOOM;
-    bool clampX = false;
-    bool clampY = false;
+    bool clamp = false;
     SDL_Rect map{0, 0, 0, 0};
-    Project::States::DimensionMode mode = Project::States::DimensionMode::BOXED;
 
     if (mgr) {
       auto* state = mgr->getGameState();
       if (state) {
-        mode = state->getDimensionMode();
-        if (mode == Project::States::DimensionMode::BOXED || mode == Project::States::DimensionMode::WRAPPING) {
+        auto mode = state->getDimensionMode();
+        if (mode == Project::States::DimensionMode::BOXED ||
+            mode == Project::States::DimensionMode::WRAPPING) {
           return;
         }
         if (mode == Project::States::DimensionMode::BOUNDED || mode == Project::States::DimensionMode::MAPPED) {
           map = state->getMapRect();
-          clampX = map.w > 0 && (mode == Project::States::DimensionMode::BOUNDED || map.w > static_cast<int>(cameraHandler->getWidth()));
-          clampY = map.h > 0 && (mode == Project::States::DimensionMode::BOUNDED || map.h > static_cast<int>(cameraHandler->getHeight()));
-          if (mode == Project::States::DimensionMode::MAPPED && map.w > 0 && map.h > 0) {
-            float viewW = static_cast<float>(cameraHandler->getViewportWidth());
-            float viewH = static_cast<float>(cameraHandler->getViewportHeight());
-            float minZoomX = viewW / static_cast<float>(map.w);
-            float minZoomY = viewH / static_cast<float>(map.h);
-            float mappedMin = std::min(Constants::DEFAULT_WHOLE, std::min(minZoomX, minZoomY));
-            minZoom = std::max(minZoom, mappedMin);
-          }
+          clamp = map.w > 0 && map.h > 0;
         }
       }
     }
-
-    targetZoom = std::max(minZoom, targetZoom);
-    float zoomT = std::min(Constants::DEFAULT_WHOLE, data.zoomSpeed * deltaTime);
-    data.zoom = Project::Utilities::MathUtils::lerp(data.zoom, targetZoom, zoomT);
-    cameraHandler->setZoom(data.zoom);
 
     float angle = data.rotation;
     float offsetX = data.offsetX * std::cos(angle) - data.offsetY * std::sin(angle);
@@ -97,13 +81,10 @@ namespace Project::Components {
     float desiredXF = focus->getX() + offsetX + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getWidth()) / Constants::INDEX_TWO;
     float desiredYF = focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getHeight()) / Constants::INDEX_TWO;
 
-    if (clampX) {
+    if (clamp) {
       float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
-      desiredXF = std::clamp(desiredXF, static_cast<float>(map.x), maxX);
-    }
-    
-    if (clampY) {
       float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
+      desiredXF = std::clamp(desiredXF, static_cast<float>(map.x), maxX);
       desiredYF = std::clamp(desiredYF, static_cast<float>(map.y), maxY);
     }
 
@@ -125,13 +106,10 @@ namespace Project::Components {
       shakeTime -= deltaTime;
     }
 
-    if (clampX) {
+    if (clamp) {
       float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
-      camXF = std::clamp(camXF, static_cast<float>(map.x), maxX);
-    }
-
-    if (clampY) {
       float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
+      camXF = std::clamp(camXF, static_cast<float>(map.x), maxX);
       camYF = std::clamp(camYF, static_cast<float>(map.y), maxY);
     }
 
@@ -156,7 +134,6 @@ namespace Project::Components {
       cameraHandler->setZoom(data.zoom);
       cameraHandler->setRotation(data.rotation);
     }
-    targetZoom = data.zoom;
   }
 
   void CameraComponent::snapToTarget() {

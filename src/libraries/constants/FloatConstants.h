@@ -16,6 +16,7 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_CAMERA_ROTATION_STEP = 0.1f;
   constexpr float DEFAULT_CAMERA_SHAKE_DURATION = 1.5f;
   constexpr float DEFAULT_CAMERA_MIN_ZOOM = 0.01f;
+  constexpr float DEFAULT_CAMERA_MAX_ZOOM = 10.0f;
 
   constexpr float DEFAULT_BAR_SPEED = 0.1f;
 

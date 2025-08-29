@@ -44,7 +44,7 @@ namespace Project::Handlers {
   }
 
   void CameraHandler::setZoom(float factor) {
-    zoom = std::max(Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM_STEP, factor);
+    zoom = std::clamp(factor, Project::Libraries::Constants::DEFAULT_CAMERA_MIN_ZOOM, Project::Libraries::Constants::DEFAULT_CAMERA_MAX_ZOOM);
   }
 
   void CameraHandler::zoomIn(float amount) {

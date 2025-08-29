@@ -65,9 +65,8 @@ namespace Project::Components {
     if (mgr) {
       auto* state = mgr->getGameState();
       if (state) {
-        auto mode = state->getDimensionMode();
-        if (mode == Project::States::DimensionMode::BOXED ||
-            mode == Project::States::DimensionMode::WRAPPING) {
+        mode = state->getDimensionMode();
+        if (mode == Project::States::DimensionMode::BOXED || mode == Project::States::DimensionMode::WRAPPING) {
           return;
         }
         if (mode == Project::States::DimensionMode::BOUNDED || mode == Project::States::DimensionMode::MAPPED) {

@@ -52,6 +52,12 @@ namespace Project::Components {
 
   void CameraComponent::update(float deltaTime) {
     if (!cameraHandler) return;
+
+    if (data.zoom != targetZoom) {
+      float diff = targetZoom - data.zoom;
+      float step = data.zoomSpeed * deltaTime;
+    }
+
     Project::Entities::Entity* focus = target ? target : owner;
     if (!focus) return;
 

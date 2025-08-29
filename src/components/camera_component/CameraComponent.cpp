@@ -214,7 +214,7 @@ namespace Project::Components {
   }
 
   void CameraComponent::zoomOut(float amount) {
-    targetZoom -= amount;
+    targetZoom = std::clamp(targetZoom - amount, Constants::DEFAULT_CAMERA_MIN_ZOOM, Constants::DEFAULT_CAMERA_MAX_ZOOM);
   }
 
   void CameraComponent::setRotation(float angle) {

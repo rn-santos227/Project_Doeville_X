@@ -36,6 +36,7 @@ namespace Project::Layers {
     void addLayer(LayerCategory category);
     void addLayer(const std::string& name, LayerCategory category = LayerCategory::CUSTOM);
     void removeLayer(const std::string& name);
+    void renderVisionMask(SDL_Renderer* renderer);
 
     bool hasLayer(const std::string& name) const;
     bool hasLayer(LayerCategory category) const;

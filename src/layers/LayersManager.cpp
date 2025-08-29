@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "components/ComponentType.h"
+#include "components/vision_component/VisionComponent.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
 
@@ -143,6 +145,10 @@ namespace Project::Layers {
 
   void LayersManager::removeLayer(const std::string& name) {
     layers.erase(std::remove_if(layers.begin(), layers.end(), [&name](const Layer& l){ return l.getName() == name; }), layers.end());
+  }
+
+  void LayersManager::renderVisionMask(SDL_Renderer* renderer) {
+
   }
 
   void LayersManager::setLayerActive(const std::string& name, bool active) {

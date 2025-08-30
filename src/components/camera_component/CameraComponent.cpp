@@ -245,5 +245,7 @@ namespace Project::Components {
     float viewH = static_cast<float>(cameraHandler->getHeight());
     float minX = static_cast<float>(map.x);
     float minY = static_cast<float>(map.y);
+    float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
+    float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
   }
 }

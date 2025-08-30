@@ -86,10 +86,12 @@ namespace Project::Libraries::Keys {
   constexpr const char* POSITION = "position";
   constexpr const char* RADIUS = "radius";
   constexpr const char* RATE = "rate";
+  constexpr const char* RAYS = "rays";
   constexpr const char* RECT = "rect";
   constexpr const char* RENDER = "render";
   constexpr const char* REPEAT = "repeat";
   constexpr const char* RESTITUTION = "restitution";
+  constexpr const char* REVEAL_DARKNESS = "reveal_darkness";
   constexpr const char* ROTATION = "rotation";
   constexpr const char* ROTATION_SPEED = "rotation_speed";
   constexpr const char* ROUND = "round";

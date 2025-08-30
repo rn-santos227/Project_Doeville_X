@@ -38,6 +38,7 @@ namespace Project::Components {
     data.angle = luaStateWrapper.getTableNumber(tableName, Keys::ANGLE, Constants::ANGLE_90_DEG);
     data.direction = luaStateWrapper.getTableNumber(tableName, Keys::DIRECTION, Constants::ANGLE_0_DEG);
     data.rays = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::RAYS, Constants::DEFAULT_LIGHT_RAY_COUNT));
+    data.revealDarkness = luaStateWrapper.getTableBoolean(tableName, Keys::REVEAL_DARKNESS, false);
   }
 
   void VisionComponent::setEntityReference(Project::Entities::Entity* entity) {

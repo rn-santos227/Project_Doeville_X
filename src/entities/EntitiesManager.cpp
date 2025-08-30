@@ -589,6 +589,7 @@ namespace Project::Entities {
           record(Keys::LUA_DESTROY_ENTITIES);
           record(Keys::LUA_DESTROY_SELF);
           record(Keys::LUA_SET_TIMER_ACTIVE);
+          record(Keys::LUA_SET_METER_ACTIVE);
           record(Keys::LUA_ADD_NUMERIC_VALUE);
           record(Keys::LUA_SUBTRACT_NUMERIC_VALUE);
           record(Keys::LUA_MULTIPLY_NUMERIC_VALUE);
@@ -651,6 +652,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_destroySelf, this);
         } else if (func == Keys::LUA_SET_TIMER_ACTIVE) {
           entity->registerLuaFunction(func, LuaBindings::lua_setTimerActive, this);
+        } else if (func == Keys::LUA_SET_METER_ACTIVE) {
+          entity->registerLuaFunction(func, LuaBindings::lua_setMeterActive, this);
         } else if (func == Keys::LUA_ADD_NUMERIC_VALUE) {
           entity->registerLuaFunction(func, LuaBindings::lua_addNumericValue, this);
         } else if (func == Keys::LUA_SUBTRACT_NUMERIC_VALUE) {

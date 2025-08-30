@@ -10,6 +10,7 @@
 #include "components/camera_component/CameraComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
+#include "components/meter_component/MeterComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
 #include "components/text_component/TextComponent.h"
@@ -785,6 +786,26 @@ namespace Project::Bindings::LuaBindings {
     if (active) {
       timer->reset();
     }
+    return 0;
+  }
+
+  int lua_setMeterActive(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    int active = lua_toboolean(L, 2);
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* meter = dynamic_cast<Project::Components::MeterComponent*>(entity->getComponent(Components::METER_COMPONENT));
+    if (!meter) return 0;
+
+    meter->setActive(active != 0);
     return 0;
   }
 

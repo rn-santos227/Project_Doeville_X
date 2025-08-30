@@ -42,6 +42,7 @@ namespace Project::Bindings {
     int lua_getVisibleEntities(lua_State* L);
     int lua_setEntityText(lua_State* L);
     int lua_setTimerActive(lua_State* L);
+    int lua_setMeterActive(lua_State* L);
     int lua_setColor(lua_State* L);
     int lua_addNumericValue(lua_State* L);
     int lua_subtractNumericValue(lua_State* L);

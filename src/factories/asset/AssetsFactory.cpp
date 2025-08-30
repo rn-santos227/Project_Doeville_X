@@ -81,8 +81,9 @@ namespace Project::Factories {
       lua_pop(L, 1);
       return true;
     }
+    category = AssetCategoryResolver::resolve(lua_tostring(L, -1));
+    
     lua_pop(L, 1);
-
     lua_pop(L, 1);
 
     std::unique_ptr<BaseAsset> asset;

@@ -418,23 +418,25 @@ namespace Project::Entities {
         } else if (auto* gfx = entity->getGraphicsComponent()) {
           w = static_cast<float>(gfx->getWidth());
           h = static_cast<float>(gfx->getHeight());
+          rightOffset = w;
+          bottomOffset = h;
         }
 
         float chunkMinX = cx * chunkSize.x;
         float chunkMinY = cy * chunkSize.y;
-        float chunkMaxX = chunkMinX + chunkSize.x - w;
-        float chunkMaxY = chunkMinY + chunkSize.y - h;
+        float chunkMaxX = chunkMinX + chunkSize.x;
+        float chunkMaxY = chunkMinY + chunkSize.y;
 
-        float minX = chunkMinX;
-        float maxX = chunkMaxX;
-        float minY = chunkMinY;
-        float maxY = chunkMaxY;
+        float minX = chunkMinX - leftOffset;
+        float maxX = chunkMaxX - rightOffset;
+        float minY = chunkMinY - topOffset;
+        float maxY = chunkMaxY - bottomOffset;
         
         if (boundedLocal) {
-          minX = std::max(minX, static_cast<float>(mapLocal.x));
-          maxX = std::min(maxX, static_cast<float>(mapLocal.x + mapLocal.w - w));
-          minY = std::max(minY, static_cast<float>(mapLocal.y));
-          maxY = std::min(maxY, static_cast<float>(mapLocal.y + mapLocal.h - h));
+          minX = std::max(minX, static_cast<float>(mapLocal.x) - leftOffset);
+          maxX = std::min(maxX, static_cast<float>(mapLocal.x + mapLocal.w) - rightOffset);
+          minY = std::max(minY, static_cast<float>(mapLocal.y) - topOffset);
+          maxY = std::min(maxY, static_cast<float>(mapLocal.y + mapLocal.h) - bottomOffset);
         }
 
         if (maxX < minX || maxY < minY) return;
@@ -449,7 +451,7 @@ namespace Project::Entities {
           box->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
         }
 
-        SDL_FRect newRect{x, y, w, h};
+        SDL_FRect newRect{x + leftOffset, y + topOffset, w, h};
         bool overlap = false;
         for (const auto& [existingKey, existingChunk] : chunks) {
           int ecx = static_cast<int>(existingKey >> Constants::BIT_32);

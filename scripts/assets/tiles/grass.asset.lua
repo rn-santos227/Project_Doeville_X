@@ -12,8 +12,8 @@ local function add_tile(index, x, y)
     name = name,
     path = path,
     tag = "grass",
-    width = 32,
-    height = 32,
+    width = TILE_SIZE,
+    height = TILE_SIZE,
     x = x,
     y = y,
     passable = true

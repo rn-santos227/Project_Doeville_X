@@ -4,6 +4,7 @@
 #include "CameraData.h"
 
 #include <string>
+#include <SDL.h>
 
 #include "components/BaseComponent.h"
 #include "handlers/camera/CameraHandler.h"
@@ -72,6 +73,8 @@ namespace Project::Components {
     float camYF = 0.0f;
     float targetZoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;
     bool havePos = false;
+
+    void clampToMap(float& x, float& y, const SDL_Rect& map);
   };
 }
 

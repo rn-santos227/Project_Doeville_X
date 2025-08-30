@@ -34,6 +34,8 @@ namespace Project::Components {
       data.shape = VisionShape::CONE;
     }
 
+    data.radius = luaStateWrapper.getTableNumber(tableName, Keys::RADIUS, Constants::DEFAULT_LIGHT_RADIUS);
+    data.angle = luaStateWrapper.getTableNumber(tableName, Keys::ANGLE, Constants::ANGLE_90_DEG);
   }
 
   void VisionComponent::setEntityReference(Project::Entities::Entity* entity) {

@@ -15,8 +15,8 @@ namespace Project::Components {
     : BaseComponent(logsManager), renderer(renderer) {}
 
   void VisionComponent::update(float) {
-    namespace Keys = Project::Libraries::Keys;
-    namespace Constants = Project::Libraries::Constants;
+    if (!isActive()) return;
+    castRays();
   }
 
   void VisionComponent::render() {
@@ -24,8 +24,9 @@ namespace Project::Components {
   }
 
   void VisionComponent::build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
-    (void)luaStateWrapper;
-    (void)tableName;
+    namespace Keys = Project::Libraries::Keys;
+    namespace Constants = Project::Libraries::Constants;
+
   }
 
   void VisionComponent::setEntityReference(Project::Entities::Entity* entity) {

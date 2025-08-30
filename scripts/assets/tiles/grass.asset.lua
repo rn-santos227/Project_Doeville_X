@@ -21,9 +21,9 @@ local function add_tile(index, x, y)
 end
 
 local index = 1
-for row = 0, 2 do
-  for col = 0, 2 do
-    add_tile(index, col * 32, row * 32)
+for row = 0, TILESET_ROWS - 1 do
+  for col = 0, TILESET_COLS - 1 do
+    add_tile(index, col * TILE_SIZE, row * TILE_SIZE)
     index = index + 1
   end
 end

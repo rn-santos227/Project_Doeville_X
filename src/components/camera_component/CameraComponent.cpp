@@ -255,6 +255,8 @@ namespace Project::Components {
 
     if (viewH > static_cast<float>(map.h)) {
       y = minY + (static_cast<float>(map.h) - viewH) / Constants::INDEX_TWO;
+    } else {
+      y = std::clamp(y, minY, maxY);
     }
   }
 }

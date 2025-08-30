@@ -247,5 +247,8 @@ namespace Project::Components {
     float minY = static_cast<float>(map.y);
     float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
     float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
+    if (viewW > static_cast<float>(map.w)) {
+      x = minX + (static_cast<float>(map.w) - viewW) / Constants::INDEX_TWO;
+    }
   }
 }

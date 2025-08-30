@@ -64,8 +64,22 @@ namespace Project::Factories {
 
     AssetCategory category = AssetCategory::TEXTURE;
     lua_getfield(L, -1, Keys::LUA_ASSET_CATEGORY);
-    if (lua_isstring(L, -1)) {
-      category = AssetCategoryResolver::resolve(lua_tostring(L, -1));
+    if (!lua_isstring(L, -1)) {
+      lua_pop(L, 1);
+      lua_pushnil(L);
+      while (lua_next(L, -2) != 0) {
+        if (lua_isstring(L, -2)) {
+          std::string nestedName = lua_tostring(L, -2);
+          if (!createAssetFromLua(scriptPath, nestedName)) {
+            lua_pop(L, 1);
+            lua_pop(L, 1);
+            return false;
+          }
+        }
+        lua_pop(L, 1);
+      }
+      lua_pop(L, 1);
+      return true;
     }
     lua_pop(L, 1);
 

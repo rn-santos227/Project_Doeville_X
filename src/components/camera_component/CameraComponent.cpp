@@ -239,4 +239,9 @@ namespace Project::Components {
       data.targetName = entityId;
     }
   }
+
+  void CameraComponent::clampToMap(float& x, float& y, const SDL_Rect& map) {
+    float viewW = static_cast<float>(cameraHandler->getWidth());
+    float viewH = static_cast<float>(cameraHandler->getHeight());
+  }
 }

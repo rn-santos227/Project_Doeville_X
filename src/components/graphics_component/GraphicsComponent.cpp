@@ -452,7 +452,7 @@ namespace Project::Components {
   }
 
   void GraphicsComponent::renderCircleShape(const SDL_FRect& renderRect) {
-    const float zoom = cameraHandler ? cameraHandler->getZoom() : Constants::DEFAULT_CAMERA_ZOOM_STEP;
+    const float zoom = cameraHandler ? cameraHandler->getZoom() : Constants::DEFAULT_CAMERA_ZOOM;
     const float radius = data.radius * zoom;
     const int centerX = static_cast<int>(renderRect.x + radius);
     const int centerY = static_cast<int>(renderRect.y + radius);
@@ -534,7 +534,7 @@ namespace Project::Components {
 
   void GraphicsComponent::renderRectBorder(const SDL_FRect& renderRect) {
     SDL_SetRenderDrawColor(renderer, data.borderColor.r, data.borderColor.g, data.borderColor.b, data.borderColor.a);
-    const float zoom = cameraHandler ? cameraHandler->getZoom() : Constants::DEFAULT_CAMERA_ZOOM_STEP;
+    const float zoom = cameraHandler ? cameraHandler->getZoom() : Constants::DEFAULT_CAMERA_ZOOM;
     int scaledBorder = static_cast<int>(std::round(data.borderWidth * zoom));
     for (int i = 0; i < scaledBorder; ++i) {
       const SDL_FRect borderRect = {

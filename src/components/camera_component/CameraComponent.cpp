@@ -175,10 +175,7 @@ namespace Project::Components {
     camYF = focus->getY() + offsetY + Constants::DEFAULT_COMPONENT_SIZE - static_cast<float>(cameraHandler->getHeight()) / Constants::INDEX_TWO;
 
     if (clamp) {
-      float maxX = static_cast<float>(map.x + map.w - cameraHandler->getWidth());
-      float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
-      camXF = std::clamp(camXF, static_cast<float>(map.x), maxX);
-      camYF = std::clamp(camYF, static_cast<float>(map.y), maxY);
+      clampToMap(camXF, camYF, map);
     }
 
     cameraHandler->setPosition(camXF, camYF);

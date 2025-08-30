@@ -19,7 +19,8 @@ components = {
 
   GraphicsComponent = {
     component = "GraphicsComponent",
-    active = true
+    active = true,
+    occluder = true
   }
 }
 

@@ -37,6 +37,15 @@ components = {
     rotation = true
   },
 
+  VisionComponent = {
+    component = "VisionComponent",
+    active = true,
+    shape = "circle",
+    radius = 150,
+    rays = 64,
+    reveal_darkness = true
+  },
+
   NumericComponent = {
     component = "NumericComponent",
     active = true,

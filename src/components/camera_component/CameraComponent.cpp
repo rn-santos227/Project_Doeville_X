@@ -243,5 +243,7 @@ namespace Project::Components {
   void CameraComponent::clampToMap(float& x, float& y, const SDL_Rect& map) {
     float viewW = static_cast<float>(cameraHandler->getWidth());
     float viewH = static_cast<float>(cameraHandler->getHeight());
+    float minX = static_cast<float>(map.x);
+    float minY = static_cast<float>(map.y);
   }
 }

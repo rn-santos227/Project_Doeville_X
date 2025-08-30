@@ -391,13 +391,29 @@ namespace Project::Entities {
         entity->initialize();
         entity->setPosition(x, y);
         
+        float leftOffset = 0.0f, rightOffset = 0.0f;
+        float topOffset = 0.0f, bottomOffset = 0.0f;
         float w = 0.0f, h = 0.0f;
         if (auto* box = entity->getBoundingBoxComponent()) {
           box->setEntityPosition(static_cast<int>(x), static_cast<int>(y));
           const auto& boxes = box->getBoxes();
           if (!boxes.empty()) {
-            w = static_cast<float>(boxes.front().w);
-            h = static_cast<float>(boxes.front().h);
+            float minRelX = boxes.front().x - x;
+            float maxRelX = boxes.front().x + boxes.front().w - x;
+            float minRelY = boxes.front().y - y;
+            float maxRelY = boxes.front().y + boxes.front().h - y;
+            for (const auto& b : boxes) {
+              minRelX = std::min(minRelX, b.x - x);
+              maxRelX = std::max(maxRelX, b.x + b.w - x);
+              minRelY = std::min(minRelY, b.y - y);
+              maxRelY = std::max(maxRelY, b.y + b.h - y);
+            }
+            leftOffset = minRelX;
+            rightOffset = maxRelX;
+            topOffset = minRelY;
+            bottomOffset = maxRelY;
+            w = rightOffset - leftOffset;
+            h = bottomOffset - topOffset;
           }
         } else if (auto* gfx = entity->getGraphicsComponent()) {
           w = static_cast<float>(gfx->getWidth());

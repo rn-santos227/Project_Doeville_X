@@ -249,6 +249,8 @@ namespace Project::Components {
     float maxY = static_cast<float>(map.y + map.h - cameraHandler->getHeight());
     if (viewW > static_cast<float>(map.w)) {
       x = minX + (static_cast<float>(map.w) - viewW) / Constants::INDEX_TWO;
+    } else {
+      x = std::clamp(x, minX, maxX);
     }
   }
 }

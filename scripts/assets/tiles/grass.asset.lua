@@ -1,4 +1,7 @@
 local path = "resources/assets/sprites/sprite_001.png"
+local TILE_SIZE = 32
+local TILESET_ROWS = 3
+local TILESET_COLS = 3
 
 local tiles = {}
 

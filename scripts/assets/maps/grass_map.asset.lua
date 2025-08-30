@@ -12,12 +12,13 @@ local tiles = {
   [8] = "grass_8",
   [9] = "grass_9"
 }
+local tile_count = #tiles
 
 local map = {}
 for row = 1, ROWS do
   map[row] = {}
   for col = 1, COLS do
-    map[row][col] = 1
+    map[row][col] = ((row - 1) * COLS + col - 1) % tile_count + 1
   end
 end
 

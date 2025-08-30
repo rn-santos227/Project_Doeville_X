@@ -8,11 +8,12 @@
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "interfaces/rotation_interface/Rotatable.h"
 #include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
 
 namespace Project::Components {
-  class VisionComponent : public BaseComponent, public PositionableComponent {
+  class VisionComponent : public BaseComponent, public PositionableComponent, public Project::Interfaces::Rotatable {
   public:
     VisionComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager);
     ComponentType getType() const override { return ComponentType::VISION; }
@@ -22,6 +23,7 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void setEntityPosition(float x, float y) override { data.position = {x, y}; }
+    void setEntityRotation(float _angle) override { data.direction = _angle; }
 
     void setShape(VisionShape _shape) { data.shape = _shape; }
     void setRadius(float _radius) { data.radius = _radius; }

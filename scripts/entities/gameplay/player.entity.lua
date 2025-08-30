@@ -41,7 +41,17 @@ components = {
     component = "VisionComponent",
     active = true,
     shape = "circle",
-    radius = 150,
+    radius = 75,
+    rays = 64,
+    reveal_darkness = true
+  },
+
+  VisionCone = {
+    component = "VisionComponent",
+    active = true,
+    shape = "cone",
+    radius = 200,
+    angle = 60,
     rays = 64,
     reveal_darkness = true
   },

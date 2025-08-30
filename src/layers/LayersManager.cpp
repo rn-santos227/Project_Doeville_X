@@ -6,6 +6,7 @@
 #include "components/vision_component/VisionComponent.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
+#include "states/GameState.h"
 
 namespace Project::Layers {
   namespace Layers = Project::Libraries::Categories::Layers;
@@ -54,6 +55,10 @@ namespace Project::Layers {
     if (logsManager && layer.getEntitiesManager()) {
       layer.getEntitiesManager()->setLogsManager(logsManager);
     }
+    if (gameState) {
+      layer.setRenderer(gameState->getRenderer());
+    }
+
     if (layer.getCategory() == LayerCategory::CUSTOM) {
       layers.emplace_back(std::move(layer));
       return;
@@ -74,6 +79,8 @@ namespace Project::Layers {
       layers.emplace_back(name, category);
       if (logsManager)
         layers.back().getEntitiesManager()->setLogsManager(logsManager);
+      if (gameState)
+        layers.back().setRenderer(gameState->getRenderer());
       return;
     }
 
@@ -85,8 +92,8 @@ namespace Project::Layers {
     }
 
     auto inserted = layers.emplace(it, name, category);
-    if (logsManager)
-      inserted->getEntitiesManager()->setLogsManager(logsManager);
+    if (logsManager) inserted->getEntitiesManager()->setLogsManager(logsManager);
+    if (gameState) inserted->setRenderer(gameState->getRenderer());
   }
 
   void LayersManager::addLayer(LayerCategory category) {
@@ -229,9 +236,14 @@ namespace Project::Layers {
 
   void LayersManager::setGameState(Project::States::GameState* state) {
     gameState = state;
+    SDL_Renderer* r = nullptr;
+    if (state) {
+      r = state->getRenderer();
+    }
     for (auto& layer : layers) {
       auto mgr = layer.getEntitiesManager();
       if (mgr) mgr->setGameState(state);
+      layer.setRenderer(r);
     }
   }
 

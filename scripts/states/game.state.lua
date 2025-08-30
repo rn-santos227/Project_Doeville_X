@@ -12,6 +12,7 @@ layer_scripts = {
 function initialize()
   print("Initializing GameState")
   setBackgroundColor(50, 45, 34, 255)
+  setLayerDarkness("game", 1.0)
   loadMapAsset("grass_map")
   
   spawnEntity("player", nil, nil, "game")

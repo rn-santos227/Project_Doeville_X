@@ -27,6 +27,13 @@ namespace Project::Components {
     namespace Keys = Project::Libraries::Keys;
     namespace Constants = Project::Libraries::Constants;
 
+    std::string shape = luaStateWrapper.getTableString(tableName, Keys::SHAPE, Constants::CONE);
+    if (Project::Utilities::StringUtils::iequals(shape, Constants::CIRCLE)) {
+      data.shape = VisionShape::CIRCLE;
+    } else {
+      data.shape = VisionShape::CONE;
+    }
+
   }
 
   void VisionComponent::setEntityReference(Project::Entities::Entity* entity) {

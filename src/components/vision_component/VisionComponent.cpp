@@ -2,9 +2,12 @@
 
 #include <algorithm>
 #include <cmath>
+#include <string>
 #include <unordered_set>
 
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
+#include "utilities/string/StringUtils.h"
 
 namespace Project::Components {
   using Project::Utilities::LogsManager;
@@ -12,8 +15,8 @@ namespace Project::Components {
     : BaseComponent(logsManager), renderer(renderer) {}
 
   void VisionComponent::update(float) {
-    if (!isActive()) return;
-    castRays();
+    namespace Keys = Project::Libraries::Keys;
+    namespace Constants = Project::Libraries::Constants;
   }
 
   void VisionComponent::render() {

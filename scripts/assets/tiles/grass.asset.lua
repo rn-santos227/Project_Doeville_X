@@ -29,5 +29,11 @@ for row = 0, TILESET_ROWS - 1 do
 end
 
 function getAsset(name)
-  return tiles[name or "grass_1"]
+  if not name then
+    return tiles
+  end
+  if type(name) == "number" then
+    name = "grass_" .. name
+  end
+  return tiles[name]
 end

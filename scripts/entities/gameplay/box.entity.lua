@@ -27,7 +27,24 @@ components = {
   NumericComponent = {
     component = "NumericComponent",
     active = true,
-    hp = { value = 3, limit = 3 }
+    hp = { value = 3, limit = 3 },
+    flash = { value = 0, limit = 0 }
+  },
+
+  MeterComponent = {
+    component = "MeterComponent",
+    class = "obs-hp-meter",
+    active = false,
+    name = "hp",
+    orientation = "horizontal",
+    y = -10
+  },
+
+  TimerComponent = {
+    component = "TimerComponent",
+    active = false,
+    seconds = 3,
+    callbacks = "hideMeter",
   },
 
   MotionComponent = {
@@ -54,6 +71,20 @@ components = {
     restitution = 0.0
   }
 }
+
+function hideMeter()
+  setMeterActive(id, false)
+end
+
+function update(deltaTime)
+  local flash = getNumericValue(id, "flash")
+  if flash and flash > 0 then
+    setColor(id, 255, 255, 255)
+    setNumericValue(id, "flash", flash - 1)
+  else
+    setColor(id, 0, 255, 0)
+  end
+end
 
 return {
   name = "box"

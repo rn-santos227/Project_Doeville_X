@@ -62,12 +62,12 @@ function update(deltaTime)
     seen[target] = true
     subtractNumericValue(target, "hp", 1)
     local hp = getNumericValue(target, "hp")
+    setMeterActive(target, true)
+    setTimerActive(target, true)
+    setColor(target, 255, 255, 255)
+    setNumericValue(target, "flash", 0.1)
     if hp <= 0 then
       destroyEntity(target)
-    elseif hp == 1 then
-      setColor(target, 255, 0, 0)
-    else
-      setColor(target, 255, 255, 0)
     end
     count = count + 1
     target = getCollidedEntity(id, {"box", "ball"})

@@ -131,3 +131,9 @@
 .hp-meter {
   foreground: #FF0000;
 }
+
+.obs-hp-meter {
+  width: 32;
+  height: 4;
+  foreground: #00FF00;
+}

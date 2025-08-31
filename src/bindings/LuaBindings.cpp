@@ -2,11 +2,14 @@
 
 #include <cmath>
 #include <string>
+#include <unordered_set>
+
 #include <SDL.h>
 
 #include "assets/AssetsManager.h"
 #include "assets/map_asset/MapAsset.h"
 #include "assets/tile_asset/TileAsset.h"
+#include "components/ComponentType.h"
 #include "components/camera_component/CameraComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
@@ -729,9 +732,11 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return 1;
     }
+    
+    auto components = entity->getComponentsByType(Project::Components::ComponentType::VISION);
+    std::unordered_set<const Entity*> unique;
 
-    auto* vision = dynamic_cast<Project::Components::VisionComponent*>(entity->getComponent(Components::VISION_COMPONENT));
-    if (!vision) {
+    if (unique.empty()) {
       lua_pushnil(L);
       return 1;
     }

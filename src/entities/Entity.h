@@ -15,6 +15,7 @@
 #include <unordered_set>
 
 #include "components/BaseComponent.h"
+#include "components/ComponentType.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
@@ -91,6 +92,8 @@ namespace Project::Entities {
     Project::Components::GraphicsComponent* getGraphicsComponent() const { return gfx; }
     Project::Components::PhysicsComponent* getPhysicsComponent() const { return physics; }
     std::vector<std::string> listComponentNames() const;
+    std::vector<Project::Components::BaseComponent*> getComponentsByType(Project::Components::ComponentType type) const;
+    bool canSee(const Project::Entities::Entity* target) const;
     
     bool isActive() const { return data.active; }
     void setActive(bool _value) { data.active = _value; }

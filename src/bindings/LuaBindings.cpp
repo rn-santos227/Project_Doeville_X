@@ -735,16 +735,23 @@ namespace Project::Bindings::LuaBindings {
     
     auto components = entity->getComponentsByType(Project::Components::ComponentType::VISION);
     std::unordered_set<const Entity*> unique;
+    for (auto* base : components) {
+      if (auto* vision = dynamic_cast<Project::Components::VisionComponent*>(base)) {
+        const auto& targets = vision->getVisibleEntities();
+        for (const auto* target : targets) {
+          unique.insert(target);
+        }
+      }
+    }
 
     if (unique.empty()) {
       lua_pushnil(L);
       return 1;
     }
 
-    const auto& targets = vision->getVisibleEntities();
     lua_newtable(L);
     int index = Constants::INDEX_ONE;
-    for (const auto* target : targets) {
+    for (const auto* target : unique) {
       lua_pushstring(L, target->getEntityID().c_str());
       lua_rawseti(L, -2, index++);
     }

@@ -302,5 +302,8 @@ namespace Project::Entities {
 
   std::vector<Project::Components::BaseComponent*> Entity::getComponentsByType(Project::Components::ComponentType type) const {
     std::vector<Project::Components::BaseComponent*> result;
+    for (const auto& [name, comp] : components) {
+
+    }
   }
 }

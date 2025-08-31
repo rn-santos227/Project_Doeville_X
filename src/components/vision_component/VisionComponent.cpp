@@ -89,12 +89,11 @@ namespace Project::Components {
       zoom = cameraHandler->getZoom();
     }
 
-    SDL_FPoint renderPos{(data.position.x - camX) * zoom, (data.position.y - camY) * zoom};
-    std::vector<SDL_FPoint> scaled;
-    scaled.reserve(endpoints.size());
-    for (const auto& p : endpoints) {
-      scaled.push_back({(p.x - camX) * zoom, (p.y - camY) * zoom});
-    }
+    auto toScreen = [&](const SDL_FPoint& p) {
+      return SDL_FPoint{(p.x - camX) * zoom, (p.y - camY) * zoom};
+    };
+
+    SDL_FPoint renderPos = toScreen(data.position);
 
     const float fade = 20.f;
     SDL_Color transparent{0, 0, 0, 0};

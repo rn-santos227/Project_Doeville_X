@@ -312,5 +312,11 @@ namespace Project::Entities {
 
   bool Entity::canSee(const Project::Entities::Entity* target) const {
     auto comps = getComponentsByType(Project::Components::ComponentType::VISION);
+    for (auto* base : comps) {
+      if (auto* vision = dynamic_cast<Project::Components::VisionComponent*>(base)) {
+        if (vision->canSee(target)) return true;
+      }
+    }
+    return false;
   }
 }

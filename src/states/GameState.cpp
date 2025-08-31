@@ -192,6 +192,13 @@ namespace Project::States {
           static_cast<Uint8>(data.darkness * Project::Libraries::Constants::FLOAT_255)
         );
         SDL_RenderClear(renderer);
+        #ifdef SDL_BLENDMODE_MIN
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_MIN);
+        #elif defined(SDL_BLENDOPERATION_MINIMUM)
+
+        #else
+
+        #endif
         if (layersManager) {
           layersManager->renderVisionMask(renderer);
         } else if (entitiesManager) {

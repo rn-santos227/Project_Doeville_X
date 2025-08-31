@@ -22,6 +22,9 @@ namespace Project::Components {
 
   void VisionComponent::update(float) {
     if (!isActive()) return;
+    if (owner) {
+      setEntityPosition(owner->getX(), owner->getY());
+    }
     castRays();
   }
 

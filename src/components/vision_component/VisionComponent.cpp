@@ -11,6 +11,12 @@
 
 namespace Project::Components {
   using Project::Utilities::LogsManager;
+  Project::Handlers::CameraHandler* VisionComponent::cameraHandler = nullptr;
+
+  void VisionComponent::setCameraHandler(Project::Handlers::CameraHandler* handler) {
+    cameraHandler = handler;
+  }
+  
   VisionComponent::VisionComponent(SDL_Renderer* renderer, LogsManager& logsManager)
     : BaseComponent(logsManager), renderer(renderer) {}
 

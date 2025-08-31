@@ -46,6 +46,8 @@ namespace Project::Components {
     void renderMask(SDL_Renderer* target);
 
   private:
+    static Project::Handlers::CameraHandler* cameraHandler;
+    
     SDL_Renderer* renderer;
     Project::Entities::EntitiesManager* entitiesManager = nullptr;
     Project::Entities::Entity* owner = nullptr;

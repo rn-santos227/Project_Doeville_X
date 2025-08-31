@@ -164,15 +164,17 @@ namespace Project::Components {
         SDL_RenderGeometry(target, nullptr, innerTri, INDEX_THREE, nullptr, 0);
 
         SDL_Vertex ringTri1[INDEX_THREE] = {
-          {i0, transparent, {0, 0}},
-          {p0, edge, {0, 0}},
-          {p1, edge, {0, 0}}
+          {si0, transparent, {0, 0}},
+          {sp0, edge, {0, 0}},
+          {sp1, edge, {0, 0}}
         };
+        
         SDL_Vertex ringTri2[INDEX_THREE] = {
-          {i0, transparent, {0, 0}},
-          {p1, edge, {0, 0}},
-          {i1, transparent, {0, 0}}
+          {si0, transparent, {0, 0}},
+          {sp1, edge, {0, 0}},
+          {si1, transparent, {0, 0}}
         };
+        
         SDL_RenderGeometry(target, nullptr, ringTri1, INDEX_THREE, nullptr, 0);
         SDL_RenderGeometry(target, nullptr, ringTri2, INDEX_THREE, nullptr, 0);
       }

@@ -192,7 +192,7 @@ namespace Project::States {
           static_cast<Uint8>(data.darkness * Project::Libraries::Constants::FLOAT_255)
         );
         SDL_RenderClear(renderer);
-        
+
         #ifdef SDL_BLENDMODE_MIN
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_MIN);
         #elif defined(SDL_BLENDOPERATION_MINIMUM)
@@ -218,6 +218,8 @@ namespace Project::States {
             if (vision) vision->renderMask(renderer);
           }
         }
+
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         SDL_SetRenderTarget(renderer, nullptr);
         SDL_RenderCopy(renderer, mask, nullptr, nullptr);
         SDL_DestroyTexture(mask);

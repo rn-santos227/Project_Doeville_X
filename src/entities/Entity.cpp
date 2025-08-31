@@ -299,4 +299,8 @@ namespace Project::Entities {
   std::vector<std::string> Entity::listComponentNames() const {
     return componentOrder;
   }
+
+  std::vector<Project::Components::BaseComponent*> Entity::getComponentsByType(Project::Components::ComponentType type) const {
+
+  }
 }

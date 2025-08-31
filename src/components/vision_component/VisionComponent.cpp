@@ -188,17 +188,20 @@ namespace Project::Components {
       SDL_FPoint spEnd = toScreen(pEnd);
       SDL_FPoint siStart = toScreen(iStart);
       SDL_FPoint siEnd = toScreen(iEnd);
-      
+
+
       SDL_Vertex side1[INDEX_THREE] = {
-        {{data.position.x, data.position.y}, transparent, {0, 0}},
-        {iStart, transparent, {0, 0}},
-        {pStart, edge, {0, 0}}
+        {renderPos, transparent, {0, 0}},
+        {siStart, transparent, {0, 0}},
+        {spStart, edge, {0, 0}}
       };
+      
       SDL_Vertex side2[INDEX_THREE] = {
-        {{data.position.x, data.position.y}, transparent, {0, 0}},
-        {pEnd, edge, {0, 0}},
-        {iEnd, transparent, {0, 0}}
+        {renderPos, transparent, {0, 0}},
+        {spEnd, edge, {0, 0}},
+        {siEnd, transparent, {0, 0}}
       };
+      
       SDL_RenderGeometry(target, nullptr, side1, INDEX_THREE, nullptr, 0);
       SDL_RenderGeometry(target, nullptr, side2, INDEX_THREE, nullptr, 0);
     }

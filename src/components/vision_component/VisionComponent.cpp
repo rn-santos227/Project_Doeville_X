@@ -37,13 +37,31 @@ namespace Project::Components {
     data.radius = luaStateWrapper.getTableNumber(tableName, Keys::RADIUS, Constants::DEFAULT_LIGHT_RADIUS);
     data.angle = luaStateWrapper.getTableNumber(tableName, Keys::ANGLE, Constants::ANGLE_90_DEG);
     data.direction = luaStateWrapper.getTableNumber(tableName, Keys::DIRECTION, Constants::ANGLE_0_DEG);
+    data.offsetX = luaStateWrapper.getTableNumber(tableName, Keys::X, 0.0f);
+    data.offsetY = luaStateWrapper.getTableNumber(tableName, Keys::Y, 0.0f);
     data.rays = static_cast<int>(luaStateWrapper.getTableNumber(tableName, Keys::RAYS, Constants::DEFAULT_LIGHT_RAY_COUNT));
     data.revealDarkness = luaStateWrapper.getTableBoolean(tableName, Keys::REVEAL_DARKNESS, false);
+  }
+
+  void VisionComponent::setEntityPosition(float x, float y) {
+    data.position = {
+      x + positionOffset.x + data.offsetX,
+      y + positionOffset.y + data.offsetY
+    };
   }
 
   void VisionComponent::setEntityReference(Project::Entities::Entity* entity) {
     owner = entity;
     entitiesManager = entity ? entity->getEntitiesManager() : nullptr;
+    positionOffset = {0.f, 0.f};
+    if (!entity) return;
+    if (auto* box = entity->getBoundingBoxComponent()) {
+      const auto& boxes = box->getBoxes();
+      if (!boxes.empty()) {
+        positionOffset.x = boxes[0].w * 0.5f;
+        positionOffset.y = boxes[0].h * 0.5f;
+      }
+    }
   }
  
   bool VisionComponent::canSee(const Project::Entities::Entity* target) const {
@@ -55,20 +73,92 @@ namespace Project::Components {
     if (!target || !data.revealDarkness) return;
     if (endpoints.size() < INDEX_TWO) return;
 
-    SDL_Color c{0, 0, 0, 0};
-    SDL_Vertex verts[INDEX_THREE];
-    for (size_t i = 0; i + 1 < endpoints.size(); ++i) {
-      verts[INDEX_ZERO] = {{data.position.x, data.position.y}, c, {0, 0}};
-      verts[INDEX_ONE] = {{endpoints[i].x, endpoints[i].y}, c, {0, 0}};
-      verts[INDEX_TWO] = {{endpoints[i + 1].x, endpoints[i + 1].y}, c, {0, 0}};
-      SDL_RenderGeometry(target, nullptr, verts, INDEX_THREE, nullptr, 0);
-    }
+    const float fade = 20.f;
+    SDL_Color transparent{0, 0, 0, 0};
+    SDL_Color edge{0, 0, 0, FULL_ALPHA};
 
-    if (data.shape == VisionShape::CIRCLE && endpoints.size() > INDEX_TWO) {
-      verts[INDEX_ZERO] = {{data.position.x, data.position.y}, c, {0, 0}};
-      verts[INDEX_ONE] = {{endpoints.back().x, endpoints.back().y}, c, {0, 0}};
-      verts[INDEX_TWO] = {{endpoints.front().x, endpoints.front().y}, c, {0, 0}};
-      SDL_RenderGeometry(target, nullptr, verts, INDEX_THREE, nullptr, 0);
+    auto computeInner = [&](const SDL_FPoint& p) {
+      float dx = p.x - data.position.x;
+      float dy = p.y - data.position.y;
+      float dist = std::hypot(dx, dy);
+      if (dist <= fade) return SDL_FPoint{data.position.x, data.position.y};
+      float scale = (dist - fade) / dist;
+      return SDL_FPoint{data.position.x + dx * scale, data.position.y + dy * scale};
+    };
+
+    size_t n = endpoints.size();
+    if (data.shape == VisionShape::CIRCLE) {
+      for (size_t i = 0; i < n; ++i) {
+        size_t j = (i + 1) % n;
+        SDL_FPoint p0 = endpoints[i];
+        SDL_FPoint p1 = endpoints[j];
+        SDL_FPoint i0 = computeInner(p0);
+        SDL_FPoint i1 = computeInner(p1);
+
+        SDL_Vertex innerTri[INDEX_THREE] = {
+          {{data.position.x, data.position.y}, transparent, {0, 0}},
+          {i0, transparent, {0, 0}},
+          {i1, transparent, {0, 0}}
+        };
+        SDL_RenderGeometry(target, nullptr, innerTri, INDEX_THREE, nullptr, 0);
+
+        SDL_Vertex ringTri1[INDEX_THREE] = {
+          {i0, transparent, {0, 0}},
+          {p0, edge, {0, 0}},
+          {p1, edge, {0, 0}}
+        };
+        SDL_Vertex ringTri2[INDEX_THREE] = {
+          {i0, transparent, {0, 0}},
+          {p1, edge, {0, 0}},
+          {i1, transparent, {0, 0}}
+        };
+        SDL_RenderGeometry(target, nullptr, ringTri1, INDEX_THREE, nullptr, 0);
+        SDL_RenderGeometry(target, nullptr, ringTri2, INDEX_THREE, nullptr, 0);
+      }
+    } else {
+      for (size_t i = 0; i + 1 < n; ++i) {
+        SDL_FPoint p0 = endpoints[i];
+        SDL_FPoint p1 = endpoints[i + 1];
+        SDL_FPoint i0 = computeInner(p0);
+        SDL_FPoint i1 = computeInner(p1);
+
+        SDL_Vertex innerTri[INDEX_THREE] = {
+          {{data.position.x, data.position.y}, transparent, {0, 0}},
+          {i0, transparent, {0, 0}},
+          {i1, transparent, {0, 0}}
+        };
+        SDL_RenderGeometry(target, nullptr, innerTri, INDEX_THREE, nullptr, 0);
+
+        SDL_Vertex ringTri1[INDEX_THREE] = {
+          {i0, transparent, {0, 0}},
+          {p0, edge, {0, 0}},
+          {p1, edge, {0, 0}}
+        };
+        SDL_Vertex ringTri2[INDEX_THREE] = {
+          {i0, transparent, {0, 0}},
+          {p1, edge, {0, 0}},
+          {i1, transparent, {0, 0}}
+        };
+        SDL_RenderGeometry(target, nullptr, ringTri1, INDEX_THREE, nullptr, 0);
+        SDL_RenderGeometry(target, nullptr, ringTri2, INDEX_THREE, nullptr, 0);
+      }
+      
+      SDL_FPoint pStart = endpoints.front();
+      SDL_FPoint pEnd = endpoints.back();
+      SDL_FPoint iStart = computeInner(pStart);
+      SDL_FPoint iEnd = computeInner(pEnd);
+      SDL_Vertex side1[INDEX_THREE] = {
+        {{data.position.x, data.position.y}, transparent, {0, 0}},
+        {iStart, transparent, {0, 0}},
+        {pStart, edge, {0, 0}}
+      };
+      SDL_Vertex side2[INDEX_THREE] = {
+        {{data.position.x, data.position.y}, transparent, {0, 0}},
+        {pEnd, edge, {0, 0}},
+        {iEnd, transparent, {0, 0}}
+      };
+      SDL_RenderGeometry(target, nullptr, side1, INDEX_THREE, nullptr, 0);
+      SDL_RenderGeometry(target, nullptr, side2, INDEX_THREE, nullptr, 0);
     }
   }
 

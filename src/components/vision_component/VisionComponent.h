@@ -22,7 +22,7 @@ namespace Project::Components {
     void render() override;
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
-    void setEntityPosition(float x, float y) override { data.position = {x, y}; }
+    void setEntityPosition(float x, float y) override;
     void setEntityRotation(float _angle) override { data.direction = _angle; }
 
     void setShape(VisionShape _shape) { data.shape = _shape; }
@@ -51,6 +51,7 @@ namespace Project::Components {
 
     std::vector<SDL_FPoint> endpoints;
     std::vector<Project::Entities::Entity*> visibleEntities;
+    SDL_FPoint positionOffset{0.f, 0.f};
 
     std::pair<SDL_FPoint, Project::Entities::Entity*> castSingleRay(float angleDegrees);
     bool rayIntersectsAABB(const float origin[2], const float dir[2], const SDL_FRect& rect, float& outT) const;

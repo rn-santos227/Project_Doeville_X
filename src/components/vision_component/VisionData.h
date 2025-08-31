@@ -18,6 +18,9 @@ namespace Project::Components {
     float radius = Project::Libraries::Constants::DEFAULT_LIGHT_RADIUS;
     float angle = Project::Libraries::Constants::ANGLE_90_DEG;
     float direction = Project::Libraries::Constants::ANGLE_0_DEG;
+    float offsetX{0.0f};
+    float offsetY{0.0f};
+    
     int rays = Project::Libraries::Constants::DEFAULT_LIGHT_RAY_COUNT;
     bool revealDarkness = false;
   };

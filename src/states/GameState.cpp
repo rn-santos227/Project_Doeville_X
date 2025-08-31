@@ -195,7 +195,15 @@ namespace Project::States {
         #ifdef SDL_BLENDMODE_MIN
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_MIN);
         #elif defined(SDL_BLENDOPERATION_MINIMUM)
-
+        SDL_BlendMode minBlend = SDL_ComposeCustomBlendMode(
+          SDL_BLENDFACTOR_ONE,
+          SDL_BLENDFACTOR_ONE,
+          SDL_BLENDOPERATION_MINIMUM,
+          SDL_BLENDFACTOR_ONE,
+          SDL_BLENDFACTOR_ONE,
+          SDL_BLENDOPERATION_MINIMUM
+        );
+        SDL_SetRenderDrawBlendMode(renderer, minBlend);
         #else
 
         #endif

@@ -183,6 +183,12 @@ namespace Project::Components {
       SDL_FPoint pEnd = endpoints.back();
       SDL_FPoint iStart = computeInner(pStart);
       SDL_FPoint iEnd = computeInner(pEnd);
+
+      SDL_FPoint spStart = toScreen(pStart);
+      SDL_FPoint spEnd = toScreen(pEnd);
+      SDL_FPoint siStart = toScreen(iStart);
+      SDL_FPoint siEnd = toScreen(iEnd);
+      
       SDL_Vertex side1[INDEX_THREE] = {
         {{data.position.x, data.position.y}, transparent, {0, 0}},
         {iStart, transparent, {0, 0}},

@@ -79,6 +79,20 @@ namespace Project::Components {
     if (!target || !data.revealDarkness) return;
     if (endpoints.size() < INDEX_TWO) return;
 
+    float camX = 0.0f, camY = 0.0f, zoom = DEFAULT_WHOLE;
+    if (cameraHandler) {
+      camX = std::floor(cameraHandler->getX());
+      camY = std::floor(cameraHandler->getY());
+      zoom = cameraHandler->getZoom();
+    }
+
+    SDL_FPoint renderPos{(data.position.x - camX) * zoom, (data.position.y - camY) * zoom};
+    std::vector<SDL_FPoint> scaled;
+    scaled.reserve(endpoints.size());
+    for (const auto& p : endpoints) {
+      scaled.push_back({(p.x - camX) * zoom, (p.y - camY) * zoom});
+    }
+
     const float fade = 20.f;
     SDL_Color transparent{0, 0, 0, 0};
     SDL_Color edge{0, 0, 0, FULL_ALPHA};

@@ -151,6 +151,11 @@ namespace Project::Components {
         SDL_FPoint i0 = computeInner(p0);
         SDL_FPoint i1 = computeInner(p1);
 
+        SDL_FPoint sp0 = toScreen(p0);
+        SDL_FPoint sp1 = toScreen(p1);
+        SDL_FPoint si0 = toScreen(i0);
+        SDL_FPoint si1 = toScreen(i1);
+
         SDL_Vertex innerTri[INDEX_THREE] = {
           {{data.position.x, data.position.y}, transparent, {0, 0}},
           {i0, transparent, {0, 0}},

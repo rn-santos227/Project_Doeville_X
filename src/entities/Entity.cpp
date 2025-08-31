@@ -311,6 +311,6 @@ namespace Project::Entities {
   }
 
   bool Entity::canSee(const Project::Entities::Entity* target) const {
-
+    auto comps = getComponentsByType(Project::Components::ComponentType::VISION);
   }
 }

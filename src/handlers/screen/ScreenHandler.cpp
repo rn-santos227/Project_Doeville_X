@@ -4,6 +4,7 @@
 
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "components/vision_component/VisionComponent.h"
 #include "handlers/camera/CameraTypeResolver.h"
 #include "libraries/categories/Categories.h"
 #include "libraries/constants/Constants.h"
@@ -70,10 +71,12 @@ namespace Project::Handlers {
     std::string camTypeStr = configReader.getValue(Keys::CAMERA_SECTION, Keys::CAMERA_TYPE, Project::Libraries::Categories::Cameras::FREE_ROAMING);
     cameraHandler.setCameraType(CameraTypeResolver::resolve(camTypeStr));
     cameraHandler.setCullingOffset(Constants::DEFAULT_CAMERA_CULL_OFFSET, Constants::DEFAULT_CAMERA_CULL_OFFSET);
+    
     Project::Components::GraphicsComponent::setCameraHandler(&cameraHandler);
     Project::Components::BoundingBoxComponent::setCameraHandler(&cameraHandler);
+    Project::Components::VisionComponent::setCameraHandler(&cameraHandler);
+    
     componentsFactory.setCameraHandler(&cameraHandler);
-
     cursorWidth = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_W, Constants::DEFAULT_CURSOR_SIZE);
     cursorHeight = configReader.getIntValue(Keys::CURSOR_SECTION, Keys::CURSOR_H, Constants::DEFAULT_CURSOR_SIZE);
 

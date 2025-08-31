@@ -8,6 +8,7 @@
 #include "components/BaseComponent.h"
 #include "components/PositionableComponent.h"
 #include "components/bounding_box_component/BoundingBoxComponent.h"
+#include "handlers/camera/CameraHandler.h"
 #include "interfaces/rotation_interface/Rotatable.h"
 #include "entities/EntitiesManager.h"
 #include "utilities/logs_manager/LogsManager.h"
@@ -17,6 +18,7 @@ namespace Project::Components {
   public:
     VisionComponent(SDL_Renderer* renderer, Project::Utilities::LogsManager& logsManager);
     ComponentType getType() const override { return ComponentType::VISION; }
+    static void setCameraHandler(Project::Handlers::CameraHandler* handler);
 
     void update(float deltaTime) override;
     void render() override;

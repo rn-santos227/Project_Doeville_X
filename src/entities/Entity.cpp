@@ -309,4 +309,8 @@ namespace Project::Entities {
     }
     return result;
   }
+
+  bool Entity::canSee(const Project::Entities::Entity* target) const {
+
+  }
 }

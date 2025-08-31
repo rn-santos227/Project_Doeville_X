@@ -123,9 +123,8 @@ namespace Project::Components {
         SDL_FPoint si1 = toScreen(i1);
 
         SDL_Vertex innerTri[INDEX_THREE] = {
-          {{data.position.x, data.position.y}, transparent, {0, 0}},
-          {i0, transparent, {0, 0}},
-          {i1, transparent, {0, 0}}
+          {renderPos, transparent, {0, 0}}, {si0, transparent, {0, 0}},
+          {si1, transparent, {0, 0}}
         };
         SDL_RenderGeometry(target, nullptr, innerTri, INDEX_THREE, nullptr, 0);
 

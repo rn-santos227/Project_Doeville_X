@@ -658,7 +658,7 @@ namespace Project::States {
     if (data.timeCycleActive) {
       data.timeOfDay += deltaTime * minutesPerSecond;
       if (data.timeOfDay >= Constants::DEFAULT_TOTAL_DAY_MINUTES) {
-        
+        data.timeOfDay -= Constants::DEFAULT_TOTAL_DAY_MINUTES;
       }
     }
   }

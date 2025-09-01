@@ -9,6 +9,7 @@ namespace Project::Libraries::Constants {
 
   constexpr float DEFAULT_TIME_OF_DAY_MINUTES = 5.0f * 60.0f;
   constexpr float DEFAULT_DAY_LAPSE_SECONDS = 14.0f * 60.0f;
+  constexpr float DEFAULT_TOTAL_DAY_MINUTES = 1440.0f;
 }
 
 #endif

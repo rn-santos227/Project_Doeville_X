@@ -650,4 +650,8 @@ namespace Project::States {
       data.mapRect.h = Project::Libraries::Constants::DEFAULT_SCREEN_HEIGHT;
     }
   }
+
+  void GameState::updateDayNightCycle(float deltaTime) {
+    
+  }
 }

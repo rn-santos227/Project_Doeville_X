@@ -661,5 +661,7 @@ namespace Project::States {
         data.timeOfDay -= Constants::DEFAULT_TOTAL_DAY_MINUTES;
       }
     }
+
+    float minutes = data.timeOfDay;
   }
 }

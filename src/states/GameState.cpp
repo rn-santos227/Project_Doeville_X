@@ -663,13 +663,16 @@ namespace Project::States {
     }
 
     float minutes = data.timeOfDay;
-    if (minutes < Constants::DEFAULT_TIME_OF_DAY_MINUTES || minutes >= Constants::SUNSET_END) {
+    if (minutes < Constants::SUNRISE_START || minutes >= Constants::SUNSET_END) {
       data.darkness = Constants::DEFAULT_MAX_DARKNESS;
     } else if (minutes < Constants::DAY_START) {
-      float t = (minutes - Constants::DEFAULT_TIME_OF_DAY_MINUTES) / (Constants::DAY_START - Constants::DEFAULT_TIME_OF_DAY_MINUTES);
+      float t = (minutes - Constants::SUNRISE_START) / (Constants::DAY_START - Constants::SUNRISE_START);
       data.darkness = Constants::DEFAULT_MAX_DARKNESS * (Constants::DEFAULT_WHOLE - t);
     } else if (minutes < Constants::DAY_END) {
       data.darkness = Project::Libraries::Constants::ANGLE_0_DEG;
+    } else {
+      float t = (minutes - Constants::DAY_END) / (Constants::SUNSET_END - Constants::DAY_END);
+      data.darkness = Constants::DEFAULT_MAX_DARKNESS * t;
     }
   }
 }

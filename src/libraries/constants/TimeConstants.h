@@ -13,6 +13,7 @@ namespace Project::Libraries::Constants {
   
   constexpr float DAY_START = 7.0f * 60.0f;
   constexpr float DAY_END = 19.0f * 60.0f;
+  constexpr float SUNRISE_START = DEFAULT_TIME_OF_DAY_MINUTES;
   constexpr float SUNSET_END = 21.0f * 60.0f;
 }
 

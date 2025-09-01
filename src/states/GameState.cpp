@@ -652,6 +652,6 @@ namespace Project::States {
   }
 
   void GameState::updateDayNightCycle(float deltaTime) {
-    
+    float cycleSeconds = data.dayLapseSeconds > 0.0f ? data.dayLapseSeconds : Project::Libraries::Constants::DEFAULT_DAY_LAPSE_SECONDS;
   }
 }

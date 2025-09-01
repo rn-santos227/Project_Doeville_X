@@ -465,6 +465,13 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_setTimeCycleActive(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    bool active = lua_toboolean(L, Constants::INDEX_ONE);
+    if (state) state->setTimeCycleActive(active);
+    return 0;
+  }
+
   int lua_setPlayerEntity(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

@@ -83,6 +83,10 @@ namespace Project::States {
     void setLayerDarkness(const std::string& name, float value);
 
     float getTimeOfDay() const { return data.timeOfDay; }
+    void setTimeOfDay(float minutes) { 
+      data.timeOfDay = minutes;
+      updateDayNightCycle(0.0f);
+    }
     
     void setPlatform(Project::Platform::Platform* platformPtr) { platform = platformPtr; }
     Project::Platform::Platform* getPlatform() const { return platform; }

@@ -654,5 +654,12 @@ namespace Project::States {
   void GameState::updateDayNightCycle(float deltaTime) {
     float cycleSeconds = data.dayLapseSeconds > 0.0f ? data.dayLapseSeconds : Constants::DEFAULT_DAY_LAPSE_SECONDS;
     float minutesPerSecond = Constants::DEFAULT_TOTAL_DAY_MINUTES / cycleSeconds;
+
+    if (data.timeCycleActive) {
+      data.timeOfDay += deltaTime * minutesPerSecond;
+      if (data.timeOfDay >= Constants::DEFAULT_TOTAL_DAY_MINUTES) {
+        
+      }
+    }
   }
 }

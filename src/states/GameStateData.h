@@ -25,6 +25,7 @@ namespace Project::States {
 
     bool active = false;
     bool initialized = false;
+    bool timeCycleActive = true;
   };
 }
 

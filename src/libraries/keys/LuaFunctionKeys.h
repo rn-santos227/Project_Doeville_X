@@ -12,6 +12,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* LUA_SET_BACKGROUND_IMAGE = "setBackgroundImage";
   constexpr const char* LUA_SET_DARKNESS = "setDarkness";
   constexpr const char* LUA_SET_LAYER_DARKNESS = "setLayerDarkness";
+  constexpr const char* LUA_SET_TIME_DARKNESS_LAYER = "setTimeDarknessLayer";
   constexpr const char* LUA_SET_DAY_LAPSE = "setDayLapse";
   constexpr const char* LUA_SET_TIME_OF_DAY = "setTimeOfDay";
   constexpr const char* LUA_SET_TIME_CYCLE_ACTIVE = "setTimeCycleActive";

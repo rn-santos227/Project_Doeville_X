@@ -497,6 +497,9 @@ namespace Project::States {
         record(Keys::LUA_SET_BACKGROUND_IMAGE);
         record(Keys::LUA_SET_DARKNESS);
         record(Keys::LUA_SET_LAYER_DARKNESS);
+        record(Keys::LUA_SET_DAY_LAPSE);
+        record(Keys::LUA_SET_TIME_OF_DAY);
+        record(Keys::LUA_SET_TIME_CYCLE_ACTIVE);
         record(Keys::LUA_SPAWN_ENTITY);
         record(Keys::LUA_START_ENTITY_SEEDER);
         record(Keys::LUA_ADD_ENTITY_TO_SEEDER);
@@ -546,6 +549,12 @@ namespace Project::States {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setDarkness, this);
       } else if (f == Keys::LUA_SET_LAYER_DARKNESS) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setLayerDarkness, this);
+      } else if (f == Keys::LUA_SET_DAY_LAPSE) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setDayLapse, this);
+      } else if (f == Keys::LUA_SET_TIME_OF_DAY) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setTimeOfDay, this);
+      } else if (f == Keys::LUA_SET_TIME_CYCLE_ACTIVE) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setTimeCycleActive, this);
       } else if (f == Keys::LUA_SPAWN_ENTITY) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_spawnEntity, this);
       } else if (f == Keys::LUA_START_ENTITY_SEEDER) {

@@ -18,10 +18,8 @@ namespace Project::Libraries::Constants {
   constexpr float DEFAULT_CAMERA_MAX_ZOOM = 10.0f;
 
   constexpr float DEFAULT_BAR_SPEED = 0.1f;
-
   constexpr float MIN_CELL = 32.0f;
   constexpr float MAX_CELL = 256.0f;
-
   constexpr float FLOAT_255 = 255.0f;
 
   constexpr float DEFAULT_DENOMINATOR = 2.0f;
@@ -32,6 +30,7 @@ namespace Project::Libraries::Constants {
   constexpr float FLOAT_HUNDRED = 100.0;
 
   constexpr float DEFAULT_LIGHT_RADIUS = 100.0f;
+  constexpr float DEFAULT_MAX_DARKNESS = 0.8f;
   constexpr float RAYCAST_MAX_DISTANCE = 1e9f;
   constexpr float RAYCAST_EPSILON = 1e-6f;
 

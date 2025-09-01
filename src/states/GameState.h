@@ -94,8 +94,8 @@ namespace Project::States {
     }
 
     bool isTimeCycleActive() const { return data.timeCycleActive; }
+    void setTimeCycleActive(bool active) { data.timeCycleActive = active; }
 
-    
     void setPlatform(Project::Platform::Platform* platformPtr) { platform = platformPtr; }
     Project::Platform::Platform* getPlatform() const { return platform; }
     SDL_Renderer* getRenderer() const { return renderer; }

@@ -87,6 +87,8 @@ namespace Project::States {
       data.timeOfDay = minutes;
       updateDayNightCycle(0.0f);
     }
+
+    float getDayLapse() const { return data.dayLapseSeconds; }
     
     void setPlatform(Project::Platform::Platform* platformPtr) { platform = platformPtr; }
     Project::Platform::Platform* getPlatform() const { return platform; }

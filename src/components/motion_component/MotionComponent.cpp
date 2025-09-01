@@ -49,14 +49,19 @@ namespace Project::Components {
           left, right, up, down, deltaTime
         );
         break;
+
+      case MovementMode::STANDARD:
+        MotionFunctions::handleStandard(
+          this, localVelX, localVelY,
+          left, right, up, down,
+          deltaTime, keys != nullptr
+        );
+        break;
       
       case MovementMode::SCROLLER:
         break;
       
       case MovementMode::FLYING:
-        break;
-      
-      case MovementMode::STANDARD:
         break;
       
       default:

@@ -89,6 +89,10 @@ namespace Project::States {
     }
 
     float getDayLapse() const { return data.dayLapseSeconds; }
+    void setDayLapse(float seconds) {
+      data.dayLapseSeconds = (seconds > 0.0f) ? seconds : Project::Libraries::Constants::DEFAULT_DAY_LAPSE_SECONDS;
+    }
+
     
     void setPlatform(Project::Platform::Platform* platformPtr) { platform = platformPtr; }
     Project::Platform::Platform* getPlatform() const { return platform; }

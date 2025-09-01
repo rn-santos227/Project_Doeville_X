@@ -665,6 +665,9 @@ namespace Project::States {
     float minutes = data.timeOfDay;
     if (minutes < Constants::DEFAULT_TIME_OF_DAY_MINUTES || minutes >= Constants::SUNSET_END) {
       data.darkness = Constants::DEFAULT_MAX_DARKNESS;
+    } else if (minutes < Constants::DAY_START) {
+      float t = (minutes - Constants::DEFAULT_TIME_OF_DAY_MINUTES) / (Constants::DAY_START - Constants::DEFAULT_TIME_OF_DAY_MINUTES);
+      data.darkness = Constants::DEFAULT_MAX_DARKNESS * (Constants::DEFAULT_WHOLE - t);
     }
   }
 }

@@ -13,9 +13,8 @@
 #include "components/vision_component/VisionComponent.h"
 #include "bindings/LuaBindings.h"
 #include "factories/entity/EntitiesFactory.h"
-#include "libraries/keys/Keys.h"
-#include "libraries/constants/FloatConstants.h"
 #include "libraries/constants/Constants.h"
+#include "libraries/keys/Keys.h"
 
 namespace Project::States {
   using Project::Utilities::LogsManager;
@@ -23,11 +22,12 @@ namespace Project::States {
   using Project::Entities::Entity;
   using Project::Handlers::ResourcesHandler;
 
+  namespace Constants = Project::Libraries::Constants;
   namespace Keys = Project::Libraries::Keys;
   namespace LuaBindings = Project::Bindings::LuaBindings;
 
   std::unordered_map<std::string, std::vector<std::string>> GameState::scriptFunctionCache{};
-  Project::Utilities::BinaryFileCache GameState::persistentFunctionCache(Project::Libraries::Constants::SCRIPT_FUNCTION_CACHE_FILE);
+  Project::Utilities::BinaryFileCache GameState::persistentFunctionCache(Constants::SCRIPT_FUNCTION_CACHE_FILE);
 
   GameState::GameState(SDL_Renderer* renderer, LogsManager& logsManager, ResourcesHandler& resourcesHandler)
   : LuaScriptable(logsManager), resourcesHandler(resourcesHandler), renderer(renderer) {}
@@ -39,7 +39,7 @@ namespace Project::States {
 
   void GameState::initialize() {
     registerLuaFunctions();
-    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_INITIALIZE)) {
+    if (!luaStateWrapper.callGlobalFunction(Keys::STATE_INITIALIZE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }
     ensureMapSize();
@@ -47,14 +47,14 @@ namespace Project::States {
 
   void GameState::onEnter() {
     setActive(true);
-    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_ON_ENTER)) {
+    if (!luaStateWrapper.callGlobalFunction(Keys::STATE_ON_ENTER)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'onEnter': " + std::string(lua_tostring(luaStateWrapper.get(), -1)));
     }
   }
 
   void GameState::onExit() {
     setActive(false);
-    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_ON_EXIT)) {
+    if (!luaStateWrapper.callGlobalFunction(Keys::STATE_ON_EXIT)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'onExit': " + std::string(lua_tostring(luaStateWrapper.get(), -1)));
     }
   }
@@ -97,7 +97,7 @@ namespace Project::States {
       if (pair.second) pair.second->update(deltaTime);
     }
 
-    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_UPDATE)) {
+    if (!luaStateWrapper.callGlobalFunction(Keys::STATE_UPDATE)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'update'");
     }
   }
@@ -138,7 +138,7 @@ namespace Project::States {
     }
     
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
-    float zoom = Project::Libraries::Constants::DEFAULT_CAMERA_ZOOM;
+    float zoom = Constants::DEFAULT_CAMERA_ZOOM;
     SDL_FRect viewport{0.0f, 0.0f, 0.0f, 0.0f};
     SDL_FRect camRect{0.0f, 0.0f, 0.0f, 0.0f};
     float camX = 0.0f;
@@ -177,7 +177,7 @@ namespace Project::States {
       entitiesManager->render();
     }
 
-    if (renderer && data.darkness > Project::Libraries::Constants::ANGLE_0_DEG) {
+    if (renderer && data.darkness > Constants::ANGLE_0_DEG) {
       int w = 0, h = 0;
       SDL_GetRendererOutputSize(renderer, &w, &h);
       SDL_Texture* mask = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
@@ -186,10 +186,10 @@ namespace Project::States {
         SDL_SetRenderTarget(renderer, mask);
         SDL_SetRenderDrawColor(
           renderer,
-          Project::Libraries::Constants::COLOR_BLACK.r,
-          Project::Libraries::Constants::COLOR_BLACK.g,
-          Project::Libraries::Constants::COLOR_BLACK.b,
-          static_cast<Uint8>(data.darkness * Project::Libraries::Constants::FLOAT_255)
+          Constants::COLOR_BLACK.r,
+          Constants::COLOR_BLACK.g,
+          Constants::COLOR_BLACK.b,
+          static_cast<Uint8>(data.darkness * Constants::FLOAT_255)
         );
         SDL_RenderClear(renderer);
 
@@ -226,7 +226,7 @@ namespace Project::States {
       }
     }
 
-    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_RENDER)) {
+    if (!luaStateWrapper.callGlobalFunction(Keys::STATE_RENDER)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'render'");
     }
   }
@@ -269,7 +269,7 @@ namespace Project::States {
   }
 
   void GameState::handleInput() {
-    if (!luaStateWrapper.callGlobalFunction(Project::Libraries::Keys::STATE_HANDLE_INPUT)) {
+    if (!luaStateWrapper.callGlobalFunction(Keys::STATE_HANDLE_INPUT)) {
       luaStateWrapper.handleLuaError("Error calling Lua function 'handleInput'");
     }
   }
@@ -300,8 +300,8 @@ namespace Project::States {
   void GameState::setDarkness(float value) {
     data.darkness = std::clamp(
       value,
-      Project::Libraries::Constants::ANGLE_0_DEG,
-      Project::Libraries::Constants::DEFAULT_WHOLE
+      Constants::ANGLE_0_DEG,
+      Constants::DEFAULT_WHOLE
     );
   }
 
@@ -343,7 +343,7 @@ namespace Project::States {
     }
 
     luaScriptPath = scriptPath;
-    luaStateWrapper.registerFunction(Project::Libraries::Keys::STATE_PRINT, LuaStateWrapper::luaPrintRedirect);
+    luaStateWrapper.registerFunction(Keys::STATE_PRINT, LuaStateWrapper::luaPrintRedirect);
     logsManager.logMessage("Lua script attached: " + scriptPath);
 
     return true;
@@ -646,12 +646,13 @@ namespace Project::States {
       SDL_GetRendererOutputSize(renderer, &data.mapRect.w, &data.mapRect.h);
     }
     if (data.mapRect.w <= 0 || data.mapRect.h <= 0) {
-      data.mapRect.w = Project::Libraries::Constants::DEFAULT_SCREEN_WIDTH;
-      data.mapRect.h = Project::Libraries::Constants::DEFAULT_SCREEN_HEIGHT;
+      data.mapRect.w = Constants::DEFAULT_SCREEN_WIDTH;
+      data.mapRect.h = Constants::DEFAULT_SCREEN_HEIGHT;
     }
   }
 
   void GameState::updateDayNightCycle(float deltaTime) {
-    float cycleSeconds = data.dayLapseSeconds > 0.0f ? data.dayLapseSeconds : Project::Libraries::Constants::DEFAULT_DAY_LAPSE_SECONDS;
+    float cycleSeconds = data.dayLapseSeconds > 0.0f ? data.dayLapseSeconds : Constants::DEFAULT_DAY_LAPSE_SECONDS;
+    float minutesPerSecond = Constants::DEFAULT_TOTAL_DAY_MINUTES / cycleSeconds;
   }
 }

@@ -668,6 +668,8 @@ namespace Project::States {
     } else if (minutes < Constants::DAY_START) {
       float t = (minutes - Constants::DEFAULT_TIME_OF_DAY_MINUTES) / (Constants::DAY_START - Constants::DEFAULT_TIME_OF_DAY_MINUTES);
       data.darkness = Constants::DEFAULT_MAX_DARKNESS * (Constants::DEFAULT_WHOLE - t);
+    } else if (minutes < Constants::DAY_END) {
+      data.darkness = Project::Libraries::Constants::ANGLE_0_DEG;
     }
   }
 }

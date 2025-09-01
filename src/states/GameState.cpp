@@ -510,6 +510,7 @@ namespace Project::States {
         record(Keys::LUA_SET_BACKGROUND_IMAGE);
         record(Keys::LUA_SET_DARKNESS);
         record(Keys::LUA_SET_LAYER_DARKNESS);
+        record(Keys::LUA_SET_TIME_DARKNESS_LAYER);
         record(Keys::LUA_SET_DAY_LAPSE);
         record(Keys::LUA_SET_TIME_OF_DAY);
         record(Keys::LUA_SET_TIME_CYCLE_ACTIVE);
@@ -562,6 +563,8 @@ namespace Project::States {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setDarkness, this);
       } else if (f == Keys::LUA_SET_LAYER_DARKNESS) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setLayerDarkness, this);
+      } else if (f == Keys::LUA_SET_TIME_DARKNESS_LAYER) {
+        luaStateWrapper.registerFunction(f, LuaBindings::lua_setTimeDarknessLayer, this);
       } else if (f == Keys::LUA_SET_DAY_LAPSE) {
         luaStateWrapper.registerFunction(f, LuaBindings::lua_setDayLapse, this);
       } else if (f == Keys::LUA_SET_TIME_OF_DAY) {
@@ -697,6 +700,10 @@ namespace Project::States {
     } else {
       float t = (minutes - Constants::DAY_END) / (Constants::SUNSET_END - Constants::DAY_END);
       data.darkness = Constants::DEFAULT_MAX_DARKNESS * t;
+    }
+
+    if (!data.applyDarknessToState && !data.darknessLayer.empty() && layersManager) {
+      layersManager->setLayerDarkness(data.darknessLayer, data.darkness);
     }
   }
 }

@@ -663,5 +663,8 @@ namespace Project::States {
     }
 
     float minutes = data.timeOfDay;
+    if (minutes < Constants::DEFAULT_TIME_OF_DAY_MINUTES || minutes >= Constants::SUNSET_END) {
+
+    }
   }
 }

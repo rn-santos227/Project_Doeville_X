@@ -61,6 +61,7 @@ namespace Project::States {
 
   void GameState::update(float deltaTime) {
     ensureMapSize();
+    updateDayNightCycle(deltaTime);
     
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
     if (camHandler) {

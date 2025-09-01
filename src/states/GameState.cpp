@@ -179,7 +179,7 @@ namespace Project::States {
       entitiesManager->render();
     }
 
-    if (renderer && data.darkness > Constants::ANGLE_0_DEG) {
+    if (data.applyDarknessToState && renderer && data.darkness > Constants::ANGLE_0_DEG) {
       int w = 0, h = 0;
       SDL_GetRendererOutputSize(renderer, &w, &h);
       SDL_Texture* mask = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
@@ -297,6 +297,19 @@ namespace Project::States {
       std::to_string(b) + ", " +
       std::to_string(a) + ")"
     );
+  }
+
+  void GameState::setTimeDarknessLayer(const std::string& name) {
+    if (name.empty() || name == Keys::STATE) {
+      data.applyDarknessToState = true;
+      data.darknessLayer.clear();
+    } else {
+      data.applyDarknessToState = false;
+      data.darknessLayer = name;
+      if (layersManager) {
+        layersManager->setLayerDarkness(name, data.darkness);
+      }
+    }
   }
 
   void GameState::setDarkness(float value) {

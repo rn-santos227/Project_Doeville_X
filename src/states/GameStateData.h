@@ -18,12 +18,14 @@ namespace Project::States {
     
     SDL_Rect mapRect{0, 0, 0, 0};
     SDL_Color backgroundColor = Project::Libraries::Constants::DEFAULT_BACKGROUND_COLOR;
-    
+    std::string darknessLayer;    
+
     float darkness = 0.0f;
     float timeOfDay = Project::Libraries::Constants::DEFAULT_TIME_OF_DAY_MINUTES;
     float dayLapseSeconds = Project::Libraries::Constants::DEFAULT_DAY_LAPSE_SECONDS;
 
     bool active = false;
+    bool applyDarknessToState = false;
     bool initialized = false;
     bool timeCycleActive = true;
   };

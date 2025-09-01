@@ -82,6 +82,8 @@ namespace Project::States {
     void setDarkness(float value);
     void setLayerDarkness(const std::string& name, float value);
 
+    void setTimeDarknessLayer(const std::string& name);
+
     float getTimeOfDay() const { return data.timeOfDay; }
     void setTimeOfDay(float minutes) { 
       data.timeOfDay = minutes;

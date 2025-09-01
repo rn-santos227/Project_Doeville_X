@@ -458,6 +458,13 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_setTimeOfDay(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float minutes = static_cast<float>(luaL_checknumber(L, Constants::INDEX_ONE));
+    if (state) state->setTimeOfDay(minutes);
+    return 0;
+  }
+
   int lua_setPlayerEntity(lua_State* L) {
     GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (!state) {

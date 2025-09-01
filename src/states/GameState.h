@@ -81,6 +81,8 @@ namespace Project::States {
     float getDarkness() const { return data.darkness; }
     void setDarkness(float value);
     void setLayerDarkness(const std::string& name, float value);
+
+    float getTimeOfDay() const { return data.timeOfDay; }
     
     void setPlatform(Project::Platform::Platform* platformPtr) { platform = platformPtr; }
     Project::Platform::Platform* getPlatform() const { return platform; }
@@ -185,6 +187,7 @@ namespace Project::States {
     std::vector<Project::Handlers::BuiltTile> mapTiles;
 
     void ensureMapSize();
+    void updateDayNightCycle(float deltaTime);
   };
 }
 

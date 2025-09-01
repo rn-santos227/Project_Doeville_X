@@ -275,23 +275,6 @@ namespace Project::States {
     }
   }
 
-  void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
-    if (!state) {
-      logsManager.logWarning("Attempted to cache null state '" + name + "'.");
-      return;
-    }
-
-    if (cacheMap.find(name) != cacheMap.end()) {
-      stateCache.erase(cacheMap[name]);
-    }
-
-    stateCache.emplace_front(name, std::move(state));
-    cacheMap[name] = stateCache.begin();
-
-    logsManager.logMessage("Cached state '" + name + "'.");
-    cleanupCache();
-  }
-
   GameState* GameStateManager::retrieveFromCache(const std::string& name) {
     if (cacheMap.find(name) == cacheMap.end()) {
       return nullptr;
@@ -307,5 +290,22 @@ namespace Project::States {
       logsManager.logMessage("Restored state '" + name + "' from cache.");
     }
     return state;
+  }
+
+  void GameStateManager::addToCache(const std::string& name, std::unique_ptr<GameState> state) {
+    if (!state) {
+      logsManager.logWarning("Attempted to cache null state '" + name + "'.");
+      return;
+    }
+
+    if (cacheMap.find(name) != cacheMap.end()) {
+      stateCache.erase(cacheMap[name]);
+    }
+
+    stateCache.emplace_front(name, std::move(state));
+    cacheMap[name] = stateCache.begin();
+
+    logsManager.logMessage("Cached state '" + name + "'.");
+    cleanupCache();
   }
 }

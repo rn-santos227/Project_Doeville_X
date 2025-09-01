@@ -73,9 +73,9 @@ namespace Project::States {
     std::shared_ptr<Project::Entities::EntitiesManager> globalEntitiesManager = std::make_shared<Project::Entities::EntitiesManager>();
     std::stack<GameState*> stateStack;
     std::string initialStateName;
-    
-    void addToCache(const std::string& name, std::unique_ptr<GameState> state);
+
     GameState* retrieveFromCache(const std::string& name);
+    void addToCache(const std::string& name, std::unique_ptr<GameState> state);
   };
 }
 

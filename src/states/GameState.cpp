@@ -43,6 +43,7 @@ namespace Project::States {
       luaStateWrapper.handleLuaError("Error calling Lua function 'initialize'");
     }
     ensureMapSize();
+    updateDayNightCycle(0.0f);
   }
 
   void GameState::onEnter() {
@@ -62,7 +63,7 @@ namespace Project::States {
   void GameState::update(float deltaTime) {
     ensureMapSize();
     updateDayNightCycle(deltaTime);
-    
+
     auto* camHandler = Project::Components::GraphicsComponent::getCameraHandler();
     if (camHandler) {
       int offsetX = camHandler->getWidth();

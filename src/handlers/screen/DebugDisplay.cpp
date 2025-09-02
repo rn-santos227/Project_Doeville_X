@@ -98,7 +98,7 @@ namespace Project::Handlers {
         SDL_DestroyTexture(prefixTex);
         SDL_DestroyTexture(valueTex);
 
-        yOffset += std::max(prefixH, valueH) + Constants::DEBUG_LINE_SPACING;
+        yOffset += std::max(scaledPrefixH, scaledValueH) + lineSpacing;
       } else {
         logsManager.logError("Failed to render debug text: " + prefix + " " + value);
         if (prefixTex) SDL_DestroyTexture(prefixTex);

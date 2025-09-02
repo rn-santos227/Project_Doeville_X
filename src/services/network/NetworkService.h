@@ -17,6 +17,7 @@ namespace Project::Services {
   class NetworkService {
   public:
     enum class Protocol { HTTP, WebSocket, P2P };
+    explicit NetworkService(Project::Utilities::LogsManager& logs, const std::string& envPath = Project::Libraries::Constants::ENV_EXTENSION);
 
   private:
     struct PendingResponse {

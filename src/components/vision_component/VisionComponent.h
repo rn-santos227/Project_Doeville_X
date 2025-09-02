@@ -56,6 +56,7 @@ namespace Project::Components {
     std::vector<SDL_FPoint> endpoints;
     std::vector<Project::Entities::Entity*> visibleEntities;
     SDL_FPoint positionOffset{0.f, 0.f};
+    float darknessAlpha{0.f};
 
     std::pair<SDL_FPoint, Project::Entities::Entity*> castSingleRay(float angleDegrees);
     bool rayIntersectsAABB(const float origin[2], const float dir[2], const SDL_FRect& rect, float& outT) const;

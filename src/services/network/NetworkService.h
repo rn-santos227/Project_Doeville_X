@@ -9,4 +9,11 @@
 #include <vector>
 #include <unordered_map>
 
+#include "utilities/logs_manager/LogsManager.h"
+#include "utilities/env_loader/EnvLoader.h"
+
+namespace Project::Services {
+
+}
+
 #endif

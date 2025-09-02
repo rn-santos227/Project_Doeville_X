@@ -14,6 +14,8 @@
 
 namespace Project::Services {
   class NetworkService {
+  public:
+    enum class Protocol { HTTP, WebSocket, P2P };
 
   private:
     struct PendingResponse {

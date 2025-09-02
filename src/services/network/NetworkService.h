@@ -25,7 +25,8 @@ namespace Project::Services {
 
   private:
     struct PendingResponse {
-
+      ResponseHandler handler;
+      Payload payload;
     };
   };
 }

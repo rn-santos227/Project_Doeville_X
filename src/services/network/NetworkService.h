@@ -33,6 +33,7 @@ namespace Project::Services {
     Project::Utilities::EnvLoader envLoader;
 
     std::unordered_map<std::string, std::string> tokenCache;
+    std::vector<MessageHandler> messageHandlers;
   };
 }
 

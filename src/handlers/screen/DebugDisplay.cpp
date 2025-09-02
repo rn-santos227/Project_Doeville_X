@@ -79,10 +79,10 @@ namespace Project::Handlers {
         int scaledValueH = static_cast<int>(valueH * debugTextScale);
 
         SDL_Rect prefixRect = {
-          screenWidth - Constants::DEBUG_PREFIX_COL_OFFSET_FROM_RIGHT - prefixW,
+          screenWidth - Constants::DEBUG_PREFIX_COL_OFFSET_FROM_RIGHT - scaledPrefixW,
           yOffset,
-          prefixW,
-          prefixH
+          scaledPrefixW,
+          scaledPrefixH
         };
 
         SDL_Rect valueRect = {

@@ -73,7 +73,10 @@ namespace Project::Handlers {
         int screenWidth, screenHeight;
         SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
-        int totalWidth = prefixW + Constants::DEBUG_COLUMN_SPACING + valueW;
+        int scaledPrefixW = static_cast<int>(prefixW * debugTextScale);
+        int scaledPrefixH = static_cast<int>(prefixH * debugTextScale);
+        int scaledValueW = static_cast<int>(valueW * debugTextScale);
+        int scaledValueH = static_cast<int>(valueH * debugTextScale);
 
         SDL_Rect prefixRect = {
           screenWidth - Constants::DEBUG_PREFIX_COL_OFFSET_FROM_RIGHT - prefixW,

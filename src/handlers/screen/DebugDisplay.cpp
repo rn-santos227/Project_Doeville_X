@@ -45,7 +45,12 @@ namespace Project::Handlers {
     renderAxes();
 
     SDL_Renderer* renderer = platform.getRenderer();
-    int yOffset = Constants::DEBUG_TEXT_MARGIN;
+    int margin = static_cast<int>(Constants::DEBUG_TEXT_MARGIN * debugTextScale);
+    int lineSpacing = static_cast<int>(Constants::DEBUG_LINE_SPACING * debugTextScale);
+    int yOffset = margin;
+
+    std::ostringstream uptimeStream;
+    uptimeStream << std::fixed << std::setprecision(Constants::INDEX_TWO) << framesCounter.getTotalTime();
 
     const std::vector<std::pair<std::string, std::string>> debugLines = {
       {Constants::DEBUG_FPS_PREFIX, std::to_string(framesCounter.getFPS())},

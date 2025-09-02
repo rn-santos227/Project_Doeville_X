@@ -34,6 +34,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* PATH_STYLES = "styles";
   constexpr const char* DEBUG_SECTION = "Debug";
   constexpr const char* DEBUG_TEXT_COLOR = "text_color";
+  constexpr const char* DEBUG_TEXT_SCALE = "text_scale";
   constexpr const char* AXIS_SECTION = "Axis";
   constexpr const char* AXIS_X_COLOR = "x_color";
   constexpr const char* AXIS_Y_COLOR = "y_color";

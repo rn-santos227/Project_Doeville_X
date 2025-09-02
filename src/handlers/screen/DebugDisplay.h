@@ -39,6 +39,7 @@ namespace Project::Handlers {
     SDL_Color axisYColor = Project::Libraries::Constants::DEFAULT_Y_AXIS_COLOR;
     SDL_Color gridColor = Project::Libraries::Constants::DEFAULT_GRID_COLOR;
 
+    float debugTextScale = Project::Libraries::Constants::DEFAULT_WHOLE;
     int gridSpacing = Project::Libraries::Constants::DEFAULT_GRID_SPACING;
 
     void renderMousePosition();

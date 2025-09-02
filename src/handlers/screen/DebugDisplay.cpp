@@ -37,6 +37,7 @@ namespace Project::Handlers {
     debugTextColor = configReader.getColorValue(Keys::DEBUG_SECTION, Keys::DEBUG_TEXT_COLOR, debugTextColor);
     axisXColor = configReader.getColorValue(Keys::AXIS_SECTION, Keys::AXIS_X_COLOR, axisXColor);
     axisYColor = configReader.getColorValue(Keys::AXIS_SECTION, Keys::AXIS_Y_COLOR, axisYColor);
+    debugTextScale = configReader.getFloatValue(Keys::DEBUG_SECTION, Keys::DEBUG_TEXT_SCALE, debugTextScale);
   }
 
   void DebugDisplay::render() {

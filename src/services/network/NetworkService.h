@@ -17,10 +17,12 @@ namespace Project::Services {
   class NetworkService {
   public:
     enum class Protocol { HTTP, WebSocket, P2P };
-    using Payload = std::vector<std::uint8_t>;
-    
     explicit NetworkService(Project::Utilities::LogsManager& logs, const std::string& envPath = Project::Libraries::Constants::ENV_EXTENSION);
 
+    using Payload = std::vector<std::uint8_t>;
+    using ResponseHandler = std::function<void(const Payload&)>;
+
+    
   private:
     struct PendingResponse {
 

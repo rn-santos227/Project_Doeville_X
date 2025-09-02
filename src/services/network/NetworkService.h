@@ -21,8 +21,8 @@ namespace Project::Services {
 
     using Payload = std::vector<std::uint8_t>;
     using ResponseHandler = std::function<void(const Payload&)>;
+    using MessageHandler = std::function<void(const Payload&)>;
 
-    
   private:
     struct PendingResponse {
 

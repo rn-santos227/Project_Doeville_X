@@ -86,10 +86,10 @@ namespace Project::Handlers {
         };
 
         SDL_Rect valueRect = {
-          screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT - valueW,
+          screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT - scaledValueW,
           yOffset,
-          valueW,
-          valueH
+          scaledValueW,
+          scaledValueH
         };
 
         SDL_RenderCopy(renderer, prefixTex, nullptr, &prefixRect);

@@ -13,7 +13,13 @@
 #include "utilities/env_loader/EnvLoader.h"
 
 namespace Project::Services {
+  class NetworkService {
 
+  private:
+    struct PendingResponse {
+
+    };
+  };
 }
 
 #endif

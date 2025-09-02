@@ -157,10 +157,10 @@ namespace Project::Handlers {
       int scaledH = static_cast<int>(textHeight * debugTextScale);
 
       SDL_Rect destRect = {
-        Constants::DEBUG_TEXT_MARGIN,
-        screenHeight - textHeight - Constants::DEBUG_TEXT_MARGIN,
-        textWidth,
-        textHeight
+        margin,
+        screenHeight - scaledH - margin,
+        scaledW,
+        scaledH
       };
 
       SDL_RenderCopy(renderer, texture, nullptr, &destRect);

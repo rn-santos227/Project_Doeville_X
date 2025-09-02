@@ -152,6 +152,10 @@ namespace Project::Handlers {
       int screenWidth, screenHeight;
       SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
+      int margin = static_cast<int>(Constants::DEBUG_TEXT_MARGIN * debugTextScale);
+      int scaledW = static_cast<int>(textWidth * debugTextScale);
+      int scaledH = static_cast<int>(textHeight * debugTextScale);
+
       SDL_Rect destRect = {
         Constants::DEBUG_TEXT_MARGIN,
         screenHeight - textHeight - Constants::DEBUG_TEXT_MARGIN,

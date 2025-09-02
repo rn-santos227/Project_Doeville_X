@@ -30,9 +30,9 @@ namespace Project::Components {
     float target = data.revealDarkness ?  Constants::DEFAULT_WHOLE : 0.0f;
     const float speed = Constants::DEFAULT_DOUBLE;
     if (darknessAlpha < target) {
-
+      darknessAlpha = std::min(target, darknessAlpha + speed * deltaTime);
     } else if (darknessAlpha > target) {
-
+      darknessAlpha = std::max(target, darknessAlpha - speed * deltaTime);
     }
     castRays();
   }

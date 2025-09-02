@@ -28,6 +28,9 @@ namespace Project::Services {
       ResponseHandler handler;
       Payload payload;
     };
+
+    Project::Utilities::LogsManager& logsManager;
+    Project::Utilities::EnvLoader envLoader;
   };
 }
 

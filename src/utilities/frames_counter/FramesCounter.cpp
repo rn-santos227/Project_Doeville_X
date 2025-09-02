@@ -4,7 +4,14 @@
 namespace Project::Utilities {
   namespace Constants = Project::Libraries::Constants;
 
-  FramesCounter::FramesCounter() : lastTime(SDL_GetPerformanceCounter()), frequency(SDL_GetPerformanceFrequency()), startFpsTime(lastTime), deltaTime(0.0), frameCount(0), fps(0) {}
+  FramesCounter::FramesCounter()
+    : lastTime(SDL_GetPerformanceCounter()),
+      frequency(SDL_GetPerformanceFrequency()),
+      startFpsTime(lastTime),
+      deltaTime(0.0),
+      frameCount(0),
+      fps(0),
+      startTime(lastTime) {}
 
   void FramesCounter::update() {
     Uint64 currentTime = SDL_GetPerformanceCounter();

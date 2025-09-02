@@ -57,7 +57,8 @@ namespace Project::Handlers {
       {Constants::DEBUG_FRAME_PREFIX, std::to_string(static_cast<int>(framesCounter.getDeltaTime() * Constants::MILLISECONDS_PER_SECOND)) + Constants::DEBUG_FRAME_SUFFIX},
       {Constants::DEBUG_DRAW_PREFIX, std::to_string(Project::Utilities::Profiler::getInstance().getDrawCalls())},
       {Constants::DEBUG_MEM_PREFIX, std::to_string(getProcessMemoryUsageMB()) + Constants::DEBUG_MEM_SUFFIX},
-      {Constants::DEBUG_PROC_PREFIX, std::to_string(getProcessCount())}
+      {Constants::DEBUG_PROC_PREFIX, std::to_string(getProcessCount())},
+      {Constants::DEBUG_UPTIME_PREFIX, uptimeStream.str() + Constants::DEBUG_UPTIME_SUFFIX}
     };
 
     for (const auto& [prefix, value] : debugLines) {

@@ -20,11 +20,14 @@ namespace Project::Components {
   VisionComponent::VisionComponent(SDL_Renderer* renderer, LogsManager& logsManager)
     : BaseComponent(logsManager), renderer(renderer) {}
 
-  void VisionComponent::update(float) {
+  void VisionComponent::update(float deltaTime) {
+    namespace Constants = Project::Libraries::Constants;
     if (!isActive()) return;
     if (owner) {
       setEntityPosition(owner->getX(), owner->getY());
     }
+
+    float target = data.revealDarkness ?  Constants::DEFAULT_WHOLE : 0.0f;
     castRays();
   }
 

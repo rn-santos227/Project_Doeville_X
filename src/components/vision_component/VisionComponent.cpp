@@ -29,6 +29,11 @@ namespace Project::Components {
 
     float target = data.revealDarkness ?  Constants::DEFAULT_WHOLE : 0.0f;
     const float speed = Constants::DEFAULT_DOUBLE;
+    if (darknessAlpha < target) {
+
+    } else if (darknessAlpha > target) {
+
+    }
     castRays();
   }
 

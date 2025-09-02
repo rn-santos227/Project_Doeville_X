@@ -27,6 +27,7 @@ namespace Project::Libraries::Constants {
   constexpr const char* SCRIPT_INI_SUFFIX = ".ini";
 
   constexpr const char* SCRIPT_GENERIC_SUFFIX = ".script";
+  constexpr const char* ENV_EXTENSION = ".env";
 }
 
 #endif

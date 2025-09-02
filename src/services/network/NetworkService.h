@@ -9,6 +9,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "libraries/constants/ScriptConstants.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/env_loader/EnvLoader.h"
 

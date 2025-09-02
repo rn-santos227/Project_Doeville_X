@@ -29,11 +29,16 @@ namespace Project::Utilities {
     lastTime = currentTime;
   }
 
-  int FramesCounter::getFPS() const {
-    return fps;
-  }
-
   double FramesCounter::getDeltaTime() const {
     return deltaTime;
+  }
+
+  double FramesCounter::getTotalTime() const {
+    Uint64 currentTime = SDL_GetPerformanceCounter();
+    return (currentTime - startTime) / static_cast<double>(frequency);
+  }
+
+  int FramesCounter::getFPS() const {
+    return fps;
   }
 }

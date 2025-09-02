@@ -31,6 +31,8 @@ namespace Project::Services {
 
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::EnvLoader envLoader;
+
+    std::unordered_map<std::string, std::string> tokenCache;
   };
 }
 

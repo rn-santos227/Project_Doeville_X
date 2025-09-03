@@ -28,7 +28,7 @@ namespace Project::Services {
     void send(const Payload& data);
     void onPayload(MessageHandler handler);
 
-    void asyncGet(const std::string& endpoint, ResponseHandler handler, const std::string& Project::Libraries::Constants::EMPTY_STRING);
+    void asyncGet(const std::string& endpoint, ResponseHandler handler, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
 
   private:
     struct PendingResponse {

@@ -13,6 +13,6 @@ namespace Project::Services {
   }
 
   bool NetworkService::connect(const std::string& endpoint, Protocol protocol, const std::string& tokenKey) {
-
+    logsManager.logMessage("Connecting to " + endpoint);
   }
 }

@@ -9,6 +9,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "libraries/constants/NameConstants.h"
 #include "libraries/constants/ScriptConstants.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/env_loader/EnvLoader.h"
@@ -22,6 +23,8 @@ namespace Project::Services {
     using Payload = std::vector<std::uint8_t>;
     using ResponseHandler = std::function<void(const Payload&)>;
     using MessageHandler = std::function<void(const Payload&)>;
+
+    bool connect(const std::string& endpoint, Protocol protocol, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
 
   private:
     struct PendingResponse {

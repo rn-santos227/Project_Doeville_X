@@ -23,4 +23,8 @@ namespace Project::Services {
     }
     return true;
   }
+
+  std::string NetworkService::getToken(const std::string& key) {
+
+  }
 }

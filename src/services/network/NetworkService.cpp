@@ -26,6 +26,10 @@ namespace Project::Services {
 
   void NetworkService::send(const Payload& data) { inbound.push(data); }
 
+  void NetworkService::onPayload(MessageHandler handler) {
+    messageHandlers.push_back(std::move(handler));
+  }
+
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {
     tokenCache[key] = token;
   }

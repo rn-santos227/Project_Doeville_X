@@ -37,6 +37,7 @@ namespace Project::Services {
     std::queue<Payload> inbound;
 
     std::mutex responseMutex;
+    std::queue<PendingResponse> responses;
   };
 }
 

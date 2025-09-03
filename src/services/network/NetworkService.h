@@ -25,7 +25,10 @@ namespace Project::Services {
     using MessageHandler = std::function<void(const Payload&)>;
 
     bool connect(const std::string& endpoint, Protocol protocol, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
+    void send(const Payload& data);
+    void onPayload(MessageHandler handler);
 
+    
   private:
     struct PendingResponse {
       ResponseHandler handler;

@@ -17,6 +17,11 @@ namespace Project::Services {
 
     std::string build() const {
       std::string result;
+      for (const auto& kv : fields) {
+        result += kv.first + ": " + kv.second + Project::Libraries::Constants::REGEX_HTTP_HEADER_BREAKER;
+      }
+      result += Project::Libraries::Constants::REGEX_HTTP_HEADER_BREAKER;
+      return result;
     }
   };
 }

@@ -34,6 +34,9 @@ namespace Project::Services {
 
     std::unordered_map<std::string, std::string> tokenCache;
     std::vector<MessageHandler> messageHandlers;
+    std::queue<Payload> inbound;
+
+    std::mutex responseMutex;
   };
 }
 

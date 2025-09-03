@@ -8,6 +8,7 @@ namespace Project::Libraries::Constants {
   constexpr const char* REGEX_CSS_COMMENTS = "/\\*[\\s\\S]*?\\*/";
 
   constexpr const char* REGEX_WHITESPACE = " \t\r\n";
+  constexpr const char* REGEX_HTTP_HEADER = "\r\n";
 }
 
 #endif

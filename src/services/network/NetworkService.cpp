@@ -27,5 +27,9 @@ namespace Project::Services {
   std::string NetworkService::getToken(const std::string& key) {
     auto it = tokenCache.find(key);
     if (it != tokenCache.end()) return it->second;
+
+    auto token = envLoader.getValue(key, Project::Libraries::Constants::EMPTY_STRING);
+    if (!token.empty()) tokenCache[key] = token;
+    return token;
   }
 }

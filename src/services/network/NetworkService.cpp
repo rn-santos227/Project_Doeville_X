@@ -15,7 +15,11 @@ namespace Project::Services {
   bool NetworkService::connect(const std::string& endpoint, Protocol protocol, const std::string& tokenKey) {
     logsManager.logMessage("Connecting to " + endpoint);
     if (!tokenKey.empty()) {
-
+      auto token = getToken(tokenKey);
+      if (token.empty())
+        logsManager.logWarning("Auth token missing for key: " + tokenKey);
+      else
+        logsManager.logMessage("Auth token loaded for key: " + tokenKey);
     }
     return true;
   }

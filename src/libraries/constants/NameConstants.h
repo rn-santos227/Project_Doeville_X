@@ -41,6 +41,9 @@ namespace Project::Libraries::Constants {
   constexpr const char* CIRCLE = "circle";
   constexpr const char* CONE = "cone";
   constexpr const char* SQUARE = "square";
+
+  constexpr const char* GET_METHOD = "GET";
+  constexpr const char* POST_METHOD = "POST";
 }
 
 #endif

@@ -29,7 +29,13 @@ namespace Project::Services {
     void onPayload(MessageHandler handler);
 
     void asyncGet(const std::string& endpoint, ResponseHandler handler, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
-    void asyncPost(const std::string& endpoint, const Payload& payload, ResponseHandler handler, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING));
+    void asyncPost(const std::string& endpoint, const Payload& payload, ResponseHandler handler, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
+
+    void poll();
+
+    void cacheToken(const std::string& key, const std::string& token);
+    std::string getToken(const std::string& key);
+  
   private:
     struct PendingResponse {
       ResponseHandler handler;

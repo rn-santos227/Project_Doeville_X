@@ -5,6 +5,10 @@
 #include <vector>
 #include <utility>
 
-
+namespace Project::Services {
+  struct HttpHeader {
+    std::vector<std::pair<std::string, std::string>> fields;
+  };
+}
 
 #endif

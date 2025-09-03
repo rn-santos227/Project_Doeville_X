@@ -5,5 +5,11 @@
 #include <utility>
 
 namespace Project::Services {
+  using Project::Utilities::LogsManager;
+
+  NetworkService::NetworkService(LogsManager& logs, const std::string& envPath)
+    : logsManager(logs), envLoader(logsManager, envPath) {
+    envLoader.loadEnv();
+  }
 
 }

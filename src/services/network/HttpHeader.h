@@ -5,6 +5,8 @@
 #include <vector>
 #include <utility>
 
+#include "libraries/constants/RegexConstants.h"
+
 namespace Project::Services {
   struct HttpHeader {
     std::vector<std::pair<std::string, std::string>> fields;
@@ -14,7 +16,7 @@ namespace Project::Services {
     }
 
     std::string build() const {
-
+      std::string result;
     }
   };
 }

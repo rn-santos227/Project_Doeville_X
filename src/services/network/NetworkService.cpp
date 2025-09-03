@@ -25,6 +25,6 @@ namespace Project::Services {
   }
 
   std::string NetworkService::getToken(const std::string& key) {
-
+    auto it = tokenCache.find(key);
   }
 }

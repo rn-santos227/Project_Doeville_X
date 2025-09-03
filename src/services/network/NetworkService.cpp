@@ -12,4 +12,7 @@ namespace Project::Services {
     envLoader.loadEnv();
   }
 
+  bool NetworkService::connect(const std::string& endpoint, Protocol protocol, const std::string& tokenKey) {
+
+  }
 }

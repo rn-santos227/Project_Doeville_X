@@ -24,6 +24,10 @@ namespace Project::Services {
     return true;
   }
 
+  void NetworkService::cacheToken(const std::string& key, const std::string& token) {
+    tokenCache[key] = token;
+  }
+
   std::string NetworkService::getToken(const std::string& key) {
     auto it = tokenCache.find(key);
     if (it != tokenCache.end()) return it->second;

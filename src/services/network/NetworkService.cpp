@@ -42,7 +42,9 @@ namespace Project::Services {
   }
 
   void NetworkService::asyncPost(const std::string& endpoint, const Payload& payload, ResponseHandler handler, const std::vector<std::pair<std::string, std::string>>& headers, const std::string& tokenKey) {
+    std::thread([this, endpoint, payload, handler = std::move(handler), tokenKey, headers]() mutable {
 
+    }).detach();
   }
 
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {

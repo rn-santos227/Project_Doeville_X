@@ -68,6 +68,10 @@ namespace Project::Services {
     return header;
   }
 
+  void NetworkService::poll() {
+
+  }
+
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {
     tokenCache[key] = token;
   }

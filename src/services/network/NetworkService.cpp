@@ -69,7 +69,9 @@ namespace Project::Services {
   }
 
   void NetworkService::poll() {
+    while (!inbound.empty()) {
 
+    }
   }
 
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {

@@ -57,7 +57,12 @@ namespace Project::Services {
     HttpHeader header;
     for (const auto& kv : headers) header.add(kv.first, kv.second);
     if (!tokenKey.empty()) {
-      auto token = getToken(tokenKey);
+    auto token = getToken(tokenKey);
+    if (!token.empty()) {
+      logsManager.logMessage("Using token for header: " + tokenKey);
+    } else {
+      logsManager.logWarning("Auth token missing for key: " + tokenKey);
+    }
     }
     return header;
   }

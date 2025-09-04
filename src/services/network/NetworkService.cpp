@@ -47,6 +47,7 @@ namespace Project::Services {
       logsManager.logMessage(std::string(Project::Libraries::Constants::POST_METHOD) + " " + endpoint);
       auto header = constructHeader(headers, tokenKey);
       header.build();
+      Payload reply = payload;
     }).detach();
   }
 

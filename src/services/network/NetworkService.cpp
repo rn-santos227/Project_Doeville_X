@@ -32,7 +32,9 @@ namespace Project::Services {
   }
 
   void NetworkService::asyncGet(const std::string& endpoint, ResponseHandler handler, const std::vector<std::pair<std::string, std::string>>& headers, const std::string& tokenKey) {
+    std::thread([this, endpoint, handler = std::move(handler), tokenKey, headers]() {
       
+    }).detach();
   }
 
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {

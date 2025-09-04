@@ -59,6 +59,7 @@ namespace Project::Services {
     if (!tokenKey.empty()) {
     auto token = getToken(tokenKey);
     if (!token.empty()) {
+      header.add(Project::Libraries::Constants::HEADER_AUTH, std::string(Project::Libraries::Constants::HEADER_BEARER) + token);
       logsManager.logMessage("Using token for header: " + tokenKey);
     } else {
       logsManager.logWarning("Auth token missing for key: " + tokenKey);

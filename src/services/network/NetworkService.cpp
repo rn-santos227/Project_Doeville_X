@@ -35,6 +35,7 @@ namespace Project::Services {
     std::thread([this, endpoint, handler = std::move(handler), tokenKey, headers]() {
       logsManager.logMessage(std::string(Project::Libraries::Constants::GET_METHOD) + " " + endpoint);
       auto header = constructHeader(headers, tokenKey);
+      header.build();
       Payload payload(endpoint.begin(), endpoint.end());
       std::lock_guard<std::mutex> lock(responseMutex);
       responses.push({handler, std::move(payload)});
@@ -44,6 +45,8 @@ namespace Project::Services {
   void NetworkService::asyncPost(const std::string& endpoint, const Payload& payload, ResponseHandler handler, const std::vector<std::pair<std::string, std::string>>& headers, const std::string& tokenKey) {
     std::thread([this, endpoint, payload, handler = std::move(handler), tokenKey, headers]() mutable {
       logsManager.logMessage(std::string(Project::Libraries::Constants::POST_METHOD) + " " + endpoint);
+
+      auto header = constructHeader(headers, tokenKey);
     }).detach();
   }
 

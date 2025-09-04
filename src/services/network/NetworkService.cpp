@@ -53,6 +53,10 @@ namespace Project::Services {
     }).detach();
   }
 
+  HttpHeader NetworkService::constructHeader(const std::vector<std::pair<std::string, std::string>>& headers, const std::string& tokenKey) {
+
+  }
+
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {
     tokenCache[key] = token;
   }

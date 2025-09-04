@@ -77,6 +77,9 @@ namespace Project::Services {
     }
 
     std::lock_guard<std::mutex> lock(responseMutex);
+    while (!responses.empty()) {
+
+    }
   }
 
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {

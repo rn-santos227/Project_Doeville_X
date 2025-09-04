@@ -35,6 +35,7 @@ namespace Project::Services {
     std::thread([this, endpoint, handler = std::move(handler), tokenKey, headers]() {
       logsManager.logMessage(std::string(Project::Libraries::Constants::GET_METHOD) + " " + endpoint);
       auto header = constructHeader(headers, tokenKey);
+      Payload payload(endpoint.begin(), endpoint.end());
     }).detach();
   }
 

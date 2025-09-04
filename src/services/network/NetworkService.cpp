@@ -73,6 +73,7 @@ namespace Project::Services {
       auto msg = std::move(inbound.front());
       for (auto& handler : messageHandlers)
         if (handler) handler(msg);
+      inbound.pop();
     }
   }
 

@@ -35,14 +35,6 @@ namespace Project::Services {
     tokenCache[key] = token;
   }
 
-  void NetworkService::asyncGet(const std::string& endpoint, ResponseHandler handler, const std::string& tokenKey) {
-    std::thread([this, endpoint, handler = std::move(handler), tokenKey]() {
-      auto token = tokenKey.empty() ? std::string() : getToken(tokenKey);
-      logsManager.logMessage(std::string(Project::Libraries::Constants::GET_METHOD) + " " + endpoint);
-      HttpHeader header;
-    }).detach();
-  }
-
   std::string NetworkService::getToken(const std::string& key) {
     auto it = tokenCache.find(key);
     if (it != tokenCache.end()) return it->second;

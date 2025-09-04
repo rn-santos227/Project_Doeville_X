@@ -48,6 +48,8 @@ namespace Project::Services {
       auto header = constructHeader(headers, tokenKey);
       header.build();
       Payload reply = payload;
+      std::lock_guard<std::mutex> lock(responseMutex);
+      responses.push({handler, std::move(reply)});
     }).detach();
   }
 

@@ -54,7 +54,8 @@ namespace Project::Services {
   }
 
   HttpHeader NetworkService::constructHeader(const std::vector<std::pair<std::string, std::string>>& headers, const std::string& tokenKey) {
-
+    HttpHeader header;
+    for (const auto& kv : headers) header.add(kv.first, kv.second);
   }
 
   void NetworkService::cacheToken(const std::string& key, const std::string& token) {

@@ -78,7 +78,7 @@ namespace Project::Services {
 
     std::lock_guard<std::mutex> lock(responseMutex);
     while (!responses.empty()) {
-
+      auto resp = std::move(responses.front());
     }
   }
 

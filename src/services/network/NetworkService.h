@@ -32,8 +32,9 @@ namespace Project::Services {
     void asyncPost(const std::string& endpoint, const Payload& payload, ResponseHandler handler, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
 
     void poll();
-
     void cacheToken(const std::string& key, const std::string& token);
+    
+    HttpHeader constructHeader(const std::vector<std::pair<std::string, std::string>>& headers = {}, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);  
     std::string getToken(const std::string& key);
   
   private:

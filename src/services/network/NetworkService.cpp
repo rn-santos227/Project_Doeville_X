@@ -36,7 +36,7 @@ namespace Project::Services {
   }
 
   void NetworkService::asyncGet(const std::string& endpoint, ResponseHandler handler, const std::string& tokenKey) {
-      std::thread([this, endpoint, handler = std::move(handler), tokenKey]() {
+    std::thread([this, endpoint, handler = std::move(handler), tokenKey]() {
       auto token = tokenKey.empty() ? std::string() : getToken(tokenKey);
       logsManager.logMessage(std::string(Project::Libraries::Constants::GET_METHOD) + " " + endpoint);
       HttpHeader header;

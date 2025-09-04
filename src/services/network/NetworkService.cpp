@@ -36,6 +36,8 @@ namespace Project::Services {
       logsManager.logMessage(std::string(Project::Libraries::Constants::GET_METHOD) + " " + endpoint);
       auto header = constructHeader(headers, tokenKey);
       Payload payload(endpoint.begin(), endpoint.end());
+      std::lock_guard<std::mutex> lock(responseMutex);
+      responses.push({handler, std::move(payload)});
     }).detach();
   }
 

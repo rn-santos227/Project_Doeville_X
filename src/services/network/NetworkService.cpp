@@ -70,7 +70,7 @@ namespace Project::Services {
 
   void NetworkService::poll() {
     while (!inbound.empty()) {
-
+      auto msg = std::move(inbound.front());
     }
   }
 

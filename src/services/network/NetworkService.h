@@ -39,8 +39,8 @@ namespace Project::Services {
       const std::string& endpoint,
       const Payload& payload,
       ResponseHandler handler,
-      const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING,
-      const std::vector<std::pair<std::string, std::string>>& headers = {}
+      const std::vector<std::pair<std::string, std::string>>& headers = {},
+      const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING
     );
 
     HttpHeader constructHeader(

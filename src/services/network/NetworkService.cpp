@@ -57,7 +57,7 @@ namespace Project::Services {
     HttpHeader header;
     for (const auto& kv : headers) header.add(kv.first, kv.second);
     if (!tokenKey.empty()) {
-
+      auto token = getToken(tokenKey);
     }
     return header;
   }

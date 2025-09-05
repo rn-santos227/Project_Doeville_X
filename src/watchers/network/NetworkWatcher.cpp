@@ -18,6 +18,7 @@ namespace Project::Watchers {
   }
 
   void NetworkWatcher::stop() {
-
+    running = false;
+    if (worker.joinable()) worker.join();
   }
 }

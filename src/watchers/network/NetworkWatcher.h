@@ -10,7 +10,7 @@
 namespace Project::Watchers {
   class NetworkWatcher {
   public:
-    NetworkWatcher(Project::Services::NetworkService& svc, Project::Utilities::LogsManager& logs);
+    NetworkWatcher(Project::Services::NetworkService& networkService, Project::Utilities::LogsManager& logsManager);
     ~NetworkWatcher();
 
     void subscribe();
@@ -21,8 +21,8 @@ namespace Project::Watchers {
     void stop();
     void run();
 
-    Project::Services::NetworkService& service;
     Project::Utilities::LogsManager& logsManager;
+    Project::Services::NetworkService& networkService;
 
     std::atomic<bool> running{false};
     std::atomic<int> subscriberCount{0};

@@ -58,7 +58,8 @@ namespace Project::Handlers {
       uptime /= Constants::SECONDS_PER_MINUTE;
       uptimeSuffix = Constants::DEBUG_UPTIME_MIN_SUFFIX;
       if (uptime >= Constants::MINUTES_PER_HOUR) {
-
+        uptime /= Constants::MINUTES_PER_HOUR;
+        uptimeSuffix = Constants::DEBUG_UPTIME_HOUR_SUFFIX;
       }
     }
 

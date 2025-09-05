@@ -21,6 +21,7 @@ namespace Project::Watchers {
 
     std::atomic<bool> running{false};
     std::atomic<int> subscriberCount{0};
+    std::thread worker;
   };
 }
 

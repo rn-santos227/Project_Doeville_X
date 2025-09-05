@@ -18,6 +18,8 @@ namespace Project::Watchers {
 
     Project::Services::NetworkService& service;
     Project::Utilities::LogsManager& logsManager;
+
+    std::atomic<bool> running{false};
   };
 }
 

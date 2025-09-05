@@ -9,4 +9,5 @@ namespace Project::Watchers {
   NetworkWatcher::NetworkWatcher(NetworkService& networkService, LogsManager& logsManager)
     : networkService(networkService), logsManager(logsManager) {}
 
+  NetworkWatcher::~NetworkWatcher() { stop(); }
 }

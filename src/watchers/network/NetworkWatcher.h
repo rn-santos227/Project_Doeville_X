@@ -20,6 +20,7 @@ namespace Project::Watchers {
     Project::Utilities::LogsManager& logsManager;
 
     std::atomic<bool> running{false};
+    std::atomic<int> subscriberCount{0};
   };
 }
 

@@ -64,7 +64,7 @@ namespace Project::Handlers {
     }
 
     std::ostringstream uptimeStream;
-    uptimeStream << std::fixed << std::setprecision(Constants::INDEX_TWO) << framesCounter.getTotalTime();
+    uptimeStream << std::fixed << std::setprecision(Constants::INDEX_TWO) << uptime;
 
     const std::vector<std::pair<std::string, std::string>> debugLines = {
       {Constants::DEBUG_FPS_PREFIX, std::to_string(framesCounter.getFPS())},
@@ -72,7 +72,7 @@ namespace Project::Handlers {
       {Constants::DEBUG_DRAW_PREFIX, std::to_string(Project::Utilities::Profiler::getInstance().getDrawCalls())},
       {Constants::DEBUG_MEM_PREFIX, std::to_string(getProcessMemoryUsageMB()) + Constants::DEBUG_MEM_SUFFIX},
       {Constants::DEBUG_PROC_PREFIX, std::to_string(getProcessCount())},
-      {Constants::DEBUG_UPTIME_PREFIX, uptimeStream.str() + Constants::DEBUG_UPTIME_SUFFIX}
+      {Constants::DEBUG_UPTIME_PREFIX, uptimeStream.str() + uptimeSuffix}
     };
 
     for (const auto& [prefix, value] : debugLines) {

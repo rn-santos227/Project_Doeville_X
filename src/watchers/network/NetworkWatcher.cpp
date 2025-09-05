@@ -13,5 +13,6 @@ namespace Project::Watchers {
 
   void NetworkWatcher::start() {
     if (running) return;
+    running = true;
   }
 }

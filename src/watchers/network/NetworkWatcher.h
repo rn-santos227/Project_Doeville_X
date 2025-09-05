@@ -15,6 +15,9 @@ namespace Project::Watchers {
     void start();
     void stop();
     void run();
+
+    Project::Services::NetworkService& service;
+    Project::Utilities::LogsManager& logsManager;
   };
 }
 

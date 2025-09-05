@@ -9,7 +9,12 @@
 
 namespace Project::Watchers {
   class NetworkWatcher {
+  public:
 
+  private:
+    void start();
+    void stop();
+    void run();
   };
 }
 

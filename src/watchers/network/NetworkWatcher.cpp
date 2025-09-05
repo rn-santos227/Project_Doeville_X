@@ -24,7 +24,7 @@ namespace Project::Watchers {
 
   void NetworkWatcher::run() {
     while (running) {
-      
+      networkService.poll();    
     }
   }
 }

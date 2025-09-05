@@ -54,6 +54,11 @@ namespace Project::Handlers {
     double uptime = framesCounter.getTotalTime();
     const char* uptimeSuffix = Constants::DEBUG_UPTIME_SUFFIX;
 
+    if (uptime >= Constants::SECONDS_PER_MINUTE) {
+      uptime /= Constants::SECONDS_PER_MINUTE;
+      uptimeSuffix = Constants::DEBUG_UPTIME_MIN_SUFFIX;
+    }
+
     std::ostringstream uptimeStream;
     uptimeStream << std::fixed << std::setprecision(Constants::INDEX_TWO) << framesCounter.getTotalTime();
 

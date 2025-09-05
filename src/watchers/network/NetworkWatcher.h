@@ -12,7 +12,10 @@ namespace Project::Watchers {
   public:
     NetworkWatcher(Project::Services::NetworkService& svc, Project::Utilities::LogsManager& logs);
     ~NetworkWatcher();
-    
+
+    void subscribe();
+    void unsubscribe();
+
   private:
     void start();
     void stop();

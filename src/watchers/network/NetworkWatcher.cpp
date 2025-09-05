@@ -16,4 +16,8 @@ namespace Project::Watchers {
     running = true;
     worker = std::thread(&NetworkWatcher::run, this);
   }
+
+  void NetworkWatcher::stop() {
+
+  }
 }

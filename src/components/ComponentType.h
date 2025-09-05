@@ -16,6 +16,7 @@ namespace Project::Components {
     METER,
     MODAL,
     MOTION,
+    NETWORK,
     NUMERIC,
     PHYSICS,
     PORTAL,

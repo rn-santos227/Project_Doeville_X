@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Categories {
   namespace Components {
+    constexpr size_t COMPONENT_NAME_ALIAS_COUNT = 40;
+    
     constexpr const char* SUFFIX = "component";
     constexpr const char* RENDER = "render";
 
@@ -19,6 +21,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* METER = "meter";
     constexpr const char* MODAL = "modal";
     constexpr const char* MOTION = "motion";
+    constexpr const char* NETWORK = "network";
     constexpr const char* NUMERIC = "numeric";
     constexpr const char* PHYSICS = "physics";
     constexpr const char* PORTAL = "portal";
@@ -40,6 +43,7 @@ namespace Project::Libraries::Categories {
     constexpr const char* METER_COMPONENT = "MeterComponent";
     constexpr const char* MODAL_COMPONENT = "ModalComponent";
     constexpr const char* MOTION_COMPONENT = "MotionComponent";
+    constexpr const char* NETWORK_COMPONENT = "NetworkComponent";
     constexpr const char* NUMERIC_COMPONENT = "NumericComponent";
     constexpr const char* PHYSICS_COMPONENT = "PhysicsComponent";
     constexpr const char* PORTAL_COMPONENT = "PortalComponent";

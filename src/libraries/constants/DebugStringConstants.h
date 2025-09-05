@@ -11,6 +11,8 @@ namespace Project::Libraries::Constants {
   constexpr const char* DEBUG_PROC_PREFIX = "PROC: ";
   constexpr const char* DEBUG_UPTIME_PREFIX = "TIME: ";
   constexpr const char* DEBUG_UPTIME_SUFFIX = " S";
+  constexpr const char* DEBUG_UPTIME_MIN_SUFFIX = " MIN";
+  constexpr const char* DEBUG_UPTIME_HOUR_SUFFIX = " H";
   constexpr const char* DEBUG_MOUSE_PREFIX = "Mouse: (";
   constexpr const char* DEBUG_MOUSE_SEPARATOR = ", ";
   constexpr const char* DEBUG_MOUSE_SUFFIX = "cpu_frame";

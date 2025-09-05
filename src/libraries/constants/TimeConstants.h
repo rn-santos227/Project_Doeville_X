@@ -5,6 +5,8 @@ namespace Project::Libraries::Constants {
   constexpr int TIME_YEAR_OFFSET = 1900;
   constexpr int TIME_MONTH_OFFSET = 1;
   constexpr int MILLISECONDS_PER_SECOND = 1000;
+  constexpr int SECONDS_PER_MINUTE = 60;
+  constexpr int MINUTES_PER_HOUR = 60;
   constexpr int LOG_FLUSH_WAIT_MS = 10;
 
   constexpr float DEFAULT_TIME_OF_DAY_MINUTES = 5.0f * 60.0f;

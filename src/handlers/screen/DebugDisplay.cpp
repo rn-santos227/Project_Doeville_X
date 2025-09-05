@@ -51,6 +51,9 @@ namespace Project::Handlers {
     int lineSpacing = static_cast<int>(Constants::DEBUG_LINE_SPACING * debugTextScale);
     int yOffset = margin;
 
+    double uptime = framesCounter.getTotalTime();
+    const char* uptimeSuffix = Constants::DEBUG_UPTIME_SUFFIX;
+
     std::ostringstream uptimeStream;
     uptimeStream << std::fixed << std::setprecision(Constants::INDEX_TWO) << framesCounter.getTotalTime();
 

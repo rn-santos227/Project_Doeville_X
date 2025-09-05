@@ -21,4 +21,8 @@ namespace Project::Watchers {
     running = false;
     if (worker.joinable()) worker.join();
   }
+
+  void NetworkWatcher::run() {
+
+  }
 }

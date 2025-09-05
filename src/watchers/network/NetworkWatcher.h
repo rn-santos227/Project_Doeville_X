@@ -7,5 +7,10 @@
 #include "services/network/NetworkService.h"
 #include "utilities/logs_manager/LogsManager.h"
 
+namespace Project::Watchers {
+  class NetworkWatcher {
+
+  };
+}
 
 #endif

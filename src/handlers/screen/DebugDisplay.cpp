@@ -1,11 +1,13 @@
 #include "DebugDisplay.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <iomanip>
 #include <sstream>
 
 #if defined(_WIN32)
-#include <windows.h>
+#define NOMINMAX
+#include <Windows.h>
 #include <psapi.h>
 #elif defined(__APPLE__) && defined(__MACH__)
 #include <mach/mach.h>

@@ -57,6 +57,9 @@ namespace Project::Handlers {
     if (uptime >= Constants::SECONDS_PER_MINUTE) {
       uptime /= Constants::SECONDS_PER_MINUTE;
       uptimeSuffix = Constants::DEBUG_UPTIME_MIN_SUFFIX;
+      if (uptime >= Constants::MINUTES_PER_HOUR) {
+
+      }
     }
 
     std::ostringstream uptimeStream;

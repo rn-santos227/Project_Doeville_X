@@ -391,7 +391,7 @@ namespace Project::Components {
     return texture;
   }
 
-  bool GraphicsComponent::isInCameraView() {
+  bool GraphicsComponent::isInCameraView() const {
     if (!cameraHandler) return true;
     const SDL_FRect cullRect = cameraHandler->getCullingRect();
     SDL_FRect worldRect = data.destRect;

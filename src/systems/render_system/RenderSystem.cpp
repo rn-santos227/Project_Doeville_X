@@ -84,7 +84,7 @@ namespace Project::Systems {
 
   void RenderSystem::drawBuffer(const std::vector<GraphicsComponent*>& buffer) {
     for (auto* comp : buffer) {
-      if (comp && comp->isActive()) {
+      if (comp && comp->isActive() && comp->isInCameraView()) {
         comp->render();
         Project::Utilities::Profiler::getInstance().incrementDrawCalls();
       }

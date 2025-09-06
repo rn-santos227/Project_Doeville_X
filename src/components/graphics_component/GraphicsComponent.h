@@ -98,7 +98,8 @@ namespace Project::Components {
     void setOccluder(bool value) { occluder = value; }
     bool isOccluder() const { return occluder; }
     bool isInFrustum(const Project::Handlers::Camera& cam) const;
-    bool isVisible(const Project::Handlers::Camera& cam, const std::vector<SDL_FRect>& occluders,  int frame) const;
+    bool isVisible(const Project::Handlers::Camera& cam, const std::vector<SDL_FRect>& occluders,  int frame) const; 
+    bool isInCameraView() const;
     
   private:
     static Project::Handlers::CameraHandler* cameraHandler;
@@ -133,8 +134,6 @@ namespace Project::Components {
 
     SDL_FRect getRenderRect() const;
     SDL_Texture* getTextureToRender();
-    
-    bool isInCameraView();
     
     void checkAsyncTextureLoad();
     void renderTexture(SDL_Texture* texture, const SDL_FRect& renderRect);

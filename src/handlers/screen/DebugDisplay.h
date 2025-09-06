@@ -41,6 +41,7 @@ namespace Project::Handlers {
 
     float debugTextScale = Project::Libraries::Constants::DEFAULT_WHOLE;
     int gridSpacing = Project::Libraries::Constants::DEFAULT_GRID_SPACING;
+    int maxValueWidth = 0;
 
     void renderMousePosition();
     void renderAxes();

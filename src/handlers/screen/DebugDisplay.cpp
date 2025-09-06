@@ -4,9 +4,9 @@
 #include <cstdio>
 #include <iomanip>
 #include <sstream>
+#include <vector>
 
 #if defined(_WIN32)
-#define NOMINMAX
 #include <Windows.h>
 #include <psapi.h>
 #elif defined(__APPLE__) && defined(__MACH__)
@@ -91,6 +91,10 @@ namespace Project::Handlers {
         int scaledPrefixH = static_cast<int>(prefixH * debugTextScale);
         int scaledValueW = static_cast<int>(valueW * debugTextScale);
         int scaledValueH = static_cast<int>(valueH * debugTextScale);
+
+        int valueColumnRight = screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT;
+        maxValueWidth = std::max(maxValueWidth, scaledValueW);
+        int prefixColumnRight = valueColumnRight - maxValueWidth - Constants::DEBUG_COLUMN_SPACING;
 
         SDL_Rect valueRect = {
           screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT - scaledValueW,

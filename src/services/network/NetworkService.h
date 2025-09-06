@@ -1,6 +1,8 @@
 #ifndef NETWORK_SERVICE_H
 #define NETWORK_SERVICE_H
 
+#include "HttpHeader.h"
+
 #include <cstdint>
 #include <functional>
 #include <mutex>
@@ -44,8 +46,7 @@ namespace Project::Services {
     );
 
     HttpHeader constructHeader(
-      const std::vector<std::pair<std::string,
-      std::string>>& headers = {},
+      const std::vector<std::pair<std::string,std::string>>& headers = {},
       const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING
     );
 

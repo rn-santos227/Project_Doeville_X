@@ -86,6 +86,7 @@ namespace Project::Systems {
     for (auto* comp : buffer) {
       if (comp && comp->isActive()) {
         comp->render();
+        Project::Utilities::Profiler::getInstance().incrementDrawCalls();
       }
     }
   }

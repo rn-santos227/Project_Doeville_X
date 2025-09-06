@@ -5,7 +5,8 @@
 
 namespace Project::Components {
   struct NetworkData {
-
+    std::string endpoint;
+    std::string protocol;
   };
 }
 

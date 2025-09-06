@@ -104,7 +104,7 @@ namespace Project::Handlers {
         };
 
         SDL_Rect prefixRect = {
-          valueRect.x - Constants::DEBUG_COLUMN_SPACING - scaledPrefixW,
+          prefixColumnRight - scaledPrefixW,
           yOffset,
           scaledPrefixW,
           scaledPrefixH

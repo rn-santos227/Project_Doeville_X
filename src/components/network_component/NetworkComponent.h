@@ -16,6 +16,7 @@ namespace Project::Components {
     Project::Entities::Entity* owner{nullptr};
     Project::Services::NetworkService& network;
     NetworkData data;
+    std::string lastPayload;
   };
 }
 

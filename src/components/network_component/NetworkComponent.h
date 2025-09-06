@@ -11,7 +11,11 @@ namespace Project { namespace Entities { class Entity; } }
 
 namespace Project::Components {
   class NetworkComponent : public BaseComponent {
-
+  
+  private:
+    Project::Entities::Entity* owner{nullptr};
+    Project::Services::NetworkService& network;
+    NetworkData data;
   };
 }
 

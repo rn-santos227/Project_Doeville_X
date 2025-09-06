@@ -3,6 +3,10 @@
 
 #include <string>
 
+namespace Project::Components {
+  struct NetworkData {
 
+  };
+}
 
 #endif

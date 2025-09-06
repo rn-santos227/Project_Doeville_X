@@ -13,7 +13,10 @@ namespace Project::Components {
   class NetworkComponent : public BaseComponent {
     NetworkComponent(Project::Utilities::LogsManager& logsManager, Project::Services::NetworkService& service);
     ~NetworkComponent() override = default;
-    
+
+    Project::Entities::Entity* getOwner() const override { return owner; }
+    ComponentType getType() const override { return ComponentType::NETWORK; }
+
   private:
     Project::Entities::Entity* owner{nullptr};
     Project::Services::NetworkService& network;

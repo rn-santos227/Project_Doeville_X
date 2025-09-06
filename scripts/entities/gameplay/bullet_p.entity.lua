@@ -60,13 +60,13 @@ function update(deltaTime)
   local count = 0
   while target and not seen[target] and count < 10 do
     seen[target] = true
-    subtractNumericValue(target, "hp", 1)
-    local hp = getNumericValue(target, "hp")
+    subtractNumericValue(target, "health", 1)
+    local health = getNumericValue(target, "health")
     setMeterActive(target, true)
     setTimerActive(target, true)
     setColor(target, 255, 255, 255)
     setNumericValue(target, "flash", 0.1)
-    if hp <= 0 then
+    if health <= 0 then
       destroyEntity(target)
     end
     count = count + 1

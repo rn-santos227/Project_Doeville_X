@@ -22,6 +22,7 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
+    void setEndpoint(const std::string& endpoint) { data.endpoint = endpoint; }
 
   private:
     Project::Entities::Entity* owner{nullptr};

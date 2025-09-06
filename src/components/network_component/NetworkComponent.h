@@ -17,6 +17,8 @@ namespace Project::Components {
     Project::Services::NetworkService& network;
     NetworkData data;
     std::string lastPayload;
+
+    void applyPayload(const Project::Services::NetworkService::Payload& payload);
   };
 }
 

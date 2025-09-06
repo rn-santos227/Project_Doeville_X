@@ -10,6 +10,12 @@
 namespace Project::Components {
   using Project::Utilities::LogsManager;
   using Project::Services::NetworkService;
-  
+
   namespace Keys = Project::Libraries::Keys;
+  NetworkComponent::NetworkComponent(LogsManager& logsManager, NetworkService& service)
+    : BaseComponent(logsManager), network(service) {
+    network.onPayload([this](const NetworkService::Payload& p) {
+      applyPayload(p);
+    });
+  }
 }

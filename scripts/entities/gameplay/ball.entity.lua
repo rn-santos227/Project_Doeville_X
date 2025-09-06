@@ -28,7 +28,7 @@ components = {
   NumericComponent = {
     component = "NumericComponent",
     active = true,
-    hp = { value = 3, limit = 3 },
+    health = { value = 3, limit = 3 },
     flash = { value = 0, limit = 0 }
   },
 
@@ -36,7 +36,7 @@ components = {
     component = "MeterComponent",
     class = "obs-hp-meter",
     active = false,
-    name = "hp",
+    health = { value = 3, limit = 3 },
     orientation = "horizontal",
     y = -10
   },

@@ -97,7 +97,7 @@ namespace Project::Handlers {
         int prefixColumnRight = valueColumnRight - maxValueWidth - Constants::DEBUG_COLUMN_SPACING;
 
         SDL_Rect valueRect = {
-          screenWidth - Constants::DEBUG_VALUE_COL_OFFSET_FROM_RIGHT - scaledValueW,
+          valueColumnRight - scaledValueW,
           yOffset,
           scaledValueW,
           scaledValueH

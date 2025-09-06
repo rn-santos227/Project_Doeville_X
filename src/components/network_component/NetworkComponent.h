@@ -23,6 +23,7 @@ namespace Project::Components {
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
     void setEndpoint(const std::string& endpoint) { data.endpoint = endpoint; }
+    void setProtocol(const std::string& protocol) { data.protocol = protocol; }
 
   private:
     Project::Entities::Entity* owner{nullptr};

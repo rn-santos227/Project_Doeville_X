@@ -6,6 +6,7 @@
 #include "components/BaseComponent.h"
 #include "services/network/NetworkService.h"
 
-
+namespace Project::Watchers { class NetworkWatcher; }
+namespace Project { namespace Entities { class Entity; } }
 
 #endif

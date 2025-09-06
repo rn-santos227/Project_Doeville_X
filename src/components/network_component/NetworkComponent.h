@@ -26,6 +26,9 @@ namespace Project::Components {
     void setProtocol(const std::string& protocol) { data.protocol = protocol; }
     void setTokenKey(const std::string& tokenKey) { data.tokenKey = tokenKey; }
 
+    void subscribe(Project::Watchers::NetworkWatcher& watcher);
+    const std::string& getLastPayload() const { return lastPayload; }
+
   private:
     Project::Entities::Entity* owner{nullptr};
     Project::Services::NetworkService& network;

@@ -9,4 +9,10 @@
 namespace Project::Watchers { class NetworkWatcher; }
 namespace Project { namespace Entities { class Entity; } }
 
+namespace Project::Components {
+  class NetworkComponent : public BaseComponent {
+
+  };
+}
+
 #endif

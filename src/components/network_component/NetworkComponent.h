@@ -17,6 +17,10 @@ namespace Project::Components {
     Project::Entities::Entity* getOwner() const override { return owner; }
     ComponentType getType() const override { return ComponentType::NETWORK; }
 
+    void update(float deltaTime) override;
+    void render() override {}
+    void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
+
   private:
     Project::Entities::Entity* owner{nullptr};
     Project::Services::NetworkService& network;

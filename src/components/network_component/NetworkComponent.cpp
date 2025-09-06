@@ -8,5 +8,8 @@
 #include "watchers/network/NetworkWatcher.h"
 
 namespace Project::Components {
-
+  using Project::Utilities::LogsManager;
+  using Project::Services::NetworkService;
+  
+  namespace Keys = Project::Libraries::Keys;
 }

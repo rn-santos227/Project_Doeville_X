@@ -18,4 +18,8 @@ namespace Project::Components {
       applyPayload(p);
     });
   }
+
+  void NetworkComponent::update(float) {
+
+  }
 }

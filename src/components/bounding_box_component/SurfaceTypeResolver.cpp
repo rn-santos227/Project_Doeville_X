@@ -3,7 +3,7 @@
 #include <array>
 #include <string_view>
 
-#include "libraries/categories/Categories.h"
+#include "libraries/categories/SurfaceCategories.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Components {

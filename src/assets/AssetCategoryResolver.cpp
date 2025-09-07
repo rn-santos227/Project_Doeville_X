@@ -3,7 +3,7 @@
 #include <array>
 #include <string_view>
 
-#include "libraries/categories/Categories.h"
+#include "libraries/categories/AssetCategories.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Assets {

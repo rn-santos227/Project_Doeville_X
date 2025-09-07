@@ -4,15 +4,13 @@
 #include <string_view>
 
 #include "libraries/categories/Categories.h"
-#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Components {
   namespace Surfaces = Project::Libraries::Categories::Surfaces;
-  namespace Constants = Project::Libraries::Constants;
 
   SurfaceType SurfaceTypeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, SurfaceType>, Constants::SURFACE_NAME_ALIAS_COUNT> map{{
+    static constexpr std::array<std::pair<std::string_view, SurfaceType>, Surfaces::SURFACE_NAME_ALIAS_COUNT> map{{
       {Surfaces::BOUNCE, SurfaceType::BOUNCE},
       {Surfaces::DESTROY_ON_HIT, SurfaceType::DESTROY_ON_HIT},
       {Surfaces::GHOST_PASS, SurfaceType::GHOST_PASS},

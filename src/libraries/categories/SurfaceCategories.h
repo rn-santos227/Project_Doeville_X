@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Categories {
   namespace Surfaces {
+    constexpr size_t SURFACE_NAME_ALIAS_COUNT = 7;
+    
     constexpr const char* BOUNCE = "BOUNCE";
     constexpr const char* DESTROY_ON_HIT = "DESTROY_ON_HIT";
     constexpr const char* GHOST_PASS = "GHOST_PASS";

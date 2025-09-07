@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Categories {
   namespace States {
+    constexpr size_t STATE_NAME_ALIAS_COUNT = 24;
+    
     constexpr const char* MAIN_MENU_STATE = "MAIN_MENU_STATE";
     constexpr const char* SETTINGS_STATE = "SETTINGS_STATE";
     constexpr const char* PAUSE_STATE = "PAUSE_STATE";

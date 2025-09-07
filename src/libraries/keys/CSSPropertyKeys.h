@@ -2,6 +2,7 @@
 #define CSS_PROPERTY_KEYS_H
 
 namespace Project::Libraries::Keys {
+  constexpr size_t STYLING_NAME_ALIAS_COUNT = 49;
   // Box Model
   constexpr const char* CSS_WIDTH = "width";
   constexpr const char* CSS_HEIGHT = "height";

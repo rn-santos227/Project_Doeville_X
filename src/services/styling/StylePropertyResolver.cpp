@@ -4,15 +4,13 @@
 #include <string_view>
 
 #include "libraries/keys/CSSPropertyKeys.h"
-#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Services {
   namespace Keys = Project::Libraries::Keys;
-  namespace Constants = Project::Libraries::Constants;
 
   StyleProperty StylePropertyResolver::resolve(std::string_view property) {
-   static constexpr std::array<std::pair<std::string_view, StyleProperty>, Constants::STYLING_NAME_ALIAS_COUNT> map{{
+   static constexpr std::array<std::pair<std::string_view, StyleProperty>, Keys::STYLING_NAME_ALIAS_COUNT> map{{
       {Keys::CSS_BACKGROUND, StyleProperty::BACKGROUND},
       {Keys::CSS_BACKGROUND_COLOR, StyleProperty::BACKGROUND_COLOR},
       {Keys::CSS_FOREGROUND, StyleProperty::FOREGROUND},

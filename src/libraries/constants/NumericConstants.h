@@ -63,8 +63,6 @@ namespace Project::Libraries::Constants {
   constexpr size_t DEFAULT_ENTITIES_PER_CHUNK = 32;
   constexpr size_t DEFAULT_INITIAL_CAPACITY = 1000;
   constexpr size_t MAX_SEEDED_ENTITY = 1000;
-  
-  constexpr size_t STYLING_NAME_ALIAS_COUNT = 49;
 }
 
 #endif

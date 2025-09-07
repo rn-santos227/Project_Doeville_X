@@ -3,10 +3,15 @@
 
 #include <string>
 
+#include "services/network/NetworkProtocol.h"
+
 namespace Project::Components {
   struct NetworkData {
+    Project::Services::NetworkProtocol protocol{
+      Project::Services::NetworkProtocol::HTTP
+    };
+    
     std::string endpoint;
-    std::string protocol;
     std::string tokenKey;
     bool connected{false};
   };

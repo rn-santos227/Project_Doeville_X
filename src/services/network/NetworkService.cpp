@@ -16,8 +16,9 @@ namespace Project::Services {
     envLoader.loadEnv();
   }
 
-  bool NetworkService::connect(const std::string& endpoint, Protocol protocol, const std::string& tokenKey) {
+  bool NetworkService::connect(const std::string& endpoint, NetworkProtocol protocol, const std::string& tokenKey) {
     logsManager.logMessage("Connecting to " + endpoint);
+    (void)protocol;
     if (!tokenKey.empty()) {
       auto token = getToken(tokenKey);
       if (token.empty())

@@ -2,6 +2,7 @@
 #define NETWORK_SERVICE_H
 
 #include "HttpHeader.h"
+#include "NetworkProtocol.h"
 
 #include <cstdint>
 #include <functional>
@@ -19,14 +20,13 @@
 namespace Project::Services {
   class NetworkService {
   public:
-    enum class Protocol { HTTP, WebSocket, P2P };
     explicit NetworkService(Project::Utilities::LogsManager& logs, const std::string& envPath = Project::Libraries::Constants::ENV_EXTENSION);
 
     using Payload = std::vector<std::uint8_t>;
     using ResponseHandler = std::function<void(const Payload&)>;
     using MessageHandler = std::function<void(const Payload&)>;
 
-    bool connect(const std::string& endpoint, Protocol protocol, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
+    bool connect(const std::string& endpoint, NetworkProtocol protocol, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
     void send(const Payload& data);
     void onPayload(MessageHandler handler);
 

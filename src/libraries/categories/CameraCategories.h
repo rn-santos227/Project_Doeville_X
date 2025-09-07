@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Categories {
   namespace Cameras {
+    constexpr size_t CAMERA_NAME_ALIAS_COUNT = 13;
+  
     constexpr const char* TOP_DOWN = "TOP_DOWN";
     constexpr const char* SIDE_SCROLLER = "SIDE_SCROLLER";
     constexpr const char* ISOMETRIC = "ISOMETRIC";

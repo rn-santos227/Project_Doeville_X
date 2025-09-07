@@ -64,7 +64,6 @@ namespace Project::Libraries::Constants {
   constexpr size_t DEFAULT_INITIAL_CAPACITY = 1000;
   constexpr size_t MAX_SEEDED_ENTITY = 1000;
   
-  constexpr size_t CAMERA_NAME_ALIAS_COUNT = 13;
   constexpr size_t DIMENSION_NAME_ALIAS_COUNT = 10;
   constexpr size_t ENTITY_ATTRIBUTE_NAME_ALIAS_COUNT = 25;
   constexpr size_t INPUT_NAME_ALIAS_COUNT = 3;

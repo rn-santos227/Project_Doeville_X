@@ -9,10 +9,9 @@
 
 namespace Project::Handlers {
   namespace Cameras = Project::Libraries::Categories::Cameras;
-  namespace Constants = Project::Libraries::Constants;
 
   CameraType CameraTypeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, CameraType>, Constants::CAMERA_NAME_ALIAS_COUNT> map{{
+    static constexpr std::array<std::pair<std::string_view, CameraType>, Cameras::CAMERA_NAME_ALIAS_COUNT> map{{
       {Cameras::TOP_DOWN, CameraType::TOP_DOWN},
       {Cameras::SIDE_SCROLLER, CameraType::SIDE_SCROLLER},
       {Cameras::ISOMETRIC, CameraType::ISOMETRIC},

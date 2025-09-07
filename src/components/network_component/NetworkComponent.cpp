@@ -23,7 +23,7 @@ namespace Project::Components {
 
   void NetworkComponent::update(float) {
     if (!isActive() || data.connected || data.endpoint.empty()) return;
-  if (network.connect(data.endpoint, data.protocol, data.tokenKey))
-    data.connected = true;
+    if (network.connect(data.endpoint, data.protocol, data.tokenKey))
+      data.connected = true;
   }
 }

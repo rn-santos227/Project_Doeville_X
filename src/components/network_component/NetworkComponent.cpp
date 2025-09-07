@@ -36,5 +36,6 @@ namespace Project::Components {
     data.endpoint = luaStateWrapper.getTableString(tableName, Keys::ENDPOINT, EMPTY_STRING);
     auto protoStr = luaStateWrapper.getTableString(tableName, Keys::PROTOCOL, HTTP);
     data.protocol = NetworkProtocolResolver::resolve(protoStr);
+    data.tokenKey = luaStateWrapper.getTableString(tableName, Keys::TOKEN_KEY, EMPTY_STRING);
   }
 }

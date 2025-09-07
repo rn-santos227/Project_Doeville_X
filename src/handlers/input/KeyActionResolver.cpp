@@ -6,14 +6,13 @@
 #include <string_view>
 
 #include "utilities/string/StringUtils.h"
-#include "libraries/constants/NumericConstants.h"
 #include "libraries/constants/ScanCodeKeys.h"
 
 namespace Project::Handlers {
   namespace CodeKeys = Project::Libraries::Constants;
 
   KeyAction KeyActionResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, KeyAction>, Project::Libraries::Constants::KEY_ACTION_NAME_ALIAS_COUNT> map{{
+    static constexpr std::array<std::pair<std::string_view, KeyAction>, CodeKeys::KEY_ACTION_NAME_ALIAS_COUNT> map{{
       {CodeKeys::MOVE_UP, KeyAction::MOVE_UP},
       {CodeKeys::MOVE_DOWN, KeyAction::MOVE_DOWN},
       {CodeKeys::MOVE_LEFT, KeyAction::MOVE_LEFT},

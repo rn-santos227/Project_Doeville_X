@@ -10,6 +10,8 @@ namespace Project::Libraries::Constants {
   constexpr SDL_Scancode KEY_FUNC_RESTART = SDL_SCANCODE_F4;
   constexpr SDL_Scancode KEY_FUNC_EXIT = SDL_SCANCODE_F5;
 
+  constexpr size_t KEY_ACTION_NAME_ALIAS_COUNT = 56;
+
   constexpr const char* MOVE_UP = "MOVE_UP";
   constexpr const char* MOVE_DOWN = "MOVE_DOWN";
   constexpr const char* MOVE_LEFT = "MOVE_LEFT";

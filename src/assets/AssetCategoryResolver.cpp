@@ -4,7 +4,6 @@
 #include <string_view>
 
 #include "libraries/categories/Categories.h"
-#include "libraries/constants/NumericConstants.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Assets {

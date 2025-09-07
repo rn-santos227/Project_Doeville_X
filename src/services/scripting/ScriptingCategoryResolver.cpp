@@ -3,16 +3,14 @@
 #include <array>
 #include <string_view>
 
-#include "libraries/categories/Categories.h"
-#include "libraries/constants/NumericConstants.h"
+#include "libraries/categories/ScriptCategories.h"
 #include "utilities/string/StringUtils.h"
 
 namespace Project::Services {
   namespace Scripts = Project::Libraries::Categories::Scripts;
-  namespace Constants = Project::Libraries::Constants;
   
   ScriptCategory ScriptingCategoryResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, ScriptCategory>, Constants::SCRIPTING_NAME_ALIAS_COUNT> map{{
+    static constexpr std::array<std::pair<std::string_view, ScriptCategory>, Scripts::SCRIPTING_NAME_ALIAS_COUNT> map{{
       {Scripts::ENTITY, ScriptCategory::ENTITY},
       {Scripts::ITEM, ScriptCategory::ITEM},
       {Scripts::ASSET, ScriptCategory::ASSET},

@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Categories {
   namespace Scripts {
+    constexpr size_t SCRIPTING_NAME_ALIAS_COUNT = 6;
+
     constexpr const char* ENTITY = "ENTITY";
     constexpr const char* ITEM = "ITEM";
     constexpr const char* ASSET = "ASSET";

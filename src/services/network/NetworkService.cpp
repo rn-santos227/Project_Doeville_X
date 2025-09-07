@@ -5,9 +5,12 @@
 #include <thread>
 #include <utility>
 
+#include "libraries/constants/NetworkConstants.h"
+
 namespace Project::Services {
   using Project::Utilities::LogsManager;
 
+  namespace Constants = Project::Libraries::Constants;
   NetworkService::NetworkService(LogsManager& logs, const std::string& envPath)
     : logsManager(logs), envLoader(logsManager, envPath) {
     envLoader.loadEnv();
@@ -33,7 +36,7 @@ namespace Project::Services {
 
   void NetworkService::asyncGet(const std::string& endpoint, ResponseHandler handler, const std::vector<std::pair<std::string, std::string>>& headers, const std::string& tokenKey) {
     std::thread([this, endpoint, handler = std::move(handler), tokenKey, headers]() {
-      logsManager.logMessage(std::string(Project::Libraries::Constants::GET_METHOD) + " " + endpoint);
+      logsManager.logMessage(std::string(Constants::GET_METHOD) + " " + endpoint);
       auto header = constructHeader(headers, tokenKey);
       header.build();
       Payload payload(endpoint.begin(), endpoint.end());
@@ -44,7 +47,7 @@ namespace Project::Services {
 
   void NetworkService::asyncPost(const std::string& endpoint, const Payload& payload, ResponseHandler handler, const std::vector<std::pair<std::string, std::string>>& headers, const std::string& tokenKey) {
     std::thread([this, endpoint, payload, handler = std::move(handler), tokenKey, headers]() mutable {
-      logsManager.logMessage(std::string(Project::Libraries::Constants::POST_METHOD) + " " + endpoint);
+      logsManager.logMessage(std::string(Constants::POST_METHOD) + " " + endpoint);
       auto header = constructHeader(headers, tokenKey);
       header.build();
       Payload reply = payload;
@@ -59,7 +62,7 @@ namespace Project::Services {
     if (!tokenKey.empty()) {
     auto token = getToken(tokenKey);
     if (!token.empty()) {
-      header.add(Project::Libraries::Constants::HEADER_AUTH, std::string(Project::Libraries::Constants::HEADER_BEARER) + token);
+      header.add(Constants::HEADER_AUTH, std::string(Constants::HEADER_BEARER) + token);
       logsManager.logMessage("Using token for header: " + tokenKey);
     } else {
       logsManager.logWarning("Auth token missing for key: " + tokenKey);
@@ -92,7 +95,7 @@ namespace Project::Services {
     auto it = tokenCache.find(key);
     if (it != tokenCache.end()) return it->second;
 
-    auto token = envLoader.getValue(key, Project::Libraries::Constants::EMPTY_STRING);
+    auto token = envLoader.getValue(key, Constants::EMPTY_STRING);
     if (!token.empty()) tokenCache[key] = token;
     return token;
   }

@@ -4,6 +4,7 @@
 #include "ProjectInfoConstants.h"
 #include "PathConstants.h"
 #include "NameConstants.h"
+#include "NetworkConstants.h"
 #include "IndexConstants.h"
 #include "MiscellaneousConstants.h"
 #include "NumericConstants.h"

@@ -9,7 +9,7 @@
 namespace Project::Entities {
   namespace Attributes = Project::Libraries::Attributes::Entities;
   EntityAttribute EntityAttributeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, EntityAttribute>, 25> map{{
+    static constexpr std::array<std::pair<std::string_view, EntityAttribute>, Attributes::ENTITY_ATTRIBUTE_NAME_ALIAS_COUNT> map{{
       {Attributes::DEFAULT, EntityAttribute::DEFAULT},
       {Attributes::AGGRESSIVE, EntityAttribute::AGGRESSIVE},
       {Attributes::DEBUG_ONLY, EntityAttribute::DEBUG_ONLY},

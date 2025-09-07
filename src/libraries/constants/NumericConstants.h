@@ -64,7 +64,6 @@ namespace Project::Libraries::Constants {
   constexpr size_t DEFAULT_INITIAL_CAPACITY = 1000;
   constexpr size_t MAX_SEEDED_ENTITY = 1000;
   
-  constexpr size_t ENTITY_ATTRIBUTE_NAME_ALIAS_COUNT = 25;
   constexpr size_t INPUT_NAME_ALIAS_COUNT = 3;
   constexpr size_t KEY_ACTION_NAME_ALIAS_COUNT = 56;
   constexpr size_t LAYER_NAME_ALIAS_COUNT = 7;

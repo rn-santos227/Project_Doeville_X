@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Attributes {
   namespace Entities {
+    constexpr size_t ENTITY_ATTRIBUTE_NAME_ALIAS_COUNT = 25;
+
     constexpr const char* DEFAULT = "DEFAULT";
     constexpr const char* AGGRESSIVE = "AGGRESSIVE";
     constexpr const char* DEBUG_ONLY = "DEBUG_ONLY";

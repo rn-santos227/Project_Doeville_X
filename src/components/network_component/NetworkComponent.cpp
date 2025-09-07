@@ -12,6 +12,7 @@ namespace Project::Components {
   using Project::Utilities::LogsManager;
   using Project::Services::NetworkService;
   using Project::Services::NetworkProtocolResolver;
+  using Project::Utilities::LuaStateWrapper;
 
   namespace Keys = Project::Libraries::Keys;
   NetworkComponent::NetworkComponent(LogsManager& logsManager, NetworkService& service)
@@ -25,5 +26,9 @@ namespace Project::Components {
     if (!isActive() || data.connected || data.endpoint.empty()) return;
     if (network.connect(data.endpoint, data.protocol, data.tokenKey))
       data.connected = true;
+  }
+
+  void NetworkComponent::build(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+
   }
 }

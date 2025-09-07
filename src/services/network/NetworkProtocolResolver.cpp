@@ -15,5 +15,10 @@ namespace Project::Services {
       {Protocols::WEBSOCKET, NetworkProtocol::WebSocket},
       {Protocols::P2P, NetworkProtocol::P2P},
     }};
+
+    for (const auto& [key, value] : map) {
+      if (Project::Utilities::StringUtils::iequals(key, name)) return value;
+    }
+    return NetworkProtocol::HTTP;
   }
 }

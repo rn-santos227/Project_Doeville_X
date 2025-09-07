@@ -9,10 +9,9 @@
 
 namespace Project::States {
   namespace Dimensions = Project::Libraries::Modes::Dimensions;
-  namespace Constants = Project::Libraries::Constants;
 
   DimensionMode DimensionModeResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, DimensionMode>, Constants::DIMENSION_NAME_ALIAS_COUNT> map{{
+    static constexpr std::array<std::pair<std::string_view, DimensionMode>, Dimensions::DIMENSION_NAME_ALIAS_COUNT> map{{
       {Dimensions::BOXED, DimensionMode::BOXED},
       {Dimensions::BOUNDED, DimensionMode::BOUNDED},
       {Dimensions::FREE_ROAMING, DimensionMode::FREE_ROAMING},

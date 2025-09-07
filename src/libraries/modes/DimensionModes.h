@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Modes {
   namespace Dimensions {
+    constexpr size_t DIMENSION_NAME_ALIAS_COUNT = 10;
+
     constexpr const char* BOXED = "BOXED";
     constexpr const char* BOUNDED = "BOUNDED";
     constexpr const char* FREE_ROAMING = "FREE_ROAMING";

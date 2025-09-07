@@ -7,6 +7,7 @@
 #include "EntityCategories.h"
 #include "InputCategories.h"
 #include "LayerCategories.h"
+#include "ProtocolCategories.h"
 #include "ScriptCategories.h"
 #include "StateCategories.h"
 #include "SurfaceCategories.h"

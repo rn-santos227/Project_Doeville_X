@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Categories {
   namespace Layers {
+    constexpr size_t LAYER_NAME_ALIAS_COUNT = 7;
+    
     constexpr const char* HUD = "hud";
     constexpr const char* OVERLAY = "overlay";
     constexpr const char* FOREGROUND = "foreground";

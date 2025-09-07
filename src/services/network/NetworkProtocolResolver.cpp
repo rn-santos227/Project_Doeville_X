@@ -10,6 +10,8 @@ namespace Project::Services {
   namespace Protocols = Project::Libraries::Categories::Protocols;
 
   NetworkProtocol NetworkProtocolResolver::resolve(std::string_view name) {
+    static constexpr std::array<std::pair<std::string_view, NetworkProtocol>, Protocols::PROTOCOL_NAME_ALIAS_COUNT> map{{
 
+    }};
   }
 }

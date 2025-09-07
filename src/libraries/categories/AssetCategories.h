@@ -3,6 +3,8 @@
 
 namespace Project::Libraries::Categories {
   namespace Assets {
+    constexpr size_t ASSET_NAME_ALIAS_COUNT = 7;
+    
     constexpr const char* AUDIO = "audio";
     constexpr const char* BGM = "bgm";
     constexpr const char* CURSOR = "cursor";

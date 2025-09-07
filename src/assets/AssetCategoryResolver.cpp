@@ -9,10 +9,9 @@
 
 namespace Project::Assets {
   namespace Assets = Project::Libraries::Categories::Assets;
-  namespace Constants = Project::Libraries::Constants;
 
   AssetCategory AssetCategoryResolver::resolve(std::string_view name) {
-    static constexpr std::array<std::pair<std::string_view, AssetCategory>, Constants::ASSET_NAME_ALIAS_COUNT> map{{
+    static constexpr std::array<std::pair<std::string_view, AssetCategory>, Assets::ASSET_NAME_ALIAS_COUNT> map{{
       {Assets::AUDIO, AssetCategory::AUDIO},
       {Assets::BGM, AssetCategory::BGM},
       {Assets::FONT, AssetCategory::FONT},

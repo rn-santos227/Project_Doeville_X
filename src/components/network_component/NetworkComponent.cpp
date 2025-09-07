@@ -4,6 +4,7 @@
 
 #include "entities/Entity.h"
 #include "libraries/keys/Keys.h"
+#include "libraries/categories/ProtocolCategories.h"
 #include "services/network/NetworkProtocolResolver.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "watchers/network/NetworkWatcher.h"
@@ -29,6 +30,11 @@ namespace Project::Components {
   }
 
   void NetworkComponent::build(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {
+    using namespace Project::Libraries::Constants;
+    using namespace Project::Libraries::Categories::Protocols;
 
+    data.endpoint = luaStateWrapper.getTableString(tableName, Keys::ENDPOINT, EMPTY_STRING);
+    auto protoStr = luaStateWrapper.getTableString(tableName, Keys::PROTOCOL, HTTP);
+    data.protocol = NetworkProtocolResolver::resolve(protoStr);
   }
 }

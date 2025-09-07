@@ -41,6 +41,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* DISTANCE = "distance";
   constexpr const char* DURATION = "duration";
   constexpr const char* ENABLED = "enabled";
+  constexpr const char* ENDPOINT = "endpoint";
   constexpr const char* FOLLOW_CAMERA = "follow_camera";
   constexpr const char* FOLLOW_SPEED = "follow_speed";
   constexpr const char* FONT_COLOR_HEX = "font_color_hex";
@@ -84,6 +85,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* ORIENTATION = "orientation";
   constexpr const char* PLAYER = "player";
   constexpr const char* POSITION = "position";
+  constexpr const char* PROTOCOL = "protocol";
   constexpr const char* RADIUS = "radius";
   constexpr const char* RATE = "rate";
   constexpr const char* RAYS = "rays";
@@ -119,6 +121,7 @@ namespace Project::Libraries::Keys {
   constexpr const char* TEXTURE_PATH = "texture_path";
   constexpr const char* TITLE = "title";
   constexpr const char* TIME = "time";
+  constexpr const char* TOKEN_KEY = "token_key";
   constexpr const char* TRIGGER_ON_ACTION = "trigger_on_action";
   constexpr const char* TRIGGER_ON_INSIDE = "trigger_on_inside";
   constexpr const char* TRIGGER_ON_TOUCH = "trigger_on_touch";

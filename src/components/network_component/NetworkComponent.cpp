@@ -20,6 +20,6 @@ namespace Project::Components {
   }
 
   void NetworkComponent::update(float) {
-
+    if (!isActive() || data.connected || data.endpoint.empty()) return;
   }
 }

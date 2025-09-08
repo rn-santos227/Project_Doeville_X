@@ -55,5 +55,10 @@ namespace Project::Components {
 
     std::string data;
     if (!std::getline(stream, data)) return;
+
+    auto equalPos = data.find('=');
+    if (equalPos != std::string::npos) {
+
+    }
   }
 }

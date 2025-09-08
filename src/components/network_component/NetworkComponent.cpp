@@ -40,6 +40,6 @@ namespace Project::Components {
   }
 
   void NetworkComponent::applyPayload(const Project::Services::NetworkService::Payload& payload) {
-
+    if (!owner) return;
   }
 }

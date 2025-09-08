@@ -72,5 +72,8 @@ namespace Project::Components {
     char comma;
 
     std::istringstream coords(data);
+    if (coords >> x >> comma >> y) {
+
+    }
   }
 }

@@ -46,5 +46,7 @@ namespace Project::Components {
     std::string id;
     if (!std::getline(stream, id, ':')) return;
     if (id != owner->getEntityID()) return;
+
+    lastPayload = msg;
   }
 }

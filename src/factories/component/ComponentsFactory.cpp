@@ -302,4 +302,8 @@ namespace Project::Factories {
   void ComponentsFactory::setAssetsManager(AssetsManager* _manager) {
     this->assetsManager = _manager;
   }
+
+  void ComponentsFactory::setNetworkService(Project::Services::NetworkService* _service) {
+    this->networkService = _service;
+  }
 }

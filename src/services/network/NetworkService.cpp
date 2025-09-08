@@ -1,11 +1,13 @@
 #include "NetworkService.h"
 #include "HttpHeader.h"
 
+#include <chrono>
 #include <string>
 #include <thread>
 #include <utility>
 
 #include "libraries/constants/NetworkConstants.h"
+#include "libraries/constants/NumericConstants.h"
 
 namespace Project::Services {
   using Project::Utilities::LogsManager;
@@ -18,13 +20,32 @@ namespace Project::Services {
 
   bool NetworkService::connect(const std::string& endpoint, NetworkProtocol protocol, const std::string& tokenKey) {
     logsManager.logMessage("Connecting to " + endpoint);
-    (void)protocol;
     if (!tokenKey.empty()) {
       auto token = getToken(tokenKey);
       if (token.empty())
         logsManager.logWarning("Auth token missing for key: " + tokenKey);
       else
         logsManager.logMessage("Auth token loaded for key: " + tokenKey);
+    }
+
+    connections.push_back({protocol, endpoint});
+    switch (protocol) {
+      case NetworkProtocol::HTTP:
+        logsManager.logMessage("Using HTTP protocol");
+        break;
+      
+      case NetworkProtocol::WebSocket:
+        logsManager.logMessage("Performing WebSocket handshake");
+        std::thread([this, endpoint]() {
+          std::this_thread::sleep_for(std::chrono::milliseconds(Constants::INT_TEN));
+          Payload msg(endpoint.begin(), endpoint.end());
+          inbound.push(std::move(msg));
+        }).detach();
+        break;
+      
+      case NetworkProtocol::P2P:
+        logsManager.logMessage("Registered P2P peer: " + endpoint);
+        break;
     }
     return true;
   }

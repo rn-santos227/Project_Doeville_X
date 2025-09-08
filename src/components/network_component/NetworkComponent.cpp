@@ -60,6 +60,9 @@ namespace Project::Components {
     if (equalPos != std::string::npos) {
       std::string key = data.substr(0, equalPos);
       float value = std::stof(data.substr(equalPos + 1));
+      if (auto* base = owner->getComponent(NUMERIC_COMPONENT)) {
+
+      }
     }
   }
 }

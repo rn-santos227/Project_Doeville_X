@@ -41,5 +41,7 @@ namespace Project::Components {
 
   void NetworkComponent::applyPayload(const Project::Services::NetworkService::Payload& payload) {
     if (!owner) return;
+    std::string msg(payload.begin(), payload.end());
+    std::istringstream stream(msg);
   }
 }

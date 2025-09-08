@@ -266,6 +266,7 @@ namespace Project::Entities {
       bbox = nullptr;
     }
     if (ptr == gfx) gfx = nullptr;
+    if (ptr == network) network = nullptr;
     if (ptr == physics) physics = nullptr;
 
     if (dynamic_cast<Components::KeysComponent*>(ptr)) {

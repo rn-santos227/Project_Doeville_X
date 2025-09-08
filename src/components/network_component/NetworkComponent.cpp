@@ -61,7 +61,9 @@ namespace Project::Components {
       std::string key = data.substr(0, equalPos);
       float value = std::stof(data.substr(equalPos + 1));
       if (auto* base = owner->getComponent(NUMERIC_COMPONENT)) {
-
+        if (auto* numeric = dynamic_cast<NumericComponent*>(base)) {
+          numeric->setValue(key, value);
+        }
       }
     }
   }

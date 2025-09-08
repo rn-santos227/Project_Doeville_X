@@ -19,6 +19,7 @@
 #include "components/bounding_box_component/BoundingBoxComponent.h"
 #include "components/graphics_component/GraphicsComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
+#include "components/network_component/NetworkComponent.h"
 #include "interfaces/render_interface/Renderable.h"
 #include "interfaces/update_interface/Updatable.h"
 #include "utilities/lua_scriptable/LuaScriptable.h"
@@ -90,7 +91,9 @@ namespace Project::Entities {
     Project::Components::BaseComponent* getComponent(const std::string& componentName);
     Project::Components::BoundingBoxComponent* getBoundingBoxComponent() const { return bbox; }
     Project::Components::GraphicsComponent* getGraphicsComponent() const { return gfx; }
+    Project::Components::NetworkComponent* getNetworkComponent() const { return network; }
     Project::Components::PhysicsComponent* getPhysicsComponent() const { return physics; }
+
     std::vector<std::string> listComponentNames() const;
     std::vector<Project::Components::BaseComponent*> getComponentsByType(Project::Components::ComponentType type) const;
     bool canSee(const Project::Entities::Entity* target) const;
@@ -111,6 +114,7 @@ namespace Project::Entities {
   private:
     Project::Components::BoundingBoxComponent* bbox = nullptr;
     Project::Components::GraphicsComponent* gfx = nullptr;
+    Project::Components::NetworkComponent* network = nullptr;
     Project::Components::PhysicsComponent* physics = nullptr;
     Project::Factories::ComponentsFactory& componentsFactory;
     

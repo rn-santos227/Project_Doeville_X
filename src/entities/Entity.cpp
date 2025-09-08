@@ -13,6 +13,7 @@
 #include "components/keys_component/KeysComponent.h"
 #include "components/meter_component/MeterComponent.h"
 #include "components/motion_component/MotionComponent.h"
+#include "components/network_component/NetworkComponent.h"
 #include "components/numeric_component/NumericComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "components/portal_component/PortalComponent.h"
@@ -195,6 +196,11 @@ namespace Project::Entities {
 
     if (auto* numeric = dynamic_cast<Components::NumericComponent*>(component.get())) {
       numeric->setEntityReference(this);
+    }
+
+    if (auto* networkComp = dynamic_cast<Components::NetworkComponent*>(component.get())) {
+      networkComp->setEntityReference(this);
+      network = networkComp;
     }
 
     if (auto* physicsComp = dynamic_cast<Components::PhysicsComponent*>(component.get())) {

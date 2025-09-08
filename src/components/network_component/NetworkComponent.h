@@ -11,6 +11,7 @@ namespace Project { namespace Entities { class Entity; } }
 
 namespace Project::Components {
   class NetworkComponent : public BaseComponent {
+  public:
     NetworkComponent(Project::Utilities::LogsManager& logsManager, Project::Services::NetworkService& service);
     ~NetworkComponent() override = default;
 

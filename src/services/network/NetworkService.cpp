@@ -50,6 +50,13 @@ namespace Project::Services {
     return true;
   }
 
+  void NetworkService::broadcast(const Payload& data) {
+    for (const auto& conn : connections) {
+      (void)conn;
+      inbound.push(data);
+    }
+  }
+
   void NetworkService::send(const Payload& data) { inbound.push(data); }
 
   void NetworkService::onPayload(MessageHandler handler) {

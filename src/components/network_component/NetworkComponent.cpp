@@ -48,5 +48,8 @@ namespace Project::Components {
     if (id != owner->getEntityID()) return;
 
     lastPayload = msg;
+
+    float x = owner->getX(), y = owner->getY(), z = owner->getZ();
+    char comma;
   }
 }

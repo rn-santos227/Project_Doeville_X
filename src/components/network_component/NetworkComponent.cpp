@@ -38,4 +38,8 @@ namespace Project::Components {
     data.protocol = NetworkProtocolResolver::resolve(protoStr);
     data.tokenKey = luaStateWrapper.getTableString(tableName, Keys::TOKEN_KEY, EMPTY_STRING);
   }
+
+  void NetworkComponent::applyPayload(const Project::Services::NetworkService::Payload& payload) {
+
+  }
 }

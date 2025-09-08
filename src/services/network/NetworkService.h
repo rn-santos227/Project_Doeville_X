@@ -61,6 +61,11 @@ namespace Project::Services {
       Payload payload;
     };
 
+    struct Connection {
+      NetworkProtocol protocol;
+      std::string endpoint;
+    };
+
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::EnvLoader envLoader;
 

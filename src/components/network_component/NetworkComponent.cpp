@@ -70,5 +70,7 @@ namespace Project::Components {
 
     float x = owner->getX(), y = owner->getY(), z = owner->getZ();
     char comma;
+
+    std::istringstream coords(data);
   }
 }

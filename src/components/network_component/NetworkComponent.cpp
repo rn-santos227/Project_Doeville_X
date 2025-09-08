@@ -2,8 +2,10 @@
 
 #include <sstream>
 
+#include "components/numeric_component/NumericComponent.h"
 #include "entities/Entity.h"
 #include "libraries/keys/Keys.h"
+#include "libraries/categories/ComponentCategories.h"
 #include "libraries/categories/ProtocolCategories.h"
 #include "services/network/NetworkProtocolResolver.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
@@ -40,6 +42,8 @@ namespace Project::Components {
   }
 
   void NetworkComponent::applyPayload(const Project::Services::NetworkService::Payload& payload) {
+    using namespace Project::Libraries::Categories::Components;
+
     if (!owner) return;
     std::string msg(payload.begin(), payload.end());
     std::istringstream stream(msg);
@@ -49,7 +53,7 @@ namespace Project::Components {
 
     lastPayload = msg;
 
-    float x = owner->getX(), y = owner->getY(), z = owner->getZ();
-    char comma;
+    std::string data;
+    if (!std::getline(stream, data)) return;
   }
 }

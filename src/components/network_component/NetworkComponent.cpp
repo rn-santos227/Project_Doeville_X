@@ -73,7 +73,10 @@ namespace Project::Components {
 
     std::istringstream coords(data);
     if (coords >> x >> comma >> y) {
-
+      if (coords >> comma >> z)
+        owner->setPosition(x, y, z);
+      else
+        owner->setPosition(x, y);
     }
   }
 }

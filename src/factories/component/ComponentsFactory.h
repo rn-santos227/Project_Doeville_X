@@ -20,6 +20,7 @@
 #include "components/meter_component/MeterComponent.h"
 #include "components/motion_component/MotionComponent.h"
 #include "components/numeric_component/NumericComponent.h"
+#include "components/network_component/NetworkComponent.h"
 #include "components/physics_component/PhysicsComponent.h"
 #include "components/portal_component/PortalComponent.h"
 #include "components/spawner_component/SpawnerComponent.h"
@@ -35,6 +36,7 @@
 #include "helpers/component_pool/ComponentPool.h"
 #include "helpers/component_pool/MotionComponentPool.h"
 #include "helpers/component_pool/TransformComponentPool.h"
+#include "services/network/NetworkService.h"
 #include "utilities/logs_manager/LogsManager.h"
 #include "utilities/lua_state_wrapper/LuaStateWrapper.h"
 #include "utilities/config_reader/ConfigReader.h"
@@ -59,6 +61,7 @@ namespace Project::Factories {
     void setKeyHandler(Project::Handlers::KeyHandler* _handler);
     void setMouseHandler(Project::Handlers::MouseHandler* _handler);
     void setAssetsManager(Project::Assets::AssetsManager* _manager);
+    void setNetworkService(Project::Services::NetworkService* _service);
 
   private:
     SDL_Renderer* renderer = nullptr;
@@ -68,7 +71,8 @@ namespace Project::Factories {
     Project::Handlers::CursorHandler* cursorHandler = nullptr;
     Project::Handlers::KeyHandler* keyHandler = nullptr;
     Project::Handlers::MouseHandler* mouseHandler = nullptr;
-
+    Project::Services::NetworkService* networkService = nullptr;
+    
     Project::Utilities::ConfigReader& configReader;
     Project::Utilities::LogsManager& logsManager;
     Project::Handlers::ResourcesHandler& resourcesHandler;

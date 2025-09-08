@@ -201,6 +201,13 @@ namespace Project::Factories {
         return base;
       }
 
+      case ComponentType::NETWORK: {
+        if (!networkService) {
+          logsManager.logError("NetworkService is null for NetworkComponent");
+          return nullptr;
+        }
+      }
+
       case ComponentType::PHYSICS: {
         auto component = ComponentPool<PhysicsComponent>::getInstance().acquire(logsManager);
         component->build(luaStateWrapper, tableName);

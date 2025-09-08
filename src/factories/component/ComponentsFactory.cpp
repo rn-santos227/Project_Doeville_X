@@ -23,6 +23,7 @@ namespace Project::Factories {
   using Project::Components::ModalComponent;
   using Project::Components::MotionComponent;
   using Project::Components::NumericComponent;
+  using Project::Components::NetworkComponent;
   using Project::Components::PhysicsComponent;
   using Project::Components::PortalComponent;
   using Project::Components::SpawnerComponent;
@@ -208,6 +209,8 @@ namespace Project::Factories {
         }
         auto component = ComponentPool<NetworkComponent>::getInstance().acquire(logsManager, *networkService);
         component->build(luaStateWrapper, tableName);
+        component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
+        component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
       }
 
       case ComponentType::PHYSICS: {

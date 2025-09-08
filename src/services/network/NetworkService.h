@@ -69,9 +69,10 @@ namespace Project::Services {
     Project::Utilities::LogsManager& logsManager;
     Project::Utilities::EnvLoader envLoader;
 
+    std::queue<Payload> inbound;
     std::unordered_map<std::string, std::string> tokenCache;
     std::vector<MessageHandler> messageHandlers;
-    std::queue<Payload> inbound;
+    std::vector<Connection> connections;
 
     std::mutex responseMutex;
     std::queue<PendingResponse> responses;

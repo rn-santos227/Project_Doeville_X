@@ -43,5 +43,8 @@ namespace Project::Components {
     if (!owner) return;
     std::string msg(payload.begin(), payload.end());
     std::istringstream stream(msg);
+    std::string id;
+    if (!std::getline(stream, id, ':')) return;
+    if (id != owner->getEntityID()) return;
   }
 }

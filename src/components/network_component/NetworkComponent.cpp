@@ -41,6 +41,10 @@ namespace Project::Components {
     data.tokenKey = luaStateWrapper.getTableString(tableName, Keys::TOKEN_KEY, EMPTY_STRING);
   }
 
+  void NetworkComponent::subscribe(Project::Watchers::NetworkWatcher& watcher) {
+    watcher.subscribe();
+  }
+
   void NetworkComponent::applyPayload(const Project::Services::NetworkService::Payload& payload) {
     using namespace Project::Libraries::Categories::Components;
 

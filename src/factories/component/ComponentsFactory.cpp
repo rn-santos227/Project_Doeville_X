@@ -211,6 +211,9 @@ namespace Project::Factories {
         component->build(luaStateWrapper, tableName);
         component->setActive(luaStateWrapper.getTableBoolean(tableName, Keys::ACTIVE, true));
         component->setClass(luaStateWrapper.getTableString(tableName, Keys::CLASS, Constants::EMPTY_STRING));
+
+        ComponentPtr base(component.release(), [d = component.get_deleter()](BaseComponent* b){ d(static_cast<NetworkComponent*>(b)); });
+        return base;
       }
 
       case ComponentType::PHYSICS: {

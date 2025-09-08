@@ -58,7 +58,8 @@ namespace Project::Components {
 
     auto equalPos = data.find('=');
     if (equalPos != std::string::npos) {
-
+      std::string key = data.substr(0, equalPos);
+      float value = std::stof(data.substr(equalPos + 1));
     }
   }
 }

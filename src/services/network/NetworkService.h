@@ -28,6 +28,7 @@ namespace Project::Services {
 
     bool connect(const std::string& endpoint, NetworkProtocol protocol, const std::string& tokenKey = Project::Libraries::Constants::EMPTY_STRING);
     void send(const Payload& data);
+    void broadcast(const Payload& data);
     void onPayload(MessageHandler handler);
 
     void asyncGet(

@@ -744,7 +744,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_getNetworkPayload(lua_State* L) {
-
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
   }
 
   int lua_getVisibleEntities(lua_State* L) {

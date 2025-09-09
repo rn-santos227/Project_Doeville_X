@@ -29,6 +29,7 @@
 #include "libraries/categories/Categories.h"
 #include "libraries/keys/Keys.h"
 #include "platform/Platform.h"
+#include "services/network/NetworkProtocolResolver.h"
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
 #include "utilities/physics/PhysicsUtils.h"
@@ -798,6 +799,11 @@ namespace Project::Bindings::LuaBindings {
     auto* net = dynamic_cast<Project::Components::NetworkComponent*>(
         entity->getComponent(Components::NETWORK_COMPONENT));
     if (!net) return 0;
+
+    net->setEndpoint(endpoint);
+    net->setProtocol(Project::Services::NetworkProtocolResolver::resolve(protocolStr));
+    if (tokenKey && *tokenKey) net->setTokenKey(tokenKey);
+    return 0;
   }
 
   int lua_getVisibleEntities(lua_State* L) {

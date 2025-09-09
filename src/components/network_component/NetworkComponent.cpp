@@ -38,6 +38,10 @@ namespace Project::Components {
     std::ostringstream ss;
     ss << owner->getEntityID() << ':' << owner->getX() << ',' << owner->getY() << ',' << owner->getZ();
     NetworkService::Payload payload(ss.str().begin(), ss.str().end());
+    if (data.protocol == Project::Services::NetworkProtocol::P2P)
+      network.broadcast(payload);
+    else
+      network.send(payload);
   }
 
   void NetworkComponent::build(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

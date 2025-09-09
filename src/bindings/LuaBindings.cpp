@@ -785,7 +785,9 @@ namespace Project::Bindings::LuaBindings {
     const char* endpoint = luaL_checkstring(L, Constants::INDEX_TWO);
     const char* protocolStr = luaL_optstring(L, Constants::INDEX_THREE, HTTP);
     const char* tokenKey = luaL_optstring(L, Constants::INDEX_FOUR, Constants::EMPTY_STRING);
-
+    if (!manager || !name || !endpoint) {
+      return 0;
+    }
   }
 
   int lua_getVisibleEntities(lua_State* L) {

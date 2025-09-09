@@ -12,7 +12,7 @@ namespace Project::Watchers {
   NetworkWatcher::~NetworkWatcher() { stop(); }
 
   void NetworkWatcher::subscribe() {
-    
+    if (++subscriberCount == 1) start();
   }
 
   void NetworkWatcher::start() {

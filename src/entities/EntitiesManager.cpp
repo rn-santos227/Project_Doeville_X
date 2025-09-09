@@ -581,6 +581,7 @@ namespace Project::Entities {
           record(Keys::LUA_GET_ENTITY_SPEED);
           record(Keys::LUA_GET_ENTITY_VELOCITY);
           record(Keys::LUA_GET_ENTITY_ROTATION);
+          record(Keys::LUA_GET_NETWORK_PAYLOAD);
           record(Keys::LUA_GET_VISIBLE_ENTITIES);
           record(Keys::LUA_SET_ENTITY_TEXT);
           record(Keys::LUA_SET_COLOR);
@@ -638,6 +639,8 @@ namespace Project::Entities {
           entity->registerLuaFunction(func, LuaBindings::lua_getEntityVelocity, this);
         } else if (func == Keys::LUA_GET_ENTITY_ROTATION) {
           entity->registerLuaFunction(func, LuaBindings::lua_getEntityRotation, this);
+        } else if (func == Keys::LUA_GET_NETWORK_PAYLOAD) {
+          entity->registerLuaFunction(func, LuaBindings::lua_getNetworkPayload, this);
         } else if (func == Keys::LUA_GET_VISIBLE_ENTITIES) {
           entity->registerLuaFunction(func, LuaBindings::lua_getVisibleEntities, this);
         } else if (func == Keys::LUA_SET_ENTITY_TEXT) {

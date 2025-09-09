@@ -777,6 +777,10 @@ namespace Project::Bindings::LuaBindings {
     return 1;
   }
 
+  int lua_setNetworkConnection(lua_State* L) {
+    using namespace Project::Libraries::Categories::Protocols;
+  }
+
   int lua_getVisibleEntities(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, Constants::INDEX_ONE);

@@ -27,6 +27,10 @@ namespace Project::Components {
 
   void NetworkComponent::update(float) {
     if (!isActive() || data.endpoint.empty()) return;
+
+    if (!data.connected) {
+
+    }
   }
 
   void NetworkComponent::build(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

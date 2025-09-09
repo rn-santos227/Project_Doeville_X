@@ -35,6 +35,8 @@ namespace Project::Components {
     }
 
     if (!owner) return;
+    std::ostringstream ss;
+    ss << owner->getEntityID() << ':' << owner->getX() << ',' << owner->getY() << ',' << owner->getZ();
   }
 
   void NetworkComponent::build(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

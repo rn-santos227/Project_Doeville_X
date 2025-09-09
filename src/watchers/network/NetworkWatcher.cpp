@@ -16,7 +16,7 @@ namespace Project::Watchers {
   }
 
   void NetworkWatcher::unsubscribe() {
-
+    if (subscriberCount > 0 && --subscriberCount == 0) stop();
   }
 
   void NetworkWatcher::start() {

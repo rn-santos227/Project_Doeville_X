@@ -788,6 +788,12 @@ namespace Project::Bindings::LuaBindings {
     if (!manager || !name || !endpoint) {
       return 0;
     }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+    if (!entity) return 0;
   }
 
   int lua_getVisibleEntities(lua_State* L) {

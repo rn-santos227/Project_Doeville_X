@@ -760,6 +760,13 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return 1;
     }
+
+    auto* net = dynamic_cast<Project::Components::NetworkComponent*>(
+        entity->getComponent(Components::NETWORK_COMPONENT));
+    if (!net) {
+      lua_pushnil(L);
+      return 1;
+    }
   }
 
   int lua_getVisibleEntities(lua_State* L) {

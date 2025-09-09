@@ -767,6 +767,8 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return 1;
     }
+
+    const std::string& payload = net->getLastPayload();
   }
 
   int lua_getVisibleEntities(lua_State* L) {

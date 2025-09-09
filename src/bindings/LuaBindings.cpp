@@ -794,6 +794,10 @@ namespace Project::Bindings::LuaBindings {
       entity = manager->getGameState()->findEntity(name);
     }
     if (!entity) return 0;
+
+    auto* net = dynamic_cast<Project::Components::NetworkComponent*>(
+        entity->getComponent(Components::NETWORK_COMPONENT));
+    if (!net) return 0;
   }
 
   int lua_getVisibleEntities(lua_State* L) {

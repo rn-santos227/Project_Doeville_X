@@ -5,6 +5,7 @@
 
 #include "components/BaseComponent.h"
 #include "services/network/NetworkService.h"
+#include "watchers/network/NetworkWatcher.h"
 
 namespace Project::Watchers { class NetworkWatcher; }
 namespace Project { namespace Entities { class Entity; } }

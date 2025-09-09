@@ -782,6 +782,10 @@ namespace Project::Bindings::LuaBindings {
 
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
     const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    const char* endpoint = luaL_checkstring(L, Constants::INDEX_TWO);
+    const char* protocolStr = luaL_optstring(L, Constants::INDEX_THREE, HTTP);
+    const char* tokenKey = luaL_optstring(L, Constants::INDEX_FOUR, Constants::EMPTY_STRING);
+
   }
 
   int lua_getVisibleEntities(lua_State* L) {

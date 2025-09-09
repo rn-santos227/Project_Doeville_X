@@ -43,6 +43,7 @@ namespace Project::Bindings {
     int lua_getEntitySpeed(lua_State* L);
     int lua_getEntityVelocity(lua_State* L);
     int lua_getEntityRotation(lua_State* L);
+    int lua_getNetworkPayload(lua_State* L);
     int lua_getVisibleEntities(lua_State* L);
     int lua_setEntityText(lua_State* L);
     int lua_setTimerActive(lua_State* L);

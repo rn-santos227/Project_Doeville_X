@@ -33,6 +33,8 @@ namespace Project::Components {
         data.connected = true;
       return;
     }
+
+    if (!owner) return;
   }
 
   void NetworkComponent::build(LuaStateWrapper& luaStateWrapper, const std::string& tableName) {

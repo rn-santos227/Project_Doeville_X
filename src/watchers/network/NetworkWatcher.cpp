@@ -15,6 +15,10 @@ namespace Project::Watchers {
     if (++subscriberCount == 1) start();
   }
 
+  void NetworkWatcher::unsubscribe() {
+
+  }
+
   void NetworkWatcher::start() {
     if (running) return;
     running = true;

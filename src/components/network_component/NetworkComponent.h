@@ -24,9 +24,9 @@ namespace Project::Components {
     void build(Project::Utilities::LuaStateWrapper& luaStateWrapper, const std::string& tableName) override;
 
     void setEntityReference(Project::Entities::Entity* entity) { owner = entity; }
-    void setEndpoint(const std::string& endpoint) { data.endpoint = endpoint; }
-    void setTokenKey(const std::string& tokenKey) { data.tokenKey = tokenKey; }
-    void setProtocol(Project::Services::NetworkProtocol protocol) { data.protocol = protocol; }
+    void setEndpoint(const std::string& endpoint) { data.endpoint = endpoint; data.connected = false; }
+    void setTokenKey(const std::string& tokenKey) { data.tokenKey = tokenKey; data.connected = false; }
+    void setProtocol(Project::Services::NetworkProtocol protocol) { data.protocol = protocol; data.connected = false; }
 
     void subscribe(Project::Watchers::NetworkWatcher& watcher);
     const std::string& getLastPayload() const { return lastPayload; }

@@ -29,7 +29,9 @@ namespace Project::Components {
     if (!isActive() || data.endpoint.empty()) return;
 
     if (!data.connected) {
-
+      if (network.connect(data.endpoint, data.protocol, data.tokenKey))
+        data.connected = true;
+      return;
     }
   }
 

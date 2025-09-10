@@ -265,4 +265,11 @@ namespace Project::Bindings::LuaBindings {
 
     return 0;
   }
+
+  int lua_setDarkness(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float value = static_cast<float>(luaL_checknumber(L, Constants::INDEX_ONE));
+    if (state) state->setDarkness(value);
+    return 0;
+  }
 }

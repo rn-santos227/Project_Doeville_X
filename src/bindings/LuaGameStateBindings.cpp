@@ -36,4 +36,11 @@ namespace Project::Bindings::LuaBindings {
   using Project::Factories::EntitiesFactory;
   using Project::Handlers::TileHandler;
   using Project::Platform::Platform;
+
+  namespace Components = Project::Libraries::Categories::Components;
+  namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
+
+  static AssetsManager* assetsManagerPtr = nullptr;
+  static AssetsFactory* assetsFactoryPtr = nullptr;
 }

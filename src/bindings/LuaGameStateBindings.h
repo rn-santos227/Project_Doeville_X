@@ -23,6 +23,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_exitGame(lua_State* L);
   int lua_resetState(lua_State* L);
   int lua_setActiveCamera(lua_State* L);
+  int lua_setDarkness(lua_State* L);
+  int lua_setLayerDarkness(lua_State* L);
   int lua_spawnEntity(lua_State* L);
 }
 

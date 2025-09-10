@@ -20,6 +20,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_setActiveCamera(lua_State* L);
   int lua_cameraZoomIn(lua_State* L);
   int lua_cameraZoomOut(lua_State* L);
+  int lua_cameraShake(lua_State* L);
+  int lua_cameraRotate(lua_State* L);
 }
 
 #endif

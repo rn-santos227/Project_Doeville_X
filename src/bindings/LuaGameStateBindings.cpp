@@ -46,4 +46,30 @@ namespace Project::Bindings::LuaBindings {
 
   void setAssetsManager(AssetsManager* manager) { assetsManagerPtr = manager; }
   void setAssetsFactory(AssetsFactory* factory) { assetsFactoryPtr = factory; }
+
+  int lua_addEntityToSeed(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_addEntityToSeed.");
+    }
+
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    if (!name) {
+      luaL_error(L, "Expected entity template name.");
+      return 0;
+    }
+
+    std::string sid;
+    if (lua_gettop(L) >= Constants::INDEX_TWO && lua_isstring(L, Constants::INDEX_TWO)) {
+      sid = lua_tostring(L, Constants::INDEX_TWO);
+    }
+
+    size_t count = Project::Libraries::Constants::INT_ONE;
+    if (lua_gettop(L) >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE)) {
+      count = static_cast<size_t>(lua_tonumber(L, Constants::INDEX_THREE));
+    }
+
+    state->addEntityToSeed(name, sid, count);
+    return 0;
+  }
 }

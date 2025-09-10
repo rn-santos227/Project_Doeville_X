@@ -154,4 +154,53 @@ namespace Project::Bindings::LuaBindings {
     platform->requestExit();
     return 0;
   }
+
+  int lua_loadMapAsset(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_loadMapAsset.");
+    }
+
+    if (!assetsManagerPtr) {
+      return luaL_error(L, "Assets system not initialized for lua_loadMapAsset.");
+    }
+
+    std::string assetId = luaL_checkstring(L, Constants::INDEX_ONE);
+    MapAsset* mapAsset = assetsManagerPtr->getMap(assetId);
+    if (!mapAsset) {
+      std::string error = "Map asset not found: " + assetId;
+      return luaL_error(L, error.c_str());
+    }
+
+    int tileW = Constants::DEFAULT_COMPONENT_SIZE;
+    int tileH = Constants::DEFAULT_COMPONENT_SIZE;
+    const auto& mappings = mapAsset->getTileMappings();
+    if (!mappings.empty()) {
+      auto tileAssetName = mappings.begin()->second;
+      TileAsset* tile = assetsManagerPtr->getTile(tileAssetName);
+      if (tile) {
+        tileW = tile->getTileWidth();
+        tileH = tile->getTileHeight();
+      }
+    }
+
+    int top = lua_gettop(L);
+    int x = 0;
+    int y = 0;
+    if (top >= Constants::INDEX_TWO && lua_isnumber(L, Constants::INDEX_TWO)) x = static_cast<int>(lua_tointeger(L, Constants::INDEX_TWO));
+    if (top >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE)) y = static_cast<int>(lua_tointeger(L, Constants::INDEX_THREE));
+
+    int mapW = mapAsset->getWidth() * tileW;
+    int mapH = mapAsset->getHeight() * tileH;
+    if ((state->getMapRect().w == 0 && state->getMapRect().h == 0) ||
+        state->getDimensionMode() == Project::States::DimensionMode::MAPPED) {
+      state->setMapSize(mapW, mapH);
+    }
+
+    TileHandler builder(state->getRenderer(), state->getLogsManager(), *assetsManagerPtr);
+    auto tiles = builder.buildMap(assetId);
+    state->setMapTiles(std::move(tiles), x, y, mapW, mapH);
+
+    return 0;
+  }
 }

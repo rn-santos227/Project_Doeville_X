@@ -21,6 +21,7 @@ namespace Project::Bindings::LuaBindings {
   int lua_cameraZoomOut(lua_State* L);
   int lua_changeState(lua_State* L);
   int lua_exitGame(lua_State* L);
+  int lua_loadMapAsset(lua_State* L);
   int lua_resetState(lua_State* L);
   int lua_setActiveCamera(lua_State* L);
   int lua_setDarkness(lua_State* L);

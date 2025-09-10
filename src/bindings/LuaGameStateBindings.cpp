@@ -95,4 +95,17 @@ namespace Project::Bindings::LuaBindings {
     }
     return 0;
   }
+
+  int lua_cameraZoomOut(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    float amount = static_cast<float>(luaL_optnumber(L, Constants::INDEX_ONE, Constants::DEFAULT_CAMERA_ZOOM_SPEED));
+    auto* cam = state ? state->getActiveCamera() : nullptr;
+    auto* handler = Project::Components::GraphicsComponent::getCameraHandler();
+    if (cam) {
+      cam->zoomOut(amount);
+    } else if (handler) {
+      handler->zoomOut(amount);
+    }
+    return 0;
+  }
 }

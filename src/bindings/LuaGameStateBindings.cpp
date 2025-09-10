@@ -213,4 +213,27 @@ namespace Project::Bindings::LuaBindings {
     state->reset();
     return 0;
   }
+
+  int lua_setActiveCamera(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!state || !name) {
+      return luaL_error(L, "Invalid parameters for setActiveCamera");
+    }
+
+    auto entity = state->findEntity(name);
+    if (!entity) {
+      state->getLogsManager().logError(std::string("Camera entity not found: ") + name);
+      return 0;
+    }
+
+    auto* cam = dynamic_cast<Project::Components::CameraComponent*>(entity->getComponent(Components::CAMERA_COMPONENT));
+    if (!cam) {
+       state->getLogsManager().logError(std::string("Entity has no CameraComponent: ") + name);
+       return 0;
+    }
+
+    state->setActiveCamera(cam);
+    return 0;
+  }
 }

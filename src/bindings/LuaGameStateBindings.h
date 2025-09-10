@@ -24,7 +24,11 @@ namespace Project::Bindings::LuaBindings {
   int lua_resetState(lua_State* L);
   int lua_setActiveCamera(lua_State* L);
   int lua_setDarkness(lua_State* L);
+  int lua_setDayLapse(lua_State* L);
   int lua_setLayerDarkness(lua_State* L);
+  int lua_setTimeCycleActive(lua_State* L);
+  int lua_setTimeDarknessLayer(lua_State* L);
+  int lua_setTimeOfDay(lua_State* L);
   int lua_spawnEntity(lua_State* L);
 }
 

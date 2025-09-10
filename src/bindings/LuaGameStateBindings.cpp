@@ -82,4 +82,17 @@ namespace Project::Bindings::LuaBindings {
     state->getActiveCamera()->shake(duration);
     return 0;
   }
+
+  int lua_cameraZoomIn(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    float amount = static_cast<float>(luaL_optnumber(L, Constants::INDEX_ONE, Constants::DEFAULT_CAMERA_ZOOM_SPEED));
+    auto* cam = state ? state->getActiveCamera() : nullptr;
+    auto* handler = Project::Components::GraphicsComponent::getCameraHandler();
+    if (cam) {
+      cam->zoomIn(amount);
+    } else if (handler) {
+      handler->zoomIn(amount);
+    }
+    return 0;
+  }
 }

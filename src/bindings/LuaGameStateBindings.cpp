@@ -25,5 +25,15 @@
 #include "states/GameStateManager.h"
 
 namespace Project::Bindings::LuaBindings {
-
+  using Project::States::GameState;
+  using Project::States::GameStateManager;
+  using Project::Entities::EntitiesManager;
+  using Project::Entities::Entity;
+  using Project::Assets::AssetsManager;
+  using Project::Assets::MapAsset;
+  using Project::Assets::TileAsset;
+  using Project::Factories::AssetsFactory;
+  using Project::Factories::EntitiesFactory;
+  using Project::Handlers::TileHandler;
+  using Project::Platform::Platform;
 }

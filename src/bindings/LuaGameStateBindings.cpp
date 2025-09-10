@@ -43,4 +43,7 @@ namespace Project::Bindings::LuaBindings {
 
   static AssetsManager* assetsManagerPtr = nullptr;
   static AssetsFactory* assetsFactoryPtr = nullptr;
+
+  void setAssetsManager(AssetsManager* manager) { assetsManagerPtr = manager; }
+  void setAssetsFactory(AssetsFactory* factory) { assetsFactoryPtr = factory; }
 }

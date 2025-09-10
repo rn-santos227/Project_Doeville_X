@@ -246,4 +246,23 @@ namespace Project::Bindings::LuaBindings {
     state->setBackgroundColor(r, g, b, a);
     return 0; 
   }
+
+  int lua_setBackgroundImage(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_setBackgroundImage.");
+    }
+
+    const char* path = luaL_checkstring(L, 1);
+    if (!path) {
+      luaL_error(L, "Expected a valid image path string.");
+      return 0;
+    }
+
+    if (!state->setBackgroundImage(path)) {
+      luaL_error(L, ("Failed to set background image: " + std::string(path)).c_str());
+    }
+
+    return 0;
+  }
 }

@@ -13,8 +13,6 @@ namespace Project::Bindings::LuaBindings {
   void setAssetsFactory(Project::Factories::AssetsFactory* factory);
 
   int lua_addEntityToSeed(lua_State* L);
-  int lua_setBackgroundColor(lua_State* L);
-  int lua_setBackgroundImage(lua_State* L);
   int lua_cameraShake(lua_State* L);
   int lua_cameraRotate(lua_State* L);
   int lua_cameraZoomIn(lua_State* L);
@@ -24,6 +22,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_loadMapAsset(lua_State* L);
   int lua_resetState(lua_State* L);
   int lua_setActiveCamera(lua_State* L);
+  int lua_setBackgroundColor(lua_State* L);
+  int lua_setBackgroundImage(lua_State* L);
   int lua_setDarkness(lua_State* L);
   int lua_setDayLapse(lua_State* L);
   int lua_setLayerDarkness(lua_State* L);

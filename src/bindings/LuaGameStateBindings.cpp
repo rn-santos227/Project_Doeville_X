@@ -72,4 +72,14 @@ namespace Project::Bindings::LuaBindings {
     state->addEntityToSeed(name, sid, count);
     return 0;
   }
+
+  int lua_cameraShake(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    float duration = static_cast<float>(luaL_optnumber(L, Constants::INDEX_ONE, Constants::DEFAULT_CAMERA_SHAKE_DURATION));
+    if (!state || !state->getActiveCamera()) {
+      return 0;
+    }
+    state->getActiveCamera()->shake(duration);
+    return 0;
+  }
 }

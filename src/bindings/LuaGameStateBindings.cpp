@@ -121,4 +121,25 @@ namespace Project::Bindings::LuaBindings {
     }
     return 0;
   }
+
+  int lua_changeState(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_changeState.");
+    }
+
+    if (!state->getGameStateManager()) {
+      return luaL_error(L, "GameStateManager not set for this state.");
+    }
+
+    const char* name = luaL_checkstring(L, 1);
+    if (!name) {
+      luaL_error(L, "Expected a state name string.");
+      return 0;
+    }
+
+    state->getGameStateManager()->changeState(name);
+    return 0;
+  }
+
 }

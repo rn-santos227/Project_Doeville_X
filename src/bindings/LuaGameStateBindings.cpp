@@ -203,4 +203,14 @@ namespace Project::Bindings::LuaBindings {
 
     return 0;
   }
+
+  int lua_resetState(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_resetState.");
+    }
+
+    state->reset();
+    return 0;
+  }
 }

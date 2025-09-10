@@ -142,4 +142,16 @@ namespace Project::Bindings::LuaBindings {
     return 0;
   }
 
+  int lua_exitGame(lua_State* L) {
+    auto* platform = static_cast<Project::Platform::Platform*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!platform) {
+      return luaL_error(L, "Invalid Platform reference in lua_exitGame.");
+    }
+
+    SDL_Event quitEvent{};
+    quitEvent.type = SDL_QUIT;
+    SDL_PushEvent(&quitEvent);
+    platform->requestExit();
+    return 0;
+  }
 }

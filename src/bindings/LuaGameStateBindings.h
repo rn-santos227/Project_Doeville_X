@@ -11,6 +11,9 @@ namespace Project { namespace Factories { class AssetsFactory; } }
 namespace Project::Bindings::LuaBindings {
   void setAssetsManager(Project::Assets::AssetsManager* manager);
   void setAssetsFactory(Project::Factories::AssetsFactory* factory);
+
+  int lua_addEntityToSeed(lua_State* L);
+  int lua_changeState(lua_State* L);
 }
 
 #endif

@@ -14,6 +14,8 @@ namespace Project::Bindings::LuaBindings {
 
   int lua_addEntityToSeed(lua_State* L);
   int lua_changeState(lua_State* L);
+  int lua_resetState(lua_State* L);
+  int lua_exitGame(lua_State* L);
 }
 
 #endif

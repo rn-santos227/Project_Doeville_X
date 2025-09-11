@@ -408,6 +408,13 @@ namespace Project::Bindings::LuaBindings {
       } else {
         luaL_error(L, "Global EntitiesManager not set for this state.");
       }
+    } else if (state->getLayersManager()) {
+      std::shared_ptr<EntitiesManager> mgr;
+      if (!targetLayer.empty()) {
+        mgr = state->getLayersManager()->getLayer(targetLayer);
+      } else {
+        mgr = state->getLayersManager()->getFirstLayer();     
+      }
     }
   }
 }

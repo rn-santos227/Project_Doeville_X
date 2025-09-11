@@ -373,5 +373,9 @@ namespace Project::Bindings::LuaBindings {
     bool hasX = lua_gettop(L) >= Constants::INDEX_TWO && lua_isnumber(L, Constants::INDEX_TWO);
     bool hasY = lua_gettop(L) >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE);
     bool hasLayer = lua_gettop(L) >= Constants::INDEX_FOUR && lua_isstring(L, Constants::INDEX_FOUR);
+    float posX = 0.0f;
+    float posY = 0.0f;
+    if (hasX) posX = static_cast<float>(lua_tonumber(L, Constants::INDEX_TWO));
+    if (hasY) posY = static_cast<float>(lua_tonumber(L, Constants::INDEX_THREE));
   }
 }

@@ -294,4 +294,12 @@ namespace Project::Bindings::LuaBindings {
     if (state) state->setDayLapse(seconds);
     return 0;
   }
+
+  int lua_setLayerDarkness(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    float value = static_cast<float>(luaL_checknumber(L, Constants::INDEX_TWO));
+    if (state && name) state->setLayerDarkness(name, value);
+    return 0;
+  }
 }

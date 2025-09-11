@@ -398,5 +398,8 @@ namespace Project::Bindings::LuaBindings {
 
     if (hasX) entity->getLuaStateWrapper().setGlobalNumber(Keys::X, posX);
     if (hasY) entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, posY);
+
+    entity->initialize();
+    std::shared_ptr<Entity> shared = std::move(entity);
   }
 }

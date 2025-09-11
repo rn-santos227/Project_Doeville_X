@@ -132,7 +132,7 @@ namespace Project::Bindings::LuaBindings {
       return luaL_error(L, "GameStateManager not set for this state.");
     }
 
-    const char* name = luaL_checkstring(L, 1);
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
     if (!name) {
       luaL_error(L, "Expected a state name string.");
       return 0;
@@ -143,7 +143,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_exitGame(lua_State* L) {
-    auto* platform = static_cast<Project::Platform::Platform*>(lua_touserdata(L, lua_upvalueindex(1)));
+    auto* platform = static_cast<Project::Platform::Platform*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     if (!platform) {
       return luaL_error(L, "Invalid Platform reference in lua_exitGame.");
     }
@@ -156,7 +156,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_loadMapAsset(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_loadMapAsset.");
     }
@@ -205,7 +205,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_resetState(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_resetState.");
     }
@@ -215,7 +215,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_setActiveCamera(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     const char* name = luaL_checkstring(L, 1);
     if (!state || !name) {
       return luaL_error(L, "Invalid parameters for setActiveCamera");
@@ -238,7 +238,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_setBackgroundColor(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     Uint8 r = static_cast<Uint8>(luaL_checkinteger(L, Constants::INDEX_ONE));
     Uint8 g = static_cast<Uint8>(luaL_checkinteger(L, Constants::INDEX_TWO));
     Uint8 b = static_cast<Uint8>(luaL_checkinteger(L, Constants::INDEX_THREE));
@@ -248,7 +248,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_setBackgroundImage(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_setBackgroundImage.");
     }
@@ -267,21 +267,21 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_setDarkness(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     float value = static_cast<float>(luaL_checknumber(L, Constants::INDEX_ONE));
     if (state) state->setDarkness(value);
     return 0;
   }
 
  int lua_setDayLapse(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     float seconds = static_cast<float>(luaL_checknumber(L, Constants::INDEX_ONE));
     if (state) state->setDayLapse(seconds);
     return 0;
   }
 
   int lua_setLayerDarkness(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
     float value = static_cast<float>(luaL_checknumber(L, Constants::INDEX_TWO));
     if (state && name) state->setLayerDarkness(name, value);
@@ -289,7 +289,7 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_setDayLapse(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     float seconds = static_cast<float>(luaL_checknumber(L, Constants::INDEX_ONE));
     if (state) state->setDayLapse(seconds);
     return 0;

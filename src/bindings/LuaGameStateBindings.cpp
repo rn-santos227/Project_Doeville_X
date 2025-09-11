@@ -379,5 +379,10 @@ namespace Project::Bindings::LuaBindings {
     if (hasY) posY = static_cast<float>(lua_tonumber(L, Constants::INDEX_THREE));
     std::string targetLayer;
     if (hasLayer) targetLayer = lua_tostring(L, Constants::INDEX_FOUR);
+
+    if (!state->getEntitiesFactory()) {
+      luaL_error(L, "EntitiesFactory not set for this state.");
+      return 0;
+    }
   }
 }

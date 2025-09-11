@@ -345,23 +345,29 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_setTimeDarknessLayer(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     const char* name = luaL_optstring(L, Constants::INDEX_ONE, Keys::STATE);
     if (state) state->setTimeDarknessLayer(name ? name : Constants::EMPTY_STRING);
     return 0;
   }
 
   int lua_setTimeOfDay(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     float minutes = static_cast<float>(luaL_checknumber(L, Constants::INDEX_ONE));
     if (state) state->setTimeOfDay(minutes);
     return 0;
   }
 
   int lua_spawnEntity(lua_State* L) {
-    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_spawnEntity.");
+    }
+
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    if (!name) {
+      luaL_error(L, "Expected an entity name string.");
+      return 0;
     }
   }
 }

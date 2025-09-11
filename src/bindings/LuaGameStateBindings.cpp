@@ -320,5 +320,12 @@ namespace Project::Bindings::LuaBindings {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_setPlayerEntity.");
     }
+
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    if (!name) {
+      luaL_error(L, "Expected entity name.");
+      return 0;
+    }
+
   }
 }

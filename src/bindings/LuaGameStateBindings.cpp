@@ -401,5 +401,13 @@ namespace Project::Bindings::LuaBindings {
 
     entity->initialize();
     std::shared_ptr<Entity> shared = std::move(entity);
+
+    if (isGlobal) {
+      if (state->getGlobalEntitiesManager()) {
+        state->getGlobalEntitiesManager()->addEntity(shared, name);
+      } else {
+        luaL_error(L, "Global EntitiesManager not set for this state.");
+      }
+    }
   }
 }

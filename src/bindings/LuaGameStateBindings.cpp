@@ -336,4 +336,11 @@ namespace Project::Bindings::LuaBindings {
     state->setPlayerEntity(name, x, y, hasX && hasY);
     return 0;
   }
+
+  int lua_setTimeCycleActive(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    bool active = lua_toboolean(L, Constants::INDEX_ONE);
+    if (state) state->setTimeCycleActive(active);
+    return 0;
+  }
 }

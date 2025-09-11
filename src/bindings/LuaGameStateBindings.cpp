@@ -343,4 +343,11 @@ namespace Project::Bindings::LuaBindings {
     if (state) state->setTimeCycleActive(active);
     return 0;
   }
+
+  int lua_setTimeDarknessLayer(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_optstring(L, Constants::INDEX_ONE, Keys::STATE);
+    if (state) state->setTimeDarknessLayer(name ? name : Constants::EMPTY_STRING);
+    return 0;
+  }
 }

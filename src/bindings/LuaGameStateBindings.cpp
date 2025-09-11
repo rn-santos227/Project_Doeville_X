@@ -395,5 +395,8 @@ namespace Project::Bindings::LuaBindings {
       luaL_error(L, ("Failed to clone entity: " + std::string(name)).c_str());
       return 0;
     }
+
+    if (hasX) entity->getLuaStateWrapper().setGlobalNumber(Keys::X, posX);
+    if (hasY) entity->getLuaStateWrapper().setGlobalNumber(Keys::Y, posY);
   }
 }

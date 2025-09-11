@@ -421,6 +421,10 @@ namespace Project::Bindings::LuaBindings {
       } else {
         luaL_error(L, "No layers available in LayersManager.");
       }
+    } else if (state->getEntitiesManager()) {
+      state->getEntitiesManager()->addEntity(shared, name);
+    } else {
+      luaL_error(L, "EntitiesManager not set for this state.");
     }
   }
 }

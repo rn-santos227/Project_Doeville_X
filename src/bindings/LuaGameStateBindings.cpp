@@ -377,5 +377,7 @@ namespace Project::Bindings::LuaBindings {
     float posY = 0.0f;
     if (hasX) posX = static_cast<float>(lua_tonumber(L, Constants::INDEX_TWO));
     if (hasY) posY = static_cast<float>(lua_tonumber(L, Constants::INDEX_THREE));
+    std::string targetLayer;
+    if (hasLayer) targetLayer = lua_tostring(L, Constants::INDEX_FOUR);
   }
 }

@@ -369,5 +369,9 @@ namespace Project::Bindings::LuaBindings {
       luaL_error(L, "Expected an entity name string.");
       return 0;
     }
+
+    bool hasX = lua_gettop(L) >= Constants::INDEX_TWO && lua_isnumber(L, Constants::INDEX_TWO);
+    bool hasY = lua_gettop(L) >= Constants::INDEX_THREE && lua_isnumber(L, Constants::INDEX_THREE);
+    bool hasLayer = lua_gettop(L) >= Constants::INDEX_FOUR && lua_isstring(L, Constants::INDEX_FOUR);
   }
 }

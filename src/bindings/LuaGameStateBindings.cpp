@@ -415,6 +415,12 @@ namespace Project::Bindings::LuaBindings {
       } else {
         mgr = state->getLayersManager()->getFirstLayer();     
       }
+
+      if (mgr) {
+        mgr->addEntity(shared, name);
+      } else {
+        luaL_error(L, "No layers available in LayersManager.");
+      }
     }
   }
 }

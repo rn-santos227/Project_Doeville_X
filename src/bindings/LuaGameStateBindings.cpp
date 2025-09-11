@@ -314,4 +314,11 @@ namespace Project::Bindings::LuaBindings {
     state->setMapSize(w, h);
     return 0;
   }
+
+  int lua_setPlayerEntity(lua_State* L) {
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_setPlayerEntity.");
+    }
+  }
 }

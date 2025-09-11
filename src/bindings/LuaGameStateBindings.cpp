@@ -359,6 +359,9 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_spawnEntity(lua_State* L) {
-
+    GameState* state = static_cast<GameState*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (!state) {
+      return luaL_error(L, "Invalid GameState reference in lua_spawnEntity.");
+    }
   }
 }

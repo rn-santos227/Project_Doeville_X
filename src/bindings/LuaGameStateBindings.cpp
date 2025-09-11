@@ -357,4 +357,8 @@ namespace Project::Bindings::LuaBindings {
     if (state) state->setTimeOfDay(minutes);
     return 0;
   }
+
+  int lua_spawnEntity(lua_State* L) {
+
+  }
 }

@@ -455,5 +455,27 @@ namespace Project::Bindings::LuaBindings {
     if (top >= Constants::INDEX_THREE && lua_isstring(L, Constants::INDEX_THREE)) {
       id = lua_tostring(L, Constants::INDEX_THREE);
     }
+
+    if (top >= Constants::INDEX_FOUR && !lua_isnil(L, Constants::INDEX_FOUR)) {
+      if (lua_istable(L, Constants::INDEX_FOUR)) {
+        lua_getfield(L, Constants::INDEX_FOUR, Keys::X);
+        if (lua_isnumber(L, -1)) chunkSize.x = static_cast<float>(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+        lua_getfield(L, Constants::INDEX_FOUR, Keys::Y);
+        if (lua_isnumber(L, -1)) chunkSize.y = static_cast<float>(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+        lua_getfield(L, Constants::INDEX_FOUR, Keys::Z);
+        if (lua_isnumber(L, -1)) chunkSize.z = static_cast<float>(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+      } else if (lua_isnumber(L, Constants::INDEX_FOUR)) {
+        float val = static_cast<float>(lua_tonumber(L, Constants::INDEX_FOUR));
+        chunkSize.x = val;
+        chunkSize.y = val;
+      }
+    }
+
+    std::string seederId = state->startEntitySeeder(seed, layer, id, chunkSize);
+    lua_pushstring(L, seederId.c_str());
+    return Constants::INDEX_ONE;
   }
 }

@@ -384,5 +384,10 @@ namespace Project::Bindings::LuaBindings {
       luaL_error(L, "EntitiesFactory not set for this state.");
       return 0;
     }
+
+    bool isGlobal = state->getEntitiesFactory()->isEntityGlobal(name);
+    if (isGlobal && state->getGlobalEntitiesManager() && state->getGlobalEntitiesManager()->hasEntity(name)) {
+      return 0;
+    }
   }
 }

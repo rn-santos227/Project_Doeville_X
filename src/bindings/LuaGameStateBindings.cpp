@@ -435,11 +435,25 @@ namespace Project::Bindings::LuaBindings {
     if (!state) {
       return luaL_error(L, "Invalid GameState reference in lua_startEntitySeeder.");
     }
-    
+
     int top = lua_gettop(L);
     std::string seed;
     std::string layer;
     std::string id;
     Project::Entities::ChunkSize chunkSize;
+
+    if (top >= Constants::INDEX_ONE && !lua_isnil(L, Constants::INDEX_ONE)) {
+      if (lua_isnumber(L, Constants::INDEX_ONE)) {
+        seed = std::to_string(static_cast<size_t>(lua_tonumber(L, Constants::INDEX_ONE)));
+      } else if (lua_isstring(L, Constants::INDEX_ONE)) {
+        seed = lua_tostring(L, Constants::INDEX_ONE);
+      }
+    }
+    if (top >= Constants::INDEX_TWO && lua_isstring(L, Constants::INDEX_TWO)) {
+      layer = lua_tostring(L, Constants::INDEX_TWO);
+    }
+    if (top >= Constants::INDEX_THREE && lua_isstring(L, Constants::INDEX_THREE)) {
+      id = lua_tostring(L, Constants::INDEX_THREE);
+    }
   }
 }

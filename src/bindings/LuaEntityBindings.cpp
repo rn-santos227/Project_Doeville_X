@@ -314,6 +314,50 @@ namespace Project::Bindings::LuaBindings {
     return Constants::INDEX_ONE;
   }
 
+  int lua_getVisibleEntities(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+    
+    auto components = entity->getComponentsByType(Project::Components::ComponentType::VISION);
+    std::unordered_set<const Entity*> unique;
+    for (auto* base : components) {
+      if (auto* vision = dynamic_cast<Project::Components::VisionComponent*>(base)) {
+        const auto& targets = vision->getVisibleEntities();
+        for (const auto* target : targets) {
+          unique.insert(target);
+        }
+      }
+    }
+
+    if (unique.empty()) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+
+    lua_newtable(L);
+    int index = Constants::INDEX_ONE;
+    for (const auto* target : unique) {
+      lua_pushstring(L, target->getEntityID().c_str());
+      lua_rawseti(L, -Constants::INDEX_TWO, index++);
+    }
+
+    return Constants::INDEX_ONE;
+  }
+
   int lua_setNetworkConnection(lua_State* L) {
     using namespace Project::Libraries::Categories::Protocols;
 

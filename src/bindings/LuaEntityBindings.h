@@ -22,6 +22,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_subtractNumericValue(lua_State* L);
   int lua_multiplyNumericValue(lua_State* L);
   int lua_divideNumericValue(lua_State* L);
+  int lua_setNumericValue(lua_State* L);
+  int lua_getNumericValue(lua_State* L);
 }
 
 #endif

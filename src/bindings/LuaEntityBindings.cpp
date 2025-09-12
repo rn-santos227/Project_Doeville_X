@@ -313,4 +313,32 @@ namespace Project::Bindings::LuaBindings {
     }
     return Constants::INDEX_ONE;
   }
+
+  int lua_setNetworkConnection(lua_State* L) {
+    using namespace Project::Libraries::Categories::Protocols;
+
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    const char* endpoint = luaL_checkstring(L, Constants::INDEX_TWO);
+    const char* protocolStr = luaL_optstring(L, Constants::INDEX_THREE, HTTP);
+    const char* tokenKey = luaL_optstring(L, Constants::INDEX_FOUR, Constants::EMPTY_STRING);
+    if (!manager || !name || !endpoint) {
+      return 0;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+    if (!entity) return 0;
+
+    auto* net = dynamic_cast<Project::Components::NetworkComponent*>(
+        entity->getComponent(Components::NETWORK_COMPONENT));
+    if (!net) return 0;
+
+    net->setEndpoint(endpoint);
+    net->setProtocol(Project::Services::NetworkProtocolResolver::resolve(protocolStr));
+    if (tokenKey && *tokenKey) net->setTokenKey(tokenKey);
+    return 0;
+  }
 }

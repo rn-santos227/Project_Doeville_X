@@ -41,10 +41,10 @@ namespace Project::Bindings::LuaBindings {
 
   int lua_getCollidedEntity(lua_State* L) {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
-    const char* name = luaL_checkstring(L, 1);
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
     if (!manager || !name) {
       lua_pushnil(L);
-      return 1;
+      return Constants::INDEX_ONE;
     }
 
     auto entity = manager->getEntity(name);
@@ -53,23 +53,23 @@ namespace Project::Bindings::LuaBindings {
     }
     if (!entity) {
       lua_pushnil(L);
-      return 1;
+      return Constants::INDEX_ONE;
     }
 
     auto* myBox = dynamic_cast<Project::Components::BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
     if (!myBox) {
       lua_pushnil(L);
-      return 1;
+      return Constants::INDEX_ONE;
     }
 
     std::vector<std::string> targets;
-    if (lua_gettop(L) >= 2 && lua_istable(L, 2)) {
+    if (lua_gettop(L) >= Constants::INDEX_TWO && lua_istable(L, Constants::INDEX_TWO)) {
       lua_pushnil(L);
-      while (lua_next(L, 2) != 0) {
-        if (lua_isstring(L, -1)) {
-          targets.emplace_back(lua_tostring(L, -1));
+      while (lua_next(L, Constants::INDEX_TWO) != 0) {
+        if (lua_isstring(L, -Constants::INDEX_ONE)) {
+          targets.emplace_back(lua_tostring(L, -Constants::INDEX_ONE));
         }
-        lua_pop(L, 1);
+        lua_pop(L, Constants::INDEX_ONE);
       }
     }
 
@@ -119,7 +119,7 @@ namespace Project::Bindings::LuaBindings {
         for (const auto& circle : otherCircles) {
           if (Project::Utilities::PhysicsUtils::checkCollision(rect, circle)) {
             lua_pushstring(L, otherEntity->getEntityID().c_str());
-            return 1;
+            return Constants::INDEX_ONE;
           }
         }
       }
@@ -129,7 +129,7 @@ namespace Project::Bindings::LuaBindings {
         for (const auto& c2 : otherCircles) {
           if (Project::Utilities::PhysicsUtils::checkCollision(c1, c2)) {
             lua_pushstring(L, otherEntity->getEntityID().c_str());
-            return 1;
+            return Constants::INDEX_ONE;
           }
         }
       }
@@ -139,14 +139,13 @@ namespace Project::Bindings::LuaBindings {
         for (const auto& rect : otherRects) {
           if (Project::Utilities::PhysicsUtils::checkCollision(rect, circle)) {
             lua_pushstring(L, otherEntity->getEntityID().c_str());
-            return 1;
+            return Constants::INDEX_ONE;
           }
         }
       }
     }
 
     lua_pushnil(L);
-    return 1;
+    return Constants::INDEX_ONE;
   }
-  
 }

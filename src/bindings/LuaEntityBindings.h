@@ -12,6 +12,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_getEntityVelocity(lua_State* L);
   int lua_getEntityRotation(lua_State* L);
   int lua_getNetworkPayload(lua_State* L);
+  int lua_setNetworkConnection(lua_State* L);
+  int lua_getVisibleEntities(lua_State* L);
 }
 
 #endif

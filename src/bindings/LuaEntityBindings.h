@@ -26,6 +26,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_getNumericValue(lua_State* L);
   int lua_stopTimer(lua_State* L);
   int lua_brakeEntity(lua_State* L);
+  int lua_turnLeft(lua_State* L);
+  int lua_turnRight(lua_State* L);
 }
 
 #endif

@@ -109,7 +109,7 @@ namespace Project::Bindings::LuaBindings {
           }
           if (collides) {
             lua_pushstring(L, otherEntity->getEntityID().c_str());
-            return 1;
+            return Constants::INDEX_ONE;
           }
         }
       }
@@ -276,6 +276,40 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnumber(L, rotation);
     } else {
       lua_pushnil(L);
+    }
+    return Constants::INDEX_ONE;
+  }
+
+  int lua_getNetworkPayload(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+
+    auto* net = dynamic_cast<Project::Components::NetworkComponent*>(
+        entity->getComponent(Components::NETWORK_COMPONENT));
+    if (!net) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+
+    const std::string& payload = net->getLastPayload();
+    if (payload.empty()) {
+      lua_pushnil(L);
+    } else {
+      lua_pushlstring(L, payload.c_str(), payload.size());
     }
     return Constants::INDEX_ONE;
   }

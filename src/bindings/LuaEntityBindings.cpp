@@ -148,4 +148,39 @@ namespace Project::Bindings::LuaBindings {
     lua_pushnil(L);
     return Constants::INDEX_ONE;
   }
+
+  int lua_getEntityDetails(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+
+    lua_newtable(L);
+    lua_pushstring(L, entity->getEntityID().c_str());
+    lua_setfield(L, -Constants::INDEX_TWO, Keys::ID);
+    lua_pushstring(L, entity->getEntityName().c_str());
+    lua_setfield(L, -Constants::INDEX_TWO, Keys::NAME);
+    lua_pushstring(L, entity->getGroup().c_str());
+    lua_setfield(L, -Constants::INDEX_TWO, Keys::GROUP);
+    lua_pushnumber(L, entity->getX());
+    lua_setfield(L, -Constants::INDEX_TWO, Keys::X);
+    lua_pushnumber(L, entity->getY());
+    lua_setfield(L, -Constants::INDEX_TWO, Keys::Y);
+    lua_pushnumber(L, entity->getZ());
+    lua_setfield(L, -Constants::INDEX_TWO, Keys::Z);
+
+    return Constants::INDEX_ONE;
+  }
 }

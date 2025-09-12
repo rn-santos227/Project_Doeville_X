@@ -30,6 +30,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_turnRight(lua_State* L);
   int lua_ignoreCollisionsWith(lua_State* L);
   int lua_isActionPressed(lua_State* L);
+  int lua_destroyEntity(lua_State* L);
+  int lua_destroyEntities(lua_State* L);
 }
 
 #endif

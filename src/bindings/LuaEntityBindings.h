@@ -28,6 +28,8 @@ namespace Project::Bindings::LuaBindings {
   int lua_brakeEntity(lua_State* L);
   int lua_turnLeft(lua_State* L);
   int lua_turnRight(lua_State* L);
+  int lua_ignoreCollisionsWith(lua_State* L);
+  int lua_isActionPressed(lua_State* L);
 }
 
 #endif

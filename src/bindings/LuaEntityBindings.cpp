@@ -385,4 +385,23 @@ namespace Project::Bindings::LuaBindings {
     if (tokenKey && *tokenKey) net->setTokenKey(tokenKey);
     return 0;
   }
+
+  int lua_setEntityText(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    const char* text = luaL_checkstring(L, Constants::INDEX_TWO);
+    if (!manager || !name || !text) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* textComp = dynamic_cast<Project::Components::TextComponent*>(entity->getComponent(Components::TEXT_COMPONENT));
+    if (!textComp) return 0;
+    textComp->setText(text);
+    return 0;
+  }
 }

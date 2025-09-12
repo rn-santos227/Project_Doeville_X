@@ -209,4 +209,35 @@ namespace Project::Bindings::LuaBindings {
     lua_pushnumber(L, motion->getCurrentSpeed());
     return Constants::INDEX_ONE;
   }
+
+  int lua_getEntityVelocity(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(1)));
+    const char* name = luaL_checkstring(L, 1);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      lua_pushnil(L);
+      return Constants::INDEX_TWO;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      lua_pushnil(L);
+      return Constants::INDEX_TWO;
+    }
+
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) {
+      lua_pushnil(L);
+      lua_pushnil(L);
+      return Constants::INDEX_TWO;
+    }
+
+    lua_pushnumber(L, motion->getVelocityX());
+    lua_pushnumber(L, motion->getVelocityY());
+    return Constants::INDEX_TWO;
+  }
 }

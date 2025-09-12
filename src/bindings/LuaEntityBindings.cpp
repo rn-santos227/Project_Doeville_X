@@ -34,4 +34,8 @@ namespace Project::Bindings::LuaBindings {
   using Project::Entities::EntitiesManager;
   using Project::Entities::Entity;
   using Project::Utilities::PhysicsUtils;
+
+  namespace Components = Project::Libraries::Categories::Components;
+  namespace Constants = Project::Libraries::Constants;
+  namespace Keys = Project::Libraries::Keys;
 }

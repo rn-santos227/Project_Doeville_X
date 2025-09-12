@@ -183,4 +183,30 @@ namespace Project::Bindings::LuaBindings {
 
     return Constants::INDEX_ONE;
   }
+
+  int lua_getEntitySpeed(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    if (!manager || !name) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+
+    }
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
+    lua_pushnumber(L, motion->getCurrentSpeed());
+    return Constants::INDEX_ONE;
+  }
 }

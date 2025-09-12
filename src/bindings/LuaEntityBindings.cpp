@@ -29,5 +29,9 @@
 #include "utilities/physics/PhysicsUtils.h"
 
 namespace Project::Bindings::LuaBindings {
-
+  using Project::States::GameState;
+  using Project::States::GameStateManager;
+  using Project::Entities::EntitiesManager;
+  using Project::Entities::Entity;
+  using Project::Utilities::PhysicsUtils;
 }

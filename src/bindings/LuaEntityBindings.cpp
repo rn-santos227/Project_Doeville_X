@@ -427,4 +427,24 @@ namespace Project::Bindings::LuaBindings {
     }
     return 0;
   }
+
+  int lua_setMeterActive(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    int active = lua_toboolean(L, Constants::INDEX_TWO);
+    if (!manager || !name) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
+
+    if (!entity) return 0;
+    auto* meter = dynamic_cast<Project::Components::MeterComponent*>(entity->getComponent(Components::METER_COMPONENT));
+    if (!meter) return 0;
+
+    meter->setActive(active != 0);
+    return 0;
+  }
 }

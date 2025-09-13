@@ -533,5 +533,9 @@ namespace Project::Bindings::LuaBindings {
     if (!entity) return 0;
     auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
     if (!numeric) return 0;
+
+    float amount = static_cast<float>(luaL_checknumber(L, Constants::INDEX_THREE));
+    numeric->multiply(key, amount);
+    return 0;
   }
 }

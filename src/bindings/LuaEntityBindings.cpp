@@ -480,5 +480,12 @@ namespace Project::Bindings::LuaBindings {
     EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
     const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
     const char* key = luaL_checkstring(L, Constants::INDEX_TWO);
+    if (!manager || !name || !key) {
+      return 0;
+    }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
   }
 }

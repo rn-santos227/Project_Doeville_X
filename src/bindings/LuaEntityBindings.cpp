@@ -550,9 +550,13 @@ namespace Project::Bindings::LuaBindings {
     if (!entity && manager->getGameState()) {
       entity = manager->getGameState()->findEntity(name);
     }
-    
+
     if (!entity) return 0;
     auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
     if (!numeric) return 0;
+
+    float amount = static_cast<float>(luaL_checknumber(L, Constants::INDEX_THREE));
+    numeric->divide(key, amount);
+    return 0;
   }
 }

@@ -458,5 +458,9 @@ namespace Project::Bindings::LuaBindings {
     if (!entity && manager->getGameState()) {
       entity = manager->getGameState()->findEntity(name);
     }
+
+    if (!entity) return 0;
+    auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(entity->getComponent(Components::GRAPHICS_COMPONENT));
+    if (!gfx) return 0;
   }
 }

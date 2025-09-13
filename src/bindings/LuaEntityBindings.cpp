@@ -530,5 +530,8 @@ namespace Project::Bindings::LuaBindings {
       entity = manager->getGameState()->findEntity(name);
     }
 
+    if (!entity) return 0;
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric) return 0;
   }
 }

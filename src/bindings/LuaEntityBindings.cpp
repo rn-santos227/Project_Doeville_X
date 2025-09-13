@@ -447,4 +447,8 @@ namespace Project::Bindings::LuaBindings {
     meter->setActive(active != 0);
     return 0;
   }
+
+  int lua_setColor(lua_State* L) {
+
+  }
 }

@@ -467,5 +467,9 @@ namespace Project::Bindings::LuaBindings {
     int g = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_THREE));
     int b = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_FOUR));
     int a = Constants::FULL_ALPHA;
+    if (lua_gettop(L) >= Constants::INDEX_FIVE && lua_isnumber(L, Constants::INDEX_FIVE)) {
+      a = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_FIVE));
+    }
+
   }
 }

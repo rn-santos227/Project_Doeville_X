@@ -462,5 +462,10 @@ namespace Project::Bindings::LuaBindings {
     if (!entity) return 0;
     auto* gfx = dynamic_cast<Project::Components::GraphicsComponent*>(entity->getComponent(Components::GRAPHICS_COMPONENT));
     if (!gfx) return 0;
+
+    int r = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_TWO));
+    int g = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_THREE));
+    int b = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_FOUR));
+    int a = Constants::FULL_ALPHA;
   }
 }

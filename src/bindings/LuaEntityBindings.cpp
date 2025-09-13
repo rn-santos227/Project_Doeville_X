@@ -517,4 +517,8 @@ namespace Project::Bindings::LuaBindings {
     numeric->subtract(key, amount);
     return 0;
   }
+
+  int lua_multiplyNumericValue(lua_State* L) {
+
+  }
 }

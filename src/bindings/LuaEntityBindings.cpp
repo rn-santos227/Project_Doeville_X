@@ -571,5 +571,18 @@ namespace Project::Bindings::LuaBindings {
     if (!entity && manager->getGameState()) {
       entity = manager->getGameState()->findEntity(name);
     }
+
+    if (!entity) return 0;
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric) return 0;
+
+    float value = static_cast<float>(luaL_checknumber(L, Constants::INDEX_THREE));
+    float limit = 0.0f;
+    if (lua_gettop(L) >= Constants::INDEX_FOUR && lua_isnumber(L, Constants::INDEX_FOUR)) {
+      limit = static_cast<float>(lua_tonumber(L, Constants::INDEX_FOUR));
+      numeric->setLimit(key, limit);
+    }
+    numeric->setValue(key, value);
+    return 0;
   }
 }

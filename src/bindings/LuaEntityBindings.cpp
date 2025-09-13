@@ -471,5 +471,8 @@ namespace Project::Bindings::LuaBindings {
       a = static_cast<int>(luaL_checkinteger(L, Constants::INDEX_FIVE));
     }
 
+    SDL_Color color{static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b), static_cast<Uint8>(a)};
+    gfx->setColor(color);
+    return 0;
   }
 }

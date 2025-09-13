@@ -496,4 +496,10 @@ namespace Project::Bindings::LuaBindings {
     numeric->add(key, amount);
     return 0;
   }
+
+  int lua_subtractNumericValue(lua_State* L) {
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    const char* key = luaL_checkstring(L, Constants::INDEX_TWO);
+  }
 }

@@ -475,4 +475,8 @@ namespace Project::Bindings::LuaBindings {
     gfx->setColor(color);
     return 0;
   }
+
+  int lua_addNumericValue(lua_State* L) {
+
+  }
 }

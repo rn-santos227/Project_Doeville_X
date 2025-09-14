@@ -658,5 +658,9 @@ namespace Project::Bindings::LuaBindings {
     if (!manager || !name) {
       return 0;
     }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
   }
 }

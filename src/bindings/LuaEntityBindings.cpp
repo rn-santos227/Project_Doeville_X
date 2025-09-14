@@ -612,4 +612,8 @@ namespace Project::Bindings::LuaBindings {
     lua_pushnumber(L, numeric->getValue(key));
       return Constants::INDEX_ONE;
   }
+
+  int lua_stopTimer(lua_State* L) {
+
+  }
 }

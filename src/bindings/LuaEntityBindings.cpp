@@ -594,5 +594,9 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return Constants::INDEX_ONE;
     }
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
   }
 }

@@ -627,5 +627,8 @@ namespace Project::Bindings::LuaBindings {
     if (!entity) return 0;
     auto* timer = dynamic_cast<Project::Components::TimerComponent*>(entity->getComponent(Components::TIMER_COMPONENT));
     if (!timer) return 0;
+
+    timer->stop();
+    return 0;
   }
 }

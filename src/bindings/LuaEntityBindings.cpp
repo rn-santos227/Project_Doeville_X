@@ -668,4 +668,8 @@ namespace Project::Bindings::LuaBindings {
     motion->turn(speed, true);
     return 0;
   }
+
+  int lua_turnRight(lua_State* L) {
+
+  }
 }

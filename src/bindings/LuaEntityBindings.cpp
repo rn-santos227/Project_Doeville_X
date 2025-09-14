@@ -642,5 +642,9 @@ namespace Project::Bindings::LuaBindings {
     if (!entity && manager->getGameState()) {
       entity = manager->getGameState()->findEntity(name);
     }
+
+    if (!entity) return 0;
+    auto* motion = dynamic_cast<Project::Components::MotionComponent*>(entity->getComponent(Components::MOTION_COMPONENT));
+    if (!motion) return 0;
   }
 }

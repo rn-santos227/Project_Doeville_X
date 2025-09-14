@@ -608,5 +608,8 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return Constants::INDEX_ONE;
     }
+
+    lua_pushnumber(L, numeric->getValue(key));
+      return Constants::INDEX_ONE;
   }
 }

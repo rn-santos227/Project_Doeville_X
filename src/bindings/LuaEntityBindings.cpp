@@ -585,4 +585,8 @@ namespace Project::Bindings::LuaBindings {
     numeric->setValue(key, value);
     return 0;
   }
+
+  int lua_getNumericValue(lua_State* L) {
+
+  }
 }

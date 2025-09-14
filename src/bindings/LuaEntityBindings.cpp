@@ -603,5 +603,10 @@ namespace Project::Bindings::LuaBindings {
       lua_pushnil(L);
       return Constants::INDEX_ONE;
     }
+    auto* numeric = dynamic_cast<Project::Components::NumericComponent*>(entity->getComponent(Components::NUMERIC_COMPONENT));
+    if (!numeric || !numeric->has(key)) {
+      lua_pushnil(L);
+      return Constants::INDEX_ONE;
+    }
   }
 }

@@ -631,4 +631,8 @@ namespace Project::Bindings::LuaBindings {
     timer->stop();
     return 0;
   }
+
+  int lua_brakeEntity(lua_State* L) {
+
+  }
 }

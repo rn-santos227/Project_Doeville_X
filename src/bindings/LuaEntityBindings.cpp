@@ -693,10 +693,14 @@ namespace Project::Bindings::LuaBindings {
     if (!manager || !name || !lua_istable(L, Constants::INDEX_TWO)) {
       return 0;
     }
-    
+
     auto entity = manager->getEntity(name);
     if (!entity && manager->getGameState()) {
       entity = manager->getGameState()->findEntity(name);
     }
+    if (!entity) return 0;
+
+    auto* box = dynamic_cast<Project::Components::BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
+    if (!box) return 0;
   }
 }

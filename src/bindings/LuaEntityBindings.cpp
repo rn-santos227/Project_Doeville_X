@@ -733,5 +733,11 @@ namespace Project::Bindings::LuaBindings {
       lua_pushboolean(L, 0);
       return Constants::INDEX_ONE;
     }
+
+    auto* keys = dynamic_cast<Project::Components::KeysComponent*>(entity->getComponent(Components::KEYS_COMPONENT));
+    if (!keys) {
+      lua_pushboolean(L, 0);
+      return Constants::INDEX_ONE;
+    }
   }
 }

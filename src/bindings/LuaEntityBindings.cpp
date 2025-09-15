@@ -745,5 +745,8 @@ namespace Project::Bindings::LuaBindings {
       lua_pushboolean(L, 0);
       return Constants::INDEX_ONE;
     }
+
+    lua_pushboolean(L, keys->isActionTriggered(act));
+    return Constants::INDEX_ONE;
   }
 }

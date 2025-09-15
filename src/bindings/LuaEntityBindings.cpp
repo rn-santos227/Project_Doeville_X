@@ -739,5 +739,11 @@ namespace Project::Bindings::LuaBindings {
       lua_pushboolean(L, 0);
       return Constants::INDEX_ONE;
     }
+
+    auto act = Project::Handlers::KeyActionResolver::resolve(action);
+    if (act == Project::Handlers::KeyAction::NONE) {
+      lua_pushboolean(L, 0);
+      return Constants::INDEX_ONE;
+    }
   }
 }

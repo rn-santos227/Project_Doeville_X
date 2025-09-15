@@ -773,6 +773,9 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_destroyEntities(lua_State* L) {
-
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    if (!manager || !lua_istable(L, Constants::INDEX_ONE)) {
+      return 0;
+    }
   }
 }

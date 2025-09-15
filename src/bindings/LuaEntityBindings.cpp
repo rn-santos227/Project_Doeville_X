@@ -711,5 +711,8 @@ namespace Project::Bindings::LuaBindings {
       }
       lua_pop(L, 1);
     }
+
+    box->setIgnoredEntities(targets);
+    return 0;
   }
 }

@@ -777,5 +777,10 @@ namespace Project::Bindings::LuaBindings {
     if (!manager || !lua_istable(L, Constants::INDEX_ONE)) {
       return 0;
     }
+
+    lua_pushnil(L);
+    while (lua_next(L, Constants::INDEX_ONE) != 0) {
+
+    }
   }
 }

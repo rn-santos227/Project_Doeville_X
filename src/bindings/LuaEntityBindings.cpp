@@ -762,5 +762,11 @@ namespace Project::Bindings::LuaBindings {
       return 0;
     }
 
+    if (manager->getGameState()) {
+      auto entity = manager->getGameState()->findEntity(name);
+      if (entity && entity->getEntitiesManager()) {
+        entity->getEntitiesManager()->removeEntity(name);
+      }
+    }
   }
 }

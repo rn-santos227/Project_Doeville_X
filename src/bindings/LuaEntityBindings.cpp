@@ -729,5 +729,9 @@ namespace Project::Bindings::LuaBindings {
     if (!entity && manager->getGameState()) {
       entity = manager->getGameState()->findEntity(name);
     }
+    if (!entity) {
+      lua_pushboolean(L, 0);
+      return Constants::INDEX_ONE;
+    }
   }
 }

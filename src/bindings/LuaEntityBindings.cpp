@@ -693,6 +693,10 @@ namespace Project::Bindings::LuaBindings {
     if (!manager || !name || !lua_istable(L, Constants::INDEX_TWO)) {
       return 0;
     }
-
+    
+    auto entity = manager->getEntity(name);
+    if (!entity && manager->getGameState()) {
+      entity = manager->getGameState()->findEntity(name);
+    }
   }
 }

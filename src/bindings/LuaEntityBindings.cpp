@@ -702,5 +702,8 @@ namespace Project::Bindings::LuaBindings {
 
     auto* box = dynamic_cast<Project::Components::BoundingBoxComponent*>(entity->getComponent(Components::BOUNDING_BOX_COMPONENT));
     if (!box) return 0;
+
+    std::vector<std::string> targets;
+    lua_pushnil(L);
   }
 }

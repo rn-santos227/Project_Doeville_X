@@ -756,5 +756,11 @@ namespace Project::Bindings::LuaBindings {
     if (!manager || !name) {
       return 0;
     }
+
+    if (manager->hasEntity(name)) {
+      manager->removeEntity(name);
+      return 0;
+    }
+
   }
 }

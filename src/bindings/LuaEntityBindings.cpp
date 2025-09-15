@@ -706,7 +706,10 @@ namespace Project::Bindings::LuaBindings {
     std::vector<std::string> targets;
     lua_pushnil(L);
     while (lua_next(L, Constants::INDEX_TWO) != 0) {
-
+      if (lua_isstring(L, -Constants::INDEX_ONE)) {
+        targets.emplace_back(lua_tostring(L, -Constants::INDEX_ONE));
+      }
+      lua_pop(L, 1);
     }
   }
 }

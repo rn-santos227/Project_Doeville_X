@@ -686,4 +686,8 @@ namespace Project::Bindings::LuaBindings {
     motion->turn(speed, false);
     return 0;
   }
+
+  int lua_ignoreCollisionsWith(lua_State* L) {
+
+  }
 }

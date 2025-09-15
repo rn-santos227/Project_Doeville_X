@@ -705,5 +705,8 @@ namespace Project::Bindings::LuaBindings {
 
     std::vector<std::string> targets;
     lua_pushnil(L);
+    while (lua_next(L, Constants::INDEX_TWO) != 0) {
+
+    }
   }
 }

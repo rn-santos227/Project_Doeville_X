@@ -784,6 +784,8 @@ namespace Project::Bindings::LuaBindings {
       if (name) {
         if (manager->hasEntity(name)) {
           manager->removeEntity(name);
+        } else if (manager->getGameState()) {
+          auto entity = manager->getGameState()->findEntity(name);
         }
       }
       lua_pop(L, 1);

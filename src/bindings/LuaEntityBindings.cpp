@@ -795,4 +795,8 @@ namespace Project::Bindings::LuaBindings {
     }
     return 0;
   }
+
+  int lua_destroySelf(lua_State* L) {
+
+  }
 }

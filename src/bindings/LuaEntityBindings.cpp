@@ -717,6 +717,8 @@ namespace Project::Bindings::LuaBindings {
   }
 
   int lua_isActionPressed(lua_State* L) {
-
+    EntitiesManager* manager = static_cast<EntitiesManager*>(lua_touserdata(L, lua_upvalueindex(Constants::INDEX_ONE)));
+    const char* name = luaL_checkstring(L, Constants::INDEX_ONE);
+    const char* action = luaL_checkstring(L, Constants::INDEX_TWO);
   }
 }

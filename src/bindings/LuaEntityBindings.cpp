@@ -780,7 +780,12 @@ namespace Project::Bindings::LuaBindings {
 
     lua_pushnil(L);
     while (lua_next(L, Constants::INDEX_ONE) != 0) {
+      const char* name = lua_tostring(L, -Constants::INDEX_ONE);
+      if (name) {
 
+      }
+      lua_pop(L, 1);
     }
+    return 0;
   }
 }

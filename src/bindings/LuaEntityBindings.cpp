@@ -749,4 +749,8 @@ namespace Project::Bindings::LuaBindings {
     lua_pushboolean(L, keys->isActionTriggered(act));
     return Constants::INDEX_ONE;
   }
+
+  int lua_destroyEntity(lua_State* L) {
+
+  }
 }

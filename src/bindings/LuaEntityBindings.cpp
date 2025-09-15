@@ -768,5 +768,11 @@ namespace Project::Bindings::LuaBindings {
         entity->getEntitiesManager()->removeEntity(name);
       }
     }
+
+    return 0;
+  }
+
+  int lua_destroyEntities(lua_State* L) {
+
   }
 }

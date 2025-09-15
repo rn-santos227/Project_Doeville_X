@@ -715,4 +715,8 @@ namespace Project::Bindings::LuaBindings {
     box->setIgnoredEntities(targets);
     return 0;
   }
+
+  int lua_isActionPressed(lua_State* L) {
+
+  }
 }

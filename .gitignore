@@ -1,0 +1,62 @@
+# Generated build outputs and downloaded dependencies
+/build/
+/bin/
+/lib/
+/obj/
+/Debug/
+/Release/
+/dist/
+/cache/*
+!/cache/.gitkeep
+
+# Compiled files and compiler metadata
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.pdb
+*.dSYM/
+*.d
+*.gcda
+*.gcno
+*.profraw
+*.profdata
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+
+# Local editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporary files and runtime logs
+*.log
+*.swp
+*.swo
+*.bak
+/resources/logs/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+*.whl
+
+# Compiled Lua scripts
+*.luac
+
+# Local game data
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
